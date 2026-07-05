@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>旺宏 (2337) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>旺宏 (2337) <span class="badge amber">估值:合理(便宜在2027)</span> <span class="badge green">結論:分批中長期投資</span></h1>
+<div class="sub">台股(TWSE)・記憶體 NOR Flash / NAND(eMMC・MLC)|資料截至 2026/07/03 收盤,製表 2026/07/06</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">142.53</div><div class="note">2026/07/03 收盤,+2.06%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 2,768 億</div><div class="note">Yahoo Finance 口徑,7 月初</div></div>
+  <div class="card"><div class="label">近 30 天</div><div class="value">約 -0.7%</div><div class="note">6/8 收 143.5 → 7/3 收 142.53,期間曾觸 180 後回落</div></div>
+  <div class="card"><div class="label">52 週區間</div><div class="value">18.15~180</div><div class="note">一年報酬 +557%;今年精確年初收盤價查無</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value">10.5x</div><div class="note">2026E EPS 13.63(FactSet 中位);2027E 30.38(中信)→ 4.7x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">183</div><div class="note">FactSet 10 位分析師;距現價 +28%(Yahoo 平均 191.25)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/04/07</span><b>3 月營收年增近翻倍</b>:Q1 營收 104.7 億元(QoQ +35%、YoY +71%),記憶體漲價效益開始全面顯現。</li>
+  <li><span class="date">2026/04/27</span><b>法說會:終結連 10 季虧損</b>:Q1 EPS 0.9 元、毛利率跳升 16.6 個百分點至 40.8%、營益率 18.5%、稅後純益 17.79 億元。宣布重啟 220 億元資本支出,12 吋廠月產能 2 萬片 → 3 萬片,擴產主攻 eMMC/MLC NAND;eMMC 4 月各容量均價已漲逾 100%,訂單滿到下半年。</li>
+  <li><span class="date">2026/04/28</span><b>凱基投顧喊 300 元</b>:股價連拉兩根漲停至 159.5;外資看好缺貨漲價潮延續至 2027。核心邏輯:國際大廠退出 MLC/eMMC,2026 全球 MLC NAND 產能估年減 41.7%,倖存者掌握定價權。</li>
+  <li><span class="date">2026/05/08</span><b>4 月營收 59.13 億(YoY +153.7%)創新高</b>,但外資、投信兩大勢力反手提款約 60 億元獲利了結。</li>
+  <li><span class="date">2026/06/08</span><b>5 月營收 62.56 億(YoY +175.8%)續創新高</b>,前 5 月累計 226.37 億(YoY +110.9%);當日股價卻收跌 4.33% 至 143.5——第二次出現「利多不漲」。</li>
+  <li><span class="date">2026/06/26</span><b>外資單日回補 57,327 張</b>,股價再度上攻,期間最高觸及 180(52 週高點;精確觸及日查無)。</li>
+  <li><span class="date">2026/07/01</span><b class="red">兆易創新示警,族群重挫</b>:中國 NOR 龍頭罕見公告「產品價格已處歷史高位,報價恐相當幅度回落」,外資單日砍殺台股記憶體逾 10 萬張,旺宏盤中一度逼近 -9%,華邦電、南亞科同步重挫 6~9%。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:兆易示警的同時,中國供應商仍傳出 7/6 全系列 NOR 調漲 25%,SLC NAND Q3 市場估再漲 50~60%——實際報價尚未回落,跌的是「預期」不是「數字」;但 5 月以來兩度「利多不漲」顯示籌碼已擁擠。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「對手退出戰場,倖存者就掌握定價權」——大廠淡出 MLC/eMMC,旺宏承接缺口,缺貨漲價潮看到 2027。<div class="src">— 經濟日報/凱基投顧(目標價 300)</div></div>
+    <div class="quote">NVIDIA KV cache 技術帶動 NAND 缺貨,公司在法說會表示 2026、2027 都會非常忙碌。<div class="src">— 2026/04/27 法說會</div></div>
+    <div class="quote">散戶常喊目標價:<b>200~300 元</b>(Dcard、股市爆料同學會)</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">兆易創新(全球前三大 NOR、滾動 P/E 一度 200 倍)自行示警:「存儲晶片價格已處歷史高位,未來可能相當幅度回落,毛利率將承壓。」<div class="src">— 2026/07/01 公告,工商時報/digitimes</div></div>
+    <div class="quote">7/3 老牌本土法人對記憶體開出砍評第一槍,調降華邦電、南亞科目標價,其中一檔一口氣降兩級——循環頂點論開始擴散。<div class="src">— 旺得富理財網 2026/07/03</div></div>
+    <div class="quote">Dcard 散戶自述:180 元因貪心沒賣,最後虧損出場——高檔追價風險的實例。<div class="src">— Dcard 旺宏板</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>凱基投顧(4/28)</td><td class="green">300</td><td>增加持股;2026 EPS 約 30 元,Q2 營收估 189.8 億(QoQ +81%)、Q2 EPS 4.05 元</td></tr>
+  <tr><td>中信投顧</td><td>182</td><td>買進(自增加持股上調);2026/2027 EPS 13.42 / 30.38 元,目標價自 86 上修</td></tr>
+  <tr><td>FactSet 共識(10 位)</td><td>183</td><td>2026 EPS 中位數 13.63(最高 30.02/最低 5.62)——高低標差 5.3 倍,分歧極大</td></tr>
+  <tr><td>摩根士丹利(4 月)</td><td>93</td><td>自 72.5 上調 28%;以 2026 預估淨值 × 3~3.5 倍 PB 推導(報告時點較早,已明顯落後行情)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">籌碼:6/26 外資買超 57,327 張、投信賣超 3,505 張;法說後投信曾豪買 9,244 張(約 14 億);7/1 外資對記憶體族群單日砍殺逾 10 萬張。內部人申報:查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+110.9%</div><div class="note">2026 前 5 月累計 226.37 億 YoY;5 月單月 +175.8%</div></div>
+  <div class="card"><div class="label">EPS 成長</div><div class="value green">轉虧為盈</div><div class="note">Q1 EPS 0.9 元,終結連 10 季虧損;近四季 EPS 仍為 -1.77</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">40.8%</div><div class="note">2026Q1,季增 16.6 個百分點(2025Q4 僅 24.17%)</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">查無</div><div class="note">精確現金/負債未取得;已重啟 220 億資本支出擴產</div></div>
+  <div class="card"><div class="label">股本稀釋</div><div class="value">查無</div><div class="note">精確股本變動未取得</div></div>
+  <div class="card"><div class="label">管理層財測</div><div class="value">訂單滿到 H2</div><div class="note">12 吋 2 萬→3 萬片/月;eMMC 4 月均價 +100%,漲勢看至 2027</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>成長動能</th><th>與旺宏的差異</th></tr>
+  <tr class="hl"><td>2337.TW</td><td>旺宏</td><td>10.5x(EPS 13.63)</td><td>前 5 月營收 +110.9%,Q1 毛利率 40.8%</td><td>NOR 老將轉型吃 MLC/eMMC 退出缺口,漲價槓桿最直接</td></tr>
+  <tr><td>2344.TW</td><td>華邦電</td><td>8.3x(184.5 / EPS 22.24)</td><td>FactSet 目標 218;法說稱 DRAM 缺貨到 2027</td><td>NOR+SLC NAND+利基 DRAM 三引擎,與旺宏產品重疊最高</td></tr>
+  <tr><td>2408.TW</td><td>南亞科</td><td>8.3x(409.5 / EPS 49.05)</td><td>15 位分析師目標 360——現價已超過共識目標</td><td>利基型 DRAM 純度最高,循環放大器,漲最兇也最先被砍評</td></tr>
+  <tr><td>8299.TWO</td><td>群聯</td><td>現價查無;目標價 3000 隱含約 9.4x(EPS 317.9)</td><td>14 位分析師,EPS 預估 4 月來自 171.59 一路上修至 317.9</td><td>NAND 控制晶片+模組,吃 AI/企業級 SSD,不自有晶圓廠</td></tr>
+  <tr><td>3260.TWO</td><td>威剛</td><td>4.2x(398.5 / 法人共識 EPS 94.89)</td><td>Q1 EPS 30.05 元;兆豐目標 780</td><td>模組廠低價庫存財,漲價受惠最快、2027 反轉風險也最大</td></tr>
+  <tr><td>603986.SS</td><td>兆易創新(中國)</td><td>滾動 P/E 一度 200x(5/18~6/29)</td><td>中國最大利基記憶體廠、全球前三 NOR</td><td>7/1 自行示警報價回落,本波回檔導火線;估值遠高於台廠</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——便宜與否取決於你信 2026 還是 2027 的 EPS。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以 2026E 共識 EPS 13.63 計,Fwd P/E 10.5x,較台廠同業 4.2~8.3x 溢價 25~150%,表面偏貴;但市場給溢價的原因是上修斜率——共識 EPS 三個月內 13.17→13.63,凱基/中信 2027 路徑直接喊到 30 元上下,若成真現價僅 4.7x。注意特殊情況:整個板塊 Fwd P/E 全數壓在 10x 以下,代表市場已在定價「循環高峰獲利不可持續」;旺宏共識高低標(5.62~30.02)差 5.3 倍,真正的錯誤定價空間不在倍數,在 EPS 到底是 13 還是 30。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value">多空分歧</div><div class="bar"><div style="width:55%;background:var(--green)"></div></div><div class="note">7/1 前一面倒喊 200~300(過熱警訊);兆易示警後轉恐慌——分歧反而較健康</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">偏買進</div><div class="note">FactSet 10 位,目標 183;近 30 天 EPS 續上修(13.17→13.63),但 7/3 起族群開始遭砍評</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">0.9 → 13.63 → 30?</div><div class="note">Q1 實績 0.9 / 2026E 共識 13.63 / 2027E 中信 30.38(凱基 2026 即喊 30)</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 60~320;left% = (價格-60)/260×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:13.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">80~95</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">150~183</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:69.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">235~255</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:33.2%"><div class="arrow">▲</div><div class="price">142.53</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>80~95</td><td>兆易示警成真,Q3~Q4 eMMC/NOR 報價實際回落,2026 EPS 滑向共識低標區約 8~9 元 × 10x</td><td class="red">約 -38%</td></tr>
+  <tr><td class="amber">Base</td><td>150~183</td><td>漲價撐住但不再加速,共識 EPS 13.63 × 11~13.5x;上緣即 FactSet 共識目標 183</td><td>約 +16%</td></tr>
+  <tr><td class="green">Bull</td><td>235~255</td><td>缺口效應延續至 2027,EPS 路徑上修至 25~30 元(中信 2027:30.38)× 8~9x 循環折價倍數</td><td class="green">約 +72%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>300</td><td>凱基情境:2026 EPS 即達 30 元 × 10x;需 eMMC 漲勢貫穿全年且擴產如期開出</td><td class="green">+110%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">128~145</div><div class="note">7/1 恐慌後的整理區;現價已在區間內,建議分批、並等 7/10 前後六月營收確認 MoM 續增</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">175~185</div><div class="note">賣出 25~50%;前高 180 + 共識目標 183 的雙重供給帶</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">235~255</div><div class="note">Bull 區間;續抱條件是 2027 EPS 共識已實際上修至 25 元以上</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">收盤跌破 115</div><div class="note">= 漲價邏輯失效:月營收 MoM 轉負或 eMMC/NOR 合約價實際回落獲得證實,Bear 定價啟動</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因是大廠退出 MLC/eMMC 的結構性缺口(2026 全球 MLC 產能估 -41.7%)讓連虧十季的旺宏 Q1 毛利率跳升至 40.8% 並轉盈,7/1 起的回檔則是兆易創新示警引發的預期修正;但很少人討論的是——中國廠 7/6 仍調漲 NOR 25%、SLC NAND Q3 估再漲 50~60%,實際報價還沒有跌,跌的只是敘事。</div>
+<div class="concl">② <b>估值</b>:如果你相信缺口邏輯延續到 2027,那麼相較同業屬於「合理、且便宜藏在 2027」——2026E P/E 10.5x 高於同業 4~8x 是表象,若 EPS 如中信/凱基路徑上看 30 元,現價僅 4.7x;分歧不在倍數,在 EPS 是 13 還是 30。</div>
+<div class="concl">③ <b>結論</b>:這是一筆分批布局的中長期投資、但必須用景氣循環股的紀律操作,原因是現價 142.53 距共識目標 183 還有 +28% 且低於 Base 區間下緣,而 7/10 六月營收與 Q3 合約價是多空驗證點——收盤跌破 115 即漲價邏輯失效,無條件出場。</div>
+
+<footer>
+資料時間:股價/籌碼 2026/07/03 收盤(Yahoo 股市);52 週區間、市值、一年報酬 2026/07 月初(Yahoo Finance);Q1 財報與法說 2026/04/27;4 月營收 2026/05/08、5 月營收 2026/06/08 公告;FactSet 共識為 2026/06~07 月更新;兆易創新示警 2026/07/01。6 月營收預計 2026/07/10 前後公布,尚未反映於本分析。<br>
+主要來源:Yahoo 股市/Yahoo Finance、TechNews、理財周刊、經濟日報/聯合新聞網、工商時報、旺得富理財網、鉅亨網 FactSet 調查(旺宏/華邦電/南亞科/群聯)、財報狗、今周刊、vocus 法說解讀、Dcard/股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
