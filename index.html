@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paul 的股票研究筆記</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:800px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:6px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.6;}
+  a.item{display:block;text-decoration:none;color:var(--text);
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:18px;margin-bottom:14px;transition:border-color .15s;}
+  a.item:hover{border-color:var(--blue);}
+  .row1{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;}
+  .name{font-size:18px;font-weight:700;}
+  .name .tk{color:var(--blue);font-size:14px;margin-left:6px;}
+  .date{color:var(--muted);font-size:12px;}
+  .badges{margin:10px 0 8px;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;margin-right:6px;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .oneliner{font-size:13.5px;color:var(--muted);line-height:1.7;}
+  footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--border);
+    color:var(--muted);font-size:11.5px;line-height:1.7;}
+</style>
+</head>
+<body>
+
+<h1>Paul 的股票研究筆記</h1>
+<div class="sub">機構級三模組分析框架:催化劑 → 基本面與同業估值 → 風險報酬。<br>
+每份儀表板標注資料日期,股價與預估會隨時間失效,閱讀時請留意時效。</div>
+
+<a class="item" href="3324-auras-event.html">
+  <div class="row1"><span class="name">雙鴻 Auras<span class="tk">3324.TWO</span></span><span class="date">資料 2026/07/01|製表 2026/07/05</span></div>
+  <div class="badges"><span class="badge purple">事件:散熱族群大幅回調</span><span class="badge green">估值:被低估(錯殺)</span><span class="badge green">結論:中長期投資</span></div>
+  <div class="oneliner">Rubin 均熱片降規傷的是健策,雙鴻水冷板/CDU 未被降規,共識 EPS 事件後反而上修——跌的是倍數,不是獲利。Fwd P/E 17.4x vs 奇鋐約 24x。</div>
+</a>
+
+<a class="item" href="2308-delta.html">
+  <div class="row1"><span class="name">台達電 Delta<span class="tk">2308.TW</span></span><span class="date">資料 2026/07 月初|製表 2026/07/05</span></div>
+  <div class="badges"><span class="badge red">估值:偏貴</span><span class="badge amber">結論:觀望,等回檔</span></div>
+  <div class="oneliner">Q1 毛利率 37% 創新高、EPS 年增 101%,基本面台股 AI 電源最強;但現價 2,075 已超過共識目標價 1,960,2026E P/E 約 56x,利多預支大半——好公司 ≠ 好價格。</div>
+</a>
+
+<a class="item" href="2317-honhai.html">
+  <div class="row1"><span class="name">鴻海 Hon Hai<span class="tk">2317.TW</span></span><span class="date">資料 2026/07/03|製表 2026/07/05</span></div>
+  <div class="badges"><span class="badge amber">估值:合理偏低</span><span class="badge green">結論:中長期投資</span></div>
+  <div class="oneliner">AI 伺服器營收占比破五成、Q2 營收年增 39.8%;2026E EPS +40% 但 Fwd P/E 僅 12.7x,PEG 約 0.3。短線三大法人連 11 賣,不宜追價,等回檔分批布局。</div>
+</a>
+
+<footer>
+本站為個人研究筆記,僅供參考,非投資建議、非邀約買賣。所有價位為分析框架推導,請依個人風險承受度自行判斷;投資有風險,盈虧自負。<br>
+Powered by Claude(stock-analyzer skill)
+</footer>
+</body>
+</html>

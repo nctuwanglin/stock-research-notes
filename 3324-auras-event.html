@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雙鴻 (3324) 散熱回調事件後估值儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 51%,var(--green) 70%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>雙鴻 Auras (3324.TWO) <span class="badge green">估值:被低估(錯殺)</span> <span class="badge green">結論:中長期投資</span></h1>
+<div class="sub">台股上櫃・AI 伺服器液冷散熱(水冷板/分歧管/CDU)|事件:散熱族群大幅回調|資料截至 2026/07 月初,製表 2026/07/05</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">NT$1,010</div><div class="note">7/1 收盤</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">937 億</div><div class="note">上櫃散熱指標股</div></div>
+  <div class="card"><div class="label">事件跌幅</div><div class="value red">約 -20%</div><div class="note">5 月初自高點,曾跌停</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.61 元</div><div class="note">季增 25.3%,近四季 34.65</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value green">約 17.4x</div><div class="note">2026E EPS 58.08(FactSet 中位)</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">1,320~1,400</div><div class="note">距現價 +31%~+39%</div></div>
+</div>
+
+<h2>⓪ 事件影響分析:散熱族群大幅回調</h2>
+<div class="event">
+  <h3>事件摘要</h3>
+  <div class="flow"><b>2026/05/02</b> 國內投顧備忘錄指奇鋐內部下修 Q2 展望(季增 10% → 0~5%,GB 產品 4、5 月出貨偏低)|<b>2026/05/06</b> 市場傳出輝達 Rubin GPU 均熱片設計重大變更:雙片式改回單片式、取消 stiffener 與鍍金,單價自 <b>150 美元砍至 50 美元</b>。健策、奇鋐、雙鴻同步<b>跌停</b>,富世達連兩日重挫,散熱族群自高點跌幅約兩成;健策 7 個交易日崩 30%。</div>
+</div>
+<div class="event">
+  <h3>影響傳導路徑(對雙鴻)</h3>
+  <div class="flow">Rubin 均熱片降規 → 直接受害者是<b>健策(均熱片供應商)</b> → 雙鴻產品是<b>水冷板、分歧管、CDU 系統級方案,未被點名降規</b>,且液冷需求隨晶片功耗上升仍為 100% 標配 → 對雙鴻 EPS 的量化衝擊:<b>市場尚未量化,FactSet 共識 EPS 反而持續上修</b> → 實際被壓縮的是族群「評價倍數」(前期漲多、資金過度集中),不是雙鴻的獲利預估。典型的<b>「基本面沒崩、股價先跌」</b>。</div>
+</div>
+<table>
+  <tr><th>指標</th><th>事件前(4 月中)</th><th>事件後(5~6 月)</th><th>變化</th></tr>
+  <tr><td>FactSet 2026E EPS 中位(14 位)</td><td>57.02 元</td><td class="green">58.08 元</td><td class="green">+1.9%,不降反升</td></tr>
+  <tr><td>FactSet 共識目標價</td><td>1,320 元</td><td>1,330~1,400 元</td><td class="green">主流持平略升;惟美系外資個別「雙降」雙鴻、建準目標價</td></tr>
+  <tr><td>股價 / Forward P/E</td><td>高點區(約 22x)</td><td class="red">1,010 / 17.4x</td><td class="red">倍數壓縮約 2 成 = 本次修正的全部來源</td></tr>
+</table>
+
+<h2>① 催化劑分析 — 為什麼跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/03 底</span>第一波修正:「黃仁勳親口認了這技術不需要」傳言,雙鴻一度失守 900 元、奇鋐跌破 2,000 元,隨後收復。</li>
+  <li><span class="date">2026/05/02~06</span><b>本次事件(真正催化劑)</b>:投顧下修奇鋐 Q2 + Rubin 均熱片降規傳言 → 族群跌停潮,雙鴻自高點回檔約兩成。</li>
+  <li><span class="date">2026/05~06</span>基本面持續走強:5 月營收 31.39 億(+93.8% YoY、+10.4% MoM),前 5 月累計 145.31 億(+80.5%);公司重申 2026 營收 +50% 以上、法人看 +60~70%,伺服器占比 72%、液冷占比挑戰 55% 以上。</li>
+  <li><span class="date">警訊</span>若 Rubin「降規簡化」思維延伸到水冷板/CDU 環節(降價壓力),雙鴻的免疫假設就會被打破;6 月營收尚未公告(查無)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「均熱片是健策的事,雙鴻做的是水冷板/CDU 系統級方案,功耗上升趨勢不變,錯殺」<div class="src">— 今周刊/豐雲學堂 事件解析</div></div>
+    <div class="quote">「GB300 供應鏈關鍵水冷元件供應商,2026 EPS 上看 57.5~58 元,本益比還在 1 字頭」<div class="src">— 投顧報告,散戶社群轉傳</div></div>
+    <div class="quote">散戶常喊目標價:<b>1,320~1,580 元</b>(跟隨 FactSet 與大咖投顧)</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「散熱三雄營收創高背後是估值透支,市場已提前拿走未來的漲幅」<div class="src">— vocus 財經專欄</div></div>
+    <div class="quote">「輝達一句話就能砍你單價 2/3,散熱股的訂價權是幻覺」<div class="src">— PTT Stock 板事件後熱議</div></div>
+    <div class="quote">「美系外資雙降雙鴻、建準目標價,散熱內部已開始分化」<div class="src">— 經濟日報</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(14 位)</td><td class="green"><b>1,320~1,400</b></td><td>2026E EPS 中位 58.08(區間 47.67~62.6),事件後仍上修</td></tr>
+  <tr><td>大咖投顧</td><td>1,580</td><td>2026E EPS 58 元,給 27x</td></tr>
+  <tr><td>美系外資</td><td class="red">調降(幅度查無)</td><td>事件後「雙降」雙鴻、建準;同時「雙升」奇鋐、富世達</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三大法人:6/16 合計小幅買超 57 張,事件後賣壓已收斂;內部人交易:查無近期重大申報</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">5 月營收成長</div><div class="value green">+93.8%</div><div class="note">前 5 月累計 +80.5%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.61</div><div class="note">季增 25.3%</div></div>
+  <div class="card"><div class="label">2026 營收指引</div><div class="value green">+50%↑</div><div class="note">法人看 +60~70%</div></div>
+  <div class="card"><div class="label">液冷營收占比</div><div class="value">>55%</div><div class="note">伺服器合計 72%(2026 目標)</div></div>
+  <div class="card"><div class="label">EPS 路徑</div><div class="value">28.26→58</div><div class="note">2025 實績 → 2026E(+105%)</div></div>
+  <div class="card"><div class="label">現金/負債</div><div class="value">查無</div><div class="note">Q1 明細未取得</div></div>
+</div>
+
+<h2>五家最接近的競爭對手(散熱族群)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E EPS</th><th>Fwd P/E</th><th>事件受傷程度</th><th>與雙鴻的差異</th></tr>
+  <tr class="hl"><td>3324</td><td>雙鴻</td><td>58.08(FactSet)</td><td>約 17.4x</td><td>跌停,約 -20%</td><td>水冷板/分歧管/CDU 系統級,GB300 關鍵水冷元件</td></tr>
+  <tr><td>3017</td><td>奇鋐</td><td>81.1</td><td>約 24x(以 2,000 元計)</td><td>跌停後外資「雙升」</td><td>氣冷+液冷全方案龍頭,規模最大</td></tr>
+  <tr><td>3653</td><td>健策</td><td>78.1</td><td>查無</td><td class="red">最重:7 日 -30%</td><td>均熱片唯一供應商=降規直接受害者</td></tr>
+  <tr><td>6805</td><td>富世達</td><td>59</td><td>查無</td><td>連兩日重挫後外資調升</td><td>快接頭/軸承,液冷滲透受惠</td></tr>
+  <tr><td>2421</td><td>建準</td><td>10.8</td><td>查無</td><td>外資調降目標價</td><td>風扇為主,液冷占比低</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:被低估(Discount),錯殺成分高。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  雙鴻 Fwd P/E 17.4x,低於奇鋐約 24x,且低於自身事件前約 22x。<b class="amber">特殊情況</b>:2026E EPS 成長 +105%(28.26→58.08),PEG 僅約 0.17;事件的直接受害產品(均熱片)<b>不是雙鴻的產品</b>,共識 EPS 事件後不降反升,但股價被族群連坐打了兩成——獲利上修 + 倍數壓縮同時發生,是教科書級的錯誤定價候選。前提是水冷板不被捲入下一輪降規。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">多空分歧</div><div class="bar"><div style="width:55%;background:var(--green)"></div></div><div class="note">抄底派 vs 估值透支派激辯——分歧是健康訊號</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">14 位追蹤;FactSet 續上修,惟美系個別調降</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">EPS 58 → 更高</div><div class="note">2026E 中位 58.08;2027E 中位查無(投顧看續增)</div></div>
+</div>
+
+<h2>四種股價情境(以事件後預估重算)</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:8%"><div class="lbl">Bear(3~6月)</div><div class="price red">700~800</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:51%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,200~1,320</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,400~1,580</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:94%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">~1,800</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:30%"><div class="arrow">▲</div><div class="price">1,010</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據(事件後假設)</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>700~800</td><td>降規蔓延到水冷板/CDU、單價被砍 → EPS 下修至約 50 × P/E 14x;跌破 3 月低點 900</td><td class="red">-31~-21%</td></tr>
+  <tr><td class="amber">Base</td><td>1,200~1,320</td><td>事件確認只傷均熱片、雙鴻獲利照 58.08 兌現 → 倍數修復至 21~23x,回到 FactSet 目標 1,320</td><td class="green">+19~+31%</td></tr>
+  <tr><td class="green">Bull</td><td>1,400~1,580</td><td>液冷占比 >55% 達標+Rubin 放量 → 24~27x × 58;FactSet 高端與投顧目標</td><td class="green">+39~+56%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>~1,800</td><td>2027 年 EPS 續增(投顧路徑)× 倍數維持 → 需 VR200 液冷標配全面兌現</td><td class="green">+78%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">950~1,010</div><div class="note">現價即在區間內;回測 900(3 月低點+整數關卡)可加碼</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">1,320</div><div class="note">賣出 25~50%;FactSet 共識目標價</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">1,500~1,580</div><div class="note">投顧最高目標帶;需 2027 展望上修才續抱</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 850</div><div class="note">跌破 3 月低點區 = 「水冷板免疫於降規」假設被市場否定</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:這次散熱回調的元兇是 <b>Rubin 均熱片降規($150→$50)+奇鋐 Q2 下修</b>,直接受害者是健策;雙鴻的水冷板/CDU 未被降規,<b>共識 EPS 事件後反而上修至 58.08 元</b>——跌的是倍數,不是獲利。</div>
+<div class="concl">① <b>催化劑</b>:雙鴻下跌的真正原因是<b>族群連坐的估值壓縮</b>;但很少人討論的是 <b>5 月營收仍年增 93.8%、前 5 月累計 +80.5%</b>,基本面與股價正在背離。</div>
+<div class="concl">② <b>估值</b>:如果你相信水冷需求隨功耗上升的邏輯,雙鴻相較同業屬於<b>便宜</b>——Fwd P/E 17.4x vs 奇鋐約 24x,EPS 成長 +105%、PEG 0.17,錯殺候選。</div>
+<div class="concl">③ <b>結論</b>:<b>中長期投資</b>——現價 1,010 已在進場區間,距共識目標 1,320 有 +31% 空間、下檔至停損 850 約 -16%,風險報酬近 2:1;唯一要盯的是降規壓力是否蔓延到水冷板,跌破 850 無條件離場。</div>
+
+<footer>
+資料時間:股價/市值 2026/07/01 收盤、財報 2026 Q1、營收 2026/05(6 月未公告)、FactSet 調查 2026/04~05、事件 2026/05/02~06。<br>
+主要來源:Yahoo 股市、鉅亨網(FactSet 調查)、經濟日報、今周刊、永豐豐雲學堂、旺得富、財報狗、vocus、PTT Stock 板。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

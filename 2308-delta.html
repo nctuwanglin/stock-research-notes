@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台達電 (2308) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  /* 情境價位圖:標籤在上、線在中、現價在下 */
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>台達電 Delta (2308.TW) <span class="badge red">估值:偏貴</span> <span class="badge amber">結論:觀望,等回檔布局</span></h1>
+<div class="sub">台股・電源管理/AI 資料中心電源與散熱|資料截至 2026/07 月初,製表 2026/07/05</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">NT$2,075</div><div class="note">7 月初,單日 +5.33%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 5.4 兆</div><div class="note">台股市值第三大集團</div></div>
+  <div class="card"><div class="label">近期波動</div><div class="value amber">劇烈</div><div class="note">年中自高點回檔約三成後 V 轉,6月底單日+7%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">7.91 元</div><div class="note">年增 101%,單季新高</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value red">約 56x</div><div class="note">2026E 37.12 元;2027E 65 元則約 32x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value amber">1,960</div><div class="note">FactSet 23 位中位數,已低於現價</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/04/30</span><b>Q1 法說會(真正催化劑)</b>:營收 1,593.5 億(+34% YoY)、毛利率 37% 創歷史新高、稅後純益 205.5 億(+101%)、EPS 7.91 元改寫單季紀錄。資料中心電源+散熱營收占比升至約 40%,電源部門 AI 占比 23%→30%。資本支出將較 2025 年 461 億再增 10% 以上。</li>
+  <li><span class="date">2026/05~06</span>±400V HVDC 今年率先量產出貨;800V 架構配合新一代 AI 平台,2026 下半年小量出貨、<b>2027 年進入主要貢獻期</b>。4 月營收 586.9 億(+43.9%)、5 月 589.6 億(+43.7%)。</li>
+  <li><span class="date">2026/06</span>外資輪番上修:FactSet 目標價 1,575→1,960;凱基 1,770→2,308;美系大行以 2027 年 42x P/E 評價,上修 2026-2028 EPS 至 41.5/65.1/98.5 元。股價 6 月底單日大漲 7% 衝上 2,000 元。</li>
+  <li><span class="date">警訊</span>現價 2,075 已<b>超過 FactSet 共識目標價 1,960</b>;年中曾自高點回檔約三成,波動極大;6 月營收尚未公告(查無)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「AI 電源王者沒漲完」— 台達電占大型 AI 資料中心電源供貨比從 5 成挑戰 7 成,全球市占率超過 7 成<div class="src">— 外資與本土法人一致調升,媒體大量轉載</div></div>
+    <div class="quote">「2027 年 EPS 65 元起跳,800V HVDC 是下一波爆發點」— 美系/亞系券商以 42~43x 評價 2027 獲利<div class="src">— 法人報告核心論點</div></div>
+    <div class="quote">散戶常喊目標價:<b>2,600~2,800 元</b>(跟隨券商最高目標)</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「本益比比台積電還貴,合理嗎?」— 存股名師陳重銘警告不要盲目追高<div class="src">— 聯合新聞網,散戶社群熱議</div></div>
+    <div class="quote">「狂跌三成的傷還在」— 年中高檔套牢者眾,反彈即遇解套賣壓<div class="src">— PTT Stock 板</div></div>
+    <div class="quote">「2026 年 AI 電源競爭加劇」— 光寶科 400V/800V 方案 2026~27 推出,陸廠低價搶單<div class="src">— 經濟日報產業分析</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>美系大行</td><td class="green"><b>約 2,700+</b></td><td>2027E EPS 65.1 × 42x;2026-2028 EPS 41.5/65.1/98.5</td></tr>
+  <tr><td>亞系券商</td><td class="green">約 2,800</td><td>2026-2028 EPS 41.6/66.4/114.5,43x P/E</td></tr>
+  <tr><td>凱基投顧</td><td>2,308</td><td>2027E EPS × 38x,自 1,770 上調</td></tr>
+  <tr><td>FactSet 共識(23 位)</td><td class="amber"><b>1,960</b></td><td>2026E EPS 中位 37.12(區間 32.21~44.02)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">評等一致偏多(全面上修中,注意過熱);近 5 日三大法人小幅賣超 -984 張(5 月資料),6 月底出現大戶回補訊號;內部人交易:查無近期重大申報</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q1 營收成長</div><div class="value green">+34%</div><div class="note">4、5 月加速至 +44%</div></div>
+  <div class="card"><div class="label">Q1 獲利成長</div><div class="value green">+101%</div><div class="note">稅後 205.5 億</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">37%</div><div class="note">歷史新高,規模效益推升</div></div>
+  <div class="card"><div class="label">AI 營收占比</div><div class="value">約 40%</div><div class="note">DC 電源+散熱合計(Q1)</div></div>
+  <div class="card"><div class="label">資本支出</div><div class="value">>507 億</div><div class="note">較 2025 年 461 億 +10% 以上</div></div>
+  <div class="card"><div class="label">現金/負債</div><div class="value">查無</div><div class="note">Q1 明細未取得,體質歷來穩健</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E</th><th>AI 電源/散熱定位</th><th>與台達電的差異</th></tr>
+  <tr class="hl"><td>2308</td><td>台達電</td><td>約 56x(2026E)/ 32x(2027E)</td><td>全球 AI 伺服器電源市占 >7 成,±400V 已出貨、800V 2027 放量</td><td>龍頭本尊,毛利率 37% 同業最高</td></tr>
+  <tr><td>2301</td><td>光寶科</td><td>查無(大摩目標 150,本土喊 200+)</td><td>全球電源第 3,2026E AI 占比 >25%</td><td>400V/800V 方案晚台達電約一年</td></tr>
+  <tr><td>6282</td><td>康舒</td><td>查無</td><td>AI power shelf、72kW Rubin 架構</td><td>集中高階電源利基,規模小(全球第 12)</td></tr>
+  <tr><td>6412</td><td>群電</td><td>查無</td><td>AI 著墨少,排名滑落至全球第 7</td><td>「沒 AI 就 BI」,消費電源為主</td></tr>
+  <tr><td>3017</td><td>奇鋐</td><td>查無(外資近期調升目標價)</td><td>散熱(氣冷/液冷)龍頭之一</td><td>只對應台達電的散熱事業</td></tr>
+  <tr><td>2330</td><td>台積電(參照)</td><td>約 20x 上下</td><td>—</td><td>陳重銘的估值警訊參照:台達電 P/E 高於台積電</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴(Premium)。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  以 2026E EPS 37.12 元計,現價 P/E 約 56x,遠高於自身歷史區間(約 25~35x)與台積電(約 20x),股價也已越過 FactSet 共識目標 1,960。<b class="amber">特殊情況</b>:市場已跳過 2026、直接用 2027E EPS 65 元(+75% 成長)定價——若 800V HVDC 如期放量,32x(2027E)不算離譜;但這代表<b>未來 18 個月的利多已預支大半</b>,任何出貨遞延都會引發劇烈修正(年中已示範過一次 -30%)。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">偏多且熱</div><div class="bar"><div style="width:75%;background:var(--red)"></div></div><div class="note">法人/媒體/散戶幾乎一致看多——過熱警訊</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">23 位追蹤,全面上修中;惟共識目標 1,960 低於現價</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">EPS 37→65</div><div class="note">2026E→2027E(共識/美系),2028E 98.5~114.5</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:10%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,450~1,600</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,960~2,300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,600~2,800</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:91%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">~3,300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:35%"><div class="arrow">▲</div><div class="price">2,075</div><div class="lbl">現價(已在合理區間內)</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>1,450~1,600</td><td>800V 出貨遞延或 CSP 資本支出降溫 → P/E 修回 40x × 2026E 37;年中回檔低點區重演</td><td class="red">-30~-23%</td></tr>
+  <tr><td class="amber">Base</td><td>1,960~2,300</td><td>照財測發展 → FactSet 共識 1,960 至凱基 2,308;<b>現價已落在此區間內</b></td><td>-6~+11%</td></tr>
+  <tr><td class="green">Bull</td><td>2,600~2,800</td><td>800V 提前放量+毛利率續升 → 40~43x × 2027E 65;美系/亞系最高目標價帶</td><td class="green">+25~+35%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>~3,300</td><td>2028E EPS 98.5~114.5 兌現 × 30x,需 AI 電源+散熱+電動車三引擎全開</td><td class="green">+59%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">1,700~1,850</div><div class="note">回測年中整理區;現價 2,075 不建議追,Base 區間上緣風險報酬不對稱</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">2,600~2,700</div><div class="note">賣出 25~50%;美系目標價帶</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">2,800+</div><div class="note">再減一部分;亞系最高目標,需 2027 展望持續上修才續抱</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 1,550</div><div class="note">跌破年中低點區 = 800V 成長敘事被市場否定</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:這檔股票最近上漲的真正原因是 <b>Q1 毛利率 37% 創歷史新高 + EPS 年增 101% + 外資以 2027 年獲利(EPS 65 元)重新定價</b>;但真正值得關注、卻很少人討論的是——<b>現價已超過 23 位分析師的共識目標價 1,960,且年中才剛經歷過一次 -30% 的修正</b>。</div>
+<div class="concl">② <b>估值</b>:如果你相信 800V HVDC 2027 放量的多頭邏輯,那麼台達電相較同業與自身歷史屬於<b>偏貴</b>——2026E P/E 56x 是台積電的 2.8 倍,利多已預支大半,只有用 2027E 32x 才勉強合理。</div>
+<div class="concl">③ <b>結論</b>:<b>建議觀望(Pass),等回檔再布局</b>——公司基本面是台股 AI 電源最強,但價格不對:現價買進的上檔(+25%)與下檔(-25%)幾乎對稱,等 1,700~1,850 再進場才有安全邊際。</div>
+
+<footer>
+資料時間:股價 2026/07 月初、財報 2026 Q1(4/30 法說)、營收 2026/05(6 月營收公告前)。<br>
+主要來源:Yahoo 股市、鉅亨網(FactSet 調查)、經濟日報、聯合新聞網、永豐豐雲學堂、BigGo 財經、CMoney、旺得富、PTT Stock 板。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

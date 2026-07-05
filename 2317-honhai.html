@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鴻海 (2317) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  /* 情境價位圖:標籤在上、線在中、現價在下 */
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 33%,var(--green) 68%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>鴻海 Hon Hai (2317.TW) <span class="badge amber">估值:合理偏低</span> <span class="badge green">結論:中長期投資</span></h1>
+<div class="sub">台股・電子代工/AI 伺服器|資料截至 2026/07/03 收盤,製表 2026/07/05</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">NT$240.5</div><div class="note">7/3 收盤 +0.63%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 3.37 兆</div><div class="note">新台幣</div></div>
+  <div class="card"><div class="label">近 30 天</div><div class="value red">約 -5%</div><div class="note">自 6 月高點 253.5 回落</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">192~253.5</div><div class="note">4月低點 / 6月高點</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value">約 12.7x</div><div class="note">以 2026E EPS 19 元計</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">310~400</div><div class="note">主要外資,中值約 340(+41%)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/14</span><b>Q1 法說會(真正催化劑)</b>:營收 2.12 兆(+29% YoY)、EPS 3.56 元創同期新高(+17%)、營益率 3.57%(+0.74pp)。AI 伺服器營收占比首度突破五成,管理層上修全年資本支出 30% 以上,美洲將成最大 AI 伺服器量產基地。</li>
+  <li><span class="date">2026/06 起</span>GB300 / Vera Rubin 機櫃 Q3 陸續出貨,訂單能見度延伸至 2027 年底;全年 AI 機櫃出貨「倍數以上」成長。</li>
+  <li><span class="date">2026/07 初</span>6 月營收 8,218 億(+52.1% YoY);Q2 營收 2.51 兆(+39.8% YoY、+18.0% QoQ),單月/單季/上半年皆創同期新高。全年營收挑戰 9 兆元。</li>
+  <li><span class="date">短線警訊</span>三大法人連 11 個交易日賣超(7/2 單日 -27,317 張),股價自 253.5 高點回檔。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「AI 機櫃翻倍成長,EPS 上看 17~18 元,300 元幾乎毫無懸念」<div class="src">— 分析師蔡明翰,散戶社群大量轉傳</div></div>
+    <div class="quote">「劉揚偉表態明年要賺 2 個股本(EPS 20 元)」<div class="src">— 法說會後媒體熱議焦點</div></div>
+    <div class="quote">散戶最常喊的目標價:<b>300 元</b>,激進者跟喊高盛的 <b>400 元</b></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「量縮價跌→爆量拉升→高檔出貨,教科書級 M 頭」<div class="src">— PTT Stock 板技術面質疑</div></div>
+    <div class="quote">「跌比別人多、反彈比人少,漲不動」<div class="src">— Yahoo 股市討論區</div></div>
+    <div class="quote">「AI 訂單背後藏輝達溫柔陷阱」— 對組裝毛利率偏低的疑慮<div class="src">— Yahoo 財經專欄</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>券商</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>高盛(買進)</td><td class="green"><b>400</b></td><td>EPS 2026E 19.04 / 2027E 22.49 / 2028E 25.3</td></tr>
+  <tr><td>花旗</td><td>360</td><td>近期自 320 上調</td></tr>
+  <tr><td>野村</td><td>352</td><td>—</td></tr>
+  <tr><td>匯豐</td><td>330</td><td>—</td></tr>
+  <tr><td>瑞銀 / 小摩</td><td>310</td><td>—</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">現價 240.5 距最低目標價 310 仍有 +29% 空間;籌碼面短線偏空(法人連 11 賣),內部人交易:查無近期重大申報</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q1 營收成長</div><div class="value green">+28.9%</div><div class="note">Q2 加速至 +39.8%</div></div>
+  <div class="card"><div class="label">Q1 EPS 成長</div><div class="value green">+17%</div><div class="note">3.56 元,同期新高</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">6.18%</div><div class="note">年增 0.06pp</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">9,863 億</div><div class="note">金融借款 1.25 兆</div></div>
+  <div class="card"><div class="label">負債比</div><div class="value">61.98%</div><div class="note">流動比 1.45</div></div>
+  <div class="card"><div class="label">Fwd EV/Sales</div><div class="value green">約 0.4x</div><div class="note">2026E 營收 9 兆</div></div>
+</div>
+<div class="card" style="margin-top:10px"><div class="note">注意:Q1 自由現金流 -325.6 億、存貨季增 10.4% 至 1.21 兆——擴產備貨期的典型現象,需追蹤下半年能否轉正。股本無明顯稀釋;2025 年配息 7.2 元(殖利率約 3%)。</div></div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>2026E EPS</th><th>近況營收動能</th><th>定位差異</th></tr>
+  <tr class="hl"><td>2317</td><td>鴻海</td><td>約 12.7x</td><td>約 19 元</td><td>Q2 +39.8%</td><td>NVIDIA GB 系列機櫃最大組裝廠,規模第一、毛利率最低</td></tr>
+  <tr><td>2382</td><td>廣達</td><td>約 12x</td><td>28.25 元(大摩)</td><td>AI 營收占比→68%</td><td>主攻 Meta/Google CSP,AI 毛利率已達雙位數</td></tr>
+  <tr><td>3231</td><td>緯創</td><td>約 11x</td><td>13.76 元(大摩)</td><td>2026E 營收 +38.6%</td><td>GPU 模組/基板+伺服器,估值同業最低</td></tr>
+  <tr><td>6669</td><td>緯穎</td><td>查無(目標價 5,800)</td><td>查無</td><td>Q1 營收 2,765 億,beat 6%</td><td>北美 CSP 客製化伺服器最大供應商(Microsoft/AWS)</td></tr>
+  <tr><td>4938</td><td>和碩</td><td>約 13x</td><td>查無(Q1 EPS 1.33)</td><td>平緩</td><td>消費電子為主,AI 伺服器占比低,成長最慢</td></tr>
+  <tr><td>2356</td><td>英業達</td><td>約 11x</td><td>查無</td><td>3 月出貨 beat 47%</td><td>伺服器主機板代工,規模較小</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低(Fair→Discount)。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  鴻海 Fwd P/E 約 12.7x,落在同業 11~13x 區間中段,表面「合理」。但特殊情況在於:2026E EPS 19 元對 2025 年 13.61 元是 <b class="green">+40% 成長</b>,PEG 僅約 0.3;且 Q2 營收成長 39.8% 為五家中最快。成長性同業最強、估值卻只有中段——市場仍用「傳統代工」眼光定價一家 AI 占比過半的公司,存在錯誤定價空間。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">多空分歧</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">偏多約 6 成,尚未一面倒(非過熱警訊)</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">主要外資全數看多,近 30 天花旗 320→360 上調</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">EPS 19→22.5</div><div class="note">2026E→2027E(高盛),2028E 25.3</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:9%"><div class="lbl">Bear(3~6月)</div><div class="price red">190~200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:42%"><div class="lbl">Base(6~12月)</div><div class="price amber">280~310</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:68%"><div class="lbl">Bull(12~18月)</div><div class="price green">350~400</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:92%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">~450</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:24%"><div class="arrow">▲</div><div class="price">240.5</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>190~200</td><td>AI 機櫃出貨遞延+毛利率壓縮 → P/E 回到 10x × EPS 19;對應 4 月錯殺低點 192</td><td class="red">-17~-21%</td></tr>
+  <tr><td class="amber">Base</td><td>280~310</td><td>照財測發展 → P/E 14x × 混合 EPS 約 21;對應外資保守端目標 310</td><td class="green">+16~+29%</td></tr>
+  <tr><td class="green">Bull</td><td>350~400</td><td>機櫃倍數成長兌現+明年賺 2 股本 → P/E 16~18x × EPS 22.5;對應花旗 360~高盛 400</td><td class="green">+46~+66%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>~450</td><td>2028E EPS 25.3 × P/E 18x,需 AI+電動車+機器人三引擎同時兌現</td><td class="green">+87%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">215~230</div><div class="note">法人連賣壓回檔至月線/前平台;跌近 200 可加碼</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">300~310</div><div class="note">賣出 25~50%;心理關卡+保守外資目標價</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">350~360</div><div class="note">再減一部分;花旗/野村目標價帶</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 190</div><div class="note">4 月低點 192 失守 = AI 成長邏輯遭市場否定</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:這檔股票最近上漲的真正原因是 <b>AI 伺服器營收占比破五成 + Q2 營收年增 39.8% 創新高</b>;但真正值得關注、卻很少人討論的是——<b>三大法人已連 11 天賣超,且 Q1 自由現金流為 -326 億的擴產壓力</b>。</div>
+<div class="concl">② <b>估值</b>:如果你相信 AI 機櫃倍數成長的多頭邏輯,那麼鴻海相較同業屬於<b>合理偏便宜</b>——成長性五家最強(EPS +40%),Fwd P/E 卻只有中段的 12.7x,PEG 約 0.3。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>中長期投資(Investment)</b>——催化劑實在、估值有安全邊際、外資目標價全數在 310 以上;但短線籌碼偏空,不宜追價,等 215~230 回檔區間分批布局。</div>
+
+<footer>
+資料時間:股價/籌碼 2026/07/03、財報 2026 Q1(5/14 法說)、營收 2026/06(7 月初公告)。<br>
+主要來源:Yahoo 股市、鉅亨網、經濟日報、聯合新聞網、永豐豐雲學堂、TechNews、旺得富(大摩報告)、PTT Stock 板。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
