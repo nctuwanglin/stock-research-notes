@@ -128,6 +128,16 @@
   <tr><td>3017</td><td>奇鋐</td><td>查無(外資近期調升目標價)</td><td>散熱(氣冷/液冷)龍頭之一</td><td>只對應台達電的散熱事業</td></tr>
   <tr><td>2330</td><td>台積電(參照)</td><td>約 20x 上下</td><td>—</td><td>陳重銘的估值警訊參照:台達電 P/E 高於台積電</td></tr>
 </table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 2,075 vs 中值</th></tr>
+  <tr><td>歷史區間 P/E 25~35x</td><td>自身歷史倍數 × 2026E 共識 37.12</td><td>928~1,300</td><td class="red">貴 86%</td></tr>
+  <tr><td>FactSet 共識目標</td><td>23 位分析師中位數</td><td>1,910~2,010</td><td class="red">貴 6%</td></tr>
+  <tr><td>2027E P/E 38~43x</td><td>美系/亞系 2027E 65 × 現行評價倍數</td><td>2,470~2,795</td><td class="green">便宜 21%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 37.12/65/98.5 當 FCF 近似</td><td>970~1,470(推演)</td><td class="red">貴 70%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">歷史倍數與 DCF(928~1,470)vs 券商 2027 評價(2,470~2,795)相差一倍——市場已徹底拋棄舊評價體系、直接用 2027 定價;現價 2,075 卡在兩套體系中間,哪邊對取決於 800V HVDC 是否如期放量。</div>
+
 <div class="card" style="margin-top:10px">
   <b>估值判斷:偏貴(Premium)。</b>
   <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
@@ -140,6 +150,15 @@
   <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">23 位追蹤,全面上修中;惟共識目標 1,960 低於現價</div></div>
   <div class="card"><div class="label">獲利預估</div><div class="value">EPS 37→65</div><div class="note">2026E→2027E(共識/美系),2028E 98.5~114.5</div></div>
 </div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>32.21 / 37.12 / 44.02</td><td>30~40x</td><td>1,114~1,485</td><td class="red">約 -37%</td></tr>
+  <tr><td>2027</td><td>美系 65.1/亞系 66.4(無完整分佈)</td><td>32~38x</td><td>2,080~2,470</td><td class="green">約 +5%/年</td></tr>
+  <tr><td>2028</td><td>98.5~114.5(兩家外資)</td><td>25~30x</td><td>2,460~3,440</td><td class="green">約 +12%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027/2028 僅個別外資數字、無 FactSet 分佈;報酬全靠後兩年,2026 當年是負貢獻。</div>
 
 <h2>四種股價情境</h2>
 <div class="ladder">
@@ -158,12 +177,30 @@
   <tr><td style="color:var(--purple)">Stretched</td><td>~3,300</td><td>2028E EPS 98.5~114.5 兌現 × 30x,需 AI 電源+散熱+電動車三引擎全開</td><td class="green">+59%</td></tr>
 </table>
 
-<h2>交易計畫</h2>
-<div class="grid plangrid">
-  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">1,700~1,850</div><div class="note">回測年中整理區;現價 2,075 不建議追,Base 區間上緣風險報酬不對稱</div></div>
-  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">2,600~2,700</div><div class="note">賣出 25~50%;美系目標價帶</div></div>
-  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">2,800+</div><div class="note">再減一部分;亞系最高目標,需 2027 展望持續上修才續抱</div></div>
-  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 1,550</div><div class="note">跌破年中低點區 = 800V 成長敘事被市場否定</div></div>
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">1,900~1,960</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,750~1,850</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,600~1,700</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,550</b> = 800V HVDC 出貨遞延證實或 AI 電源訂單下修(年中 -30% 已示範過一次),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤創高站上 2,150 且量增(6 月營收與 Q2 財報俱佳)<br>
+    進場區:<b class="green">2,150~2,200</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 2,050 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,600~2,700</div><div class="note">賣出 25~50%;美系目標價帶</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,800+</div><div class="note">亞系最高目標;續抱條件是 2028 EPS 98+ 可信度提高</div></div>
 </div>
 
 <h2>三句話總結</h2>

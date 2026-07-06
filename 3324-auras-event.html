@@ -145,6 +145,16 @@
   <tr><td>6805</td><td>富世達</td><td>59</td><td>查無</td><td>連兩日重挫後外資調升</td><td>快接頭/軸承,液冷滲透受惠</td></tr>
   <tr><td>2421</td><td>建準</td><td>10.8</td><td>查無</td><td>外資調降目標價</td><td>風扇為主,液冷占比低</td></tr>
 </table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,010 vs 中值</th></tr>
+  <tr><td>歷史區間 P/E 12~20x</td><td>自身歷史倍數 × 2026E 共識 58.08</td><td>697~1,162</td><td class="red">貴 9%</td></tr>
+  <tr><td>2026E P/E 15~18x</td><td>事件後共識 58.08 × 散熱股修正後倍數</td><td>871~1,045</td><td class="red">貴 5%</td></tr>
+  <tr><td>奇鋐倍數對照 24x</td><td>龍頭同業倍數 × 58.08 = 錯殺前的定價</td><td>1,340~1,450</td><td class="green">便宜 28%</td></tr>
+  <tr><td>2027 推演 EPS 70~75 × 16~18x</td><td>投顧看續增,無共識數字</td><td>1,120~1,350(推演)</td><td class="green">便宜 18%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">現價 1,010 落在 2026 合理區(871~1,045)內、但距奇鋐對照價(1,340~1,450)有 3 成空間——「跌的是倍數不是獲利」的錯殺論若成立,回補缺口就是主要報酬來源。</div>
+
 <div class="card" style="margin-top:10px">
   <b>估值判斷:被低估(Discount),錯殺成分高。</b>
   <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
@@ -157,6 +167,15 @@
   <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">14 位追蹤;FactSet 續上修,惟美系個別調降</div></div>
   <div class="card"><div class="label">獲利預估</div><div class="value">EPS 58 → 更高</div><div class="note">2026E 中位 58.08;2027E 中位查無(投顧看續增)</div></div>
 </div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>47.67 / 58.08 / 62.6</td><td>15~18x</td><td>871~1,045</td><td class="red">約 -5%</td></tr>
+  <tr><td>2027</td><td>查無共識;推演 70~75</td><td>16~18x</td><td>1,120~1,350(推演)</td><td class="green">約 +11%/年</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027 為推演(投顧僅定性看增、無數字);2028 查無不推估。</div>
 
 <h2>四種股價情境(以事件後預估重算)</h2>
 <div class="ladder">
@@ -175,12 +194,30 @@
   <tr><td style="color:var(--purple)">Stretched</td><td>~1,800</td><td>2027 年 EPS 續增(投顧路徑)× 倍數維持 → 需 VR200 液冷標配全面兌現</td><td class="green">+78%</td></tr>
 </table>
 
-<h2>交易計畫</h2>
-<div class="grid plangrid">
-  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">950~1,010</div><div class="note">現價即在區間內;回測 900(3 月低點+整數關卡)可加碼</div></div>
-  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">1,320</div><div class="note">賣出 25~50%;FactSet 共識目標價</div></div>
-  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">1,500~1,580</div><div class="note">投顧最高目標帶;需 2027 展望上修才續抱</div></div>
-  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 850</div><div class="note">跌破 3 月低點區 = 「水冷板免疫於降規」假設被市場否定</div></div>
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">960~1,000</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">900~940</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">860~890</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">850</b> = 水冷板/CDU 訂單流失或降規波及獲證實,「錯殺」邏輯失效,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 1,100(事件前平台)且散熱族群止跌<br>
+    進場區:<b class="green">1,100~1,130</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 1,060 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,320</div><div class="note">賣出 25~50%;Base 上緣=事件前評價回補完成</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,500~1,580</div><div class="note">Bull 區;續抱條件是 2027 EPS 共識數字出現且 >70</div></div>
 </div>
 
 <h2>三句話總結</h2>

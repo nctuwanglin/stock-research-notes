@@ -130,6 +130,16 @@
   <tr><td>INTC</td><td>Intel Foundry</td><td>不可比(代工分部虧損)</td><td>未進代工營收前十,18A 為翻身之作</td><td>IDM 轉型代工多年未果,靠美國政策扶持</td></tr>
   <tr><td>GFS</td><td>GlobalFoundries</td><td>查無</td><td>前五大代工之一(前五合計市佔 >83%)</td><td>放棄先進製程,專注成熟/特殊製程與車用</td></tr>
 </table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 2,445 vs 中值</th></tr>
+  <tr><td>2026E P/E 24~27x</td><td>共識 EPS 99.84;27x = 共識目標 2,700</td><td>2,400~2,700</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>2027E P/E 22~24x</td><td>共識 EPS 125.17;24x ≒ 兆豐 3,000</td><td>2,750~3,000</td><td class="green">便宜 15%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>共識 EPS 當 FCF 近似,三年顯性+永續</td><td>1,600~2,390(推演)</td><td class="red">貴 23%</td></tr>
+  <tr><td>PEG≈1</td><td>三年 EPS CAGR 約 25% → 25x × 99.84</td><td>2,400~2,600</td><td class="amber">合理(區間內)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">P/E 與 PEG 兩法交集在 2,400~2,700,現價 2,445 落在交集內=合理;DCF 偏低是因永續段只給 2~3% 成長、把 AI 成長期壓縮成三年——它提醒的是「若 2029 後成長正常化,現價已無安全邊際」,不是叫你現在賣。</div>
+
 <div class="card" style="margin-top:10px">
   <b>估值判斷:合理——成長股定價,不便宜但沒有泡沫。</b>
   <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">直接同業幾乎不可比(三星是綜合企業、Intel 代工虧損、聯電近四季 42.5x 反而比台積電貴),因此用自身成長錨定:2026E P/E 24.5x、2027E 19.5x,而共識 EPS 路徑 99.84 → 125.17 → 156.49 隱含三年 CAGR 約 25%,PEG ≈ 1.0。特殊情況:全球 70% 代工市佔+先進製程近獨佔給了罕見定價權,但「台海折價」與 232 晶片關稅讓市場不敢給 30x;現價距共識目標 2,700 僅 +10%,再往上需要 2027 EPS 兌現或 P/E 升級(3,000 = 2027E 23.8x)。</div>
@@ -141,6 +151,15 @@
   <div class="card"><div class="label">分析師共識</div><div class="value">買進</div><div class="note">目標 2,700(法說前上修潮進行中,區間 2,500~3,400);EPS 三個月內 93.01→99.84 續上修</div></div>
   <div class="card"><div class="label">獲利預估路徑</div><div class="value">99.8 → 125 → 156</div><div class="note">FactSet 2026/2027/2028 中位;三年 CAGR 約 25%</div></div>
 </div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>90.51 / 99.84 / 108.2</td><td>24~27x</td><td>2,400~2,700</td><td class="green">約 +4%</td></tr>
+  <tr><td>2027</td><td>109.23 / 125.17 / 150.06</td><td>22~24x</td><td>2,750~3,000</td><td class="green">約 +8%/年</td></tr>
+  <tr><td>2028</td><td>128.85 / 156.49 / 210.6</td><td>20~22x</td><td>3,130~3,440</td><td class="green">約 +10%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">三年皆有 FactSet 完整分佈;倍數隨年期拉長遞減,反映不確定性與台海折價。</div>
 
 <h2>四種股價情境</h2>
 <!-- 刻度 1700~3600;left% = (價格-1700)/1900×92+4 -->
@@ -160,12 +179,30 @@
   <tr><td style="color:var(--purple)">Stretched</td><td>3,400</td><td>市場提前定價 2028E EPS 156.49 × 21.7x(現行最高目標價)</td><td class="green">+39%</td></tr>
 </table>
 
-<h2>交易計畫</h2>
-<div class="grid plangrid">
-  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">2,250~2,450</div><div class="note">現價已在區間上緣——分批而非重倉;7/16 法說會前不追價,拉回愈深買愈多</div></div>
-  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">2,700~2,800</div><div class="note">賣出 25%;共識目標 + 內外資多數落點上緣,情緒過熱時的獲利保護</div></div>
-  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">3,000~3,400</div><div class="note">Bull 上緣~最高目標價;續抱條件是 2027E EPS 共識續上修至 130 以上</div></div>
-  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">收盤跌破 1,950</div><div class="note">= AI 資本支出循環反轉獲得證實(CSP capex 下修、全年指引降回 30% 以下)——單純大盤回檔不觸發</div></div>
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">2,350~2,450</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">2,200~2,280</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,050~2,100</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,950</b> = AI 資本支出循環反轉獲證實(CSP capex 下修、全年指引降回 +30% 以下),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:7/16 法說上修 Q3 展望,且收盤突破 2,510 前高<br>
+    進場區:<b class="green">2,510~2,560</b><br>
+    移動停利:跌破 20 日線或高點回檔 10%<br>
+    假突破失效:觸發後 3 日內跌回 2,450 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,700~2,800</div><div class="note">賣出 25%;共識目標+內外資多數落點上緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,000~3,400</div><div class="note">Bull 上緣~最高目標;續抱條件是 2027E 共識上修至 130+</div></div>
 </div>
 
 <h2>三句話總結</h2>

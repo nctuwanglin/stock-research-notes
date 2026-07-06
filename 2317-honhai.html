@@ -130,6 +130,16 @@
   <tr><td>4938</td><td>和碩</td><td>約 13x</td><td>查無(Q1 EPS 1.33)</td><td>平緩</td><td>消費電子為主,AI 伺服器占比低,成長最慢</td></tr>
   <tr><td>2356</td><td>英業達</td><td>約 11x</td><td>查無</td><td>3 月出貨 beat 47%</td><td>伺服器主機板代工,規模較小</td></tr>
 </table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 240.5 vs 中值</th></tr>
+  <tr><td>2026E P/E 11~14x</td><td>高盛 2026E 19.04 × 代工股常態倍數</td><td>209~267</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>2027E P/E 12~15x</td><td>高盛 2027E 22.49,AI 佔比提升享升評</td><td>270~337</td><td class="green">便宜 21%</td></tr>
+  <tr><td>外資目標帶</td><td>匯豐 330/野村 352/花旗 360</td><td>330~360</td><td class="green">便宜 30%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 19.04/22.49/25.3 當 FCF 近似</td><td>263~391(推演)</td><td class="green">便宜 26%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法有三種整段都在現價 240.5 右邊,DCF 中值也在上方——與其他 AI 股相反,鴻海是「多方法一致說便宜」的那檔;折價來源是市場對代工毛利率的不信任,而非獲利預估分歧。</div>
+
 <div class="card" style="margin-top:10px">
   <b>估值判斷:合理偏低(Fair→Discount)。</b>
   <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
@@ -142,6 +152,15 @@
   <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">主要外資全數看多,近 30 天花旗 320→360 上調</div></div>
   <div class="card"><div class="label">獲利預估</div><div class="value">EPS 19→22.5</div><div class="note">2026E→2027E(高盛),2028E 25.3</div></div>
 </div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>19.04(高盛;FactSet 分佈查無)</td><td>11~14x</td><td>209~267</td><td>約 -1%</td></tr>
+  <tr><td>2027</td><td>22.49(高盛)</td><td>12~15x</td><td>270~337</td><td class="green">約 +12%/年</td></tr>
+  <tr><td>2028</td><td>25.3(高盛)</td><td>13~16x</td><td>329~405</td><td class="green">約 +15%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">三年數字皆出自高盛單一路徑,FactSet 完整分佈查無;年化報酬隨年期遞增=典型「便宜等補漲」結構。</div>
 
 <h2>四種股價情境</h2>
 <div class="ladder">
@@ -160,12 +179,30 @@
   <tr><td style="color:var(--purple)">Stretched</td><td>~450</td><td>2028E EPS 25.3 × P/E 18x,需 AI+電動車+機器人三引擎同時兌現</td><td class="green">+87%</td></tr>
 </table>
 
-<h2>交易計畫</h2>
-<div class="grid plangrid">
-  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">215~230</div><div class="note">法人連賣壓回檔至月線/前平台;跌近 200 可加碼</div></div>
-  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">300~310</div><div class="note">賣出 25~50%;心理關卡+保守外資目標價</div></div>
-  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">350~360</div><div class="note">再減一部分;花旗/野村目標價帶</div></div>
-  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">跌破 190</div><div class="note">4 月低點 192 失守 = AI 成長邏輯遭市場否定</div></div>
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">225~235</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">210~220</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">195~205</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">190</b> = AI 伺服器出貨/GB 系列放量邏輯失效(AI 營收占比與月營收年增同步走弱),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:三大法人由連賣轉連 3 買,且收盤突破 253.5 今年高<br>
+    進場區:<b class="green">254~260</b><br>
+    移動停利:跌破 20 日線或高點回檔 10%<br>
+    假突破失效:觸發後 3 日內跌回 245 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">300~310</div><div class="note">賣出 25~50%;Base 上緣+整數關卡</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">350~360</div><div class="note">外資目標帶;續抱條件是毛利率突破 7%</div></div>
 </div>
 
 <h2>三句話總結</h2>
