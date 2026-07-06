@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鈦昇 (8027) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>鈦昇 (8027) <span class="badge red">估值:泡沫化偏貴</span> <span class="badge amber">結論:觀望,勿追高</span> <span class="badge red">警訊:仍在虧損</span></h1>
+<div class="sub">台股(櫃買 TWO)・先進封裝設備(TGV 玻璃基板/FOPLP/雷射與電漿)|資料截至 2026/07/06 收盤,製表 2026/07/06</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">239.0</div><div class="note">2026/07/06 收盤,-4.02%(昨收 249)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 257 億</div><div class="note">股本 10.75 億(約 1.08 億股)× 239</div></div>
+  <div class="card"><div class="label">近 30 天</div><div class="value">查無精確</div><div class="note">6 月底盤中觸漲停 275 後回落,自高點約 -13%</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">約 96~275</div><div class="note">2 月底收 96.1 → 盤中高 275;年初精確收盤查無;低點起算 +149%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value red">約 351x</div><div class="note">2026E EPS 僅 0.68(轉盈過渡);近四季 EPS -0.57 無法計算 P/E</div></div>
+  <div class="card"><div class="label">券商目標價</div><div class="value red">133</div><div class="note">僅一家券商出報告,比現價低 44%;FactSet 共識查無</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2025/12/26</span><b>法說會定調四大成長引擎</b>:FOPLP 面板級封裝設備(已導入 3 家客戶,含低軌衛星大廠)、先進製程檢測設備(打入美系大廠 14A/18A 製程)、電漿切割(高雄第二條代工線)、TGV 玻璃基板設備(日本客戶驗證超前)。2025 全年營收 18.09 億(+10%)、毛利率 35.23%,但 EPS 仍 -0.93。</li>
+  <li><span class="date">2026/02~03</span><b>玻璃基板題材點火</b>:股價自 2 月底 96.1 起漲,3 月下旬漲停 144;鈦昇被市場封為「台灣最純的玻璃鑽孔股票」——具備 TGV 鑽孔、雷射解膠、電漿清洗一站式方案,訂單能見度喊到 2027。</li>
+  <li><span class="date">2026/04</span><b>經濟日報:英特爾大投資,鈦昇訂單量年增五成</b>;高雄橋頭新廠預計 Q3 啟用,產能升至 1.8 倍。惟 3 月營收 1.46 億年減 9.58%、自結 3 月每股 -0.02,數字尚未跟上題材。</li>
+  <li><span class="date">2026/06/10</span><b>5 月營收 2.23 億(YoY +140.2%、MoM +41.9%)</b>創近 5 個月新高;前 5 月累計 7.63 億(+42.9%)——設備業認列跳動大,單月暴增有低基期成分。</li>
+  <li><span class="date">2026/06 底~07 初</span><b>盤中拉至漲停 275 創波段天價</b>;台積電 CoPoS/玻璃基板題材文滿天飛;7/6 收 239(-4.02%),自高點回落約 13%。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:公司近四季 EPS -0.57、2026Q1 仍虧 -0.22,「訂單能見度」與「認列獲利」中間隔著驗收時程;唯一出報告的券商目標價 133,比市價低 44%;板塊評論直言「純題材股本益比嚴重超前,量產共識落在 2027~2028」。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">AI 封裝「由圓轉方」,玻璃基板是下一個典範轉移;鈦昇握 TGV 鑽孔+解膠+清洗一站式方案,與 Intel 合作密切,是最純的 TGV 設備股。<div class="src">— 理財周刊/股市爆料同學會/Threads 題材文</div></div>
+    <div class="quote">英特爾大投資、訂單量年增五成,新廠 Q3 產能 1.8 倍,訂單能見度看到 2027。<div class="src">— 經濟日報/法說會</div></div>
+    <div class="quote">散戶題材:CoPoS、FOPLP、低軌衛星、Intel 14A/18A——四個熱門關鍵字集於一身。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「許多純題材股本益比嚴重超前未來獲利——2026 只是小規模試產,量產共識在 2027~2028;設備股已在 40~50 倍歷史高檔,對獲利落空容忍度極低。」<div class="src">— 鉅亨專家觀點/玻璃基板概念股解析</div></div>
+    <div class="quote">「為何要等到 2026 年才有轉盈想像?」——2024 虧 0.36、2025 虧 0.93、2026Q1 又虧 0.22,轉盈仍是預期不是事實。<div class="src">— readmo 券商報告解讀</div></div>
+    <div class="quote">唯一券商目標價 133 已含轉盈期待與成長溢價,市價卻是它的 1.8 倍。<div class="src">— CMoney 盤勢觀</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>某本土券商(唯一出報告者)</td><td class="red">133</td><td>2026E EPS 0.68 的轉盈想像+成長溢價;樣本僅一家,市場共識未形成</td></tr>
+  <tr><td>FactSet 共識</td><td>查無</td><td>小型上櫃股,無外資/共識覆蓋</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">籌碼:法人參與極低(5/14 三大法人合計僅 +1,785 張),6~7 月精確買賣超查無——本質上是散戶與主力資金盤,波動極端。內部人申報:查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+42.9%</div><div class="note">2026 前 5 月累計 7.63 億 YoY;惟 3 月曾年減 9.6%,設備認列跳動大</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value red">-0.22(Q1)</div><div class="note">近四季 -0.57;2025 全年 -0.93(2025Q4 單季曾轉盈 0.65)</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">35.23%</div><div class="note">2025 全年;毛利率不差,虧在營業費用與規模不足</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">查無</div><div class="note">精確現金/負債未取得</div></div>
+  <div class="card"><div class="label">股本稀釋</div><div class="value">查無</div><div class="note">股本 10.75 億元;新廠資本支出是否增資查無</div></div>
+  <div class="card"><div class="label">管理層展望</div><div class="value">訂單看到 2027</div><div class="note">新廠 Q3 產能 1.8 倍;FOPLP 2026 擬新增國際客戶</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值</th><th>基本面</th><th>與鈦昇的差異</th></tr>
+  <tr class="hl"><td>8027.TWO</td><td>鈦昇</td><td>2026E 約 351x;P/S 約 14x(市值 257 億/2025 營收 18 億)</td><td>近四季 EPS -0.57,前 5 月營收 +42.9%</td><td>—</td></tr>
+  <tr><td>8064.TWO</td><td>東捷</td><td>近四季 P/E 69.0x(139.0 / EPS 2.37)</td><td>已獲利,雷射修補/鑽孔,同樣有 TGV 微孔加工</td><td>最直接的 TGV 雷射對手——有獲利、倍數卻只有鈦昇零頭</td></tr>
+  <tr><td>6187.TWO</td><td>萬潤</td><td>板塊約 40~50x(精確查無)</td><td>先進封裝點膠/貼合設備龍頭</td><td>吃 CoWoS 現在進行式的訂單,不是 2027 的想像</td></tr>
+  <tr><td>6640.TW</td><td>均華</td><td>板塊約 40~50x(精確查無)</td><td>玻璃基板研磨/拋光設備</td><td>同題材、獲利中,鈦昇是其中唯一虧損者</td></tr>
+  <tr><td>3131.TWO</td><td>弘塑</td><td>查無精確</td><td>先進封裝濕製程設備,獲利穩健</td><td>老牌獲利股,題材含量低、風險也低</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:泡沫化偏貴——付的是 2027~2028 量產想像的全額訂金,還不打折。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">市值 257 億對 2025 營收 18.09 億 = P/S 約 14 倍;2026E EPS 0.68(唯一券商估)對應 351 倍,而該券商自己的目標價 133 都比市價低 44%。同賽道對照:已獲利的東捷 69x、題材設備板塊 40~50x、真正吃現在訂單的萬潤/均華全都比鈦昇便宜。特殊情況:即便給 2027 想像 EPS 3 元(無正式共識,純推演),現價也是 80 倍——玻璃基板若如板塊共識 2027~2028 才量產,中間任何一季驗收遞延都足以觸發劇烈修正。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value">一面倒狂熱</div><div class="bar"><div style="width:85%;background:var(--green)"></div></div><div class="note">「最純玻璃鑽孔股」題材文洗版、漲停鎖死——一面倒看多=過熱警訊</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">近乎空白</div><div class="note">僅一家券商覆蓋(目標 133);無外資、無 FactSet 共識——定價全靠散戶資金</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">-0.93 → 0.68 → ?</div><div class="note">2025 實績 → 2026E(唯一券商)→ 2027 無正式數字,全是想像空間</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 80~340;left% = (價格-80)/260×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:17.1%"><div class="lbl">Bear(3~6月)</div><div class="price red">100~133</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:34.1%"><div class="lbl">Base(6~12月)</div><div class="price amber">150~180</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:68.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">240~285</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">320</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:60.3%"><div class="arrow">▲</div><div class="price">239</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>100~133</td><td>題材退潮或驗收遞延,回到唯一券商的基本面定價(133)與起漲平台(96~100)之間</td><td class="red">約 -51%</td></tr>
+  <tr><td class="amber">Base</td><td>150~180</td><td>2026 順利轉盈(EPS 0.68 兌現)+新廠貢獻,市場以 2027 想像 EPS 3 × 50~60x 題材倍數定價</td><td class="red">約 -31%</td></tr>
+  <tr><td class="green">Bull</td><td>240~285</td><td>TGV/FOPLP 訂單 2027 實質放量,2027E EPS 上修至 4~5 × 55~60x;現價已站在此區下緣</td><td class="green">約 +10%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>320</td><td>玻璃基板 2028 全面量產、鈦昇確立設備霸主,2028E 想像 EPS 6~7 × 50x</td><td class="green">+34%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">130~160</div><div class="note">空手者唯一合理的接刀區:題材退潮+「轉盈成真」雙重確認後再進,且僅限投機倉位</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">260~275</div><div class="note">持有者於前高/漲停區賣出 50%;風險報酬已嚴重不對稱</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">300~320</div><div class="note">Stretched 區全出;除非 2027 正式訂單金額公告取代想像</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">收盤跌破 180</div><div class="note">= 題材動能斷裂(跌破上升平台);虧損中的題材股沒有基本面地板,停損紀律比目標價重要</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:今年自 96 元大漲 149% 的真正原因是 TGV 玻璃基板+FOPLP 題材——Intel 訂單年增五成、一站式 TGV 設備訂單能見度喊到 2027、高雄新廠 Q3 產能 1.8 倍;但很少人討論的是公司仍在虧損(近四季 EPS -0.57、Q1 -0.22),5 月營收 +140% 帶有低基期與設備認列跳動成分,3 月才剛年減 9.6%。</div>
+<div class="concl">② <b>估值</b>:泡沫化偏貴——市值 257 億對 2025 營收 18 億(P/S 14x)、2026E EPS 0.68 對應 351 倍,唯一出報告的券商目標價 133 比現價低 44%;同賽道已獲利的東捷 69x、板塊 40~50x 全比它便宜,現價等於把 2027~2028 的量產想像全額預付。</div>
+<div class="concl">③ <b>結論</b>:建議觀望、勿追高——現價 239 已站上 Bull 情境下緣,上檔中值 +10% 對下檔 Base -31%/Bear -51%,風險報酬嚴重不對稱;這是法人近乎缺席的散戶題材盤,僅適合投機倉位,收盤跌破 180 即題材斷裂無條件出場,空手者等 130~160 且轉盈落地再考慮。</div>
+
+<footer>
+資料時間:股價 2026/07/06 收盤(Yahoo 股市);2025 年報與法說 2025/12/26(MoneyDJ/vocus);Q1 EPS 與近四季(財報狗);5 月營收 2026/06/10 公告(鉅亨);Intel 訂單報導(經濟日報 2026/04);漲停 275 為 2026/06 底~07 初盤中速報。6 月營收即將公布(約 7/10 前),未反映;下次法說會日期查無。近 30 天精確漲跌幅、現金部位、法人 6~7 月買賣超、萬潤/均華/弘塑精確本益比查無。<br>
+主要來源:Yahoo 股市、財報狗、鉅亨網(營收速報/漲停速報/專家觀點)、經濟日報、MoneyDJ、豐雲學堂(TGV 解析)、理財周刊、vocus 法說整理、readmo/CMoney(券商目標價 133 解讀)、槓桿學院/商周(玻璃基板概念股)、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔為高波動題材股,情境誤差區間比一般個股更大。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
