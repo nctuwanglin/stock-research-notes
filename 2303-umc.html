@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聯電 (2303) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>聯電 (2303) <span class="badge red">估值:偏貴(估值透支)</span> <span class="badge amber">結論:觀望,等回檔</span></h1>
+<div class="sub">台股(TWSE)・晶圓代工(成熟製程 + 先進封裝/矽光子轉型題材)|美股 ADR:UMC(1 ADR = 5 普通股)|資料截至 2026/07/06 收盤,製表 2026/07/06</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">166.04</div><div class="note">2026/07/06 收盤,+2.64%(盤中高 171.5)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 2.07 兆</div><div class="note">約 124.7 億股 × 166;UMC ADR 市值 $66.07B</div></div>
+  <div class="card"><div class="label">UMC ADR</div><div class="value">$26.26</div><div class="note">7/6;換算後約與台股平價~小折價(見 ⓪)</div></div>
+  <div class="card"><div class="label">本益比</div><div class="value red">42.84x</div><div class="note">遠高於自身歷史 10~15x;2025 EPS 3.34</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value red">約 36x</div><div class="note">2026E EPS 4.52~4.63(FactSet 20 位);2027E 推演 5.5~6</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value red">74</div><div class="note">FactSet 中位(區間 38.3~100);現價 166 是中位的 2.2 倍</div></div>
+</div>
+
+<h2>⓪ ADR 溢價對照 — 使用者指定角度</h2>
+<div class="event">
+  <h3>ADR 折溢價換算</h3>
+  <div class="flow">1 ADR = 5 普通股,公式:ADR 股價 × 匯率 ÷ 5 = 台股隱含價。UMC 7/6 收 <b>$26.26</b>,以 2026 年 7 月台幣約 <b>30~31.6</b> 區間換算:隱含台股 <b>157.6(匯率30)~166.1(匯率31.6)</b>。對照台股實收 166.04 → <b>UMC ADR 約與台股平價至小幅折價(0%~-5%),沒有溢價</b>。(精確即期匯率查無,故給區間)</div>
+</div>
+<div class="event">
+  <h3>ADR 訊號解讀</h3>
+  <div class="flow">重點不在折溢價幾 %,而在「<b>方向</b>」:UMC ADR 歷史上常因外資需求帶<b>溢價</b>,如今卻落在<b>平價~小折價</b> → 外資透過 ADR <b>並未比本地資金更追高</b>。UMC ADR forward P/E <b>28.5x</b>、台股 forward 約 36x,兩地都給了昂貴倍數,但這波 52→166 的三倍漲勢,<b>邊際買盤更偏本地</b>——與南茂/IMOS「ADR 大幅折價=本地過熱」是同一種旁證,只是程度較輕。</div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/12~15</span><b>睽違 26 年重返百元俱樂部</b>:5/12 漲停 104.5、5/15 盤中衝 118,創 2000 年來新高;外資 2 天買超 3.3 萬張。起漲點約 52 元,今年至今 <b>52 → 166,約 +219%</b>。</li>
+  <li><span class="date">2026/04/29</span><b>Q1 法說</b>:EPS 1.29(YoY +108%)、營收 610.4 億、產能利用率 79%→Q2 80%+、22nm 佔營收 14% 創新高;宣布 <b>H2 漲價 5~15%</b>。惟毛利率指引(Q1 29.2%、恐失守 30%)低於預期,法說後曾一度觸及跌停。</li>
+  <li><span class="date">2026/05~06</span><b>與英特爾合作題材發酵</b>:聯電製造矽中介層供 Intel EMIB、合作 12nm FinFET(2026 完成開發、2027 量產);引進 imec iSiPP300 矽光子平台(2026 PIC 可插拔產品量產爬坡);2.5D/3D Si interposer + hybrid bonding 已逾 10 家客戶。加碼庫藏股護盤。</li>
+  <li><span class="date">2026/06/10</span><b>5 月營收 229.44 億(YoY +17.78%)創 43 個月新高</b>;前 5 月累計 1,066.46 億(+9.05%);PMIC 等成熟製程需求回升、產能拉滿。</li>
+  <li><span class="date">2026/07 初</span><b>股東會攻守兼備</b>:英特爾 12nm 驗證推進、矽中介層產能倍增、下半年漲價;7/6 收 166.04(+2.64%)。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:現價 166 是 FactSet 共識目標中位(74)的 <b>2.2 倍</b>、比最高目標(100)還高 66%;先進封裝/矽光子雖是真轉型,但 2026~2027 實際貢獻仍小(22nm 才 14%、Si interposer/PIC 還在爬坡),股價已完全用「轉型成功」定價;毛利率仍在 30% 邊緣掙扎(對比台積電 66%)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">聯電要從「成熟製程代工」變身「先進封裝+矽光子」供應商:矽中介層、hybrid bonding、iSiPP300 矽光子,搭 Intel EMIB/12nm,估值該從 10~15x 升級到 25~30x。<div class="src">— 經濟日報/豐雲學堂/口袋學堂</div></div>
+    <div class="quote">獲利雙引擎:成熟製程漲價(H2 5~15%)+ 先進封裝新成長;外資 2 天買超 3.3 萬張、13 萬張買不到。<div class="src">— 今周刊/Yahoo</div></div>
+    <div class="quote">散戶題材:26 年終於解套、站穩百元、AI 先進封裝概念。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">成熟製程代工三雄(聯電/世界/力積電)中,聯電本益比 42x 最貴;世界先進 25x、力積電不到 10x,聯電估值已嚴重超前基本面。<div class="src">— 旺得富理財網(晶圓三雄比較)</div></div>
+    <div class="quote">法說後因毛利率指引低於預期一度跌停——先進封裝營收占比仍低,本業毛利率 30% 邊緣,離台積電 66% 天差地遠。<div class="src">— 口袋學堂</div></div>
+    <div class="quote">現價 166 是 FactSet 共識目標 74 的 2.2 倍;連 ADR 都沒給溢價,外資沒有比本地更買單。<div class="src">— 本儀表板/鉅亨 FactSet</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(21 位)</td><td class="red">74(中位)</td><td>區間 38.3~100;2026E EPS 中位 4.52~4.63(3.31~5.36);近期自 68 上修至 74</td></tr>
+  <tr><td>FactSet 最高目標</td><td>100</td><td>最樂觀者;仍比現價 166 低 40%</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">現價 166 已高於所有查得到的分析師目標價——這是「股價遠跑在共識前面」的典型;近期外資爆量買超(34 萬張、外資掃 5 萬張),籌碼由外資與散戶主導。內部人申報:查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+9.05%</div><div class="note">2026 前 5 月累計 1,066 億 YoY;5 月單月 +17.78% 創 43 月新高</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">1.29(Q1)</div><div class="note">YoY +108%;2025 全年 3.34;近四季約 3.87</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value amber">29.2%</div><div class="note">Q1,恐失守 30%;vs 台積電 66%——成熟製程本質</div></div>
+  <div class="card"><div class="label">產能利用率</div><div class="value green">79→80%+</div><div class="note">Q1 79%、Q2 80%+;12 吋高於平均,8 吋回升中</div></div>
+  <div class="card"><div class="label">22nm 佔比</div><div class="value green">14%</div><div class="note">創歷史新高;H2 全面漲價 5~15%</div></div>
+  <div class="card"><div class="label">轉型進度</div><div class="value">2027 放量</div><div class="note">Si interposer/矽光子 2026 爬坡、Intel 12nm 2027 量產——貢獻仍早</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長/獲利</th><th>與聯電的差異</th></tr>
+  <tr class="hl"><td>2303.TW</td><td>聯電</td><td>42.84x(EPS 3.87 近四季)</td><td>Q1 EPS 1.29(+108%);22nm 14%</td><td>成熟製程代工,但市場用「先進封裝轉型」定價</td></tr>
+  <tr><td>2330.TW</td><td>台積電</td><td>約 24.5x(2026E)</td><td>毛利率 66%、先進製程 74%</td><td>真・先進製程龍頭,倍數反而比聯電低——最強烈的估值錯置</td></tr>
+  <tr><td>5347.TW</td><td>世界先進</td><td>約 25x</td><td>2026E EPS 約 5;成熟製程唯一站上 2 字頭</td><td>同為成熟製程,估值 25x 已算高,但仍僅聯電的六成</td></tr>
+  <tr><td>6770.TW</td><td>力積電</td><td>&lt;10x</td><td>Q1 2026 EPS 3.36(2025 全年 -1.86,復甦中)</td><td>成熟製程+記憶體代工,估值最低、剛脫離虧損</td></tr>
+  <tr><td>GFS</td><td>GlobalFoundries</td><td>查無精確</td><td>美國成熟/特殊製程</td><td>放棄先進製程,聯電最直接的國際成熟製程對手</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴——本業是成熟製程,估值卻已按「先進封裝贏家」全額定價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">聯電 P/E 42.84x,不僅遠高於自身歷史區間(10~15x),更貴過台積電(24.5x,毛利率是聯電兩倍以上)、世界先進(25x)、力積電(&lt;10x)——成熟製程三雄裡最貴。以 FactSet 2026E EPS 4.63 計,現價 forward P/E 約 36x;共識目標中位僅 74(現價是其 2.2 倍)、最高 100 都低於現價 40%。先進封裝/矽光子/Intel 合作是真題材,但 2026~2027 貢獻仍小(22nm 14%、PIC/Si interposer 爬坡中),股價已把「轉型完全成功」當既成事實。ADR 未給溢價,連外資都沒比本地更追——估值透支的旁證。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 166.04 vs 中值</th></tr>
+  <tr><td>FactSet 目標價</td><td>21 位分析師,中位 74(區間 38.3~100)</td><td>38~100</td><td class="red">貴 141%</td></tr>
+  <tr><td>成熟製程 P/E 15~20x</td><td>自身歷史倍數 × 2026E EPS 4.63</td><td>69~93</td><td class="red">貴 105%</td></tr>
+  <tr><td>同業世界先進 22~25x</td><td>成熟製程對照 × 4.63</td><td>102~116</td><td class="red">貴 52%</td></tr>
+  <tr><td>轉型溢價 P/E 20~25x × 2027E 5.5</td><td>賭先進封裝成功,給 2027 成長倍數</td><td>110~138(推演)</td><td class="red">貴 34%</td></tr>
+  <tr><td>ADR 換算隱含價</td><td>UMC $26.26 × 匯率30~31.6 ÷ 5</td><td>158~166</td><td class="amber">合理(平價)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">除「ADR 換算」那條顯示與台股平價(那本來就是套利結果、不代表便宜)外,其餘四種方法一致顯示大幅偏貴(貴 34%~141%)——即使給先進封裝轉型最樂觀的 2027E 25x,現價仍貴三成。市場已把「聯電變身先進封裝/矽光子贏家」當成既成事實在定價,安全邊際為負。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value">狂熱</div><div class="bar"><div style="width:80%;background:var(--green)"></div></div><div class="note">「26 年解套」「站穩百元」「13 萬張買不到」——一面倒看多=過熱警訊</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">遠低於現價</div><div class="note">目標中位 74、最高 100,全低於現價 166;股價跑在共識前面</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.34 → 4.63 → 5.5?</div><div class="note">2025 實績 → 2026E(FactSet)→ 2027 推演;成長真實但估值透支</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>3.31 / 4.63 / 5.36(FactSet 20 位)</td><td>15~20x</td><td>69~107</td><td class="red">約 -47%</td></tr>
+  <tr><td>2027</td><td>查無中位;推演 5.5~6(漲價+先進封裝)</td><td>20~25x</td><td>110~150(推演)</td><td class="red">約 -13%/年</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">即使按 2027 轉型溢價倍數推估,現價買入的隱含報酬仍為負——現價已預支未來兩年的成長與評價提升;2027 為推演(無 FactSet 中位)。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~220;left% = (價格-40)/180×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:34.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">90~110</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:56.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">130~155</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:79.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">175~200</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:96%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">220</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:68.4%"><div class="arrow">▲</div><div class="price">166</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>90~110</td><td>題材退潮/成熟製程回歸,2026E 4.63 × 20~23x,或回測 5 月起漲平台</td><td class="red">約 -40%</td></tr>
+  <tr><td class="amber">Base</td><td>130~155</td><td>漲價兌現+先進封裝進度符合預期,2027E 5.5~6 × 22~26x</td><td class="red">約 -14%</td></tr>
+  <tr><td class="green">Bull</td><td>175~200</td><td>矽光子/Si interposer 實質放量,市場給轉型股 30x</td><td class="green">約 +13%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>220</td><td>Intel 12nm 2027 順利量產+先進封裝超級循環,EPS 7~8 × 28~30x</td><td class="green">+33%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">130~140</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">110~120</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">90~105</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">88</b> = 先進封裝/矽光子敘事失效,回歸成熟製程本益比,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破 171.5 前高+量能,且 Si interposer/PIC 出貨進度獲確認<br>
+    進場區:<b class="green">172~176</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 165 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">175~185</div><div class="note">賣出 25~50%;Bull 下緣,估值嚴重超前時的獲利保護</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">200~220</div><div class="note">Stretched 區;續抱條件是先進封裝營收占比實際跳升</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:今年自 52 元大漲到 166(+219%、26 年來重返百元)的真正原因是「成熟製程代工變身先進封裝/矽光子」的重估——Intel 矽中介層/12nm、imec iSiPP300、H2 漲價 5~15%、外資爆量買超;但很少人討論的是這些轉型 2026~2027 的實際貢獻仍小(22nm 才 14%、PIC/Si interposer 還在爬坡),本業毛利率仍在 30% 邊緣。</div>
+<div class="concl">② <b>估值</b>:偏貴(估值透支)——P/E 42.84x 是成熟製程三雄最貴,還貴過毛利率兩倍於它的台積電(24.5x);五種估值法有四種顯示貴 34%~141%,現價是 FactSet 共識目標中位(74)的 2.2 倍、比最高目標(100)還高;而你指定的 ADR 角度更點出:UMC ADR 只有平價~小折價、沒有溢價,連外資都沒比本地更追高。</div>
+<div class="concl">③ <b>結論</b>:觀望、等回檔——這是一筆「敘事跑在基本面與共識前面」的估值透支單,現價 166 已在 Bull 情境下緣,上檔中值僅 +13% 對下檔 Base -14%/Bear -40%,風險報酬嚴重不對稱;空手者等 130 以下分批、持有者 175 以上減碼,收盤跌破 88 即轉型敘事失效無條件出場。</div>
+
+<footer>
+資料時間:台股股價/本益比 2026/07/06 收盤(Yahoo 股市);UMC ADR 2026/07/06(Finviz,forward P/E 28.5x、市值 $66.07B、1ADR=5 股);Q1 法說 2026/04/29(聯合/豐雲學堂);5 月營收 2026/06/10(財報狗/CMoney);股東會與 Intel/矽光子題材 2026/05~07(經濟日報/豐雲學堂/今周刊);FactSet 共識 EPS 4.52~4.63、目標中位 74(鉅亨,2026/06~07)。ADR 換算採台幣 30~31.6 區間,精確即期匯率查無;6 月營收與 Q2 EPS 尚未公布;每股淨值、GlobalFoundries 本益比查無。<br>
+主要來源:Yahoo 股市、Finviz(UMC ADR)、財報狗、鉅亨網 FactSet 調查、經濟日報/聯合新聞網、豐雲學堂(Q1 法說/股東會)、今周刊(52→118 翻倍)、旺得富理財網(晶圓三雄比較)、口袋學堂、股市爆料同學會、口袋/gugu(ADR 換算教學)。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
