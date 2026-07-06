@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南茂 (8150) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>南茂 (8150) <span class="badge red">估值:偏貴(已超越法人目標價)</span> <span class="badge amber">結論:觀望,回檔再接</span></h1>
+<div class="sub">台股(TWSE)・記憶體/DDIC 封測(OSAT)|美股 ADR:IMOS(1 ADR = 20 普通股)|資料截至 2026/07/03 收盤,製表 2026/07/06</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">105.0</div><div class="note">2026/07/03 收盤,+3.23%;盤中高 109.5</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 763 億</div><div class="note">7.27 億股 × 105;IMOS 市值 $2.24B 相互印證</div></div>
+  <div class="card"><div class="label">IMOS ADR</div><div class="value">$63.93</div><div class="note">7/2 收;較台股折價約 1 成(以台幣 29 上下換算,精確匯率查無)</div></div>
+  <div class="card"><div class="label">52 週區間</div><div class="value">$15.06~72.91</div><div class="note">IMOS 口徑,自低點 +325%;台股精確 52 週值查無,2 月時仍在 40 餘元</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value">23.6x</div><div class="note">2026E EPS 4.45(永豐);2027E 6.45 → 16.3x;近四季 89.0x</div></div>
+  <div class="card"><div class="label">法人目標價</div><div class="value class="red">70~78</div><div class="note">全數低於現價 26~50%;FactSet 共識查無</div></div>
+</div>
+
+<h2>⓪ IMOS(美股 ADR)對照 — 使用者指定角度</h2>
+<div class="event">
+  <h3>ADR 折溢價檢核</h3>
+  <div class="flow">1 ADR = 20 普通股 → 台股 105 × 20 = <b>2,100 台幣/ADR</b>;IMOS 7/2 收 $63.93,隱含匯率 32.85 —— 以 2026 年台幣升值後約 29 上下的匯率計,<b>ADR 較台股折價約 10~12%</b>。(網路上流傳的「溢價 458%」為資料錯誤,經 1:20 比例換算後不成立)</div>
+</div>
+<div class="event">
+  <h3>IMOS 端的估值與展望訊號</h3>
+  <div class="flow">Finviz:IMOS trailing P/E 84.5x、<b>Forward P/E 17.0x</b>(下年度 EPS $3.77/ADS,換算約 5.5 台幣/股,與台灣法人 2027E 6.45 同一量級)→ 美國市場同樣「只肯為 2027 付錢」。Q1 2026 營收 <b>$216M(YoY +25%)</b>,官方歸因 AI 與資料中心記憶體需求;2025 全年營收 $762.9M(+5.5%)。殖利率 1.22%。美股端查無投行目標價與評等 —— 涵蓋度低,定價權在台北。</div>
+</div>
+<div class="event">
+  <h3>對台股的含義</h3>
+  <div class="flow">同一家公司,美國投資人給的價格比台灣低一成、forward 倍數 17x 而非台股散戶追出來的 89x trailing —— <b>ADR 折價 + 涵蓋空白 = 熱度是台灣本地資金堆出來的</b>,這通常出現在題材過熱段。</div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/02/24</span><b>法說會:記憶體封測 Q1 再漲價</b>:董座鄭世杰表示新增資本支出全數與客戶簽下「三年保障合約」,2026 動能穩健、下半年優於上半年;記憶體(DDR4 強勁、DDR5 放量)明顯優於 DDIC(僅車用/穿戴較穩)。資本支出配置:記憶體測試近五成、封裝兩成、DDIC/凸塊 25%。</li>
+  <li><span class="date">2026/02/25</span><b>法人大幅上修</b>:「客戶砸 2 倍價搶也沒用、簽 3 年約包產能」,2026 EPS 自 2.63 調升至 4.03(+53%),目標價 70 → 78;當時股價仍在 40 餘元。</li>
+  <li><span class="date">2026/05/08</span><b>4 月營收 24.60 億(YoY +32.2%)</b>,單月獲利一度年增 27 倍,記憶體封測報價續漲。</li>
+  <li><span class="date">2026/06 中</span><b>股價漲停 84.1 突破法人目標區</b>;隨後 6/17 前外資反手連 4 賣累計 -24,954 張。</li>
+  <li><span class="date">2026/06/10</span><b>5 月營收 23.84 億(YoY +17.7%、MoM -3.1%)</b>,前 5 月累計 117.80 億(+25.1%)——年增率自 4 月的 32% 放緩。</li>
+  <li><span class="date">2026/07/01</span><b>外資單日回補 1.3 萬張</b>:市場以「集團作帳+先進封裝外溢」題材押寶封測周邊;7/3 收 105(+3.23%),盤中 109.5 創波段高。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:現價 105 已超過所有查得到的法人目標價(70~78)達 26~50%;5 月營收月減、年增放緩;永豐投顧已將評等降至「中立」,直言新題材「偏概念性、實際貢獻尚待量化」;同集團的記憶體行情 7/1 才剛被兆易創新示警。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「客戶簽三年保障合約包產能,砸 2 倍價搶也沒用」——漲價+鎖量,記憶體封測是這波缺貨潮裡最晚漲、最確定的一環。<div class="src">— 董座鄭世杰/旺得富理財網</div></div>
+    <div class="quote">AI 伺服器與資料中心記憶體需求帶動,Q1 營收年增 25%,「AI 封測堅兵」。<div class="src">— IMOS 官方新聞稿/口袋股票</div></div>
+    <div class="quote">散戶題材:HBM/先進封裝外溢、集團作帳、比照力成補漲。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「保瑞、南茂題材全開,法人卻同步降溫:夢很大、獲利還要等」——永豐降至中立,評價已不便宜。<div class="src">— Yahoo 股市新聞/永豐投顧</div></div>
+    <div class="quote">本業一半是 DDIC(面板驅動 IC)封測,終端需求保守、動能偏弱——市場只定價記憶體那一半。<div class="src">— 2/24 法說會</div></div>
+    <div class="quote">IMOS ADR 較台股折價約一成、美股 forward 僅 17x——美國投資人不買台北的熱度。<div class="src">— Finviz/本儀表板換算</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>本土法人(2/25)</td><td>70 → 78</td><td>2026 EPS 自 2.63 上修至 4.03(+53%),記憶體+車用+產能短缺</td></tr>
+  <tr><td>永豐投顧</td><td class="amber">中立(自買進調降)</td><td>2026E EPS 4.45、2027E 6.45;「題材偏概念性,評價已不便宜」</td></tr>
+  <tr><td>FactSet 共識</td><td>查無</td><td>台股端涵蓋家數少;美股端(IMOS)查無投行目標價</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">籌碼:6/17 前外資連 4 賣累計 -24,954 張、三大法人連 4 賣 -21,865 張;7/1 外資反手買超 1.3 萬張(集團作帳/封測周邊押寶)。內部人申報:查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+25.1%</div><div class="note">2026 前 5 月累計 YoY;惟 5 月單月已放緩至 +17.7%、月減 3.1%</div></div>
+  <div class="card"><div class="label">EPS 成長</div><div class="value green">爆發初期</div><div class="note">近四季約 1.2 → 2026E 4.45(近 4 倍);Q1 實績 0.72</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">查無精確</div><div class="note">Q1 漲價成功轉嫁貴金屬成本;精確季度毛利率未取得</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">查無</div><div class="note">IMOS 殖利率 1.22%(TTM $0.78/ADS)</div></div>
+  <div class="card"><div class="label">股本稀釋</div><div class="value">幾無</div><div class="note">股本約 72.7 億元,長年穩定</div></div>
+  <div class="card"><div class="label">管理層財測</div><div class="value">H2 優於 H1</div><div class="note">新產能簽 3 年保障合約;記憶體 &gt; DDIC;Q1 再漲價</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>成長動能</th><th>與南茂的差異</th></tr>
+  <tr class="hl"><td>8150.TW</td><td>南茂</td><td>23.6x(105 / EPS 4.45)</td><td>前 5 月營收 +25%;記憶體封測漲價+3 年合約</td><td>—</td></tr>
+  <tr><td>6239.TW</td><td>力成</td><td>約 20~21x(投顧目標 265 / 2026E EPS 12.37 隱含)</td><td>2026E EPS 10.9~12.96,DRAM/NAND 上行+FOPLP 先進封裝</td><td>記憶體 OSAT 龍頭、獲利規模約 3 倍,倍數反而比南茂低</td></tr>
+  <tr><td>6147.TW</td><td>頎邦</td><td>現價查無;2026E EPS 4.34(2025:3.74)</td><td>DDIC 封測本業,成長溫和</td><td>南茂的 DDIC 那一半該對照的估值錨,成長性明顯較弱</td></tr>
+  <tr><td>2449.TW</td><td>京元電子</td><td>近四季 35.5x;2026E 查無</td><td>Q1 EPS 1.87(YoY -47%),AI 測試但基期高</td><td>邏輯 IC 測試為主,與記憶體循環連動低</td></tr>
+  <tr><td>3711.TW</td><td>日月光投控</td><td>近四季約 63x;2026E 查無</td><td>全球 OSAT 龍頭,先進封裝吃 AI</td><td>規模與產品廣度不同級,僅作板塊溫度計</td></tr>
+  <tr><td>IMOS</td><td>ChipMOS ADR(同一公司)</td><td>Forward 17.0x(下年度)</td><td>Q1 營收 $216M(+25%)</td><td>美股折價約 1 成——境外投資人不追台北熱度</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴——記憶體那一半的故事已定價完,DDIC 那一半被當作不存在。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">2026E P/E 23.6x 高於記憶體 OSAT 龍頭力成(約 20~21x),而力成獲利規模是南茂 3 倍、還多了 FOPLP 題材;封測業景氣循環常態倍數約 8~15x,23.6x 已是循環頂點式定價。現價 105 超過所有法人目標價(70~78)26~50%,永豐因此降評中立。唯一顯得「合理」的視角是 2027E 16.3x——與 IMOS forward 17x 相互印證,代表台美兩地都已把 2027 的獲利提前入帳;再加上 ADR 折價約一成,訊號一致指向:價格跑在基本面前面。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value">題材過熱</div><div class="bar"><div style="width:75%;background:var(--green)"></div></div><div class="note">漲停突破法人目標區、集團作帳/HBM 外溢想像滿天飛;法人同步降溫=典型背離</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">降溫中</div><div class="note">涵蓋家數少;查得到的目標價 70~78 全低於現價,永豐已降中立</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.2 → 4.45 → 6.45</div><div class="note">近四季 → 2026E → 2027E(永豐);漲價+3 年合約是支撐,DDIC 是拖累</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~160;left% = (價格-40)/120×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:21.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">58~68</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:42.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">84~97</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">115~140</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">150</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:53.8%"><div class="arrow">▲</div><div class="price">105</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>58~68</td><td>記憶體循環見頂敘事擴散(兆易示警劇本),回到 2026E 4.45 × 13~15x 的法人原始定價</td><td class="red">約 -40%</td></tr>
+  <tr><td class="amber">Base</td><td>84~97</td><td>漲價兌現、2027 開始定價:2027E 6.45 × 13~15x;現價已「超車」此區間上緣</td><td>約 -14%</td></tr>
+  <tr><td class="green">Bull</td><td>115~140</td><td>漲價循環貫穿 2027,EPS 上修至 8~9 × 14~16x;需月營收年增重回 30%+</td><td class="green">約 +21%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>150</td><td>超級循環+HBM/先進封裝外溢實質落地,2028E 約 10 × 15x</td><td class="green">+43%</td></tr>
+</table>
+
+<h2>交易計畫</h2>
+<div class="grid plangrid">
+  <div class="card"><div class="label">進場區間 Entry</div><div class="value green">78~90</div><div class="note">回到法人目標區上緣~Base 區間再分批;現價 105 不建議新倉追價</div></div>
+  <div class="card"><div class="label">第一次減碼 Trim 1</div><div class="value amber">115~125</div><div class="note">持有者於 Bull 下緣賣出 25~50%;現價已高,移動停利優先於加碼</div></div>
+  <div class="card"><div class="label">第二次減碼 Trim 2</div><div class="value amber">140~150</div><div class="note">Bull 上緣~Stretched;續抱條件是 2027E EPS 共識實際上修至 8 以上</div></div>
+  <div class="card"><div class="label">停損 Hard Stop</div><div class="value red">收盤跌破 70</div><div class="note">= 漲價循環見頂確認(月營收年增縮至個位數/報價回落),跌回法人目標區下緣即邏輯失效</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因是記憶體封測漲價循環——Q1 再漲價、新產能簽三年保障合約、前 5 月營收年增 25%,加上 7/1 外資以「集團作帳+先進封裝外溢」題材回補;但很少人討論的是 5 月營收年增已自 32% 放緩至 17.7%、本業一半的 DDIC 依舊疲弱。</div>
+<div class="concl">② <b>估值</b>:如果你相信記憶體循環貫穿 2027,南茂相較同業仍屬「偏貴」——2026E P/E 23.6x 高於獲利規模三倍大的力成(約 20x),且現價已超過所有法人目標價(70~78)26% 以上;而使用者指定對照的 IMOS ADR 較台股折價約一成、forward 僅 17x,台美兩地訊號一致:價格跑在基本面前面。</div>
+<div class="concl">③ <b>結論</b>:建議觀望、回檔再接——現價 105 已越過 Base 區間上緣(97),位於 Base 與 Bull 之間;空手者等 78~90 分批,持有者 115 以上開始減碼,收盤跌破 70 即漲價邏輯失效無條件出場;7/10 前後的六月營收(看年增是否重回 25%+)是最近的驗證點。</div>
+
+<footer>
+資料時間:台股股價 2026/07/03 收盤(Yahoo 股市);IMOS 2026/07/02 收盤(Finviz);2/24 法說會與三年合約(鉅亨/經濟日報);4 月營收 2026/05/08、5 月營收 2026/06/10 公告;IMOS Q1 2026 營收 $216M(官方新聞稿);法人預估為 2026/02~06 報告(永豐 2026E 4.45/2027E 6.45)。6 月營收約 7/10 公布,未反映。ADR 折溢價以台幣約 29 換算,精確即期匯率查無;台股 52 週區間、毛利率、現金部位、FactSet 共識、頎邦現價查無。<br>
+主要來源:Yahoo 股市、Finviz(IMOS)、ChipMOS 官方新聞稿/Globe and Mail、鉅亨網(法說/漲停速報)、經濟日報、旺得富理財網(三年合約/EPS 上修)、TechNews/Yahoo(月營收)、永豐投顧觀點(Yahoo 新聞轉述)、CMoney/readmo(力成目標價)、財報狗(京元電/日月光本益比)。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
