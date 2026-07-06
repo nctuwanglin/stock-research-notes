@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>華航 (2610) 油價滑落事件後估值儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>華航 (2610) <span class="badge green">估值:被低估(共識未反映油價)</span> <span class="badge green">結論:中長期偏多,逢回布局</span> <span class="badge purple" style="background:rgba(167,139,250,.15);color:var(--purple)">事件:油價滑落</span></h1>
+<div class="sub">台股(TWSE)・航空(客運+貨運)|事件:布蘭特原油自高點崩跌|資料截至 2026/07/06 收盤,製表 2026/07/06</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">22.45</div><div class="note">2026/07/06 收盤,+0.44%(連 2 跌)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 1,364 億</div><div class="note">約 60.75 億股 × 22.45</div></div>
+  <div class="card"><div class="label">本益比</div><div class="value green">8.81x</div><div class="note">同業平均 28.88x;近四季 EPS 2.56</div></div>
+  <div class="card"><div class="label">股價淨值比</div><div class="value">約 1.36x</div><div class="note">航空循環股常態區間 1.2~1.6x</div></div>
+  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">0.85</div><div class="note">17 季新高、連 2 季成長;近四季 2.56</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value amber">21</div><div class="note">FactSet 2026E EPS 1.72——高油價下設定,已過時</div></div>
+</div>
+
+<h2>⓪ 事件影響分析:國際油價滑落</h2>
+<div class="event">
+  <h3>事件摘要</h3>
+  <div class="flow"><b>2026/03</b> 中東(美伊)衝突,布蘭特原油飆上 <b>118 美元/桶</b>高點 → <b>2026/06/25</b> 美伊停火簽署諒解備忘錄、荷姆茲海峽航運恢復,布蘭特一路崩至 <b>72 美元</b>(3 個月新低、回到戰前水準),創六年最大單季跌幅。路透 31 位分析師將 2026 布蘭特均價預估自 90.44 下修至 84.50,花旗看 70。<b>關鍵:這是「供給正常化」而非「需求崩壞」帶動的下跌——對航空是乾淨的順風。</b></div>
+</div>
+<div class="event">
+  <h3>影響傳導路徑(對華航)</h3>
+  <div class="flow">油價↓ → <b>燃油成本(佔華航營運成本近 4 成,最大變數)</b>↓ → 華航<b>不做油價避險</b>(2008 年避險失利 260 億的教訓),spot 成本直接反映 → 量化:<b>航空燃油每桶跌 $10 + 台幣升值 $1,華航年成本減少約 63.3 億元、EPS 正貢獻逾 1 元</b> → 布蘭特自 118 崩至 72(-46 美元)+ 台幣今年走升,順風力度是「數個 EPS 元」等級,但<b>市場共識尚未上修</b>。</div>
+</div>
+<table>
+  <tr><th>指標</th><th>事件前(3~5 月,油價高檔)</th><th>事件後(7 月,油價 72)</th><th>變化</th></tr>
+  <tr><td>布蘭特原油</td><td>高點 118(3 月)</td><td class="green">約 72(6/25)</td><td class="green">-39%,回戰前水準</td></tr>
+  <tr><td>共識 2026E EPS</td><td>1.63~1.72(因油價高漲下修)</td><td class="green">尚未上修(事件後推估 2.3~2.8)</td><td class="green">上修空間大</td></tr>
+  <tr><td>年度燃油成本</td><td>基準</td><td class="green">每桶 -$10 → -63.3 億</td><td class="green">大幅下降,直接進獲利</td></tr>
+  <tr><td colspan="4" style="color:var(--muted)">四情境價位已改用「事件後(低油價)」的獲利路徑重算;共識目標價 21 仍是高油價下的舊值,注意時效。</td></tr>
+</table>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/03</span><b>中東衝突,油價飆 118 嚇跌航空股</b>:燃油成本壓力升溫,法人一度因油價高漲將華航 EPS 下修至 1.63,航空股遭外資調節。</li>
+  <li><span class="date">2026/05/08</span><b>Q1 財報創次高</b>:營收 569.97 億(+8.19% YoY,單季新高)、營益 64.36 億(+13.89%)、EPS 0.85(17 季新高、連 2 季成長);客運收入 356.79 億(+9.14%),貨運受惠 AI 伺服器/半導體高單價空運。</li>
+  <li><span class="date">2026/06/10</span><b>5 月營收 212.30 億(+27.73% YoY)創單月新高</b>:客運 110.98 億(+11.86%,同期新高)、<b class="green">貨運 82.63 億(+53.50%)創今年新高</b>;前 5 月累計 990.42 億(+13.62%)。</li>
+  <li><span class="date">2026/06/25</span><b class="green">油價事件引爆(真正催化劑)</b>:美伊停火、布蘭特崩至 72,燃油低價+台幣升值雙利多,法人點名台灣虎航、長榮航、華航、星宇為受惠族群。</li>
+  <li><span class="date">2026/07 初</span>油價凍漲,華航領軍航空族群向前衝;7/6 收 22.45(連 2 跌,短線在共識目標 21~24 區間震盪)。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:共識 EPS 1.72、目標價 21 都是「高油價」時設定的舊值——現價 22.45 已略高於舊目標,表面看似到頂,實則油價順風尚未被算進共識;真正風險是若美伊破局油價 V 轉、或全球景氣走弱拖累貨運高基期(貨運 +53.5% 的比較基期將墊高)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「航空雙利多:燃油低價+台幣升值」——燃油、零件、維修、機隊租賃多以美元計價,油價與匯率同向改善成本結構,台幣升值還提升國人出國意願。<div class="src">— 鉅亨網/財訊快報</div></div>
+    <div class="quote">「航空業最怕的不是需求不見,而是需求還在卻被燃油吞掉利潤;油價往下走,盈餘品質比市場想的更好。」<div class="src">— CMoney 梁文謙(論長榮航,同樣適用華航)</div></div>
+    <div class="quote">貨運題材:AI 伺服器、半導體高單價貨+電商,華航 5 月貨運 +53.5%。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「機票漲價救不了股價」——2026 上半年航空股曾因美伊戰爭、高油價、外資逃殺而重挫,循環股情緒波動極大。<div class="src">— E 大成長股投資筆記</div></div>
+    <div class="quote">大摩預估 2027 年原油供給過剩——油價利多有時效,若明年供過於求壓垮油價,通常也伴隨景氣疑慮,對貨運需求是雙面刃。<div class="src">— 鉅亨能源盤後</div></div>
+    <div class="quote">現價 22.45 已高於 FactSet 共識目標 21;在共識上修前,股價可能卡在舊評價區震盪。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識</td><td class="amber">21</td><td>2026E EPS 中位 1.72——高油價假設下設定,油價崩後未及上修</td></tr>
+  <tr><td>殖利率反推</td><td>約 24</td><td>以 5% 現金殖利率反推合理股價(華航配息穩定)</td></tr>
+  <tr><td>913 理財估測站</td><td class="green">價值窪地</td><td>成長被嚴重低估,絕對價值窪地(4 月評)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">華航覆蓋家數少、共識更新慢,是「事件後尚未重估」的典型;內部人申報與 6~7 月三大法人精確買賣超查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+13.6%</div><div class="note">2026 前 5 月累計 990.42 億 YoY;5 月單月 +27.73% 創高</div></div>
+  <div class="card"><div class="label">貨運動能</div><div class="value green">+53.5%</div><div class="note">5 月貨運 YoY;AI 伺服器/半導體空運結構成長</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">2.56(近四季)</div><div class="note">Q1 0.85(17 季新高);2025 財測 2.13</div></div>
+  <div class="card"><div class="label">燃油成本佔比</div><div class="value amber">近 40%</div><div class="note">營運成本最大變數;不避險=油價順風全額入帳</div></div>
+  <div class="card"><div class="label">油價敏感度</div><div class="value green">每 $10↓≈EPS +1</div><div class="note">加台幣升 $1,年成本 -63.3 億</div></div>
+  <div class="card"><div class="label">管理層展望</div><div class="value">客貨雙成長</div><div class="note">貨運看 AI+電商;客運穩健;自認油價為關鍵變數</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長/獲利</th><th>與華航的差異</th></tr>
+  <tr class="hl"><td>2610.TW</td><td>華航</td><td>8.81x(近四季 EPS 2.56)</td><td>Q1 EPS 0.85;貨運 +53.5%</td><td>貨運占比高、吃 AI 空運;不避險=油價彈性最大</td></tr>
+  <tr><td>2618.TW</td><td>長榮航</td><td>8.32x(43.85)</td><td>凱基 2026E 4.48/2027E 5.42,FactSet 3.95;目標 43.1~48</td><td>客運為主、獲利規模較大;同享油價順風但貨運彈性較小</td></tr>
+  <tr><td>2646.TW</td><td>星宇航空</td><td>約 236x(EPS 微利)</td><td>Q1 EPS 0.3、2025 全年 0.09;擴機隊成長股</td><td>成長題材但估值極高,獲利基期低,與華航價值股定位相反</td></tr>
+  <tr><td>6757.TWO</td><td>台灣虎航</td><td>查無精確</td><td>LCC,暑期旺季+油價順風</td><td>純客運廉航,無貨運、規模小,油價敏感度相近</td></tr>
+  <tr><td>2634.TW</td><td>漢翔</td><td>查無(非客運)</td><td>航太製造</td><td>供應鏈端,僅作族群溫度計,與客貨運循環不同</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:被低估——現價用的是「油價還在高檔」的舊獲利假設。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">P/E 8.81x、P/B 1.36x 本就是便宜的循環航空股;關鍵錯誤定價在於——FactSet 共識 EPS 1.72、目標 21 是布蘭特 90+ 時設定的,但油價已崩至 72、華航不避險,每桶 -$10 就是 +1 元 EPS。以事件後低油價重估,2026E EPS 上看 2.3~2.8(Q1 已 0.85、近四季已 2.56),對應 P/E 僅 8~9x → 合理價落在 22~26。這是「跌的是舊假設、不是獲利」的鏡像機會,類似錯殺但方向相反:市場還沒把油價順風算進來。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 22.45 vs 中值</th></tr>
+  <tr><td>P/E × 共識 EPS 1.72</td><td>高油價舊假設 × 8~10x(FactSet)</td><td>13.8~17.2</td><td class="red">貴 45%</td></tr>
+  <tr><td>P/E × 事件後 EPS 2.3~2.8</td><td>低油價重估 × 8~10x</td><td>20~26</td><td class="green">便宜 2%</td></tr>
+  <tr><td>P/B 1.2~1.5x</td><td>每股淨值約 16.5 × 航空循環常態</td><td>19.8~24.8</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>殖利率反推</td><td>5% 現金殖利率(華航配息穩定)</td><td>23~25</td><td class="green">便宜 6%</td></tr>
+  <tr><td>同業對照 長榮航 8.3x</td><td>× 華航事件後 EPS 2.3~2.8</td><td>19.1~23.2</td><td class="amber">合理(區間內)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">只有「高油價舊共識」那條說貴(13.8~17.2),其餘四種方法全部落在便宜~合理(19~26)——現價 22.45 剛好卡在新舊兩套假設中間,差別就是市場願不願意把油價順風算進 EPS。一旦共識上修,估值錨會整體往上移。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">溫和偏多</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">油價受惠題材發酵但未過熱;航空非熱門投機標的,情緒健康</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">待上修</div><div class="note">覆蓋少、更新慢;目標 21 為舊值,油價崩後上修空間大</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.56 → 2.3~2.8</div><div class="note">近四季實績 → 事件後 2026E 推估(共識 1.72 偏舊)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>共識 1.72(高油價舊值);事件後推估 2.3~2.8</td><td>8~10x</td><td>20~26(事件後)</td><td class="green">約 +2%</td></tr>
+  <tr><td>2027</td><td>查無完整共識;推演 2.2~2.7(貨運高基期)</td><td>8~10x</td><td>20~26(推演)</td><td class="green">約 +2%/年</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">航空為循環股,報酬來源主要是「EPS 相對舊共識的超預期」與殖利率,而非倍數擴張;2027 貨運比較基期墊高,列為推演。</div>
+
+<h2>四種股價情境(以事件後低油價預估重算)</h2>
+<!-- 刻度 14~40;left% = (價格-14)/26×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:21.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">18~20</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:37.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">22~25</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:55.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">27~30</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:74.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">34</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:33.9%"><div class="arrow">▲</div><div class="price">22.45</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>18~20</td><td>美伊破局油價 V 轉,或貨運高基期回落,EPS 退回共識 1.7 × 10~11x</td><td class="red">約 -15%</td></tr>
+  <tr><td class="amber">Base</td><td>22~25</td><td>油價維持 70~80,2026E EPS 2.3~2.5 × 9~10x,共識開始上修</td><td class="green">約 +5%</td></tr>
+  <tr><td class="green">Bull</td><td>27~30</td><td>油價續探 70 以下+貨運旺+台幣強,EPS 2.8~3.0 × 10x</td><td class="green">約 +27%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>34</td><td>油價低檔延續+AI 空運超級循環,EPS 3.5 × 9~10x+循環評價提升</td><td class="green">+51%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">21~21.5</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">19.5~20.5</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">18~19</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">17.5</b> = 油價 V 轉反彈+貨運轉弱,油價順風邏輯失效,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破 24(今年套牢頸線),且 6 月營收續增、油價站穩 70 附近<br>
+    進場區:<b class="green">24~24.5</b><br>
+    移動停利:跌破 20 日線或高點回檔 10%<br>
+    假突破失效:觸發後 3 日內跌回 23 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">27~28</div><div class="note">賣出 25~50%;Bull 下緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">32~34</div><div class="note">Stretched 區;續抱條件是共識 EPS 實際上修至 3 以上</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件</b>:布蘭特原油自 3 月的 118 美元崩至 6/25 的 72 美元(六年最大季跌,美伊停火+荷姆茲重開的供給面下跌),華航燃油佔營運成本近 4 成又完全不避險,每桶跌 $10 加台幣升 $1 就是年省 63.3 億、EPS +1 元的順風。</div>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因不只題材——Q1 EPS 0.85 創 17 季新高、5 月營收創高且貨運年增 53.5%(AI 空運),基本面本就往上,油價崩再疊加成本利多;但很少人討論的是市場共識(EPS 1.72、目標 21)還停在高油價假設,尚未反映這波順風。</div>
+<div class="concl">② <b>估值</b>:被低估——P/E 8.81x、P/B 1.36x 本就便宜,五種估值方法有四種落在 19~26(便宜~合理),只有「高油價舊共識」那條說貴;以事件後低油價重估 2026E EPS 2.3~2.8,合理價 22~26。</div>
+<div class="concl">③ <b>結論</b>:中長期偏多、逢回布局——這是一筆賭「共識上修」的價值單,不是暴衝題材股;現價 22.45 已略高於舊共識目標,追高不宜,左側 21 以下分批、上檔看 27~30,收盤跌破 17.5(油價 V 轉)即邏輯失效。留意 2027 貨運高基期與大摩示警的 2027 油市供過於求。</div>
+
+<footer>
+資料時間:股價/本益比 2026/07/06 收盤(Yahoo 股市);Q1 財報 2026/05/08(旺得富/財報狗);5 月營收 2026/06/10 公告(工商時報/聯合);布蘭特油價 118→72 為 2026/03~06(世界新聞網/鉅亨能源);油價敏感度(每桶$10+台幣$1≈-63.3 億/EPS+1)與不避險策略(鉅亨/天下雜誌);FactSet 共識 EPS 1.72/目標 21(鉅亨,高油價時設定);同業長榮航/星宇(Yahoo/鉅亨/財報狗)。6 月營收與 Q2 EPS 尚未公布;每股淨值、精確股數、6~7 月法人買賣超、台灣虎航本益比查無。<br>
+主要來源:Yahoo 股市、財報狗、鉅亨網(營收/油價/FactSet 速報)、工商時報、聯合新聞網、旺得富理財網、天下雜誌(避險教訓)、財訊快報、CMoney(梁文謙)、世界新聞網、TradingKey、路透調查。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;航空為高循環股,油價與匯率一變,獲利彈性極大。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
