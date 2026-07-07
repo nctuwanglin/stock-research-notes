@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>力成 (6239) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>力成 (6239) <span class="badge amber">估值:合理(先進封裝溢價已部分反映)</span> <span class="badge green">結論:分批中長期投資</span></h1>
+<div class="sub">台股(TWSE)・記憶體封測(OSAT)+FOPLP 先進封裝|資料截至 2026/07/07 收盤(含 6 月營收),製表 2026/07/07</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">323.5</div><div class="note">2026/07/07 收盤,-6.1%(前一交易日 344.5)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 2,566 億</div><div class="note">以 7/6 股價估算口徑</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">41.01x</div><div class="note">同業平均 74.03x</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 29.7x</div><div class="note">2026E EPS 約 10.9(法人上修後估);FactSet 目標中位 290</div></div>
+  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">2.50</div><div class="note">YoY +58.2%;毛利率 19.4%</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">290</div><div class="note">9 位分析師(240~430);距現價 -10%(已低於現價)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/04/28</span><b>Q1 法說:記憶體復甦+HPC/AI 測試需求推升</b>:營收 213.14 億(YoY +37.6%)、EPS 2.50(YoY +58.2%)、毛利率 19.4%。本體及子公司超豐、晶兆成產能<b>完全滿載</b>,整體封裝稼動率約 90%、測試約 85%。Q2 展望續增,毛利率估望突破 20%。<b>FOPLP(扇出型面板級封裝)良率已達 95%</b>,H2 2026 進行客戶產品認證,目標 2027 年中前正式出貨量產。資本支出大幅上修至 <b>500 億元</b>,加速布局 FOPLP 與先進封裝。</li>
+  <li><span class="date">2026/05 初</span>法說後多機構上調預估,2026 年 EPS 上看 10.9 元;股價曾連兩日亮燈漲停,記憶體封測買盤集中。今周刊點名力成與京元電(2449)、對照日月光(3711)的「翻倍漲勢複製」題材。</li>
+  <li><span class="date">2026/06/03</span>5 月營收 79.18 億(YoY +30.23%、MoM +4.52%)創 40 個月新高,連續 11 個月成長;前 5 月累計 368.07 億(+34.87%)。</li>
+  <li><span class="date">2026/07 初</span><b class="amber">6 月營收 76.23 億(YoY +21.71%、MoM -3.72%)</b>——月減且年增率較 5 月的 30.23% 放緩;上半年累計約 <b>444.3 億(YoY 約 32.4%)</b>。7/7 股價收 323.5,較前一交易日大跌 6.1%(記憶體/封測族群當週普遍受兆易創新示警與族群評價分化影響)。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:力成同時橫跨「記憶體封測」(吃 DRAM/NAND 循環)與「先進封裝」(FOPLP,吃 AI 轉型故事)兩條敘事,股價已同時反映兩者的樂觀假設;但 FOPLP 真正放量要等 2027 年中,2026 年的獲利貢獻仍主要來自記憶體封測本業,而該本業 6 月營收動能已見放緩,與同期記憶體上游三雄(南亞科/華邦電/旺宏)6 月營收「齊創新高」的方向相反。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「從記憶體封測到高階封裝,市場正在重新檢查力成的位置」——FOPLP 良率 95%、資本支出上修 500 億,轉型故事具體化。<div class="src">— vocus/YouTube 產業分析</div></div>
+    <div class="quote">京元電、力成能否複製日月光翻倍漲勢?記憶體封測是這波超級循環裡「賣鏟人」角色,不直接暴露在單一產品報價波動。<div class="src">— 今周刊</div></div>
+    <div class="quote">法說後多機構上調 2026 EPS 至 10.9 元,目標價最高喊到 430。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">6 月營收 MoM -3.72%、YoY 動能自 30.23% 放緩至 21.71%,與記憶體上游三雄(南亞科/華邦電/旺宏)6 月「齊創新高」的方向背道而馳——封測端的訂單認列滯後或需求已見放緩?<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FOPLP 要到 2027 年中才正式出貨量產,現階段股價含有大量「先進封裝故事」的溢價,若客戶認證進度落後,估值容易被打折。<div class="src">— readmo/CMoney 產業觀察</div></div>
+    <div class="quote">同業京元電(2449)Q1 EPS 年減 47%、統計工具顯示股價位於「偏高位階」紅色警戒區——記憶體封測族群整體評價已不便宜。<div class="src">— 財報狗</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(9 位,最新)</td><td class="amber">290</td><td>中位數自 277 上修 4.69%;區間 240~430</td></tr>
+  <tr><td>法說後多機構(5 月)</td><td>最高 220~430 不等</td><td>2026 EPS 上看 10.9 元</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet 共識目標中位(290)已低於現價(323.5)——這是本輪五檔中少見的「股價領先共識目標」案例,類似聯電的估值透支模式,但幅度小得多(約 -10% 而非數倍)。內部人申報、精確法人買賣超查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+32.4%</div><div class="note">2026 H1 累計約 444.3 億 YoY;惟 6 月單月 +21.7%、MoM -3.7%</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">2.50(Q1)</div><div class="note">YoY +58.2%;近四季 EPS 查無精確,2026E 法人估約 10.9</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">19.4%</div><div class="note">Q1;Q2 估望突破 20%</div></div>
+  <div class="card"><div class="label">產能利用率</div><div class="value green">滿載(90%/85%)</div><div class="note">封裝約 90%、測試約 85%;本體+子公司皆滿載</div></div>
+  <div class="card"><div class="label">FOPLP 良率</div><div class="value green">95%</div><div class="note">H2 2026 客戶認證,2027 年中前量產</div></div>
+  <div class="card"><div class="label">資本支出</div><div class="value">500 億</div><div class="note">2026,大幅上修,加速布局先進封裝</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長/獲利</th><th>與力成的差異</th></tr>
+  <tr class="hl"><td>6239.TW</td><td>力成</td><td>41.0x(TTM);約 29.7x(2026E)</td><td>Q1 EPS 2.50(+58.2%);6 月營收動能放緩</td><td>記憶體封測+FOPLP 先進封裝雙引擎,轉型故事最具體</td></tr>
+  <tr><td>2449.TW</td><td>京元電子</td><td>35.5x(TTM)</td><td>Q1 EPS 1.87(YoY -47%)</td><td>邏輯 IC 測試為主,與記憶體循環連動低,近期獲利反而衰退</td></tr>
+  <tr><td>3711.TW</td><td>日月光投控</td><td>63.05x</td><td>全球 OSAT 龍頭,先進封裝吃 AI</td><td>規模與產品廣度領先一個量級,力成的轉型故事常被拿來對照它</td></tr>
+  <tr><td>2408.TW</td><td>南亞科</td><td>約 8.6x(2026E)</td><td>Q1 EPS 8.41;6 月營收 +621%</td><td>上游 DRAM 原廠,力成是它的下游封測合作方之一;循環純度更高但估值遠低於力成</td></tr>
+  <tr><td>6770.TW</td><td>力積電</td><td>查無精確</td><td>成熟製程+記憶體代工,復甦中</td><td>晶圓代工端,與力成的封測角色互補而非直接競爭</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——本業循環財+轉型故事的雙重定價,現價已跑到共識目標之上。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">2026E forward P/E 約 29.7x,遠高於它服務的上游 DRAM 廠南亞科(8.6x),但低於日月光(63.05x)——市場把力成定位在「記憶體封測循環財」與「先進封裝轉型股」之間。FactSet 共識目標中位 290 已經<b>低於現價 323.5</b>,是本輪分析中除聯電外第二個「股價領先共識」的案例,但落差幅度溫和(約 10%),不算嚴重透支。真正的風險是 6 月營收動能放緩若延續,會讓「本業循環財」那條估值支柱鬆動,屆時股價將更依賴 FOPLP 2027 放量的故事單獨支撐,波動會放大。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 323.5 vs 中值</th></tr>
+  <tr><td>FactSet 目標帶</td><td>9 位分析師,中位 290(240~430)</td><td>240~430</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>2026E P/E 20~25x</td><td>記憶體封測循環財倍數 × EPS 10.9</td><td>218~273</td><td class="red">貴 25%</td></tr>
+  <tr><td>轉型溢價 P/E 28~32x</td><td>比照日月光給先進封裝溢價 × EPS 10.9</td><td>305~349(推演)</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>同業京元電倍數對照 35.5x</td><td>封測同業倍數 × EPS 10.9</td><td>387(單點,推演)</td><td class="green">便宜 16%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法分歧不大,現價落在「循環財倍數偏貴、轉型溢價倍數合理」之間——這正是力成雙重敘事的定價縮影:若市場繼續相信 FOPLP 故事,現價合理甚至便宜;若動能放緩讓市場改用純循環財倍數定價,則有約 25% 回檔空間。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">分歧偏多</div><div class="bar"><div style="width:56%;background:var(--green)"></div></div><div class="note">FOPLP 轉型題材認同度高,但 6 月營收放緩+7/7 大跌帶來觀望情緒</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標已被超車</div><div class="note">共識中位 290 低於現價 323.5;9 位分析師,區間仍寬(240~430)</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.50(Q1) → 約 10.9(2026E)</div><div class="note">法說後上修;近四季精確值與 2027E 查無</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>約 10.9(法人上修後,無完整 FactSet 分佈)</td><td>22~27x</td><td>240~294</td><td class="red">約 -18%</td></tr>
+  <tr><td>2027</td><td>查無共識;推演 13~15(FOPLP 貢獻+循環財延續)</td><td>22~26x</td><td>286~390(推演)</td><td class="green">約 +4%/年</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026E EPS 缺乏 FactSet 完整分佈(僅法人上修後估值),精確度低於旺宏/南亞科/華邦電三雄;2027 為推演,FOPLP 若如期量產可支撐倍數不壓縮,但目前僅是管理層目標,尚未有訂單金額佐證。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 180~480;left% = (價格-180)/300×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">220~250</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">280~320</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">340~380</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">430</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:47%"><div class="arrow">▲</div><div class="price">323.5</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>220~250</td><td>6 月放緩延續、FOPLP 認證進度落後,市場改用純循環財倍數 20~22x × EPS 10.9</td><td class="red">約 -27%</td></tr>
+  <tr><td class="amber">Base</td><td>280~320</td><td>本業回穩+FOPLP 進度符合預期,2026E EPS 10.9 × 26~29x;上緣接近現價</td><td>約 -7%</td></tr>
+  <tr><td class="green">Bull</td><td>340~380</td><td>FOPLP 2027 中量產如期+客戶認證通過,市場提前定價 2027E 13~15 × 26~28x</td><td class="green">約 +11%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>430</td><td>FactSet 最高目標;FOPLP 對標日月光給予 30x+ 溢價倍數,雙引擎同步兌現</td><td class="green">+33%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">290~305</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">260~285</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">225~250</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">215</b> = 記憶體循環財與 FOPLP 轉型故事雙雙失效(月營收連續下滑+FOPLP 客戶認證延宕確認),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破 360(近期高點)+7 月營收 MoM 恢復正成長<br>
+    進場區:<b class="green">360~370</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 345 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">360~380</div><div class="note">賣出 25~50%;Bull 區,現價已高於共識目標,反彈優先落袋</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">420~430</div><div class="note">Stretched 區;續抱條件是 FOPLP 客戶認證正式公告通過</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因是記憶體封測本業復甦(Q1 EPS +58.2%,產能滿載)疊加 FOPLP 先進封裝轉型故事(良率 95%,資本支出上修至 500 億);但很少人討論的是 6 月營收 76.23 億(MoM -3.72%、YoY +21.71%)動能已較 5 月放緩,與同期記憶體上游三雄「6 月齊創新高」的方向相反,顯示封測端的循環財那條腿已先鬆動。</div>
+<div class="concl">② <b>估值</b>:合理——2026E forward P/E 約 29.7x 落在「記憶體封測循環財倍數(貴 25%)」與「先進封裝轉型溢價倍數(合理)」之間,FactSet 共識目標中位(290)已經低於現價,是本輪分析中第二個「股價領先共識」的案例,但落差幅度溫和,尚不算嚴重透支。</div>
+<div class="concl">③ <b>結論</b>:分批布局的中長期投資、但不追高——現價 323.5 已站上 Base 情境上緣、逼近共識目標,上檔中值僅 +11%(Bull)對下檔 -27%(Bear),建議左側等回檔至 290 以下分批;FOPLP 客戶認證進度與 7 月營收是否恢復動能是關鍵驗證點,收盤跌破 215 即雙引擎故事同時失效無條件出場。</div>
+
+<footer>
+資料時間:股價 2026/07/07 收盤(Yahoo 股市);Q1 法說 2026/04/28(vocus/富果);5 月營收 2026/06/03 公告、6 月營收 2026/07 初公告(Yahoo 股市營收表/財報狗);FactSet 目標價 290(鉅亨,9 位分析師,近期調升);法說後 EPS 上修至 10.9(CMoney,2026/05)。Q2 完整財報預計 8 月中公布;2026E EPS FactSet 完整分佈、每股淨值、精確市值股本、力積電精確本益比查無。<br>
+主要來源:Yahoo 股市、鉅亨網 FactSet 調查、vocus/富果(Q1 法說)、CMoney(EPS 上修/漲停速報)、今周刊(同業比較)、readmo(產業觀察)、財報狗(同業本益比)、913 理財估測站、7evenguy 財經筆記、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

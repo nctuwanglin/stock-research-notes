@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>華邦電 (2344) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>華邦電 (2344) <span class="badge amber">估值:合理(記憶體三雄最便宜)</span> <span class="badge green">結論:分批中長期投資</span></h1>
+<div class="sub">台股(TWSE)・記憶體(DRAM/CMS 客製化記憶體/NOR/SLC NAND)|資料截至 2026/07/07 收盤(含 6 月營收),製表 2026/07/07</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">174.09</div><div class="note">2026/07/07 收盤,+4.92%</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">54.30x</div><div class="note">同業平均 74.03x;近四季 EPS 含低基期季度</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value green">約 8.2x</div><div class="note">2026E EPS 21.27(FactSet 中位);2027E 36.83 → 4.7x</div></div>
+  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">2.25</div><div class="note">近五年新高;毛利率 53.4% 同步創高</div></div>
+  <div class="card"><div class="label">6 月營收</div><div class="value green">205.97 億</div><div class="note">YoY +189.9%,連 7 個月創新高</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">236</div><div class="note">FactSet 11 位;距現價 +36%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/05</span><b>Q1 法說:近五年最強單季</b>:營收 382.5 億(QoQ +43.7%、YoY +91.3%)、毛利率飆升至 53.4% 創歷史新高、EPS 2.25 元。CMS(客製化記憶體)與 Flash 兩大事業線同步爆發,產能利用率近 100% 滿載。展望:NOR Flash 供給偏緊、價格續漲至 H1 2026;SLC NAND 價格動能延續至 H2 2026;DDR4/LPDDR4 結構性缺貨,Q2 起漲勢更明確、有望延續至 2027。<b>CMS 缺口延伸至 2028 年</b>,全年擴產 405~421 億拼下一輪成長。</li>
+  <li><span class="date">2026/05~06</span>高雄廠 DRAM 產能自 1.5 萬片擴至 2.4 萬片(2025 底~2027 初),位元產出增幅約 80%;2025 全年營收 894 億(+9.55%)、毛利率 29.4%→34.8%,產能利用率已近 100%、訂單能見度看到 2028。</li>
+  <li><span class="date">2026/06/06</span>5 月營收 200.01 億(YoY +181.97%)連六個月創新高。</li>
+  <li><span class="date">2026/07/07</span><b class="green">6 月營收 205.97 億(YoY +189.88%、MoM +2.98%)連 7 個月刷新高</b>;上半年累計 <b>980.96 億(YoY +139.20%)</b>——與旺宏、南亞科並列「記憶體三雄」齊創單月/單季/累計新高。DDR4 合約價 2025Q4~2026Q1 季增 40%~90%,NOR/SLC NAND 亦有 15~30% 漲幅。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:華邦電同時橫跨 DRAM/CMS/NOR/NAND 四條產品線,產品組合較南亞科(純 DRAM)分散,也代表對單一報價循環的曝險較低——但這也是它 forward P/E 是三雄中最低的原因之一,而非單純「便宜」;成熟記憶體非直接受惠 AI、進入門檻低,中長線供需仍待觀察(與旺宏共同的產業級風險)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「CMS 缺口延伸至 2028 年」——客製化記憶體+DDR4/LPDDR4 結構性缺貨是本波記憶體超級循環最長的一段。<div class="src">— Q1 法說會/豐雲學堂</div></div>
+    <div class="quote">記憶體三雄(南亞科/華邦電/旺宏)6 月營收齊創新高,外資喊升目標價「首選是它」,兩檔還有 4~5 成甜頭可吃。<div class="src">— 今周刊 2026/07/06</div></div>
+    <div class="quote">法人將 2026 年 EPS 預估值翻倍上修,DRAM 缺貨延續到 2027 年,這次上修週期比過去 69 個月更長。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「170 元目標價,真正關鍵是 2026 EPS 假設」——目標價對 EPS 假設極為敏感,一旦漲價循環提前結束,估值錨立刻崩塌。<div class="src">— readmo/CMoney</div></div>
+    <div class="quote">今周刊警告:外資砍殺記憶體股 10 萬張,不只三星擴產利空,還有其他麻煩——族群系統性風險未解除。<div class="src">— 今周刊 2026/07/01</div></div>
+    <div class="quote">兆易創新示警記憶體報價見頂,7/1 華邦電曾隨旺宏、南亞科同步重挫逾 8%。<div class="src">— 工商時報</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(11 位,最新)</td><td class="green">236</td><td>2026E EPS 中位 21.27(12.82~25.54);2027E 中位 36.83(17.18~52.4)</td></tr>
+  <tr><td>FactSet(較早,5 月)</td><td>168</td><td>2026E EPS 19.63——一個半月內目標價上修 40%,上修速度為三雄最快</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">EPS/目標價上修軌跡:16.96→19.63→21.27(元),145→168→236(元)——法人估值錨仍在快速墊高。內部人申報、精確法人買賣超:查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+139.2%</div><div class="note">2026 H1 累計 980.96 億 YoY;6 月單月 +189.9%</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">2.25(Q1)</div><div class="note">近五年單季新高;2025 全年 EPS 查無精確,毛利率 34.8%</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">53.4%</div><div class="note">Q1,歷史新高;2025 全年 34.8%,提升幅度全產業罕見</div></div>
+  <div class="card"><div class="label">產能利用率</div><div class="value green">近 100%</div><div class="note">CMS+Flash 兩線滿載;DRAM 高雄廠擴產中</div></div>
+  <div class="card"><div class="label">資本支出</div><div class="value">405~421 億</div><div class="note">2026;高雄廠 1.5→2.4 萬片,位元產出 +80%</div></div>
+  <div class="card"><div class="label">訂單能見度</div><div class="value">2027~2028</div><div class="note">CMS 缺口到 2028;DDR4/LPDDR4 漲勢估延續到 2027</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>成長動能</th><th>與華邦電的差異</th></tr>
+  <tr class="hl"><td>2344.TW</td><td>華邦電</td><td>8.2x(174.09 / EPS 21.27)</td><td>6 月營收 +189.9%,H1 +139.2%</td><td>DRAM+CMS+NOR+NAND 四線齊發,產品最分散、循環曝險相對低</td></tr>
+  <tr><td>2408.TW</td><td>南亞科</td><td>約 8.6x(420.5 / EPS 49.05)</td><td>Q1 EPS 8.41 創高;H1 營收 +643%</td><td>純利基 DRAM,787 億私募綁四大客戶,循環純度最高</td></tr>
+  <tr><td>2337.TW</td><td>旺宏</td><td>約 10.2x(139.0 / EPS 13.63)</td><td>6 月營收 +216%,連 3 月創高</td><td>NOR+NAND(eMMC/MLC),不做 DRAM,三雄中估值倍數最高</td></tr>
+  <tr><td>6770.TW</td><td>力積電</td><td>查無精確</td><td>成熟製程+記憶體代工,復甦中</td><td>晶圓代工+記憶體雙業務,獲利波動更大</td></tr>
+  <tr><td>MU</td><td>美光(美股)</td><td>國際 DRAM/HBM 龍頭</td><td>財報爆發帶動全球記憶體股</td><td>規模與 HBM 領先數個世代,華邦電吃的是其退出的利基缺口</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——三雄中 forward P/E 最低,但這反映產品分散而非「更便宜的機會」。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">2026E forward P/E 8.2x,低於南亞科(8.6x)、旺宏(10.2x),表面看是三雄中最便宜;但華邦電獲利來源分散在 DRAM/CMS/NOR/NAND 四條線,不像南亞科(私募鎖定策略產能)或旺宏(NOR/NAND 純度)有單一明確的稀缺性敘事,這是市場給它相對低倍數的合理原因,不完全是錯殺。真正的亮點是<b>毛利率提升幅度</b>(29.4%→34.8%→Q1 單季 53.4%)全產業數一數二,且 CMS 缺口的能見度(2028)比同業更長,這部分尚未被目標價 236 完全反映(距現價僅 +36%,低於旺宏的 +32% 但也低於南亞科的合理區間邊際)。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 174.09 vs 中值</th></tr>
+  <tr><td>2026E P/E 8~10x</td><td>共識 EPS 21.27(FactSet 中位)</td><td>170~213</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>2027E P/E 6~8x</td><td>共識 EPS 36.83(循環高原折價倍數)</td><td>221~295</td><td class="green">便宜 25%</td></tr>
+  <tr><td>FactSet 目標帶</td><td>11 位分析師,中位 236</td><td>145~236(近期軌跡)</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>同業南亞科倍數 8.6x</td><td>DRAM 同業對照 × 21.27</td><td>183(單點)</td><td class="amber">合理(接近)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法一致落在合理~便宜區間,無明顯偏貴訊號;2027E 那條顯示便宜 25%,但前提是漲價循環延續到 2027 的假設兌現。與旺宏/南亞科相比,華邦電的估值分歧最小——市場對它的定價相對有共識。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">偏多但分歧</div><div class="bar"><div style="width:58%;background:var(--green)"></div></div><div class="note">記憶體超級循環認同度高,但兆易示警後族群系統性風險意識仍在</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">快速上修</div><div class="note">目標價 145→168→236,一個半月上修 63%——三雄中上修速度最快</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.25(Q1) → 21.27 → 36.83</div><div class="note">Q1 實績 → 2026E → 2027E(FactSet)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>12.82 / 21.27 / 25.54</td><td>8~10x</td><td>170~213</td><td class="green">約 +10%</td></tr>
+  <tr><td>2027</td><td>17.18 / 36.83 / 52.4</td><td>6~8x</td><td>221~295</td><td class="green">約 +18%/年</td></tr>
+  <tr><td>2028</td><td>查無;CMS 缺口延伸至 2028(定性)</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026、2027 兩年皆有 FactSet 完整分佈(非推演),隱含年化報酬雙雙為正——三雄中唯一連兩年都顯示正報酬空間的一檔;2028 因缺乏量化預估不推算,僅有公司「CMS 缺口延伸至 2028」的定性指引。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 100~340;left% = (價格-100)/240×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">130~150</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">170~213</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">240~270</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:32.4%"><div class="arrow">▲</div><div class="price">174.09</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>130~150</td><td>兆易示警成真、DDR4 報價回落,2026E EPS 下修至 15~17 × 8~9x</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>170~213</td><td>照 2026E 共識 21.27 × 8~10x 兌現;上緣即 FactSet 目標 236 附近</td><td>約 +10%</td></tr>
+  <tr><td class="green">Bull</td><td>240~270</td><td>CMS/NOR 漲勢延續至 2027,市場開始定價 2027E 36.83 × 6.5~7.3x</td><td class="green">約 +47%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>300</td><td>DDR4 缺貨貫穿 2027 且 CMS 高毛利延續,2027E 高標 52.4 提前定價 × 5.7x</td><td class="green">+72%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">160~168</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">148~158</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">130~145</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">125</b> = DDR4/CMS 漲價循環反轉確認(月營收 MoM 轉負+報價回落),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破 186(近期高點)+量能確認,7 月報價漲幅持續<br>
+    進場區:<b class="green">186~192</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 180 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">236~245</div><div class="note">賣出 25~50%;FactSet 共識目標附近</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">270~300</div><div class="note">Bull~Stretched 區;續抱條件是 2027E 共識實際上修至 40+</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因是 DRAM(CMS 客製化記憶體)+NOR+SLC NAND 四線齊發的超級循環——Q1 毛利率飆至 53.4% 歷史新高、6 月營收 205.97 億(+189.9%)連 7 個月創新高、上半年累計 +139.2%,與旺宏、南亞科並列記憶體三雄;CMS 缺口能見度延伸到 2028 年,是三檔中最長。</div>
+<div class="concl">② <b>估值</b>:合理——2026E forward P/E 8.2x 是三雄中最低,但這反映的是產品組合分散(不像南亞科的私募鎖定或旺宏的 NOR/NAND 純度那樣有單一稀缺敘事),不是單純撿便宜;四種估值法一致顯示合理~便宜,是三檔記憶體股中估值分歧最小的一檔,FactSet 目標價一個半月內上修 63%,上修速度最快。</div>
+<div class="concl">③ <b>結論</b>:分批布局的中長期投資——2026、2027 兩年的隱含年化報酬都是正值(三雄中唯一),現價 174.09 距共識目標 236 有 +36% 空間;左側 160 以下分批、160 以上追價則等突破 186,收盤跌破 125 即漲價循環邏輯失效無條件出場。7 月報價漲幅與 Q2 EPS(8 月公布)是下一個驗證點。</div>
+
+<footer>
+資料時間:股價 2026/07/07 收盤(Yahoo 股市);Q1 法說 2026/05/05(豐雲學堂/口袋學堂/vocus);5 月營收 2026/06/06 公告(豐雲學堂);6 月營收 2026/07/07 公告(ETtoday/今周刊);FactSet 共識最新更新(鉅亨,2026/07 初,EPS 21.27/36.83、目標 236);較早 FactSet 數據 2026/05(EPS 19.63、目標 168)供軌跡對照。Q2 完整 EPS 預計 8 月中公布,未反映;精確股本、市值、52 週區間、力積電精確本益比查無。<br>
+主要來源:Yahoo 股市、鉅亨網 FactSet 調查、豐雲學堂(Q1 法說/2025 年報)、口袋學堂、vocus 法說整理、ETtoday(6 月營收)、今周刊(三雄比較/外資動向)、工商時報(兆易示警連動)、readmo/CMoney(目標價敏感度分析)、財報狗、股市爆料同學會、Facebook 產業觀察。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
