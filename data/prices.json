@@ -1,0 +1,83 @@
+{
+ "updated": "2026-07-11",
+ "prices": {
+  "2337": {
+   "close": 143.5,
+   "date": "20260709",
+   "analysis_price": 139.0,
+   "analysis_date": "2026-07-07"
+  },
+  "2408": {
+   "close": 435.5,
+   "date": "20260709",
+   "analysis_price": 435.5,
+   "analysis_date": "2026-07-09"
+  },
+  "2344": {
+   "close": 176.5,
+   "date": "20260709",
+   "analysis_price": 174.0,
+   "analysis_date": "2026-07-07"
+  },
+  "6239": {
+   "close": 320.0,
+   "date": "20260709",
+   "analysis_price": 323.5,
+   "analysis_date": "2026-07-07"
+  },
+  "3324": {
+   "close": 920.0,
+   "date": "20260709",
+   "analysis_price": 1040.0,
+   "analysis_date": "2026-07-07"
+  },
+  "8027": {
+   "close": 242.0,
+   "date": "20260709",
+   "analysis_price": 239.0,
+   "analysis_date": "2026-07-06"
+  },
+  "8150": {
+   "close": 117.0,
+   "date": "20260709",
+   "analysis_price": 105.0,
+   "analysis_date": "2026-07-03"
+  },
+  "2303": {
+   "close": 156.0,
+   "date": "20260709",
+   "analysis_price": 166.0,
+   "analysis_date": "2026-07-06"
+  },
+  "2610": {
+   "close": 21.4,
+   "date": "20260709",
+   "analysis_price": 22.45,
+   "analysis_date": "2026-07-06"
+  },
+  "2454": {
+   "close": 3925.0,
+   "date": "20260709",
+   "analysis_price": 4195.0,
+   "analysis_date": "2026-07-03"
+  },
+  "2330": {
+   "close": 2415.0,
+   "date": "20260709",
+   "analysis_price": 2445.0,
+   "analysis_date": "2026-07-03"
+  },
+  "2308": {
+   "close": 1880.0,
+   "date": "20260709",
+   "analysis_price": 2075.0,
+   "analysis_date": "2026-07-05"
+  },
+  "2317": {
+   "close": 237.5,
+   "date": "20260709",
+   "analysis_price": 240.5,
+   "analysis_date": "2026-07-05"
+  }
+ }
+}

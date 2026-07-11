@@ -1,0 +1,46 @@
+name: 盤後自動更新研究筆記(現價偏移/資料齡/處置同步/催化劑日曆)
+
+on:
+  schedule:
+    # 每週一至週五 13:20 UTC = 台灣時間 21:20(盤後,錯開 twse-disposition 的 21:00)
+    - cron: "20 13 * * 1-5"
+
+  # 允許手動觸發(測試用)
+  workflow_dispatch:
+
+jobs:
+  update-freshness:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run freshness update script
+        run: python scripts/update_freshness.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet index.html data/prices.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DATE=$(TZ=Asia/Taipei date "+%Y/%m/%d %H:%M")
+          git add index.html data/prices.json
+          git commit -m "auto: 盤後更新現價偏移/資料齡/處置同步 ${DATE}"
+          git push

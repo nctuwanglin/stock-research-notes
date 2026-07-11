@@ -1,0 +1,18 @@
+{
+  "_comment": "催化劑日曆。發佈新分析時把該股的驗證點事件登記進 events;approx=true 表示日期為推估。處置迄日由 update_freshness.py 動態附加,不寫在這裡。",
+  "events": [
+    {"date": "2026-07-16", "code": "2330", "event": "Q2 法說會:Q3 展望與台幣匯率影響量化", "approx": false},
+    {"date": "2026-07-29", "code": "2454", "event": "Q2 法說會(日期未定,約 7 月底):Q2 營收是否達財測、ASIC 進度", "approx": true},
+    {"date": "2026-07-29", "code": "2303", "event": "Q2 法說會(日期未定,約 7 月底):H2 漲價與矽中介層進度", "approx": true},
+    {"date": "2026-08-10", "code": "2337", "event": "7 月營收+7 月報價漲幅(本土投顧指定觀察點)", "approx": true},
+    {"date": "2026-08-10", "code": "3324", "event": "7 月營收:MoM 是否恢復正成長(驗證 6 月放緩是否只是交貨波動)", "approx": true},
+    {"date": "2026-08-10", "code": "6239", "event": "7 月營收:MoM 是否轉正(6 月已放緩)", "approx": true},
+    {"date": "2026-08-10", "code": "8150", "event": "7 月營收:年增是否重回 25%+", "approx": true},
+    {"date": "2026-08-10", "code": "2610", "event": "7 月營收:暑期旺季+低油價效益", "approx": true},
+    {"date": "2026-08-14", "code": "2344", "event": "Q2 財報:EPS 與毛利率(Q1 為 53.4%)", "approx": true},
+    {"date": "2026-08-14", "code": "8027", "event": "Q2 財報:是否轉虧為盈(股東會被追問的核心問題)", "approx": true},
+    {"date": "2026-08-14", "code": "3324", "event": "Q2 財報:驗證全年 +70% 指引所需的獲利節奏", "approx": true},
+    {"date": "2026-08-14", "code": "2610", "event": "Q2 財報:油價順風是否開始入帳", "approx": true},
+    {"date": "2026-10-15", "code": "2408", "event": "Q3 法說會:79.5% 毛利率與 ASP 漲勢的持續性", "approx": true}
+  ]
+}
