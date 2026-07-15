@@ -208,24 +208,47 @@ def build_calendar_html(cal_events, stocks, dispo, today):
                 events.append((dt, code, f"處置期滿(恢復正常撮合,現為{d['auction']})", False))
             except (ValueError, IndexError):
                 pass
-    # 只顯示:未來事件 + 過去 14 天內(標紅=逾期待驗證)
+    # 只保留:未來事件 + 過去 14 天內(逾期=待驗證)
+    kept = [(d, code, ev, approx) for d, code, ev, approx in events if (d - today).days >= -14]
+    # 同一股票的多個事件合併成一列;整列以該股「最早的未過期事件」排序(全過期則用最近的逾期日)
+    by_code = {}
+    for d, code, ev, approx in kept:
+        by_code.setdefault(code, []).append((d, ev, approx))
+
+    def sort_key(code):
+        ds = sorted(by_code[code])
+        future = [d for d, _, _ in ds if (d - today).days >= 0]
+        return (future[0] if future else ds[-1][0])
+
     rows = []
-    for d, code, ev, approx in sorted(events):
-        delta = (d - today).days
-        if delta < -14:
-            continue
+    for code in sorted(by_code, key=sort_key):
         name = stocks.get(code, {}).get("name", code)
         href = stocks.get(code, {}).get("file", "#")
-        ds = d.strftime("%m/%d") + ("(約)" if approx else "")
-        if delta < 0:
-            ds_html = f'<span class="due">{ds} 已過{-delta}天,待驗證</span>'
-        elif delta <= 7:
-            ds_html = f'<span class="soon">{ds}</span>'
-        else:
-            ds_html = ds
-        rows.append(f'<tr><td>{ds_html}</td><td><a href="{href}" '
+        evs = sorted(by_code[code])
+        # 每個事件一行小字:日期 + 事件;逾期紅、7 天內琥珀
+        lines = []
+        for d, ev, approx in evs:
+            delta = (d - today).days
+            ds = d.strftime("%m/%d") + ("(約)" if approx else "")
+            if delta < 0:
+                dtag = f'<span class="due">{ds} 已過{-delta}天,待驗證</span>'
+            elif delta <= 7:
+                dtag = f'<span class="soon">{ds}</span>'
+            else:
+                dtag = f'<span style="color:var(--muted)">{ds}</span>'
+            lines.append(f'<div style="padding:2px 0"><b>{dtag}</b> {ev}</div>')
+        # 整列的日期欄:顯示該股最近待辦的日期狀態(取排序鍵那筆)+ 多事件註記
+        head_d = sort_key(code)
+        hdelta = (head_d - today).days
+        head_ds = head_d.strftime("%m/%d")
+        cls = "due" if hdelta < 0 else ("soon" if hdelta <= 7 else "")
+        head_ds = f'<span class="{cls}">{head_ds}</span>' if cls else head_ds
+        more = f'<br><span style="color:var(--muted);font-size:11px">共 {len(evs)} 事件</span>' if len(evs) > 1 else ""
+        head_html = head_ds + more
+        rows.append(f'<tr><td style="white-space:nowrap;vertical-align:top">{head_html}</td>'
+                    f'<td style="vertical-align:top"><a href="{href}" '
                     f'style="color:var(--blue);text-decoration:none">{name} {code}</a></td>'
-                    f'<td>{ev}</td></tr>')
+                    f'<td>{"".join(lines)}</td></tr>')
     if not rows:
         rows.append('<tr><td colspan="3" style="color:var(--muted)">近期無待驗證事件</td></tr>')
     upd = today.strftime("%Y/%m/%d")
