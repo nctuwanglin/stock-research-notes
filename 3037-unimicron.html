@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欣興 (3037) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>欣興 (3037) <span class="badge amber">估值:合理(降價傳聞 vs 供給缺口拉鋸)</span> <span class="badge amber">結論:分批布局,先確認降價傳聞真偽</span></h1>
+<div class="sub">台股(TWSE)・ABF/BT 載板(IC 載板龍頭)|資料截至 2026/07/16 收盤,製表 2026/07/16</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">882</div><div class="note">2026/07/16 收盤,-5.77%(PCB/ABF 族群同步重挫)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 1,331 億</div><div class="note">股本約 1.51 億股 × 882</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value red">137.65x</div><div class="note">同業平均 77.24x;含轉盈前低基期季度,forward 才是重點</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">120~1,130</div><div class="note">52 週;年初~今高的重估幅度驚人,現價已從高點回落 22%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 57.5x</div><div class="note">2026E EPS 15.34(FactSet 中位);2027E 28.04 → 31.5x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">1,000~1,225</div><div class="note">FactSet 21 位 1,000;美系大行 1,225;距現價 +13%~+39%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲、又為什麼跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/02/25</span><b>法說會定調 AI 成長引擎</b>:2025 全年營收 1,153.7 億(+11%)、EPS 3.34(配息 1.98 元);AI 產品營收占比已達 30~40%,2026 目標拉高至 60%以上;光復新廠 ABF 稼動率 80%+。</li>
+  <li><span class="date">2026/04 底</span><b>Q1 財報:13 季獲利新高</b>:營收 374.46 億、毛利率 17.96%(季增 2.19pp、年增 4.58pp);稅後純益 50.43 億(季增 42.66%、年增 451%)、EPS 3.28 創 13 季新高。ABF 載板營收季增 14%,AI 應用比重提升+季末漲價效益反映。</li>
+  <li><span class="date">2026/04~06</span><b>法人目標價連環上修</b>:FactSet 共識自 525→587.5→727→935→995→1000(21 位分析師,2026E EPS 中位 10.5→15.34);美系大行喊上 1,225(2027E EPS 24.03 × 51x);外資報告估 ABF 供給缺口 2026~2028 年將擴大至 8%/27%/35%。</li>
+  <li><span class="date">2026/06</span><b>營收動能加速</b>:5 月營收 140.60 億(+32.37% YoY)、6 月營收 148.97 億(+36.31% YoY)創高,年增率不減反增。</li>
+  <li><span class="date">2026/07/03</span><b class="red">關鍵利空:傳三星/SK 海力士要求載板廠降價</b>:市場傳出兩大記憶體巨頭因自身漲價獲利豐厚,反過來對 ABF 載板廠的漲價不滿、要求降價,欣興當日下跌 10 元至 969、失守千金股;盤中一筆 145 張鉅額交易以跌停價 882 成交。此為<b>產業性傳聞</b>(供應鏈權力失衡疑慮),非欣興單一個股利空,但反映客戶議價壓力可能侵蝕載板廠毛利。</li>
+  <li><span class="date">2026/07/06</span>除息交易日,現金股利 1.98 元、參考價 974.02;7/12 為除息基準日。</li>
+  <li><span class="date">2026/07/16</span>股價收 882(-5.77%),PCB/ABF 族群同步跌約 3.15%,外資對載板後市轉趨保守、短線獲利了結賣壓集中在高位階的 ABF 三雄(欣興/景碩/南電)。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:7/3 的降價傳聞至今仍是「傳」而非證實,FactSet 共識 EPS(15.34)截至目前<b>尚未因此下修</b>——若傳聞不實或影響有限,現價回落反而是進場點;但若三星/SK 海力士真的握有議價籌碼並成功壓價,ABF 供給缺口(8%→27%→35%)的樂觀敘事就會被打折扣,這是本檔現階段最大的不確定性來源。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「ABF 載板 2026~2028 年供給缺口將擴大至 8%/27%/35%」——結構性供不應求,玻璃基板 2030 年前難以取代,欣興市占逾七成。<div class="src">— 外資報告/今周刊</div></div>
+    <div class="quote">「AI 產品占比從 40% 衝向 60%,獲利品質正在系統性改善」——毛利率、EPS 雙雙創高,13 季獲利新高不是偶然。<div class="src">— Q1 財報/豐雲學堂</div></div>
+    <div class="quote">散戶/法人常喊目標價:<b>1,000~1,225 元</b>(FactSet 共識~美系大行區間)。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「欣興領跌 PCB 回檔,法人對 ABF 載板在疑慮什麼?」——三星/SK 海力士挾記憶體漲價的獲利優勢反過來壓載板廠價格,供應鏈議價權可能反轉。<div class="src">— CMoney/葉冠妤</div></div>
+    <div class="quote">除息遇賣壓翻黑,資金在 AI 中長線題材與短期獲利了結間來回拉扯——高位階股票(今年一度衝上 1,130)容易先跌為敬。<div class="src">— CMoney 即時新聞</div></div>
+    <div class="quote">本益比 137.65x 遠高於同業平均 77.24x(TTM 口徑),即便 forward 已大幅收斂,仍是「先付未來獲利的錢」的成長股定價模式。<div class="src">— Yahoo 股市</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(21 位,最新)</td><td class="green">1,000</td><td>2026E EPS 中位 15.34(10.5~21.12);2027E 中位 28.04</td></tr>
+  <tr><td>美系大行(大摩)</td><td class="green">1,225</td><td>2027E EPS 24.03 × 51x,提前用明年獲利定價</td></tr>
+  <tr><td>本土投顧(兩家)</td><td>1,000 / 965</td><td>2026E EPS 15.14、2027E EPS 28.04——與 FactSet 高度吻合</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">7/3 降價傳聞至今未反映在任何一份法人估值更新中——目標價與 EPS 預估都是傳聞爆出前後陸續上修的結果,存在資訊落後風險;精確法人 6~7 月買賣超、內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">6 月 +36.3%</div><div class="note">5 月 +32.4%,動能加速;Q1 營收 374.46 億(+24.45% YoY)</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">3.28(Q1)</div><div class="note">13 季新高,季增 42.66%、年增 451%;2025 全年 3.34</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">17.96%(Q1)</div><div class="note">季增 2.19pp、年增 4.58pp;ABF 載板營收季增 14%</div></div>
+  <div class="card"><div class="label">AI 產品占比</div><div class="value green">40%→60%</div><div class="note">2025→2026 目標;載板+PCB 雙線同步拉高</div></div>
+  <div class="card"><div class="label">ABF 供給缺口</div><div class="value amber">8%→27%→35%</div><div class="note">外資估 2026~2028;7/3 降價傳聞是對此敘事最直接的挑戰</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">1.98 元</div><div class="note">7/6 除息,7/31 發放</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E EPS</th><th>近況/目標價</th><th>與欣興的差異</th></tr>
+  <tr class="hl"><td>3037.TW</td><td>欣興</td><td>15.34(FactSet 中位)</td><td>現價 882;目標 1,000~1,225</td><td>ABF/BT 載板龍頭,市占逾七成,產品線最完整(載板+PCB)</td></tr>
+  <tr><td>8046.TW</td><td>南電</td><td>9.88~20.48(成長 278%)</td><td>現價 1,415,TTM P/E 273x;高盛目標自 1,115 大幅上修至 2,310</td><td>ABF 純度更高,成長彈性最大但波動也最大,目標價漲幅最誇張</td></tr>
+  <tr><td>3189.TW</td><td>景碩</td><td>7.75~9.2(成長 161%)</td><td>現價約 770~845;高盛目標翻倍上修至 1,120</td><td>AI GPU 載板第三大供應商,成長速度居三雄之末但估值也相對低</td></tr>
+  <tr><td>4958.TW</td><td>臻鼎-KY</td><td>查無精確</td><td>高盛目標翻倍上修至 824</td><td>FPC 軟板為主,ABF 曝險較低,可作族群情緒溫度計</td></tr>
+  <tr><td>Ibiden/Shinko</td><td>日廠(參考)</td><td>查無</td><td>查無</td><td>ABF 載板國際對手,三星/SK 海力士降價壓力若成真,國際廠同樣受影響</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——現價卡在「降價傳聞的悲觀情境」與「法人目標價的樂觀情境」正中間。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E 約 57.5x(2026E)看似昂貴,但這是 ABF 供給結構性缺口(8%→27%→35%)+AI 占比從 40% 衝向 60% 的雙重成長故事該有的溢價;FactSet 共識(1,000)與美系大行(1,225)目前都還沒被 7/3 的降價傳聞打折。真正的分歧點不在「貴不貴」,而在<b>「降價傳聞是否會被證實並侵蝕毛利率」</b>——若只是短線雜音,57.5x 的 forward P/E 在 AI 載板龍頭身上不算誇張(南電/景碩的成長彈性更大但波動也更大);若三星/SK 海力士真的成功壓價,17.96% 剛回升的毛利率可能重新承壓,現價就會顯得偏貴。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 882 vs 中值</th></tr>
+  <tr><td>FactSet 2026E P/E 55~60x</td><td>共識 EPS 15.34,對應其自身 1,000 目標的隱含倍數(65x)略保守化</td><td>844~920</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>本土投顧 2026E</td><td>EPS 15.14 × 63.7~66.1x(反推自 965~1,000 目標)</td><td>965~1,000</td><td class="red">貴 10%</td></tr>
+  <tr><td>美系大行 2027E P/E 51x</td><td>EPS 24.03,提前一年用明年獲利定價(樂觀情境)</td><td>1,225(單點)</td><td class="red">貴 39%</td></tr>
+  <tr><td>降價傳聞衝擊(推演)</td><td>若毛利率受壓,倍數降至 45~55x,EPS 暫維持共識 15.34 不變</td><td>690~843(推演)</td><td class="green">便宜 6%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法把現價 882 夾在中間:法人共識與大行目標說「貴」,降價傳聞的悲觀推演說「便宜」——這正是市場現在的真實分歧,不是估值方法有問題,是<b>降價傳聞的真偽本身就是這檔股票最大的估值變數</b>。在傳聞被證實或證偽之前,任何單一數字的「合理價」都帶有這個未解變數的雜訊。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">分歧轉謹慎</div><div class="bar"><div style="width:48%;background:var(--green)"></div></div><div class="note">從一面倒看多(今年衝上 1,130)轉為降價傳聞後的觀望;分歧本身是健康訊號</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">買進,惟資訊落後</div><div class="note">目標 1,000~1,225 距現價有 13~39% 空間,但估值多在傳聞爆出前後定案</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.28(Q1) → 15.34 → 28.04</div><div class="note">Q1 實績 → 2026E → 2027E(FactSet 中位)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>10.5 / 15.34 / 21.12(FactSet,21 位分析師)</td><td>55~65x</td><td>577~1,373</td><td class="green">約 +4%</td></tr>
+  <tr><td>2027</td><td>24.03(美系)~28.04(FactSet 中位)</td><td>45~51x</td><td>1,081~1,430</td><td class="green">約 +19%/年</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026 那格 EPS 高低標(10.5~21.12)相差達 2 倍,是本輪分析中分歧最大的一檔——這個寬度本身就在反映降價傳聞的不確定性,不是分析師偷懶;2028 因無量化預估不推算。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 300~1,600;left% = (價格-300)/1300×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">500~600</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:42.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">844~920</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,122~1,262</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,350</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:45.3%"><div class="arrow">▲</div><div class="price">882</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>500~600</td><td>降價傳聞坐實、毛利率明顯回吐,2026E EPS 下修至 10.5(低標)× 45~57x</td><td class="red">約 -38%</td></tr>
+  <tr><td class="amber">Base</td><td>844~920</td><td>傳聞不了了之或影響有限,照 FactSet 共識 15.34 × 55~60x 兌現;現價已在此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>1,122~1,262</td><td>ABF 缺口如期擴大(8%→27%→35%)+AI 占比達 60% 目標,市場開始提前定價 2027E 28.04 × 40~45x</td><td class="green">約 +35%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,350</td><td>重返並突破今年 1,130 高點,美系大行 1,225 目標情境全數兌現並溢價</td><td class="green">+53%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">800~830</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">730~770</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">650~690</td><td>40%(等降價傳聞明朗)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">600</b> = 降價傳聞坐實確認(月營收年增顯著放緩或公司法說證實毛利率受壓),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 974(除息參考價)+量能確認,且降價傳聞未進一步發酵(無新增負面報導)<br>
+    進場區:<b class="green">974~1,000</b><br>
+    移動停利:跌破 20 日線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 950 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,130</div><div class="note">賣出 25~50%;今年 52 週高點壓力區</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,225~1,250</div><div class="note">美系大行目標區;續抱條件是降價傳聞證實不實且 2027E 共識續上修</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:今年股價從 120 元附近大幅重估到一度衝上 1,130,真正原因是 ABF 載板結構性缺口(2026~2028 估 8%→27%→35%)疊加 Q1 EPS 3.28 創 13 季新高、AI 占比目標從 40% 拉向 60%;但 7/3 傳出三星/SK 海力士要求載板廠降價,直接挑戰這個供給吃緊的樂觀敘事,股價自高點回落 22% 至 882,今日再跌 5.77% 隨 PCB/ABF 族群同步走弱。</div>
+<div class="concl">② <b>估值</b>:合理——forward P/E 約 57.5x 看似高,但四種估值法把現價 882 夾在「法人目標說貴(965~1,225)」與「降價傳聞悲觀推演說便宜(690~843)」中間,2026E EPS 共識高低標差 2 倍,反映的正是降價傳聞的真偽尚未有定論,不是估值方法本身有瑕疵。</div>
+<div class="concl">③ <b>結論</b>:分批布局、但這次要先確認傳聞真偽再加碼——現價 882 落在 Base 區間(844~920)內,上檔 Bull +35%/Stretched +53% 對下檔 Bear -38%,風險報酬取決於一個尚未證實的產業傳聞;左側 800 以下小批試單、830 以下逐步加碼,收盤跌破 600 即降價邏輯坐實無條件出場,7 月營收與下次法說會是最直接的驗證點。</div>
+
+<footer>
+資料時間:股價/本益比 2026/07/16 收盤(Yahoo 股市);Q1 財報 2026/04 底(豐雲學堂/多家新聞);5 月營收 2026/06/03、6 月營收 2026/07 初公告(鉅亨/財報狗);法人目標價軌跡 2026/04~07(鉅亨網 FactSet 調查、CMoney);7/3 降價傳聞事件(工商時報/CMoney);7/6 除息(鉅亨盤後速報)。7 月營收、下次法說會日期尚未公布,均未反映;精確法人 6~7 月買賣超、內部人申報、臻鼎-KY 精確 EPS 查無。<br>
+主要來源:Yahoo 股市、鉅亨網 FactSet 調查、豐雲學堂(Q1 財報)、CMoney(降價傳聞解析/除息賣壓)、工商時報(鉅額交易細節)、旺得富理財網/今周刊/口袋學堂(ABF 三雄比較)、財報狗、Goodinfo。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔現階段最大變數是未證實的產業傳聞,情境誤差區間比一般個股更大。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

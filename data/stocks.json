@@ -12,5 +12,6 @@
   "2454": {"name": "聯發科", "market": "twse", "file": "2454-mediatek.html", "analysis_date": "2026-07-03", "analysis_price": 4195.0, "tags": ["IC設計"]},
   "2330": {"name": "台積電", "market": "twse", "file": "2330-tsmc.html", "analysis_date": "2026-07-03", "analysis_price": 2445.0, "tags": ["晶圓代工"]},
   "2308": {"name": "台達電", "market": "twse", "file": "2308-delta.html", "analysis_date": "2026-07-05", "analysis_price": 2075.0, "tags": ["電源"]},
-  "2317": {"name": "鴻海", "market": "twse", "file": "2317-honhai.html", "analysis_date": "2026-07-05", "analysis_price": 240.5, "tags": ["電子代工"]}
+  "2317": {"name": "鴻海", "market": "twse", "file": "2317-honhai.html", "analysis_date": "2026-07-05", "analysis_price": 240.5, "tags": ["電子代工"]},
+  "3037": {"name": "欣興", "market": "twse", "file": "3037-unimicron.html", "analysis_date": "2026-07-16", "analysis_price": 882.0, "tags": ["PCB", "ABF載板"]}
 }
