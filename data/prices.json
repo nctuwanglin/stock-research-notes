@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-16",
+ "updated": "2026-07-17",
  "prices": {
   "2337": {
    "close": 136.5,
@@ -64,8 +64,8 @@
   "2330": {
    "close": 2470.0,
    "date": "20260716",
-   "analysis_price": 2445.0,
-   "analysis_date": "2026-07-03"
+   "analysis_price": 2370.0,
+   "analysis_date": "2026-07-17"
   },
   "2308": {
    "close": 1905.0,
