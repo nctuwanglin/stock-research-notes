@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>群聯 (8299) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+</style>
+</head>
+<body>
+
+<h1>群聯 (8299) <span class="badge amber">估值:高度不確定(法人估值仍在追價上修)</span> <span class="badge amber">結論:僅適合投機倉位,嚴設停損</span></h1>
+<div class="sub">台股上櫃(TPEx)・NAND 控制晶片/模組,轉型 AI 儲存基礎設施(PHISON 3.0)|資料截至 2026/07/17 收盤,製表 2026/07/17</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,785</div><div class="note">2026/07/17 收盤,-9.85%;10 天內自 2,200+ 大幅回落</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 4,656 億</div><div class="note">約 2.61 億股 × 1,785</div></div>
+  <div class="card"><div class="label">本益比(近期)</div><div class="value">約 18.9x</div><div class="note">另一口徑 43.5x(基期不同);近四季 EPS 103.0</div></div>
+  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">68.80</div><div class="note">季增 224%;毛利率 61.3%(季增近 20 個百分點)</div></div>
+  <div class="card"><div class="label">6 月營收</div><div class="value green">248.53 億</div><div class="note">YoY +301%,創單月新高;H1 累計 1,088.55 億,首破千億</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value red">2,200~4,000</div><div class="note">目標價與 EPS 估值近期急速上修,分歧極大</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲、又為什麼大幅回落?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/08</span><b>Q1 法說會:轉型故事具體化</b>:營收 409.67 億(QoQ +79.7%、YoY +196%)、EPS 68.80(季增 224%)、毛利率飆至 61.3%(季增近 20 個百分點,去年同期僅 30.9%)。執行長潘健成:公司正從傳統 NAND 控制晶片廠轉型為「AI 儲存基礎設施+邊緣 AI 運算平台」供應商,邁向「PHISON 3.0」;Q1 營收結構:AI 生態系模組 38%、嵌入式 ODM 25%、工業模組 15%、控制晶片 10%、零售模組 8%,未來 AI 生態系解決方案占比目標超過 50%。公司坦言目前僅能滿足約 30% 客戶需求,缺口高達 70%。</li>
+  <li><span class="date">2026/05~06</span><b>法人目標價與 EPS 預估開始追價式上修</b>:FactSet 共識短時間內從 EPS 184.73(目標 2,454)→202.4(目標 2,511.5)→317.9(目標 3,000)一路上修;本土投顧更激進,統一投顧 3,200、第一金投顧 2,950、兆豐投顧喊上 4,000(對應 EPS 估值高達 415.66)。</li>
+  <li><span class="date">2026/06</span><b>營收連環創高</b>:Mobile Controller 出貨量年增 47%、PCIe SSD Boot Drive 年增高達 5,600%,反映通用伺服器/AI 伺服器/AI Networking 需求強勁。6 月合併營收 248.53 億(YoY +301%、MoM +9%)創單月新高,H1 累計 1,088.55 億(YoY 逾 240%)為公司史上首度半年破千億。</li>
+  <li><span class="date">2026/07/07</span><b class="red">記憶體族群系統性重挫,群聯跌破 2,200 元</b>:當日大跌逾 6%,與南亞科、旺宏、力積電同步走弱。大摩(Morgan Stanley)當時評論:這是 AI 驅動結構性多頭中的正常修正,不是產業景氣反轉,基本面未惡化。</li>
+  <li><span class="date">2026/07/17</span><b class="red">再跌 9.85% 至 1,785,10 天內跌幅擴大</b>:同日台積電法說會後資本支出疑慮引發全市場重新計算評價(台積電 -4.05%),記憶體/科技類股同步承壓;群聯自高點(曾一度上看 2,200 以上)回落幅度已相當可觀。</li>
+  <li><span class="date">警訊</span>市場忽略的資訊:FactSet 共識 EPS 在數週內從 184.73 一路上修到 317.9(近 72% 漲幅),本土投顧估值更喊到 415.66——這種估值追價速度本身就是警訊,代表法人正在追認股價、而非領先股價;若以 Q1 單季 68.80 簡單年化(×4=275.2),與目前最激進的估值(415.66)有 51% 落差,顯示上修主要建立在「H2 加速優於 Q1」的樂觀假設上,尚待驗證。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「群聯正從傳統控制晶片廠轉型 AI 儲存基礎設施供應商」——AI 生態系模組占比從 38% 衝向 50%+,是本波記憶體超級循環裡轉型故事最具體的一檔。<div class="src">— Q1 法說會/數位時代</div></div>
+    <div class="quote">「群聯在 NAND 缺貨中握有控制 IC 話語權」——公司僅能滿足 30% 客戶需求,缺口達 70%,議價權明顯偏向供給端。<div class="src">— readmo/cmoney</div></div>
+    <div class="quote">「這波記憶體股修正是 AI 結構性多頭中的正常拉回,不是景氣反轉」。<div class="src">— 大摩,2026/07/07</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">法人 EPS 預估數週內從 184.73 暴衝到 317.9,本土投顧甚至喊到 415.66——這種上修速度更像追認股價,而非獨立判斷;Q1 實績簡單年化僅 275.2,與最激進估值落差達 51%。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">記憶體族群震盪加劇,南亞科秒填息後翻黑、群聯跌破 2,200 元、旺宏重挫逾 7%,單日蒸發數百億市值,概念股全軍覆沒。<div class="src">— 財報狗/Yahoo 股市</div></div>
+    <div class="quote">7/17 適逢台積電法說會資本支出疑慮引發全市場評價重新計算,記憶體/科技股同步遭殃——群聯這次下跌未必是個股基本面問題,但也說明這類股票的評價對總體氣氛極度敏感。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>兆豐投顧(最激進)</td><td class="green">4,000</td><td>EPS 估值上看 415.66,對應約 9.6x——押注獲利仍將倍增</td></tr>
+  <tr><td>統一投顧 / 第一金投顧</td><td>3,200 / 2,950</td><td>本土法人激進陣營,EPS 估值同步大幅上修</td></tr>
+  <tr><td>FactSet 共識(最新)</td><td class="amber">3,000</td><td>EPS 估值 317.9(較數週前的 184.73 上修 72%)</td></tr>
+  <tr><td>FactSet 共識(較早)</td><td>2,200~2,454</td><td>EPS 估值 128.98~184.73(法人上修軌跡的起點)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目標價與 EPS 估值皆呈現罕見的短期暴力上修軌跡,是本輪分析中分歧最大、上修速度最快的一檔;精確法人 7 月買賣超、內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">H1 +240%+</div><div class="note">累計 1,088.55 億,首破千億;6 月單月 +301%</div></div>
+  <div class="card"><div class="label">EPS</div><div class="value green">68.80(Q1)</div><div class="note">季增 224%;近四季 103.0</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">61.3%(Q1)</div><div class="note">季增近 20 個百分點,YoY 自 30.9% 大幅躍升</div></div>
+  <div class="card"><div class="label">供需缺口</div><div class="value red">僅滿足 30% 需求</div><div class="note">70% 訂單無法滿足,議價權在供給端</div></div>
+  <div class="card"><div class="label">業務轉型</div><div class="value">PHISON 3.0</div><div class="note">AI 生態系模組占比 38%→目標 50%+</div></div>
+  <div class="card"><div class="label">出貨動能</div><div class="value green">多點爆發</div><div class="note">Mobile Controller +47%;PCIe SSD Boot Drive +5,600%(YoY)</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值狀態</th><th>成長/獲利</th><th>與群聯的差異</th></tr>
+  <tr class="hl"><td>8299.TWO</td><td>群聯</td><td>本益比 18.9x(近期);2026E EPS 估值 128.98~415.66(分歧極大)</td><td>Q1 EPS 68.80,H1 營收破千億</td><td>NAND 控制晶片+模組,轉型 AI 儲存基礎設施,法人估值上修最快最猛</td></tr>
+  <tr><td>SIMO(美股)</td><td>慧榮科技(Silicon Motion)</td><td>已創新高(查無精確倍數)</td><td>NAND 控制晶片同業,規模較群聯小</td><td>純控制晶片,較少 AI 生態系模組轉型敘事</td></tr>
+  <tr><td>MU</td><td>美光(美股)</td><td>已創新高</td><td>DRAM/NAND 原廠,規模數十倍於群聯</td><td>上游原廠,群聯是其下游模組/控制晶片客戶兼夥伴</td></tr>
+  <tr><td>SNDK</td><td>SanDisk(美股)</td><td>已創新高</td><td>NAND 原廠/模組</td><td>同樣受惠 NAND 超級循環,規模與品牌通路優勢更大</td></tr>
+  <tr><td>2408.TW</td><td>南亞科(對照)</td><td>約 8.9x(2026E)</td><td>Q2 EPS 14.66 創高,毛利率 79.5%</td><td>DRAM 原廠,循環純度更高但估值遠低於群聯,可作記憶體循環定價的對照錨</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:高度不確定——法人估值本身仍在快速變動,現價與任何單一目標價的距離都可能在幾週內劇烈改變。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">現價 1,785 相對「早期」FactSet 目標(2,200~2,454)有 23~37% 空間,相對「最新」FactSet 目標(3,000)有 68% 空間,相對本土最激進目標(4,000)有 124% 空間——但這個「便宜」建立在法人持續上修估值的假設上,而法人上修的速度(EPS 估值數週內從 184.73 到 415.66,超過兩倍)已經明顯快於公司實際公布的營運數據更新頻率。與南亞科(2026E P/E 約 8.9x)相比,群聯的估值方式更接近「賽道故事股」而非「循環股」,PHISON 3.0 轉型故事若能兌現,現在的倍數不算誇張;但若 H2 成長不如預期激進、或法人回頭下修 EPS 估值,回檔的速度可能同樣劇烈(7 月已示範兩次)。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,785 vs 中值</th></tr>
+  <tr><td>Q1 簡單年化 × 6~8x</td><td>EPS 68.80×4=275.2(假設全年持平 Q1,循環股保守倍數)</td><td>1,651~2,202</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>FactSet 早期共識</td><td>EPS 128.98~184.73,目標 2,200~2,454(法人上修軌跡起點)</td><td>2,200~2,454</td><td class="green">便宜 22%</td></tr>
+  <tr><td>FactSet 最新共識</td><td>EPS 317.9,目標 3,000(近期持續上修)</td><td>3,000(單點)</td><td class="green">便宜 40%</td></tr>
+  <tr><td>本土最激進(兆豐)</td><td>EPS 415.66,目標 4,000(尚待驗證的樂觀情境)</td><td>4,000(單點)</td><td class="green">便宜 55%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法全部指向現價「便宜」或「合理」,沒有一條說貴——但這正是問題所在:當估值方法的離散度(1,651 到 4,000,相差 2.4 倍)遠大於一般個股時,「便宜」這個結論的可信度也隨之下降。最保守的 Q1 年化法(不假設任何成長加速)恰好與現價最接近,這比較像是「安全邊際」的錨點,而非法人樂觀目標價。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">恐慌後觀望</div><div class="bar"><div style="width:38%;background:var(--red)"></div></div><div class="note">10 天內兩次重挫(7/7、7/17),PTT/股市爆料同學會出現「記憶體全賣了」的止血言論</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">持續上修,惟落後股價</div><div class="note">目標價 2,200~4,000,但上修速度快於營運數據更新,可信度需打折</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">68.8(Q1) → 128.98~415.66</div><div class="note">Q1 實績 → 2026E 估值(法人估值本身仍劇烈變動中)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>128.98(早期)~317.9(最新共識)~415.66(本土最激進)</td><td>9~17x</td><td>1,161~7,066(區間極寬,不具參考性)</td><td>查無(區間過寬)</td></tr>
+  <tr><td>2027</td><td>129.41(早期估值,幾與 2026E 打平)</td><td>17x(法人給定)</td><td>2,200(單點,早期估值)</td><td class="green">約 +11%/年(以早期保守估值計)</td></tr>
+  <tr><td>2028</td><td>查無</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026 那格刻意不做單一「合理價」計算——EPS 估值本身在數週內變動超過 2 倍,任何單一數字都可能在下次法人報告後失真;唯一相對穩定的參考是「早期(較保守)」的 2026E 128.98 與 2027E 129.41 幾乎打平,隱含市場原始假設是「2026 一次性噴發、2027 持平」,這與最新的持續上修路徑(317.9、415.66)方向相反,兩派預估邏輯本身互相矛盾,需要投資人自行判斷相信哪一派。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 900~4200;left% = (價格-900)/3300×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:16.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,200~1,400</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:33.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,650~2,200</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:57.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,700~3,000</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:90.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">4,000</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:28.7%"><div class="arrow">▲</div><div class="price">1,785</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>1,200~1,400</td><td>法人回頭下修 EPS 估值(回到更接近 Q1 年化的保守水準)、記憶體族群系統性修正延續</td><td class="red">約 -27%</td></tr>
+  <tr><td class="amber">Base</td><td>1,650~2,200</td><td>Q1 年化保守估值兌現、早期 FactSet 目標區間;現價已在此區間內</td><td>約 +8%</td></tr>
+  <tr><td class="green">Bull</td><td>2,700~3,000</td><td>FactSet 最新共識(EPS 317.9)兌現,PHISON 3.0 轉型加速貢獻</td><td class="green">約 +60%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>4,000</td><td>本土最激進情境(兆豐,EPS 415.66)全數兌現</td><td class="green">+124%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(僅建議投機倉位)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">1,650~1,750</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">1,450~1,600</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,250~1,400</td><td>45%(等法人估值上修趨勢明朗)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,150</b> = 記憶體超級循環系統性反轉獲證實(月營收 MoM 由正轉負),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 2,145(7/7 跌破前價位)+量能確認,且記憶體族群同步止穩<br>
+    進場區:<b class="green">2,145~2,200</b><br>
+    移動停利:跌破 20 日線或高點回檔 15%(高波動股需更寬容忍度)<br>
+    假突破失效:觸發後 2 日內跌回 2,050 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,700~3,000</div><div class="note">賣出 40~50%;Bull 區,法人估值波動劇烈,高檔務必落袋為安</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,500~4,000</div><div class="note">Stretched 區;續抱條件是 Q2/Q3 財報證實 EPS 加速兌現最激進估值</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:上漲的真正原因是 NAND 超級循環+PHISON 3.0 轉型故事——Q1 EPS 68.80(季增 224%)、毛利率飆至 61.3%,6 月營收 248.53 億(+301%)創新高、H1 首度破千億,公司僅能滿足 30% 客戶需求;但很少人討論的是法人 EPS 估值在數週內從 184.73 暴衝到 415.66(超過兩倍),這種上修速度已經超前於公司實際公布的營運數據,而 7/7 與 7/17 兩次記憶體族群系統性重挫,正是這種「估值追價」風險的具體演出。</div>
+<div class="concl">② <b>估值</b>:高度不確定——四種估值法都顯示現價合理或便宜,但估值方法之間的離散度(1,651~4,000,相差 2.4 倍)遠大於本系列分析過的任何一檔,「便宜」這個結論本身的可信度因此打折;最保守的 Q1 簡單年化法恰好貼近現價,是相對紮實的安全邊際錨點,而非法人的樂觀目標價。</div>
+<div class="concl">③ <b>結論</b>:僅適合投機倉位、嚴設停損——這是本輪分析中波動最劇烈、估值分歧最大的一檔,上檔 Bull +60%/Stretched +124% 看似誘人,但下檔 Bear -27% 同樣劇烈且可能加速;左側建議極小倉位分批試單、收盤跌破 1,150 無條件出場,右側等記憶體族群系統性止穩、站回 2,145 再考慮波段操作。7 月營收與 Q2 財報(法人估值是否持續上修或開始回頭下修)是最直接的驗證點。</div>
+
+<footer>
+資料時間:股價/本益比/市值 2026/07/17 收盤(Yahoo 股市);Q1 法說 2026/05/08(數位時代/vocus/財報狗);5 月營收(財報狗)、6 月營收 2026/07 初公告(Yahoo 股市/CMoney);FactSet 共識軌跡與本土投顧目標價(豐雲學堂/鉅亨網/CMoney,2026/05~07);7/7 記憶體族群重挫與大摩評論(財報狗/Yahoo 股市);7/17 台積電法說後全市場評價重新計算連動(本儀表板觀察,詳見台積電 2330 分析)。Q2 財報與法說會日期尚未公布,均未反映;精確法人 7 月買賣超、內部人申報、SIMO/美光精確估值倍數查無。<br>
+主要來源:Yahoo 股市、財報狗、鉅亨網 FactSet 調查、豐雲學堂、數位時代(Q1 法說)、vocus 法說整理、readmo/CMoney(控制 IC 話語權/EPS 目標價)、理財周刊、旺得富理財網、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔法人估值本身高度不穩定,情境誤差區間遠大於一般個股,請務必嚴格執行停損紀律。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
