@@ -6,7 +6,7 @@
   "6239": {"name": "力成", "market": "twse", "file": "6239-powertech.html", "analysis_date": "2026-07-07", "analysis_price": 323.5, "tags": ["封測", "記憶體"]},
   "3324": {"name": "雙鴻", "market": "tpex", "file": "3324-auras-event.html", "analysis_date": "2026-07-07", "analysis_price": 1040.0, "tags": ["散熱"]},
   "8027": {"name": "鈦昇", "market": "tpex", "file": "8027-eandr.html", "analysis_date": "2026-07-06", "analysis_price": 239.0, "tags": ["設備"]},
-  "8150": {"name": "南茂", "market": "twse", "file": "8150-chipmos.html", "analysis_date": "2026-07-03", "analysis_price": 105.0, "tags": ["封測", "記憶體"]},
+  "8150": {"name": "南茂", "market": "twse", "file": "8150-chipmos.html", "analysis_date": "2026-07-17", "analysis_price": 110.5, "tags": ["封測", "記憶體"]},
   "2303": {"name": "聯電", "market": "twse", "file": "2303-umc.html", "analysis_date": "2026-07-06", "analysis_price": 166.0, "tags": ["晶圓代工"]},
   "2610": {"name": "華航", "market": "twse", "file": "2610-chinaairlines-event.html", "analysis_date": "2026-07-06", "analysis_price": 22.45, "tags": ["航空"]},
   "2454": {"name": "聯發科", "market": "twse", "file": "2454-mediatek.html", "analysis_date": "2026-07-03", "analysis_price": 4195.0, "tags": ["IC設計"]},
