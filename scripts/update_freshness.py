@@ -252,7 +252,7 @@ def build_calendar_html(cal_events, stocks, dispo, today):
     if not rows:
         rows.append('<tr><td colspan="3" style="color:var(--muted)">近期無待驗證事件</td></tr>')
     upd = today.strftime("%Y/%m/%d")
-    return (f'<div class="cal"><h3>📅 催化劑日曆(逾期紅字=該回頭驗證了|自動更新 {upd})</h3>'
+    return (f'<div class="cal"><h3>📅 催化劑日曆(自動更新 {upd})</h3>'
             f'<table><tr><th>日期</th><th>個股</th><th>事件</th></tr>{"".join(rows)}</table></div>')
 
 
