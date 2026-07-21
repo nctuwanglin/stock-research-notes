@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創意 (3443) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>創意 (3443) <span class="badge red">估值:偏貴(FactSet 共識已低於現價)</span> <span class="badge amber">結論:觀望,等法說會驗證單一大客戶專案進度</span></h1>
+<div class="sub">台股(TWSE)・台積電體系 ASIC 設計服務(CoWoS/先進封裝合作夥伴)|股價截至 2026/07/21 收盤,製表 2026/07/21</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">4,115</div><div class="note">2026/07/21 收盤,+9.88%;7/2 曾衝上 5,345 波段高,7/20 波段低見 3,535</div></div>
+  <div class="card"><div class="label">波段回檔</div><div class="value red">約 -34%</div><div class="note">自 7/2 高點至 7/20 低點,約 2.5 週內完成</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value red">112.67x</div><div class="note">TWSE 官方數據(7/20);PB 34.41x 為本系列最高,殖利率僅 0.53%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.28</div><div class="note">營收 114.48 億(QoQ-7.6%、YoY+62.9%);淨利 16.46 億(QoQ+41.9%、YoY+71.2%)</div></div>
+  <div class="card"><div class="label">6 月營收</div><div class="value green">49.29 億</div><div class="note">YoY+103.72%、MoM+5.45%;H1 累計 253.44 億(YoY+93.05%)</div></div>
+  <div class="card"><div class="label">機構目標價</div><div class="value amber">3,100~6,000</div><div class="note">FactSet 共識 3,100(19 位)已低於現價;里昂最高喊 6,000</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼先狂飆、又為什麼暴跌暴漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05 初</span><b>Q1 法說會:獲利創單季新高</b>:合併營收 114.48 億(單季次高,QoQ-7.6%、YoY+62.9%);歸屬母公司業主淨利 16.46 億(QoQ+41.9%、YoY+71.2%),EPS 12.28 元。管理層預期今年營收成長幅度將超越去年,主要受惠台積電產能配置改善,將持續為客戶爭取更多晶圓產能。去年 Q4 起 CSP 案件貢獻明顯增加,已取得美系 CSP 客戶下一代 CPU 相關專案,法人預估該專案 2026、2027 年可分別貢獻營收 40%、20%。</li>
+  <li><span class="date">2026/05~06</span>Q1 獲利創單季新高帶動股價週線連 4 紅,外資、投信、自營商全部回頭買超;里昂證券將目標價自 3,600 大幅上調至 6,000 元,重申「優於大盤」評等。法人開始討論 2027 年 EPS 有機會挑戰 150 元的樂觀情境,背後假設是 CPU、車用 AI 專案提前量產。</li>
+  <li><span class="date">2026/07/02</span><b class="green">股價衝上波段高點 5,345</b>(收 5,330),本益比同步推升至三位數區間。</li>
+  <li><span class="date">2026/07/初</span><b>6 月營收 49.29 億(YoY+103.72%、MoM+5.45%)公告</b>,H1 累計 253.44 億、年增 93.05%——高成長數字本身沒有問題,但股價已自高點開始回落(自 5,330 滑落至 7/9 的 4,340)。</li>
+  <li><span class="date">2026/07/14</span><b class="red">電子上游 IP/ASIC 族群重挫</b>:創意單日重挫 -250(-5.9%)收 4,020,與世芯-KY 同步走弱,市場對 AI 客製化晶片賽道短線過熱疑慮升溫。</li>
+  <li><span class="date">2026/07/17</span><b class="red">台股史上最大單日跌點</b>:加權指數重挫 2,953.71 點(-6.47%)創史上紀錄,創意收 3,835(-8.4%)。</li>
+  <li><span class="date">2026/07/20</span><b class="red">續弱探底</b>:盤中低見 3,535,收 3,745,波段自 7/2 高點回檔約 34%。</li>
+  <li><span class="date">2026/07/21</span><b class="green">強彈近漲停</b>:收 4,115(+9.88%),隨大盤史上最大單日漲點同步大漲,漲幅為本輪分析數檔股票中最高之一。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①TTM P/E 112.67x、PB 34.41x 是本系列分析過股票中的最高估值,即使歷經 34% 的波段回檔,現價仍高於 FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920)——這是罕見的「股價領先多數共識目標」案例;②單一美系 CSP 客戶的下一代 CPU 專案預估貢獻 2026 年營收 40%、2027 年 20%,客戶集中度風險不亞於世芯-KY,一旦該專案時程或規模生變,對獲利與估值的衝擊會更直接;③2027 年 EPS 挑戰 150 元的樂觀情境目前僅是法人推演,尚未有 FactSet 完整分佈佐證。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「台積電產能配置改善+美系 CSP 客戶下一代 CPU 專案,2026 年營收成長幅度將超越去年」——管理層 Q1 法說會展望。<div class="src">— 鉅亨網,2026/05</div></div>
+    <div class="quote">Q1 獲利創單季新高,週線連 4 紅,外資、投信、自營商全部回頭買超。<div class="src">— Yahoo 股市</div></div>
+    <div class="quote">里昂證券將目標價自 3,600 大幅上調至 6,000 元,重申「優於大盤」評等;2027 年 EPS 有機會挑戰 150 元。<div class="src">— 經濟日報/readmo</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">FactSet 19 位分析師共識目標僅 3,100 元,已低於現價 4,115——多數機構的共識評價其實不支持現在的股價。<div class="src">— 鉅亨網 FactSet 調查</div></div>
+    <div class="quote">單一美系 CSP 客戶的下一代 CPU 專案預估貢獻 2026 年營收高達 40%,客戶集中度風險極高,任何專案生變都會直接衝擊獲利與估值。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">TTM P/E 112.67x、PB 34.41x 是本系列分析過的個股中最高,即使歷經 34% 回檔仍未回到多數法人共識目標下方。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>里昂證券(最高)</td><td class="green">6,000</td><td>自 3,600 大幅上調,「優於大盤」評等;2027E EPS 挑戰 150 元的樂觀情境</td></tr>
+  <tr><td>台新投顧</td><td class="amber">3,920</td><td>「看多」評等,預估 2026 年營收約 594.89 億元、EPS 約 48.54 元</td></tr>
+  <tr><td>FactSet 共識(19 位)</td><td class="red">3,100</td><td>2026E EPS 中位 43.52 元;此目標已低於現價</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三則目標價落差達近一倍(3,100~6,000),且皆發布於崩盤前,尚未反映 7/14、7/17~21 的暴跌暴漲;FactSet 共識目標本身就低於現價,是本系列少見的訊號。精確法人 7 月買賣超、內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q1 營收</div><div class="value green">114.48 億</div><div class="note">單季次高,QoQ-7.6%、YoY+62.9%</div></div>
+  <div class="card"><div class="label">Q1 淨利</div><div class="value green">16.46 億</div><div class="note">QoQ+41.9%、YoY+71.2%,EPS 12.28</div></div>
+  <div class="card"><div class="label">H1 營收成長</div><div class="value green">+93.05%</div><div class="note">累計 253.44 億;6 月單月+103.72%</div></div>
+  <div class="card"><div class="label">主要成長引擎</div><div class="value">美系 CSP CPU 專案</div><div class="note">法人估 2026 年貢獻營收 40%、2027 年 20%</div></div>
+  <div class="card"><div class="label">與台積電關係</div><div class="value">體系內最純粹 ASIC</div><div class="note">深度綁定帶來長線訂單能見度,持續爭取更多晶圓產能</div></div>
+  <div class="card"><div class="label">客戶集中度</div><div class="value red">高度集中</div><div class="note">單一美系 CSP CPU 專案為主要成長引擎,查無精確占比之外的分散度資訊</div></div>
+</div>
+
+<h2>三家最接近的競爭對手(ASIC 設計服務族群)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比(TTM)</th><th>7/21 股價與漲幅</th><th>與創意的差異</th></tr>
+  <tr class="hl"><td>3443</td><td>創意</td><td>112.67x</td><td>4,115(+9.88%)</td><td>台積電體系 ASIC 設計服務,估值本系列分析最高</td></tr>
+  <tr><td>3661</td><td>世芯-KY</td><td>49.32x</td><td>3,490(+3.71%)</td><td>北美客戶為主,本益比僅創意的 44%,6 月營收已驗證 H2 加速</td></tr>
+  <tr><td>2454</td><td>聯發科(參照)</td><td>53.23x</td><td>3,670(+9.88%)</td><td>自有 IP+ASIC 雙引擎,規模遠大於純設計服務商,本益比更低</td></tr>
+  <tr><td>AVGO</td><td>博通(參照)</td><td>約 32x</td><td>—</td><td>真正 ASIC 龍頭,規模領先一個世代,估值僅創意的三成</td></tr>
+</table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 4,115 vs 中值</th></tr>
+  <tr><td>Q1 EPS 年化 × 25~30x</td><td>12.28×4=49.1(不假設 CPU 專案加速,循環股保守倍數)</td><td>1,228~1,473</td><td class="red">貴 205%</td></tr>
+  <tr><td>FactSet 共識目標</td><td>19 位分析師,EPS 中位 43.52</td><td>3,100(單點)</td><td class="red">貴 33%</td></tr>
+  <tr><td>台新投顧目標</td><td>2026E EPS 48.54</td><td>3,920(單點)</td><td class="red">貴 5%</td></tr>
+  <tr><td>里昂最樂觀情境</td><td>2027E EPS 挑戰 150,CPU/車用 AI 專案提前量產</td><td>6,000(單點)</td><td class="green">便宜 31%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法中三種都顯示現價偏貴,只有里昂最樂觀的 2027 情境(尚無 FactSet 分佈佐證)顯示便宜——這與世芯-KY「多數方法顯示便宜」的局面完全相反。即使歷經 34% 的波段回檔,創意現價仍高於 FactSet 共識與台新投顧目標,顯示這輪反彈本身可能已重新透支部分估值空間。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴——即使暴跌 34% 後,現價仍高於多數機構共識目標。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">TTM P/E 112.67x、PB 34.41x 是本系列分析過的個股中最高;FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920)都已低於現價 4,115——這在本系列分析中是罕見訊號,通常代表股價的樂觀假設已經超前多數機構的共識判斷。唯一能讓現價顯得便宜的是里昂最激進的「2027 EPS 150」情境,但該數字目前僅是單一機構推演,尚無 FactSet 完整分佈佐證,可信度需要打折。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">追高風險高,反彈信心分歧</div><div class="bar"><div style="width:35%;background:var(--red)"></div></div><div class="note">7/21 近漲停反彈,但現價已超越多數機構共識目標,追高風險不低</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">評等分歧,FactSet 中位已被超車</div><div class="note">目標價 3,100~6,000,落差近一倍,FactSet 共識已低於現價</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">12.28(Q1) → 43.52~48.54(2026E)</div><div class="note">FactSet 共識 vs 台新投顧估值,2027E 150 僅單一機構推演</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 2000~8000;left% = (價格-2000)/6000×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,800~3,200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:27.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,100~3,920</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:57.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,000~6,000</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">7,000+</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:36.4%"><div class="arrow">▲</div><div class="price">4,115</div><div class="lbl">現價(已高於 Base 區間)</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>2,800~3,200</td><td>單一美系 CSP CPU 專案延遲或規模不如預期,估值回歸 FactSet 共識水準下方</td><td class="red">約 -27%</td></tr>
+  <tr><td class="amber">Base</td><td>3,100~3,920</td><td>FactSet 共識與台新投顧目標區間;現價已高於此區間上緣</td><td class="red">約 -15%</td></tr>
+  <tr><td class="green">Bull</td><td>5,000~6,000</td><td>里昂樂觀情境部分兌現,2027 EPS 150 題材持續發酵</td><td class="green">約 +34%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>7,000+</td><td>CPU+車用 AI 專案超額放量,台積電產能持續傾斜,2027 EPS 150 全數兌現</td><td class="green">約 +82%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(現價已偏貴,建議謹慎)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">3,800~3,950</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">3,300~3,500</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,900~3,100</td><td>45%(等法說會驗證客戶專案進度)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,700</b> = 單一大客戶 CPU 專案確認延遲或砍單,ASIC 故事失效,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 4,400(前波支撐轉壓力)+法說會驗證客戶專案進度正向<br>
+    進場區:<b class="green">4,400~4,550</b><br>
+    移動停利:跌破 10 日線或高點回檔 15%(高波動股需更寬容忍度)<br>
+    假突破失效:觸發後 2 日內跌回 4,250 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">5,000~6,000</div><div class="note">賣出 40~50%;Bull 區,現價已透支多數共識,反彈優先落袋</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">7,000+</div><div class="note">Stretched 區;續抱條件是 2027 EPS 150 情境獲得其他機構驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:Q1 獲利創單季新高(EPS 12.28,YoY+71.2%)+ 取得美系 CSP 客戶下一代 CPU 專案(法人估 2026 年貢獻營收 40%)+ 台積電產能配置改善,推動股價衝上 7/2 高點 5,345,里昂證券同期把目標價自 3,600 喊上 6,000;但 7/14 IP/ASIC 族群單獨重挫、7/17 台股史上最大跌點雙重打擊下,波段回檔約 34% 見 3,535,7/21 隨大盤大漲近漲停 +9.88% 收 4,115。</div>
+<div class="concl">② <b>估值</b>:偏貴——TTM P/E 112.67x、PB 34.41x 為本系列分析過的個股最高;即使歷經 34% 波段回檔,現價仍高於 FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920),是罕見的「股價領先多數機構共識」案例,唯一支持現價的是里昂最激進、尚無共識佐證的 2027 EPS 150 情境。</div>
+<div class="concl">③ <b>結論</b>:觀望,等法說會驗證單一大客戶專案進度——現價 4,115 已高於 Base 情境(3,100~3,920)上緣,下檔風險(Bear -27%/Base -15%)與上檔空間(Bull +34%/Stretched +82%)不對稱,不宜追高;單一美系 CSP CPU 專案的時程與規模是核心驗證點,收盤跌破 2,700 即 ASIC 故事失效,無條件出場。</div>
+
+<footer>
+資料時間:股價 2026/07/21 收盤(TWSE 官方 STOCK_DAY);本益比/殖利率/PB 2026/07/20(TWSE BWIBBU);Q1 法說 2026/05 初(鉅亨網/readmo/CMoney);6 月營收 2026/07 初公告(鉅亨網);目標價 3,100~6,000 為 2026/05~07 各報告(經濟日報/readmo/CMoney);台股史上最大跌點與族群重挫 2026/07/14~17(本儀表板既有分析);同業本益比 2026/07/20、股價 2026/07/21(TWSE 官方開放資料)。Q2/Q3 完整財報與法說會日期查無;精確市值股本、客戶集中度精確占比、法人 7 月買賣超、內部人申報查無。<br>
+主要來源:TWSE 官方開放資料、Yahoo 股市、鉅亨網(FactSet 調查)、經濟日報、readmo/CMoney、PChome新聞。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔估值為本系列分析最高、客戶集中度風險亦高,情境誤差區間較一般個股大。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

@@ -16,5 +16,7 @@
   "3037": {"name": "欣興", "market": "twse", "file": "3037-unimicron.html", "analysis_date": "2026-07-16", "analysis_price": 882.0, "tags": ["PCB", "ABF載板"]},
   "8299": {"name": "群聯", "market": "tpex", "file": "8299-phison.html", "analysis_date": "2026-07-21", "analysis_price": 1855.0, "tags": ["記憶體", "IC設計"]},
   "3008": {"name": "大立光", "market": "twse", "file": "3008-largan.html", "analysis_date": "2026-07-17", "analysis_price": 4010.0, "tags": ["光學鏡頭"]},
-  "2327": {"name": "國巨", "market": "twse", "file": "2327-yageo.html", "analysis_date": "2026-07-21", "analysis_price": 670.0, "tags": ["被動元件"]}
+  "2327": {"name": "國巨", "market": "twse", "file": "2327-yageo.html", "analysis_date": "2026-07-21", "analysis_price": 670.0, "tags": ["被動元件"]},
+  "3661": {"name": "世芯-KY", "market": "twse", "file": "3661-alchip.html", "analysis_date": "2026-07-21", "analysis_price": 3490.0, "tags": ["IC設計"]},
+  "3443": {"name": "創意", "market": "twse", "file": "3443-guc.html", "analysis_date": "2026-07-21", "analysis_price": 4115.0, "tags": ["IC設計"]}
 }

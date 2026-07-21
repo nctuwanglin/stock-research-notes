@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>世芯-KY (3661) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>世芯-KY (3661) <span class="badge amber">估值:合理偏低(H2 成長已獲 6 月營收驗證)</span> <span class="badge amber">結論:分批布局,觀察 Q3 單季是否兌現爆發性成長</span></h1>
+<div class="sub">台股(TWSE)・ASIC 設計服務(北美 AI 加速器客戶為主)|股價截至 2026/07/21 收盤,製表 2026/07/21</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">3,490</div><div class="note">2026/07/21 收盤,+3.71%;7/2 曾衝上 4,895 波段高,7/20 波段低見 3,245</div></div>
+  <div class="card"><div class="label">波段回檔</div><div class="value red">約 -34%</div><div class="note">自 7/2 高點至 7/20 低點,約 2.5 週內完成</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">49.32x</div><div class="note">TWSE 官方數據(7/20);PB 6.36x,殖利率 1.02%</div></div>
+  <div class="card"><div class="label">Q1 毛利率</div><div class="value green">50.16%</div><div class="note">創單季歷史新高,QoQ+7.86pp、YoY+27pp;EPS 17.55(營收年減 60% 逆風下仍創高利潤)</div></div>
+  <div class="card"><div class="label">6 月營收</div><div class="value green">35.72 億</div><div class="note">MoM+84.6%、YoY+15.4%,H2 爆發成長的首個確認訊號</div></div>
+  <div class="card"><div class="label">機構目標價</div><div class="value green">4,300~5,088</div><div class="note">外資維持「加碼」評等 5,088;距現價 +23%~+46%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼先狂飆、又為什麼暴跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/08</span><b>Q1 法說會:營收逆風但毛利率創高</b>:Q1 營收年減 60%(客戶專案交接空窗期),但毛利率飆至 50.16% 創單季歷史新高(QoQ+7.86pp、YoY+27pp),稅後淨利 14.28 億元、EPS 17.55 元。管理層表示北美客戶 N3 AI 加速器將於 6 月進入放量出貨階段,預期第三季起營收與獲利呈現非常強勁的季增,今年下半年迎來爆發成長期,全年 3 奈米相關營收目標上看 15 億美元以上,訂單能見度已延伸至 2027 年底。</li>
+  <li><span class="date">2026/05 中</span>股價短線暴衝,一度被列入注意股;IP/ASIC 族群成為市場焦點,資金追捧 AI 客製化晶片供應鏈。</li>
+  <li><span class="date">2026/07/02</span><b class="green">股價衝上波段高點 4,895</b>(收盤同高),2 個月內漲幅可觀,反映市場提前計入 H2 爆發成長的樂觀預期。</li>
+  <li><span class="date">2026/07/06~13</span>股價自高點震盪走弱,自 4,895 回落至 4,135,IP/ASIC 族群同步降溫,獲利了結賣壓浮現。</li>
+  <li><span class="date">2026/07/14</span><b class="red">電子上游 IP/ASIC 族群重挫,世芯-KY 拖累盤勢</b>:單日重挫 -410(-9.9%,近跌停)收 3,725,市場對 AI 客製化晶片賽道的短線過熱疑慮升溫。</li>
+  <li><span class="date">2026/07 中</span><b>6 月營收 35.72 億(MoM+84.6%、YoY+15.4%)公告</b>——月增幅度驗證了管理層 5 月法說會「6 月起放量」的財測,是本波回檔期間少數具體的正向確認訊號。</li>
+  <li><span class="date">2026/07/17</span><b class="red">台股史上最大單日跌點</b>:加權指數重挫 2,953.71 點(-6.47%)創史上紀錄,ASIC/IP 族群同步承壓,世芯-KY 收 3,480(-7.7%)。</li>
+  <li><span class="date">2026/07/20</span><b class="red">續弱探底</b>:盤中低見 3,245,收 3,365,波段自 7/2 高點回檔約 34%。</li>
+  <li><span class="date">2026/07/21</span><b class="green">技術性反彈</b>:收 3,490(+3.71%),隨大盤史上最大單日漲點同步回升,惟漲幅相對溫和。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:這次回檔的獨特之處在於——公司基本面驗證(6 月營收 MoM+84.6%)實際上支持了管理層 H2 財測,並非「敘事先行、數字缺席」的典型過熱型回檔;但 Q1 營收年減 60% 的基期波動、單一北美客戶專案高度集中的營收結構,仍是需要留意的結構性風險——若該客戶 AI 加速器需求或時程有變,獲利波動可能同樣劇烈。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「北美客戶 N3 AI 加速器 6 月放量,Q3 起營收與獲利非常強勁的季增,全年 3 奈米營收目標上看 15 億美元以上,訂單能見度到 2027 年底」——H2 爆發成長的核心邏輯。<div class="src">— Q1 法說會,2026/05/08</div></div>
+    <div class="quote">6 月營收 MoM+84.6% 已是具體數字驗證,不是單純的敘事期待。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">外資維持「加碼」評等,目標價 5,088 元。<div class="src">— 外資報告,2026/07</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q1 營收年減 60% 顯示客戶專案高度集中,一旦北美 AI 加速器客戶的需求或時程生變,營收波動可能同樣劇烈。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">5 月股價短線暴衝一度被列入注意股,IP/ASIC 族群 7/14 單獨重挫,顯示短線籌碼過熱、與大盤系統性風險無關的個股層面疑慮也曾單獨發酵。<div class="src">— readmo/CMoney,2026/05~07</div></div>
+    <div class="quote">TTM P/E 49.32x 仍需要 H2 爆發成長「完全兌現」才能消化,任何時程遞延都可能引發估值重新修正。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>外資(維持加碼)</td><td class="green">5,088</td><td>H2 爆發成長路徑,全年 3 奈米營收目標 >15 億美元</td></tr>
+  <tr><td>另一分析(較保守)</td><td class="amber">約 4,300</td><td>營運谷底已過,2026 年迎來爆發性成長的關鍵一步</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">兩則目標價皆發布於崩盤前,尚未反映 7/14、7/17~20 的回檔;精確 FactSet 完整分佈、法人 7 月買賣超、內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q1 營收</div><div class="value red">YoY -60%</div><div class="note">客戶專案交接空窗期,基期效應明顯</div></div>
+  <div class="card"><div class="label">Q1 毛利率</div><div class="value green">50.16%</div><div class="note">創單季歷史新高,QoQ+7.86pp、YoY+27pp</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">17.55</div><div class="note">稅後淨利 14.28 億,營收逆風下仍創高利潤</div></div>
+  <div class="card"><div class="label">6 月營收動能</div><div class="value green">MoM+84.6%</div><div class="note">YoY+15.4%,驗證 H2 放量財測</div></div>
+  <div class="card"><div class="label">全年 3nm 營收目標</div><div class="value">>15 億美元</div><div class="note">訂單能見度延伸至 2027 年底</div></div>
+  <div class="card"><div class="label">客戶集中度</div><div class="value red">高度集中</div><div class="note">北美單一 AI 加速器客戶為主要成長引擎,查無精確占比</div></div>
+</div>
+
+<h2>三家最接近的競爭對手(ASIC 設計服務族群)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比(TTM)</th><th>7/21 股價與漲幅</th><th>與世芯-KY 的差異</th></tr>
+  <tr class="hl"><td>3661</td><td>世芯-KY</td><td>49.32x</td><td>3,490(+3.71%)</td><td>純 ASIC 設計服務,北美 AI 加速器客戶集中度最高</td></tr>
+  <tr><td>3443</td><td>創意</td><td>112.67x</td><td>4,115(+9.88%)</td><td>台積電體系 ASIC 設計服務,估值更高、本益比逾世芯-KY 兩倍</td></tr>
+  <tr><td>2454</td><td>聯發科(參照)</td><td>53.23x</td><td>3,670(+9.88%)</td><td>自有 IP+ASIC 雙引擎,規模遠大於純設計服務商</td></tr>
+  <tr><td>AVGO</td><td>博通(參照)</td><td>約 32x</td><td>—</td><td>真正 ASIC 龍頭,規模領先一個世代,估值反而較低</td></tr>
+</table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 3,490 vs 中值</th></tr>
+  <tr><td>Q1 EPS 年化 × 20~25x</td><td>17.55×4=70.2(不假設任何 H2 加速,循環股保守倍數)</td><td>1,404~1,755</td><td class="red">貴 99%</td></tr>
+  <tr><td>外資目標(保守端)</td><td>營運谷底已過情境</td><td>4,300(單點)</td><td class="green">便宜 19%</td></tr>
+  <tr><td>外資目標(維持加碼)</td><td>H2 爆發成長,全年 3nm 營收 >15 億美元</td><td>5,088(單點)</td><td class="green">便宜 31%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">Q1 簡單年化法顯示現價明顯偏貴,但這個方法完全忽略了管理層明確指引「Q3 起強勁季增」且已被 6 月營收(MoM+84.6%)部分驗證的 H2 加速路徑;外資目標則已把這條加速路徑計入,現價相對兩者皆有 19~31% 空間。核心分歧在於:H2 是否真能延續 6 月的加速動能到 Q3、Q4。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低——這是本輪 ASIC 族群分析中少見「敘事已獲數字初步驗證」的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">與國巨、聯發科等本系列近期分析的「目標價追價式上修、數字尚未跟上」模式不同,世芯-KY 的 6 月營收 MoM+84.6% 是管理層 5 月財測的具體兌現,不是單純的敘事期待。TTM P/E 49.32x 雖不便宜,但若 Q3、Q4 延續加速動能,消化估值的速度可能快於單純的敘事型 ASIC 股。真正的風險是客戶集中度——北美單一 AI 加速器客戶若需求或時程生變,Q1 已示範過營收可能單季年減 60% 的劇烈波動。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">恐慌後回穩,信心待驗證</div><div class="bar"><div style="width:48%;background:var(--amber)"></div></div><div class="note">波段回檔 34% 後 7/21 溫和反彈,尚待更多營收數字支撐信心</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">加碼 Overweight</div><div class="note">目標價 4,300~5,088,惟發布於崩盤前,近期未見更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">17.55(Q1) → H2 爆發</div><div class="note">6 月營收已驗證加速,Q3 完整數字待 Q3 法說確認</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 2000~7000;left% = (價格-2000)/5000×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:16.0%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,500~2,800</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,600~4,300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">4,800~5,088</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:86.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">6,000+</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:31.4%"><div class="arrow">▲</div><div class="price">3,490</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>2,500~2,800</td><td>H2 爆發不如預期或北美客戶砍單/時程遞延,回測更深低點</td><td class="red">約 -24%</td></tr>
+  <tr><td class="amber">Base</td><td>3,600~4,300</td><td>Q3 如期兌現強勁季增,估值修復至保守端法人目標;現價接近此區間下緣</td><td class="green">約 +13%</td></tr>
+  <tr><td class="green">Bull</td><td>4,800~5,088</td><td>外資維持加碼目標兌現,全年 3nm 營收 >15 億美元確認</td><td class="green">約 +42%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>6,000+</td><td>訂單能見度延伸至 2027 年底全數兌現,新客戶專案additional 挹注</td><td class="green">約 +86%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">3,300~3,490</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">3,000~3,200</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,700~2,900</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,500</b> = H2 爆發性成長邏輯失效(N3 AI 加速器量產延遲或客戶砍單確認),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 3,900(前波支撐轉壓力)+7 月營收持續驗證強勁動能<br>
+    進場區:<b class="green">3,900~4,050</b><br>
+    移動停利:跌破 10 日線或高點回檔 15%(高波動股需更寬容忍度)<br>
+    假突破失效:觸發後 2 日內跌回 3,750 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,800~5,088</div><div class="note">賣出 25~50%;外資目標價區,高波動股務必落袋為安</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,000+</div><div class="note">Stretched 區;續抱條件是訂單能見度持續延伸且無客戶集中度惡化跡象</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:5/8 法說會揭示北美客戶 N3 AI 加速器將於 6 月放量、Q3 起強勁季增,股價自法說後一路衝上 7/2 高點 4,895;7/14 IP/ASIC 族群單獨重挫、7/17 台股史上最大跌點雙重打擊下,波段回檔約 34% 見 3,245(7/20),但期間公布的 6 月營收(MoM+84.6%)實際上驗證了管理層的 H2 放量財測,是這波回檔中少見的正向確認訊號,7/21 隨大盤反彈收 3,490(+3.71%)。</div>
+<div class="concl">② <b>估值</b>:合理偏低——TTM P/E 49.32x 用 Q1 簡單年化法看明顯偏貴,但這忽略了已被 6 月營收部分驗證的 H2 加速路徑;外資目標(4,300~5,088)距現價仍有 19~31% 空間,是本輪 ASIC 族群分析中少見「敘事已獲數字初步驗證」的一檔。</div>
+<div class="concl">③ <b>結論</b>:分批布局,觀察 Q3 單季是否兌現爆發性成長——現價落在 Base 情境(3,600~4,300)下緣,風險報酬尚可(Bull +42%/Stretched +86% 對 Bear -24%),但北美單一客戶集中度是核心風險,Q1 已示範過營收單季年減 60% 的劇烈波動可能性;收盤跌破 2,500 即 H2 邏輯失效,無條件出場。</div>
+
+<footer>
+資料時間:股價 2026/07/21 收盤(TWSE 官方 STOCK_DAY);本益比/殖利率/PB 2026/07/20(TWSE BWIBBU);Q1 法說 2026/05/08(豐雲學堂/vocus/MoneyDJ);6 月營收 2026/07 中公告(富聯網/鉅亨網);外資目標價與注意股/族群重挫報導 2026/05~07(readmo/CMoney/經濟日報/非凡新聞);台股史上最大跌點 2026/07/17(本儀表板既有分析);同業本益比 2026/07/20、股價 2026/07/21(TWSE 官方開放資料)。Q2/Q3 完整財報與法說會日期查無;精確市值股本、客戶集中度占比、法人 7 月買賣超、內部人申報查無。<br>
+主要來源:TWSE 官方開放資料、Yahoo 股市、鉅亨網、豐雲學堂、vocus、MoneyDJ理財網、readmo/CMoney、經濟日報、非凡新聞、富聯網、Disp BBS/PTT。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔客戶集中度高,Q1 已示範營收可劇烈波動,情境誤差區間較一般個股大。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
