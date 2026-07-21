@@ -1,9 +1,9 @@
 {
   "_comment": "研究筆記個股註冊表。發佈新分析時必須登記/更新:market=twse|tpex,analysis_date/analysis_price=該次分析基準,tags=中文產業分類(update_freshness.py 會用 twse-disposition 的 stock_info.json tags 補充)",
-  "2337": {"name": "旺宏", "market": "twse", "file": "2337-macronix.html", "analysis_date": "2026-07-07", "analysis_price": 139.0, "tags": ["記憶體"]},
+  "2337": {"name": "旺宏", "market": "twse", "file": "2337-macronix.html", "analysis_date": "2026-07-21", "analysis_price": 123.0, "tags": ["記憶體"]},
   "2408": {"name": "南亞科", "market": "twse", "file": "2408-nanya.html", "analysis_date": "2026-07-09", "analysis_price": 435.5, "tags": ["記憶體"]},
   "2344": {"name": "華邦電", "market": "twse", "file": "2344-winbond.html", "analysis_date": "2026-07-07", "analysis_price": 174.0, "tags": ["記憶體"]},
-  "6239": {"name": "力成", "market": "twse", "file": "6239-powertech.html", "analysis_date": "2026-07-07", "analysis_price": 323.5, "tags": ["封測", "記憶體"]},
+  "6239": {"name": "力成", "market": "twse", "file": "6239-powertech.html", "analysis_date": "2026-07-21", "analysis_price": 272.0, "tags": ["封測", "記憶體"]},
   "3324": {"name": "雙鴻", "market": "tpex", "file": "3324-auras-event.html", "analysis_date": "2026-07-07", "analysis_price": 1040.0, "tags": ["散熱"]},
   "8027": {"name": "鈦昇", "market": "tpex", "file": "8027-eandr.html", "analysis_date": "2026-07-06", "analysis_price": 239.0, "tags": ["設備"]},
   "8150": {"name": "南茂", "market": "twse", "file": "8150-chipmos.html", "analysis_date": "2026-07-17", "analysis_price": 110.5, "tags": ["封測", "記憶體"]},
