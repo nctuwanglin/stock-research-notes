@@ -39,6 +39,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   /* 情境價位圖:標籤在上、線在中、現價在下 */
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
@@ -67,38 +71,56 @@
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>鴻海 Hon Hai (2317.TW) <span class="badge amber">估值:合理偏低</span> <span class="badge green">結論:中長期投資</span></h1>
-<div class="sub">台股・電子代工/AI 伺服器|資料截至 2026/07/03 收盤,製表 2026/07/05</div>
+<h1>鴻海 Hon Hai (2317.TW) <span class="badge amber">估值:合理偏低(衝高回落一輪後回到便宜區)</span> <span class="badge green">結論:中長期投資</span></h1>
+<div class="sub">台股・電子代工/AI 伺服器|6/3 創天價後完整回檔修正版|股價截至 2026/07/21 收盤,製表 2026/07/21</div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">NT$240.5</div><div class="note">7/3 收盤 +0.63%</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約 3.37 兆</div><div class="note">新台幣</div></div>
-  <div class="card"><div class="label">近 30 天</div><div class="value red">約 -5%</div><div class="note">自 6 月高點 253.5 回落</div></div>
-  <div class="card"><div class="label">今年區間</div><div class="value">192~253.5</div><div class="note">4月低點 / 6月高點</div></div>
-  <div class="card"><div class="label">Forward P/E</div><div class="value">約 12.7x</div><div class="note">以 2026E EPS 19 元計</div></div>
-  <div class="card"><div class="label">共識目標價</div><div class="value green">310~400</div><div class="note">主要外資,中值約 340(+41%)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">246.0</div><div class="note">2026/07/21 收盤,+4.90%;7/17 台股史上最大跌點當日收 234.0(-3.51%,相對抗跌)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 3.45 兆</div><div class="note">較 7/3 分析時(約 3.37 兆)略增</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">192~314</div><div class="note">4 月低點 / <b class="amber">6/3 盤中創天價 314(收 309)</b>,此後 6 週回檔近 25% 見 234(7/17)</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">16.65x</div><div class="note">TWSE 官方數據(7/20);PB 1.84x,殖利率 3.06%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 13.9x</div><div class="note">2026E EPS 共識中位 17.68(FactSet 24 位,16.38~19.04);2027E 23.2 → 約 10.6x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">315</div><div class="note">FactSet 24 位共識;外資目標帶 310~400(高盛 400/花旗 360/野村 352/匯豐 330);距現價 +28%~+63%</div></div>
+</div>
+
+<h2>⓪ 事件回顧與最新變化 — 從 314 天價到 234 低點的完整一輪回檔</h2>
+<div class="event">
+  <h3>事件一:6/3 盤中衝上 314 創天價,隨後本益比觸頂+獲利了結</h3>
+  <div class="flow">鴻海股價在 6 月初一路衝高,6/3 盤中觸及 <b>314 元(收 309)</b>,較 7/3 分析時登錄的「6 月高點 253.5」高出許多——這是先前分析遺漏的更早高點。市場人士指出,以本益比框架估算「18 倍本益比約對應 315 元」,6 月高點已逼近當時法人給予的評價上限,外資隨後開始獲利了結;同時市場開始擔憂蘋果新機漲價可能影響今年消費電子出貨量。股價自此展開約 6 週、近 25% 的回檔。</div>
+</div>
+<div class="event">
+  <h3>事件二:7/17 台股史上最大跌點疊加,但鴻海相對抗跌</h3>
+  <div class="flow">回檔途中疊加 7/17 台股史上最大單日跌點(-2,953.71 點、-6.47%),鴻海當日收 234.0(-3.51%),跌幅明顯低於記憶體/散熱等高波動類股(多數重挫 6~9%),顯示電子代工龍頭的 Beta 相對溫和。7/20 續盤整,7/21 隨大盤強彈 4.20% 同步回升,鴻海收 246.0(+4.90%),已站回 7/3 分析時的價位(240.5)之上。</div>
+</div>
+<div class="event">
+  <h3>對鴻海的含義:基本面持續創高,股價完成一輪「衝高回落」但未破壞多頭結構</h3>
+  <div class="flow">整段回檔期間,鴻海基本面沒有絲毫轉弱——6 月營收 8,217.63 億(YoY+52.1%)、Q2 營收 2.51 兆(YoY+39.8%、QoQ+18.0%)、上半年累計 4.64 兆(YoY+35.0%),單月/單季/半年度<b>三度創同期新高</b>。三大法人籌碼也從 7/1~7/2 的重賣(-23,541/-27,317 張)轉為 7/8~7/9 的淨買超(+530/+5,585 張),先前提及的「連 11 天賣超」已經結束。這次的「衝高回落」比較像是評價過熱後的正常修正,而非基本面惡化——現在的 Forward P/E(13.9x)反而比 7/3 分析時的水準更便宜。</div>
 </div>
 
 <h2>① 催化劑分析 — 為什麼漲?</h2>
 <ul class="timeline">
   <li><span class="date">2026/05/14</span><b>Q1 法說會(真正催化劑)</b>:營收 2.12 兆(+29% YoY)、EPS 3.56 元創同期新高(+17%)、營益率 3.57%(+0.74pp)。AI 伺服器營收占比首度突破五成,管理層上修全年資本支出 30% 以上,美洲將成最大 AI 伺服器量產基地。</li>
-  <li><span class="date">2026/06 起</span>GB300 / Vera Rubin 機櫃 Q3 陸續出貨,訂單能見度延伸至 2027 年底;全年 AI 機櫃出貨「倍數以上」成長。</li>
-  <li><span class="date">2026/07 初</span>6 月營收 8,218 億(+52.1% YoY);Q2 營收 2.51 兆(+39.8% YoY、+18.0% QoQ),單月/單季/上半年皆創同期新高。全年營收挑戰 9 兆元。</li>
-  <li><span class="date">短線警訊</span>三大法人連 11 個交易日賣超(7/2 單日 -27,317 張),股價自 253.5 高點回檔。</li>
+  <li><span class="date">2026/06/03</span><b class="green">股價盤中衝上 314 元創天價</b>(收 309):GB300/Vera Rubin 機櫃出貨題材發酵,散戶社群喊出「300 元幾乎毫無懸念」;隨後本益比接近法人評價上限(18x×EPS≈315),外資開始獲利了結。</li>
+  <li><span class="date">2026/06 中~下旬</span><b class="red">股價連續回檔</b>:自 314 高點滑落至 6/29 的 246.5,市場疑慮蘋果新機漲價恐影響消費電子出貨量,疊加獲利了結賣壓。</li>
+  <li><span class="date">2026/07 初</span><b>6 月營收 8,217.63 億(YoY+52.1%、MoM-4.4%)創歷年同期最高</b>;Q2 營收 2.51 兆(YoY+39.8%、QoQ+18.0%)、上半年累計 4.64 兆(YoY+35.0%),皆創同期新高,惟股價持續在 234~242 區間整理,籌碼面三大法人一度連 11 天賣超(7/2 單日 -27,317 張)。</li>
+  <li><span class="date">2026/07/08~09</span><b class="green">三大法人由賣轉買</b>:淨買超 530 張(7/8)、5,585 張(7/9),先前的連續賣超暫告一段落。</li>
+  <li><span class="date">2026/07/17</span><b class="red">台股史上最大單日跌點</b>:加權指數跌 2,953.71 點(-6.47%)創史上紀錄,鴻海收 234.0(-3.51%),相對抗跌,波段自 314 高點回檔近 25%。</li>
+  <li><span class="date">2026/07/21</span><b class="green">隨大盤強彈</b>:大盤大漲 +4.20%,鴻海收 246.0(+4.90%),已站回 7/3 分析時價位(240.5)之上。</li>
+  <li><span class="date">下一個關鍵點</span>2026/08/12:Q2 財報暨法人說明會,是驗證 Q3 展望(公司預告季增、年增雙增)與 AI 伺服器毛利率是否改善的關鍵時點。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">「AI 機櫃翻倍成長,EPS 上看 17~18 元,300 元幾乎毫無懸念」<div class="src">— 分析師蔡明翰,散戶社群大量轉傳</div></div>
-    <div class="quote">「劉揚偉表態明年要賺 2 個股本(EPS 20 元)」<div class="src">— 法說會後媒體熱議焦點</div></div>
-    <div class="quote">散戶最常喊的目標價:<b>300 元</b>,激進者跟喊高盛的 <b>400 元</b></div>
+    <div class="quote">「AI 機櫃翻倍成長,EPS 上看 17~18 元,300 元幾乎毫無懸念」——6 月初一度成真,股價衝上 314。<div class="src">— 分析師蔡明翰,散戶社群大量轉傳</div></div>
+    <div class="quote">股價翻身兩大關鍵:AI 伺服器毛利率若持續改善,以及電動車事業(Foxtron 與三菱合作)下半年於澳洲開賣,代表國際代工邁進重要一步。<div class="src">— 今周刊,2026/07/17</div></div>
+    <div class="quote">法說會預告 Q3 AI 機櫃維持成長趨勢,ICT 產品進入下半年旺季,營運將季增、年增雙增。<div class="src">— 公司 6 月營收公告</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">「量縮價跌→爆量拉升→高檔出貨,教科書級 M 頭」<div class="src">— PTT Stock 板技術面質疑</div></div>
-    <div class="quote">「跌比別人多、反彈比人少,漲不動」<div class="src">— Yahoo 股市討論區</div></div>
-    <div class="quote">「AI 訂單背後藏輝達溫柔陷阱」— 對組裝毛利率偏低的疑慮<div class="src">— Yahoo 財經專欄</div></div>
+    <div class="quote">「本益比已達樂觀假設上限」——18 倍本益比約對應 315 元,6 月初高點已逼近此天花板,獲利了結壓力隨之而來。<div class="src">— 今周刊,2026/07/17</div></div>
+    <div class="quote">蘋果新機漲價可能影響今年消費電子出貨量,是本輪回檔的具體疑慮之一。<div class="src">— 今周刊產業觀察</div></div>
+    <div class="quote">「量縮價跌→爆量拉升→高檔出貨,教科書級 M 頭」——技術面對 314 高點後的走勢仍有疑慮。<div class="src">— PTT Stock 板技術面質疑</div></div>
   </div>
 </div>
 
@@ -110,61 +132,62 @@
   <tr><td>野村</td><td>352</td><td>—</td></tr>
   <tr><td>匯豐</td><td>330</td><td>—</td></tr>
   <tr><td>瑞銀 / 小摩</td><td>310</td><td>—</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">現價 240.5 距最低目標價 310 仍有 +29% 空間;籌碼面短線偏空(法人連 11 賣),內部人交易:查無近期重大申報</td></tr>
+  <tr><td>FactSet 共識(24 位,較新)</td><td class="amber">315</td><td>2026E EPS 中位數自 17.58 上修至 17.68(16.38~19.04);2027E 共識 23.2</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">現價 246.0 距最低目標價 310 仍有 +26% 空間;籌碼面 7/1~7/2 重賣後已於 7/8~7/9 轉買超。內部人交易:查無近期重大申報。</td></tr>
 </table>
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q1 營收成長</div><div class="value green">+28.9%</div><div class="note">Q2 加速至 +39.8%</div></div>
-  <div class="card"><div class="label">Q1 EPS 成長</div><div class="value green">+17%</div><div class="note">3.56 元,同期新高</div></div>
-  <div class="card"><div class="label">毛利率</div><div class="value">6.18%</div><div class="note">年增 0.06pp</div></div>
-  <div class="card"><div class="label">現金部位</div><div class="value">9,863 億</div><div class="note">金融借款 1.25 兆</div></div>
-  <div class="card"><div class="label">負債比</div><div class="value">61.98%</div><div class="note">流動比 1.45</div></div>
-  <div class="card"><div class="label">Fwd EV/Sales</div><div class="value green">約 0.4x</div><div class="note">2026E 營收 9 兆</div></div>
+  <div class="card"><div class="label">Q2 營收成長</div><div class="value green">+39.8%</div><div class="note">2.51 兆,QoQ+18.0%;6 月單月 8,217.63 億創同期新高</div></div>
+  <div class="card"><div class="label">H1 累計營收</div><div class="value green">4.64 兆</div><div class="note">YoY+35.0%,創歷年同期最高</div></div>
+  <div class="card"><div class="label">Q1 EPS 成長</div><div class="value green">+17%</div><div class="note">3.56 元,同期新高;Q2 完整 EPS 待 8/12 公布</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">6.18%</div><div class="note">Q1 數字,年增 0.06pp;Q2 數字待公布</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">9,863 億</div><div class="note">Q1 數字;金融借款 1.25 兆</div></div>
+  <div class="card"><div class="label">負債比</div><div class="value">61.98%</div><div class="note">Q1 數字,流動比 1.45</div></div>
 </div>
-<div class="card" style="margin-top:10px"><div class="note">注意:Q1 自由現金流 -325.6 億、存貨季增 10.4% 至 1.21 兆——擴產備貨期的典型現象,需追蹤下半年能否轉正。股本無明顯稀釋;2025 年配息 7.2 元(殖利率約 3%)。</div></div>
+<div class="card" style="margin-top:10px"><div class="note">注意:Q1 自由現金流 -325.6 億、存貨季增 10.4% 至 1.21 兆——擴產備貨期的典型現象,需追蹤 Q2 能否轉正,8/12 財報將揭曉。股本無明顯稀釋;2025 年配息 7.2 元(TTM 殖利率約 3.06%)。</div></div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>2026E EPS</th><th>近況營收動能</th><th>定位差異</th></tr>
-  <tr class="hl"><td>2317</td><td>鴻海</td><td>約 12.7x</td><td>約 19 元</td><td>Q2 +39.8%</td><td>NVIDIA GB 系列機櫃最大組裝廠,規模第一、毛利率最低</td></tr>
-  <tr><td>2382</td><td>廣達</td><td>約 12x</td><td>28.25 元(大摩)</td><td>AI 營收占比→68%</td><td>主攻 Meta/Google CSP,AI 毛利率已達雙位數</td></tr>
-  <tr><td>3231</td><td>緯創</td><td>約 11x</td><td>13.76 元(大摩)</td><td>2026E 營收 +38.6%</td><td>GPU 模組/基板+伺服器,估值同業最低</td></tr>
-  <tr><td>6669</td><td>緯穎</td><td>查無(目標價 5,800)</td><td>查無</td><td>Q1 營收 2,765 億,beat 6%</td><td>北美 CSP 客製化伺服器最大供應商(Microsoft/AWS)</td></tr>
-  <tr><td>4938</td><td>和碩</td><td>約 13x</td><td>查無(Q1 EPS 1.33)</td><td>平緩</td><td>消費電子為主,AI 伺服器占比低,成長最慢</td></tr>
-  <tr><td>2356</td><td>英業達</td><td>約 11x</td><td>查無</td><td>3 月出貨 beat 47%</td><td>伺服器主機板代工,規模較小</td></tr>
+  <tr><th>代號</th><th>公司</th><th>本益比(TTM)</th><th>近況營收動能</th><th>定位差異</th></tr>
+  <tr class="hl"><td>2317</td><td>鴻海</td><td>16.65x;約 13.9x(2026E)</td><td>Q2 +39.8%,H1 累計創同期新高</td><td>NVIDIA GB 系列機櫃最大組裝廠,規模第一、毛利率最低</td></tr>
+  <tr><td>2382</td><td>廣達</td><td>15.89x</td><td>7/21 收 324.0(+2.53%)</td><td>主攻 Meta/Google CSP,AI 毛利率已達雙位數</td></tr>
+  <tr><td>3231</td><td>緯創</td><td>14.39x</td><td>7/21 收 149.5(+4.19%)</td><td>GPU 模組/基板+伺服器,估值同業最低</td></tr>
+  <tr><td>6669</td><td>緯穎</td><td>查無(目標價 5,800)</td><td>7/21 收 5,000(+6.72%)</td><td>北美 CSP 客製化伺服器最大供應商(Microsoft/AWS)</td></tr>
+  <tr><td>4938</td><td>和碩</td><td>18.39x</td><td>7/21 收 82.8(+3.50%)</td><td>消費電子為主,AI 伺服器占比低,成長最慢</td></tr>
+  <tr><td>2356</td><td>英業達</td><td>21.75x</td><td>7/21 收 60.1(+5.07%)</td><td>伺服器主機板代工,規模較小</td></tr>
 </table>
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 240.5 vs 中值</th></tr>
-  <tr><td>2026E P/E 11~14x</td><td>高盛 2026E 19.04 × 代工股常態倍數</td><td>209~267</td><td class="amber">合理(區間內)</td></tr>
-  <tr><td>2027E P/E 12~15x</td><td>高盛 2027E 22.49,AI 佔比提升享升評</td><td>270~337</td><td class="green">便宜 21%</td></tr>
-  <tr><td>外資目標帶</td><td>匯豐 330/野村 352/花旗 360</td><td>330~360</td><td class="green">便宜 30%</td></tr>
-  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 19.04/22.49/25.3 當 FCF 近似</td><td>263~391(推演)</td><td class="green">便宜 26%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 246.0 vs 中值</th></tr>
+  <tr><td>2026E P/E 11~14x</td><td>FactSet 中位 17.68 × 代工股常態倍數</td><td>194~248</td><td class="amber">合理(區間內)</td></tr>
+  <tr><td>2027E P/E 12~15x</td><td>2027E 共識 23.2,AI 佔比提升享升評</td><td>278~348</td><td class="green">便宜 21%</td></tr>
+  <tr><td>外資目標帶</td><td>匯豐 330/野村 352/花旗 360</td><td>330~360</td><td class="green">便宜 29%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 17.68/23.2/25.3(高盛 2028E)當 FCF 近似</td><td>250~380(推演)</td><td class="amber">合理(區間下緣)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法有三種整段都在現價 240.5 右邊,DCF 中值也在上方——與其他 AI 股相反,鴻海是「多方法一致說便宜」的那檔;折價來源是市場對代工毛利率的不信任,而非獲利預估分歧。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法中兩種說「合理」、兩種說「便宜」,較 7/3 時整體更友善——股價從 314 高點回檔後,2026E 估值已回到常態下緣,2027E 與外資目標帶則仍有 21~29% 空間。折價來源仍是市場對代工毛利率的不信任,基本面本身未見鬆動。</div>
 
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理偏低(Fair→Discount)。</b>
+  <b>估值判斷:合理偏低——完成一輪衝高回落後,估值比 7/3 分析時更便宜。</b>
   <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
-  鴻海 Fwd P/E 約 12.7x,落在同業 11~13x 區間中段,表面「合理」。但特殊情況在於:2026E EPS 19 元對 2025 年 13.61 元是 <b class="green">+40% 成長</b>,PEG 僅約 0.3;且 Q2 營收成長 39.8% 為五家中最快。成長性同業最強、估值卻只有中段——市場仍用「傳統代工」眼光定價一家 AI 占比過半的公司,存在錯誤定價空間。</div>
+  鴻海 Fwd P/E 約 13.9x(用 FactSet 中位 EPS 17.68 計),已比 6 月高點附近的樂觀評價(18x)明顯回落;2026E EPS 17.68 對 2025 年仍是雙位數成長,五家同業中營收動能最強(Q2 +39.8%)。市場仍用「傳統代工」眼光定價一家 AI 占比過半的公司,錯誤定價空間依舊存在,只是這次是先衝高、再回落,而非單邊低估。</div>
 </div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">多空分歧</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">偏多約 6 成,尚未一面倒(非過熱警訊)</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">主要外資全數看多,近 30 天花旗 320→360 上調</div></div>
-  <div class="card"><div class="label">獲利預估</div><div class="value">EPS 19→22.5</div><div class="note">2026E→2027E(高盛),2028E 25.3</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">從追高到觀望</div><div class="bar"><div style="width:52%;background:var(--green)"></div></div><div class="note">6 月初一面倒喊 300 元以上(過熱訊號);314 回檔後轉為謹慎觀望</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">買進 Buy</div><div class="note">FactSet 24 位共識目標 315;外資全數看多,近期未見下修</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">17.68→23.2</div><div class="note">2026E→2027E(FactSet 共識),2028E 高盛估 25.3</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026</td><td>19.04(高盛;FactSet 分佈查無)</td><td>11~14x</td><td>209~267</td><td>約 -1%</td></tr>
-  <tr><td>2027</td><td>22.49(高盛)</td><td>12~15x</td><td>270~337</td><td class="green">約 +12%/年</td></tr>
-  <tr><td>2028</td><td>25.3(高盛)</td><td>13~16x</td><td>329~405</td><td class="green">約 +15%/年</td></tr>
+  <tr><td>2026</td><td>16.38 / 17.68 / 19.04(FactSet 24 位)</td><td>11~14x</td><td>194~248</td><td>約 -10%~+1%</td></tr>
+  <tr><td>2027</td><td>約 23.2(FactSet 共識)</td><td>12~15x</td><td>278~348</td><td class="green">約 +27%/年</td></tr>
+  <tr><td>2028</td><td>25.3(高盛單一路徑)</td><td>13~16x</td><td>329~405</td><td class="green">約 +49%/年</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">三年數字皆出自高盛單一路徑,FactSet 完整分佈查無;年化報酬隨年期遞增=典型「便宜等補漲」結構。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026/2027 已有 FactSet 完整分佈,精確度優於 7/3 時僅高盛單一數字;2028 仍僅高盛路徑,列為推演參考。</div>
 
 <h2>四種股價情境</h2>
 <div class="ladder">
@@ -173,14 +196,14 @@
   <div class="mark" style="left:42%"><div class="lbl">Base(6~12月)</div><div class="price amber">280~310</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
   <div class="mark" style="left:68%"><div class="lbl">Bull(12~18月)</div><div class="price green">350~400</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
   <div class="mark" style="left:92%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">~450</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:24%"><div class="arrow">▲</div><div class="price">240.5</div><div class="lbl">現價</div></div>
+  <div class="mark below" style="left:27.4%"><div class="arrow">▲</div><div class="price">246.0</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
-  <tr><td class="red">Bear</td><td>190~200</td><td>AI 機櫃出貨遞延+毛利率壓縮 → P/E 回到 10x × EPS 19;對應 4 月錯殺低點 192</td><td class="red">-17~-21%</td></tr>
-  <tr><td class="amber">Base</td><td>280~310</td><td>照財測發展 → P/E 14x × 混合 EPS 約 21;對應外資保守端目標 310</td><td class="green">+16~+29%</td></tr>
-  <tr><td class="green">Bull</td><td>350~400</td><td>機櫃倍數成長兌現+明年賺 2 股本 → P/E 16~18x × EPS 22.5;對應花旗 360~高盛 400</td><td class="green">+46~+66%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>~450</td><td>2028E EPS 25.3 × P/E 18x,需 AI+電動車+機器人三引擎同時兌現</td><td class="green">+87%</td></tr>
+  <tr><td class="red">Bear</td><td>190~200</td><td>AI 機櫃出貨遞延+毛利率壓縮 → P/E 回到 10x × EPS 17.68~19;對應 4 月錯殺低點 192</td><td class="red">-19~-23%</td></tr>
+  <tr><td class="amber">Base</td><td>280~310</td><td>照財測發展 → P/E 14x × 混合 EPS 約 20~21;對應外資保守端目標 310</td><td class="green">+14~+26%</td></tr>
+  <tr><td class="green">Bull</td><td>350~400</td><td>機櫃倍數成長兌現+8/12 法說釋出樂觀訊號 → P/E 16~18x × EPS 23.2;對應花旗 360~高盛 400</td><td class="green">+42~+63%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>~450</td><td>2028E EPS 25.3 × P/E 18x,需 AI+電動車+機器人三引擎同時兌現</td><td class="green">+83%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -189,8 +212,8 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">225~235</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">210~220</td><td>30%</td></tr>
+      <tr><td>第一批</td><td class="green">230~240</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">215~225</td><td>30%</td></tr>
       <tr><td>第三批</td><td class="green">195~205</td><td>40%</td></tr>
     </table>
     <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">190</b> = AI 伺服器出貨/GB 系列放量邏輯失效(AI 營收占比與月營收年增同步走弱),無條件出場</div>
@@ -198,25 +221,25 @@
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:三大法人由連賣轉連 3 買,且收盤突破 253.5 今年高<br>
-    進場區:<b class="green">254~260</b><br>
+    觸發條件:收盤突破 280 且 8/12 法說釋出正面訊號<br>
+    進場區:<b class="green">280~290</b><br>
     移動停利:跌破 20 日線或高點回檔 10%<br>
-    假突破失效:觸發後 3 日內跌回 245 即出場</div>
+    假突破失效:觸發後 3 日內跌回 265 即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">300~310</div><div class="note">賣出 25~50%;Base 上緣+整數關卡</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">300~315</div><div class="note">賣出 25~50%;Base 上緣+FactSet 共識目標</div></div>
   <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">350~360</div><div class="note">外資目標帶;續抱條件是毛利率突破 7%</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:這檔股票最近上漲的真正原因是 <b>AI 伺服器營收占比破五成 + Q2 營收年增 39.8% 創新高</b>;但真正值得關注、卻很少人討論的是——<b>三大法人已連 11 天賣超,且 Q1 自由現金流為 -326 億的擴產壓力</b>。</div>
-<div class="concl">② <b>估值</b>:如果你相信 AI 機櫃倍數成長的多頭邏輯,那麼鴻海相較同業屬於<b>合理偏便宜</b>——成長性五家最強(EPS +40%),Fwd P/E 卻只有中段的 12.7x,PEG 約 0.3。</div>
-<div class="concl">③ <b>結論</b>:這是一筆<b>中長期投資(Investment)</b>——催化劑實在、估值有安全邊際、外資目標價全數在 310 以上;但短線籌碼偏空,不宜追價,等 215~230 回檔區間分批布局。</div>
+<div class="concl">① <b>催化劑</b>:AI 伺服器營收占比破五成、Q2 營收年增 39.8% 創新高,推升股價 6/3 盤中衝上 314 天價;但本益比逼近評價上限(18x)後外資獲利了結,疊加消費電子疑慮與 7/17 台股史上最大跌點,6 週內回檔近 25% 見 234,7/21 隨大盤強彈回升至 246——整段期間基本面持續創新高,是評價修正而非獲利惡化。</div>
+<div class="concl">② <b>估值</b>:合理偏低——這輪衝高回落讓 Fwd P/E 從 6 月高點的 18x 回落至約 13.9x,反而比 7/3 分析時更便宜;FactSet 24 位分析師共識目標 315,較現價仍有 +28% 空間,成長性(Q2 +39.8%)是五家同業中最強,但估值僅落在中段。</div>
+<div class="concl">③ <b>結論</b>:中長期投資——催化劑實在、估值有安全邊際、外資目標價全數在 310 以上;籌碼面的賣壓已在 7/8~7/9 緩解,8/12 Q2 財報暨法說會是下一個關鍵驗證點,不宜追價,等 215~240 回檔區間分批布局。</div>
 
 <footer>
-資料時間:股價/籌碼 2026/07/03、財報 2026 Q1(5/14 法說)、營收 2026/06(7 月初公告)。<br>
-主要來源:Yahoo 股市、鉅亨網、經濟日報、聯合新聞網、永豐豐雲學堂、TechNews、旺得富(大摩報告)、PTT Stock 板。<br>
+資料時間:股價 2026/07/21 收盤(TWSE 官方 STOCK_DAY);本益比/殖利率/PB 2026/07/20(TWSE BWIBBU);6 月營收/Q2/H1 營收 2026/07 初公告(Yahoo 股市/財訊雙週刊/TechNews);Q1 財報與法說 2026/05/14;6/3 天價與後續回檔(今周刊,2026/07/17);台股史上最大跌點 2026/07/17(聯合新聞網/中央社);FactSet 共識 EPS/目標價(鉅亨網,近期調查);三大法人籌碼 2026/07/01~09(HiStock/Yahoo股市);同業股價 2026/07/21、本益比 2026/07/20(TWSE 官方開放資料)。Q2 完整財報與法說會 2026/08/12,尚未公布;精確 7 月籌碼、內部人申報查無。<br>
+主要來源:TWSE 官方開放資料、Yahoo 股市、鉅亨網、經濟日報、聯合新聞網、財訊雙週刊、TechNews、今周刊、永豐豐雲學堂、旺得富(大摩報告)、PTT Stock 板、HiStock。<br>
 「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>

@@ -4,7 +4,7 @@
   "2408": {"name": "南亞科", "market": "twse", "file": "2408-nanya.html", "analysis_date": "2026-07-09", "analysis_price": 435.5, "tags": ["記憶體"]},
   "2344": {"name": "華邦電", "market": "twse", "file": "2344-winbond.html", "analysis_date": "2026-07-07", "analysis_price": 174.0, "tags": ["記憶體"]},
   "6239": {"name": "力成", "market": "twse", "file": "6239-powertech.html", "analysis_date": "2026-07-21", "analysis_price": 272.0, "tags": ["封測", "記憶體"]},
-  "3324": {"name": "雙鴻", "market": "tpex", "file": "3324-auras-event.html", "analysis_date": "2026-07-07", "analysis_price": 1040.0, "tags": ["散熱"]},
+  "3324": {"name": "雙鴻", "market": "tpex", "file": "3324-auras-event.html", "analysis_date": "2026-07-21", "analysis_price": 926.0, "tags": ["散熱"]},
   "8027": {"name": "鈦昇", "market": "tpex", "file": "8027-eandr.html", "analysis_date": "2026-07-06", "analysis_price": 239.0, "tags": ["設備"]},
   "8150": {"name": "南茂", "market": "twse", "file": "8150-chipmos.html", "analysis_date": "2026-07-17", "analysis_price": 110.5, "tags": ["封測", "記憶體"]},
   "2303": {"name": "聯電", "market": "twse", "file": "2303-umc.html", "analysis_date": "2026-07-06", "analysis_price": 166.0, "tags": ["晶圓代工"]},
@@ -12,7 +12,7 @@
   "2454": {"name": "聯發科", "market": "twse", "file": "2454-mediatek.html", "analysis_date": "2026-07-03", "analysis_price": 4195.0, "tags": ["IC設計"]},
   "2330": {"name": "台積電", "market": "twse", "file": "2330-tsmc.html", "analysis_date": "2026-07-17", "analysis_price": 2370.0, "tags": ["晶圓代工"]},
   "2308": {"name": "台達電", "market": "twse", "file": "2308-delta.html", "analysis_date": "2026-07-05", "analysis_price": 2075.0, "tags": ["電源"]},
-  "2317": {"name": "鴻海", "market": "twse", "file": "2317-honhai.html", "analysis_date": "2026-07-05", "analysis_price": 240.5, "tags": ["電子代工"]},
+  "2317": {"name": "鴻海", "market": "twse", "file": "2317-honhai.html", "analysis_date": "2026-07-21", "analysis_price": 246.0, "tags": ["電子代工"]},
   "3037": {"name": "欣興", "market": "twse", "file": "3037-unimicron.html", "analysis_date": "2026-07-16", "analysis_price": 882.0, "tags": ["PCB", "ABF載板"]},
   "8299": {"name": "群聯", "market": "tpex", "file": "8299-phison.html", "analysis_date": "2026-07-17", "analysis_price": 1785.0, "tags": ["記憶體", "IC設計"]},
   "3008": {"name": "大立光", "market": "twse", "file": "3008-largan.html", "analysis_date": "2026-07-17", "analysis_price": 4010.0, "tags": ["光學鏡頭"]}
