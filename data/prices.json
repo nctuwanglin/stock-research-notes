@@ -88,14 +88,20 @@
   "8299": {
    "close": 1855.0,
    "date": "20260721",
-   "analysis_price": 1785.0,
-   "analysis_date": "2026-07-17"
+   "analysis_price": 1855.0,
+   "analysis_date": "2026-07-21"
   },
   "3008": {
    "close": 3985.0,
    "date": "20260721",
    "analysis_price": 4010.0,
    "analysis_date": "2026-07-17"
+  },
+  "2327": {
+   "close": 670.0,
+   "date": "20260721",
+   "analysis_price": 670.0,
+   "analysis_date": "2026-07-21"
   }
  }
 }

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>國巨 (2327) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>國巨 (2327) <span class="badge amber">估值:高度不確定(基本面強勁但信任危機未解)</span> <span class="badge red">結論:僅適合投機倉位,嚴設停損,勿貿然抄底</span></h1>
+<div class="sub">台股(TWSE)・被動元件(MLCC/晶片電阻/鉭質電容)龍頭|事件驅動版(天價崩跌 -48% 三大利空)|股價截至 2026/07/21 收盤,製表 2026/07/21</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">670</div><div class="note">2026/07/21 收盤,+6.35%;7/1 曾盤中衝上 1,220 天價,7/20 跌停見 630</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 1.39 兆</div><div class="note">9 個交易日自天價蒸發逾 9,700 億(約 1 兆)</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">49.61x</div><div class="note">TWSE 官方數據(7/20);PB 7.76x,殖利率 0.95%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 31.6~39.5x</div><div class="note">2026E EPS 共識中位 19.59(FactSet,16.98~21.22)</div></div>
+  <div class="card"><div class="label">機構目標價</div><div class="value green">1,275~1,500</div><div class="note">FactSet 共識 1,275;美系外資最高喊 1,500;距現價 +90%~+124%</div></div>
+  <div class="card"><div class="label">違約交割</div><div class="value red">3 次,破億元</div><div class="note">6/30~7/9 半個月內三度爆量,籌碼結構極不穩定</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 天價崩跌 48%,三大利空齊發</h2>
+<div class="event">
+  <h3>事件一:「利多出盡」式獲利了結,千金股退圈</h3>
+  <div class="flow">國巨股價自 4 月底的 317 元一路狂飆,7/1 盤中衝上 <b>1,220 元歷史天價</b>(收 1,140),短短 2 個月漲幅近 4 倍——驅動力是自 7/1 生效的<b>全品項漲價</b>(MLCC、鋁質/鉭質/高分子鋁質電容、薄膜電容、超級電容全面調漲 30~80%,近年最大範圍),外資同步喊出 1,275~1,500 元目標價,預估毛利率上看 46~51%、AI 營收占比自 9% 衝向 32%。但漲價利多剛發酵,股價 7/6 就跌破千元整數關卡(「千金股退圈」),市場開始獲利了結。</div>
+</div>
+<div class="event">
+  <h3>事件二:半個月內三度爆鉅額違約交割,籌碼結構亮紅燈</h3>
+  <div class="flow">6/30 首度爆出 3,880 萬元違約交割(7 家券商通報);7/7 股價跌停鎖死,導致大量當沖客無法賣出,推算引發 7/9 通報的第二起 4,131 萬元違約交割(13 家券商);半個月內合計至少 3 起、累計金額突破 1 億元。這是台股近期罕見的密集違約交割紀錄,反映這波急漲急跌吸引了大量融資/當沖投機籌碼,一旦股價反轉,賣壓與斷頭風險會互相強化。</div>
+</div>
+<div class="event">
+  <h3>事件三:大股東質押疑雲 + NVIDIA Kyber 延期傳言,雙重利空疊加 7/17 大盤崩盤</h3>
+  <div class="flow">董事長陳泰銘家族控股公司「陳氏傳承」(持股 6.82%、141,441,068 股)於 6/1~6/4 解質 4,640 萬股(質押股數降至 2,060 萬股),市場過度解讀為出貨前兆,國巨 7/17 發聲明澄清「未收到該股東任何股權變動之申報或通知,持股狀況並無變動」,但疑慮未完全消化。同期間 SemiAnalysis 報告傳出 NVIDIA 次世代 AI 機櫃 Kyber NVL144(PCB 中介板製造瓶頸)延遲至 2028 年,衝擊整個亞洲 AI 硬體供應鏈類股情緒(NVIDIA 隨後否認,稱 roadmap 不變)。兩者疊加 7/17 台股史上最大單日跌點(-6.47%),國巨盤中殺至跌停 699,7/20 再跌停探底 <b>630</b>,9 個交易日市值蒸發逾 9,700 億元,董事長身價蒸發約 5,856 億元。融資維持率降至 <b>131%</b>,已接近追繳警戒水位。</div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼先暴漲、又為什麼暴跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/06/上旬</span><b>Q1 法說會:EPS 創高,AI 需求成長為最大動能</b>:Q1 營收年增 22.7%、EPS 3.90 元創高,3 月營收締新猷、客戶庫存達健康水平。</li>
+  <li><span class="date">2026/06/09</span><b class="green">股價鎖漲停 826 元,美系外資喊上 1,500</b>:外資上調 2026~2028 年 EPS 至 18.2/30.7/42.6 元,以 2027 年 27 倍本益比評價,預估 2028 年賺進 4.3 個股本;花旗同步預估 MLCC/電阻/鉭質電容三年 CAGR 各 20%/16%/25%,2026~2028 EPS 17.81/31.42/43.24 元。</li>
+  <li><span class="date">2026/06/23</span><b>大摩最新 MLCC 報告:2027 報價再漲 67%</b>,「5 理由」推薦國巨,目標價、EPS 同步更新上修。</li>
+  <li><span class="date">2026/06/30</span><b class="red">首度爆出鉅額違約交割</b>:3,880 萬元,7 家券商通報。</li>
+  <li><span class="date">2026/07/01</span><b class="green">股價盤中衝上 1,220 元歷史天價</b>(收 1,140);同日起全品項漲價正式生效(MLCC 等全線調漲 30~80%,首度將直接客戶 ODM/EMS 也納入漲價範圍)。</li>
+  <li><span class="date">2026/07/06</span><b class="red">「千金股退圈」,利多出盡賣壓浮現</b>:外資才剛喊目標價 1,490 元(看好毛利率上看 51%),股價卻跌破千元關卡,盤中最低殺至 985(-5.74%)。</li>
+  <li><span class="date">2026/07/07</span><b class="red">股價跌停,收 905</b>,推算導致 7/9 通報的第二起鉅額違約交割(4,131 萬元,13 家券商)。</li>
+  <li><span class="date">2026/07/13~16</span><b class="red">持續破底</b>:自 921 一路殺至 776,期間再傳第三起違約交割(2,651 萬元),半個月內累計違約交割金額突破 1 億元。</li>
+  <li><span class="date">2026/07/17</span><b class="red">大股東質押疑雲 + Kyber 延期傳言 + 台股史上最大跌點三重利空</b>:國巨發聲明澄清質押傳言,惟股價盤中殺至跌停 699,同日台股加權指數重挫 2,953.71 點(-6.47%)創史上最大跌點。</li>
+  <li><span class="date">2026/07/20</span><b class="red">再度跌停,探底 630</b>:9 個交易日市值蒸發逾 9,700 億元,董事長陳泰銘身價蒸發約 5,856 億元,融資維持率降至 131%。</li>
+  <li><span class="date">2026/07/21</span><b class="green">止跌反彈</b>:收 670(+6.35%),分析師建議先觀察是否站穩 5 日線,再判斷反彈力道,不宜貿然抄底。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①這次暴跌期間,公司基本面數字本身並未出現利空——H1 營收 444.56 億(YoY+35.7%,達成率 109%)、6 月營收 153.59 億(YoY+38.9%)皆優於預期,兩項核心利空(質押、Kyber)公司與 NVIDIA 都已出面否認/澄清,尚未有實質證據坐實;②但三次違約交割顯示的融資/當沖籌碼過度擁擠,才是真正需要留意的結構性風險,融資維持率 131% 若股價再破底,恐觸發二次斷頭賣壓,與基本面無關卻會實質壓垮股價。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「MLCC 未來 3 年持續漲價,毛利率上看 51%,AI 營收占比自 9% 衝向 32%」——多產品線(MLCC/電阻/鉭電容)同步受惠 AI 供電架構升級。<div class="src">— 美系外資,2026/06~07</div></div>
+    <div class="quote">2026~2028 年 EPS 上看 18.2/30.7/42.6 元,2028 年賺進 4.3 個股本,以 2027 年 27 倍本益比評價目標 1,500 元。<div class="src">— 美系外資報告</div></div>
+    <div class="quote">國巨澄清:未收到大股東任何股權變動申報或通知,持股狀況並無變動;NVIDIA 也否認 Kyber 延期傳言,稱產品路線圖不變。<div class="src">— 公司聲明/NVIDIA 回應,2026/07/17</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「漲多就是最大利空」——股價 2 個月內從 317 衝上 1,220,近 4 倍漲幅後的獲利了結賣壓,疊加融資/當沖籌碼過度擁擠,踩踏式賣壓一觸即發。<div class="src">— 多家分析師觀點,2026/07</div></div>
+    <div class="quote">半個月內三度爆出鉅額違約交割,累計金額破億元,是籌碼結構極不穩定的具體證據,不是單純的情緒性殺盤可以解釋。<div class="src">— 工商時報/聯合新聞網</div></div>
+    <div class="quote">融資維持率降至 131%,已接近追繳警戒水位,若股價再破底,恐觸發與基本面無關的強制斷頭賣壓,形成惡性循環。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>美系外資(最高)</td><td class="green">1,500</td><td>2026~2028E EPS 18.2/30.7/42.6,以 2027 年 27x 本益比評價;2028 年獲利上看 4.3 個股本</td></tr>
+  <tr><td>另一報告(6 月中)</td><td class="green">1,490</td><td>毛利率上看 51%,AI 營收占比 9%→32%;發布後股價隨即利多出盡</td></tr>
+  <tr><td>花旗</td><td>查無單一目標價</td><td>2026~2028E EPS 17.81/31.42/43.24;MLCC/電阻/鉭電容三年 CAGR 20%/16%/25%</td></tr>
+  <tr><td>FactSet 共識(較新)</td><td class="amber">1,275</td><td>2026E EPS 中位 19.59(16.98~21.22)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">所有機構目標價皆在崩盤前發布,尚未反映 7/17~20 的三大利空與股價腰斬;精確法人 7 月買賣超、目標價是否已下修查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">H1 營收成長</div><div class="value green">+35.7%</div><div class="note">累計 444.56 億,達成率 109%;6 月單月 153.59 億(+38.9%)</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">3.90</div><div class="note">YoY+22.7%;Q2E(FactSet)4.85、Q3E 5.54</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">Q1→Q3E 逐季升</div><div class="note">Q2E 估 39.1%、Q3E 估 40.1%,漲價效應逐季反映</div></div>
+  <div class="card"><div class="label">併購綜效</div><div class="value">芝浦電子(日本)</div><div class="note">逾 200 億元收購 87.3% 股權,2026Q1 取得 100%,擴大車用/工業產品線</div></div>
+  <div class="card"><div class="label">產品漲價範圍</div><div class="value amber">30~80%</div><div class="note">MLCC/鋁鉭電容/薄膜電容/超級電容全品項,7/1 生效,近年最大幅度</div></div>
+  <div class="card"><div class="label">融資維持率</div><div class="value red">131%</div><div class="note">接近追繳警戒水位,為近期籌碼面最大風險指標</div></div>
+</div>
+
+<h2>三家最接近的競爭對手(被動元件族群)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比(TTM)</th><th>7/21 股價與漲幅</th><th>與國巨的差異</th></tr>
+  <tr class="hl"><td>2327</td><td>國巨</td><td>49.61x</td><td>670(+6.35%)</td><td>MLCC/電阻/鉭電容全品項龍頭,規模最大,話題與波動也最大</td></tr>
+  <tr><td>2492</td><td>華新科</td><td>53.07x</td><td>273.0(-1.44%)</td><td>MLCC 為主,規模較小,7/21 未跟漲反跌,顯示族群內部分化</td></tr>
+  <tr><td>3026</td><td>禾伸堂</td><td>80.03x</td><td>682.0(+9.82%)</td><td>被動元件通路/模組商,本益比更高,今日漲幅領先國巨</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 670 vs 中值</th></tr>
+  <tr><td>2026E P/E 25~32x</td><td>FactSet 共識 EPS 19.59,漲價循環常態偏保守倍數</td><td>490~627</td><td class="red">貴 20%</td></tr>
+  <tr><td>FactSet 目標價</td><td>共識 1,275(EPS 19.59)</td><td>1,275(單點)</td><td class="green">便宜 47%</td></tr>
+  <tr><td>2027E P/E 25~30x</td><td>共識 EPS 約 30.7~31.42(美系外資/花旗)</td><td>768~943</td><td class="green">便宜 22%</td></tr>
+  <tr><td>本土/外資最激進目標</td><td>1,490~1,500(2028E EPS 兌現+27x 評價)</td><td>1,490~1,500</td><td class="green">便宜 55%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">用當年度(2026E)常態倍數估算,現價 670 其實略「貴」——這與其他本輪分析過的個股不同,反映的是這檔股票在崩盤前已經漲過頭,即使腰斬近半,2026E 估值仍不算便宜。真正的「便宜」訊號來自 2027E 之後的成長路徑與機構目標價,但這些數字全部建立在「三大利空皆為虛驚一場、漲價循環如期兌現」的樂觀假設上,尚待驗證。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:高度不確定——基本面數字本身沒有問題,但信任與籌碼危機尚未解除,任何單一估值方法都不足以下定論。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">H1 營收+35.7%、達成率 109%,漲價循環已實質反映在數字上,這部分是紮實的;但股價暴跌的主因並非基本面惡化,而是①急漲後的獲利了結、②融資/當沖籌碼過度擁擠引發的違約交割與斷頭風險、③大股東質押與 NVIDIA Kyber 兩個尚未證實/已遭雙方否認的傳言。這三者性質完全不同:①是正常修正、②是結構性籌碼風險(可能持續發酵)、③若持續被證實不實,理論上該逐步消化。現階段最誠實的結論是「無法判斷底部在哪裡」,而非「已經夠便宜可以進場」。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">恐慌後觀望,籌碼未清</div><div class="bar"><div style="width:30%;background:var(--red)"></div></div><div class="note">9 天蒸發逾 9,700 億市值,3 次違約交割顯示融資/當沖籌碼未完全出清</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">崩盤前偏多,尚未更新</div><div class="note">目標價 1,275~1,500 全數發布於崩盤前,可信度需大幅打折扣</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.90(Q1) → 19.59 → 30.7~31.42</div><div class="note">Q1 實績 → 2026E 共識中位 → 2027E(美系外資/花旗)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>16.98 / 19.59 / 21.22(FactSet)</td><td>25~32x</td><td>425~679</td><td>約 -21%~+1%</td></tr>
+  <tr><td>2027</td><td>約 30.7~31.42(美系外資/花旗)</td><td>25~30x</td><td>768~943</td><td class="green">約 +27%~+41%/年</td></tr>
+  <tr><td>2028</td><td>約 42.6~43.24(美系外資/花旗)</td><td>25~28x</td><td>1,065~1,211</td><td class="green">約 +23%~+27%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027/2028 的高隱含報酬建立在「三大利空全數化解+漲價循環三年兌現」的樂觀情境上;若質押或 Kyber 疑慮任一坐實,或融資斷頭賣壓延續,這條路徑會被大幅推遲甚至打斷。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 400~1600;left% = (價格-400)/1200×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:14.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">500~580</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">750~950</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,100~1,275</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.0%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,490~1,500</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:24.7%"><div class="arrow">▲</div><div class="price">670</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>500~580</td><td>質押或 Kyber 疑慮其一坐實,或融資維持率破位引發二次斷頭賣壓,籌碼持續出清</td><td class="red">約 -19%</td></tr>
+  <tr><td class="amber">Base</td><td>750~950</td><td>兩大疑慮持續獲澄清、籌碼逐步消化,估值修復至 2026E 常態 25~32x 區間;現價接近此區間下緣</td><td class="green">約 +27%</td></tr>
+  <tr><td class="green">Bull</td><td>1,100~1,275</td><td>漲價循環兌現無虞,2027E EPS 路徑確認,FactSet 目標 1,275 觸及</td><td class="green">約 +77%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,490~1,500</td><td>美系外資最樂觀情境全數兌現(2028E EPS 42.6~43.24,AI 營收占比達 32%)</td><td class="green">約 +123%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(僅建議投機倉位)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">640~670</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">560~610</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">480~530</td><td>45%(等質押/Kyber 疑慮明朗化再加碼)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">450</b> = 三大利空其一坐實或融資維持率持續惡化引發系統性斷頭,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 800 且站穩 5 日線+量能確認,籌碼面違約交割訊號消失<br>
+    進場區:<b class="green">800~850</b><br>
+    移動停利:跌破 10 日線或高點回檔 15%(高波動股需更寬容忍度)<br>
+    假突破失效:觸發後 2 日內跌回 750 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,100~1,275</div><div class="note">賣出 40~50%;Bull 區/FactSet 共識目標,高波動股務必落袋為安</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,490~1,500</div><div class="note">Stretched 區;續抱條件是三大利空皆已明確化解且漲價效益逐季兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:全品項漲價(30~80%,7/1 生效)+ 美系外資喊上 1,500 目標價,推動股價 2 個月內從 317 飆漲近 4 倍至 7/1 天價 1,220;但漲價利多剛發酵就出現「利多出盡」賣壓,疊加半個月內三度爆出鉅額違約交割(破億元)、大股東質押疑雲、NVIDIA Kyber 延期傳言、7/17 台股史上最大跌點四重打擊,9 個交易日市值蒸發逾 9,700 億元,股價腰斬近半見 630,7/21 止跌反彈 +6.35% 收 670。</div>
+<div class="concl">② <b>估值</b>:高度不確定——用 2026E 常態倍數(25~32x)計算,現價其實仍偏貴約 20%;真正的「便宜」建立在 2027~2028 年 EPS 路徑(30.7~43.24)與機構目標價(1,275~1,500)之上,但這些數字全部發布於崩盤前,尚未反映最新的信任與籌碼危機,可信度需大幅打折。</div>
+<div class="concl">③ <b>結論</b>:僅適合投機倉位、嚴設停損,不宜貿然抄底——基本面數字(H1 營收+35.7%)本身沒有問題,但融資維持率 131%、三次違約交割顯示的籌碼結構風險,才是決定短期股價的關鍵,與基本面無關。左側建議極小倉位分批試單,收盤跌破 450 無條件出場;右側等站穩 5 日線、違約交割訊號消失、站回 800 再考慮波段操作。質押疑雲與 Kyber 傳言是否進一步澄清或坐實,是最直接的驗證點。</div>
+
+<footer>
+資料時間:股價 2026/07/21 收盤(TWSE 官方 STOCK_DAY);本益比/殖利率/PB 2026/07/20(TWSE BWIBBU);H1/6 月營收 2026/07 初公告(鉅亨網);Q1 法說(豐雲學堂,2026/06);美系外資目標價 1,500 與 EPS 上修(2026/06/09,時報資訊/旺得富理財網);大摩 MLCC 報告(2026/06/23,旺得富理財網);違約交割三起(自由財經/鉅亨網/工商時報/聯合新聞網,2026/06/30~07 中);大股東質押疑雲與公司聲明(經濟日報/三立新聞網/鉅亨網/TVBS,2026/07/17);NVIDIA Kyber 延期傳言(CNBC/SemiAnalysis 引述,2026/07/06);台股史上最大跌點(聯合新聞網/中央社,2026/07/17);同業股價與本益比(TWSE 官方開放資料,2026/07/20~21)。Q2 完整財報與法說會日期尚未確認公布;精確法人 7 月買賣超、內部人申報、崩盤後目標價是否下修查無。<br>
+主要來源:TWSE 官方開放資料、鉅亨網、豐雲學堂、經濟日報、聯合新聞網、工商時報、自由財經、時報資訊、旺得富理財網、三立新聞網、TVBS新聞網、ETtoday財經雲、壹蘋新聞網、CNBC、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔近期波動與不確定性遠大於一般個股,情境誤差區間亦相應放大,請務必嚴格執行停損紀律。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
