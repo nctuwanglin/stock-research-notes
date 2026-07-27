@@ -29,6 +29,8 @@
     {"date": "2026-07-30", "code": "2308", "event": "Q2 法說會:AI 伺服器電源/液冷毛利率表現、800VDC 出貨時程是否保守修正、H2 GPU/ASIC 平台拉貨節奏", "approx": false},
     {"date": "2026-08-10", "code": "3661", "event": "7 月營收:是否延續 6 月 MoM+84.6% 的加速動能,驗證 Q3 強勁季增財測", "approx": true},
     {"date": "2026-08-10", "code": "3443", "event": "7 月營收:美系 CSP CPU 專案挹注是否如期加速", "approx": true},
-    {"date": "2026-08-14", "code": "3443", "event": "Q2 財報/法說會:FactSet 共識已低於現價,驗證單一大客戶專案時程與規模是否符合預期", "approx": true}
+    {"date": "2026-08-14", "code": "3443", "event": "Q2 財報/法說會:FactSet 共識已低於現價,驗證單一大客戶專案時程與規模是否符合預期", "approx": true},
+    {"date": "2026-08-10", "code": "2408", "event": "7 月營收:CXMT 上市後 DDR4/LPDDR ASP 是否出現實質壓力訊號", "approx": true},
+    {"date": "2027-06-30", "code": "2408", "event": "CXMT 先進 DRAM 產能是否有效擴產,市場評估 2027H2 起才具備實質競爭威脅", "approx": true}
   ]
 }

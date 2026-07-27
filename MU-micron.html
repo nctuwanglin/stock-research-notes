@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美光 Micron (MU) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>美光 Micron (NASDAQ: MU) <span class="badge amber">估值:合理偏低(CXMT 疑慮下的錯殺可能性)</span> <span class="badge green">結論:逢回布局,獲利動能仍是三雄中最強</span></h1>
+<div class="sub">美股・DRAM/NAND/HBM 記憶體原廠|事件驅動版(中國長鑫存儲 CXMT 上市)|股價截至 2026/07/27(美股盤中),製表 2026/07/27</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$871</div><div class="note">2026/07/27 盤中,-5%;CXMT 上市當日美股記憶體股全面重挫</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value">查無精確</div><div class="note">近年獲利波動大,TTM 基期參考性低</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value green">約 12.0x</div><div class="note">FY2026E 共識 EPS 72.75(自 61.01 上修);Q4 財測 EPS 31±1</div></div>
+  <div class="card"><div class="label">FQ3 2026 實績</div><div class="value green">EPS $25.11</div><div class="note">超越預估 $20.28;營收 $41.46B(超越預估 $35.25B),YoY+346%</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">84.6% GAAP</div><div class="note">去年同期僅 37.7%,漲價+HBM 組合雙重推升</div></div>
+  <div class="card"><div class="label">機構目標價</div><div class="value green">$1,270~1,569</div><div class="note">S&P Global 45 位分析師均值 $1,492;距現價 +46%~+80%</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 中國長鑫存儲(CXMT)上市,美光首當其衝</h2>
+<div class="event">
+  <h3>CXMT 上市當天,美光是「直接競爭對手」而非旁觀者</h3>
+  <div class="flow">CXMT 7/27 於上交所科創板掛牌,首日暴漲 466%,市值一度超越騰訊成為中國市值最高掛牌公司,是全球第 4 大 DRAM 廠(市佔約 8%,次於三星 36%、SK 海力士 29%、<b>美光 24%</b>)。與台股記憶體股不同,美光是 CXMT 最直接的競爭對手之一——三星、SK 海力士、美光的市佔合計近 9 成,CXMT 每一分市占成長理論上都來自這三家。7/27 美股記憶體股全面重挫:<b>美光 -5%(至約 $871)</b>、SanDisk -12%、SK 海力士 -8%,Roundhill 記憶體 ETF -4%。</div>
+</div>
+<div class="event">
+  <h3>蘋果測試 CXMT 晶片:對美光的頂級客戶關係是具體疑慮</h3>
+  <div class="flow">7/8 起市場已傳出蘋果正測試 CXMT 的 DRAM 晶片,用於中國市場銷售的裝置,並遊說美國政府放行,目的是取得第四家 DRAM 供應商以在與三星、SK 海力士、美光的議價中取得籌碼,同時對沖 2026 年初以來 DRAM 合約價飆漲 55~60% 的成本壓力。這對美光而言是實質的客戶關係風險——若蘋果成功引入 CXMT 作為備用供應商,美光在未來合約議價中的槓桿將被削弱。CXMT 目前的技術水平集中在 DDR4、LPDDR4X(已量產)與 DDR5(小量),尚未觸及美光在 HBM(高頻寬記憶體)領域的技術領先地位,這是美光相對 CXMT 最主要的護城河。</div>
+</div>
+<div class="event">
+  <h3>對美光的含義:短期情緒性錯殺,長期需要觀察 CXMT 擴產速度</h3>
+  <div class="flow">美光 FQ3 2026(截至 5 月)繳出了驚人的成績單——營收 $41.46B(YoY+346%)、EPS $25.11、毛利率飆至 84.6% GAAP,FQ4 財測營收 $50B±1B、EPS $31±1,顯示 AI 驅動的記憶體需求與定價權完全沒有受到 CXMT 上市預期的影響。市場評估 CXMT 要發展出成熟先進 DRAM(尤其是與美光競爭的高階製程與 HBM)產能,受限於美系設備出口管制,至少要到 2027 年下半年才可能形成實質供給壓力。今天的 -5% 更可能是「CXMT 敘事情緒性拋售」而非美光基本面轉弱的訊號,但蘋果測試 CXMT 晶片的新聞若持續發酵,仍是需要追蹤的中期客戶關係風險。</div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲、又為什麼今天重挫?</h2>
+<ul class="timeline">
+  <li><span class="date">2026 年初</span><b>DRAM 合約價飆漲 55~60%</b>:AI 伺服器需求排擠消費性裝置的記憶體供給,蘋果被迫上調幾乎全系列產品售價因應成本壓力。</li>
+  <li><span class="date">2026/06/24</span><b class="green">FQ3 2026 財報:創紀錄的一季</b>:營收 $41.46B(YoY+346%,遠超預估 $35.25B),EPS $25.11(超越預估 $20.28 達 23.8%),毛利率飆至 84.6% GAAP(去年同期僅 37.7%)。管理層引述策略性客戶協議與資料中心強勁需求為主要驅動力,FQ4 財測營收 $50B±1B、EPS $31±1。</li>
+  <li><span class="date">2026/07/初</span><b>股價持續走高</b>:FY2026E 共識 EPS 自 $61.01 上修至 $72.75,反映淨利預估年增 176%(遠超美國半導體產業平均的 55%)。</li>
+  <li><span class="date">2026/07/08</span><b class="amber">蘋果測試 CXMT DRAM 晶片消息曝光</b>:英國金融時報披露蘋果正測試中國 CXMT 的記憶體晶片並遊說美方放行,市場開始關注美光的頂級客戶關係是否面臨新變數。</li>
+  <li><span class="date">2026/07/16</span><b class="red">CXMT IPO 消息發布,美股記憶體股首度重挫</b>:SK 海力士、SanDisk 重挫 7%,美光跌 5%,反映市場對 CXMT 融資後擴產能力的疑慮。</li>
+  <li><span class="date">2026/07/24</span><b class="red">南韓晶片股連動賣壓</b>:SK 海力士與美光再跌 6%,SanDisk 跌 9%,反映南韓半導體族群系統性賣壓外溢。</li>
+  <li><span class="date">2026/07/27</span><b class="red">CXMT 正式掛牌暴漲 466%,美股記憶體股全面重挫</b>:美光跌 5% 至約 $871,SanDisk 跌 12%,SK 海力士跌 8%,Western Digital 跌 7%。這是 CXMT 相關的第三波賣壓,顯示市場情緒尚未完全消化 CXMT 帶來的競爭疑慮。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①美光 FQ3 財報(YoY+346%、毛利率 84.6%)證明目前的記憶體漲價環境極其強勁,CXMT 上市本身並未改變這個格局;②CXMT 目前的技術水平尚未觸及美光的 HBM 領先地位,真正的競爭壓力預估要到 2027 年下半年才會顯現;③但這已是 CXMT 相關消息第三次觸發美股記憶體股同步重挫(7/16、7/24、7/27),顯示市場對這個題材的敏感度持續處於高檔,任何後續 CXMT 擴產或客戶簽約消息都可能引發類似反應。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">FQ3 營收 $41.46B(YoY+346%)、毛利率 84.6% GAAP,遠超市場預期,證明 AI 驅動的記憶體需求與定價權依然強勁,CXMT 上市並未改變供需格局。<div class="src">— Micron FQ3 2026 財報,2026/06/24</div></div>
+    <div class="quote">CXMT 技術水平尚未觸及美光的 HBM 領先地位,要形成實質供給壓力預估至少要到 2027 年下半年。<div class="src">— 產業分析,本儀表板整理</div></div>
+    <div class="quote">45 位分析師共識目標價 $1,492,29 位給予買進評等、0 位賣出,是三大原廠中分析師信心最一致的一檔。<div class="src">— S&P Global 共識調查</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">蘋果測試 CXMT DRAM 晶片,目的是取得議價籌碼並對沖記憶體漲價的成本壓力——這是美光頂級客戶關係首次面臨具體的第四供應商威脅。<div class="src">— Financial Times/CNBC,2026/07/08</div></div>
+    <div class="quote">CXMT 相關消息已連續三次(7/16、7/24、7/27)觸發美股記憶體股同步重挫,顯示市場對這個題材的敏感度持續處於高檔。<div class="src">— 24/7 Wall St.,2026/07</div></div>
+    <div class="quote">CXMT 獲得 86 億美元 IPO 資金挹注後,長期擴產能力不容小覷,尤其在中國政府產業政策支持下,資金與政治意志皆非短期可比擬。<div class="src">— CNBC,2026/07/24</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/來源</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>S&P Global(45 位分析師均值)</td><td class="green">$1,492</td><td>共識評等 Strong Buy</td></tr>
+  <tr><td>華爾街 30 位分析師均值(近 3 個月)</td><td class="green">$1,569.29</td><td>—</td></tr>
+  <tr><td>另一來源(較保守)</td><td class="amber">$1,269.62</td><td>—</td></tr>
+  <tr><td>分析師評等(29 位追蹤,7/23)</td><td>—</td><td>29 買進、1 持有、0 賣出——Strong Buy</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目標價區間($1,270~1,569)離散度較小,反映分析師對美光獲利成長路徑的共識程度較高;上述目標價皆發布於 CXMT 上市前,尚未反映今日 -5% 的股價修正。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">FQ3 營收成長</div><div class="value green">YoY +346%</div><div class="note">$41.46B,超越預估 $35.25B</div></div>
+  <div class="card"><div class="label">FQ3 EPS</div><div class="value green">$25.11</div><div class="note">超越預估 $20.28(+23.8%)</div></div>
+  <div class="card"><div class="label">FQ4 財測</div><div class="value green">EPS $31±1</div><div class="note">營收 $50B±1B</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value green">84.6% GAAP</div><div class="note">去年同期僅 37.7%</div></div>
+  <div class="card"><div class="label">FY2026E EPS 共識</div><div class="value green">$72.75</div><div class="note">自 $61.01 上修;淨利預估年增 176%</div></div>
+  <div class="card"><div class="label">全球 DRAM 市占</div><div class="value">約 24%</div><div class="note">次於三星(36%)、SK 海力士(29%);CXMT 約 8%</div></div>
+</div>
+
+<h2>四家最接近的競爭對手(含 CXMT 對照)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值</th><th>DRAM 市占</th><th>與美光的差異</th></tr>
+  <tr class="hl"><td>MU</td><td>美光</td><td>Fwd 約 12.0x(FY2026E EPS 72.75)</td><td>約 24%</td><td>國際 DRAM/HBM 龍頭,CXMT 直接對標的競爭對手之一</td></tr>
+  <tr><td>SNDK</td><td>SanDisk(美股)</td><td>TTM 49.23x</td><td>NAND 為主,非 DRAM</td><td>NAND flash 純度最高,今日跌幅最重(-12%)</td></tr>
+  <tr><td>000660.KS</td><td>SK 海力士(韓股)</td><td>查無精確</td><td>約 29%</td><td>HBM 龍頭,今日同步重挫 -8%</td></tr>
+  <tr><td>2408.TW</td><td>南亞科(台股,對照)</td><td>TTM 35.90x</td><td>利基型 DRAM,規模遠小於美光</td><td>美光退出 DDR4 產能的承接者之一,今日不跌反漲(+8.73%)——與美光反向</td></tr>
+  <tr><td>688825.SS</td><td>CXMT(中國 A 股,新掛牌)</td><td>掛牌首日暴漲後估值極高</td><td>約 8%</td><td>DDR4/LPDDR4X 已量產,DDR5 小量;尚未觸及 HBM</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低——CXMT 疑慮下的股價修正,尚未反映在任何機構的獲利模型中。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E 約 12.0x(用 FY2026E 共識 EPS 72.75 計)在美光自身歷史區間中並不算貴,FQ3 財報(YoY+346%、毛利率 84.6%)證明目前記憶體漲價環境的強度遠超一般認知。CXMT 上市當日 -5% 更像是「族群性 CXMT 情緒賣壓」而非美光基本面轉弱的訊號——45 位分析師共識目標價 $1,492 距現價仍有 +46% 空間,且這個目標價本身尚未反映今天的下跌。真正需要留意的風險是:蘋果測試 CXMT 晶片若最終促成實質採購,將是美光頂級客戶關係首次出現的具體裂縫,即使短期供給衝擊有限,長期客戶議價權的心理面影響不容忽視。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">市場情緒</div><div class="value red">CXMT 疑慮壓抑,基本面強勁</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">連續三次 CXMT 相關消息觸發同步重挫,但財報數字持續超預期</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">Strong Buy,信心一致度高</div><div class="note">29 位買進、1 位持有、0 位賣出;目標價區間離散度小</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">$25.11(FQ3) → $31(FQ4E) → $72.75(FY26E)</div><div class="note">單季實績 → 財測 → 全年共識,逐季加速</div></div>
+</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 500~2000;left% = (價格-500)/1500×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:14.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">650~750</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:33.0%"><div class="lbl">Base(6~12月)</div><div class="price amber">870~1,000</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,300~1,570</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:83.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,800+</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:26.8%"><div class="arrow">▲</div><div class="price">$871</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>$650~750</td><td>CXMT 競爭疑慮實質發酵(蘋果轉單、擴產超預期)或 AI 資本支出降溫,獲利回歸更保守估值倍數</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>$870~1,000</td><td>FQ4 財測兌現、CXMT 疑慮情緒消化,估值回歸目前水準;現價落在此區間下緣</td><td>約 +7%</td></tr>
+  <tr><td class="green">Bull</td><td>$1,300~1,570</td><td>分析師共識目標價區間兌現,FY2026E EPS 72.75 完全反映</td><td class="green">約 +65%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$1,800+</td><td>HBM 領先優勢持續擴大+CXMT 威脅證實有限,評價全面重估</td><td class="green">約 +107%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$830~870</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$750~810</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">$650~720</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$620</b> = CXMT 競爭壓力提前實質顯現(蘋果轉單確認或財測大幅下修),記憶體超級循環邏輯失效,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回 $950(CXMT 上市前水準)+CXMT 相關賣壓明確止穩<br>
+    進場區:<b class="green">$950~1,000</b><br>
+    移動停利:跌破 20 日均線或高點回檔 12%<br>
+    假突破失效:觸發後 3 日內跌回 $900 即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$1,300~1,500</div><div class="note">賣出 25~50%;分析師共識目標區</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$1,800+</div><div class="note">Stretched 區;續抱條件是 CXMT 威脅未實質侵蝕美光客戶關係</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:美光 FQ3 2026 財報營收 $41.46B(YoY+346%)、EPS $25.11 遠超預期,毛利率飆至 84.6% GAAP,證明 AI 驅動的記憶體漲價環境極其強勁;但 7/27 中國長鑫存儲(CXMT)上市暴漲 466%,加上稍早蘋果測試 CXMT 晶片的消息重新發酵,美股記憶體股同步重挫,美光收跌 5% 至約 $871,是 CXMT 相關消息本月第三次觸發的同步賣壓。</div>
+<div class="concl">② <b>估值</b>:合理偏低——Forward P/E 約 12.0x 用 FY2026E 共識 EPS 72.75 計不算貴,45 位分析師共識目標價 $1,492 距現價仍有 +46% 空間,且尚未反映今日跌幅;CXMT 技術水平尚未觸及美光的 HBM 領先地位,真正的競爭壓力預估要到 2027 年下半年才會顯現。</div>
+<div class="concl">③ <b>結論</b>:逢回布局,獲利動能仍是三大原廠中最強的一檔——現價落在 Base 情境下緣,上檔 Bull +65%/Stretched +107% 對下檔 Bear -20%;蘋果是否最終採用 CXMT 晶片是最直接的驗證點,收盤跌破 $620 即記憶體超級循環邏輯失效,無條件出場。</div>
+
+<footer>
+資料時間:股價 2026/07/27 美股盤中(24/7 Wall St./多方新聞綜合);FQ3 2026 財報 2026/06/24(Micron 官方新聞稿/StockTitan/CNBC);分析師目標價與評等(S&P Global/public.com/simplywall.st,近期調查);蘋果測試 CXMT 晶片(Financial Times/CNBC/MacRumors/9to5Mac,2026/07/08);CXMT 上市與美股記憶體股連續三波重挫(彭博/CNBC/TechNode/24-7 Wall St.,2026/07/16、07/24、07/27)。本檔為美股,非本站 TWSE/TPEx 自動化每日更新範圍,股價僅反映撰寫當下時點,查看時請自行核對最新報價;精確 TTM P/E(近四季 EPS 加總)、CXMT 上市當日精確法人買賣超查無。<br>
+主要來源:Micron Technology 官方投資者關係網站、24/7 Wall St.、CNBC、彭博、Financial Times、MacRumors/9to5Mac、StockTitan、S&P Global/public.com/simplywall.st(分析師目標價)、TechNode。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
