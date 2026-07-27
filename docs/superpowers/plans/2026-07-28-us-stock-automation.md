@@ -19,7 +19,7 @@
 - 所有測試使用存檔 fixture,**不得在測試中發出網路請求**。
 - 站內顏色慣例:**綠漲紅跌**(與台股站一致,勿用美股慣例)。
 - `scripts/update_freshness.py` 只能改動 `index.html` 的標記區與佔位元素(`.fresh`、`.autodispo`、`data-tags`、`<!--CALENDAR_START-->…<!--CALENDAR_END-->`),**不得動任何分析本文**。
-- 每個 Task 結束都要 commit。commit message 用英文,結尾加:
+- 每個 Task 結束都要 commit(**Task 6 除外**——它改的 SKILL.md 位於 repo 之外的 Claude skills 目錄,無法納入版本控制,改以 `grep` 驗證取代 commit)。commit message 用英文,結尾加:
   ```
   Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
   ```
