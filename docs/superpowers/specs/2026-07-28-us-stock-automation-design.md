@@ -27,7 +27,7 @@
 
 | 決策 | 選擇 | 理由 |
 |---|---|---|
-| 美股報價來源 | 免金鑰雙源備援:Yahoo chart API 為主、api.nasdaq.com 為備 | 零註冊、維持現有 `urllib` 無外部依賴風格。Stooq CSV 已實測失效(改用 JS proof-of-work 挑戰,無 JS 抓不到) |
+| 美股報價來源 | 免金鑰備援鏈:Yahoo chart `query1` → `query2` → api.nasdaq.com | 零註冊、維持現有 `urllib` 無外部依賴風格。Stooq CSV 已實測失效(改用 JS proof-of-work 挑戰,無 JS 抓不到)。詳細實測結果見 §4.1 |
 | 排程時點 | 沿用現有單班 21:20 TW,不加班次 | 美股資料日照實顯示為前一美股交易日。`.fresh` 呈現的是「較分析價偏移 %」這種長期指標,差一個交易日不影響判讀;避免多一個受 GitHub 排程延遲影響的班次 |
 | 日曆事件來源 | 手動登記,與台股同規則 | `calendar.json` schema 本來就與市場無關。自動抓財報日的兩條路都不划算:Yahoo `quoteSummary` 實測直接回 429(連住家 IP 都被擋);Nasdaq 財報日曆只能「按日期查當天有誰財報」,要往前掃 60~90 天才能定位單一 ticker,慢且脆弱,而美股確認財報日很少變動 |
 | 實作結構 | 在 `update_freshness.py` 原檔新增函式 + market dispatch | 抽 provider 抽象層對三個市場是過度設計;拆獨立腳本會讓兩支程式各寫 `index.html` 一半、regex 互踩 |
@@ -53,13 +53,17 @@ fetch_us_closes(codes: list[str]) -> dict[str, tuple[str, float]]
 
 每檔依序試兩源,任一成功即停,全部失敗則該 code 不出現在回傳 dict 中。
 
-- **來源 A(主)** `https://query1.finance.yahoo.com/v8/finance/chart/{code}?range=5d&interval=1d`
-  取 `chart.result[0].timestamp[]` 與 `chart.result[0].indicators.quote[0].close[]`,由後往前找第一根符合日期規則且 `close` 非 `null` 的日 K。
+- **來源 A / B(主)** `https://query1.finance.yahoo.com/v8/finance/chart/{code}?range=5d&interval=1d`,失敗改試 `query2.finance.yahoo.com` 同路徑。
+  取 `chart.result[0].timestamp[]` 與 `chart.result[0].indicators.quote[0].close[]`,由後往前找第一根符合日期規則且 `close` 非 `null` 的日 K。時間戳為該場次**開盤**時刻(09:30 ET),換算日期需先加 `chart.result[0].meta.gmtoffset` 再取日期部分。
   **不使用 `meta.regularMarketPrice`** — 該欄位在美股盤中會回傳盤中價。
-- **來源 B(備)** `https://api.nasdaq.com/api/quote/{code}/info?assetclass=stocks`
+  query1 與 query2 是不同主機,分別重試對 429 速率限制有實質幫助。
+- **來源 C(備)** `https://api.nasdaq.com/api/quote/{code}/info?assetclass=stocks`
   取 `data.primaryData.lastSalePrice`(格式如 `"$1,270.50"`,需去除 `$` 與千分位逗號)與 `data.primaryData.lastTradeTimestamp`(格式如 `"Jul 27, 2026 12:41 PM ET"`,取其日期部分)。
+  **此端點失敗時回 HTTP 200 但 `data` 為 `null`**,錯誤碼在 `status.bCodeMessage[]`。解析器必須檢查 `data` 非 null,不能只看 HTTP 狀態碼。
 
-現有 `fetch()` 增加可選的瀏覽器樣 User-Agent 參數;兩家來源都要求帶 UA。
+**User-Agent:沿用現有 `fetch()` 的 `research-notes-updater`,不要改用瀏覽器樣 UA。** 2026-07-28 實測:帶 Chrome UA 呼叫 Yahoo chart 直接回 `Too Many Requests`,換回原 UA 立即正常。Nasdaq 對兩種 UA 行為一致。
+
+**Nasdaq 覆蓋率有缺口,故只列第三順位。** 實測 MU、NVDA 正常,但 SNDK 連續三次回 `code 3004 "Error while calling vendor"`(非 `1001 Symbol not exists`,屬其 vendor 資料源缺該檔)。Yahoo 兩台主機對 MU、SNDK 皆正常。
 
 ### 4.2 日期規則(核心防呆)
 
@@ -153,13 +157,16 @@ repo 目前無 `tests/` 目錄。新增 `tests/test_us_quotes.py`,**全部使用
 | Yahoo 回應無 `chart.result`(429 / 錯誤頁) | 回 `None` |
 | Nasdaq `"$1,270.50"` | 解析為 `1270.5` |
 | Nasdaq `lastTradeTimestamp` 為當前美東日期 | 被日期規則排除,回 `None` |
+| Nasdaq HTTP 200 但 `data: null`(`code 3004`) | 回 `None`,不可拋例外 |
 | 已登記美股但兩源皆失敗 | `prices.json` 出現 `errors: ["us_all_failed"]` |
 
 workflow 比照 twse-disposition,在執行更新腳本**之前**先跑測試。
 
 ## 6. 已知風險
 
-**Yahoo 與 Nasdaq 在 GitHub Actions 機房 IP 上能否運作,只能上線後實測。** 兩家都是非官方端點,對資料中心 IP 的封鎖政策不透明;本機(住家 IP)實測皆可用,但 Yahoo 的 `quoteSummary` 端點連住家 IP 都已回 429,顯示其風控確實在收緊。
+**Yahoo 與 Nasdaq 在 GitHub Actions 機房 IP 上能否運作,只能上線後實測。** 兩家都是非官方端點,對資料中心 IP 的封鎖政策不透明;本機(住家 IP)實測 Yahoo chart 兩台主機皆可用,但 Yahoo 的 `quoteSummary` 端點連住家 IP 都已回 429、chart 端點帶瀏覽器 UA 也會被 429,顯示其風控確實在收緊。
+
+**Nasdaq 這層備援不保證覆蓋所有 ticker**(SNDK 實測持續失敗,見 §4.1),因此實際上 SNDK 只有 Yahoo 兩台主機可用。若 Yahoo 全面封鎖機房 IP,SNDK 會最先失去報價,並由 §4.3 第二層告警反映出來。
 
 這正是 4.3 第二層告警存在的理由:若上線後美股報價持續失敗,workflow 會轉紅,屆時再依 §3 決策表的備案改用免費 API 金鑰方案(Finnhub / Twelve Data,金鑰存 GitHub Secret)作為第三順位來源。此備案不在本次實作範圍。
 
