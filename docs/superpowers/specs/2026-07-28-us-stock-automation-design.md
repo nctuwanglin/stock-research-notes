@@ -39,8 +39,8 @@
 新增純解析函式(不碰網路,便於測試):
 
 ```
-parse_yahoo_chart(text: str, us_today: date) -> tuple[str, float] | None
-parse_nasdaq_info(text: str, us_today: date) -> tuple[str, float] | None
+parse_yahoo_chart(text: str, us_today: date, code: str) -> tuple[str, float] | None
+parse_nasdaq_info(text: str, us_today: date, code: str) -> tuple[str, float] | None
 ```
 
 回傳 `(price_date_yyyymmdd, close)`,解析不出可用資料回 `None`。
@@ -81,7 +81,9 @@ fetch_us_closes(codes: list[str]) -> dict[str, tuple[str, float]]
 
 **第一層 — 站上可見。** 單一檔兩源皆失敗時 `close=None`,`.fresh` 走現有的「最新收盤:查無(來源未回傳)」分支。由於 `.fresh` 是 regex 就地覆寫,**天然不會靜默沿用舊價**。
 
-**第二層 — workflow 亮紅燈。** 若已登記美股 ≥1 檔但成功 0 檔,`prices.json` 增寫 `"errors": ["us_all_failed"]`。這是「機房 IP 被 Yahoo 與 Nasdaq 同時封鎖」的表徵,必須看得見。
+**第二層 — workflow 亮紅燈。** **任一**已登記美股抓不到,`prices.json` 就增寫 `errors`:全部失敗寫 `["us_all_failed"]`,部分失敗寫 `["us_missing:<代號清單>"]`(兩個 token 只為了讓 log 區分全滅與部分失效;workflow 只檢查陣列非空)。
+
+**這條規則在實作階段修訂過,原本只在「成功 0 檔」時告警——那是錯的。** §6 明白寫著「若 Yahoo 全面封鎖機房 IP,SNDK 會最先失去報價,並由本層告警反映出來」,但 Nasdaq 對 SNDK 無資料(§4.1),該情境下 MU 會靠 Nasdaq 存活、`us` 非空、`errors` 為空、workflow 恆綠,SNDK 卡片就無限期顯示「查無」而無人知曉。也就是說原規則涵蓋不了它自己宣稱能涵蓋的情境。改為任一檔失敗即告警後才真正成立。
 
 **腳本本身不 `sys.exit(1)`**,而是由 workflow 在 **commit + push 之後**新增一個檢查步驟讀 `prices.json` 的 `errors` 決定成敗:
 
@@ -159,6 +161,11 @@ repo 目前無 `tests/` 目錄。新增 `tests/test_us_quotes.py`,**全部使用
 | Nasdaq `lastTradeTimestamp` 為當前美東日期 | 被日期規則排除,回 `None` |
 | Nasdaq HTTP 200 但 `data: null`(`code 3004`) | 回 `None`,不可拋例外 |
 | 已登記美股但兩源皆失敗 | `prices.json` 出現 `errors: ["us_all_failed"]` |
+| 部分美股抓不到 | `errors` 出現 `us_missing:<代號>`,workflow 仍轉紅 |
+| 回傳 symbol 與請求代號不符 | 回 `None`,交由備援鏈接手 |
+| `timestamp` 與 `close` 陣列長度不等 | 回 `None`,不得配對錯位 |
+| `meta.symbol` 為 `null` | 回 `None`,不可拋例外 |
+| `stocks.json` 出現非 `twse|tpex|us` 的 market 值 | 抓取前即 `sys.exit` 並印出違規代號 |
 
 workflow 比照 twse-disposition,在執行更新腳本**之前**先跑測試。
 
