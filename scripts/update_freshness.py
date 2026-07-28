@@ -68,7 +68,7 @@ def us_today():
     return datetime.now(US_EASTERN).date()
 
 
-def parse_yahoo_chart(text, ref_date):
+def parse_yahoo_chart(text, ref_date, code):
     """Yahoo chart JSON → (yyyymmdd, close);無可用資料回 None。
 
     只接受日期嚴格早於 ref_date(當前美東日)的日 K,避開未完成的盤中棒——
@@ -81,7 +81,12 @@ def parse_yahoo_chart(text, ref_date):
         ts = r["timestamp"]
         closes = r["indicators"]["quote"][0]["close"]
         off = r["meta"]["gmtoffset"]
+        symbol = r["meta"]["symbol"]
     except (ValueError, KeyError, IndexError, TypeError):
+        return None
+    if symbol.upper() != code.upper():
+        return None
+    if not isinstance(ts, list) or not isinstance(closes, list) or len(ts) != len(closes):
         return None
     for t, c in zip(reversed(ts), reversed(closes)):
         if c is None:
@@ -92,7 +97,7 @@ def parse_yahoo_chart(text, ref_date):
     return None
 
 
-def parse_nasdaq_info(text, ref_date):
+def parse_nasdaq_info(text, ref_date, code):
     """Nasdaq quote info JSON → (yyyymmdd, close);無可用資料回 None。
 
     此端點失敗時回 HTTP 200 但 data 為 null(錯誤碼在 status.bCodeMessage),
@@ -100,11 +105,14 @@ def parse_nasdaq_info(text, ref_date):
     """
     try:
         d = json.loads(text).get("data")
+        symbol = (d or {}).get("symbol") or ""
         pdata = (d or {}).get("primaryData") or {}
         raw = (pdata.get("lastSalePrice") or "").replace("$", "").replace(",", "").strip()
         stamp = pdata.get("lastTradeTimestamp") or ""
         close = float(raw)
     except (ValueError, AttributeError, TypeError):
+        return None
+    if symbol.upper() != code.upper():
         return None
     m = NASDAQ_TS.search(stamp)
     if not m or m.group(1) not in MONTHS:
@@ -135,7 +143,7 @@ def fetch_us_closes(codes):
         ):
             host = url.split("/")[2]
             try:
-                got = parser(fetch(url, retries=2), ref)
+                got = parser(fetch(url, retries=2), ref, code)
             except Exception as e:
                 print(f"WARN us {code} via {host}: {e}", file=sys.stderr)
                 continue
@@ -146,6 +154,21 @@ def fetch_us_closes(codes):
         else:
             print(f"WARN us {code}: all sources failed", file=sys.stderr)
     return out
+
+
+def us_errors(us_codes, us):
+    """已登記美股 vs 實際抓到的美股 → errors token 清單。
+
+    全滅(已登記至少一檔,但一檔都沒抓到)回傳 us_all_failed(workflow 別處有引用此字串)。
+    部分缺漏回傳 us_missing:CODE1,CODE2,讓任何一檔掛掉都能讓 workflow 轉紅,
+    而不是只在「兩家來源同時封鎖全部美股」時才示警。
+    """
+    missing = [c for c in us_codes if c not in us]
+    if missing and not us:
+        return ["us_all_failed"]
+    if missing:
+        return [f"us_missing:{','.join(missing)}"]
+    return []
 
 
 def fetch_twse_closes():
@@ -261,7 +284,8 @@ def build_fresh_html(meta, close, price_date, today):
         cls = "up" if pct > 0.05 else ("down" if pct < -0.05 else "flat")
         arrow = "▲" if pct > 0.05 else ("▼" if pct < -0.05 else "―")
         dstr = f"{price_date[4:6]}/{price_date[6:8]}" if len(price_date) == 8 else price_date
-        parts.append(f'最新收盤 <b>{close:g}</b>({dstr})'
+        prefix = "$" if meta.get("market") == "us" else ""
+        parts.append(f'最新收盤 <b>{prefix}{close:g}</b>({dstr})'
                      f'<span class="{cls}"> {arrow} 較分析價 {pct:+.1f}%</span>')
     else:
         parts.append("最新收盤:查無(來源未回傳)")
@@ -360,6 +384,9 @@ def main():
     today = date.today()
     stocks = json.load(open(STOCKS_JSON, encoding="utf-8"))
     stocks.pop("_comment", None)
+    bad = {c: m.get("market") for c, m in stocks.items() if m.get("market") not in ("twse", "tpex", "us")}
+    if bad:
+        sys.exit(f"unknown market values: {bad}")
     cal = json.load(open(CAL_JSON, encoding="utf-8"))
 
     twse_date, twse = fetch_twse_closes()
@@ -384,16 +411,16 @@ def main():
                         "analysis_date": meta["analysis_date"]}
         # fresh div
         fresh = build_fresh_html(meta, close, pdate, today)
-        s = re.sub(rf'(<div class="fresh" data-code="{code}">).*?(</div>)',
+        s = re.sub(rf'(<div class="fresh" data-code="{re.escape(code)}">).*?(</div>)',
                    lambda m: m.group(1) + fresh + m.group(2), s, count=1, flags=re.S)
         # dispo badge(autodispo span 是 badges 列最後一個元素,以 </span></div> 為右界確保冪等)
         badge = build_dispo_badge(code, dispo, attn, meta["market"])
-        s = re.sub(rf'(<span class="autodispo" data-code="{code}">).*?(</span></div>)',
+        s = re.sub(rf'(<span class="autodispo" data-code="{re.escape(code)}">).*?(</span></div>)',
                    lambda m: m.group(1) + badge + m.group(2), s, count=1, flags=re.S)
         # tags supplement (merge, keep order, dedupe)
         if code in tag_sup:
             merged = list(dict.fromkeys(meta["tags"] + tag_sup[code]))
-            s = re.sub(rf'(data-code="{code}" data-tags=")[^"]*(")',
+            s = re.sub(rf'(data-code="{re.escape(code)}" data-tags=")[^"]*(")',
                        lambda m: m.group(1) + " ".join(merged) + m.group(2), s, count=1)
 
     cal_html = build_calendar_html(cal.get("events", []), stocks, dispo, today)
@@ -401,10 +428,10 @@ def main():
                "<!--CALENDAR_START-->\n" + cal_html + "\n<!--CALENDAR_END-->", s, flags=re.S)
 
     open(INDEX, "w", encoding="utf-8").write(s)
-    # 已登記美股但一檔都沒抓到 = 兩家來源同時封鎖(很可能是機房 IP),必須讓 workflow 轉紅。
+    # 任何已登記美股缺漏(全滅或部分)都必須讓 workflow 轉紅,見 us_errors()。
     # 刻意不在此 sys.exit(1):那會讓 workflow 跳過 commit 步驟,連當天台股更新一起丟掉。
     # 由 workflow 在 push 之後讀這個欄位決定成敗。
-    errors = ["us_all_failed"] if (us_codes and not us) else []
+    errors = us_errors(us_codes, us)
     json.dump({"updated": today.isoformat(), "errors": errors, "prices": prices},
               open(PRICES_JSON, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     got = sum(1 for v in prices.values() if v["close"] is not None)
