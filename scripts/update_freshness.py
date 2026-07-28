@@ -16,7 +16,8 @@ import os
 import re
 import sys
 import urllib.request
-from datetime import date, datetime
+from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX = os.path.join(BASE, "index.html")
@@ -31,6 +32,14 @@ DISPO_URL = "https://nctuwanglin.github.io/stock-research-notes/../twse-disposit
 DISPO_URL = "https://nctuwanglin.github.io/twse-disposition/"
 STOCKINFO_LOCAL = os.path.expanduser("~/twse-disposition/data/stock_info.json")
 STOCKINFO_URL = "https://nctuwanglin.github.io/twse-disposition/data/stock_info.json"
+
+US_EASTERN = ZoneInfo("America/New_York")
+YAHOO_CHART = "https://{host}.finance.yahoo.com/v8/finance/chart/{code}?range=5d&interval=1d"
+NASDAQ_INFO = "https://api.nasdaq.com/api/quote/{code}/info?assetclass=stocks"
+NASDAQ_TS = re.compile(r"([A-Z][a-z]{2})\s+(\d{1,2}),\s*(\d{4})")
+MONTHS = {m: i + 1 for i, m in enumerate(
+    ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])}
 
 TAG_ZH = {"memory": "記憶體", "packaging": "封測", "icmanufacturing": "晶圓代工",
           "icdesign": "IC設計", "power": "電源", "pcb": "PCB", "passive": "被動元件",
@@ -52,6 +61,61 @@ def fetch(url, timeout=30, retries=3):
             import time
             time.sleep(2 * (i + 1))
     raise last
+
+
+def us_today():
+    """當前美東日期。日期規則的基準:只收嚴格早於此日期的資料點。"""
+    return datetime.now(US_EASTERN).date()
+
+
+def parse_yahoo_chart(text, ref_date):
+    """Yahoo chart JSON → (yyyymmdd, close);無可用資料回 None。
+
+    只接受日期嚴格早於 ref_date(當前美東日)的日 K,避開未完成的盤中棒——
+    GitHub 排程延遲 5~8 小時時,執行時點可能落在美股盤中。
+    timestamp 是場次「開盤」時刻(09:30 ET),需先加 gmtoffset 才能還原美東日期。
+    刻意不用 meta.regularMarketPrice:該欄位盤中會回傳盤中價。
+    """
+    try:
+        r = json.loads(text)["chart"]["result"][0]
+        ts = r["timestamp"]
+        closes = r["indicators"]["quote"][0]["close"]
+        off = r["meta"]["gmtoffset"]
+    except (ValueError, KeyError, IndexError, TypeError):
+        return None
+    for t, c in zip(reversed(ts), reversed(closes)):
+        if c is None:
+            continue
+        d = datetime.fromtimestamp(t + off, tz=timezone.utc).date()
+        if d < ref_date:
+            return d.strftime("%Y%m%d"), float(c)
+    return None
+
+
+def parse_nasdaq_info(text, ref_date):
+    """Nasdaq quote info JSON → (yyyymmdd, close);無可用資料回 None。
+
+    此端點失敗時回 HTTP 200 但 data 為 null(錯誤碼在 status.bCodeMessage),
+    所以必須檢查 data 非 null,不能只看 HTTP 狀態碼。
+    """
+    try:
+        d = json.loads(text).get("data")
+        pdata = (d or {}).get("primaryData") or {}
+        raw = (pdata.get("lastSalePrice") or "").replace("$", "").replace(",", "").strip()
+        stamp = pdata.get("lastTradeTimestamp") or ""
+        close = float(raw)
+    except (ValueError, AttributeError, TypeError):
+        return None
+    m = NASDAQ_TS.search(stamp)
+    if not m or m.group(1) not in MONTHS:
+        return None
+    try:
+        dt = date(int(m.group(3)), MONTHS[m.group(1)], int(m.group(2)))
+    except ValueError:
+        return None
+    if dt >= ref_date:
+        return None
+    return dt.strftime("%Y%m%d"), close
 
 
 def fetch_twse_closes():
