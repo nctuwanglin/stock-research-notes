@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Run parser tests
+        run: python -m unittest discover -s tests -q
+
       - name: Run freshness update script
         run: python scripts/update_freshness.py
 
@@ -44,3 +47,12 @@ jobs:
           git add index.html data/prices.json
           git commit -m "auto: 盤後更新現價偏移/資料齡/處置同步 ${DATE}"
           git push
+
+      - name: Verify US quotes
+        run: |
+          python3 -c "
+          import json, sys
+          e = json.load(open('data/prices.json')).get('errors') or []
+          print('errors:', e)
+          sys.exit(1 if e else 0)
+          "
