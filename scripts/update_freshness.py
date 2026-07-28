@@ -118,6 +118,36 @@ def parse_nasdaq_info(text, ref_date):
     return dt.strftime("%Y%m%d"), close
 
 
+def fetch_us_closes(codes):
+    """美股收盤價 {code: (yyyymmdd, close)}。個股三段備援全失敗即不出現在結果中。
+
+    順序:Yahoo query1 → Yahoo query2 → Nasdaq。
+    query1/query2 是不同主機,分別重試對 429 速率限制有實質幫助;
+    Nasdaq 排第三是因為覆蓋率有缺口(實測 SNDK 持續回 code 3004)。
+    """
+    ref = us_today()
+    out = {}
+    for code in codes:
+        for url, parser in (
+            (YAHOO_CHART.format(host="query1", code=code), parse_yahoo_chart),
+            (YAHOO_CHART.format(host="query2", code=code), parse_yahoo_chart),
+            (NASDAQ_INFO.format(code=code), parse_nasdaq_info),
+        ):
+            host = url.split("/")[2]
+            try:
+                got = parser(fetch(url, retries=2), ref)
+            except Exception as e:
+                print(f"WARN us {code} via {host}: {e}", file=sys.stderr)
+                continue
+            if got:
+                out[code] = got
+                break
+            print(f"WARN us {code} via {host}: no usable bar", file=sys.stderr)
+        else:
+            print(f"WARN us {code}: all sources failed", file=sys.stderr)
+    return out
+
+
 def fetch_twse_closes():
     """TWSE STOCK_DAY_ALL:response=json 實際回 CSV(欄位 0=民國日期 1=代號 8=收盤價)。"""
     try:
@@ -328,6 +358,8 @@ def main():
 
     twse_date, twse = fetch_twse_closes()
     tpex_date, tpex = fetch_tpex_closes()
+    us_codes = [c for c, m in stocks.items() if m["market"] == "us"]
+    us = fetch_us_closes(us_codes) if us_codes else {}
     dispo, attn = load_dispo()
     tag_sup = load_tags_supplement()
 
@@ -335,8 +367,12 @@ def main():
     prices = {}
 
     for code, meta in stocks.items():
-        close = (tpex if meta["market"] == "tpex" else twse).get(code)
-        pdate = tpex_date if meta["market"] == "tpex" else twse_date
+        if meta["market"] == "us":
+            got = us.get(code)
+            close, pdate = (got[1], got[0]) if got else (None, "")
+        else:
+            close = (tpex if meta["market"] == "tpex" else twse).get(code)
+            pdate = tpex_date if meta["market"] == "tpex" else twse_date
         prices[code] = {"close": close, "date": pdate,
                         "analysis_price": meta["analysis_price"],
                         "analysis_date": meta["analysis_date"]}
@@ -359,11 +395,16 @@ def main():
                "<!--CALENDAR_START-->\n" + cal_html + "\n<!--CALENDAR_END-->", s, flags=re.S)
 
     open(INDEX, "w", encoding="utf-8").write(s)
-    json.dump({"updated": today.isoformat(), "prices": prices},
+    # 已登記美股但一檔都沒抓到 = 兩家來源同時封鎖(很可能是機房 IP),必須讓 workflow 轉紅。
+    # 刻意不在此 sys.exit(1):那會讓 workflow 跳過 commit 步驟,連當天台股更新一起丟掉。
+    # 由 workflow 在 push 之後讀這個欄位決定成敗。
+    errors = ["us_all_failed"] if (us_codes and not us) else []
+    json.dump({"updated": today.isoformat(), "errors": errors, "prices": prices},
               open(PRICES_JSON, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     got = sum(1 for v in prices.values() if v["close"] is not None)
-    print(f"done: prices {got}/{len(prices)} | dispo hits "
-          f"{sum(1 for c in stocks if c in dispo)} | attn hits {sum(1 for c in stocks if c in attn)}")
+    print(f"done: prices {got}/{len(prices)} | us {len(us)}/{len(us_codes)} | dispo hits "
+          f"{sum(1 for c in stocks if c in dispo)} | attn hits {sum(1 for c in stocks if c in attn)}"
+          + (f" | ERRORS {errors}" if errors else ""))
 
 
 if __name__ == "__main__":
