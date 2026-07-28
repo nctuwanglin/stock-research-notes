@@ -605,7 +605,13 @@ Expected: `errors: []`,兩檔的 `close` 非 `null` 且 `date` 為 8 位數字�
 cd ~/stock-research-notes && git diff index.html | grep '^[-+]' | grep -c 'oneliner\|badge amber\|badge green\|badge red'
 ```
 
-Expected: `2` — 只有 Task 3 Step 3/4 手動改的兩張美股 badges 列。若數字更大,代表腳本動到了分析本文,立刻回報。
+Expected: `4` — 只有 Task 3 Step 3/4 手動改的兩張美股 badges 列,每列在 diff 中各產生一個 `-` 與一個 `+`,故為 2 列 × 2 = 4。若數字更大,或下面這個 `oneliner` 專項檢查非 `0`,代表腳本動到了分析本文,立刻回報。
+
+```bash
+cd ~/stock-research-notes && git diff index.html | grep '^[-+]' | grep -c 'oneliner'
+```
+
+Expected: `0`
 
 - [ ] **Step 7: Commit**
 
