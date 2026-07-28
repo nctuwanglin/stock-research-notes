@@ -81,7 +81,7 @@ def parse_yahoo_chart(text, ref_date, code):
         ts = r["timestamp"]
         closes = r["indicators"]["quote"][0]["close"]
         off = r["meta"]["gmtoffset"]
-        symbol = r["meta"]["symbol"]
+        symbol = r["meta"]["symbol"] or ""
     except (ValueError, KeyError, IndexError, TypeError):
         return None
     if symbol.upper() != code.upper():
@@ -159,9 +159,9 @@ def fetch_us_closes(codes):
 def us_errors(us_codes, us):
     """已登記美股 vs 實際抓到的美股 → errors token 清單。
 
-    全滅(已登記至少一檔,但一檔都沒抓到)回傳 us_all_failed(workflow 別處有引用此字串)。
-    部分缺漏回傳 us_missing:CODE1,CODE2,讓任何一檔掛掉都能讓 workflow 轉紅,
-    而不是只在「兩家來源同時封鎖全部美股」時才示警。
+    全滅(已登記至少一檔,但一檔都沒抓到)回傳 us_all_failed;部分缺漏回傳
+    us_missing:CODE1,CODE2。兩者字串不同純粹是為了讓 log 一眼區分「整批來源
+    掛掉」與「單一個股缺漏」,workflow 本身只判斷這份清單是否非空,不比對字串內容。
     """
     missing = [c for c in us_codes if c not in us]
     if missing and not us:

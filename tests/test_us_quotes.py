@@ -55,6 +55,16 @@ class TestYahooChart(unittest.TestCase):
         got = parse_yahoo_chart(load("yahoo_wrong_symbol.json"), date(2026, 7, 27), "MU")
         self.assertIsNone(got)
 
+    def test_null_symbol_returns_none(self):
+        """meta.symbol 為 JSON null 時不能讓 .upper() 拋例外,必須回 None。"""
+        got = parse_yahoo_chart(load("yahoo_null_symbol.json"), date(2026, 7, 27), "MU")
+        self.assertIsNone(got)
+
+    def test_length_mismatch_returns_none(self):
+        """timestamp 3 筆但 close 只有 2 筆,絕不能硬配對出一個(日期,收盤價),必須回 None。"""
+        got = parse_yahoo_chart(load("yahoo_length_mismatch.json"), date(2026, 7, 27), "MU")
+        self.assertIsNone(got)
+
 
 class TestNasdaqInfo(unittest.TestCase):
     def test_rejects_same_day_intraday(self):
@@ -102,6 +112,10 @@ class TestFetchUsCloses(unittest.TestCase):
     行為改變。
     """
 
+    @staticmethod
+    def hosts_requested(mock_fetch):
+        return [c.args[0].split("/")[2] for c in mock_fetch.call_args_list]
+
     @patch("update_freshness.us_today", return_value=date(2026, 7, 27))
     @patch("update_freshness.fetch")
     def test_first_hop_fails_second_succeeds(self, mock_fetch, mock_today):
@@ -109,6 +123,8 @@ class TestFetchUsCloses(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             got = fetch_us_closes(["MU"])
         self.assertEqual(got, {"MU": ("20260724", 920.9500122070312)})
+        self.assertEqual(self.hosts_requested(mock_fetch),
+                          ["query1.finance.yahoo.com", "query2.finance.yahoo.com"])
 
     @patch("update_freshness.us_today", return_value=date(2026, 7, 28))
     @patch("update_freshness.fetch")
@@ -121,6 +137,9 @@ class TestFetchUsCloses(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             got = fetch_us_closes(["MU"])
         self.assertEqual(got, {"MU": ("20260727", 874.19)})
+        self.assertEqual(self.hosts_requested(mock_fetch),
+                          ["query1.finance.yahoo.com", "query2.finance.yahoo.com",
+                           "api.nasdaq.com"])
 
     @patch("update_freshness.us_today", return_value=date(2026, 7, 27))
     @patch("update_freshness.fetch")
@@ -129,6 +148,9 @@ class TestFetchUsCloses(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             got = fetch_us_closes(["MU"])
         self.assertEqual(got, {})
+        self.assertEqual(self.hosts_requested(mock_fetch),
+                          ["query1.finance.yahoo.com", "query2.finance.yahoo.com",
+                           "api.nasdaq.com"])
 
 
 if __name__ == "__main__":
