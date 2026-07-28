@@ -343,9 +343,11 @@ def build_calendar_html(cal_events, stocks, dispo, today):
         head_ds = f'<span class="{cls}">{head_ds}</span>' if cls else head_ds
         more = f'<br><span style="color:var(--muted);font-size:11px">共 {len(evs)} 事件</span>' if len(evs) > 1 else ""
         head_html = head_ds + more
+        mk = (' <span style="color:var(--muted);font-size:11px">US</span>'
+              if stocks.get(code, {}).get("market") == "us" else "")
         rows.append(f'<tr><td style="white-space:nowrap;vertical-align:top">{head_html}</td>'
                     f'<td style="vertical-align:top"><a href="{href}" '
-                    f'style="color:var(--blue);text-decoration:none">{name} {code}</a></td>'
+                    f'style="color:var(--blue);text-decoration:none">{name} {code}</a>{mk}</td>'
                     f'<td>{"".join(lines)}</td></tr>')
     if not rows:
         rows.append('<tr><td colspan="3" style="color:var(--muted)">近期無待驗證事件</td></tr>')
