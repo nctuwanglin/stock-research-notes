@@ -1,5 +1,7 @@
 {
-  "_comment": "研究筆記個股註冊表。發佈新分析時必須登記/更新:market=twse|tpex,analysis_date/analysis_price=該次分析基準,tags=中文產業分類(update_freshness.py 會用 twse-disposition 的 stock_info.json tags 補充)",
+  "_comment": "研究筆記個股註冊表。發佈新分析時必須登記/更新:market=twse|tpex|us,analysis_date/analysis_price=該次分析所採用的基準價(台股盤後分析用收盤價;美股盤中分析就用當下價,幣別 USD),須與儀表板內文的價位錨點一致。tags=中文產業分類(update_freshness.py 會用 twse-disposition 的 stock_info.json tags 補充,美股無此來源)",
+  "MU": {"name": "美光 Micron", "market": "us", "file": "MU-micron.html", "analysis_date": "2026-07-27", "analysis_price": 871.0, "tags": ["記憶體"]},
+  "SNDK": {"name": "SanDisk", "market": "us", "file": "SNDK-sandisk.html", "analysis_date": "2026-07-27", "analysis_price": 1270.0, "tags": ["記憶體"]},
   "2337": {"name": "旺宏", "market": "twse", "file": "2337-macronix.html", "analysis_date": "2026-07-27", "analysis_price": 125.5, "tags": ["記憶體"]},
   "2408": {"name": "南亞科", "market": "twse", "file": "2408-nanya.html", "analysis_date": "2026-07-27", "analysis_price": 436.0, "tags": ["記憶體"]},
   "2344": {"name": "華邦電", "market": "twse", "file": "2344-winbond.html", "analysis_date": "2026-07-27", "analysis_price": 160.0, "tags": ["記憶體"]},

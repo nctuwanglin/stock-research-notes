@@ -2,6 +2,18 @@
  "updated": "2026-07-28",
  "errors": [],
  "prices": {
+  "MU": {
+   "close": 900.2000122070312,
+   "date": "20260727",
+   "analysis_price": 871.0,
+   "analysis_date": "2026-07-27"
+  },
+  "SNDK": {
+   "close": 1278.22998046875,
+   "date": "20260727",
+   "analysis_price": 1270.0,
+   "analysis_date": "2026-07-27"
+  },
   "2337": {
    "close": 125.5,
    "date": "20260727",

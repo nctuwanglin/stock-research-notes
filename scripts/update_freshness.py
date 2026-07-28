@@ -273,7 +273,11 @@ def build_fresh_html(meta, close, price_date, today):
     return "|".join(parts)
 
 
-def build_dispo_badge(code, dispo, attn):
+def build_dispo_badge(code, dispo, attn, market):
+    # 美股無處置/注意股制度,徽章恆空。保留空標籤讓 SKILL.md 只需一套卡片規則,
+    # 且日後若要加美股專屬徽章有現成掛點。
+    if market == "us":
+        return ""
     if code in dispo:
         d = dispo[code]
         end = f"·至 {d['end']}" if d["end"] else ""
@@ -381,7 +385,7 @@ def main():
         s = re.sub(rf'(<div class="fresh" data-code="{code}">).*?(</div>)',
                    lambda m: m.group(1) + fresh + m.group(2), s, count=1, flags=re.S)
         # dispo badge(autodispo span 是 badges 列最後一個元素,以 </span></div> 為右界確保冪等)
-        badge = build_dispo_badge(code, dispo, attn)
+        badge = build_dispo_badge(code, dispo, attn, meta["market"])
         s = re.sub(rf'(<span class="autodispo" data-code="{code}">).*?(</span></div>)',
                    lambda m: m.group(1) + badge + m.group(2), s, count=1, flags=re.S)
         # tags supplement (merge, keep order, dedupe)
