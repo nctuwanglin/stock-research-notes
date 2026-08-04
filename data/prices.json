@@ -3,14 +3,14 @@
  "errors": [],
  "prices": {
   "MU": {
-   "close": 823.030029296875,
-   "date": "20260731",
+   "close": 829.5,
+   "date": "20260803",
    "analysis_price": 871.0,
    "analysis_date": "2026-07-27"
   },
   "SNDK": {
-   "close": 1214.8299560546875,
-   "date": "20260731",
+   "close": 1288.030029296875,
+   "date": "20260803",
    "analysis_price": 1270.0,
    "analysis_date": "2026-07-27"
   },
