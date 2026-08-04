@@ -1,5 +1,5 @@
 {
- "updated": "2026-08-04",
+ "updated": "2026-08-05",
  "errors": [],
  "prices": {
   "MU": {
@@ -41,8 +41,8 @@
   "3324": {
    "close": 944.0,
    "date": "20260804",
-   "analysis_price": 926.0,
-   "analysis_date": "2026-07-21"
+   "analysis_price": 944.0,
+   "analysis_date": "2026-08-05"
   },
   "8027": {
    "close": 175.5,
@@ -89,14 +89,14 @@
   "2317": {
    "close": 250.0,
    "date": "20260804",
-   "analysis_price": 246.0,
-   "analysis_date": "2026-07-21"
+   "analysis_price": 250.0,
+   "analysis_date": "2026-08-05"
   },
   "3037": {
    "close": 924.0,
    "date": "20260804",
-   "analysis_price": 882.0,
-   "analysis_date": "2026-07-16"
+   "analysis_price": 924.59,
+   "analysis_date": "2026-08-05"
   },
   "8299": {
    "close": 1820.0,

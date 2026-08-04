@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雙鴻 (3324) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>雙鴻 (3324) <span class="badge green">估值:合理偏低(折價擴大,疑慮未解)</span> <span class="badge amber">結論:中長期布局,分批不追高</span></h1>
+<div class="sub">台股上櫃・散熱模組(AI 伺服器液冷)|資料截至 2026/08/04 收盤,製表 2026/08/05|未列入處置股/注意股名單(對照處置股儀表板 2026/08/03 資料)</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">944</div><div class="note">08/04 收盤持平;08/03 盤中一度 985、收 +4.66%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 878.65 億</div><div class="note">08/03 資料</div></div>
+  <div class="card"><div class="label">自前次分析</div><div class="value amber">926→944</div><div class="note">7/21 至今 +1.9%,期間溫和整理</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value amber">查無精確值</div><div class="note">已知:7/20 低點 858、8/3 高點 985</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value green">16.5x</div><div class="note">944 ÷ 2026E EPS 57.34(FactSet 15 人中位)</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">1,320~1,425</div><div class="note">中位數 1,372,距現價 +31.2%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/07</span><b>6 月營收月減 13.4%</b>:27.18 億元(YoY +62.13%,但 MoM −13.4%,較 5 月 31.39 億回落),Q2 三個月合計較 Q1 幾乎沒有成長,這個疑慮<b>至今仍未有新數字澄清</b>——7 月營收預計 8/10 前後公布,是本次分析最大的懸而未決變數。</li>
+  <li><span class="date">2026/07/21</span>前次分析當日,隨散熱三雄(奇鋐+8.66%、健策漲停)齊漲,自 7/20 低點 858 強彈 +7.93% 至 926。</li>
+  <li><span class="date">2026/08/03</span><b>族群性再度走強</b>:雙鴻盤中觸 985、收 944(+4.66%);同日奇鋐(3017)連 4 漲(累計 +24.11%)、健策(3653)連 3 漲(累計 +32.22%)。<b>雙鴻漲幅明顯落後同族群兩檔</b>,顯示市場資金仍優先追捧奇鋐、健策。</li>
+  <li><span class="date">警訊</span>三件事同時成立:(1) 6 月營收放緩的原因尚未有官方說法;(2) 7 月營收與 Q2 財報(約 8/14)都還沒公布,現階段任何精確估值都建立在 6/24 前後的舊資料上;(3) 8/3 的反彈是族群性驅動(散熱三雄同漲),不能單獨證明雙鴻自身動能已恢復。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">全年營收目標由 +50% 上修至 <b>+70%</b>,挑戰 400 億大關;水冷營收占比已突破 70%,IHS 已量產出貨美系 CPU 大廠、CDU 步入放量期<div class="src">— 工商時報/經濟日報,2026/05~07</div></div>
+    <div class="quote">散戶常喊目標價:<b>1,300~1,400 元</b>(對照 FactSet 共識 1,372)</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">6 月營收月減 13.4%、Q2 三個月合計較 Q1 幾乎沒有成長,疑慮尚未解除;股價漲幅明顯落後奇鋐、健策,顯示資金相對信心不足<div class="src">— 財報狗/本分析比對,2026/07~08</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(15 位分析師)</td><td>1,425 元</td><td>2026E EPS 中位 57.34(高 62.6/低 50.3)</td></tr>
+  <tr><td>分析師評等(16 位,原始來源加總與標示數略有出入)</td><td>12 樂觀/5 中立/0 悲觀</td><td>多數維持正向評等</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三大法人買賣超最新(8 月)精確數字查無,僅取得 5 月底外資持股約 19.2%;內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">6 月營收</div><div class="value amber">27.18 億</div><div class="note">YoY +62.13%,MoM −13.4%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.61 元</div><div class="note">QoQ +25.31%,YoY +122.79%</div></div>
+  <div class="card"><div class="label">全年營收財測</div><div class="value green">+70%</div><div class="note">上修自原先 +50%,挑戰 400 億</div></div>
+  <div class="card"><div class="label">水冷營收占比</div><div class="value">突破 70%</div><div class="note">2026 年挑戰 55%(舊財測);新財測更高,精確值查無</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">站穩三成</div><div class="note">公司財測口徑</div></div>
+  <div class="card"><div class="label">EPS 軌跡(共識)</div><div class="value green">57.34→72.09</div><div class="note">2026E/2027E,+25.7%;2028E 查無共識</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與雙鴻的差異</th></tr>
+  <tr class="hl"><td>3324</td><td>雙鴻</td><td>TTM 27.2x / 2026E 16.5x</td><td>Q1 EPS YoY +122.79%,全年財測 +70%</td><td>基準;液冷散熱三雄之一,估值明顯落後同族群</td></tr>
+  <tr><td>3017</td><td>奇鋐</td><td>TTM 41.9x / 2026E 約 33.3x(2600÷78.1)</td><td>Q1 EPS 20.17 創高,2026E EPS 上修至 78.1</td><td>規模最大(2025 營收破千億),連 4 漲,估值倍數為雙鴻近 2 倍</td></tr>
+  <tr><td>3653</td><td>健策</td><td>TTM 104.3x / 2026E 約 65.4x(4145÷63.38)</td><td>均熱片龍頭,連 3 漲(+32.22%)</td><td>估值倍數為雙鴻近 4 倍,市場給予均熱片稀缺性最高溢價</td></tr>
+  <tr><td>—</td><td>建準</td><td>查無精確數字</td><td>查無</td><td>散熱四強之一,本次未取得可比估值</td></tr>
+  <tr><td>—</td><td>高力</td><td>查無精確數字</td><td>查無</td><td>散熱四強之一,本次未取得可比估值</td></tr>
+</table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 944 vs 中值</th></tr>
+  <tr><td>2026E P/E 18~24x</td><td>共識 EPS 57.34 × 折價後倍數(仍低於奇鋐 33.3x、健策 65.4x)</td><td>1,032~1,376(中值 1,204)</td><td class="green">便宜 21.6%</td></tr>
+  <tr><td>2027E P/E 16~20x</td><td>共識 EPS 72.09 × 倍數。<b>未計時間折現</b></td><td>1,153~1,442(中值 1,298)</td><td class="green">便宜 27.3%</td></tr>
+  <tr><td>券商目標價分布</td><td>FactSet 1,425、市場報告 1,320~1,425,取<b>中位數 1,372</b></td><td>1,320~1,425(<b>中位數 1,372</b>)</td><td class="green">便宜 31.2%</td></tr>
+  <tr><td>簡化 DCF r 9~11% / g 2~3%</td><td>以共識 EPS 近似 FCF、三年顯性期(57.34/72.09/90 推演)+ 永續。<b>兩個方向相反的偏誤要同時知道</b>:此法沒扣 capex,雙鴻擴產(泰國廠)使 capex 走升,現金流有一定程度高估(偏樂觀);但永續成長只給 2~3%,對 2026~2027E 仍 +25.7% 的軌跡明顯保守,終值占估值 <b>81~87%</b>,淨效果由後者主導</td><td>922~1,376(中值 1,149)</td><td class="green">便宜 17.8%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法<b>方向罕見一致</b>,全部指向便宜 18~31%——這與台積電、台達電那種「當年度貴、未來年便宜」的時間軸分歧不同,雙鴻是<b>連當年度都便宜</b>。原因在於股價自 7/21 以來僅小漲 1.9%,但共識 EPS 與目標價幾乎沒有下修,折價幅度較 7/21 分析時(對奇鋐折價逾 4 成)進一步擴大。真正的風險不是估值,而是<b>6 月營收放緩的原因至今無解釋</b>,7 月營收與 Q2 財報是唯一能驗證這個折價是否合理的證據。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低,折價擴大但疑慮未解。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  現價 944 對應 2026E P/E <b>16.5x</b>,不到奇鋐(33.3x)的一半、健策(65.4x)的四分之一;若共識 EPS 57.34 兌現,四種交叉檢核法一致顯示便宜 18~31%。但這個判斷有一個尚未解除的但書:<b>6 月營收 MoM −13.4%,Q2 三個月合計較 Q1 幾乎沒有成長</b>,而目前所有共識數字都還沒有把這個放緩的原因(是短期出貨節奏,還是需求轉弱的前兆)量化進去。8/3 的反彈是族群性的,雙鴻漲幅還明顯落後奇鋐、健策,顯示市場資金尚未把「便宜」轉化為明確買盤。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">谷底反彈,信心未全復</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">跟漲奇鋐/健策但幅度落後,顯示信心尚未完全恢復</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">12 樂觀/5 中立/0 悲觀</div><div class="note">目標價中位 1,372,距現價 +31.2%</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">57.34→72.09 元</div><div class="note">2026E/2027E;2028E 查無共識</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>50.3 / 57.34 / 62.6</td><td>18~24x</td><td>1,032~1,376(中值 1,204)</td><td class="green">+27.6%</td></tr>
+  <tr><td>2027E</td><td>58.05 / 72.09 / 99.96</td><td>16~20x</td><td>1,153~1,442(中值 1,298)</td><td class="green">+17.2%/年</td></tr>
+  <tr><td>2028E</td><td>查無共識(僅個別券商推估)</td><td>查無</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">2027E 共識低高差近 1.7 倍(58.05~99.96),顯示法人對 2027 年液冷放量斜率仍有明顯分歧;2028E 尚無公開共識,誠實標記查無優於推測硬湊。</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:10.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">650~750</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:33.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">950~1,150</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,320~1,425</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:82.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,800</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:26.6%"><div class="arrow">▲</div><div class="price">944</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>650~750</td><td>7 月營收與 Q2 財報證實 6 月放緩是需求轉弱前兆(非短期出貨節奏),EPS 共識下修至低標附近,倍數壓至 13~14x,回測 7/20 低點 858 之下</td><td class="red">−31.1%~−20.6%</td></tr>
+  <tr><td class="amber">Base</td><td>950~1,150</td><td>7 月營收與 Q2 財報顯示放緩僅是短期出貨節奏,全年 +70% 財測維持,對應 2026E EPS 中值 × 18~20x</td><td class="amber">+0.6%~+21.8%</td></tr>
+  <tr><td class="green">Bull</td><td>1,320~1,425</td><td>Q2 財報確認動能恢復 + 泰國廠擴產如期挹注,估值倍數向奇鋐折價收斂,貼近 FactSet 共識目標</td><td class="green">+39.8%~+51.0%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched Bull</td><td>1,800</td><td>2027E EPS 高標 99.96 提前計入,倍數比照健策享有均熱片級稀缺性溢價</td><td class="green">+90.7%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">880~900</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">800~830</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">700~730</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">階梯依據:第一批貼近近期整理區下緣;第二批介於整理區與 7/20 低點 858 之間;第三批對應 Bear 區間上緣。<br><br>硬停損:收盤跌破 <b class="red">700</b> 無條件出場 = 對應全年 +70% 營收財測邏輯失效(6 月放緩證實為需求轉弱,而非短期出貨節奏),無條件出場。</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:站穩 <b>985</b>(8/3 盤中高點)且單日量能放大至 4,000 張以上,同時 7 月營收或 Q2 財報驗證動能恢復<br>
+    進場區:<b class="green">985~1,050</b><br>
+    移動停利:跌破 10 日線或高點回檔 12%<br>
+    假突破失效:突破後 5 日內跌回 940 以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,150</div><div class="note">賣出 25~50%;Base 區間上緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,320~1,425</div><div class="note">Bull 區間,貼近共識目標</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:8/3 的反彈是散熱三雄族群性上漲(奇鋐連 4 漲、健策連 3 漲),雙鴻只是跟漲且幅度明顯落後;但很少人討論的是,<b>6 月營收 MoM −13.4% 的原因至今沒有官方說法</b>,7 月營收(約 8/10)與 Q2 財報(約 8/14)是唯一能驗證這是短期出貨節奏、還是需求轉弱前兆的證據。</div>
+<div class="concl">② <b>估值</b>:如果你相信全年 +70% 營收財測與液冷放量趨勢,那麼相較同業屬於<b>明顯便宜</b>——2026E 16.5x 不到奇鋐(33.3x)一半、健策(65.4x)四分之一,四種交叉檢核法一致指向便宜 18~31%,幅度較 7/21 分析時進一步擴大。但這個便宜建立在 6 月放緩只是短期波動的假設上,尚未經過下一組數字驗證。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>中長期布局但不追高</b>的標的,原因是估值折價明確、財測與目標價尚未下修,但基本面疑慮未解、股價動能也明顯弱於同族群;建議依左側階梯逢回分批,右側則等 985 站穩且營收數字驗證動能恢復再進場,並嚴守 700 的財測失效停損。</div>
+
+<footer>
+資料時間:股價 2026/08/04 收盤,奇鋐/健策股價 2026/08/04;6 月營收 2026/07/07 公告;FactSet 共識 EPS 與目標價最新調查(日期未逐筆標註,以最新一次為準)。<br>
+主要來源:Yahoo 股市、玩股網、鉅亨網 FactSet 調查、財報狗、工商時報、經濟日報、豐雲學堂、旺得富理財網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
