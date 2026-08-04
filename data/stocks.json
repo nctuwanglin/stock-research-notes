@@ -115,9 +115,9 @@
   "2454": {
     "name": "聯發科",
     "market": "twse",
-    "file": "2454-mediatek.html",
-    "analysis_date": "2026-07-21",
-    "analysis_price": 3670.0,
+    "file": "2454-mediatek-event.html",
+    "analysis_date": "2026-08-04",
+    "analysis_price": 3865.0,
     "tags": [
       "IC設計"
     ]
@@ -135,9 +135,9 @@
   "2308": {
     "name": "台達電",
     "market": "twse",
-    "file": "2308-delta.html",
-    "analysis_date": "2026-07-21",
-    "analysis_price": 1835.0,
+    "file": "2308-delta-event.html",
+    "analysis_date": "2026-08-04",
+    "analysis_price": 1620.0,
     "tags": [
       "電源"
     ]

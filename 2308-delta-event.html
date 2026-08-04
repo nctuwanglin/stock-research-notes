@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台達電 (2308) 法說會後估值儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.18);color:var(--purple);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>台達電 (2308) <span class="badge purple">事件:2026 Q2 法說會</span> <span class="badge amber">估值:合理(透支已消化,仍押 2027)</span> <span class="badge amber">結論:逢回分批,緊盯 800V 時程</span></h1>
+<div class="sub">台股上市・電源與散熱(AI 資料中心供電)|資料截至 2026/08/04 收盤,製表 2026/08/04|未列入處置股/注意股名單(對照處置股儀表板 2026/08/03 資料)</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,620</div><div class="note">08/04 收盤 +40(+2.53%);當日 1,520~1,680</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">查無精確值</div><div class="note">公開來源未取得最新股數;TTM EPS 約 32.2 元(由 P/E 50.29 反推)</div></div>
+  <div class="card"><div class="label">自前次分析</div><div class="value red">−11.7%</div><div class="note">7/21 收 1,835 → 8/4 收 1,620;期間 7/28 曾吞跌停至 1,580</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">查無精確值</div><div class="note">已知:6 月以來挫逾 18%、7/28 觸 1,580 為近 3.5 個月低點</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">41.2x</div><div class="note">1,620 ÷ 2026E EPS 39.3(FactSet 23 人中位);TTM 50.29x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">2,340</div><div class="note">FactSet;距現價 +44.4%。券商帶 2,280~2,750</div></div>
+</div>
+
+<h2>⓪ 事件影響分析:2026 Q2 法說會(2026/07/30)</h2>
+<div class="event">
+  <h3>事件摘要</h3>
+  <div class="flow">
+  <b>2026/07/30</b> 法說會|<b>Q2 營收 1,832.56 億元</b>(YoY <b>+47.7%</b>,創單季歷史新高)、歸屬母公司淨利 <b>251.35 億元</b>(YoY <b>+80.2%</b>、QoQ +22.3%)、<b>EPS 9.68 元創單季新高</b>|H1 EPS 累計 <b>17.59 元</b>,已超過過去任何一個完整年度|全年資本支出上看 <b>700 億元</b>|<b>AI 相關營收占比預期逾 25%</b>|±400V 今年量產出貨、<b>800V 於 2026H2 小量、2027 年進入主要貢獻期</b>(與前次法說口徑一致,並未遞延)<br>
+  股價反應:財報與獲利雙創新高,<b>股價卻不漲反跌</b>——7/21 收 1,835 → 8/4 收 1,620(<b>−11.7%</b>),期間 7/28 一度吞跌停觸 1,580(近 3.5 個月低點);8/4 才反彈 +2.53%。</div>
+</div>
+<div class="event">
+  <h3>影響傳導路徑</h3>
+  <div class="flow">市場盛傳 <b>NVIDIA 主導的 AI 伺服器 800VDC 架構導入恐遞延至 2028 年之後</b> + 全球 AI 股漲多劇烈修正 → <b>直接打擊 2027 年獲利假設</b>(2027E EPS 共識 59 元,低標僅 41.08,離散度極大)→ 美系外資 7/28 已先行下調目標價 <b>2,480 → 2,280</b>,理由是「成本墊高 + 800V 導入腳步趨緩,未來三年獲利可能受影響」 → 量化幅度:<b>市場尚未完成量化</b>,FactSet 共識(5/2)尚未反映此傳聞。</div>
+</div>
+<div class="event">
+  <h3>本次事件最關鍵的一件事</h3>
+  <div class="flow"><b>公司口徑與市場交易的是兩件不同的事。</b>法說會上管理層明確重申 800V 於 <b>2027 年進入主要貢獻期</b>——與前次法說一致、並未遞延;但市場交易的是「<b>遞延到 2028 年之後</b>」的傳聞。兩者無法同時為真。因此本檔目前不是在對財報定價(Q2 已創新高卻不漲),而是在對<b>一個尚未被證實、也尚未被否認的時程傳聞</b>定價。後續任何一方被證實,都會是單邊的大幅重估。</div>
+</div>
+<table>
+  <tr><th>指標</th><th>事件前</th><th>事件後</th><th>變化</th></tr>
+  <tr><td>Q2 EPS</td><td>Q1 7.91 元(前次紀錄)</td><td>9.68 元(創單季新高)</td><td class="green">QoQ +22.4%</td></tr>
+  <tr><td>Q2 淨利</td><td>—</td><td>251.35 億元</td><td class="green">YoY +80.2%</td></tr>
+  <tr><td>美系外資目標價</td><td>2,480</td><td>2,280(7/28,法說前已下調)</td><td class="red">−8.1%</td></tr>
+  <tr><td>歐系外資目標價</td><td>—</td><td>2,750(7/16)</td><td class="green">調升</td></tr>
+  <tr><td>800V 放量時程(公司口徑)</td><td>2027 年</td><td>2027 年(重申未變)</td><td class="amber">不變,但市場傳聞 2028+</td></tr>
+  <tr class="hl"><td>股價</td><td>7/21 收 1,835</td><td>8/4 收 1,620</td><td class="red">−11.7%</td></tr>
+  <tr><td>Forward P/E(2026E)</td><td>46.7x</td><td>41.2x</td><td class="green">壓縮 −11.7%</td></tr>
+</table>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/16</span><b>歐系外資調升目標價至 2,750</b>:看好持續受惠 AI 伺服器電源與資料中心供電需求。</li>
+  <li><span class="date">2026/07/28</span><b>美系外資反向下調目標價 2,480 → 2,280</b>,理由是成本墊高 + 800V 導入腳步趨緩;同日股價隨大盤重挫逾 2,000 點而吞跌停至 1,580。市場另傳台達電與英飛凌敲定<b>約 650 億元碳化矽供貨長約</b>,<b>公司未回應,屬未證實傳聞</b>。</li>
+  <li><span class="date">2026/07/30</span><b>Q2 法說會:營收獲利雙創新高</b>(營收 1,832.56 億 YoY +47.7%、EPS 9.68 元),全年資本支出上看 700 億、AI 營收占比逾 25%,並重申 800V 於 2027 年進入主要貢獻期。</li>
+  <li><span class="date">2026/08/04</span>股價反彈 +2.53% 收 1,620,但仍低於法說會前水位。</li>
+  <li><span class="date">警訊</span>三件事同時成立:(1) 2027E EPS 共識離散度極大(低 41.08 / 中 59 / 高 80.91,高低差近 <b>2 倍</b>),代表連法人對 800V 放量都沒有共識;(2) 全年資本支出 700 億元墊高折舊與自由現金流壓力;(3) 現價 2026E 41.2x 仍高於自身歷史區間 25~35x,便宜與否<b>完全取決於 2027 年</b>。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「AI 電源王者沒漲完」;持續受惠 AI 伺服器電源與資料中心供電基礎建設需求<div class="src">— 歐系外資/Yahoo 股市,2026/07</div></div>
+    <div class="quote">H1 EPS 17.59 元<b>已超過過去任何一個完整年度</b>,Q2 淨利 YoY +80.2%,基本面創高無爭議</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">恐因「成本墊高、加上 800V 電源架構導入腳步趨緩,<b>未來三年獲利可能受到影響</b>」<div class="src">— 美系外資下調目標價至 2,280,2026/07/28</div></div>
+    <div class="quote">市場盛傳 NVIDIA 主導 AI 伺服器 800VDC 架構<b>可能推遲至 2028 年之後</b>落地<div class="src">— 市場傳聞,2026/07~08,未經證實</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>歐系外資(7/16)</td><td class="green">2,750</td><td>AI 伺服器電源與資料中心供電需求</td></tr>
+  <tr><td>FactSet 共識(5/2,23 位分析師)</td><td>2,340</td><td>2026E EPS 中位 39.3(高 44.8/低 32.21)</td></tr>
+  <tr><td>美系大行</td><td>查無目標價數字</td><td>2026~2028E EPS 41.5 / 65.1 / 98.5 元,以 <b>2027 年 42x</b> 評價</td></tr>
+  <tr><td>美系外資(7/28,下調)</td><td class="red">2,280(原 2,480)</td><td>成本墊高 + 800V 導入趨緩,未來三年獲利恐受影響</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">法說會(7/30)後最新一輪法人目標價調整<b>查無</b>,需待未來 1~2 週追蹤;法人買賣超與內部人申報精確數字查無。另有報導稱 AI 營收占比「衝 40%」,與法說口徑「逾 25%」不一致,<b>兩者差異未能釐清</b>,本表採法說口徑。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2 營收</div><div class="value green">1,832.56 億</div><div class="note">YoY +47.7%,創單季新高</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">9.68 元</div><div class="note">創單季新高;H1 累計 17.59 元</div></div>
+  <div class="card"><div class="label">Q2 淨利 YoY</div><div class="value green">+80.2%</div><div class="note">251.35 億元,QoQ +22.3%</div></div>
+  <div class="card"><div class="label">AI 營收占比</div><div class="value">逾 25%</div><div class="note">法說會口徑</div></div>
+  <div class="card"><div class="label">全年資本支出</div><div class="value amber">上看 700 億</div><div class="note">墊高折舊與 FCF 壓力</div></div>
+  <div class="card"><div class="label">EPS 軌跡(共識)</div><div class="value">39.3→59→93.3</div><div class="note">2026E/2027E/2028E,+50%/+58%</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與台達電的差異</th></tr>
+  <tr class="hl"><td>2308</td><td>台達電</td><td>TTM 50.29x / 2026E 41.2x</td><td>Q2 營收 YoY +47.7%、淨利 +80.2%</td><td>基準;AI 電源+散熱一體,規模最大、資本支出也最重(700 億)</td></tr>
+  <tr><td>3324</td><td>雙鴻</td><td>查無精確數字</td><td>公司全年指引約 +70%</td><td>純散熱,不做電源;彈性大但無 800V 這條主軸,與台達電是互補而非直接對打</td></tr>
+  <tr><td>2317</td><td>鴻海</td><td>2026E 約 13.9x</td><td>Q2 營收 +39.8%</td><td>AI 伺服器整機代工,同題材但估值僅台達電三分之一——市場付的是「零組件溢價 vs 代工折價」</td></tr>
+  <tr><td>2330</td><td>台積電</td><td>2026E 約 21.2x</td><td>Q2 營收 YoY +36.05%</td><td>同為 AI 資本密集受害/受惠股;成長相近但估值不到台達電一半,是「資本支出疑慮」定價的對照組</td></tr>
+  <tr><td>—</td><td>Vertiv / Eaton(美股同業)</td><td>查無精確數字</td><td>查無</td><td>國際資料中心電源與熱管理指標,本次未取得可比估值,僅列為定性對照</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,620 vs 中值</th></tr>
+  <tr><td>2026E 歷史區間 P/E 25~35x</td><td>自身歷史倍數 × 共識 EPS 39.3</td><td>982~1,376(中值 1,179)</td><td class="red">貴 37.4%</td></tr>
+  <tr><td>2027E P/E 35~42x</td><td>共識 EPS 59 × 倍數(42x 為美系大行明示的評價倍數)。<b>未計時間折現</b></td><td>2,065~2,478(中值 2,272)</td><td class="green">便宜 28.7%</td></tr>
+  <tr><td>券商目標價分布</td><td>美系 2,280(7/28 下調後)、FactSet 共識 2,340、歐系 2,750;取<b>中位數 2,340</b></td><td>2,280~2,750(<b>中位數 2,340</b>)</td><td class="green">便宜 30.8%</td></tr>
+  <tr><td>簡化 DCF r 9~11% / g 2~3%</td><td>以共識 EPS 近似 FCF、三年顯性期(39.3/59/93.3)+ 永續。<b>兩個方向相反的偏誤要同時知道</b>:此法沒把 capex 扣掉,而台達電全年資本支出上看 <b>700 億元</b>,屬資本密集,EPS 高估真實 FCF 的幅度<b>不容忽視</b>(偏樂觀);但永續成長只給 2~3%,對 2027E +50%/2028E +58% 的軌跡明顯保守,終值仍占估值 <b>84~89%</b>。<b>淨效果仍由後者主導,但本股的 capex 偏誤遠大於 fabless 股,故此法的「貴」不宜照單全收</b></td><td>925~1,395(中值 1,160)</td><td class="red">貴 39.7%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法的分歧<b>完全對齊在同一條時間線上</b>:兩個錨在<b>當年度或更早</b>的方法(歷史倍數、DCF)說貴 37~40%;兩個錨在<b>2027 年</b>的方法(2027E 倍數、券商目標)說便宜 29~31%。與前次(7/21)分析相比,<b>「貴」的幅度已從 65%/51% 收斂到 37%/40%</b>,股價回落確實消化了相當部分的估值透支。但要注意:所有「便宜」的結論都建立在 2027E EPS 59 元之上,而這正是 800VDC 遞延傳聞攻擊的標的——<b>共識低標 41.08 與高標 80.91 相差近 2 倍</b>,連法人自己都沒共識。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——估值透支已大幅消化,但便宜與否 100% 取決於 2027 年 800V。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  現價 1,620 對應 2026E P/E <b>41.2x</b>,仍高於自身歷史區間 25~35x,單看今年談不上便宜;但 2027E 已降至 <b>27.5x</b>、2028E 僅 <b>17.4x</b>。與同業比較的特殊情況值得注意:<b>台達電 Q2 營收 YoY +47.7%,台積電 +36.05%,兩者成長同級,但台達電 2026E 41.2x 是台積電 21.2x 的近兩倍</b>——市場對「AI 電源零組件」給的溢價,遠高於對晶圓龍頭。這個溢價要能站得住,唯一支撐是 800V 在 2027 年如期放量。<b>反面證據有兩項:一是全年 700 億元資本支出會實質壓縮自由現金流(這也是唯一的絕對估值法 DCF 給出「貴 39.7%」的部分原因);二是連下調目標價的美系外資都直指「未來三年獲利可能受影響」</b>。好消息是風險報酬結構已較 7/21 明顯改善——當時貴 65%,現在貴 37%。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">由熱轉冷</div><div class="bar"><div style="width:45%;background:var(--amber)"></div></div><div class="note">「法說行情也撐不住」「打破僵局時間點」等討論轉為觀望;6 月以來挫逾 18%,追價意願明顯降溫</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">目標價 2,340</div><div class="note">23 位(FactSet 5/2);但 7/28 已有美系下調至 2,280、歐系持 2,750,分歧擴大</div></div>
+  <div class="card"><div class="label">2027E 共識離散度</div><div class="value red">低 41.08 / 高 80.91</div><div class="note">高低差近 2 倍,法人對 800V 放量無共識——這是本股最大的不確定來源</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>32.21 / 39.3 / 44.8</td><td>25~35x(自身歷史區間)</td><td>982~1,376(中值 1,179)</td><td class="red">−27.2%</td></tr>
+  <tr><td>2027E</td><td>41.08 / 59 / 80.91</td><td>30~38x</td><td>1,770~2,242(中值 2,006)</td><td class="green">+11.3%/年</td></tr>
+  <tr><td>2028E</td><td>83.3 / 93.3 / 151.63</td><td>25~30x</td><td>2,332~2,799(中值 2,566)</td><td class="green">+16.6%/年</td></tr>
+</table>
+<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">三年共識皆有完整低/中/高,可看出離散度逐年放大(2026 高低差 39%、2027 近 2 倍、2028 近 1.8 倍)——時間越遠、分歧越大,正是 800V 時程未定的直接反映。上表為 FactSet 5/2 快照,尚未反映 7/30 法說會與遞延傳聞。</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:12.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,150~1,320</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:34.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,650~2,000</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,450~2,750</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:26.8%"><div class="arrow">▲</div><div class="price">1,620</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>1,150~1,320</td><td>800VDC 遞延至 2028 年後獲證實,2027E EPS 下修至共識低標 41.08 附近,倍數同步壓到 28~32x</td><td class="red">−29.0%~−18.5%</td></tr>
+  <tr><td class="amber">Base</td><td>1,650~2,000</td><td>800V 維持 2027 放量但節奏溫和,2027E EPS 共識 59 元不變,市場給 28~34x</td><td class="amber">+1.9%~+23.5%</td></tr>
+  <tr><td class="green">Bull</td><td>2,450~2,750</td><td>800V 如期 2027 放量 + AI 營收占比續升,2027E EPS 上修至美系大行的 65.1 元,給 38~42x;貼近歐系目標 2,750</td><td class="green">+51.2%~+69.8%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched Bull</td><td>3,300</td><td>2028E EPS 93.3~98.5 提前計入,給 30~35x 並打時間折現</td><td class="green">+103.7%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">1,520~1,580</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,350~1,420</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,150~1,250</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">階梯依據:第一批為 7/28 跌停低點與 8/3 收盤 1,580、8/4 低點 1,520 構成的支撐帶;第二批為該帶失守後的下一層;第三批落在 Bear 區間內。<br><br>硬停損:收盤跌破 <b class="red">1,100</b> 無條件出場 = 對應「800VDC 確認遞延至 2028 年後<b>且</b>2027E EPS 下修至低標 41.08 以下」,代表 AI 電源的成長時程整體往後推一年以上,投資邏輯失效,而非單純估值波動。</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收在 <b>1,680</b> 之上(8/4 當日最高,為明確壓力),量能同步放大,且<b>800VDC 時程出現官方或供應鏈明確澄清</b>(此為本股右側進場的必要條件,純技術突破不算數)<br>
+    進場區:<b class="green">1,680~1,760</b><br>
+    移動停利:跌破 10 日線或自高點回檔 10%<br>
+    假突破失效:突破後 5 日內跌回 1,600 以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,000</div><div class="note">賣出 25~50%;Base 區間上緣,對應 2027E 約 34x</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,450~2,750</div><div class="note">Bull 區間,涵蓋共識目標 2,340 與歐系 2,750;此後留倉才是押 Stretched</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件</b>:7/30 法說會交出 Q2 營收 1,832.56 億(YoY +47.7%)、EPS 9.68 元雙創新高,H1 EPS 17.59 元已超過過去任何全年;但股價自 7/21 的 1,835 跌到 8/4 的 1,620(−11.7%),期間一度吞跌停——<b>財報創高卻換來股價下跌</b>。</div>
+<div class="concl">① <b>催化劑</b>:下跌的真正原因不是財報,而是市場盛傳 <b>NVIDIA 主導的 800VDC 架構恐遞延至 2028 年之後</b>,美系外資 7/28 已先行下調目標價至 2,280;但很少人討論的是,<b>公司在法說會上重申 800V 仍於 2027 年進入主要貢獻期、口徑並未改變</b>——市場交易的傳聞與公司口徑無法同時為真,這才是後續單邊重估的引信。</div>
+<div class="concl">② <b>估值</b>:如果你相信 800V 在 2027 年如期放量,那麼現價相較同業屬於<b>合理偏低</b>(2027E 僅 27.5x、2028E 17.4x,券商目標中位 2,340 有 +44% 空間);但只看今年,2026E 的 41.2x 仍高於自身歷史 25~35x,<b>更是成長同級的台積電(21.2x)近兩倍</b>——四法呈現「當年度說貴 37~40%、2027 年說便宜 29~31%」的分歧,不過「貴」的幅度已較 7/21 的 65%/51% 明顯收斂。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>逢回分批的中長期投資</b>,原因是估值透支已消化過半、基本面創高無爭議,風險報酬結構較前次分析明顯改善;但 800V 時程是唯一且致命的變數(2027E 共識低標與高標相差近 2 倍),故不宜在現價追價,建議依左側階梯自 1,520~1,580 起分批,右側則必須等 800VDC 時程明確澄清才進場,並嚴守 1,100 的邏輯失效停損。</div>
+
+<footer>
+資料時間:股價 2026/08/04 收盤;Q2 財報與法說會內容 2026/07/30;外資目標價 2026/07/16(歐系)、2026/07/28(美系下調);FactSet 共識 EPS 與目標價 2026/05/02(法說會後更新查無)。<br>
+主要來源:Yahoo 股市、鉅亨網、工商時報/時報資訊、CMoney 投資網誌、豐雲學堂、vocus、StockFeel 股感。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。800VDC 遞延與英飛凌碳化矽長約<b>均為未經證實的市場傳聞</b>,公司未回應。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

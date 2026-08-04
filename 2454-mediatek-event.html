@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聯發科 (2454) 法說會後估值儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.18);color:var(--purple);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>聯發科 (2454) <span class="badge purple">事件:2026 Q2 法說會</span> <span class="badge amber">估值:極端分歧(二元定價)</span> <span class="badge amber">結論:觀望,勿追高</span></h1>
+<div class="sub">台股上市・IC 設計(手機 SoC + AI ASIC)|資料截至 2026/08/04 收盤,製表 2026/08/04|未列入處置股/注意股名單(對照處置股儀表板 2026/08/03 資料)</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">3,865</div><div class="note">08/04 收盤 −45(−1.15%);開 4,095 即當日最高,低 3,800</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約 6.20 兆</div><div class="note">股淨比 14.71</div></div>
+  <div class="card"><div class="label">法說後累計</div><div class="value green">+19.6%</div><div class="note">7/30 收 3,232 → 8/4 收 3,865;期間連 2 根漲停</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">查無精確值</div><div class="note">已知:6 月底約 4,000、7/30 回落 3,232、8/3 漲停 3,910</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value red">58.1x</div><div class="note">3,865 ÷ 2026E EPS 66.55(FactSet 24 人中位);TTM 約 64.6x</div></div>
+  <div class="card"><div class="label">券商目標(法說後)</div><div class="value green">6,800~7,000</div><div class="note">花旗 6,800、高盛 7,000,距現價 +76%~+81%</div></div>
+</div>
+
+<h2>⓪ 事件影響分析:2026 Q2 法說會(2026/07/31)</h2>
+<div class="event">
+  <h3>事件摘要</h3>
+  <div class="flow">
+  <b>2026/07/31</b> 法說會|<b>Q2 營收 1,521.83 億元</b>(QoQ +2%、YoY +1.2%)、<b>EPS 15.28 元</b>、淨利 243.35 億元(QoQ +0.7%、<b>YoY −12.6%</b>)、H1 EPS 累計 30.45 元|Q3 指引營收 <b>1,522~1,598 億元</b>(QoQ 持平~+5%、YoY +7~12%)、毛利率 <b>46%±1.5pp</b>、費用率 31%±2pp|<b>AI ASIC 市占目標由 10~15% 上修至 15~20%</b>|首款 AI 加速器 ASIC <b>Q4 進入量產</b>|今年資料中心相關營收 <b>逾 20 億美元</b>、明年 SAM 估 800 億美元|董事會核准 <b>50 億美元融資</b>布局 AI ASIC<br>
+  股價反應:<b>7/31 與 8/3 連 2 根漲停</b>(3,232 → 3,555 → 3,910,兩日累計 +21.0%);8/4 開 4,095 即封當日最高,終場<b>翻黑收 3,865(−1.15%)</b>。</div>
+</div>
+<div class="event">
+  <h3>影響傳導路徑</h3>
+  <div class="flow">AI ASIC 市占目標上修(10~15% → 15~20%)+ 首款加速器 Q4 量產 → <b>2027~2028 資料中心營收軌跡</b> → 高盛估 2027 年 AI ASIC 營收 120~160 億美元(今年逾 20 億美元)、花旗稱「明年起獲利出現爆炸式拐點」 → 量化幅度:<b>共識獲利軌跡陡峭化</b>——2026E EPS 66.55 → 2027E 125.37(+88%)→ 2028E 245.81(+96%);<b>但本業當下仍在衰退</b>(Q2 淨利 YoY −12.6%、Q3 營收指引僅 QoQ 持平~+5%),市場買的是 2027 年以後,不是眼前。</div>
+</div>
+<div class="event">
+  <h3>本次事件最關鍵的一件事</h3>
+  <div class="flow">目標價全面調升的同時,<b>外資籌碼卻是連 6 個交易日賣超、累計 7,342 張</b>(截至 7/31,當日仍賣超 1,340 張)——也就是說,<b>7/31 那根漲停是在外資賣超下由其他買盤推上去的</b>。研究部門喊 6,800~7,000,交易台卻在減碼,這個背離是本次事件最少被討論、卻最值得盯的訊號。</div>
+</div>
+<table>
+  <tr><th>指標</th><th>事件前</th><th>事件後</th><th>變化</th></tr>
+  <tr><td>AI ASIC 市占目標</td><td>10~15%</td><td>15~20%</td><td class="green">上修 5pp</td></tr>
+  <tr><td>共識目標價</td><td>5,350(FactSet 7/3)</td><td>高盛 7,000(原 6,800)、花旗 6,800(原 6,055)</td><td class="green">主要外資 +3%~+12%</td></tr>
+  <tr><td>2027E EPS</td><td>125.37(FactSet 共識)</td><td>花旗上修至 133.87</td><td class="green">+6.8%(單一家)</td></tr>
+  <tr><td>2028E EPS</td><td>245.81(FactSet 共識)</td><td>花旗 260.38</td><td class="green">+5.9%(單一家)</td></tr>
+  <tr class="hl"><td>股價</td><td>7/30 收 3,232</td><td>8/4 收 3,865</td><td class="green">+19.6%</td></tr>
+  <tr><td>Forward P/E(2026E)</td><td>48.6x</td><td>58.1x</td><td class="red">擴張 +19.6%</td></tr>
+</table>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/06/29</span><b>麥格理喊出萬元目標價</b>(5,850 → 10,000,+71%):基於 2028 年 ASIC 營收由 180 億美元倍增至 400 億美元、2028E EPS 285.6 元 × 35x;但同時<b>下修 2026/2027 EPS 各 16%/11%</b>,理由是手機市場疲弱——多空並存的一份報告。</li>
+  <li><span class="date">2026/07/31</span><b>Q2 法說會上修 AI ASIC 市占目標</b>:10~15% → 15~20%,首款 AI 加速器 Q4 量產,並核准 50 億美元融資。高盛、大摩、花旗、美銀、瑞銀全數給予買進/優於大盤,目標價齊升。</li>
+  <li><span class="date">2026/08/03</span><b>連 2 根漲停</b>:收 3,910,漲停委買逾 1,000 張,追價意願明確。</li>
+  <li><span class="date">2026/08/04</span><b>開高走低翻黑</b>:開盤 4,095 即為當日最高,終場 3,865(−1.15%),留下長上影;連 2 漲停後首見動能衰竭。</li>
+  <li><span class="date">警訊</span>三件事同時成立:(1) 本業當下衰退(Q2 淨利 YoY −12.6%、Q3 指引 QoQ 僅持平~+5%);(2) 外資連 6 日賣超 7,342 張,與目標價調升背離;(3) 現價 58.1x 的 2026E 本益比,已把大量 2027~2028 成長提前計入。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「AI ASIC 上升周期才剛開始」,2027 年 AI ASIC 營收估 120~160 億美元<div class="src">— 高盛科技產業分析師虞成敬,2026/07/31</div></div>
+    <div class="quote">「明年起獲利將出現爆炸式拐點」,動力來自雲端與邊緣端 AI 需求<div class="src">— 花旗,2026/08/03</div></div>
+    <div class="quote">散戶常喊:<b>「發哥發發發」「利多連發」</b>;麥格理目標價 <b>10,000</b> 成為多方精神指標</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「拉高出貨」「晚點就開了」——連 2 漲停後質疑短線漲幅已大<div class="src">— 網路社群多空激辯,2026/08</div></div>
+    <div class="quote">麥格理自己也下修 2026/2027 EPS 各 <b>16%/11%</b>,理由是手機市場疲弱;日系外資曾於 Q1 法說後<b>降評至中立</b>,理由同為手機市場不確定性<div class="src">— TechNews 2026/06/29;Yahoo 股市 2026/05/04</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>麥格理(2026/06/29,法說前)</td><td class="green">10,000(原 5,850)</td><td>2028E EPS 285.6 × 35x;2028 ASIC 營收估 400 億美元。同時下修 2026/2027 EPS 各 16%/11%</td></tr>
+  <tr><td>高盛(法說後)</td><td>7,000(原 6,800)</td><td>2027 年 AI ASIC 營收 120~160 億美元</td></tr>
+  <tr><td>花旗(法說後)</td><td>6,800(原 6,055)</td><td>2027E EPS 133.87、2028E 260.38,「爆炸式拐點」</td></tr>
+  <tr><td>大摩/美銀/瑞銀(法說後)</td><td>查無精確數字</td><td>評等為優於大盤或買進,目標價未取得</td></tr>
+  <tr><td>FactSet 共識(7/3,事件前)</td><td>5,350</td><td>24 位分析師;2026E EPS 中位 66.55(高 71.99/低 54.66)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)"><b>籌碼與研究背離:</b>外資截至 7/31 連 6 日賣超、累計 7,342 張(7/31 當日賣超 1,340 張,投信買超 118 張、自營買超 23 張)。8/3~8/4 法人買賣超精確數字查無。內部人申報查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2 營收</div><div class="value">1,521.83 億</div><div class="note">QoQ +2%、YoY +1.2%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value">15.28 元</div><div class="note">H1 累計 30.45 元</div></div>
+  <div class="card"><div class="label">Q2 淨利 YoY</div><div class="value red">−12.6%</div><div class="note">243.35 億元;本業仍在衰退</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value">46%±1.5pp</div><div class="note">Q3 指引;全年目標守 46%</div></div>
+  <div class="card"><div class="label">EPS 軌跡(共識)</div><div class="value green">66.55→125.37→245.81</div><div class="note">2026E/2027E/2028E,+88%/+96%</div></div>
+  <div class="card"><div class="label">資金動作</div><div class="value amber">50 億美元融資</div><div class="note">董事會核准,布局 AI ASIC</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與聯發科的差異</th></tr>
+  <tr class="hl"><td>2454</td><td>聯發科</td><td>TTM 64.6x / 2026E 58.1x</td><td>2027E EPS +88%、2028E +96%(共識)</td><td>基準;手機 SoC 現金牛 + AI ASIC 轉型,兩段式估值</td></tr>
+  <tr><td>3661</td><td>世芯-KY</td><td>68.15x</td><td>2026Q1 EPS 17.55(季減 4%、年減 3%),2025 全年 69.18</td><td>純 ASIC 設計服務,AI 純度高於聯發科但近期成長已停滯,估值倍數相近</td></tr>
+  <tr><td>3443</td><td>創意</td><td>查無精確數字</td><td>IC 設計月營收排名第 3(38.6 億元)</td><td>同為 ASIC 設計服務,規模小於聯發科,單一大客戶依賴度高</td></tr>
+  <tr><td>2379</td><td>瑞昱</td><td>查無精確數字</td><td>IC 設計月營收排名第 2(123.6 億元)</td><td>網通/消費性 IC 為主,無 AI ASIC 敘事,是「沒有 AI 溢價」的對照組</td></tr>
+  <tr><td>QCOM</td><td>高通(美股)</td><td>Forward 約 14.5~19x</td><td>查無精確成長率</td><td>手機 SoC 最直接對手;<b>同樣做手機晶片,市場只給 15x 上下</b>——聯發科 58x 的差距全部來自 AI ASIC 敘事</td></tr>
+  <tr><td>AVGO</td><td>博通(美股)</td><td>Forward 約 28~38x(區間,未取得精確值)</td><td>查無精確成長率</td><td>AI ASIC 全球龍頭;<b>連龍頭都只有 30x 上下,聯發科 2026E 58x 已高於它</b>,合理化須靠 2027 年後的爆發</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 3,865 vs 中值</th></tr>
+  <tr><td>2026E P/E 45~55x</td><td>共識 EPS 66.55 × 轉型期倍數。45~55x 已遠高於傳統 IC 設計歷史區間(20~25x)與高通(約 15x),但低於世芯 68x</td><td>2,995~3,660(中值 3,328)</td><td class="red">貴 16.2%</td></tr>
+  <tr><td>2027E P/E 40~50x</td><td>共識 EPS 125.37 × 倍數(花旗目標 6,800 隱含 2027E 約 51x)。<b>未計時間折現</b></td><td>5,015~6,268(中值 5,642)</td><td class="green">便宜 31.5%</td></tr>
+  <tr><td>券商目標價(法說後)</td><td>高盛 7,000、花旗 6,800;麥格理 10,000 為法說前且屬極端值,取<b>中位數 7,000</b> 而非含極端值的算術中點</td><td>6,800~10,000(<b>中位數 7,000</b>)</td><td class="green">便宜 44.8%</td></tr>
+  <tr><td>簡化 DCF r 9~11% / g 2~3%</td><td>以共識 EPS 近似 FCF、三年顯性期(66.55/125.37/245.81)+ 永續。<b>兩個方向相反的偏誤要同時知道</b>:此法沒扣 capex 會高估現金流,但<b>聯發科是 fabless、capex 極輕</b>,這項高估幅度遠小於資本密集股;反之永續成長只給 2~3%,對 2027E +88%/2028E +96% 的軌跡是極端保守的假設,終值仍占估值 <b>86~90%</b>。<b>淨效果由後者壓倒性主導,本法對本股結構性偏空</b></td><td>2,378~3,615(中值 2,996)</td><td class="red">貴 29.0%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法呈現<b>教科書級的時間軸分歧</b>:兩個錨在<b>當年度</b>的方法(2026E 倍數、DCF)都說貴 16~29%;兩個錨在<b>2027 年以後</b>的方法(2027E 倍數、券商目標)都說便宜 32~45%。分歧的來源不是誰算錯,而是<b>你願意把多少 2027~2028 的成長提前計入今天的價格</b>。共識 EPS 從 66.55 跳到 245.81 只需兩年(近 4 倍),這種斜率本身就是最大的風險來源——它同時解釋了為何目標價可以喊到 10,000,也解釋了為何本業 YoY 還在 −12.6% 時股價已先漲了 19.6%。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:極端分歧(二元定價),不存在「合理」這個中間答案。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  現價 3,865 對應 2026E P/E <b>58.1x</b>——<b>高於 AI ASIC 全球龍頭博通(約 30x),更是手機 SoC 同業高通(約 15x)的近 4 倍</b>。單看今年,這個價格無法用任何同業基準合理化;但若 2027E EPS 125.37 兌現,同一個價格只剩 30.8x,若 2028E 245.81 兌現則只剩 15.7x——與高通今天的倍數相同。<b>換句話說,現價隱含的不是「聯發科貴不貴」,而是「AI ASIC 兩年內把 EPS 翻近 4 倍這件事會不會發生」</b>,答案只有會或不會,沒有中間值。真正的反面證據有兩項:一是本業當下仍在衰退(Q2 淨利 YoY −12.6%、Q3 營收指引 QoQ 僅持平~+5%),二是連麥格理在喊出萬元目標價的同一份報告裡,都下修了 2026/2027 年 EPS 各 16%/11%。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">偏多但有分歧</div><div class="bar"><div style="width:65%;background:var(--amber)"></div></div><div class="note">「發哥發發發」vs「拉高出貨」多空激辯;漲停委買逾 1,000 張顯示追價意願強,有過熱成分但非一面倒</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">全面買進/優於大盤</div><div class="note">法說後高盛、大摩、花旗、美銀、瑞銀一致正向;FactSet 事件前 24 人、目標中位 5,350</div></div>
+  <div class="card"><div class="label">籌碼面(反向)</div><div class="value red">外資連 6 日賣超</div><div class="note">截至 7/31 累計 7,342 張,與目標價調升明顯背離</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>54.66 / 66.55 / 71.99</td><td>45~55x</td><td>2,995~3,660(中值 3,328)</td><td class="red">−13.9%</td></tr>
+  <tr><td>2027E</td><td>中位 125.37(花旗 133.87;低/高查無)</td><td>40~50x</td><td>5,015~6,268(中值 5,642)</td><td class="green">+20.8%/年</td></tr>
+  <tr><td>2028E</td><td>中位 245.81(花旗 260.38、麥格理 285.6;低/高查無)</td><td>30~35x</td><td>7,374~8,603(中值 7,988)</td><td class="green">+27.4%/年</td></tr>
+</table>
+<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">2027/2028 年的低標與高標區間 FactSet 未取得,僅有中位數與個別券商值,故該兩列的離散度無法呈現——這正是本股最大的資訊缺口:市場對兩年後的分歧程度有多大,目前看不到。</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:11.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,800~3,200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:33.1%"><div class="lbl">Base(6~12月)</div><div class="price amber">4,000~4,800</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:66.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">6,300~6,800</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">8,000</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:24.9%"><div class="arrow">▲</div><div class="price">3,865</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>2,800~3,200</td><td>Q4 首款 ASIC 量產遞延或良率不如預期,加上手機業務年減擴大;股價回吐全部法說會漲幅並跌破 7/30 起漲點 3,232。對應 2027E EPS 125.37 × 22~26x</td><td class="red">−27.6%~−17.2%</td></tr>
+  <tr><td class="amber">Base</td><td>4,000~4,800</td><td>Q4 ASIC 如期量產但規模仍小,2027E 共識維持不變、未再上修;市場給 2027E 32~38x</td><td class="amber">+3.5%~+24.2%</td></tr>
+  <tr><td class="green">Bull</td><td>6,300~6,800</td><td>2027 年 AI ASIC 營收落在高盛估的 120~160 億美元區間,2027E EPS 125~134 獲確認,維持 50x;貼近花旗 6,800 / 高盛 7,000 目標</td><td class="green">+63.0%~+75.9%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched Bull</td><td>8,000</td><td>2028E EPS 245~260 提前被市場計入,給 30~33x 並打時間折現。仍低於麥格理 10,000(該值用 2028E 285.6 × 35x 且未折現)</td><td class="green">+107.0%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">3,500~3,600</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">3,200~3,300</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,900~3,000</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">階梯依據:第一批為 7/31 漲停收盤 3,555 附近(回補 8/3 跳空);第二批為法說會前起漲點 3,232;第三批為完全回吐事件漲幅後的下一層。<br><br>硬停損:收盤跌破 <b class="red">2,750</b> 無條件出場 = 不只回吐法說會漲幅,更跌破事件前整理區,代表<b>市場已否定 AI ASIC 市占上修的可信度</b>——此時貴的不是價格而是故事,投資邏輯失效。</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:站上並<b>收在 4,095 之上</b>(8/4 開盤即封高、留長上影,是明確壓力),且單日量能放大至 2 萬張以上、外資轉為買超(化解目前背離)<br>
+    進場區:<b class="green">4,095~4,250</b><br>
+    移動停利:跌破 10 日線或自高點回檔 12%<br>
+    假突破失效:突破後 5 日內跌回 3,900 以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,800</div><div class="note">賣出 25~50%;Base 區間上緣,對應 2027E 約 38x</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,300~6,800</div><div class="note">Bull 區間,貼近花旗/高盛目標;此後留倉部位才是押 Stretched</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件</b>:7/31 法說會把 AI ASIC 市占目標從 10~15% 上修到 15~20%、首款加速器 Q4 量產,換來連 2 根漲停(+21%)與外資目標價齊升至 6,800~7,000;但 8/4 開盤 4,095 即封高後翻黑,動能已現衰竭。</div>
+<div class="concl">① <b>催化劑</b>:這波上漲的真正原因是 AI ASIC 市占目標上修帶來的<b>2027~2028 獲利軌跡陡峭化</b>(共識 EPS 兩年翻近 4 倍);但很少人討論的是,<b>外資研究部門喊 7,000 的同時,外資交易台已連 6 日賣超 7,342 張</b>,而且本業當下還在衰退(Q2 淨利 YoY −12.6%、Q3 營收指引 QoQ 僅持平~+5%)。</div>
+<div class="concl">② <b>估值</b>:如果你相信 AI ASIC 兩年內把 EPS 從 66.55 推到 245.81,那麼相較同業屬於<b>便宜</b>(2028E 僅 15.7x,與高通今天相同);但只看今年,2026E 的 58.1x <b>高於 AI ASIC 龍頭博通(約 30x)、更是高通(約 15x)的近 4 倍</b>,四種估值法呈現「當年度說貴 16~29%、2027 年後說便宜 32~45%」的極端時間軸分歧,沒有中間答案。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>建議觀望、勿追高</b>的標的,原因是連 2 根漲停後第 3 日開高走低翻黑、籌碼與研究背離未化解,而現價已把大量 2027 年後的成長提前計入——好故事不等於好買點,建議等回落至左側階梯或右側站穩 4,095 且外資轉買再行動,並嚴格控管倉位。</div>
+
+<footer>
+資料時間:股價 2026/08/04 收盤;Q2 財報與法說會內容 2026/07/31;券商目標價 2026/08/03(高盛、花旗)、2026/06/29(麥格理);FactSet 共識 EPS 與目標價 2026/07/03(事件前,法說後 FactSet 更新查無);法人籌碼截至 2026/07/31。<br>
+主要來源:Yahoo 股市、鉅亨網、玩股網、經濟日報/聯合新聞網、自由財經、TechNews 科技新報、CMoney 投資網誌、豐雲學堂、Newtalk 新聞。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。本股獲利軌跡兩年翻近 4 倍的共識假設具高度不確定性,估值對該假設極度敏感。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
