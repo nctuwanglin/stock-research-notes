@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貿聯-KY (3665) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>貿聯-KY (3665) <span class="badge green">估值:合理偏低(四法一致便宜)</span> <span class="badge green">結論:中長期布局</span></h1>
+<div class="sub">台股上市・線束/連接器(AI伺服器HPC+電動車+光互連)|資料截至 2026/08/04 收盤,製表 2026/08/05|未列入處置股/注意股名單(對照處置股儀表板 2026/08/03 資料)</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">2,300</div><div class="note">08/04 收盤 +9.79%;開 2,105、最高即收盤</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">查無精確值</div><div class="note">本益比 42.28x(trailing,同業平均 32.27)</div></div>
+  <div class="card"><div class="label">除息後表現</div><div class="value green">+22.0%</div><div class="note">7/15 除息 15.18 元,參考價 1,884.82 → 現價 2,300</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value amber">查無精確值</div><div class="note">已知 7/15 除息參考價 1,884.82</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">34.7x</div><div class="note">現價 ÷ 2026E EPS 66.37(FactSet 共識中位,高 71.9/低 59.15)</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value green">3,100~3,300</div><div class="note">FactSet 3,230、美系外資 3,100;距現價 +34.8%~+43.5%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/03</span><b>宣示 2026 年營收拚千億</b>:董事長梁華哲全力衝刺 HPC 領域,HPC+半導體部門營收占比已突破 51%(截至 2025Q3)。</li>
+  <li><span class="date">2026/05/12</span><b>Q1 法說會:度過新舊交替陣痛期</b>:Q1 營收 208.6 億元、淨利 22.7 億元、EPS 11.66 元、毛利率 28.77%;完成併購 XFS 強化光纖組裝與光學整合能力,並宣布全面佈局 NVIDIA Blackwell 系列架構的 AI 混合互連方案。管理層坦言原物料成本壓力,但正調整產品定價,預期 H2 隨新產能開出營運槓桿改善。</li>
+  <li><span class="date">2026/GTC</span><b>推出下世代電源/互連方案</b>:於 NVIDIA GTC 大會發表大電流傳輸與高速資料傳輸兩大方案,支援 Vera Rubin 平台及 800VDC 電源架構趨勢,並提供 NVIDIA MGX 生態系高效能伺服器連接線。</li>
+  <li><span class="date">2026/07/15</span><b>除息 15.18 元</b>,參考價 1,884.82 元。</li>
+  <li><span class="date">2026/08/04</span><b class="green">大漲 9.79% 收 2,300</b>:尾盤 ETF 買盤進場,主力介入,籌碼面轉多,與聯亞、光聖等 AI 硬體供應鏈同步走強。</li>
+  <li><span class="date">下一個關鍵點</span>7 月營收(公告時程未定,約 8 月初)與 Q2 財報/法說會,是驗證 H2 營運槓桿改善、千億營收目標進度的關鍵時點。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「AI 題材點火,貿聯-KY 營收連創高」,獲美系外資喊買,目標價 3,100 元受矚<div class="src">— Yahoo 股市</div></div>
+    <div class="quote">HPC 與半導體占比逾五成,全佈局 AI 混合架構(電力+高速資料傳輸+光互連三合一)<div class="src">— Q1 法說會,2026/05/12</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q1 處於「新舊產品交替陣痛期」,原物料成本壓力尚待 H2 新產能開出後才能改善,短期毛利率承壓<div class="src">— 法說會管理層說法,2026/05</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet 共識(較新)</td><td class="green">3,230</td><td>2026E EPS 中位 66.37(高 71.9/低 59.15)</td></tr>
+  <tr><td>美系外資</td><td>3,100</td><td>AI 題材,營收連創高</td></tr>
+  <tr><td>FactSet 共識(較舊)</td><td>3,300</td><td>2026E EPS 中位 64.8(下修前)</td></tr>
+  <tr><td>多家法人(較早期估計)</td><td>查無單一目標價</td><td>2026E EPS 60~65、2027E EPS 110~120</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">現價 2,300 距最低目標價(美系 3,100)仍有 +34.8% 空間。三大法人 8/4 精確買賣超數字查無,僅知尾盤 ETF 買盤與主力介入。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q1 營收</div><div class="value">208.6 億</div><div class="note">EPS YoY 成長率 +37.34%(近四季)</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">11.66 元</div><div class="note">近四季 YoY +73.8%</div></div>
+  <div class="card"><div class="label">Q1 毛利率</div><div class="value amber">28.77%</div><div class="note">新舊產品交替陣痛期,原物料成本壓力</div></div>
+  <div class="card"><div class="label">HPC+半導體占比</div><div class="value">突破 51%</div><div class="note">截至 2025Q3</div></div>
+  <div class="card"><div class="label">全年目標</div><div class="value amber">拚千億營收</div><div class="note">公司口徑,2026 年</div></div>
+  <div class="card"><div class="label">EPS 軌跡(共識)</div><div class="value green">66.37→115→190(推演)</div><div class="note">2026E/2027E(區間中值)/2028E(推演)</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與貿聯-KY的差異</th></tr>
+  <tr class="hl"><td>3665</td><td>貿聯-KY</td><td>TTM 42.3x / 2026E 34.7x</td><td>Q1 EPS YoY(近四季)+73.8%</td><td>基準;線束+連接器+光互連三合一,AI伺服器/電動車雙引擎</td></tr>
+  <tr><td>3023</td><td>信邦</td><td>19.9x(trailing)</td><td>2026E EPS 共識 14.63~14.94,YoY 成長溫和</td><td>汽車(EV充電)/綠能/工業為主,AI伺服器占比較低,估值明顯低於貿聯</td></tr>
+  <tr><td>—</td><td>Amphenol(美股,國際指標)</td><td>查無精確數字</td><td>查無</td><td>全球連接器龍頭,AI資料中心連接方案的國際對照</td></tr>
+  <tr><td>—</td><td>TE Connectivity(美股,國際指標)</td><td>查無精確數字</td><td>查無</td><td>工業/車用連接器龍頭,估值對照,本次未取得精確倍數</td></tr>
+  <tr><td>—</td><td>Molex(私有,國際指標)</td><td>不適用(私有)</td><td>查無</td><td>連接器巨頭,已被 Koch Industries 收購,僅供定性參考</td></tr>
+</table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 2,300 vs 中值</th></tr>
+  <tr><td>2026E P/E 40~50x</td><td>FactSet 共識中位 66.37 × 倍數(貼近 trailing 42.3x 略上緣)</td><td>2,655~3,318(中值 2,987)</td><td class="green">便宜 23.0%</td></tr>
+  <tr><td>2027E P/E 25~32x</td><td>多家法人估 2027E 110~120,取中值 115 × 倍數(反映成長趨緩後合理化)。<b>未計時間折現</b></td><td>2,875~3,680(中值 3,278)</td><td class="green">便宜 29.8%</td></tr>
+  <tr><td>券商目標價分布</td><td>美系 3,100、FactSet 3,230~3,300,取範圍 3,100~3,300</td><td>3,100~3,300(中值 3,200)</td><td class="green">便宜 28.1%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 66.37/115/190(2028E 推演)當 FCF 近似。<b>兩個方向相反的偏誤要同時知道</b>:此法未扣 capex,貿聯正因新產能/新產品交替而資本支出偏重,現金流有一定高估(偏樂觀);但永續成長只給 2~3%,對仍在 HPC 放量期的公司明顯保守,終值占估值 84~89%。淨效果由後者主導,但因兩者部分抵銷,<b>此法結果與其他三法方向一致且幅度相近,可信度較高</b></td><td>1,867~2,823(中值 2,345,推演)</td><td class="green">便宜 1.9%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法<b>方向完全一致</b>,全部指向便宜,且相對法(2026E/2027E倍數、目標價)幅度落在 23~30% 的窄區間,DCF 雖然幅度較小(僅 1.9%)但方向不變——這是本次四檔分析中,四種方法收斂程度最高的一次。與聯亞、光聖形成鮮明對比:貿聯的 FactSet 共識覆蓋完整、多家目標價彼此相近,顯示法人對這個成長故事的共識程度遠高於前兩檔小型題材股。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低,四種方法收斂度高、法人共識明確。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  現價 2,300 對應 2026E P/E 34.7x,低於 trailing 42.3x,顯示市場已預期獲利加速成長;FactSet 完整覆蓋(59.15~71.9 元共識區間)且多家目標價集中在 3,100~3,300,現價距最保守目標仍有 +34.8% 空間。與同業信邦相比,貿聯的 AI 伺服器/HPC 曝險更高、成長性更強,享有的估值溢價(34.7x vs 信邦約 21x)有基本面支撐。Q1 的「新舊交替陣痛期」毛利率壓力是唯一需要留意的雜訊,但管理層已明確表示 H2 隨新產能開出可望改善。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">追價偏多但非過熱</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">ETF 買盤+主力介入,今日大漲但非族群性題材狂熱式的連續漲停</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">目標價 3,100~3,300</div><div class="note">FactSet 完整覆蓋,共識程度高於聯亞/光聖</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">66.37→115(中值)</div><div class="note">2026E/2027E,+73.3%</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>59.15 / 66.37 / 71.9</td><td>40~50x</td><td>2,655~3,318(中值 2,987)</td><td class="green">+29.9%</td></tr>
+  <tr><td>2027E</td><td>查無低高,多家法人估 110~120(中值 115)</td><td>25~32x</td><td>2,875~3,680(中值 3,278)</td><td class="green">+19.4%/年</td></tr>
+  <tr><td>2028E</td><td>查無共識,推演 190(較 2027 中值成長約 65%)</td><td>20~26x</td><td>3,800~4,940(中值 4,370)</td><td class="green">+23.9%/年</td></tr>
+</table>
+<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">2026E 有 FactSet 完整低中高分佈;2027E 僅多家法人估計區間(110~120),無官方低高標;2028E 為推演值,標示以區別於正式共識。</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:13.2%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,400~1,650</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:34.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,000~2,400</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,900~3,300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:86.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,900</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:37.7%"><div class="arrow">▲</div><div class="price">2,300</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>1,400~1,650</td><td>H2 毛利率改善不如預期,原物料成本壓力持續,EPS 共識下修至低標 59.15,倍數壓至 24~28x</td><td class="red">-39.1%~-28.3%</td></tr>
+  <tr><td class="amber">Base</td><td>2,000~2,400</td><td>Q2 財報顯示營運槓桿逐步改善,2026E EPS 中位 66.37 維持,倍數 30~36x</td><td class="amber">-13.0%~+4.3%</td></tr>
+  <tr><td class="green">Bull</td><td>2,900~3,300</td><td>千億營收目標如期兌現,2027E EPS 靠攏 115~120,估值貼近法人目標價 3,100~3,300</td><td class="green">+26.1%~+43.5%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched Bull</td><td>3,900</td><td>2028E EPS 推演高標情境提前計入,AI 伺服器+電動車雙引擎同時放量</td><td class="green">+69.6%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">2,050~2,150</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,900~2,000</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,650~1,750</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">階梯依據:第一批貼近除息後整理區;第二批貼近除息參考價 1,884.82 附近;第三批對應 Bear 區間上緣。<br><br>硬停損:收盤跌破 <b class="red">1,500</b> 無條件出場 = 對應「H2 營運槓桿改善未如預期、千億營收目標邏輯失效」。</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:站穩 2,300 且量能持續放大,7 月營收或 Q2 財報驗證毛利率改善<br>
+    進場區:<b class="green">2,300~2,450</b><br>
+    移動停利:跌破 10 日線或高點回檔 12%<br>
+    假突破失效:突破後 5 日內跌回 2,150 以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,900</div><div class="note">賣出 25~50%;Bull 區間下緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,100~3,300</div><div class="note">Bull 區間上緣,貼近法人共識目標價</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:8/4 大漲 9.79% 由 ETF 買盤與主力介入推動,基本面支撐來自 Q1 EPS YoY(近四季)+73.8%、HPC/半導體占比突破 51%,以及 GTC 大會發表支援 Vera Rubin/800VDC 的新一代電源與互連方案;唯一的雜訊是 Q1 毛利率(28.77%)反映的「新舊產品交替陣痛期」,管理層預期 H2 隨新產能開出改善。</div>
+<div class="concl">② <b>估值</b>:相較同業信邦(19.9x)享有明顯估值溢價(34.7x),但這個溢價有基本面支撐——四種交叉檢核法(2026E/2027E倍數、券商目標價、DCF)<b>方向完全一致</b>指向便宜 2~30%,收斂程度是本次四檔分析中最高的一次,反映 FactSet 完整覆蓋、法人共識明確。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>中長期布局</b>的標的,原因是估值有安全邊際、法人目標價集中且距現價仍有 35% 以上空間,基本面故事(AI伺服器+電動車+光互連三引擎)清晰;不宜追今日大漲的價,建議等回檔至除息後整理區分批布局,收盤跌破 1,500 視為邏輯失效無條件出場。</div>
+
+<footer>
+資料時間:股價/籌碼 2026/08/04;Q1 財報與法說會 2026/05/12;除息 2026/07/15;FactSet 共識 EPS/目標價(鉅亨網,近期調查)。<br>
+主要來源:Yahoo 股市、鉅亨網、CMoney 投資網誌、財報狗、vocus、豐雲學堂。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

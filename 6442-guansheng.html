@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光聖 (6442) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>光聖 (6442) <span class="badge amber">估值:合理(法人樂觀 vs 6月營收雜訊)</span> <span class="badge amber">結論:分批布局,先確認Q2財報</span></h1>
+<div class="sub">台股上市・光通訊(RF連接器+光主動/被動元件,CPO模組)|資料截至 2026/08/04 收盤,製表 2026/08/05|未列入處置股/注意股名單(對照處置股儀表板 2026/08/03 資料)</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,395</div><div class="note">08/04 收盤 +9.84%,連 3 漲累計 +32.86%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">查無精確值</div><div class="note">本益比 47.91x(trailing,同業平均 103.82,基期差異大)</div></div>
+  <div class="card"><div class="label">近況營收</div><div class="value red">5月17.26億→6月10.69億</div><div class="note">MoM −38.1%,6月YoY僅+1.65%(5月YoY+116%)</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value amber">查無精確值</div><div class="note">連 3 漲前的整理區間未取得精確數字</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 45~54x</div><div class="note">現價 ÷ 推演 2026E EPS 25.8~30.5(2025 EPS 23.46 × 雙位數~30%成長)</div></div>
+  <div class="card"><div class="label">券商目標價(較舊,1~3月設定)</div><div class="value green">1,900~3,000</div><div class="note">距現價 +36%~+115%,惟早於近期營收波動,可信度需打折</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/01~03</span><b>多家券商喊買,目標價一路喊高</b>:台新 1,900、康和 2,000、元大 2,450,最高一家外資喊至 3,000 元,聚焦 Google AI 供應鏈角色與光被動元件放量。</li>
+  <li><span class="date">2026/Q1</span><b>單季 EPS 7.82 元,歷史次高</b>:營收 27.05 億元(YoY +28.5%),毛利率大幅攀升至 55.41%;惟 QoQ −16.8%(較 2025Q4 的高基期回落)。</li>
+  <li><span class="date">2026/05</span><b>營收爆量</b>:17.26 億元(MoM +94.67%、YoY +116.02%),累計 1-5 月 53.18 億元(YoY +34.24%)。</li>
+  <li><span class="date">2026/06</span><b class="red">營收急速降溫</b>:10.69 億元(YoY 僅 +1.65%,MoM 較 5 月<b>回落 38.1%</b>),與 5 月的爆發式成長形成強烈對比,官方公告未附加原因說明。</li>
+  <li><span class="date">2026/06/09</span><b>Q2 法說會釋出正面展望</b>:AI 光被動元件占比下半年拚 80% 以上,CPO/ELS 模組預期年內量產,訂單能見度達 2026 年底,產能滿載並於台/中/菲三地擴產。</li>
+  <li><span class="date">2026/08/04</span><b>隨光通訊族群齊飆高</b>:收 1,395(+9.84%),連 3 漲累計 +32.86%,與聯亞、汎銓、前鼎、全新同步走強,外資近 5 日淨買超 474 張。</li>
+  <li><span class="date">警訊</span>6 月營收的急速降溫(YoY 從 5 月的 +116% 驟降至 +1.65%)與法說會「每季持續成長」的展望存在明顯落差,目前公開資料<b>查無官方解釋</b>,可能是單月出貨排程波動,也可能是需求端出現雜訊——這是本檔與聯亞最大的不同:聯亞的營收數字連月創高、故事乾淨;光聖的月營收波動劇烈,題材與數字之間有一段尚未解釋的落差。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「Google AI 關鍵供應鏈」,外資喊上 3,000 元<div class="src">— 口袋學堂,2026 年初</div></div>
+    <div class="quote">CPO/ELS 模組量產在即,產能滿載三地擴產,訂單能見度到年底<div class="src">— Q2 法說會,2026/06/09</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">「30 天內哪個數據最關鍵」——6 月營收 YoY 驟降至 +1.65%,與法說會樂觀展望的落差尚待驗證,是近期最需緊盯的訊號<div class="src">— CMoney投資網誌,2026</div></div>
+    <div class="quote">「EPS 成長是否具可持續性」的疑問,反映月度數據波動大,單季 EPS 也曾 QoQ 下滑近 17%<div class="src">— readmo,2026</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>台新</td><td>1,900</td><td>查無詳細依據(1~3 月發布,較舊)</td></tr>
+  <tr><td>康和</td><td>2,000</td><td>查無詳細依據(較舊)</td></tr>
+  <tr><td>元大</td><td>2,450</td><td>查無詳細依據(較舊)</td></tr>
+  <tr><td>某外資(ALETHEIA)</td><td>3,000</td><td>Google AI 供應鏈角色(較舊)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)"><b>以上目標價均為 1~3 月發布,早於 5~6 月營收劇烈波動,可信度需打折看待</b>;查無 Q2 法說會後的最新目標價調整。外資近 5 日買超 474 張、投信買超 19 張、自營賣超 22 張,合計三大法人淨買超 471 張,籌碼面偏多但規模不大。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">2025 全年EPS</div><div class="value green">23.46 元</div><div class="note">營收破百億(105 億),YoY +64%</div></div>
+  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value amber">7.82 元</div><div class="note">歷史次高,QoQ −16.8%</div></div>
+  <div class="card"><div class="label">Q1 毛利率</div><div class="value green">55.41%</div><div class="note">大幅攀升</div></div>
+  <div class="card"><div class="label">6月營收YoY</div><div class="value red">+1.65%</div><div class="note">5月為+116.02%,單月劇烈波動</div></div>
+  <div class="card"><div class="label">產能狀況</div><div class="value">滿載</div><div class="note">台/中/菲三地擴產中</div></div>
+  <div class="card"><div class="label">2026 財測(公司口徑)</div><div class="value amber">雙位數成長</div><div class="note">毛利率優於 2025 年;較保守,與外資目標價隱含的高成長性有落差</div></div>
+</div>
+
+<h2>五家最接近的競爭對手(光通訊/CPO 供應鏈)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與光聖的差異</th></tr>
+  <tr class="hl"><td>6442</td><td>光聖</td><td>47.91x(trailing,同業平均 103.82)</td><td>2025 EPS+64%,但月營收波動劇烈</td><td>基準;RF連接器+光元件雙業務,產品組合較聯亞分散</td></tr>
+  <tr><td>3081</td><td>聯亞</td><td>約 129x(2026E 平均)</td><td>Q1 EPS YoY +648%,矽光子占營收 85~90%</td><td>AI 純度更高,但本次分析中估值已明顯透支(見另份儀表板)</td></tr>
+  <tr><td>3163</td><td>波若威</td><td>69.2x(trailing)</td><td>Q1 EPS 連 3 季成長創 40 季新高</td><td>被動元件/封裝為主,成長曲線較平滑</td></tr>
+  <tr><td>3363</td><td>上詮</td><td>20.1x(同業平均)</td><td>2 月營收 YoY +27.67%</td><td>光纖元件,估值明顯低於光聖,成長性也較溫和</td></tr>
+  <tr><td>2455</td><td>全新</td><td>查無精確數字(同日漲停)</td><td>與光聖同步走強</td><td>磊晶代工廠,間接受惠矽光子拉貨,非直接同業</td></tr>
+</table>
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,395 vs 中值</th></tr>
+  <tr><td>2026E P/E 40~55x(自推 EPS)</td><td>2025 EPS 23.46 × 雙位數~30% 成長(公司口徑保守情境),套用貼近 trailing 47.91x 的倍數</td><td>1,126~1,548(中值 1,337)</td><td class="amber">合理 4.3%</td></tr>
+  <tr><td>券商目標價分布</td><td>1,900/2,000/2,450/3,000,取中位數 2,225;<b>但均為 1~3 月舊資料</b></td><td>1,900~3,000(中值 2,450,可信度存疑)</td><td class="green">便宜 43.1%(打折看待)</td></tr>
+  <tr><td>同業隱含倍數法</td><td>比照矽光子/光通訊族群熱度倍數(48~70x)套用自推 EPS</td><td>1,351~1,971(中值 1,661)</td><td class="green">便宜 16.0%</td></tr>
+  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 28/40(推演)/55(推演)三年顯性期,<b>因無多家共識,此法可信度低,僅供方向參考</b>;未扣 capex(公司正三地擴產)偏樂觀,但永續成長 2~3% 對現階段成長股又偏保守,兩者互相抵銷方向不明確</td><td>查無精確區間,不列入主要判斷</td><td>—</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">與聯亞「全面偏貴」不同,光聖呈現<b>真正的分歧</b>:用自身成長軌跡推算的當年度倍數法顯示現價大致合理(+4.3%),但較舊的券商目標價與同業隱含倍數法都顯示便宜。分歧的核心不是估值方法本身,而是<b>6 月營收的急速降溫尚未有解釋</b>——如果只是單月出貨排程波動,便宜的判斷成立;如果反映需求轉弱,合理甚至偏貴的判斷才成立。這個不確定性,而非計算方法,才是現階段最大的風險來源。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理,方向取決於 6 月營收降溫的性質。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
+  現價 1,395 用自推 EPS 計算大致落在合理區間中段(+4.3%),較舊的券商目標價(1,900~3,000)雖然顯示便宜,但這些目標價設定於 1~3 月、早於 5~6 月營收劇烈波動,可信度需打折。與聯亞相比,光聖的優勢是估值沒有透支到「超越所有目標價」的程度,劣勢是基本面數字本身出現尚未解釋的雜訊(6 月 YoY 從 5 月的 +116% 驟降至 +1.65%)。Q2 財報與法說會後的最新券商調整,是判斷方向的關鍵。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">追價偏熱</div><div class="bar"><div style="width:75%;background:var(--red)"></div></div><div class="note">與聯亞、全新等同步連 3 漲,族群性追價明顯</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價偏多但已過時</div><div class="note">1,900~3,000(1~3 月設定),法說會後最新調整查無</div></div>
+  <div class="card"><div class="label">近況營收訊號</div><div class="value red">6月YoY驟降</div><div class="note">從5月+116%降至+1.65%,原因查無官方說明</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>查無多家共識,自推 25.8~30.5(雙位數~30%成長)</td><td>40~55x</td><td>1,126~1,548(中值 1,337)</td><td class="amber">-4.2%</td></tr>
+  <tr><td>2027E</td><td>查無</td><td>查無</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028E</td><td>查無</td><td>查無</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">光聖公開的多家券商共識僅有 1~3 月的目標價,無對應 EPS 明細,也無 2027/2028 年預估;誠實標記查無優於用聯亞的數字套用類比。</div>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:15.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">750~950</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,250~1,450</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,800~2,000</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:89.1%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">2,450</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:40.6%"><div class="arrow">▲</div><div class="price">1,395</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>750~950</td><td>Q2 財報證實 6 月降溫是需求轉弱(非單月出貨排程波動),EPS 成長不如預期,倍數壓回 30~35x</td><td class="red">-46.2%~-31.9%</td></tr>
+  <tr><td class="amber">Base</td><td>1,250~1,450</td><td>Q2 財報顯示降溫僅是短期波動,全年雙位數成長財測維持,對應自推 EPS × 45~50x</td><td class="amber">-10.4%~+3.9%</td></tr>
+  <tr><td class="green">Bull</td><td>1,800~2,000</td><td>CPO/ELS 模組如期量產,下半年光被動元件占比達 80%,券商上修 EPS,估值向舊目標價區間收斂</td><td class="green">+29.0%~+43.4%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched Bull</td><td>2,450</td><td>Google AI 供應鏈角色完全兌現,估值貼近元大目標價</td><td class="green">+75.6%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">1,150~1,250</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,000~1,100</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">800~900</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">階梯依據:第一批貼近 Base 區間下緣;第二批介於 Base 與 Bear 之間;第三批對應 Bear 區間。<br><br>硬停損:收盤跌破 <b class="red">700</b> 無條件出場 = 對應「6 月營收降溫證實為需求轉弱,全年雙位數成長財測失效」。</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:站穩 <b>1,500</b> 且 7 月營收或 Q2 財報驗證恢復高速成長,同時三大法人買超放大<br>
+    進場區:<b class="green">1,500~1,600</b><br>
+    移動停利:跌破 10 日線或高點回檔 15%<br>
+    假突破失效:突破後 5 日內跌回 1,350 以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,800</div><div class="note">賣出 25~50%;Bull 區間下緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,000~2,450</div><div class="note">Bull 上緣至 Stretched,續留部位需嚴格控管</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:與聯亞、全新等同步隨光通訊/CPO 族群連 3 漲(+32.86%),Q1 EPS 7.82 元(歷史次高)、毛利率 55.41%,加上 Google AI 供應鏈角色的敘事支撐;但很少人討論的是,<b>6 月營收 YoY 從 5 月的 +116% 驟降至僅 +1.65%(MoM −38.1%)</b>,官方尚未解釋原因,這與法說會「每季持續成長」的展望存在明顯落差。</div>
+<div class="concl">② <b>估值</b>:與聯亞的「全面偏貴」不同,光聖出現真正的方法分歧——用自身成長軌跡推算,現價大致合理(+4.3%);用較舊的券商目標價(1,900~3,000,1~3 月設定)與同業隱含倍數,則顯示便宜 16~43%。分歧的關鍵不是計算方式,而是 6 月營收降溫究竟是短期波動還是需求訊號。</div>
+<div class="concl">③ <b>結論</b>:這是一筆<b>分批布局但先確認 Q2 財報</b>的標的,原因是題材與籌碼面偏多(外資近期轉買超),但基本面數字出現尚未解釋的雜訊,現階段任何精確判斷都有較大不確定性;建議依左側階梯逢回接回,右側則等站穩 1,500 且營收數字驗證後再進場,並嚴守 700 的財測失效停損。</div>
+
+<footer>
+資料時間:股價/籌碼 2026/08/04;Q1 財報與法說會 2026/06/09;5~6 月營收 2026/06~07 公告;券商目標價 2026 年 1~3 月(較舊,法說會後最新調整查無)。<br>
+主要來源:Yahoo 股市、CMoney 投資網誌、財富自由、口袋學堂、財報狗、鉅亨網、聯合新聞網、富果直送、vocus。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。本股月營收波動大、券商共識資料較舊,估值方法之間的分歧本身就是重要風險訊號。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
