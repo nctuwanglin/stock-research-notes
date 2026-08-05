@@ -13,9 +13,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 from update_chips import (          # noqa: E402
-    parse_twse_chips, parse_tpex_chips, build_chips_html, roc_str, _lots,
+    parse_twse_chips, parse_tpex_chips, build_chips_html, roc_str, _lots, collect,
 )
 from datetime import date          # noqa: E402
+from unittest.mock import patch    # noqa: E402
 
 FIX = Path(__file__).parent / "fixtures"
 
@@ -87,6 +88,70 @@ class TestTpexChips(unittest.TestCase):
         got = parse_tpex_chips(load("tpex_3insti.json"))
         self.assertNotIn("006201", got)
         self.assertIn("8027", got)
+
+
+class TestCollect(unittest.TestCase):
+    """collect() 的視窗推進行為。"""
+
+    def _cached_10(self):
+        """模擬已回補完成的 10 個交易日(2026/07/22~08/04)。"""
+        ymds = ["20260722", "20260723", "20260724", "20260727", "20260728",
+                "20260729", "20260730", "20260731", "20260803", "20260804"]
+        return {y: {"2317": {"foreign": 1, "trust": 1, "dealer": 1, "total": 3}}
+                for y in ymds}
+
+    def test_still_fetches_new_day_when_cache_full(self):
+        """
+        回歸測試:快取已滿 10 天時,仍必須嘗試抓最新一天。
+        第一版在此直接 break,導致視窗永遠凍結在首次回補的區間(CI 實測踩到)。
+        """
+        called = []
+
+        def fake_fetch_day(d):
+            called.append(d)
+            return ({"2317": {"foreign": 9, "trust": 0, "dealer": 0, "total": 9}}, {})
+
+        with patch("update_chips.fetch_day", fake_fetch_day):
+            days = collect(["2317"], [], self._cached_10(),
+                           need=10, today=date(2026, 8, 5))
+        self.assertEqual(called, [date(2026, 8, 5)], "應只抓尚未快取的 8/5")
+        self.assertIn("20260805", days)
+        self.assertEqual(days["20260805"]["2317"]["foreign"], 9)
+
+    def test_does_not_refetch_cached_days(self):
+        """已快取的日期不可重抓,否則每天都會打 10 次 API。"""
+        called = []
+
+        def fake_fetch_day(d):
+            called.append(d)
+            return ({}, {})          # 假裝 8/5 尚未公布
+
+        with patch("update_chips.fetch_day", fake_fetch_day):
+            collect(["2317"], [], self._cached_10(), need=10, today=date(2026, 8, 5))
+        self.assertEqual(called, [date(2026, 8, 5)])
+
+    def test_no_negative_cache_so_unpublished_day_retries(self):
+        """
+        當日盤後資料未公布時抓不到,不可寫入負快取,
+        否則會把真正的交易日永久誤標成非交易日。
+        """
+        with patch("update_chips.fetch_day", lambda d: ({}, {})):
+            days = collect(["2317"], [], self._cached_10(),
+                           need=10, today=date(2026, 8, 5))
+        self.assertNotIn("20260805", days)
+
+    def test_skips_weekends_without_api_calls(self):
+        """週末不打 API。8/8 是週六、8/9 週日。"""
+        called = []
+
+        def fake_fetch_day(d):
+            called.append(d)
+            return ({}, {})
+
+        with patch("update_chips.fetch_day", fake_fetch_day):
+            collect(["2317"], [], self._cached_10(), need=10, today=date(2026, 8, 9))
+        self.assertNotIn(date(2026, 8, 8), called)
+        self.assertNotIn(date(2026, 8, 9), called)
 
 
 class TestHelpers(unittest.TestCase):

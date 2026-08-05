@@ -161,28 +161,33 @@ def collect(codes_twse, codes_tpex, have, need=WINDOW, today=None):
     today = today or date.today()
     days = dict(have)
     cur = today
+    seen = 0            # 本次由新到舊「走過」的交易日數(含既有快取的)
     for _ in range(LOOKBACK):
-        if len([k for k in days if days[k]]) >= need:
+        if seen >= need:
             break
         ymd = cur.strftime("%Y%m%d")
-        if ymd in days:
-            cur -= timedelta(days=1)
-            continue
         if cur.weekday() >= 5:            # 週末直接跳過,省 API 呼叫
             cur -= timedelta(days=1)
             continue
-        twse, tpex = fetch_day(cur)
-        if twse:
-            row = {}
-            for c in codes_twse:
-                if c in twse:
-                    row[c] = twse[c]
-            for c in codes_tpex:
-                if c in tpex:
-                    row[c] = tpex[c]
-            days[ymd] = row
-            print(f"  抓到 {ymd}: twse {len(twse)} 檔 / tpex {len(tpex)} 檔 "
-                  f"-> 命中追蹤股 {len(row)} 檔")
+        # 關鍵:即使快取已滿 need 天,最前面的新日期仍必須嘗試抓,
+        # 否則視窗會永遠凍結在第一次回補的那 10 天(CI 實測踩過)。
+        if ymd not in days:
+            twse, tpex = fetch_day(cur)
+            if twse:
+                row = {}
+                for c in codes_twse:
+                    if c in twse:
+                        row[c] = twse[c]
+                for c in codes_tpex:
+                    if c in tpex:
+                        row[c] = tpex[c]
+                days[ymd] = row
+                print(f"  抓到 {ymd}: twse {len(twse)} 檔 / tpex {len(tpex)} 檔 "
+                      f"-> 命中追蹤股 {len(row)} 檔")
+            # 抓不到不寫入負快取:當日盤後資料尚未公布時也會抓不到,
+            # 寫入會把真正的交易日永久誤標成非交易日,下次執行再重試即可。
+        if days.get(ymd):
+            seen += 1
         cur -= timedelta(days=1)
     # 只留最近 KEEP 個交易日
     for k in sorted(days, reverse=True)[KEEP:]:
