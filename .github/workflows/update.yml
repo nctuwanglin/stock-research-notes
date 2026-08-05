@@ -1,4 +1,4 @@
-name: 盤後自動更新研究筆記(現價偏移/資料齡/處置同步/催化劑日曆)
+name: 盤後自動更新研究筆記(現價偏移/資料齡/處置同步/催化劑日曆/三大法人籌碼)
 
 on:
   schedule:
@@ -29,10 +29,18 @@ jobs:
       - name: Run freshness update script
         run: python scripts/update_freshness.py
 
+      # 籌碼腳本在任一市場來源全滅時會 exit 1。這裡刻意 continue-on-error:
+      # 直接失敗會跳過下面的 commit,連當天的現價/資料齡更新一起丟掉。
+      # 改由最後一步依 outcome 讓整個 workflow 轉紅(與 US quotes 同一套作法)。
+      - name: Run chips update script
+        id: chips
+        continue-on-error: true
+        run: python scripts/update_chips.py
+
       - name: Check for changes
         id: diff
         run: |
-          if git diff --quiet index.html data/prices.json; then
+          if git diff --quiet index.html data/prices.json data/chips.json ./*.html; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
@@ -44,8 +52,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           DATE=$(TZ=Asia/Taipei date "+%Y/%m/%d %H:%M")
-          git add index.html data/prices.json
-          git commit -m "auto: 盤後更新現價偏移/資料齡/處置同步 ${DATE}"
+          git add ./*.html data/prices.json data/chips.json
+          git commit -m "auto: 盤後更新現價偏移/資料齡/處置同步/三大法人籌碼 ${DATE}"
           git push
 
       - name: Verify US quotes
@@ -56,3 +64,9 @@ jobs:
           print('errors:', e)
           sys.exit(1 if e else 0)
           "
+
+      - name: Verify chips
+        if: steps.chips.outcome == 'failure'
+        run: |
+          echo "籌碼更新失敗(見上方 Run chips update script 步驟),來源可能已改版"
+          exit 1
