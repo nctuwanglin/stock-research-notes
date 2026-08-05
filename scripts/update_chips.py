@@ -12,7 +12,7 @@
   上市 TWSE  T86                     欄位固定 19 欄
   上櫃 TPEx  3itrade_hedge_result    欄位固定 24 欄(名稱重複,只能靠位置)
 
-寫入 data/chips.json,並填入各儀表板的 <div class="chips" data-code="..."> 佔位符。
+寫入 data/chips.json,並填入各儀表板的 <div class="instflow" data-code="..."> 佔位符。
 執行:python3 scripts/update_chips.py
 """
 import json
@@ -285,7 +285,7 @@ def main():
             missing.append(meta["file"])
             continue
         s = open(path, encoding="utf-8").read()
-        pat = rf'(<div class="chips" data-code="{re.escape(code)}">).*?(</div>\s*<!--/chips-->)'
+        pat = rf'(<div class="instflow" data-code="{re.escape(code)}">).*?(</div>\s*<!--/instflow-->)'
         if not re.search(pat, s, flags=re.S):
             missing.append(f"{meta['file']}(無佔位符)")
             continue
