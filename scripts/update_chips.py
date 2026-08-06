@@ -261,9 +261,18 @@ def main():
     if not tw_codes:
         sys.exit("no TW stocks in stocks.json")
 
-    have = {}
+    have, cached_codes = {}, []
     if os.path.exists(CHIPS_JSON):
-        have = json.load(open(CHIPS_JSON, encoding="utf-8")).get("days", {})
+        cache = json.load(open(CHIPS_JSON, encoding="utf-8"))
+        have = cache.get("days", {})
+        cached_codes = cache.get("codes", [])
+
+    # collect() 只抓「尚未快取的日期」,所以新增追蹤股時,舊快取日不會含它的資料,
+    # 該股籌碼區塊會永遠顯示查無。偵測到新代號就整批重抓(僅 WINDOW 天,成本可接受)。
+    added = sorted(set(tw_codes) - set(cached_codes))
+    if added and have:
+        print(f"偵測到新增追蹤股 {added},清空快取重新回補")
+        have = {}
 
     print(f"追蹤台股 {len(tw_codes)} 檔(上市 {len(codes_twse)}/上櫃 {len(codes_tpex)}),"
           f"既有 {len(have)} 個交易日")
@@ -272,7 +281,8 @@ def main():
     if len(trading_days) < WINDOW:
         print(f"WARN: 只湊到 {len(trading_days)} 個交易日(目標 {WINDOW})")
 
-    json.dump({"updated": date.today().isoformat(), "window": WINDOW, "days": days},
+    json.dump({"updated": date.today().isoformat(), "window": WINDOW,
+               "codes": sorted(tw_codes), "days": days},
               open(CHIPS_JSON, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     # 填入各儀表板佔位符

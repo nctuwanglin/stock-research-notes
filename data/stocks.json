@@ -245,5 +245,16 @@
       "連接器",
       "線束"
     ]
+  },
+  "3711": {
+    "name": "日月光投控",
+    "market": "twse",
+    "file": "3711-ase.html",
+    "analysis_date": "2026-08-06",
+    "analysis_price": 595.0,
+    "tags": [
+      "封測",
+      "先進封裝"
+    ]
   }
 }
