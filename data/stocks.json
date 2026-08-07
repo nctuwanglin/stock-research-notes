@@ -53,9 +53,9 @@
   "6239": {
     "name": "力成",
     "market": "twse",
-    "file": "6239-powertech.html",
-    "analysis_date": "2026-07-21",
-    "analysis_price": 272.0,
+    "file": "6239-powertech-event.html",
+    "analysis_date": "2026-08-07",
+    "analysis_price": 262.5,
     "tags": [
       "封測",
       "記憶體"

@@ -1,5 +1,5 @@
 {
- "updated": "2026-08-06",
+ "updated": "2026-08-07",
  "window": 10,
  "codes": [
   "2303",
@@ -1425,6 +1425,146 @@
     "trust": 1038,
     "dealer": 15,
     "total": -1226
+   }
+  },
+  "20260807": {
+   "2337": {
+    "foreign": -9460,
+    "trust": -861,
+    "dealer": -228,
+    "total": -10549
+   },
+   "2408": {
+    "foreign": 2148,
+    "trust": -21,
+    "dealer": 365,
+    "total": 2492
+   },
+   "2344": {
+    "foreign": -43331,
+    "trust": -187,
+    "dealer": -2747,
+    "total": -46265
+   },
+   "6239": {
+    "foreign": -3783,
+    "trust": 1253,
+    "dealer": -438,
+    "total": -2968
+   },
+   "8150": {
+    "foreign": -3112,
+    "trust": 0,
+    "dealer": -55,
+    "total": -3167
+   },
+   "2303": {
+    "foreign": -23201,
+    "trust": -6691,
+    "dealer": -2839,
+    "total": -32730
+   },
+   "2610": {
+    "foreign": 6171,
+    "trust": 6997,
+    "dealer": 237,
+    "total": 13405
+   },
+   "2454": {
+    "foreign": 72,
+    "trust": -128,
+    "dealer": -16,
+    "total": -73
+   },
+   "2330": {
+    "foreign": 642,
+    "trust": 61,
+    "dealer": 1243,
+    "total": 1946
+   },
+   "2308": {
+    "foreign": -1697,
+    "trust": 56,
+    "dealer": -158,
+    "total": -1800
+   },
+   "2317": {
+    "foreign": -5328,
+    "trust": -800,
+    "dealer": -626,
+    "total": -6755
+   },
+   "3037": {
+    "foreign": -791,
+    "trust": 74,
+    "dealer": -48,
+    "total": -764
+   },
+   "3008": {
+    "foreign": -220,
+    "trust": 28,
+    "dealer": 16,
+    "total": -176
+   },
+   "2327": {
+    "foreign": -9347,
+    "trust": -1516,
+    "dealer": 142,
+    "total": -10721
+   },
+   "3661": {
+    "foreign": -40,
+    "trust": -13,
+    "dealer": 23,
+    "total": -30
+   },
+   "3443": {
+    "foreign": 19,
+    "trust": 101,
+    "dealer": -17,
+    "total": 103
+   },
+   "6442": {
+    "foreign": -145,
+    "trust": -115,
+    "dealer": -1,
+    "total": -261
+   },
+   "3665": {
+    "foreign": -408,
+    "trust": -672,
+    "dealer": -45,
+    "total": -1125
+   },
+   "3711": {
+    "foreign": -3054,
+    "trust": 557,
+    "dealer": -274,
+    "total": -2771
+   },
+   "3324": {
+    "foreign": 362,
+    "trust": -1,
+    "dealer": -154,
+    "total": 207
+   },
+   "8027": {
+    "foreign": 126,
+    "trust": 0,
+    "dealer": -4,
+    "total": 123
+   },
+   "8299": {
+    "foreign": 70,
+    "trust": -718,
+    "dealer": 103,
+    "total": -545
+   },
+   "3081": {
+    "foreign": -336,
+    "trust": 392,
+    "dealer": 7,
+    "total": 64
    }
   }
  }
