@@ -296,7 +296,7 @@
 本站為個人研究筆記,僅供參考,非投資建議、非邀約買賣。所有價位為分析框架推導,請依個人風險承受度自行判斷;投資有風險,盈虧自負。
 <div class="related">相關儀表板:<a href="https://nctuwanglin.github.io/twse-disposition/">台股處置股</a> ·
 <a href="https://nctuwanglin.github.io/active-etf/">台股主動式 ETF</a></div>
-<div class="visits" id="visits"><img src="https://hits.sh/nctuwanglin.github.io/stock-research-notes.svg?label=%E7%B4%AF%E8%A8%88%E7%80%8F%E8%A6%BD&color=2ecc71&style=flat-square" alt="累計瀏覽次數" loading="lazy"></div>
+<div class="visits" id="visits">瀏覽統計載入中…</div>
 </footer>
 
 <script>
@@ -321,6 +321,27 @@ document.querySelectorAll('.chips').forEach(function(group){
     applyChipFilters();
   });
 });
+
+// 瀏覽統計:Abacus(免註冊、免API key)。原用的 CounterAPI v1 已於 2026/07 停用(410),故遷移。
+// /hit/ 會遞增並回傳 {"value":N};日計數以台灣時間(UTC+8)換日,避免 UTC 造成早上8點才跨日。
+(function(){
+  const NS = "nctuwanglin-stock-research-notes";
+  const base = `https://abacus.jasoncameron.dev/hit/${NS}`;
+  const today = new Date(Date.now()+8*3600*1000).toISOString().slice(0,10).replace(/-/g,"");
+  const el = document.getElementById('visits');
+  const num = v => (v && typeof v.value === 'number') ? v.value.toLocaleString('en-US') : null;
+  Promise.allSettled([
+    fetch(`${base}/total`).then(r=>r.json()),
+    fetch(`${base}/day-${today}`).then(r=>r.json()),
+  ]).then(([total,day])=>{
+    const t = total.status==='fulfilled' ? num(total.value) : null;
+    const d = day.status==='fulfilled' ? num(day.value) : null;
+    const parts = [];
+    if(d) parts.push(`<span>今日瀏覽 <b>${d}</b></span>`);
+    if(t) parts.push(`<span>累計瀏覽 <b>${t}</b></span>`);
+    el.innerHTML = parts.join('');
+  }).catch(()=>{ el.textContent = ""; });
+})();
 
 </script>
 </body>
