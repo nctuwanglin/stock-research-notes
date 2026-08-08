@@ -295,7 +295,7 @@
 本站為個人研究筆記,僅供參考,非投資建議、非邀約買賣。所有價位為分析框架推導,請依個人風險承受度自行判斷;投資有風險,盈虧自負。
 <div class="related">相關儀表板:<a href="https://nctuwanglin.github.io/twse-disposition/">台股處置股</a> ·
 <a href="https://nctuwanglin.github.io/active-etf/">台股主動式 ETF</a></div>
-<div class="visits" id="visits"></div>
+<div class="visits" id="visits"><img src="https://hits.sh/nctuwanglin.github.io/stock-research-notes.svg?label=%E7%B4%AF%E8%A8%88%E7%80%8F%E8%A6%BD&color=2ecc71&style=flat-square" alt="累計瀏覽次數" loading="lazy"></div>
 </footer>
 
 <script>
@@ -321,18 +321,6 @@ document.querySelectorAll('.chips').forEach(function(group){
   });
 });
 
-(function(){
-  const NS = "wanglin-stock-research-notes-2026";
-  const base = `https://api.counterapi.dev/v1/${NS}`;
-  const today = new Date().toISOString().slice(0,10).replace(/-/g,"");
-  const el = document.getElementById('visits');
-  Promise.all([
-    fetch(`${base}/total/up`).then(r=>r.json()),
-    fetch(`${base}/day-${today}/up`).then(r=>r.json()),
-  ]).then(([total,day])=>{
-    el.innerHTML = `<span>今日瀏覽 <b>${day.count.toLocaleString()}</b></span><span>累計瀏覽 <b>${total.count.toLocaleString()}</b></span>`;
-  }).catch(()=>{ el.textContent = ""; });
-})();
 </script>
 </body>
 </html>
