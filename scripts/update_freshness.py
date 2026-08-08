@@ -219,7 +219,11 @@ def fetch_tpex_closes():
 
 
 def load_dispo():
-    """回傳 (處置 {code:{auction,end}}, 注意 set(codes))。本機優先,線上備援,都失敗回空。"""
+    """
+    回傳 (處置 {code:{auction,end}}, 注意 set(codes), 名單資料日期 str)。
+    本機優先,線上備援,都失敗回空。資料日期供個股頁 sub 行標註對照基準,
+    沒抓到就回空字串讓下游寫「日期查無」,不要猜。
+    """
     html = ""
     if os.path.exists(DISPO_LOCAL):
         html = open(DISPO_LOCAL, encoding="utf-8").read()
@@ -228,7 +232,7 @@ def load_dispo():
             html = fetch(DISPO_URL)
         except Exception as e:
             print(f"WARN dispo fetch failed: {e}", file=sys.stderr)
-            return {}, set()
+            return {}, set(), ""
     dispo = {}
     pat = re.compile(
         r'class="ticker[^"]*"[^>]*>(\d{4,6})</span>.*?class="pill[^"]*">([^<]*撮合)</span>'
@@ -241,7 +245,56 @@ def load_dispo():
     m = re.search(r'注意累計[^：:]*[：:]\s*<span[^>]*>([^<]+)</span>', html)
     if m:
         attn = set(re.findall(r'(\d{4,6})', m.group(1)))
-    return dispo, attn
+    md = re.search(r'自動更新\s*([\d/]+)', html)
+    return dispo, attn, (md.group(1) if md else "")
+
+
+def build_dispo_note(code, dispo, attn, dispo_date):
+    """
+    個股頁 sub 行的處置狀態句(純文字,無標籤)。
+    先前各儀表板把這句寫死、日期各不相同且會過期,改由本函式每日重寫。
+    """
+    ref = f"(對照處置股儀表板 {dispo_date} 資料)" if dispo_date else "(處置股名單日期查無)"
+    if code in dispo:
+        d = dispo[code]
+        end = f",至 {d['end']}" if d["end"] else ""
+        return f"處置中:{d['auction']}{end}{ref}"
+    if code in attn:
+        return f"注意股累計中{ref}"
+    return f"未列入處置股/注意股名單{ref}"
+
+
+def fill_dashboard_dispo(stocks, dispo, attn, dispo_date):
+    """
+    把處置徽章與狀態句同步到各個股頁。
+    h1 的 autodispo 以 `</span></h1>` 為右界、sub 的 dispostat 內容限純文字,
+    兩者都能重複執行而不累加(與 index.html 的 autodispo 同一套作法)。
+    """
+    filled, missing = 0, []
+    for code, meta in stocks.items():
+        if meta.get("market") == "us":     # 美股無處置/注意股制度
+            continue
+        path = os.path.join(BASE, meta["file"])
+        if not os.path.exists(path):
+            missing.append(meta["file"])
+            continue
+        s = open(path, encoding="utf-8").read()
+        orig = s
+        badge = build_dispo_badge(code, dispo, attn, meta["market"])
+        s, n1 = re.subn(
+            rf'(<span class="autodispo" data-code="{re.escape(code)}">).*?(</span></h1>)',
+            lambda m: m.group(1) + badge + m.group(2), s, count=1, flags=re.S)
+        note = build_dispo_note(code, dispo, attn, dispo_date)
+        s, n2 = re.subn(
+            rf'(<span class="dispostat" data-code="{re.escape(code)}">)[^<]*(</span>)',
+            lambda m: m.group(1) + note + m.group(2), s, count=1)
+        if not (n1 and n2):
+            missing.append(f"{meta['file']}(缺佔位符 h1={n1} sub={n2})")
+            continue
+        if s != orig:
+            open(path, "w", encoding="utf-8").write(s)
+        filled += 1
+    return filled, missing
 
 
 def load_tags_supplement():
@@ -393,7 +446,7 @@ def main():
     tpex_date, tpex = fetch_tpex_closes()
     us_codes = [c for c, m in stocks.items() if m["market"] == "us"]
     us = fetch_us_closes(us_codes) if us_codes else {}
-    dispo, attn = load_dispo()
+    dispo, attn, dispo_date = load_dispo()
     tag_sup = load_tags_supplement()
 
     s = open(INDEX, encoding="utf-8").read()
@@ -428,6 +481,8 @@ def main():
                "<!--CALENDAR_START-->\n" + cal_html + "\n<!--CALENDAR_END-->", s, flags=re.S)
 
     open(INDEX, "w", encoding="utf-8").write(s)
+
+    dash_filled, dash_missing = fill_dashboard_dispo(stocks, dispo, attn, dispo_date)
     # 任何已登記美股缺漏(全滅或部分)都必須讓 workflow 轉紅,見 us_errors()。
     # 刻意不在此 sys.exit(1):那會讓 workflow 跳過 commit 步驟,連當天台股更新一起丟掉。
     # 由 workflow 在 push 之後讀這個欄位決定成敗。
@@ -437,6 +492,8 @@ def main():
     got = sum(1 for v in prices.values() if v["close"] is not None)
     print(f"done: prices {got}/{len(prices)} | us {len(us)}/{len(us_codes)} | dispo hits "
           f"{sum(1 for c in stocks if c in dispo)} | attn hits {sum(1 for c in stocks if c in attn)}"
+          f" | 個股頁徽章 {dash_filled} 份(名單日期 {dispo_date or '查無'})"
+          + (f" | 個股頁未處理 {dash_missing}" if dash_missing else "")
           + (f" | ERRORS {errors}" if errors else ""))
 
 
