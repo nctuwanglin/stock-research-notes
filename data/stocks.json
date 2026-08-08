@@ -24,8 +24,8 @@
     "name": "旺宏",
     "market": "twse",
     "file": "2337-macronix.html",
-    "analysis_date": "2026-07-27",
-    "analysis_price": 125.5,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 121.5,
     "tags": [
       "記憶體"
     ]
@@ -34,8 +34,8 @@
     "name": "南亞科",
     "market": "twse",
     "file": "2408-nanya.html",
-    "analysis_date": "2026-07-27",
-    "analysis_price": 436.0,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 457.0,
     "tags": [
       "記憶體"
     ]
@@ -44,8 +44,8 @@
     "name": "華邦電",
     "market": "twse",
     "file": "2344-winbond.html",
-    "analysis_date": "2026-07-27",
-    "analysis_price": 160.0,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 163.5,
     "tags": [
       "記憶體"
     ]
@@ -167,8 +167,8 @@
     "name": "群聯",
     "market": "tpex",
     "file": "8299-phison.html",
-    "analysis_date": "2026-07-21",
-    "analysis_price": 1855.0,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 2020.0,
     "tags": [
       "記憶體",
       "IC設計"
