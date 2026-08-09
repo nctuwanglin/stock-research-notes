@@ -26,6 +26,8 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -60,160 +62,163 @@
   .bar>div{height:100%;}
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
-  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
-  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>創意 (3443) <span class="badge red">估值:偏貴(FactSet 共識已低於現價)</span> <span class="badge amber">結論:觀望,等法說會驗證單一大客戶專案進度</span> <span class="autodispo" data-code="3443"></span></h1>
-<div class="sub">台股(TWSE)・台積電體系 ASIC 設計服務(CoWoS/先進封裝合作夥伴)|股價截至 2026/07/21 收盤,製表 2026/07/21|<span class="dispostat" data-code="3443">未列入處置股/注意股名單(對照處置股儀表板 2026/08/07 資料)</span></div>
+<h1>創意 (3443) <span class="badge red">估值:明顯偏貴(較最直接同業世芯溢價逾3倍)</span> <span class="badge amber">結論:觀望,已上車者分批獲利了結</span><span class="autodispo" data-code="3443"></span></h1>
+<div class="sub">台股(TWSE)・ASIC設計服務(Turnkey為主)・美系CPU專案+Google次世代晶片|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="3443">未列入處置股/注意股名單(對照處置股儀表板 2026/08/07 資料)</span></div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">4,115</div><div class="note">2026/07/21 收盤,+9.88%;7/2 曾衝上 5,345 波段高,7/20 波段低見 3,535</div></div>
-  <div class="card"><div class="label">波段回檔</div><div class="value red">約 -34%</div><div class="note">自 7/2 高點至 7/20 低點,約 2.5 週內完成</div></div>
-  <div class="card"><div class="label">本益比(TTM)</div><div class="value red">112.67x</div><div class="note">TWSE 官方數據(7/20);PB 34.41x 為本系列最高,殖利率僅 0.53%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.28</div><div class="note">營收 114.48 億(QoQ-7.6%、YoY+62.9%);淨利 16.46 億(QoQ+41.9%、YoY+71.2%)</div></div>
-  <div class="card"><div class="label">6 月營收</div><div class="value green">49.29 億</div><div class="note">YoY+103.72%、MoM+5.45%;H1 累計 253.44 億(YoY+93.05%)</div></div>
-  <div class="card"><div class="label">機構目標價</div><div class="value amber">3,100~6,000</div><div class="note">FactSet 共識 3,100(19 位)已低於現價;里昂最高喊 6,000</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">4,545</div><div class="note">2026/08/07 收盤 +1.45%,連日創高</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約6,092億</div><div class="note">股本13.40億,已發行134,011,911股</div></div>
+  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">11.61</div><div class="note">創單季新高;稅後淨利15.55億,YoY+99%</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value red">約94.6x</div><div class="note">FactSet 2026E EPS共識48.02(17位分析師);2027E隱含約49.1x</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">3,175~5,345</div><div class="note">7月區間;5月曾觸及今年高點5,950</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">2,140~5,950</div><div class="note">3月低2,140、5月高5,950(TWSE官方日成交資訊)</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼先狂飆、又為什麼暴跌暴漲?</h2>
+<h2>① 催化劑分析 — 為什麼漲?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/05 初</span><b>Q1 法說會:獲利創單季新高</b>:合併營收 114.48 億(單季次高,QoQ-7.6%、YoY+62.9%);歸屬母公司業主淨利 16.46 億(QoQ+41.9%、YoY+71.2%),EPS 12.28 元。管理層預期今年營收成長幅度將超越去年,主要受惠台積電產能配置改善,將持續為客戶爭取更多晶圓產能。去年 Q4 起 CSP 案件貢獻明顯增加,已取得美系 CSP 客戶下一代 CPU 相關專案,法人預估該專案 2026、2027 年可分別貢獻營收 40%、20%。</li>
-  <li><span class="date">2026/05~06</span>Q1 獲利創單季新高帶動股價週線連 4 紅,外資、投信、自營商全部回頭買超;里昂證券將目標價自 3,600 大幅上調至 6,000 元,重申「優於大盤」評等。法人開始討論 2027 年 EPS 有機會挑戰 150 元的樂觀情境,背後假設是 CPU、車用 AI 專案提前量產。</li>
-  <li><span class="date">2026/07/02</span><b class="green">股價衝上波段高點 5,345</b>(收 5,330),本益比同步推升至三位數區間。</li>
-  <li><span class="date">2026/07/初</span><b>6 月營收 49.29 億(YoY+103.72%、MoM+5.45%)公告</b>,H1 累計 253.44 億、年增 93.05%——高成長數字本身沒有問題,但股價已自高點開始回落(自 5,330 滑落至 7/9 的 4,340)。</li>
-  <li><span class="date">2026/07/14</span><b class="red">電子上游 IP/ASIC 族群重挫</b>:創意單日重挫 -250(-5.9%)收 4,020,與世芯-KY 同步走弱,市場對 AI 客製化晶片賽道短線過熱疑慮升溫。</li>
-  <li><span class="date">2026/07/17</span><b class="red">台股史上最大單日跌點</b>:加權指數重挫 2,953.71 點(-6.47%)創史上紀錄,創意收 3,835(-8.4%)。</li>
-  <li><span class="date">2026/07/20</span><b class="red">續弱探底</b>:盤中低見 3,535,收 3,745,波段自 7/2 高點回檔約 34%。</li>
-  <li><span class="date">2026/07/21</span><b class="green">強彈近漲停</b>:收 4,115(+9.88%),隨大盤史上最大單日漲點同步大漲,漲幅為本輪分析數檔股票中最高之一。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①TTM P/E 112.67x、PB 34.41x 是本系列分析過股票中的最高估值,即使歷經 34% 的波段回檔,現價仍高於 FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920)——這是罕見的「股價領先多數共識目標」案例;②單一美系 CSP 客戶的下一代 CPU 專案預估貢獻 2026 年營收 40%、2027 年 20%,客戶集中度風險不亞於世芯-KY,一旦該專案時程或規模生變,對獲利與估值的衝擊會更直接;③2027 年 EPS 挑戰 150 元的樂觀情境目前僅是法人推演,尚未有 FactSet 完整分佈佐證。</li>
+  <li><span class="date">2026年初~5月</span>股價從年初約2,150一路飆升至5月高點5,950,反映市場對ASIC設計服務受惠雲端巨頭「去輝達化」自研晶片趨勢的高度樂觀。</li>
+  <li><span class="date">2026/07</span>7月營收57.69億元,年增158.38%,較6月49.29億元月增約17.05%,連月創高。</li>
+  <li><span class="date">2026/08初(法說會)</span><b class="green">Q2財報:營收創高但毛利率下滑</b>:單季合併營收138.97億元,YoY+127.6%,改寫歷史新高;稅後淨利15.55億元,YoY+99%,單季EPS 11.61。總經理戴尚義證實已拿下Google次世代晶片專案,預計2026年底至2027年初量產。惟單季毛利率下滑至21.55%,較去年同期大幅減少11.7個百分點,主因一條龍設計與量產的Turnkey業務占比攀升至83%,雖貢獻龐大營收卻壓縮整體利潤空間。</li>
+  <li><span class="date">2026/08/03~07</span>股價強勢連漲,8/7收4,545創近期新高,主要動能來自Google新單確認與美系大客戶CPU專案法人預估2026、2027年可分別貢獻營收40%與20%的題材延續發酵。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率年減11.7個百分點是實質的獲利品質稀釋,而非帳面數字美化的問題——營收規模擴大主要來自毛利率較低的Turnkey業務,這與「純IP授權/晶片設計服務」的高毛利模式本質不同;②已有首席分析師報告明確指出「營收規模取代獲利品質成定價主軸,市場交易2027年完美預期劇本」,意即目前股價已提前反映2027年最樂觀情境,任何不如預期的進展都可能引發估值大幅修正;③與最直接同業世芯-KY相比,創意目前的2026E本益比(約94.6x)是世芯(約26.9x)的3.5倍以上,儘管兩者業務性質相近(皆為ASIC設計服務、皆受惠雲端巨頭自研晶片趨勢),這個估值差距在基本面上難以完全解釋。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">「台積電產能配置改善+美系 CSP 客戶下一代 CPU 專案,2026 年營收成長幅度將超越去年」——管理層 Q1 法說會展望。<div class="src">— 鉅亨網,2026/05</div></div>
-    <div class="quote">Q1 獲利創單季新高,週線連 4 紅,外資、投信、自營商全部回頭買超。<div class="src">— Yahoo 股市</div></div>
-    <div class="quote">里昂證券將目標價自 3,600 大幅上調至 6,000 元,重申「優於大盤」評等;2027 年 EPS 有機會挑戰 150 元。<div class="src">— 經濟日報/readmo</div></div>
+    <div class="quote">已正式拿下Google次世代晶片專案,預計2026年底至2027年初量產,是繼美系大客戶CPU專案後的第二個重量級雲端客戶勝利,鞏固創意在高階運算ASIC供應鏈的關鍵地位。<div class="src">— CMoney投資網誌法說整理,2026/08</div></div>
+    <div class="quote">美系大客戶CPU專案法人預估2026、2027年可分別貢獻營收40%、20%,加上知名車廠AI5專案量產時程提前,多重營收動能疊加。<div class="src">— readmo財經分析</div></div>
+    <div class="quote">雲端巨頭集體「去輝達化」自研晶片趨勢下,ASIC產能大爆發,創意與世芯同為2026年可望翻倍成長的核心受惠股。<div class="src">— 商周財富網,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">FactSet 19 位分析師共識目標僅 3,100 元,已低於現價 4,115——多數機構的共識評價其實不支持現在的股價。<div class="src">— 鉅亨網 FactSet 調查</div></div>
-    <div class="quote">單一美系 CSP 客戶的下一代 CPU 專案預估貢獻 2026 年營收高達 40%,客戶集中度風險極高,任何專案生變都會直接衝擊獲利與估值。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">TTM P/E 112.67x、PB 34.41x 是本系列分析過的個股中最高,即使歷經 34% 回檔仍未回到多數法人共識目標下方。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">「營收規模取代獲利品質成定價主軸,市場交易2027年完美預期劇本」——這是對創意目前估值最直接的警示,指出市場已提前反映最樂觀情境,而Turnkey業務占比攀升正在稀釋獲利品質。<div class="src">— 首席分析師追蹤報告,vocus</div></div>
+    <div class="quote">Q2毛利率年減11.7個百分點至21.55%,顯示營收成長的「含金量」正在下降,若Turnkey業務占比持續攀升,獲利成長率恐難跟上營收成長率。<div class="src">— 本儀表板觀察,綜合CMoney法說整理</div></div>
+    <div class="quote">2027年EPS共識個別預測落差極大(73.83~200.81元),反映市場對創意能否延續2026年的爆發性成長本身存在巨大分歧。<div class="src">— 鉅亨網FactSet速報彙整</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>里昂證券(最高)</td><td class="green">6,000</td><td>自 3,600 大幅上調,「優於大盤」評等;2027E EPS 挑戰 150 元的樂觀情境</td></tr>
-  <tr><td>台新投顧</td><td class="amber">3,920</td><td>「看多」評等,預估 2026 年營收約 594.89 億元、EPS 約 48.54 元</td></tr>
-  <tr><td>FactSet 共識(19 位)</td><td class="red">3,100</td><td>2026E EPS 中位 43.52 元;此目標已低於現價</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">三則目標價落差達近一倍(3,100~6,000),且皆發布於崩盤前,尚未反映 7/14、7/17~21 的暴跌暴漲;FactSet 共識目標本身就低於現價,是本系列少見的訊號。精確法人 7 月買賣超、內部人申報查無。</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(17位分析師,最新)</td><td class="green">5,710</td><td>2026E EPS中位上修至48.02(區間42.61~58.72);目標價自年初3,100持續上修</td></tr>
+  <tr><td>FactSet 2027E EPS共識</td><td>92.64元</td><td>區間73.83~200.81,分歧極大,反映能見度有限</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目標價自4月的3,100元一路上修至5,710元(4901、3500等中間讀數皆顯示連續性上修軌跡),反映法人隨營收爆發持續調升假設,但這也代表FactSet共識本身可能同樣受到「敘事定價」影響,不宜視為獨立於市場情緒之外的錨點。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
-<div class="instflow" data-code="3443"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+727</span></td><td>7/10</td><td><span class="green">+19</span></td></tr><tr><td>投信</td><td><span class="green">+415</span></td><td>8/10</td><td><span class="green">+101</span></td></tr><tr><td>自營商</td><td><span class="red">-45</span></td><td>5/10</td><td><span class="red">-17</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+1,096</span></td><td>7/10</td><td><span class="green">+103</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/07</td><td><span class="green">+19</span></td><td><span class="green">+101</span></td><td><span class="red">-17</span></td><td><span class="green">+103</span></td></tr><tr><td>08/06</td><td><span class="red">-18</span></td><td><span class="green">+23</span></td><td><span class="red">-8</span></td><td><span class="red">-3</span></td></tr><tr><td>08/05</td><td><span class="green">+86</span></td><td><span class="green">+7</span></td><td><span class="red">-17</span></td><td><span class="green">+76</span></td></tr><tr><td>08/04</td><td><span class="green">+279</span></td><td><span class="green">+150</span></td><td><span class="red">-9</span></td><td><span class="green">+420</span></td></tr><tr><td>08/03</td><td><span class="green">+273</span></td><td><span class="green">+54</span></td><td><span class="green">+55</span></td><td><span class="green">+382</span></td></tr><tr><td>07/31</td><td><span class="red">-84</span></td><td><span class="green">+19</span></td><td><span class="green">+5</span></td><td><span class="red">-60</span></td></tr><tr><td>07/30</td><td><span class="red">-268</span></td><td><span class="green">+101</span></td><td><span class="red">-116</span></td><td><span class="red">-284</span></td></tr><tr><td>07/29</td><td><span class="green">+78</span></td><td><span class="red">-38</span></td><td><span class="green">+7</span></td><td><span class="green">+47</span></td></tr><tr><td>07/28</td><td><span class="green">+178</span></td><td><span class="green">+154</span></td><td><span class="green">+5</span></td><td><span class="green">+337</span></td></tr><tr><td>07/27</td><td><span class="green">+184</span></td><td><span class="red">-156</span></td><td><span class="green">+50</span></td><td><span class="green">+78</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/27~08/07(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<div class="instflow" data-code="3443"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+727</span></td><td>7/10</td><td><span class="green">+19</span></td></tr><tr><td>投信</td><td><span class="green">+444</span></td><td>8/10</td><td><span class="green">+101</span></td></tr><tr><td>自營商</td><td><span class="red">-45</span></td><td>5/10</td><td><span class="red">-17</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+1,125</span></td><td>8/10</td><td><span class="green">+103</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/07</td><td><span class="green">+19</span></td><td><span class="green">+101</span></td><td><span class="red">-17</span></td><td><span class="green">+103</span></td></tr><tr><td>08/06</td><td><span class="red">-18</span></td><td><span class="green">+52</span></td><td><span class="red">-8</span></td><td><span class="green">+26</span></td></tr><tr><td>08/05</td><td><span class="green">+86</span></td><td><span class="green">+7</span></td><td><span class="red">-17</span></td><td><span class="green">+76</span></td></tr><tr><td>08/04</td><td><span class="green">+279</span></td><td><span class="green">+150</span></td><td><span class="red">-9</span></td><td><span class="green">+420</span></td></tr><tr><td>08/03</td><td><span class="green">+273</span></td><td><span class="green">+54</span></td><td><span class="green">+55</span></td><td><span class="green">+382</span></td></tr><tr><td>07/31</td><td><span class="red">-84</span></td><td><span class="green">+19</span></td><td><span class="green">+5</span></td><td><span class="red">-60</span></td></tr><tr><td>07/30</td><td><span class="red">-268</span></td><td><span class="green">+101</span></td><td><span class="red">-116</span></td><td><span class="red">-284</span></td></tr><tr><td>07/29</td><td><span class="green">+78</span></td><td><span class="red">-38</span></td><td><span class="green">+7</span></td><td><span class="green">+47</span></td></tr><tr><td>07/28</td><td><span class="green">+178</span></td><td><span class="green">+154</span></td><td><span class="green">+5</span></td><td><span class="green">+337</span></td></tr><tr><td>07/27</td><td><span class="green">+184</span></td><td><span class="red">-156</span></td><td><span class="green">+50</span></td><td><span class="green">+78</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/27~08/07(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
 <!--/instflow-->
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q1 營收</div><div class="value green">114.48 億</div><div class="note">單季次高,QoQ-7.6%、YoY+62.9%</div></div>
-  <div class="card"><div class="label">Q1 淨利</div><div class="value green">16.46 億</div><div class="note">QoQ+41.9%、YoY+71.2%,EPS 12.28</div></div>
-  <div class="card"><div class="label">H1 營收成長</div><div class="value green">+93.05%</div><div class="note">累計 253.44 億;6 月單月+103.72%</div></div>
-  <div class="card"><div class="label">主要成長引擎</div><div class="value">美系 CSP CPU 專案</div><div class="note">法人估 2026 年貢獻營收 40%、2027 年 20%</div></div>
-  <div class="card"><div class="label">與台積電關係</div><div class="value">體系內最純粹 ASIC</div><div class="note">深度綁定帶來長線訂單能見度,持續爭取更多晶圓產能</div></div>
-  <div class="card"><div class="label">客戶集中度</div><div class="value red">高度集中</div><div class="note">單一美系 CSP CPU 專案為主要成長引擎,查無精確占比之外的分散度資訊</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">57.69億</div><div class="note">YoY+158.38%,MoM+17.05%</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">138.97億</div><div class="note">YoY+127.6%,創歷史新高</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value red">21.55%</div><div class="note">YoY-11.7個百分點,Turnkey占比升至83%所致</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">11.61</div><div class="note">創單季新高</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">16檔,72.5億</div><div class="note">合計1,594張,ASIC/網通三檔中次高</div></div>
+  <div class="card"><div class="label">2027E本益比(隱含)</div><div class="value red">約49.1x</div><div class="note">以現價與2027E EPS 92.64計,仍屬高檔</div></div>
 </div>
 
-<h2>三家最接近的競爭對手(ASIC 設計服務族群)</h2>
+<h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>本益比(TTM)</th><th>7/21 股價與漲幅</th><th>與創意的差異</th></tr>
-  <tr class="hl"><td>3443</td><td>創意</td><td>112.67x</td><td>4,115(+9.88%)</td><td>台積電體系 ASIC 設計服務,估值本系列分析最高</td></tr>
-  <tr><td>3661</td><td>世芯-KY</td><td>49.32x</td><td>3,490(+3.71%)</td><td>北美客戶為主,本益比僅創意的 44%,6 月營收已驗證 H2 加速</td></tr>
-  <tr><td>2454</td><td>聯發科(參照)</td><td>53.23x</td><td>3,670(+9.88%)</td><td>自有 IP+ASIC 雙引擎,規模遠大於純設計服務商,本益比更低</td></tr>
-  <tr><td>AVGO</td><td>博通(參照)</td><td>約 32x</td><td>—</td><td>真正 ASIC 龍頭,規模領先一個世代,估值僅創意的三成</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與創意的差異</th></tr>
+  <tr class="hl"><td>3443.TW</td><td>創意</td><td>約94.6x(EPS48.02)</td><td>Q2營收YoY+127.6%,毛利率年減11.7pp</td><td>ASIC設計服務,Turnkey占比高,估值倍數為同業中最高</td></tr>
+  <tr><td>3661.TW</td><td>世芯-KY</td><td>約26.9x(EPS138.16)</td><td>H2營收爆發前過渡期</td><td>同為ASIC設計服務最直接同業,估值倍數僅創意的約28%,是本表核心對照基準</td></tr>
+  <tr><td>2345.TW</td><td>智邦</td><td>約26.6x(EPS83.21)</td><td>7月營收YoY+71.69%</td><td>資料中心交換器系統整合商,業務性質與創意不同但同受惠AI基建</td></tr>
+  <tr><td>MRVL</td><td>Marvell(美股)</td><td>查無精確Fwd P/E</td><td>國際custom silicon龍頭</td><td>國際ASIC/custom silicon大廠,規模遠大於創意,可作為長期評價參照</td></tr>
+  <tr><td>2454.TW</td><td>聯發科(自研ASIC布局)</td><td>查無直接可比</td><td>2027年AI ASIC營收目標高盛估120~160億美元</td><td>後進切入AI ASIC市場,尚未直接與創意競爭同一客戶群</td></tr>
 </table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:明顯偏貴——與最直接同業世芯的估值倍數差距高達3.5倍以上,難以完全用基本面解釋。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">創意與世芯同為ASIC設計服務商、同受惠雲端巨頭自研晶片趨勢,理論上應享有相近的評價倍數區間。但創意目前2026E Forward P/E約94.6x,世芯僅約26.9x,價差之大已超出「創意成長動能已實際兌現(Q2營收YoY+127.6%)、世芯仍在H2爆發前過渡期(H1營收年減)」這項差異所能合理解釋的範圍。更值得留意的是,創意Q2毛利率年減11.7個百分點,獲利品質正在稀釋,與其享有的溢價評價方向相反——若市場最終將創意重新評價至接近世芯的倍數水準,潛在修正空間相當可觀。</div>
+</div>
+
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 4,115 vs 中值</th></tr>
-  <tr><td>Q1 EPS 年化 × 25~30x</td><td>12.28×4=49.1(不假設 CPU 專案加速,循環股保守倍數)</td><td>1,228~1,473</td><td class="red">貴 205%</td></tr>
-  <tr><td>FactSet 共識目標</td><td>19 位分析師,EPS 中位 43.52</td><td>3,100(單點)</td><td class="red">貴 33%</td></tr>
-  <tr><td>台新投顧目標</td><td>2026E EPS 48.54</td><td>3,920(單點)</td><td class="red">貴 5%</td></tr>
-  <tr><td>里昂最樂觀情境</td><td>2027E EPS 挑戰 150,CPU/車用 AI 專案提前量產</td><td>6,000(單點)</td><td class="green">便宜 31%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價4,545 vs 中值</th></tr>
+  <tr><td>FactSet目標價共識</td><td>17位分析師,中位5,710(單點,同樣可能受敘事定價影響)</td><td>單點5,710</td><td class="green">便宜 -20.4%</td></tr>
+  <tr><td>2026E P/E×EPS(自身隱含倍數)</td><td>共識EPS 48.02,採目前市場實際隱含倍數區間80~110x(不做武斷修正,反映當前定價)</td><td>3,842~5,282(中值4,562)</td><td class="amber">合理 -0.4%(基本符合當前市場定價,但定價本身可能過高)</td></tr>
+  <tr><td class="hl">世芯同業倍數對照(核心方法)</td><td>套用最直接同業世芯2026E Fwd P/E約26.9x、2027E約20.5x於創意EPS(48.02/92.64)</td><td>1,292~1,899(中值1,596)</td><td class="red">貴 +184.8%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法中三種都顯示現價偏貴,只有里昂最樂觀的 2027 情境(尚無 FactSet 分佈佐證)顯示便宜——這與世芯-KY「多數方法顯示便宜」的局面完全相反。即使歷經 34% 的波段回檔,創意現價仍高於 FactSet 共識與台新投顧目標,顯示這輪反彈本身可能已重新透支部分估值空間。</div>
-
-<div class="card" style="margin-top:10px">
-  <b>估值判斷:偏貴——即使暴跌 34% 後,現價仍高於多數機構共識目標。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">TTM P/E 112.67x、PB 34.41x 是本系列分析過的個股中最高;FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920)都已低於現價 4,115——這在本系列分析中是罕見訊號,通常代表股價的樂觀假設已經超前多數機構的共識判斷。唯一能讓現價顯得便宜的是里昂最激進的「2027 EPS 150」情境,但該數字目前僅是單一機構推演,尚無 FactSet 完整分佈佐證,可信度需要打折。</div>
-</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2毛利率單季驟降11.7個百分點,獲利軌跡波動度過大,強行假設穩定的多年期FCF會產生誤導性精確度。三種方法呈現極端分歧:自身隱含倍數與FactSet目標價顯示「合理偏便宜」,但這兩者本質上都是「創意目前的市場定價是否延續」的同義反覆,並未提供獨立驗證;唯一真正獨立的驗證基準——套用最直接同業世芯的評價倍數——顯示創意較合理價值貴出近1.85倍。這個巨大分歧本身就是最重要的訊號:創意的估值錨點高度依賴其自身的敘事延續性,而非同業可比的估值紀律。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value red">追高風險高,反彈信心分歧</div><div class="bar"><div style="width:35%;background:var(--red)"></div></div><div class="note">7/21 近漲停反彈,但現價已超越多數機構共識目標,追高風險不低</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">評等分歧,FactSet 中位已被超車</div><div class="note">目標價 3,100~6,000,落差近一倍,FactSet 共識已低於現價</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">12.28(Q1) → 43.52~48.54(2026E)</div><div class="note">FactSet 共識 vs 台新投顧估值,2027E 150 僅單一機構推演</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價波動引關注,追高與觀望並存</div><div class="bar"><div style="width:60%;background:var(--amber)"></div></div><div class="note">股市爆料同學會討論創意股價波動引發關注</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">目標價持續上修</div><div class="note">自4月3,100元一路上修至5,710元,但區間預測(2027E)分歧達73.83~200.81</div></div>
+  <div class="card"><div class="label">獲利品質趨勢</div><div class="value red">營收升、毛利率降</div><div class="note">Turnkey占比83%稀釋利潤空間,是本波成長故事中最大的隱憂</div></div>
 </div>
 
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,自身隱含倍數)</td><td>42.61 / 48.02 / 58.72</td><td>80~110x(市場當前定價)</td><td>3,842~5,282(中值4,562)</td><td>約 0%</td></tr>
+  <tr><td>2026(同業世芯倍數對照)</td><td>48.02</td><td>26.9x</td><td>約1,292(推演)</td><td class="red">約 -71%(推演,對照基準)</td></tr>
+  <tr><td>2027(+1年,自身隱含倍數)</td><td>73.83 / 92.64 / 200.81</td><td>45~55x</td><td>4,172~10,945(中值7,558)</td><td class="green">約 +29%/年(區間極寬)</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">本表刻意並列「自身隱含倍數」與「同業世芯倍數對照」兩種視角,呈現創意估值路徑的核心矛盾:若市場持續給予創意遠高於同業的倍數,隱含報酬仍可觀;但若市場最終要求創意向同業世芯的估值紀律收斂(這是任何「敘事股」長期都可能面臨的重新評價風險),下檔空間可達-71%。2027年EPS共識區間(73.83~200.81)本身也極寬,不宜對單一數字過度採信。</div>
+
 <h2>四種股價情境</h2>
-<!-- 刻度 2000~8000;left% = (價格-2000)/6000×92+4 -->
+<!-- 刻度 1200~6500;left% = (價格-1200)/5300×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,800~3,200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:27.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,100~3,920</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:57.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,000~6,000</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">7,000+</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:36.4%"><div class="arrow">▲</div><div class="price">4,115</div><div class="lbl">現價(已高於 Base 區間)</div></div>
+  <div class="mark" style="left:5.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,600~2,000</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:35.1%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,800~4,300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:56.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,200~5,800</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">7,500~8,200</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:62.1%"><div class="arrow">▲</div><div class="price">4,545</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>2,800~3,200</td><td>單一美系 CSP CPU 專案延遲或規模不如預期,估值回歸 FactSet 共識水準下方</td><td class="red">約 -27%</td></tr>
-  <tr><td class="amber">Base</td><td>3,100~3,920</td><td>FactSet 共識與台新投顧目標區間;現價已高於此區間上緣</td><td class="red">約 -15%</td></tr>
-  <tr><td class="green">Bull</td><td>5,000~6,000</td><td>里昂樂觀情境部分兌現,2027 EPS 150 題材持續發酵</td><td class="green">約 +34%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>7,000+</td><td>CPU+車用 AI 專案超額放量,台積電產能持續傾斜,2027 EPS 150 全數兌現</td><td class="green">約 +82%</td></tr>
+  <tr><td class="red">Bear</td><td>1,600~2,000</td><td>市場對「敘事定價」信心動搖,估值向同業世芯的倍數紀律大幅收斂,或毛利率稀釋趨勢加劇引發獲利疑慮</td><td class="red">約 -60%</td></tr>
+  <tr><td class="amber">Base</td><td>3,800~4,300</td><td>Google專案與美系CPU專案如期推進但無驚喜,毛利率維持21~23%區間;現價略高於此區間上緣</td><td class="red">約 -11%</td></tr>
+  <tr><td class="green">Bull</td><td>5,200~5,800</td><td>Google專案提前放量或新客戶確認,FactSet目標價5,710達陣</td><td class="green">約 +21%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>7,500~8,200</td><td>2027年完美情境全數兌現(EPS上看200.81的樂觀端),市場延續當前94.6x的高倍數</td><td class="green">約 +73%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期(現價已偏貴,建議謹慎)</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期(本檔不建議積極加碼)</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">3,800~3,950</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">3,300~3,500</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">2,900~3,100</td><td>45%(等法說會驗證客戶專案進度)</td></tr>
+      <tr><td>第一批</td><td class="green">3,600~3,900</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">3,000~3,400</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,000~2,500</td><td>50%(估值明顯偏貴,倉位應大幅保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,700</b> = 單一大客戶 CPU 專案確認延遲或砍單,ASIC 故事失效,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,900</b>(接近今年3月低點)= Google/美系CPU專案時程生變或市場敘事崩解,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="label">右側計畫|順勢突破,適合波段(需嚴格執行停利)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤站回 4,400(前波支撐轉壓力)+法說會驗證客戶專案進度正向<br>
-    進場區:<b class="green">4,400~4,550</b><br>
-    移動停利:跌破 10 日線或高點回檔 15%(高波動股需更寬容忍度)<br>
-    假突破失效:觸發後 2 日內跌回 4,250 即出場</div>
+    觸發條件:收盤突破5,345(7月高點)+量能確認,且法人正式將2027E EPS上修至100以上<br>
+    進場區:<b class="amber">5,350~5,600</b>(僅適合短波段,不建議中長期持有)<br>
+    移動停利:跌破10日線或高點回檔10%(估值已偏貴,停利應更緊)<br>
+    假突破失效:觸發後2日內跌回5,200即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">5,000~6,000</div><div class="note">賣出 40~50%;Bull 區,現價已透支多數共識,反彈優先落袋</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">7,000+</div><div class="note">Stretched 區;續抱條件是 2027 EPS 150 情境獲得其他機構驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,800~5,200</div><div class="note">賣出40~60%;鑑於估值已明顯偏貴,建議提高減碼比例</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">5,700~6,000</div><div class="note">FactSet目標價上緣;續抱條件僅限毛利率止穩回升、Turnkey占比不再攀升</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:Q1 獲利創單季新高(EPS 12.28,YoY+71.2%)+ 取得美系 CSP 客戶下一代 CPU 專案(法人估 2026 年貢獻營收 40%)+ 台積電產能配置改善,推動股價衝上 7/2 高點 5,345,里昂證券同期把目標價自 3,600 喊上 6,000;但 7/14 IP/ASIC 族群單獨重挫、7/17 台股史上最大跌點雙重打擊下,波段回檔約 34% 見 3,535,7/21 隨大盤大漲近漲停 +9.88% 收 4,115。</div>
-<div class="concl">② <b>估值</b>:偏貴——TTM P/E 112.67x、PB 34.41x 為本系列分析過的個股最高;即使歷經 34% 波段回檔,現價仍高於 FactSet 19 位分析師共識目標(3,100)與台新投顧目標(3,920),是罕見的「股價領先多數機構共識」案例,唯一支持現價的是里昂最激進、尚無共識佐證的 2027 EPS 150 情境。</div>
-<div class="concl">③ <b>結論</b>:觀望,等法說會驗證單一大客戶專案進度——現價 4,115 已高於 Base 情境(3,100~3,920)上緣,下檔風險(Bear -27%/Base -15%)與上檔空間(Bull +34%/Stretched +82%)不對稱,不宜追高;單一美系 CSP CPU 專案的時程與規模是核心驗證點,收盤跌破 2,700 即 ASIC 故事失效,無條件出場。</div>
+<div class="concl">① <b>催化劑</b>:Q2財報營收創新高(YoY+127.6%)、確認拿下Google次世代晶片專案是股價連日創高的主因,但同時Q2毛利率年減11.7個百分點至21.55%,主因Turnkey業務占比攀升至83%稀釋利潤空間——營收規模擴大與獲利品質惡化同時發生,是本波上漲中最容易被忽略的隱憂。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——創意目前2026E Forward P/E約94.6x,較最直接同業世芯(約26.9x)溢價逾3.5倍,已有首席分析師報告明確指出市場正在「交易2027年完美預期劇本」。FactSet目標價共識(5,710)與自身隱含倍數法顯示「合理偏便宜」,但這些方法本質上是市場自身定價的同義反覆;唯一獨立的驗證基準(世芯倍數對照)顯示現價較合理價值貴出近1.85倍,這個分歧本身就是核心訊號。</div>
+<div class="concl">③ <b>結論</b>:觀望、已上車者分批獲利了結——現價4,545已高於Base區間,上檔Bull +21%/Stretched +73%對下檔Bear -60%,風險報酬比明顯不對稱;若市場最終要求創意向同業世芯的估值紀律收斂,下檔空間相當可觀。已持有者建議提高減碼比例(40~60%)並嚴格執行停利,尚未持有者不建議在目前估值追高;收盤跌破1,900即市場敘事崩解確認,無條件出場。</div>
 
 <footer>
-資料時間:股價 2026/07/21 收盤(TWSE 官方 STOCK_DAY);本益比/殖利率/PB 2026/07/20(TWSE BWIBBU);Q1 法說 2026/05 初(鉅亨網/readmo/CMoney);6 月營收 2026/07 初公告(鉅亨網);目標價 3,100~6,000 為 2026/05~07 各報告(經濟日報/readmo/CMoney);台股史上最大跌點與族群重挫 2026/07/14~17(本儀表板既有分析);同業本益比 2026/07/20、股價 2026/07/21(TWSE 官方開放資料)。Q2/Q3 完整財報與法說會日期查無;精確市值股本、客戶集中度精確占比、法人 7 月買賣超、內部人申報查無。<br>
-主要來源:TWSE 官方開放資料、Yahoo 股市、鉅亨網(FactSet 調查)、經濟日報、readmo/CMoney、PChome新聞。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔估值為本系列分析最高、客戶集中度風險亦高,情境誤差區間較一般個股大。<br>
+資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數鉅亨網;Q2財報與法說(CMoney投資網誌,2026/08);7月營收(Yahoo股市公告,2026/08);FactSet共識EPS與目標價(鉅亨網速報,追蹤至最新5,710元/EPS 48.02,歷史軌跡3,100→3,500→4,901→5,710);同業世芯估值倍數對照(本儀表板依世芯獨立分析計算);首席分析師「2027完美預期劇本」報告(vocus);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q1 EPS官方數字、內部人申報查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網(FactSet速報)、CMoney投資網誌、readmo財經、vocus首席分析師追蹤報告、商周財富網、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表刻意呈現方法間的巨大分歧,不應僅採信對多方有利的單一方法(如FactSet目標價),世芯同業倍數對照法應被視為最重要的獨立驗證。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
