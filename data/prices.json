@@ -47,14 +47,14 @@
   "8027": {
    "close": 172.0,
    "date": "20260807",
-   "analysis_price": 157.5,
-   "analysis_date": "2026-07-29"
+   "analysis_price": 172.0,
+   "analysis_date": "2026-08-07"
   },
   "8150": {
    "close": 86.3,
    "date": "20260807",
-   "analysis_price": 110.5,
-   "analysis_date": "2026-07-17"
+   "analysis_price": 86.3,
+   "analysis_date": "2026-08-07"
   },
   "2303": {
    "close": 116.0,
@@ -65,8 +65,8 @@
   "2610": {
    "close": 22.5,
    "date": "20260807",
-   "analysis_price": 21.7,
-   "analysis_date": "2026-07-29"
+   "analysis_price": 22.5,
+   "analysis_date": "2026-08-07"
   },
   "2454": {
    "close": 3900.0,

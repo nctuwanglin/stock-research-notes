@@ -75,8 +75,8 @@
     "name": "鈦昇",
     "market": "tpex",
     "file": "8027-eandr.html",
-    "analysis_date": "2026-07-29",
-    "analysis_price": 157.5,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 172.0,
     "tags": [
       "設備"
     ]
@@ -85,8 +85,8 @@
     "name": "南茂",
     "market": "twse",
     "file": "8150-chipmos.html",
-    "analysis_date": "2026-07-17",
-    "analysis_price": 110.5,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 86.3,
     "tags": [
       "封測",
       "記憶體"
@@ -106,8 +106,8 @@
     "name": "華航",
     "market": "twse",
     "file": "2610-chinaairlines.html",
-    "analysis_date": "2026-07-29",
-    "analysis_price": 21.7,
+    "analysis_date": "2026-08-07",
+    "analysis_price": 22.5,
     "tags": [
       "航空"
     ]
