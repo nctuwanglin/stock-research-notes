@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>昇達科 (3491) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>昇達科 (3491) <span class="badge red">估值:即使崩跌45%後仍明顯偏貴</span> <span class="badge red">結論:嚴設停損,不宜視為錯殺抄底</span><span class="autodispo" data-code="3491"></span></h1>
+<div class="sub">上櫃(TPEx)・RF/微波元件(低軌衛星占比80%)+併購巨頻科技布局毫米波|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="3491">未列入處置股/注意股名單(對照處置股儀表板 2026/08/07 資料)</span></div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,235</div><div class="note">2026/08/07 收盤 -8.52%;法說會後急殺</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約84.97億</div><div class="note">發行股數約6,880萬股(小型股,波動放大)</div></div>
+  <div class="card"><div class="label">H1 2026 EPS</div><div class="value amber">8.15</div><div class="note">Q1 3.68+Q2 4.47(低於法人預期);YoY+161%但已較高點腰斬</div></div>
+  <div class="card"><div class="label">Forward P/E(推演)</div><div class="value red">約76~95x</div><div class="note">以H1年化(16.3)或風險調整後估值(13~16)計算,兩者皆屬高檔</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">909~1,430</div><div class="note">7月區間(含7/15停牌);波動度本系列最大</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">679~2,200</div><div class="note">1月低679、5~6月高2,200(TPEx官方日成交資訊);全年振幅逾3倍</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價從年初679一路噴出至5~6月高點2,200(漲幅逾224%),反映市場對低軌衛星(LEO)題材與昇達科RF/微波元件龍頭地位的極度樂觀情緒;Q1 EPS 3.68元(季增17%)、毛利率由50.6%升至58.0%,LEO產品營收占比達80%,實績確實亮眼。</li>
+  <li><span class="date">2026/07/15</span><b class="red">重大訊息暫停交易</b>:董事會決議斥資不超過17億元收購「巨頻科技」過半股權(持股將自9.66%拉高至51%以上),強化RF/微波/毫米波連接方案布局,交易預計8月完成交割。股價當日暫停交易,消息公布後兩個月內股價一度崩跌逾4成。</li>
+  <li><span class="date">2026/07/17~30</span>台股史上最大跌點(7/17)疊加整體市場對LEO題材的重新評價,股價持續探底至7/30低點923元,較6月高點2,200已腰斬近6成。</li>
+  <li><span class="date">2026/07/30~08/05</span><b class="green">V型反彈</b>:短短6個交易日內從923反彈至8/5高點1,395(漲幅逾51%),市場提前反映低軌衛星、巨頻科技併購及AI高速連接題材,搶在8/6法說會前卡位。</li>
+  <li><span class="date">2026/08/06</span><b class="red">法說會:Q2獲利不如預期,揭露兩大風險</b>:Q2營收9.02億元(QoQ-11.6%、YoY+75.6%),毛利率55.6%(QoQ-2.4個百分點),稅後淨利3.1億元,EPS 4.47元,低於法人預期。管理層明確揭露兩大風險:①客戶衛星產品換代造成拉貨放緩;②火箭發射排程延遲導致訂單認列不確定。</li>
+  <li><span class="date">2026/08/07</span>股價收1,235元(-8.52%),成交量放大至2,514張,反映法說後獲利了結賣壓沉重。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①這是本次分析(及本站近期)中波動度最劇烈的一檔——今年振幅逾3倍(679~2,200),過去一個月內經歷「停牌→腰斬→V型反彈51%→法說後再跌8.52%」的完整循環,任何單一時點的估值判斷都可能迅速過時;②管理層自己揭露的「客戶換代」「火箭延遲」兩項風險直指LEO供應鏈訂單認列的不確定性,這不是市場臆測而是公司官方口徑,應被視為實質風險而非利空出盡;③即使股價已較高點崩跌約45%,傳統估值方法顯示現價仍明顯偏貴,顯示這波崩跌可能只是「從極度泡沫回落到仍然昂貴」,而非「錯殺後的合理買點」——這是本檔分析最核心也最容易被追高心態忽略的結論。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">17億元併購巨頻科技可深化低軌衛星、毫米波通訊布局,透過技術與客戶端垂直整合,大幅提升整體營運韌性與未來成長動能。<div class="src">— 聯合新聞網,2026/07/16</div></div>
+    <div class="quote">在手未交付訂單已超過18億元且持續增加,2026年資本支出再投入逾10億元支應LEO產品線擴增需求,顯示長期成長動能扎實。<div class="src">— 豐雲學堂法說整理,2026/07</div></div>
+    <div class="quote">元大投顧最新目標價喊上1,780元,多空評等看多,反映主流券商仍看好長期LEO題材。<div class="src">— 元大投顧報告,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q2 EPS 4.47元低於法人預期,毛利率季減2.4個百分點,管理層親口揭露客戶衛星產品換代造成拉貨放緩、火箭發射排程延遲導致訂單認列不確定兩大風險。<div class="src">— 旺得富理財網,2026/08/07</div></div>
+    <div class="quote">股價年初至今振幅逾3倍,過去一個月經歷停牌、腰斬、V型反彈51%、法說後再跌8.52%的完整循環,顯示籌碼結構極度不穩定,遠非基本面所能解釋的正常波動。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">即使股價已較高點崩跌約45%,傳統估值方法顯示現價仍明顯偏貴,這波下跌很可能只是泡沫的部分擠壓而非完整出清。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>元大投顧(最新)</td><td class="amber">1,780</td><td>看多評等,惟發布時點與法說會後最新風險揭露的時間關係不明確</td></tr>
+  <tr><td>FactSet風格調查(較早期)</td><td class="amber">1,700</td><td>EPS估20元,發布時點明顯早於7/15併購案與8/6法說會,已屬過時數字</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目前可查得的目標價(1,700~1,780)幾乎全數早於Q2財報不如預期與兩大風險揭露,可信度存疑,不宜直接採信為現階段的估值錨點;本土龍頭金控旗下投顧已示警兩大風險,但具體下修後目標價查無。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3491"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+59</span></td><td>5/10</td><td><span class="green">+25</span></td></tr><tr><td>投信</td><td><span class="green">+135</span></td><td>6/10</td><td><span class="green">+39</span></td></tr><tr><td>自營商</td><td><span class="green">+335</span></td><td>7/10</td><td><span class="red">-29</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+530</span></td><td>7/10</td><td><span class="green">+35</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/07</td><td><span class="green">+25</span></td><td><span class="green">+39</span></td><td><span class="red">-29</span></td><td><span class="green">+35</span></td></tr><tr><td>08/06</td><td><span class="red">-275</span></td><td><span class="red">-33</span></td><td><span class="green">+62</span></td><td><span class="red">-246</span></td></tr><tr><td>08/05</td><td><span class="red">-143</span></td><td>+0</td><td><span class="green">+151</span></td><td><span class="green">+8</span></td></tr><tr><td>08/04</td><td><span class="green">+50</span></td><td><span class="green">+10</span></td><td><span class="green">+4</span></td><td><span class="green">+64</span></td></tr><tr><td>08/03</td><td><span class="green">+213</span></td><td>+0</td><td><span class="green">+9</span></td><td><span class="green">+222</span></td></tr><tr><td>07/31</td><td><span class="red">-489</span></td><td><span class="green">+107</span></td><td><span class="green">+113</span></td><td><span class="red">-268</span></td></tr><tr><td>07/30</td><td><span class="red">-26</span></td><td><span class="green">+5</span></td><td><span class="green">+35</span></td><td><span class="green">+15</span></td></tr><tr><td>07/29</td><td><span class="green">+628</span></td><td><span class="green">+6</span></td><td><span class="red">-9</span></td><td><span class="green">+625</span></td></tr><tr><td>07/28</td><td><span class="green">+82</span></td><td><span class="green">+1</span></td><td><span class="green">+3</span></td><td><span class="green">+86</span></td></tr><tr><td>07/27</td><td><span class="red">-6</span></td><td>+0</td><td><span class="red">-4</span></td><td><span class="red">-11</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/27~08/07(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2營收</div><div class="value amber">9.02億</div><div class="note">QoQ-11.6%,YoY+75.6%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value amber">55.6%</div><div class="note">QoQ-2.4個百分點</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value red">4.47</div><div class="note">低於法人預期</div></div>
+  <div class="card"><div class="label">LEO營收占比</div><div class="value amber">約80%(Q1口徑)</div><div class="note">高度集中單一應用領域,客戶/發射排程風險直接曝險</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">4檔,14.84億</div><div class="note">LEO三檔中主動式資金持有金額最高</div></div>
+  <div class="card"><div class="label">巨頻科技併購</div><div class="value amber">17億元,持股9.66%→51%+</div><div class="note">預計8月完成交割,尚未反映在財報</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>2026動能</th><th>與昇達科的差異</th></tr>
+  <tr class="hl"><td>3491.TWO</td><td>昇達科</td><td>約76~95x(推演,查無穩定共識)</td><td>Q2 EPS不如預期,兩大風險已揭露</td><td>純RF/微波元件廠,LEO占比最高(80%),波動度本系列最大</td></tr>
+  <tr><td>2313.TW</td><td>華通(參考,同為LEO供應鏈)</td><td>約27.1x(EPS7.7)</td><td>7月營收YoY+16.01%</td><td>PCB板廠,LEO僅為雙引擎之一,曝險度低於昇達科</td></tr>
+  <tr><td>6285.TW</td><td>啟碁(參考,同為LEO供應鏈)</td><td>約18.75x(EPS12.43)</td><td>6月營收YoY+84.37%</td><td>網通系統整合商,LEO為三大業務線之一,估值倍數遠低於昇達科</td></tr>
+  <tr><td>台燿(6274.TW,參考)</td><td>台燿科技</td><td>查無精確Fwd P/E</td><td>今周刊報導同期股價大反攻</td><td>高頻高速覆銅箔基板廠,LEO供應鏈材料端,產業鏈位置不同</td></tr>
+  <tr><td>AVAV</td><td>AeroVironment(美股,參考)</td><td>查無精確Fwd P/E</td><td>國防/太空科技概念股</td><td>國際太空/國防科技類股,可作為題材類股估值極端案例的參照</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:即使崩跌45%後仍明顯偏貴——這是本次分析中風險報酬比最差的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約76~95x(以H1年化或風險調整後EPS估算)遠高於同為LEO供應鏈的華通(27.1x)、啟碁(18.75x),即使考量昇達科LEO營收占比最高(80%)理應享有更高的題材溢價,這個倍數差距仍然過大。目前可查得的機構目標價(1,700~1,780)幾乎全數早於Q2財報不如預期與管理層親口揭露的兩大風險,可信度存疑,不宜直接採信。股價雖已較高點崩跌約45%,但這更可能反映「從極度泡沫回落到仍然昂貴」,而非市場已充分消化風險後的合理定價。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,235 vs 中值</th></tr>
+  <tr><td>機構目標價(過時,僅供對照)</td><td>元大1,780/較早FactSet風格1,700,皆早於Q2不如預期與風險揭露</td><td>1,700~1,780(中值1,740,信度低)</td><td class="green">便宜 -29.0%(但方法本身已過時,不應採信)</td></tr>
+  <tr><td>2026E P/E×EPS(H1年化,樂觀情境)</td><td>H1 EPS 8.15×2=16.3(假設H2與H1持平,未計入已揭露風險),倍數20~30x</td><td>326~489(中值407.5)</td><td class="red">貴 +203.1%</td></tr>
+  <tr><td>2026E P/E×EPS(風險調整情境)</td><td>計入客戶換代/發射延遲風險,全年EPS估13~16(H2成長明顯放緩),倍數15~25x</td><td>195~400(中值297.5)</td><td class="red">貴 +315.1%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2獲利已不如預期且管理層親口揭露兩項訂單能見度風險,多年期FCF假設在此時點完全不具意義。三種方法中,唯一顯示「便宜」的機構目標價法本身已過時(發布於風險揭露之前),不應作為現階段的估值錨點;兩種基於已知EPS的P/E方法(無論樂觀或風險調整情境)都一致顯示現價嚴重偏貴,方向高度一致,這是本次分析中估值訊號最清晰、也最令人擔憂的一檔。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">追高與恐慌交替,籌碼極不穩定</div><div class="bar"><div style="width:70%;background:var(--red)"></div></div><div class="note">一個月內經歷停牌、腰斬、V轉51%、法說後再跌8.52%完整循環</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">現有目標價已過時</div><div class="note">1,700~1,780皆早於Q2不如預期與風險揭露,更新後數字查無</div></div>
+  <div class="card"><div class="label">獲利品質</div><div class="value red">Q2不如預期,H2能見度轉弱</div><div class="note">管理層親口揭露客戶換代與發射延遲兩大風險</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(樂觀情境)</td><td>16.3(H1年化,未計風險)</td><td>20~30x</td><td>326~489(中值407.5)</td><td class="red">約 -67%</td></tr>
+  <tr><td>2026(風險調整情境)</td><td>13~16(計入H2放緩)</td><td>15~25x</td><td>195~400(中值297.5)</td><td class="red">約 -76%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識(現有機構估值已過時)</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">兩種2026年情境的隱含年化報酬皆為深度負值,這在本站分析過的股票中極為罕見,反映即使用相對樂觀的假設(H1獲利水準延續全年),現價都難以用合理估值方法證成;2027年因現有機構估值已過時、缺乏更新後的共識,不強行推演。這條路徑清楚提醒:LEO題材股的股價與基本面之間可能存在巨大落差,追高風險極高。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 500~2400;left% = (價格-500)/1900×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:13.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">650~750</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:33.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">950~1,150</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,350~1,550</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,800~1,950</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:39.6%"><div class="arrow">▲</div><div class="price">1,235</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>650~750</td><td>客戶換代拉貨放緩或火箭延遲確認拖累Q3~Q4營收,重返7月低點923附近甚至更低</td><td class="red">約 -43%</td></tr>
+  <tr><td class="amber">Base</td><td>950~1,150</td><td>H2成長明顯放緩但無崩潰性利空,市場逐步消化Q2不如預期的訊息;現價落於此區間上緣附近</td><td class="red">約 -15%</td></tr>
+  <tr><td class="green">Bull</td><td>1,350~1,550</td><td>巨頻科技併購8月完成交割並開始貢獻綜效,客戶換代疑慮緩解</td><td class="green">約 +17%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,800~1,950</td><td>LEO題材重新獲得市場信心,火箭發射排程恢復正常,重返6月高點附近但未完全填補跌幅</td><td class="green">約 +52%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,僅建議投機小倉位</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">950~1,050</td><td>15%</td></tr>
+      <tr><td>第二批</td><td class="green">800~940</td><td>25%</td></tr>
+      <tr><td>第三批</td><td class="green">650~790</td><td>60%(估值明顯偏貴+風險已揭露,倉位應大幅保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">620</b>(明顯低於今年低點)= 客戶換代或火箭延遲風險實質惡化確認,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,僅適合極短波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破1,395(近期高點)+量能確認,且巨頻科技交割完成並釋出正面綜效訊息<br>
+    進場區:<b class="amber">1,400~1,500</b>(僅適合投機小倉位)<br>
+    移動停利:跌破10日線或高點回檔15%(波動極大,停利應更緊)<br>
+    假突破失效:觸發後2日內跌回1,300即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,350~1,550</div><div class="note">賣出50~70%;鑑於估值明顯偏貴且風險已揭露,建議大幅提高減碼比例</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,800~1,950</div><div class="note">Stretched區;續抱條件僅限客戶換代與火箭延遲疑慮完全解除且併購綜效明確兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:8/6法說會揭露Q2 EPS 4.47元不如法人預期,毛利率季減2.4個百分點至55.6%,管理層親口承認「客戶衛星產品換代造成拉貨放緩」「火箭發射排程延遲導致訂單認列不確定」兩大風險,股價8/7重挫8.52%;這是繼7/15併購巨頻科技公告後(股價曾暫停交易並在兩個月內崩跌逾4成)、7/30~8/5V型反彈51%後的又一次劇烈反轉,今年以來股價振幅已逾3倍。</div>
+<div class="concl">② <b>估值</b>:即使崩跌45%後仍明顯偏貴——目前可查得的機構目標價(1,700~1,780)幾乎全數早於Q2不如預期與風險揭露,可信度存疑;基於已知EPS計算的兩種本益比方法(無論樂觀或風險調整情境)皆一致顯示現價貴逾200~315%,遠高於同為LEO供應鏈的華通、啟碁,這個估值訊號在本次分析中最清晰也最令人擔憂。</div>
+<div class="concl">③ <b>結論</b>:嚴設停損、不宜視為錯殺抄底——現價1,235落於Base區間上緣,上檔Bull +17%/Stretched +52%對下檔Bear -43%,風險報酬比是本站近期分析中最差的一檔;若參與,僅建議投機小倉位且左側批次應大幅向後段集中,收盤跌破620即客戶換代或火箭延遲風險實質惡化確認,無條件出場。巨頻科技8月完成交割後的實際綜效,是唯一可能扭轉目前偏貴局面的關鍵變數。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/07收盤(TPEx官方afterTrading/tradingStock,7/15因重大訊息暫停交易);發行股數彙整自財經媒體(約6,880萬股);Q1/Q2法說與財報(豐雲學堂、鉅亨網、旺得富理財網,2026/06、2026/08/06);巨頻科技併購案(聯合新聞網、工商時報、CMoney投資網誌,2026/07/15~16公告);股價崩跌與反彈紀錄(今周刊、Yahoo股市,2026/07);目標價(元大投顧、豐雲學堂,發布時點早於最新風險揭露);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;法說會後更新的機構目標價、精確發行股數、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料(afterTrading/tradingStock)、豐雲學堂、鉅亨網、旺得富理財網、聯合新聞網、工商時報、CMoney投資網誌、今周刊、財報狗、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確標註機構目標價已過時、不應採信,兩種P/E方法的一致偏貴結論才是本次分析的核心依據。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
