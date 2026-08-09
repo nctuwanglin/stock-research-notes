@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台積電 (2330) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>台積電 (2330) <span class="badge amber">估值:合理(三種方法一致收斂)</span> <span class="badge amber">結論:逢回分批,7/11未公布是短期變數</span><span class="autodispo" data-code="2330"></span></h1>
+<div class="sub">台股(TWSE)・晶圓代工龍頭(2nm/CoWoS先進封裝)|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="2330">未列入處置股/注意股名單(對照處置股儀表板 2026/08/07 資料)</span></div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">2,370</div><div class="note">2026/08/07 收盤 +0.2%;近30天最深回檔約5%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約61.5兆</div><div class="note">發行股數約259.33億股</div></div>
+  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">27.25</div><div class="note">創歷史新高;毛利率67.7%</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約23~24x</div><div class="note">綜合外資EPS估值99.7~106.15計</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">2,180~2,505</div><div class="note">7月區間;現價落於區間偏上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,545~2,535</div><div class="note">1月低1,545、6月高2,535(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲(跌)?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/16</span><b class="green">Q2法說會:EPS創歷史新高,資本支出大幅上調</b>:Q2 EPS 27.25元創歷史新高,毛利率67.7%;2026年資本支出上調至600~640億美元(較原規劃中位數提高15%),70~80%投入先進製程、10~20%投入先進封裝;宣布加碼美國投資至千億美元規模。2nm需求優於3nm初期,4Q25在新竹、高雄量產,2026年放量;A16預計2H26量產。2026年美元營收預計成長逾30%。</li>
+  <li><span class="date">2026/07月中~08初</span><b class="amber">川普關稅噪音反覆</b>:美國總統多次放話擬對進口晶片課徵最高100%關稅,但強調「在美國製造」的企業不受影響;台積電股價因此多次盤中承壓(如一度重挫50元至2,415元收2,445元)。分析師普遍認為,只要台積電持續加碼美國投資,實質衝擊有限,關稅細節公布前的波動屬正常避險行為。</li>
+  <li><span class="date">2026/08初</span>外資法說前後齊聲喊高目標價:高盛自2,750上調至3,000、摩根大通自2,500上調至3,100、花旗自2,875大幅上調至3,800(暫居市場最高)、里昂喊上3,030,元大調升至2,600。</li>
+  <li><span class="date">2026/08/11(未來事件)</span><b class="amber">7月營收即將公布</b>:市場預期有機會衝破4,500億元、甚至上看4,800億元,年增逾四成;截至製表日(8/8)尚未正式公告,是本次分析最大的即期資料缺口。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①資本支出大幅上調至600~640億美元,雖反映需求強勁,但也代表自由現金流將被壓縮,任何簡化DCF若未確實扣除這筆支出都會嚴重高估合理價值;②關稅政策細節尚未拍板,目前的「分析師視為過客」共識本身可能低估政策落地後的實質衝擊;③目前本益比約23~25倍雖低於部分中小型AI概念股的瘋狂倍數,但已是台積電歷史相對高檔,安全邊際不若過去充裕。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">AI需求驅動2nm量產放量,2026年美元營收預計成長逾30%,資本支出上調正是為了把握這波長期成長機會,而非過度擴張的警訊。<div class="src">— 台積電Q2法說會,2026/07/16</div></div>
+    <div class="quote">花旗預估2026~2028年EPS分別達106.15、148.69、198.42元,目標價上看3,800元,反映法人對獲利軌跡的高度信心。<div class="src">— 花旗證券報告</div></div>
+    <div class="quote">川普只是台積電這波AI大趨勢裡的過客,加碼美國投資已實質降低關稅政策的衝擊力道。<div class="src">— 財經媒體分析師觀點彙整</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">資本支出上調至600~640億美元將壓縮自由現金流,任何未確實扣除這筆支出的估值方法都可能嚴重高估合理價值。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">關稅政策細節尚未拍板,目前「過客論」的樂觀共識本身可能低估政策落地後對供應鏈與客戶下單行為的實質衝擊。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">尾盤數度出現逾百億元大單護盤,顯示法人對股價高檔的敏感度提升,技術性獲利了結與外資避險交替出現。<div class="src">— 財經媒體盤中速報彙整</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>花旗證券(最高)</td><td class="green">3,800</td><td>自2,875大幅上修;2026~2028E EPS 106.15/148.69/198.42</td></tr>
+  <tr><td>里昂</td><td class="green">3,030</td><td>看好AI需求與2nm放量</td></tr>
+  <tr><td>摩根大通</td><td class="green">3,100</td><td>自2,500調高</td></tr>
+  <tr><td>高盛</td><td class="green">3,000</td><td>自2,750調升</td></tr>
+  <tr><td>元大投顧</td><td class="green">2,600</td><td>2026~2027E EPS 99.7/128.46</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2330"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-31,974</span></td><td>3/10</td><td><span class="green">+642</span></td></tr><tr><td>投信</td><td><span class="green">+10,101</span></td><td>8/10</td><td><span class="green">+61</span></td></tr><tr><td>自營商</td><td><span class="green">+11,436</span></td><td>6/10</td><td><span class="green">+1,243</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-10,437</span></td><td>3/10</td><td><span class="green">+1,946</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/07</td><td><span class="green">+642</span></td><td><span class="green">+61</span></td><td><span class="green">+1,243</span></td><td><span class="green">+1,946</span></td></tr><tr><td>08/06</td><td><span class="red">-4,011</span></td><td><span class="red">-82</span></td><td><span class="red">-583</span></td><td><span class="red">-4,677</span></td></tr><tr><td>08/05</td><td><span class="green">+12,251</span></td><td><span class="red">-1,205</span></td><td><span class="red">-1,099</span></td><td><span class="green">+9,948</span></td></tr><tr><td>08/04</td><td><span class="red">-12,430</span></td><td><span class="green">+434</span></td><td><span class="red">-2,327</span></td><td><span class="red">-14,323</span></td></tr><tr><td>08/03</td><td><span class="red">-9,717</span></td><td><span class="green">+387</span></td><td><span class="red">-1,587</span></td><td><span class="red">-10,917</span></td></tr><tr><td>07/31</td><td><span class="green">+13,780</span></td><td><span class="green">+7,064</span></td><td><span class="green">+2,725</span></td><td><span class="green">+23,569</span></td></tr><tr><td>07/30</td><td><span class="red">-3,957</span></td><td><span class="green">+939</span></td><td><span class="green">+1,638</span></td><td><span class="red">-1,381</span></td></tr><tr><td>07/29</td><td><span class="red">-11,211</span></td><td><span class="green">+1,652</span></td><td><span class="green">+4,893</span></td><td><span class="red">-4,665</span></td></tr><tr><td>07/28</td><td><span class="red">-14,659</span></td><td><span class="green">+284</span></td><td><span class="green">+5,123</span></td><td><span class="red">-9,252</span></td></tr><tr><td>07/27</td><td><span class="red">-2,662</span></td><td><span class="green">+567</span></td><td><span class="green">+1,410</span></td><td><span class="red">-685</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/27~08/07(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2營收</div><div class="value green">1,270.38億(美元4.02億?)</div><div class="note">實際為新台幣計,QoQ+12%,YoY+36%(以財訊快報揭露口徑)</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">27.25</div><div class="note">創歷史新高</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">67.7%</div><div class="note">維持高檔</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">600~640億美元</div><div class="note">較原規劃中位數提高15%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">22檔,938.3億</div><div class="note">合計39,591張,四檔晶圓代工中最高</div></div>
+  <div class="card"><div class="label">2026年營收成長guidance</div><div class="value green">>30%(美元)</div><div class="note">公司官方財測</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與台積電的差異</th></tr>
+  <tr class="hl"><td>2330.TW</td><td>台積電</td><td>約23~24x(EPS99.7~106.15)</td><td>2nm放量,營收guidance>30%</td><td>先進製程絕對龍頭,市占逾70%,唯一具2nm量產規模的純代工廠</td></tr>
+  <tr><td>2303.TW</td><td>聯電</td><td>約23.5x(EPS4.93)</td><td>7月營收YoY+18.98%,45個月新高</td><td>成熟製程為主,無先進製程業務,循環屬性更強</td></tr>
+  <tr><td>5347.TWO</td><td>世界先進</td><td>約29.2x(EPS4.92)</td><td>Q2 EPS季增32.2%</td><td>特殊製程/電源管理IC利基廠,規模遠小於台積電</td></tr>
+  <tr><td>6770.TW</td><td>力積電</td><td>查無穩定Fwd P/E(獲利波動大)</td><td>記憶體代工急單漲價</td><td>記憶體代工+3D AI封裝,獲利穩定度遠不如台積電</td></tr>
+  <tr><td>SSNLF</td><td>三星電子晶圓代工部門(參考)</td><td>查無精確Fwd P/E</td><td>2nm製程競爭對手</td><td>國際唯二具備2nm量產能力的競爭對手,但良率與客戶信任度落後台積電</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——三種方法收斂於現價附近,顯示市場定價效率相對較高。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約23~24x是四檔晶圓代工中並非最高(世界先進約29.2x更高),反映台積電作為成熟大型龍頭股,估值倍數相對克制。外資目標價共識(2,600~3,800)距現價仍有10%~60%空間,但範圍極寬,反映不同機構對AI資本支出循環延續性的判斷分歧;自身本益比法與簡化DCF法皆顯示現價落在合理區間內,並未出現顯著低估或高估訊號。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2,370 vs 中值</th></tr>
+  <tr><td>外資目標價共識</td><td>5家外資,區間2,600~3,800(中值3,200)</td><td>2,600~3,800(中值3,200)</td><td class="green">便宜 -25.9%</td></tr>
+  <tr><td>2026E P/E×EPS</td><td>共識EPS 99.7~106.15,龍頭代工倍數20~28x</td><td>2,000~2,968(中值2,484)</td><td class="amber">合理 -4.6%</td></tr>
+  <tr><td>簡化DCF(推演)</td><td>2026~28E EPS作FCF代理,r 10~11%,永續成長2~3%;<b class="amber">注意雙向偏誤</b>:未扣600~640億美元資本支出使FCF被高估,但這是台積電資本支出佔比最重的一年,偏誤幅度可能大於過往,若計入真實capex,合理價值可能明顯低於本表區間</td><td>1,991~2,545(中值2,268,推演)</td><td class="amber">合理 +4.5%(但未計入巨額capex偏誤,真實情況可能偏貴)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">三種方法在「合理」區間附近收斂,是本次分析六大股票族群中定價效率最高的一檔——這符合台積電作為法人高度覆蓋、流動性最佳龍頭股的特性。外資目標價共識雖顯示便宜,但範圍極寬(2,600~3,800)反映機構間對長期AI資本支出循環能否延續存在分歧;DCF法因未扣今年史上最高的600~640億美元資本支出而可能低估真實偏貴程度,這點在解讀「合理」結論時應特別留意。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">高檔震盪,關稅雜訊干擾</div><div class="bar"><div style="width:60%;background:var(--amber)"></div></div><div class="note">法人視川普關稅為「過客」,現階段本益比約25倍未見過熱警訊</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">5家外資一致看多</div><div class="note">目標價2,600~3,800,距現價+10%~+60%</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">27.25(Q2單季)→99.7~106(2026E)</div><div class="note">7/11(8月公布)月營收與2027E上修速度是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(來源不一)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>99.7(元大) / 106.15(花旗)</td><td>20~28x</td><td>1,994~2,972(中值2,483)</td><td class="green">約 +5%</td></tr>
+  <tr><td>2027(+1年)</td><td>128.46(元大) / 148.69(花旗)</td><td>18~26x</td><td>2,312~3,600(中值2,956)</td><td class="green">約 +11%/年</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">僅花旗估198.42,查無其他來源對照</td><td>16~24x</td><td>3,175~4,762(中值3,968)</td><td class="green">約 +19%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2028年EPS僅花旗單一來源(198.42),缺乏其他機構對照驗證,隱含年化報酬應視為樂觀情境參考而非基準假設;2026、2027年因有元大、花旗兩家獨立來源交叉對照,可信度較高,顯示穩定的個位數至低雙位數年化報酬路徑,符合台積電作為成熟龍頭股的風險報酬輪廓。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 1600~4200;left% = (價格-1600)/2600×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,900~2,100</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,300~2,600</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:57.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,900~3,200</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:86.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,700~3,900</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:31.3%"><div class="arrow">▲</div><div class="price">2,370</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>1,900~2,100</td><td>川普關稅實質落地衝擊供應鏈或客戶下單行為,2026E EPS低值×20~21x</td><td class="red">約 -16%</td></tr>
+  <tr><td class="amber">Base</td><td>2,300~2,600</td><td>7月營收如期公布符合市場預期(月增至4,500~4,800億),Q3法說前無驚喜;現價落於此區間內</td><td>約 +3%</td></tr>
+  <tr><td class="green">Bull</td><td>2,900~3,200</td><td>2nm放量超預期、關稅風險實質降溫,高盛/摩根大通目標價達陣</td><td class="green">約 +29%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3,700~3,900</td><td>花旗目標價3,800附近達陣,2027、2028年成長曲線提前反映</td><td class="green">約 +60%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">2,250~2,350</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">2,100~2,200</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,950~2,050</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,900</b>(明顯低於今年低點區間)= 關稅政策實質落地重創出貨或2nm良率爬坡出現實質裂痕,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破2,535(今年高點)+量能確認,且7月營收正式公布優於市場預期(逾4,800億)<br>
+    進場區:<b class="green">2,540~2,650</b><br>
+    移動停利:跌破20日線或高點回檔12%<br>
+    假突破失效:觸發後3日內跌回2,480即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,900~3,200</div><div class="note">賣出25~40%;Bull下緣,龍頭股高檔仍應紀律分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,700~3,900</div><div class="note">Stretched區/花旗目標價附近;續抱條件是2nm放量與關稅風險雙雙符合樂觀情境</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:Q2 EPS 27.25元創歷史新高、毛利率67.7%,2026年資本支出上調至600~640億美元反映AI需求強勁,但川普關稅噪音(擬課最高100%晶片關稅)反覆干擾股價,7月營收(市場預期上看4,800億元)要等8/11才會正式公布,是本次分析最即期的資料缺口。</div>
+<div class="concl">② <b>估值</b>:合理——外資目標價共識、自身本益比法、簡化DCF三種方法收斂於現價附近,是本次分析六大股票族群中定價效率最高的一檔;但DCF法因未扣今年史上最高的600~640億美元資本支出而可能低估真實偏貴程度,外資目標價範圍極寬(2,600~3,800)也反映機構間對AI資本支出循環延續性的判斷分歧。</div>
+<div class="concl">③ <b>結論</b>:逢回分批、7/11未公布是短期變數——現價2,370落於Base區間內,上檔Bull +29%/Stretched +60%對下檔Bear -16%,風險報酬比中性偏正但已無過去的顯著低估空間;左側倉位可正常分批,收盤跌破1,900即關稅政策實質落地或2nm爬坡出現裂痕,無條件出場。下一個驗證點是8/11的7月營收公布。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);發行股數彙整自財經媒體(約259.33億股);Q2法說會(鉅亨網、豐雲學堂、vocus、工商時報,2026/07/16);外資目標價與EPS估值(PChome、ETtoday、經濟日報、Yahoo股市,追蹤至最新花旗3,800元/EPS106.15);關稅政策相關報導(Yahoo股市,2026/07~08);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;7月營收(8/11公布)、精確Q2營收新台幣原始數字(僅財訊快報揭露美元口徑)查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網、豐雲學堂、vocus、工商時報、PChome新聞、ETtoday財經雲、經濟日報、Yahoo股市。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;簡化DCF法已於估值方法交叉檢核表中明確標註資本支出偏誤,「合理」結論應理解為中性而非明確買點。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

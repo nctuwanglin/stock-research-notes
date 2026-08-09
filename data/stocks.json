@@ -95,9 +95,9 @@
   "2303": {
     "name": "聯電",
     "market": "twse",
-    "file": "2303-umc-event.html",
-    "analysis_date": "2026-07-29",
-    "analysis_price": 102.5,
+    "file": "2303-umc.html",
+    "analysis_date": "2026-08-07",
+    "analysis_price": 116.0,
     "tags": [
       "晶圓代工"
     ]
@@ -125,9 +125,9 @@
   "2330": {
     "name": "台積電",
     "market": "twse",
-    "file": "2330-tsmc-event.html",
-    "analysis_date": "2026-07-28",
-    "analysis_price": 2280.0,
+    "file": "2330-tsmc.html",
+    "analysis_date": "2026-08-07",
+    "analysis_price": 2370.0,
     "tags": [
       "晶圓代工"
     ]
@@ -265,6 +265,26 @@
     "analysis_price": 2215.0,
     "tags": [
       "網通"
+    ]
+  },
+  "5347": {
+    "name": "世界先進",
+    "market": "tpex",
+    "file": "5347-vis.html",
+    "analysis_date": "2026-08-07",
+    "analysis_price": 143.5,
+    "tags": [
+      "晶圓代工"
+    ]
+  },
+  "6770": {
+    "name": "力積電",
+    "market": "twse",
+    "file": "6770-psmc.html",
+    "analysis_date": "2026-08-07",
+    "analysis_price": 65.5,
+    "tags": [
+      "晶圓代工"
     ]
   }
 }
