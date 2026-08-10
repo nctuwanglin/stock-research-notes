@@ -191,7 +191,8 @@
     "analysis_date": "2026-08-04",
     "analysis_price": 1620.0,
     "tags": [
-      "電源"
+      "電源",
+      "散熱"
     ],
     "target": 1850,
     "stop": 1100,

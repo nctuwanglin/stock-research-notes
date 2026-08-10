@@ -516,11 +516,15 @@ def main():
         badge = build_dispo_badge(code, dispo, attn, meta["market"])
         s = re.sub(rf'(<span class="autodispo" data-code="{re.escape(code)}">).*?(</span></div>)',
                    lambda m: m.group(1) + badge + m.group(2), s, count=1, flags=re.S)
-        # tags supplement (merge, keep order, dedupe)
-        if code in tag_sup:
-            merged = list(dict.fromkeys(meta["tags"] + tag_sup[code]))
-            s = re.sub(rf'(data-code="{re.escape(code)}" data-tags=")[^"]*(")',
-                       lambda m: m.group(1) + " ".join(merged) + m.group(2), s, count=1)
+        # tags = stocks.json + 處置股庫補充(merge, keep order, dedupe)。
+        # 無論該股有無補充標籤都重寫,確保 stocks.json 是唯一真相來源
+        # (先前只在有補充時才寫,導致 json 加了標籤卻沒同步到卡片)。
+        merged = list(dict.fromkeys(meta["tags"] + tag_sup.get(code, [])))
+        s = re.sub(rf'(data-code="{re.escape(code)}" data-tags=")[^"]*(")',
+                   lambda m: m.group(1) + " ".join(merged) + m.group(2), s, count=1)
+        # data-concl 由 rating 驅動,避免篩選條件與結論卡評等各說各話
+        s = re.sub(rf'(data-code="{re.escape(code)}" data-tags="[^"]*" data-concl=")[^"]*(")',
+                   lambda m: m.group(1) + meta["rating"] + m.group(2), s, count=1)
 
     cal_html = build_calendar_html(cal.get("events", []), stocks, dispo, today)
     s = re.sub(r'<!--CALENDAR_START-->.*?<!--CALENDAR_END-->',
