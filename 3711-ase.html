@@ -62,6 +62,18 @@
   .backhome:hover{color:var(--blue);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
@@ -70,6 +82,11 @@
 
 <h1>日月光投控 (3711) <span class="badge amber">估值:合理(但共識 EPS 恐已偏保守)</span> <span class="badge amber">結論:逢回分批,先等外資賣壓止穩</span> <span class="autodispo" data-code="3711"></span></h1>
 <div class="sub">台股上市・半導體封測(OSAT 全球龍頭)+ EMS|資料截至 2026/08/06 收盤,製表 2026/08/06|<span class="dispostat" data-code="3711">未列入處置股/注意股名單(對照處置股儀表板 2026/08/10 資料)</span></div>
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">380</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3711">現價 <b>630</b> → 目標價 <b>650</b><span class="up"> (+3.2%)</span></div>
+  <div class="vbasis">推導依據:四情境Base上緣;ATM毛利率結構區間上緣</div>
+</div>
 
 <div class="grid cards6">
   <div class="card"><div class="label">現價</div><div class="value">595.0</div><div class="note">08/06 收盤 +2.00(+0.34%),連 2 漲;當日 574~597</div></div>

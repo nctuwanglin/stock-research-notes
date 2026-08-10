@@ -63,6 +63,18 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
@@ -71,6 +83,11 @@
 
 <h1>台積電 (2330) <span class="badge amber">估值:合理(三種方法一致收斂)</span> <span class="badge amber">結論:逢回分批,7/11未公布是短期變數</span><span class="autodispo" data-code="2330"></span></h1>
 <div class="sub">台股(TWSE)・晶圓代工龍頭(2nm/CoWoS先進封裝)|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="2330">未列入處置股/注意股名單(對照處置股儀表板 2026/08/10 資料)</span></div>
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1900</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2330">現價 <b>2380</b> → 目標價 <b>2800</b><span class="up"> (+17.6%)</span></div>
+  <div class="vbasis">推導依據:2027E EPS 約138 × 20x(龍頭質感溢價)</div>
+</div>
 
 <div class="grid cards6">
   <div class="card"><div class="label">現價</div><div class="value">2,370</div><div class="note">2026/08/07 收盤 +0.2%;近30天最深回檔約5%</div></div>

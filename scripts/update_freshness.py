@@ -350,6 +350,48 @@ def build_fresh_html(meta, close, price_date, today):
     return "|".join(parts)
 
 
+RATING_LABEL = {"buy": ("偏多", "green"), "hold": ("中性", "amber"), "avoid": ("觀望", "red")}
+
+
+def build_verdict_html(meta, close):
+    """
+    結論卡的動態列:用「最新收盤」而非分析價重算距目標價空間,避免數字隨股價漂移而過期。
+    評等徽章沿用 stocks.json 的 rating(分析當下的判斷),不隨股價自動翻面——
+    評等是研究結論,只有重跑分析才該改;會變的只有「還剩多少空間」。
+    """
+    tgt = meta.get("target")
+    if tgt is None:
+        return "目標價未登記"
+    prefix = "$" if meta.get("market") == "us" else ""
+    ref = close if close is not None else meta["analysis_price"]
+    tag = "現價" if close is not None else "分析價"
+    up = (tgt / ref - 1) * 100
+    cls = "up" if up > 0 else ("down" if up < 0 else "flat")
+    return (f'{tag} <b>{prefix}{ref:g}</b> → 目標價 <b>{prefix}{tgt:g}</b>'
+            f'<span class="{cls}"> ({up:+.1f}%)</span>')
+
+
+def fill_dashboard_verdict(stocks, prices):
+    """把結論卡的動態列同步到各個股頁(與 index.html 用同一個 .verdict 佔位符)。"""
+    filled, missing = 0, []
+    for code, meta in stocks.items():
+        path = os.path.join(BASE, meta["file"])
+        if not os.path.exists(path):
+            continue
+        s = open(path, encoding="utf-8").read()
+        orig = s
+        html = build_verdict_html(meta, (prices.get(code) or {}).get("close"))
+        s, n = re.subn(rf'(<div class="verdict" data-code="{re.escape(code)}">).*?(</div>)',
+                       lambda m: m.group(1) + html + m.group(2), s, count=1, flags=re.S)
+        if not n:
+            missing.append(meta["file"])
+            continue
+        if s != orig:
+            open(path, "w", encoding="utf-8").write(s)
+        filled += 1
+    return filled, missing
+
+
 def build_dispo_badge(code, dispo, attn, market):
     # 美股無處置/注意股制度,徽章恆空。保留空標籤讓 SKILL.md 只需一套卡片規則,
     # 且日後若要加美股專屬徽章有現成掛點。
@@ -466,6 +508,10 @@ def main():
         fresh = build_fresh_html(meta, close, pdate, today)
         s = re.sub(rf'(<div class="fresh" data-code="{re.escape(code)}">).*?(</div>)',
                    lambda m: m.group(1) + fresh + m.group(2), s, count=1, flags=re.S)
+        # verdict 動態列(index 卡片版)
+        vd = build_verdict_html(meta, close)
+        s = re.sub(rf'(<div class="verdict" data-code="{re.escape(code)}">).*?(</div>)',
+                   lambda m: m.group(1) + vd + m.group(2), s, count=1, flags=re.S)
         # dispo badge(autodispo span 是 badges 列最後一個元素,以 </span></div> 為右界確保冪等)
         badge = build_dispo_badge(code, dispo, attn, meta["market"])
         s = re.sub(rf'(<span class="autodispo" data-code="{re.escape(code)}">).*?(</span></div>)',
@@ -483,6 +529,7 @@ def main():
     open(INDEX, "w", encoding="utf-8").write(s)
 
     dash_filled, dash_missing = fill_dashboard_dispo(stocks, dispo, attn, dispo_date)
+    vd_filled, vd_missing = fill_dashboard_verdict(stocks, prices)
     # 任何已登記美股缺漏(全滅或部分)都必須讓 workflow 轉紅,見 us_errors()。
     # 刻意不在此 sys.exit(1):那會讓 workflow 跳過 commit 步驟,連當天台股更新一起丟掉。
     # 由 workflow 在 push 之後讀這個欄位決定成敗。
@@ -493,6 +540,8 @@ def main():
     print(f"done: prices {got}/{len(prices)} | us {len(us)}/{len(us_codes)} | dispo hits "
           f"{sum(1 for c in stocks if c in dispo)} | attn hits {sum(1 for c in stocks if c in attn)}"
           f" | 個股頁徽章 {dash_filled} 份(名單日期 {dispo_date or '查無'})"
+          f" | 結論卡 {vd_filled}/{len(stocks)} 份"
+          + (f" | 結論卡缺佔位 {vd_missing}" if vd_missing else "")
           + (f" | 個股頁未處理 {dash_missing}" if dash_missing else "")
           + (f" | ERRORS {errors}" if errors else ""))
 

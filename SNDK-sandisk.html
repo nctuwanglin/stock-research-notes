@@ -60,6 +60,18 @@
   .bar>div{height:100%;}
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
@@ -68,6 +80,11 @@
 
 <h1>SanDisk (SNDK) <span class="badge amber">估值:分歧(核心方法便宜、同業對照偏貴)</span> <span class="badge amber">結論:等待8/13法說,不宜追高</span></h1>
 <div class="sub">美股(NASDAQ)・企業級NAND快閃記憶體(SSD/Data Center)|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08(美東時間)</div>
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">$780</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="SNDK">現價 <b>$1212.21</b> → 目標價 <b>$1350</b><span class="up"> (+11.4%)</span></div>
+  <div class="vbasis">推導依據:FY27E EPS 約190 × 7x(財測失準信任折價)</div>
+</div>
 
 <div class="grid cards6">
   <div class="card"><div class="label">現價</div><div class="value">$1,212.21</div><div class="note">最近交易日收盤 -3.68%;較6月高點回檔約48.5%</div></div>

@@ -8,7 +8,11 @@
     "analysis_price": 854.24,
     "tags": [
       "記憶體"
-    ]
+    ],
+    "target": 1200,
+    "stop": 600,
+    "basis": "FY27E EPS $155.56 × 8x(記憶體循環保守倍數)",
+    "rating": "buy"
   },
   "SNDK": {
     "name": "SanDisk",
@@ -18,7 +22,11 @@
     "analysis_price": 1212.21,
     "tags": [
       "記憶體"
-    ]
+    ],
+    "target": 1350,
+    "stop": 780,
+    "basis": "FY27E EPS 約190 × 7x(財測失準信任折價)",
+    "rating": "hold"
   },
   "2337": {
     "name": "旺宏",
@@ -28,7 +36,11 @@
     "analysis_price": 121.5,
     "tags": [
       "記憶體"
-    ]
+    ],
+    "target": 155,
+    "stop": 85,
+    "basis": "2026E EPS 18.62 × 8x(轉盈初期折價)",
+    "rating": "buy"
   },
   "2408": {
     "name": "南亞科",
@@ -38,7 +50,11 @@
     "analysis_price": 457.0,
     "tags": [
       "記憶體"
-    ]
+    ],
+    "target": 530,
+    "stop": 310,
+    "basis": "2026E EPS 58.67 × 9x(2028獲利回落不給更高)",
+    "rating": "buy"
   },
   "2344": {
     "name": "華邦電",
@@ -48,7 +64,11 @@
     "analysis_price": 163.5,
     "tags": [
       "記憶體"
-    ]
+    ],
+    "target": 190,
+    "stop": 110,
+    "basis": "2026E EPS 21.27 × 9x(CMS結構性題材溢價)",
+    "rating": "buy"
   },
   "6239": {
     "name": "力成",
@@ -59,7 +79,11 @@
     "tags": [
       "封測",
       "記憶體"
-    ]
+    ],
+    "target": 295,
+    "stop": 175,
+    "basis": "四情境Base上緣;TSV量產Q4才認列",
+    "rating": "hold"
   },
   "3324": {
     "name": "雙鴻",
@@ -69,7 +93,11 @@
     "analysis_price": 944.0,
     "tags": [
       "散熱"
-    ]
+    ],
+    "target": 1050,
+    "stop": 700,
+    "basis": "四情境Base中值;全年+70%財測待Q2驗證",
+    "rating": "hold"
   },
   "8027": {
     "name": "鈦昇",
@@ -79,7 +107,11 @@
     "analysis_price": 172.0,
     "tags": [
       "設備"
-    ]
+    ],
+    "target": 130,
+    "stop": 85,
+    "basis": "唯一券商目標價133;仍虧損無法用P/E",
+    "rating": "avoid"
   },
   "8150": {
     "name": "南茂",
@@ -90,7 +122,11 @@
     "tags": [
       "封測",
       "記憶體"
-    ]
+    ],
+    "target": 78,
+    "stop": 46,
+    "basis": "2026E EPS 4.03 × 19x(OSAT封測服務業)",
+    "rating": "hold"
   },
   "2303": {
     "name": "聯電",
@@ -100,7 +136,11 @@
     "analysis_price": 116.0,
     "tags": [
       "晶圓代工"
-    ]
+    ],
+    "target": 105,
+    "stop": 85,
+    "basis": "2026E EPS 4.93 × 21x(無先進製程不給台積電倍數)",
+    "rating": "hold"
   },
   "2610": {
     "name": "華航",
@@ -110,7 +150,11 @@
     "analysis_price": 22.5,
     "tags": [
       "航空"
-    ]
+    ],
+    "target": 21,
+    "stop": 17,
+    "basis": "正常化EPS約1.75 × 12x(Q2單季僅0.23)",
+    "rating": "hold"
   },
   "2454": {
     "name": "聯發科",
@@ -120,7 +164,11 @@
     "analysis_price": 3865.0,
     "tags": [
       "IC設計"
-    ]
+    ],
+    "target": 4400,
+    "stop": 2750,
+    "basis": "四情境Base中值;AI ASIC 2027放量尚未量化",
+    "rating": "hold"
   },
   "2330": {
     "name": "台積電",
@@ -130,7 +178,11 @@
     "analysis_price": 2370.0,
     "tags": [
       "晶圓代工"
-    ]
+    ],
+    "target": 2800,
+    "stop": 1900,
+    "basis": "2027E EPS 約138 × 20x(龍頭質感溢價)",
+    "rating": "buy"
   },
   "2308": {
     "name": "台達電",
@@ -140,7 +192,11 @@
     "analysis_price": 1620.0,
     "tags": [
       "電源"
-    ]
+    ],
+    "target": 1850,
+    "stop": 1100,
+    "basis": "四情境Base中值;800VDC時程未定不給Bull",
+    "rating": "hold"
   },
   "2317": {
     "name": "鴻海",
@@ -150,7 +206,11 @@
     "analysis_price": 250.0,
     "tags": [
       "電子代工"
-    ]
+    ],
+    "target": 295,
+    "stop": 190,
+    "basis": "四情境Base中值;AI伺服器毛利改善未完全反映",
+    "rating": "buy"
   },
   "3037": {
     "name": "欣興",
@@ -161,7 +221,11 @@
     "tags": [
       "PCB",
       "ABF載板"
-    ]
+    ],
+    "target": 1000,
+    "stop": 600,
+    "basis": "四情境Base中段;ABF漲價已部分反映",
+    "rating": "hold"
   },
   "8299": {
     "name": "群聯",
@@ -172,7 +236,11 @@
     "tags": [
       "記憶體",
       "IC設計"
-    ]
+    ],
+    "target": 2100,
+    "stop": 1380,
+    "basis": "正常化EPS約250 × 8.4x(2027E腰斬53%不可用2026峰值)",
+    "rating": "hold"
   },
   "3008": {
     "name": "大立光",
@@ -182,7 +250,11 @@
     "analysis_price": 4355.0,
     "tags": [
       "光學鏡頭"
-    ]
+    ],
+    "target": 4500,
+    "stop": 2800,
+    "basis": "四情境Base上緣;CPO試產線良率未驗證",
+    "rating": "hold"
   },
   "2327": {
     "name": "國巨",
@@ -192,7 +264,11 @@
     "analysis_price": 573.0,
     "tags": [
       "被動元件"
-    ]
+    ],
+    "target": 620,
+    "stop": 400,
+    "basis": "2026E EPS 19.73 × 31x;籌碼信任修復中",
+    "rating": "hold"
   },
   "3661": {
     "name": "世芯-KY",
@@ -202,7 +278,11 @@
     "analysis_price": 3715.0,
     "tags": [
       "IC設計"
-    ]
+    ],
+    "target": 4300,
+    "stop": 2500,
+    "basis": "2027E EPS 181.62 × 24x;待8/14財報驗證",
+    "rating": "buy"
   },
   "3443": {
     "name": "創意",
@@ -212,7 +292,11 @@
     "analysis_price": 4545.0,
     "tags": [
       "IC設計"
-    ]
+    ],
+    "target": 3200,
+    "stop": 1900,
+    "basis": "2027E EPS 92.64 × 35x(仍高於同業世芯26.9x)",
+    "rating": "avoid"
   },
   "3081": {
     "name": "聯亞",
@@ -223,7 +307,11 @@
     "tags": [
       "光通訊",
       "矽光子"
-    ]
+    ],
+    "target": 1400,
+    "stop": 850,
+    "basis": "四情境Base上緣;暴漲已透支未來情境",
+    "rating": "avoid"
   },
   "6442": {
     "name": "光聖",
@@ -233,7 +321,11 @@
     "analysis_price": 1395.0,
     "tags": [
       "光通訊"
-    ]
+    ],
+    "target": 1450,
+    "stop": 700,
+    "basis": "四情境Base上緣;6月營收降溫待Q2財報解釋",
+    "rating": "hold"
   },
   "3665": {
     "name": "貿聯-KY",
@@ -244,7 +336,11 @@
     "tags": [
       "連接器",
       "線束"
-    ]
+    ],
+    "target": 2400,
+    "stop": 1500,
+    "basis": "四情境Base上緣;毛利率改善待新產能",
+    "rating": "hold"
   },
   "3711": {
     "name": "日月光投控",
@@ -255,7 +351,11 @@
     "tags": [
       "封測",
       "先進封裝"
-    ]
+    ],
+    "target": 650,
+    "stop": 380,
+    "basis": "四情境Base上緣;ATM毛利率結構區間上緣",
+    "rating": "hold"
   },
   "2345": {
     "name": "智邦",
@@ -265,7 +365,11 @@
     "analysis_price": 2215.0,
     "tags": [
       "網通"
-    ]
+    ],
+    "target": 2600,
+    "stop": 1700,
+    "basis": "2027E EPS 113.9 × 23x(DCF示警故壓下緣)",
+    "rating": "buy"
   },
   "5347": {
     "name": "世界先進",
@@ -275,7 +379,11 @@
     "analysis_price": 143.5,
     "tags": [
       "晶圓代工"
-    ]
+    ],
+    "target": 135,
+    "stop": 95,
+    "basis": "2026E EPS 4.92 × 27x;7月營收月減21%扣分",
+    "rating": "hold"
   },
   "6770": {
     "name": "力積電",
@@ -285,7 +393,11 @@
     "analysis_price": 65.5,
     "tags": [
       "晶圓代工"
-    ]
+    ],
+    "target": 78,
+    "stop": 40,
+    "basis": "2026E EPS 8.61(大摩清洗後) × 9x",
+    "rating": "buy"
   },
   "2313": {
     "name": "華通",
@@ -295,7 +407,11 @@
     "analysis_price": 208.5,
     "tags": [
       "網通"
-    ]
+    ],
+    "target": 210,
+    "stop": 130,
+    "basis": "2026E EPS 7.7 × 27x;現增稀釋未明故不給溢價",
+    "rating": "hold"
   },
   "3491": {
     "name": "昇達科",
@@ -305,7 +421,11 @@
     "analysis_price": 1235.0,
     "tags": [
       "網通"
-    ]
+    ],
+    "target": 800,
+    "stop": 620,
+    "basis": "H1年化EPS 16.3 × 49x(已給極寬容倍數仍低於現價)",
+    "rating": "avoid"
   },
   "6285": {
     "name": "啟碁",
@@ -315,6 +435,10 @@
     "analysis_price": 233.0,
     "tags": [
       "網通"
-    ]
+    ],
+    "target": 265,
+    "stop": 150,
+    "basis": "2026E EPS 12.43 × 21x(三引擎分散風險)",
+    "rating": "hold"
   }
 }
