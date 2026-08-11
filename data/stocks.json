@@ -441,5 +441,20 @@
     "stop": 150,
     "basis": "2026E EPS 12.43 × 21x(三引擎分散風險)",
     "rating": "hold"
+  },
+  "2354": {
+    "name": "鴻準",
+    "market": "twse",
+    "file": "2354-foxconntech.html",
+    "analysis_date": "2026-08-10",
+    "analysis_price": 63.1,
+    "tags": [
+      "電子代工",
+      "散熱"
+    ],
+    "target": 68,
+    "stop": 46,
+    "rating": "hold",
+    "basis": "2027E EPS 約4.0(推演,查無券商共識) × 17x;毛利率僅4.84%,不適用散熱同業(奇鋐26.5%、雙鴻29.77%)的倍數"
   }
 }

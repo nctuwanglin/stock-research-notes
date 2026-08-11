@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鴻準 (2354) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>鴻準 (2354) <span class="badge amber">估值:分歧(2026年偏貴、2027年才合理)</span> <span class="badge amber">結論:等回檔或等8月營收驗證,不宜追高</span><span class="autodispo" data-code="2354"></span></h1>
+<div class="sub">台股(TWSE)・遊戲機金屬機殼(78%)+AI伺服器散熱模組(14%)|現況估值版|股價截至 2026/08/10 收盤,製表 2026/08/10|<span class="dispostat" data-code="2354">未列入處置股/注意股名單(對照處置股儀表板 2026/08/10 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">46</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2354">現價 <b>62.7</b> → 目標價 <b>68</b><span class="up"> (+8.5%)</span></div>
+  <div class="vbasis">推導依據:2027E EPS 約4.0(推演,查無券商共識) × 17x;毛利率僅4.84%,不適用散熱同業(奇鋐26.5%、雙鴻29.77%)的倍數</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">63.10</div><div class="note">2026/08/10 收盤 +2.10%;3個交易日自55.5漲13.7%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約892.5億</div><div class="note">資本額141.44億,約14.14億股</div></div>
+  <div class="card"><div class="label">H1 2026 EPS</div><div class="value amber">1.10</div><div class="note">Q1 0.47+Q2 0.63,YoY僅+4.76%;2025全年2.32</div></div>
+  <div class="card"><div class="label">本益比(TTM)</div><div class="value red">26.19x</div><div class="note">對低毛利機殼組裝業偏高;無券商共識可算Forward P/E</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">51.2~65.2</div><div class="note">7月低51.2、8/10高65.2</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">49.7~66.4</div><div class="note">4月低49.7、6月高66.4(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/06/30</span>法說會:遊戲機營收佔比自2025Q1的87%降至2026Q1的78%,散熱模組受AI伺服器帶動自8%升至14%,產品組合趨於均衡;2026Q1單季毛利率回升至4.84%。美國肯塔基州路易維爾設核心工廠,初期以高毛利資通訊產品為主;機器人以服務型為商業化主力。</li>
+  <li><span class="date">2026年上半年</span><b class="red">基本面其實是衰退的</b>:Q2合併營收303.39億元,年減26.45%,單季EPS 0.63元;H1累計EPS 1.10元,年增僅4.76%;前七月累計營收770.45億元,仍年減11.2%。</li>
+  <li><span class="date">2026/08/05</span><b class="green">7月營收創公司成立以來單月新高</b>:214.22億元,月增42.3%、年增37.46%——這是本波上漲最硬的事實。對照Q2單月平均約101億元,7月單月營收超過Q2平均的2倍,是任天堂次世代主機出貨拉升的直接反映。</li>
+  <li><span class="date">2026/08/06</span><b class="green">爆量亮燈漲停</b>:收61.00元(+9.9%),成交量自前一日的477萬股暴增至3,011萬股(逾6倍),散熱族群同步強勢。</li>
+  <li><span class="date">2026/08/07~08/10</span>續強:8/7成交8,143萬股(單日天量)收61.80,8/10收63.10(+2.10%)。三大法人近五日合計買超逾7,700張,其中外資加碼逾7,500張。</li>
+  <li><span class="date">催化劑本質</span>①任天堂次世代遊戲機獨家機殼供應商,新機備貨帶動產能滿載;②AI伺服器散熱:3DVC解熱可達500~1,000瓦、伺服器級逾1,000瓦,3DVC/水冷板/分流管等高毛利產品預估毛利率25~30%,長期目標散熱營收佔比拉升至20%以上;規劃越南擴產,並評估美國、墨西哥設廠。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①**7月營收的絕對水準(214.22億)遠高於Q2單月平均(約101億),這種單月跳升本身就需要區分「新機出貨爬坡」與「一次性備貨脈衝」**——前七月累計營收仍年減11.2%,代表全年基期並未翻正,若8月營收無法維持在150億元以上,7月就比較像脈衝而非趨勢;②**毛利率才是真正的瓶頸**:2026Q1毛利率僅4.84%,營收創高不等於獲利同幅創高,H1 EPS年增僅4.76%就是證明,高毛利散熱產品目前只佔14%;③本檔**未被任何主動式ETF持有**,與同族群散熱股形成對比,顯示中長期主動式資金尚未認可這個轉型故事,目前推動股價的主要是外資短線買超與散戶追價。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">7月營收214.22億元創公司成立以來單月新高(月增42.3%、年增37.46%),AI需求助攻亮燈漲停。<div class="src">— 自由財經、TechNews,2026/08/05</div></div>
+    <div class="quote">任天堂次世代遊戲機獨家機殼供應商,新機備貨使相關產能滿載;3DVC、水冷板與分流管等高毛利產品預估毛利率25~30%,長期散熱佔比目標20%以上。<div class="src">— CMoney法人分析整理,2026/08</div></div>
+    <div class="quote">2026~2027年是鴻準轉型分水嶺,屆時AI伺服器與電動車零組件營收將爆發。<div class="src">— 產業專家觀點彙整</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">前七月累計營收770.45億元仍年減11.2%,Q2營收年減26.45%,H1 EPS年增僅4.76%——單月創高尚未扭轉全年衰退的基期。<div class="src">— 本儀表板觀察,依公司月營收公告計算</div></div>
+    <div class="quote">2026Q1毛利率僅4.84%,而純散熱同業奇鋐26.5%、雙鴻29.77%;鴻準散熱只佔14%,營收規模再大也難以撐起散熱股的評價倍數。<div class="src">— 本儀表板觀察,依財報狗/法說會數字對照</div></div>
+    <div class="quote">「這種灌法通常是散戶在追」,鴻準的異常爆量與技術面下降三角仍引發爭議。<div class="src">— 股市爆料同學會</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet 共識</td><td class="amber">查無</td><td>本檔查無券商共識目標價與2026/2027年EPS預估,是本次分析最大的資料缺口——本站目標價為自行推演,非引用共識</td></tr>
+  <tr><td>三大法人(近五日)</td><td colspan="2">合計買超逾7,700張,其中外資加碼逾7,500張(短線流量,非中長期底倉)</td></tr>
+  <tr><td>主動式ETF持有度</td><td colspan="2" class="red">未被任何主動式ETF持有(對照:雙鴻等散熱股皆有主動式資金布局),顯示中長期資金尚未認可轉型故事</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2354"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+21,631</span></td><td>8/10</td><td><span class="green">+10,064</span></td></tr><tr><td>投信</td><td><span class="green">+61</span></td><td>5/10</td><td><span class="red">-1</span></td></tr><tr><td>自營商</td><td><span class="green">+1,131</span></td><td>5/10</td><td><span class="green">+181</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+22,823</span></td><td>8/10</td><td><span class="green">+10,244</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/10</td><td><span class="green">+10,064</span></td><td><span class="red">-1</span></td><td><span class="green">+181</span></td><td><span class="green">+10,244</span></td></tr><tr><td>08/07</td><td><span class="green">+4,273</span></td><td>+0</td><td><span class="green">+428</span></td><td><span class="green">+4,701</span></td></tr><tr><td>08/06</td><td><span class="green">+2,100</span></td><td><span class="red">-6</span></td><td><span class="green">+472</span></td><td><span class="green">+2,566</span></td></tr><tr><td>08/05</td><td><span class="green">+199</span></td><td>+0</td><td><span class="red">-39</span></td><td><span class="green">+160</span></td></tr><tr><td>08/04</td><td><span class="green">+800</span></td><td><span class="red">-15</span></td><td><span class="red">-103</span></td><td><span class="green">+682</span></td></tr><tr><td>08/03</td><td><span class="green">+707</span></td><td><span class="green">+6</span></td><td><span class="red">-50</span></td><td><span class="green">+663</span></td></tr><tr><td>07/31</td><td><span class="green">+4,904</span></td><td><span class="green">+42</span></td><td><span class="green">+317</span></td><td><span class="green">+5,263</span></td></tr><tr><td>07/30</td><td><span class="green">+958</span></td><td><span class="green">+8</span></td><td><span class="green">+65</span></td><td><span class="green">+1,031</span></td></tr><tr><td>07/29</td><td><span class="red">-592</span></td><td><span class="green">+10</span></td><td><span class="red">-35</span></td><td><span class="red">-617</span></td></tr><tr><td>07/28</td><td><span class="red">-1,782</span></td><td><span class="green">+17</span></td><td><span class="red">-105</span></td><td><span class="red">-1,870</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/28~08/10(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">214.22億</div><div class="note">MoM+42.3%,YoY+37.46%,歷史單月新高</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value red">770.45億</div><div class="note">YoY-11.2%,全年基期尚未翻正</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value red">303.39億</div><div class="note">YoY-26.45%;單月平均約101億</div></div>
+  <div class="card"><div class="label">Q1毛利率</div><div class="value red">4.84%</div><div class="note">核心瓶頸;純散熱同業為26~30%</div></div>
+  <div class="card"><div class="label">業務組合(2026Q1)</div><div class="value">遊戲機78%</div><div class="note">散熱14%(自2025Q1的8%提升)</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">0檔</div><div class="note">未被任何主動式ETF持有(2026/08/10資料)</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>毛利率</th><th>估值倍數</th><th>與鴻準的差異</th></tr>
+  <tr class="hl"><td>2354.TW</td><td>鴻準</td><td class="red">4.84%(2026Q1)</td><td>TTM 26.19x</td><td>機殼組裝為主(78%遊戲機),散熱僅14%,毛利率是本表最低</td></tr>
+  <tr><td>3017.TW</td><td>奇鋐</td><td class="green">26.5%</td><td>2026E本益比「1字頭」(15~19x區間)</td><td>散熱龍頭,系統整合+機殼一體化,2026E EPS估65.11~78.1元</td></tr>
+  <tr><td>3324.TW</td><td>雙鴻</td><td class="green">29.77%</td><td>詳見本站獨立分析(現價944/目標1050)</td><td>純散熱組件、液冷關鍵零組件營收純度最高</td></tr>
+  <tr><td>2317.TW</td><td>鴻海(母集團)</td><td>查無精確數字</td><td>詳見本站獨立分析(現價250/目標295)</td><td>鴻準為鴻海集團成員,AI伺服器供應鏈地位遠大於鴻準</td></tr>
+  <tr><td>2421.TW</td><td>建準</td><td>查無精確數字</td><td>查無精確Fwd P/E</td><td>從氣冷走向水冷的散熱廠,與鴻準散熱線部分競爭</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:分歧——用2026年數字看偏貴,要到2027年轉型兌現才合理。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">最關鍵的對照是毛利率:鴻準2026Q1僅4.84%,而奇鋐26.5%、雙鴻29.77%,差距達5~6倍。這代表**市場若用「AI散熱股」的框架給鴻準估值,是把14%的業務當成100%在定價**——高毛利散熱產品(25~30%)目前只佔營收14%,長期目標也才20%以上。TTM本益比26.19x對一家毛利率不到5%的機殼組裝廠並不便宜,尤其前七月累計營收仍年減11.2%。真正支撐現價的是「2027年轉型兌現」的預期,而非2026年的獲利。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價63.10 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(推演)</td><td>EPS 約3.2(推演:H1實績1.10+H2約2.1,假設7月高基期延續但毛利率不變),機殼組裝業倍數15~20x</td><td>48~64(中值56,推演)</td><td class="red">貴 +12.7%</td></tr>
+  <tr><td>2027E P/E×EPS(推演)</td><td>EPS 約4.0(推演:散熱佔比升至20%帶動毛利率改善),倍數15~20x</td><td>60~80(中值70,推演)</td><td class="green">便宜 -9.9%</td></tr>
+  <tr><td>散熱同業倍數折價對照</td><td>奇鋐/雙鴻毛利率26~30%、2026E本益比15~19x;鴻準毛利率僅4.84%、散熱僅14%,應大幅折價至12~15x,套用於2026E EPS 3.2</td><td>38.4~48(中值43.2,推演)</td><td class="red">貴 +46.1%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司正處於毛利率結構轉換期(機殼4.84% → 散熱25~30%),且查無券商共識EPS,任何多年期現金流假設都只是把不確定性偽裝成精確數字。三種方法的分歧點非常明確:**用2026年看貴13~46%,用2027年看便宜10%**——換句話說,現價買進等於已經先付了轉型成功的錢。這個判斷的可信度受限於一項重要缺口:本檔查無券商共識目標價與EPS預估,上表三組EPS皆為本站推演。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">追價熱絡但有過熱爭議</div><div class="bar"><div style="width:63%;background:var(--amber)"></div></div><div class="note">爆量漲停後散戶追價,但同時有「這種灌法通常是散戶在追」的反向聲音</div></div>
+  <div class="card"><div class="label">法人動向</div><div class="value amber">外資短線買超,長線資金缺席</div><div class="note">近五日外資買超逾7,500張,但未被任何主動式ETF持有</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無</div><div class="note">查無券商共識目標價與EPS預估,是本次分析最大缺口</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>約3.2(推演,查無共識)</td><td>15~20x</td><td>48~64(中值56)</td><td class="red">約 -11%</td></tr>
+  <tr><td>2027(+1年)</td><td>約4.0(推演,散熱佔比升至20%)</td><td>15~20x</td><td>60~80(中值70)</td><td class="green">約 +5%/年</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無任何依據,不推演</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">兩年份的EPS皆為本站推演(查無券商共識),信度低於本站其他個股分析,請以方向而非精確數字理解。路徑顯示:2026年隱含報酬為負、2027年才轉正約+5%/年,亦即現價已把轉型成功預先計入,投資人賺的是「轉型如期兌現」而非「估值折價修復」。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~120;left% = (價格-40)/80×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:14.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">47~52</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:30.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">58~68</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:53.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">78~88</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:78.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">100~110</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:30.6%"><div class="arrow">▲</div><div class="price">63.10</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>47~52</td><td>7月營收證實為一次性備貨脈衝,8~9月營收回落至Q2水準(約100億/月),2026E EPS降至約2.5×18~20x</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>58~68</td><td>新機出貨爬坡延續但毛利率未明顯改善,2026E EPS約3.2×18~21x;現價落於此區間內</td><td>約 -0%</td></tr>
+  <tr><td class="green">Bull</td><td>78~88</td><td>散熱佔比如期升至20%、毛利率結構改善,2027E EPS約4.5×18x</td><td class="green">約 +32%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>100~110</td><td>散熱佔比突破25%且市場改用散熱股框架重新評價(需毛利率實質脫離5%區間才成立)</td><td class="green">約 +66%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">57~60</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">52~56</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">47~51</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">46</b>(低於今年低點49.7)= 新機出貨爬坡證實失敗或散熱轉型停滯,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破66.4(今年高點)+量能確認,且8月營收公布維持150億元以上(證明7月非單月脈衝)<br>
+    進場區:<b class="green">67~72</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回64即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">78~88</div><div class="note">賣出30~50%;Bull下緣,毛利率結構未實質改善前不宜過度追高</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">100~110</div><div class="note">Stretched區;續抱條件是散熱佔比突破25%且整體毛利率實質脫離5%區間</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:7月營收214.22億元創公司成立以來單月新高(月增42.3%、年增37.46%),帶動8/6爆量亮燈漲停、三個交易日上漲13.7%,動能來自任天堂次世代遊戲機獨家機殼訂單與AI伺服器散熱題材;但前七月累計營收仍年減11.2%、Q2營收年減26.45%,單月創高尚未扭轉全年衰退基期,7月是「出貨爬坡」還是「一次性備貨脈衝」要看8月營收才能分辨。</div>
+<div class="concl">② <b>估值</b>:分歧——用2026年推演EPS看貴13%、套用散熱同業折價後看貴46%,要用2027年轉型兌現後的EPS才看得出便宜10%。最關鍵的事實是毛利率:鴻準2026Q1僅4.84%,而純散熱同業奇鋐26.5%、雙鴻29.77%,高毛利散熱只佔營收14%——市場若用「AI散熱股」框架給它估值,等於把14%的業務當100%定價。</div>
+<div class="concl">③ <b>結論</b>:等回檔或等8月營收驗證,不宜追高——現價63.10落於Base區間內,上檔Bull +32%/Stretched +66%對下檔Bear -22%;現價已把轉型成功預先計入(2026年隱含報酬為負、2027年才轉正),且本檔未被任何主動式ETF持有,推動股價的是外資短線買超而非中長期資金。左側等57以下再分批,右側須等8月營收站穩150億元以上再追,收盤跌破46即轉型邏輯失效無條件出場。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/10收盤(TWSE官方STOCK_DAY);資本額141.44億(鉅亨網,推算約14.14億股);TTM本益比26.19x(Win投資,2026/08/10);法說會(富果直送法說會備忘錄,2026/06/30);Q1/Q2財報與H1 EPS(財報狗、Yahoo股市);7月營收(自由財經、TechNews,2026/08/05公告);法人買超與漲停(CMoney即時新聞,2026/08/06);散熱產品毛利率與同業對照(CMoney、財報狗、vocus);主動式ETF持有度(本機active-etf資料庫,2026/08/10更新,查無持有記錄);處置/注意股狀態(本機twse-disposition,2026/08/10更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新。<br>
+<b>重大資料缺口:本檔查無券商共識目標價與2026/2027年EPS預估</b>,估值交叉檢核表的三組EPS(3.2/4.0/2.5)皆為本站依H1實績與業務組合推演,信度低於本站其他有FactSet共識可對照的個股;精確發行股數、8月營收(尚未公告)、庫藏股買回公告內容亦查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網、富果直送、財報狗、自由財經、TechNews科技新報、CMoney投資網誌與股市爆料同學會、Win投資、vocus。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
