@@ -14,6 +14,8 @@ import io
 import json
 import os
 import re
+import ssl
+import subprocess
 import sys
 import urllib.request
 from datetime import date, datetime, timezone
@@ -47,6 +49,19 @@ TAG_ZH = {"memory": "記憶體", "packaging": "封測", "icmanufacturing": "晶�
           "finance": "金融", "telecom": "電信"}
 
 
+def _fetch_via_curl(url, timeout):
+    """回退路徑,僅在 urllib 的 SSL 驗證失敗時使用。curl 走 macOS 系統信任庫,
+    仍會驗證憑證鏈(不是關閉驗證),只是能接受 Python/OpenSSL 較嚴格判定為
+    「缺 Subject Key Identifier」而拒絕、但瀏覽器與 curl 均接受的憑證。"""
+    r = subprocess.run(
+        ["curl", "-sS", "-A", "Mozilla/5.0 (research-notes-updater)",
+         "--max-time", str(timeout), url],
+        capture_output=True, timeout=timeout + 5)
+    if r.returncode != 0:
+        raise RuntimeError(f"curl exit {r.returncode}: {r.stderr.decode(errors='replace')[:200]}")
+    return r.stdout.decode("utf-8", errors="replace")
+
+
 def fetch(url, timeout=30, retries=3):
     last = None
     for i in range(retries):
@@ -56,6 +71,18 @@ def fetch(url, timeout=30, retries=3):
                 "Accept": "text/csv,application/json,*/*"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", errors="replace")
+        except urllib.error.URLError as e:
+            last = e
+            if isinstance(e.reason, ssl.SSLCertVerificationError):
+                # 已知個案:某些 TWSE CDN 端點的憑證鏈缺 Subject Key Identifier,
+                # OpenSSL 嚴格拒絕但系統信任庫(curl 走的路徑)接受,直接改走 curl
+                # 而非放寬 Python 的驗證設定,以免真的中間人攻擊也被靜默放行。
+                try:
+                    return _fetch_via_curl(url, timeout)
+                except Exception as ce:
+                    last = ce
+            import time
+            time.sleep(2 * (i + 1))
         except Exception as e:
             last = e
             import time

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>台達電 (2308) 法說會後估值儀表板</title>
+<title>台達電 (2308) 股票分析儀表板</title>
 <style>
   :root{
     --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
@@ -26,7 +26,21 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
-  .badge.purple{background:rgba(167,139,250,.18);color:var(--purple);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -65,99 +79,83 @@
   .bar>div{height:100%;}
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
-  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
-  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>台達電 (2308) <span class="badge purple">事件:2026 Q2 法說會</span> <span class="badge amber">估值:合理(透支已消化,仍押 2027)</span> <span class="badge amber">結論:逢回分批,緊盯 800V 時程</span> <span class="autodispo" data-code="2308"></span></h1>
-<div class="sub">台股上市・電源與散熱(AI 資料中心供電)|資料截至 2026/08/04 收盤,製表 2026/08/04|<span class="dispostat" data-code="2308">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>台達電 (2308) <span class="badge purple">事件:7月營收公布(8/10),當日漲停</span> <span class="badge amber">估值:合理(利多已部分反映)</span> <span class="badge amber">結論:等回檔,不宜追高</span><span class="autodispo" data-code="2308"></span></h1>
+<div class="sub">台股(TWSE)・電源零組件(AI電源57%)+基礎設施+自動化+交通|事件驅動版(7月營收)|股價截至 2026/08/14 收盤,製表 2026/08/14|<span class="dispostat" data-code="2308">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">1100</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2308">現價 <b>1885</b> → 目標價 <b>1850</b><span class="down"> (-1.9%)</span></div>
-  <div class="vbasis">推導依據:四情境Base中值;800VDC時程未定不給Bull</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">1300</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2308">現價 <b>1885</b> → 目標價 <b>1950</b><span class="up"> (+3.4%)</span></div>
+  <div class="vbasis">推導依據:2027E EPS約55(較FactSet樂觀估值65.1保守調整) × 30x(AI電源結構性成長溢價);較8/4分析目標價1850上修,反映7月營收確認AI電源動能加速,但不完全採信FactSet最高端估值</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">1,620</div><div class="note">08/04 收盤 +40(+2.53%);當日 1,520~1,680</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">查無精確值</div><div class="note">公開來源未取得最新股數;TTM EPS 約 32.2 元(由 P/E 50.29 反推)</div></div>
-  <div class="card"><div class="label">自前次分析</div><div class="value red">−11.7%</div><div class="note">7/21 收 1,835 → 8/4 收 1,620;期間 7/28 曾吞跌停至 1,580</div></div>
-  <div class="card"><div class="label">今年區間</div><div class="value">查無精確值</div><div class="note">已知:6 月以來挫逾 18%、7/28 觸 1,580 為近 3.5 個月低點</div></div>
-  <div class="card"><div class="label">Forward P/E</div><div class="value amber">41.2x</div><div class="note">1,620 ÷ 2026E EPS 39.3(FactSet 23 人中位);TTM 50.29x</div></div>
-  <div class="card"><div class="label">共識目標價</div><div class="value green">2,340</div><div class="note">FactSet;距現價 +44.4%。券商帶 2,280~2,750</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">1,885</div><div class="note">2026/08/14 收盤持平;8/10公告日漲停至1,815</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">670.73億</div><div class="note">YoY+47.75%,單月歷史新高</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">4,096.82億</div><div class="note">YoY+42.08%,同期新高</div></div>
+  <div class="card"><div class="label">AI電源營收佔比</div><div class="value green">57%</div><div class="note">7月營收結構最大來源</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">1,425~1,975</div><div class="note">8月區間;現價落於區間上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">969~2,585</div><div class="note">1月低969、5月高2,585(TWSE官方日成交資訊)</div></div>
 </div>
 
-<h2>⓪ 事件影響分析:2026 Q2 法說會(2026/07/30)</h2>
+<h2>⓪ 事件影響分析 — 7月營收單月新高、AI電源佔比衝上57%,股價當日漲停</h2>
 <div class="event">
-  <h3>事件摘要</h3>
-  <div class="flow">
-  <b>2026/07/30</b> 法說會|<b>Q2 營收 1,832.56 億元</b>(YoY <b>+47.7%</b>,創單季歷史新高)、歸屬母公司淨利 <b>251.35 億元</b>(YoY <b>+80.2%</b>、QoQ +22.3%)、<b>EPS 9.68 元創單季新高</b>|H1 EPS 累計 <b>17.59 元</b>,已超過過去任何一個完整年度|全年資本支出上看 <b>700 億元</b>|<b>AI 相關營收占比預期逾 25%</b>|±400V 今年量產出貨、<b>800V 於 2026H2 小量、2027 年進入主要貢獻期</b>(與前次法說口徑一致,並未遞延)<br>
-  股價反應:財報與獲利雙創新高,<b>股價卻不漲反跌</b>——7/21 收 1,835 → 8/4 收 1,620(<b>−11.7%</b>),期間 7/28 一度吞跌停觸 1,580(近 3.5 個月低點);8/4 才反彈 +2.53%。</div>
+  <h3>事件:7月合併營收670.73億元,年增47.75%,再創單月歷史新高,股價當日亮燈漲停</h3>
+  <div class="flow">台達電於<b>2026/08/10</b>公告7月自結合併營收670.73億元,較去年同期453.94億元(推算)大增47.75%,再度刷新單月歷史紀錄。前七月累計合併營收4,096.82億元,較去年同期成長42.08%,創歷年同期新高。從7月營收結構來看,<b>電源及零組件業務佔比達57%</b>,為最大營收來源(基礎設施32%、自動化7%、交通4%)。消息公布當日(8/10),股價亮燈漲停至1,815元(+165元,+10.0%)。</div>
 </div>
 <div class="event">
-  <h3>影響傳導路徑</h3>
-  <div class="flow">市場盛傳 <b>NVIDIA 主導的 AI 伺服器 800VDC 架構導入恐遞延至 2028 年之後</b> + 全球 AI 股漲多劇烈修正 → <b>直接打擊 2027 年獲利假設</b>(2027E EPS 共識 59 元,低標僅 41.08,離散度極大)→ 美系外資 7/28 已先行下調目標價 <b>2,480 → 2,280</b>,理由是「成本墊高 + 800V 導入腳步趨緩,未來三年獲利可能受影響」 → 量化幅度:<b>市場尚未完成量化</b>,FactSet 共識(5/2)尚未反映此傳聞。</div>
+  <h3>傳導路徑:AI伺服器功耗持續提升,帶動高階電源與液冷散熱需求同步放量,7月數字是實質兌現而非預期</h3>
+  <div class="flow">台達電近期營運持續受惠全球AI基礎建設快速擴張,尤其AI伺服器功耗持續攀升,帶動高階電源、液冷散熱及資料中心基礎設施需求同步成長。與聯發科的AI ASIC(尚未量產、純屬預期)不同,台達電7月數字**是已經實現的營收貢獻**,電源零組件佔比達57%直接反映AI電源業務已成為公司最大營收引擎,傳導路徑清晰且已通過財務數字驗證。股價自8/7收盤1,650起步,8/10公告當日直接跳空漲停至1,815,隨後8/11~12小幅震盪(1,805→1,790),8/13再度大漲95元(+5.3%)至1,885,8/14持平收在1,885。</div>
 </div>
-<div class="event">
-  <h3>本次事件最關鍵的一件事</h3>
-  <div class="flow"><b>公司口徑與市場交易的是兩件不同的事。</b>法說會上管理層明確重申 800V 於 <b>2027 年進入主要貢獻期</b>——與前次法說一致、並未遞延;但市場交易的是「<b>遞延到 2028 年之後</b>」的傳聞。兩者無法同時為真。因此本檔目前不是在對財報定價(Q2 已創新高卻不漲),而是在對<b>一個尚未被證實、也尚未被否認的時程傳聞</b>定價。後續任何一方被證實,都會是單邊的大幅重估。</div>
-</div>
+
+<h2>事件前後對照表</h2>
 <table>
-  <tr><th>指標</th><th>事件前</th><th>事件後</th><th>變化</th></tr>
-  <tr><td>Q2 EPS</td><td>Q1 7.91 元(前次紀錄)</td><td>9.68 元(創單季新高)</td><td class="green">QoQ +22.4%</td></tr>
-  <tr><td>Q2 淨利</td><td>—</td><td>251.35 億元</td><td class="green">YoY +80.2%</td></tr>
-  <tr><td>美系外資目標價</td><td>2,480</td><td>2,280(7/28,法說前已下調)</td><td class="red">−8.1%</td></tr>
-  <tr><td>歐系外資目標價</td><td>—</td><td>2,750(7/16)</td><td class="green">調升</td></tr>
-  <tr><td>800V 放量時程(公司口徑)</td><td>2027 年</td><td>2027 年(重申未變)</td><td class="amber">不變,但市場傳聞 2028+</td></tr>
-  <tr class="hl"><td>股價</td><td>7/21 收 1,835</td><td>8/4 收 1,620</td><td class="red">−11.7%</td></tr>
-  <tr><td>Forward P/E(2026E)</td><td>46.7x</td><td>41.2x</td><td class="green">壓縮 −11.7%</td></tr>
+  <tr><th>項目</th><th>事件前(8/7,股價1,650)</th><th>事件後(8/14,股價1,885)</th><th>變化</th></tr>
+  <tr><td>7月營收(市場預期)</td><td>市場預期延續6月動能,估算約550~600億區間</td><td>實際670.73億,明顯優於預期</td><td class="green">實質超預期,非僅符合預期</td></tr>
+  <tr><td>FactSet目標價共識</td><td>2,565(21位分析師,此前一度自2,650下修3.21%)</td><td>查無8/10後最新調查更新(需待下次FactSet速報)</td><td class="amber">尚未反映本次營收beat</td></tr>
+  <tr><td>AI電源營收佔比</td><td>查無精確逐月數字</td><td>7月首度揭露達57%</td><td class="green">首次具體量化,確認為最大營收引擎</td></tr>
+  <tr><td>股價</td><td>1,650(8/7)</td><td>1,885(8/14),8/10當日漲停1,815</td><td class="green">+14.2%,一週內顯著重估</td></tr>
 </table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">與台積電、聯發科不同,台達電這次的7月營收是三檔中**唯一觸發漲停反應**的一檔——這代表市場認為670.73億元(YoY+47.75%)明顯超越了原先的預期路徑,而非僅僅驗證既有guidance。FactSet目標價(2,565)是8/10之前的調查結果,尚未反映這次的營收beat,現階段引用時應留意其時效性;本站目標價已根據7月數字上修至1,950(原8/4分析為1,850),反映AI電源動能加速確認,但仍未完全採信FactSet最樂觀端的65.1元(2027E)估值。</div>
 
-<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<h2>① 催化劑分析 — 為什麼漲停?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/07/16</span><b>歐系外資調升目標價至 2,750</b>:看好持續受惠 AI 伺服器電源與資料中心供電需求。</li>
-  <li><span class="date">2026/07/28</span><b>美系外資反向下調目標價 2,480 → 2,280</b>,理由是成本墊高 + 800V 導入腳步趨緩;同日股價隨大盤重挫逾 2,000 點而吞跌停至 1,580。市場另傳台達電與英飛凌敲定<b>約 650 億元碳化矽供貨長約</b>,<b>公司未回應,屬未證實傳聞</b>。</li>
-  <li><span class="date">2026/07/30</span><b>Q2 法說會:營收獲利雙創新高</b>(營收 1,832.56 億 YoY +47.7%、EPS 9.68 元),全年資本支出上看 700 億、AI 營收占比逾 25%,並重申 800V 於 2027 年進入主要貢獻期。</li>
-  <li><span class="date">2026/08/04</span>股價反彈 +2.53% 收 1,620,但仍低於法說會前水位。</li>
-  <li><span class="date">警訊</span>三件事同時成立:(1) 2027E EPS 共識離散度極大(低 41.08 / 中 59 / 高 80.91,高低差近 <b>2 倍</b>),代表連法人對 800V 放量都沒有共識;(2) 全年資本支出 700 億元墊高折舊與自由現金流壓力;(3) 現價 2026E 41.2x 仍高於自身歷史區間 25~35x,便宜與否<b>完全取決於 2027 年</b>。</li>
+  <li><span class="date">2026/06/30</span>Q1法說會:2026年第1季營收優於預期,季增18%;外資調升目標價至2,750元。</li>
+  <li><span class="date">2026年7月</span>股價自7月低點1,425反彈,7月高點2,135,反映AI電源題材持續發酵。</li>
+  <li><span class="date">2026/08/07</span>股價收1,650,7月營收公布前夕。</li>
+  <li><span class="date">2026/08/10</span><b class="green">7月營收670.73億元創單月新高,YoY+47.75%,股價亮燈漲停至1,815</b>:AI電源零組件佔比首度揭露達57%,確認為最大營收引擎;前七月累計營收4,096.82億元,YoY+42.08%創同期新高。</li>
+  <li><span class="date">2026/08/13</span>股價續強,單日+95元(+5.3%)至1,885。</li>
+  <li><span class="date">2026/08/14</span>股價持平收1,885,漲勢略見停滯。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet目標價共識(2,565)是8/10營收公告**之前**的調查結果,尚未反映這次的beat,現階段的「便宜」判斷可能低估了市場消化營收beat後可能出現的目標價上修,但也可能高估了(若共識本就已price in類似幅度的成長);②AI電源佔比57%雖然亮眼,但這代表台達電對單一終端市場(AI資料中心)的集中度正在快速提升,若下游資本支出出現任何放緩訊號,對台達電的衝擊將比過去多元化的業務結構更直接;③8/13大漲後8/14即轉為持平,顯示短線動能可能已階段性反映,追高風險上升。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">「AI 電源王者沒漲完」;持續受惠 AI 伺服器電源與資料中心供電基礎建設需求<div class="src">— 歐系外資/Yahoo 股市,2026/07</div></div>
-    <div class="quote">H1 EPS 17.59 元<b>已超過過去任何一個完整年度</b>,Q2 淨利 YoY +80.2%,基本面創高無爭議</div>
+    <div class="quote">AI伺服器功耗持續提升,帶動高階電源、液冷散熱及資料中心基礎設施需求同步成長,7月營收670.73億元創單月歷史新高是實質驗證。<div class="src">— Newtalk新聞、Yahoo股市,2026/08/10</div></div>
+    <div class="quote">電源及零組件業務佔比達57%,確認台達電已成功轉型為AI基礎建設核心供應商,從零組件供應到系統整合的角色轉換正在兌現。<div class="src">— 豐雲學堂產業視角,2026/08</div></div>
+    <div class="quote">外資上修2026~2028年EPS至41.5、65.1、98.5元,反映對AI電源長期成長軌跡的高度信心。<div class="src">— CMoney投資網誌</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">恐因「成本墊高、加上 800V 電源架構導入腳步趨緩,<b>未來三年獲利可能受到影響</b>」<div class="src">— 美系外資下調目標價至 2,280,2026/07/28</div></div>
-    <div class="quote">市場盛傳 NVIDIA 主導 AI 伺服器 800VDC 架構<b>可能推遲至 2028 年之後</b>落地<div class="src">— 市場傳聞,2026/07~08,未經證實</div></div>
+    <div class="quote">FactSet目標價共識(2,565)是本次營收公告前的調查結果,尚未反映7月的beat,現階段「便宜」的判斷應該打折看待,需等下一次FactSet更新才能確認法人真實反應。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">AI電源佔比快速攀升至57%,代表對單一終端市場的集中度提升,若AI資料中心資本支出出現放緩訊號,衝擊將比過去更直接。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">8/13大漲5.3%後8/14即轉為持平,短線動能可能已階段性反映,此時追高的風險報酬比不佳。<div class="src">— 本儀表板觀察,依TWSE官方股價資料</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>歐系外資(7/16)</td><td class="green">2,750</td><td>AI 伺服器電源與資料中心供電需求</td></tr>
-  <tr><td>FactSet 共識(5/2,23 位分析師)</td><td>2,340</td><td>2026E EPS 中位 39.3(高 44.8/低 32.21)</td></tr>
-  <tr><td>美系大行</td><td>查無目標價數字</td><td>2026~2028E EPS 41.5 / 65.1 / 98.5 元,以 <b>2027 年 42x</b> 評價</td></tr>
-  <tr><td>美系外資(7/28,下調)</td><td class="red">2,280(原 2,480)</td><td>成本墊高 + 800V 導入趨緩,未來三年獲利恐受影響</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">法說會(7/30)後最新一輪法人目標價調整<b>查無</b>,需待未來 1~2 週追蹤;法人買賣超與內部人申報精確數字查無。另有報導稱 AI 營收占比「衝 40%」,與法說口徑「逾 25%」不一致,<b>兩者差異未能釐清</b>,本表採法說口徑。</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(21位分析師,8/10前最新)</td><td class="amber">2,565</td><td>此前一度自2,650下修3.21%,區間1,860~4,500;尚未反映本次7月營收beat</td></tr>
+  <tr><td>美系大行(個別)</td><td colspan="2">上修2026~2028年EPS至41.5/65.1/98.5元</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet目標價區間極寬(1,860~4,500),反映機構間對AI電源長期成長天花板的判斷分歧極大;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -166,71 +164,69 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2 營收</div><div class="value green">1,832.56 億</div><div class="note">YoY +47.7%,創單季新高</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">9.68 元</div><div class="note">創單季新高;H1 累計 17.59 元</div></div>
-  <div class="card"><div class="label">Q2 淨利 YoY</div><div class="value green">+80.2%</div><div class="note">251.35 億元,QoQ +22.3%</div></div>
-  <div class="card"><div class="label">AI 營收占比</div><div class="value">逾 25%</div><div class="note">法說會口徑</div></div>
-  <div class="card"><div class="label">全年資本支出</div><div class="value amber">上看 700 億</div><div class="note">墊高折舊與 FCF 壓力</div></div>
-  <div class="card"><div class="label">EPS 軌跡(共識)</div><div class="value">39.3→59→93.3</div><div class="note">2026E/2027E/2028E,+50%/+58%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">670.73億</div><div class="note">YoY+47.75%,單月歷史新高</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">4,096.82億</div><div class="note">YoY+42.08%,同期新高</div></div>
+  <div class="card"><div class="label">電源及零組件佔比</div><div class="value green">57%</div><div class="note">最大營收來源</div></div>
+  <div class="card"><div class="label">基礎設施佔比</div><div class="value">32%</div><div class="note">資料中心相關</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">19檔,約257億</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">800VDC時程</div><div class="value amber">公司口徑2027 vs 市場傳聞遞延2028後</div><div class="note">此前分析已標註分歧,7月營收未提供新資訊解決此爭議</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與台達電的差異</th></tr>
-  <tr class="hl"><td>2308</td><td>台達電</td><td>TTM 50.29x / 2026E 41.2x</td><td>Q2 營收 YoY +47.7%、淨利 +80.2%</td><td>基準;AI 電源+散熱一體,規模最大、資本支出也最重(700 億)</td></tr>
-  <tr><td>3324</td><td>雙鴻</td><td>查無精確數字</td><td>公司全年指引約 +70%</td><td>純散熱,不做電源;彈性大但無 800V 這條主軸,與台達電是互補而非直接對打</td></tr>
-  <tr><td>2317</td><td>鴻海</td><td>2026E 約 13.9x</td><td>Q2 營收 +39.8%</td><td>AI 伺服器整機代工,同題材但估值僅台達電三分之一——市場付的是「零組件溢價 vs 代工折價」</td></tr>
-  <tr><td>2330</td><td>台積電</td><td>2026E 約 21.2x</td><td>Q2 營收 YoY +36.05%</td><td>同為 AI 資本密集受害/受惠股;成長相近但估值不到台達電一半,是「資本支出疑慮」定價的對照組</td></tr>
-  <tr><td>—</td><td>Vertiv / Eaton(美股同業)</td><td>查無精確數字</td><td>查無</td><td>國際資料中心電源與熱管理指標,本次未取得可比估值,僅列為定性對照</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2027E Forward P/E</th><th>7月營收動能</th><th>與台達電的差異</th></tr>
+  <tr class="hl"><td>2308.TW</td><td>台達電</td><td>約34.3x(現價1,885/EPS55推演)</td><td>YoY+47.75%,單月新高</td><td>AI電源+液冷散熱+基礎設施多元佈局,佔比57%已是最大電源供應商之一</td></tr>
+  <tr><td>2301.TW</td><td>光寶科(參考)</td><td>查無精確Fwd P/E</td><td>同期7月營收同步創高</td><td>電源零組件同業,規模較小,近期同受惠AI電源需求放量</td></tr>
+  <tr><td>2454.TW</td><td>聯發科(本站另篇分析)</td><td>約63.8x</td><td>YoY+12.16%,MoM-16.44%</td><td>IC設計而非電源硬體,AI ASIC尚未量產,與台達電已兌現的AI電源營收性質不同</td></tr>
+  <tr><td>VRT</td><td>Vertiv(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際資料中心基礎設施龍頭</td><td>國際級資料中心電源/散熱基礎設施廠,可作長期評價參照</td></tr>
+  <tr><td>ETN</td><td>Eaton(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際電源管理大廠</td><td>國際電源管理龍頭,AI資料中心供電解決方案部分業務重疊</td></tr>
 </table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——7月營收確認AI電源動能加速,但市場反應(漲停)已部分消化此利多。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">7月營收670.73億元(YoY+47.75%)明顯優於原先市場估算的550~600億區間,AI電源佔比首度量化達57%,確認台達電已從零組件供應商轉型為AI資料中心核心電源供應商。但股價當日即以漲停反應、隨後幾個交易日持續走高逾14%,這代表市場已快速消化這則利多。FactSet目標價共識(2,565)尚未反映這次beat,現階段引用時應理解其時效性落差——現價距此仍有約36%空間,但這個空間的可信度取決於FactSet下次更新是否維持該目標價或跟進調升。</div>
+</div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,620 vs 中值</th></tr>
-  <tr><td>2026E 歷史區間 P/E 25~35x</td><td>自身歷史倍數 × 共識 EPS 39.3</td><td>982~1,376(中值 1,179)</td><td class="red">貴 37.4%</td></tr>
-  <tr><td>2027E P/E 35~42x</td><td>共識 EPS 59 × 倍數(42x 為美系大行明示的評價倍數)。<b>未計時間折現</b></td><td>2,065~2,478(中值 2,272)</td><td class="green">便宜 28.7%</td></tr>
-  <tr><td>券商目標價分布</td><td>美系 2,280(7/28 下調後)、FactSet 共識 2,340、歐系 2,750;取<b>中位數 2,340</b></td><td>2,280~2,750(<b>中位數 2,340</b>)</td><td class="green">便宜 30.8%</td></tr>
-  <tr><td>簡化 DCF r 9~11% / g 2~3%</td><td>以共識 EPS 近似 FCF、三年顯性期(39.3/59/93.3)+ 永續。<b>兩個方向相反的偏誤要同時知道</b>:此法沒把 capex 扣掉,而台達電全年資本支出上看 <b>700 億元</b>,屬資本密集,EPS 高估真實 FCF 的幅度<b>不容忽視</b>(偏樂觀);但永續成長只給 2~3%,對 2027E +50%/2028E +58% 的軌跡明顯保守,終值仍占估值 <b>84~89%</b>。<b>淨效果仍由後者主導,但本股的 capex 偏誤遠大於 fabless 股,故此法的「貴」不宜照單全收</b></td><td>925~1,395(中值 1,160)</td><td class="red">貴 39.7%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,885 vs 中值</th></tr>
+  <tr><td>FactSet目標價共識(需留意時效)</td><td>21位分析師,中位2,565(尚未反映7月beat)</td><td>單點2,565</td><td class="green">便宜 -26.5%</td></tr>
+  <tr><td>2027E P/E×EPS(自身,保守情境)</td><td>EPS約55(較美系大行65.1保守調整,反映AI電源集中度風險),電源硬體結構性成長股倍數25~35x</td><td>1,375~1,925(中值1,650)</td><td class="red">貴 +14.2%</td></tr>
+  <tr><td>2027E P/E×EPS(美系大行估值,對照)</td><td>EPS 65.1(美系大行原始估值),同倍數25~35x</td><td>1,628~2,279(中值1,953,推演)</td><td class="amber">合理 -3.5%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法的分歧<b>完全對齊在同一條時間線上</b>:兩個錨在<b>當年度或更早</b>的方法(歷史倍數、DCF)說貴 37~40%;兩個錨在<b>2027 年</b>的方法(2027E 倍數、券商目標)說便宜 29~31%。與前次(7/21)分析相比,<b>「貴」的幅度已從 65%/51% 收斂到 37%/40%</b>,股價回落確實消化了相當部分的估值透支。但要注意:所有「便宜」的結論都建立在 2027E EPS 59 元之上,而這正是 800VDC 遞延傳聞攻擊的標的——<b>共識低標 41.08 與高標 80.91 相差近 2 倍</b>,連法人自己都沒共識。</div>
-
-<div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——估值透支已大幅消化,但便宜與否 100% 取決於 2027 年 800V。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
-  現價 1,620 對應 2026E P/E <b>41.2x</b>,仍高於自身歷史區間 25~35x,單看今年談不上便宜;但 2027E 已降至 <b>27.5x</b>、2028E 僅 <b>17.4x</b>。與同業比較的特殊情況值得注意:<b>台達電 Q2 營收 YoY +47.7%,台積電 +36.05%,兩者成長同級,但台達電 2026E 41.2x 是台積電 21.2x 的近兩倍</b>——市場對「AI 電源零組件」給的溢價,遠高於對晶圓龍頭。這個溢價要能站得住,唯一支撐是 800V 在 2027 年如期放量。<b>反面證據有兩項:一是全年 700 億元資本支出會實質壓縮自由現金流(這也是唯一的絕對估值法 DCF 給出「貴 39.7%」的部分原因);二是連下調目標價的美系外資都直指「未來三年獲利可能受影響」</b>。好消息是風險報酬結構已較 7/21 明顯改善——當時貴 65%,現在貴 37%。</div>
-</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:AI電源佔比才剛量化至57%,業務結構正快速轉變中,多年期FCF假設在此時點意義有限。三種方法呈現溫和分歧:FactSet目標價(尚未反映本次beat)顯示便宜,保守情境自身本益比顯示略貴,採信美系大行較樂觀EPS估值則顯示大致合理。核心結論是「合理」而非明確的便宜或貴——7月營收的實質利多已有相當部分反映在股價的一週內+14.2%漲幅中。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">由熱轉冷</div><div class="bar"><div style="width:45%;background:var(--amber)"></div></div><div class="note">「法說行情也撐不住」「打破僵局時間點」等討論轉為觀望;6 月以來挫逾 18%,追價意願明顯降溫</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value">目標價 2,340</div><div class="note">23 位(FactSet 5/2);但 7/28 已有美系下調至 2,280、歐系持 2,750,分歧擴大</div></div>
-  <div class="card"><div class="label">2027E 共識離散度</div><div class="value red">低 41.08 / 高 80.91</div><div class="note">高低差近 2 倍,法人對 800V 放量無共識——這是本股最大的不確定來源</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">漲停後追價熱絡,8/14動能略見停滯</div><div class="bar"><div style="width:65%;background:var(--amber)"></div></div><div class="note">8/10漲停、8/13再漲5.3%,但8/14持平顯示短線動能可能階段性反映</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet目標價尚未反映7月beat</div><div class="note">2,565元的調查時點早於8/10營收公告</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收確認→AI電源佔比57%→2027E EPS 55~65.1(來源不一)</div><div class="note">下次FactSet更新是否跟進上修是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026E</td><td>32.21 / 39.3 / 44.8</td><td>25~35x(自身歷史區間)</td><td>982~1,376(中值 1,179)</td><td class="red">−27.2%</td></tr>
-  <tr><td>2027E</td><td>41.08 / 59 / 80.91</td><td>30~38x</td><td>1,770~2,242(中值 2,006)</td><td class="green">+11.3%/年</td></tr>
-  <tr><td>2028E</td><td>83.3 / 93.3 / 151.63</td><td>25~30x</td><td>2,332~2,799(中值 2,566)</td><td class="green">+16.6%/年</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,美系大行估值)</td><td>41.5(單點,查無低高區間)</td><td>25~35x</td><td>1,037~1,452(中值1,245)</td><td class="red">約 -34%</td></tr>
+  <tr><td>2027(+1年,兩情境並列)</td><td>55(保守)/65.1(美系大行樂觀)</td><td>25~35x</td><td>1,375~2,279(中值1,827)</td><td class="amber">約 -2%/年(保守) ~ 約 +2%/年(樂觀)</td></tr>
+  <tr><td>2028(+2年,美系大行估值)</td><td>98.5(單點,查無低高區間)</td><td>20~28x</td><td>1,970~2,758(中值2,364)</td><td class="green">約 +8%/年</td></tr>
 </table>
-<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">三年共識皆有完整低/中/高,可看出離散度逐年放大(2026 高低差 39%、2027 近 2 倍、2028 近 1.8 倍)——時間越遠、分歧越大,正是 800V 時程未定的直接反映。上表為 FactSet 5/2 快照,尚未反映 7/30 法說會與遞延傳聞。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為顯著負值,反映現價已大幅超越美系大行的2026年EPS估值(41.5元)所隱含的合理區間,顯示市場定價已將主要成長預期前移至2027、2028年;2027年在保守與樂觀情境間報酬幾乎持平,凸顯EPS假設本身的不確定性;2028年轉為明確正報酬但信度取決於AI電源需求能否延續高速成長至那時點。</div>
 
 <h2>四種股價情境</h2>
+<!-- 刻度 900~2800;left% = (價格-900)/1900×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:12.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,150~1,320</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:34.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,650~2,000</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:62.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,450~2,750</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:26.8%"><div class="arrow">▲</div><div class="price">1,620</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:16.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,250~1,400</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:35.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,700~1,950</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,300~2,550</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">2,700~2,800</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:51.8%"><div class="arrow">▲</div><div class="price">1,885</div><div class="lbl">現價</div></div>
 </div>
 <table>
-  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
-  <tr><td class="red">Bear</td><td>1,150~1,320</td><td>800VDC 遞延至 2028 年後獲證實,2027E EPS 下修至共識低標 41.08 附近,倍數同步壓到 28~32x</td><td class="red">−29.0%~−18.5%</td></tr>
-  <tr><td class="amber">Base</td><td>1,650~2,000</td><td>800V 維持 2027 放量但節奏溫和,2027E EPS 共識 59 元不變,市場給 28~34x</td><td class="amber">+1.9%~+23.5%</td></tr>
-  <tr><td class="green">Bull</td><td>2,450~2,750</td><td>800V 如期 2027 放量 + AI 營收占比續升,2027E EPS 上修至美系大行的 65.1 元,給 38~42x;貼近歐系目標 2,750</td><td class="green">+51.2%~+69.8%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched Bull</td><td>3,300</td><td>2028E EPS 93.3~98.5 提前計入,給 30~35x 並打時間折現</td><td class="green">+103.7%</td></tr>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>1,250~1,400</td><td>AI資料中心資本支出出現放緩訊號,或800VDC時程確認遞延至2028年後,2027E EPS低值×25~26x</td><td class="red">約 -30%</td></tr>
+  <tr><td class="amber">Base</td><td>1,700~1,950</td><td>AI電源動能延續但無驚喜,FactSet後續調查跟進小幅上修;現價落於此區間內</td><td>約 -3%</td></tr>
+  <tr><td class="green">Bull</td><td>2,300~2,550</td><td>800VDC如公司口徑2027年放量、液冷散熱訂單加速,美系大行2027E EPS 65.1獲驗證</td><td class="green">約 +29%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>2,700~2,800</td><td>AI電源需求延續高速成長至2028年,98.5元EPS估值提前反映,重返並超越今年高點2,585</td><td class="green">約 +46%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -239,36 +235,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">1,520~1,580</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">1,350~1,420</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">1,150~1,250</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">1,650~1,750</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,500~1,620</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,350~1,470</td><td>40%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">階梯依據:第一批為 7/28 跌停低點與 8/3 收盤 1,580、8/4 低點 1,520 構成的支撐帶;第二批為該帶失守後的下一層;第三批落在 Bear 區間內。<br><br>硬停損:收盤跌破 <b class="red">1,100</b> 無條件出場 = 對應「800VDC 確認遞延至 2028 年後<b>且</b>2027E EPS 下修至低標 41.08 以下」,代表 AI 電源的成長時程整體往後推一年以上,投資邏輯失效,而非單純估值波動。</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,300</b>(明顯低於8月低點區間)= AI資料中心資本支出實質放緩或800VDC時程確認遞延,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收在 <b>1,680</b> 之上(8/4 當日最高,為明確壓力),量能同步放大,且<b>800VDC 時程出現官方或供應鏈明確澄清</b>(此為本股右側進場的必要條件,純技術突破不算數)<br>
-    進場區:<b class="green">1,680~1,760</b><br>
-    移動停利:跌破 10 日線或自高點回檔 10%<br>
-    假突破失效:突破後 5 日內跌回 1,600 以下即出場</div>
+    觸發條件:收盤突破1,975(近期高點)+量能確認,且FactSet後續調查正式跟進上修目標價<br>
+    進場區:<b class="green">1,980~2,100</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回1,930即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,000</div><div class="note">賣出 25~50%;Base 區間上緣,對應 2027E 約 34x</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,450~2,750</div><div class="note">Bull 區間,涵蓋共識目標 2,340 與歐系 2,750;此後留倉才是押 Stretched</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,300~2,550</div><div class="note">賣出30~50%;Bull下緣,AI電源結構性成長股高檔仍應紀律分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,700~2,800</div><div class="note">Stretched區/重返今年高點附近;續抱條件是800VDC如期2027年放量、AI電源佔比持續提升不見放緩</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件</b>:7/30 法說會交出 Q2 營收 1,832.56 億(YoY +47.7%)、EPS 9.68 元雙創新高,H1 EPS 17.59 元已超過過去任何全年;但股價自 7/21 的 1,835 跌到 8/4 的 1,620(−11.7%),期間一度吞跌停——<b>財報創高卻換來股價下跌</b>。</div>
-<div class="concl">① <b>催化劑</b>:下跌的真正原因不是財報,而是市場盛傳 <b>NVIDIA 主導的 800VDC 架構恐遞延至 2028 年之後</b>,美系外資 7/28 已先行下調目標價至 2,280;但很少人討論的是,<b>公司在法說會上重申 800V 仍於 2027 年進入主要貢獻期、口徑並未改變</b>——市場交易的傳聞與公司口徑無法同時為真,這才是後續單邊重估的引信。</div>
-<div class="concl">② <b>估值</b>:如果你相信 800V 在 2027 年如期放量,那麼現價相較同業屬於<b>合理偏低</b>(2027E 僅 27.5x、2028E 17.4x,券商目標中位 2,340 有 +44% 空間);但只看今年,2026E 的 41.2x 仍高於自身歷史 25~35x,<b>更是成長同級的台積電(21.2x)近兩倍</b>——四法呈現「當年度說貴 37~40%、2027 年說便宜 29~31%」的分歧,不過「貴」的幅度已較 7/21 的 65%/51% 明顯收斂。</div>
-<div class="concl">③ <b>結論</b>:這是一筆<b>逢回分批的中長期投資</b>,原因是估值透支已消化過半、基本面創高無爭議,風險報酬結構較前次分析明顯改善;但 800V 時程是唯一且致命的變數(2027E 共識低標與高標相差近 2 倍),故不宜在現價追價,建議依左側階梯自 1,520~1,580 起分批,右側則必須等 800VDC 時程明確澄清才進場,並嚴守 1,100 的邏輯失效停損。</div>
+<div class="concl">① <b>事件影響</b>:8/10公布7月營收670.73億元(YoY+47.75%)創單月歷史新高,明顯優於市場原先估算,AI電源零組件佔比首度量化達57%確認為最大營收引擎,股價當日亮燈漲停至1,815;隨後一週內續漲至1,885(+14.2%),8/13單日再漲5.3%後8/14轉為持平,顯示短線動能可能已階段性反映利多。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet目標價共識(2,565)是本次營收beat之前的調查結果,尚未反映最新動能,現階段引用需留意時效落差;自身本益比法在保守與樂觀EPS情境間顯示從略貴到大致合理,核心結論是「利多已有相當部分反映在股價漲幅中」,而非明確的低估機會。AI電源佔比快速攀升至57%也代表對單一終端市場的集中度提升,是需要持續追蹤的結構性風險。</div>
+<div class="concl">③ <b>結論</b>:等回檔、不宜追高——現價1,885落於Base區間內,上檔Bull +29%/Stretched +46%對下檔Bear -30%;本站目標價已從8/4分析的1,850上修至1,950,反映7月數字確認的動能加速,但漲幅已部分兌現,左側倉位應等回檔至1,750以下再分批,收盤跌破1,300即AI資料中心資本支出實質放緩或800VDC時程確認遞延,無條件出場。下一個驗證點是FactSet下次調查是否跟進上修目標價。</div>
 
 <footer>
-資料時間:股價 2026/08/04 收盤;Q2 財報與法說會內容 2026/07/30;外資目標價 2026/07/16(歐系)、2026/07/28(美系下調);FactSet 共識 EPS 與目標價 2026/05/02(法說會後更新查無)。<br>
-主要來源:Yahoo 股市、鉅亨網、工商時報/時報資訊、CMoney 投資網誌、豐雲學堂、vocus、StockFeel 股感。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。800VDC 遞延與英飛凌碳化矽長約<b>均為未經證實的市場傳聞</b>,公司未回應。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(財報狗、鉅亨網、Yahoo股市、Newtalk新聞,2026/08/10公告);Q1法說會(工商時報,2026/06/30);FactSet共識目標價(鉅亨網速報,2026/08/10前最新2,565元,尚未反映本次營收beat);美系大行EPS估值(CMoney投資網誌,41.5/65.1/98.5元);AI電源與液冷散熱產業視角(豐雲學堂,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;800VDC確切時程(公司vs市場傳聞分歧未解)、FactSet 8/10後最新調查、精確發行股數查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、財報狗、鉅亨網(FactSet速報)、Yahoo股市、Newtalk新聞、工商時報、CMoney投資網誌、豐雲學堂。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確標註FactSet目標價的時效落差,不應僅採信對多方有利的舊數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

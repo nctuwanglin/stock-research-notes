@@ -160,43 +160,43 @@
     "name": "聯發科",
     "market": "twse",
     "file": "2454-mediatek-event.html",
-    "analysis_date": "2026-08-04",
-    "analysis_price": 3865.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 4210.0,
     "tags": [
       "IC設計"
     ],
     "target": 4400,
     "stop": 2750,
-    "basis": "四情境Base中值;AI ASIC 2027放量尚未量化",
+    "basis": "FactSet共識目標價3,370為主要錨點,給予Q4 AI ASIC量產前適度溢價至4,400,不採信高盛7,000/花旗6,800等個別樂觀情境",
     "rating": "hold"
   },
   "2330": {
     "name": "台積電",
     "market": "twse",
     "file": "2330-tsmc.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 2370.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 2395.0,
     "tags": [
       "晶圓代工"
     ],
     "target": 2800,
     "stop": 1900,
-    "basis": "2027E EPS 約138 × 20x(龍頭質感溢價)",
+    "basis": "2027E EPS約138.6(元大/花旗均值) × 20x(龍頭質感溢價);7月營收beat未改變估值錨點",
     "rating": "buy"
   },
   "2308": {
     "name": "台達電",
     "market": "twse",
     "file": "2308-delta-event.html",
-    "analysis_date": "2026-08-04",
-    "analysis_price": 1620.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1885.0,
     "tags": [
       "電源",
       "散熱"
     ],
-    "target": 1850,
-    "stop": 1100,
-    "basis": "四情境Base中值;800VDC時程未定不給Bull",
+    "target": 1950,
+    "stop": 1300,
+    "basis": "2027E EPS約55(較FactSet樂觀估值65.1保守調整) × 30x(AI電源結構性成長溢價);較8/4分析上修,反映7月營收確認動能加速",
     "rating": "hold"
   },
   "2317": {
