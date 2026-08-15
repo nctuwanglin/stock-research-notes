@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>友達 (2409) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>友達 (2409) <span class="badge amber">估值:大致合理,略偏貴</span> <span class="badge amber">結論:中性,雙軸轉型驗證中</span><span class="autodispo" data-code="2409"></span></h1>
+<div class="sub">台股(TWSE)・TFT-LCD面板,雙軸轉型Mobility Solutions車用/Vertical Solutions智慧場域|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2409">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">22.5</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2409">現價 <b>25.8</b> → 目標價 <b>23.7</b><span class="down"> (-8.1%)</span></div>
+  <div class="vbasis">推導依據:FactSet最新目標價23.7(2026E EPS中位0.13),雖較前次調查25下修5.2%,惟已反映Q2轉盈後的最新共識,且已低於現價25.80,顯示分析師對雙軸轉型速度的態度轉趨保守;現價落於FactSet目標價與Base情境之間,風險報酬中性</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">25.80</div><div class="note">2026/08/14 收盤;8月區間高點26.9</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.18</div><div class="note">Q1虧損(EPS-0.15)後轉盈</div></div>
+  <div class="card"><div class="label">Q2營收QoQ</div><div class="value green">+2.7%</div><div class="note">毛利率13%</div></div>
+  <div class="card"><div class="label">FactSet 2026E EPS共識</div><div class="value amber">0.13</div><div class="note">中位數,較Q2實績0.18保守</div></div>
+  <div class="card"><div class="label">FactSet目標價</div><div class="value amber">23.7</div><div class="note">較前次25下修5.2%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">14.8~30.5</div><div class="note">1月低、5月高(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q1虧轉Q2盈,雙軸轉型分軌驗證中</h2>
+<div class="event">
+  <h3>事件摘要:Q2 EPS由虧轉盈至0.18元,惟FactSet最新目標價同步下修5.2%至23.7</h3>
+  <div class="flow">友達Q1單季每股虧損0.15元,Q2轉為每股盈餘0.18元,單季營收季增2.7%,毛利率提升至13%。公司近期持續推動「雙軸轉型」策略:傳統Display顯示器本業季增僅0.3%,成長動能主要來自Mobility Solutions(車用/移動解決方案,季增3%)與Vertical Solutions(智慧場域垂直解決方案,季增11%)兩大新事業群。儘管Q2財報顯示獲利改善,FactSet最新調查(反映Q2財報後)顯示分析師共識目標價從先前的25元下修至23.7元(降幅5.2%),2026年EPS共識中位數為0.13元,低於Q2單季實績0.18元的年化水準,顯示機構法人對獲利改善的可持續性仍持保留態度。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:Q1虧損 → Q2轉盈(Display持平,Mobility+3%,Vertical+11%驅動) → FactSet認可獲利改善方向但目標價仍下修 → 市場對雙軸轉型能否抵銷Display本業成長停滯持保留態度</h3>
+  <div class="flow">友達這次財報最值得關注的訊號不是「轉盈」本身,而是**成長來源的結構**:傳統顯示器本業(Display)季增僅0.3%,幾乎停滯,真正驅動獲利改善的是Mobility Solutions(車用,季增3%)與更快成長的Vertical Solutions(智慧場域垂直解決方案,季增11%)。這與同業群創(3481)類似,都在推動「非顯示器」業務轉型,但友達的轉型故事相對務實:Q2實績確實優於Q1,且沒有出現群創那種大量一次性業外收益墊高獲利的情況,獲利品質相對乾淨。然而FactSet分析師在看到Q2實績後,仍將目標價從25下修至23.7,顯示機構法人認為即使轉盈,雙軸轉型的成長速度仍不足以支撐更高的估值倍數——這是一個獲利品質健康但成長故事仍需時間驗證的案例,與群創「獲利品質存疑但故事激情」形成鮮明對比。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後)</th><th>事件後(Q2財報後)</th></tr>
+    <tr><td>單季EPS</td><td class="red">-0.15(Q1虧損)</td><td class="green">+0.18(Q2轉盈)</td></tr>
+    <tr><td>營收QoQ</td><td>查無(Q1基期)</td><td class="green">+2.7%</td></tr>
+    <tr><td>毛利率</td><td>查無精確值</td><td class="amber">13%</td></tr>
+    <tr><td>FactSet目標價</td><td>25</td><td class="amber">23.7(下修5.2%,惟已反映Q2實績)</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>查無精確值</td><td class="amber">0.13(中位,較Q2實績0.18保守)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼有起伏?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年Q1</span>單季每股虧損0.15元,延續面板業淡季壓力。</li>
+  <li><span class="date">2026年初~5月</span>股價從年初低點14.8上漲至5月高點30.5,反映面板循環回溫預期。</li>
+  <li><span class="date">2026年Q2</span><b class="green">單季轉盈,EPS+0.18元</b>,營收季增2.7%,毛利率升至13%;Mobility Solutions(+3%)與Vertical Solutions(+11%)是主要成長驅動,Display本業僅+0.3%。</li>
+  <li><span class="date">2026年8月</span>FactSet最新調查:目標價自25下修至23.7(降幅5.2%),已低於現價25.80。</li>
+  <li><span class="date">2026/08/10~14</span>股價於25.5~26.9區間震盪,8月區間高點26.9。</li>
+  <li><span class="date">觀察重點</span>雙軸轉型(Mobility+Vertical)能否持續以雙位數成長抵銷Display本業的成長停滯,是後續驗證的核心;FactSet下修目標價顯示機構法人目前傾向保守看待這個轉型速度。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2單季由虧轉盈,EPS0.18元,營收季增2.7%,毛利率提升至13%,獲利改善方向明確且未見一次性業外收益墊高的疑慮。<div class="src">— 友達Q2財報整理</div></div>
+    <div class="quote">雙軸轉型策略中,Vertical Solutions(智慧場域垂直解決方案)季增達11%,是成長最快的事業群,顯示新事業拓展初見成效。<div class="src">— 友達法說會整理</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">FactSet分析師在看到Q2轉盈實績後,仍將目標價從25下修至23.7,顯示機構法人對轉型成長速度能否持續加快抱持保留態度。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
+    <div class="quote">Display傳統本業季增僅0.3%,幾乎停滯,雙軸轉型的Mobility與Vertical兩事業群規模仍小,短期內難以完全抵銷本業動能放緩。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(反映Q2財報後最新調查)</td><td class="amber">23.7</td><td>2026E EPS共識中位0.13,較前次調查(25)下修5.2%</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet前次調查(Q1財報後)目標價為25,作為對照;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2409"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-91,846</span></td><td>4/10</td><td><span class="green">+4,298</span></td></tr><tr><td>投信</td><td><span class="green">+2,020</span></td><td>3/10</td><td><span class="red">-50</span></td></tr><tr><td>自營商</td><td><span class="green">+2,495</span></td><td>5/10</td><td><span class="green">+1,852</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-87,328</span></td><td>4/10</td><td><span class="green">+6,101</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+4,298</span></td><td><span class="red">-50</span></td><td><span class="green">+1,852</span></td><td><span class="green">+6,101</span></td></tr><tr><td>08/13</td><td><span class="red">-7,686</span></td><td><span class="red">-49</span></td><td><span class="red">-387</span></td><td><span class="red">-8,121</span></td></tr><tr><td>08/12</td><td><span class="red">-5,805</span></td><td><span class="red">-1</span></td><td><span class="green">+211</span></td><td><span class="red">-5,594</span></td></tr><tr><td>08/11</td><td><span class="red">-56,259</span></td><td><span class="green">+113</span></td><td><span class="red">-4,327</span></td><td><span class="red">-60,473</span></td></tr><tr><td>08/10</td><td><span class="green">+4,575</span></td><td><span class="red">-10</span></td><td><span class="green">+33</span></td><td><span class="green">+4,598</span></td></tr><tr><td>08/07</td><td><span class="green">+13,144</span></td><td><span class="red">-2</span></td><td><span class="green">+4,462</span></td><td><span class="green">+17,605</span></td></tr><tr><td>08/06</td><td><span class="red">-9,825</span></td><td><span class="red">-29</span></td><td><span class="green">+3,048</span></td><td><span class="red">-6,806</span></td></tr><tr><td>08/05</td><td><span class="red">-29,375</span></td><td>+0</td><td><span class="red">-1,381</span></td><td><span class="red">-30,757</span></td></tr><tr><td>08/04</td><td><span class="green">+10,988</span></td><td><span class="green">+733</span></td><td><span class="red">-745</span></td><td><span class="green">+10,976</span></td></tr><tr><td>08/03</td><td><span class="red">-15,901</span></td><td><span class="green">+1,315</span></td><td><span class="red">-271</span></td><td><span class="red">-14,857</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.18</div><div class="note">由Q1虧損0.15轉盈</div></div>
+  <div class="card"><div class="label">Q2營收QoQ</div><div class="value green">+2.7%</div><div class="note">毛利率13%</div></div>
+  <div class="card"><div class="label">雙軸轉型分項QoQ</div><div class="value">Mobility+3%/Vertical+11%</div><div class="note">Display本業僅+0.3%,近乎停滯</div></div>
+  <div class="card"><div class="label">FactSet 2026E EPS共識</div><div class="value amber">0.13</div><div class="note">中位,較Q2實績0.18保守</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">2檔,約4.1億</div><div class="note">規模中等偏小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">FactSet目標價</div><div class="value amber">23.7</div><div class="note">已低於現價25.80</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>近況動能</th><th>與友達的差異</th></tr>
+  <tr class="hl"><td>2409.TW</td><td>友達</td><td>FactSet目標價23.7,已低於現價,估值訊號相對明確且無獲利品質疑慮</td><td>Q1虧損Q2轉盈,雙軸轉型逐步驗證</td><td>TFT-LCD面板轉型雙軸(Mobility車用/Vertical智慧場域),獲利改善路徑相對乾淨</td></tr>
+  <tr><td>3481.TW</td><td>群創(本站另篇分析)</td><td>循環股常態P/E應為個位數至十餘倍,現價隱含倍數遠高於此常態區間</td><td>H1 EPS0.77大幅含三筆賣廠業外收益197億,本業獲利品質存疑</td><td>同屬TFT-LCD面板廠,惟H1實績遠超FactSet估值(27)且獲利品質存疑,估值風險遠高於友達</td></tr>
+  <tr><td>—</td><td>TFT-LCD面板族群整體(參考)</td><td>傳統上屬於低本益比循環股</td><td>普遍受品牌廠拉貨節奏與循環景氣影響</td><td>友達是兩檔面板股中估值訊號相對健康、FactSet目標價與現價落差較小的一檔</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:大致合理,略偏貴——FactSet目標價已反映Q2實績且低於現價,顯示上檔空間有限。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">友達Q2轉盈且未見一次性業外收益墊高獲利,基本面訊號相對乾淨;FactSet最新調查(23.7)已納入Q2實績考量,較現價25.80低約8.1%,顯示分析師認可獲利改善方向但對雙軸轉型速度仍偏保守。傳統Display本業季增僅0.3%接近停滯,真正的成長引擎(Mobility、Vertical)規模尚小,若後續季度未能延續Q2的雙位數成長,現價的合理性將受考驗;反之若Vertical Solutions維持雙位數成長並帶動毛利率進一步提升,則現價仍有評價向上修正的空間。整體屬於「基本面健康、估值中性、方向待驗證」的類型。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價25.80 vs 中值</th></tr>
+  <tr><td>FactSet共識目標價法</td><td>目標價23.7(反映Q2財報後最新調查)</td><td>23.7(單點)</td><td class="red">貴 8.9%</td></tr>
+  <tr><td>循環股常態P/E×Q2年化EPS(推演)</td><td>Q2 EPS0.18×4=0.72(假設全年維持Q2水準),循環股常態倍數8~15x</td><td>5.8~10.8(中值8.3,推演)</td><td class="red">貴 210.8%</td></tr>
+  <tr><td>P/E×FactSet 2026E EPS共識</td><td>EPS0.13,循環股常態倍數8~15x,惟成長題材可略給溢價至18x</td><td>1.0~2.3(8~18x,中值1.7)</td><td class="red">貴 1417.6%(對照情境,凸顯純本業P/E法對轉型股的侷限)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:面板循環股獲利波動本質上劇烈,加上友達雙軸轉型仍處早期驗證階段,多年期FCF假設缺乏可靠基礎。三種方法呈現明顯分歧:FactSet共識法(反映機構法人綜合考量轉型題材後的判斷)顯示現價僅溫和偏貴(8.9%),但純本業P/E法(未考慮轉型題材價值)則顯示現價大幅偏貴。這個分歧本身就是重要訊息——市場定價已隱含相當程度的雙軸轉型溢價,若後續季度未能持續驗證Mobility/Vertical的雙位數成長,估值有向純本業P/E方向回歸的風險;但若轉型持續兌現,FactSet的溫和偏貴判斷更具參考價值。以最貼近機構法人綜合判斷的FactSet共識法作為主要依據,現價僅溫和偏貴,故整體評等維持中性而非觀望。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">Q2轉盈後情緒轉趨正面,惟FactSet同步下修目標價形成牽制</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">股價年初以來波動大(14.8~30.5),現價落於區間中段偏上</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet目標價23.7,低於現價</div><div class="note">較前次25下修5.2%,已反映Q2財報後的最新判斷</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value green">Q1虧損→Q2轉盈,方向正確且獲利品質健康</div><div class="note">Q3能否延續Mobility/Vertical雙位數成長是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>0.13(FactSet中位) / 0.72(Q2年化,推演)</td><td>8~18x</td><td>1.0~13.0(區間極寬,反映轉型題材與純本業判斷的分歧)</td><td class="red">查無精確共識,不強行推演單一數字</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS假設區間極寬(FactSet保守中位0.13 vs Q2單季年化推演0.72),反映機構法人與短期財報實績之間對「雙軸轉型能否持續」判斷分歧巨大,不宜用單一數字強行推演報酬率;2027、2028年因轉型故事仍處早期,查無共識,不硬湊。這條路徑最重要的啟示是:友達的估值高度取決於Q3、Q4能否驗證Mobility/Vertical的成長是否可持續,而非單純的本業循環週期。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 14~32;left% = (價格-14)/18×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:23.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">17~19</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:47.1%"><div class="lbl">Base(6~12月)</div><div class="price amber">22~25</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:69.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">27~30</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">31.5~33.5</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:64.7%"><div class="arrow">▲</div><div class="price">25.80</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>17~19</td><td>雙軸轉型成長放緩,Q3恢復虧損或Display本業進一步惡化,估值回歸循環股常態偏低區間</td><td class="red">約 -30%</td></tr>
+  <tr><td class="amber">Base</td><td>22~25</td><td>Q3延續Q2溫和獲利,惟Mobility/Vertical成長未再加速;現價落於此區間上緣附近</td><td class="red">約 -9%</td></tr>
+  <tr><td class="green">Bull</td><td>27~30</td><td>Mobility/Vertical維持雙位數成長且帶動毛利率提升,FactSet目標價上修</td><td class="green">約 +10%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>31.5~33.5</td><td>雙軸轉型成長顯著加速並帶動評價重估,重返並超越5月高點30.5</td><td class="green">約 +26%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">22~23.5</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">19.5~21.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">17~19.4</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">22.5</b>(Base區間下緣)= Q3獲利改善不如預期,雙軸轉型故事需重新評估,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破26.9(8月區間高點)+量能確認,且Q3財報驗證Mobility/Vertical成長延續<br>
+    進場區:<b class="green">27~28.5</b><br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回25.80即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">27~30</div><div class="note">賣出25~40%</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">31.5~33.5</div><div class="note">賣出剩餘部位,除非Q4財報再次驗證雙軸轉型加速</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:Q2單季轉盈至EPS0.18元(Q1為虧損0.15元),營收季增2.7%,毛利率升至13%,雙軸轉型中Mobility Solutions(+3%)與Vertical Solutions(+11%)是主要成長驅動;惟FactSet最新調查將目標價自25下修至23.7,顯示機構法人認可獲利改善方向但對轉型速度仍偏保守。</div>
+<div class="concl">① <b>催化劑</b>:雙軸轉型策略(Mobility車用+Vertical智慧場域)是股價的核心成長敘事,Q2實績已初步驗證方向正確,惟傳統Display本業季增僅0.3%接近停滯,轉型能否持續以雙位數成長抵銷本業放緩是後續觀察重點。</div>
+<div class="concl">② <b>估值</b>:大致合理、略偏貴——以最貼近機構法人綜合判斷的FactSet共識目標價(23.7)為主要依據,現價25.80僅溫和偏貴約8.9%;惟若改用純本業P/E法(未計入轉型溢價),現價偏貴幅度將大幅擴大,顯示市場已為轉型題材付出一定程度的估值溢價。</div>
+<div class="concl">③ <b>結論</b>:中性、雙軸轉型驗證中——現價落於Base情境上緣,上檔Bull +10%/Stretched +26%對下檔Bear -30%,風險報酬大致平衡但略偏保守方向;適合既有持股者續抱觀察,新資金建議等待Base區間(22~25)分批進場或等Q3財報驗證轉型成長延續性後再評估右側進場。收盤跌破22.5即無條件出場。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q1/Q2財報與雙軸轉型分項數字(友達法說會與財報整理,2026/08);FactSet共識EPS/目標價(鉅亨網FactSet速報,反映Q2財報後最新調查,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027、2028年EPS低高標共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、友達法說會與財報公告、鉅亨網FactSet速報。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

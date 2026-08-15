@@ -20,12 +20,6 @@
       "approx": true
     },
     {
-      "date": "2026-08-14",
-      "code": "8027",
-      "event": "Q2 財報:是否轉虧為盈(股東會被追問的核心問題)",
-      "approx": true
-    },
-    {
       "date": "2026-10-15",
       "code": "2408",
       "event": "Q3 法說會:79.5% 毛利率與 ASP 漲勢的持續性",
@@ -473,6 +467,30 @@
       "date": "2026-11-10",
       "code": "6770",
       "event": "Q3財報:驗證新任執行長策略方向,及記憶體缺貨循環能否延續至外資樂觀EPS估值8.61",
+      "approx": true
+    },
+    {
+      "date": "2026-09-10",
+      "code": "3481",
+      "event": "8月營收:Q2品牌拉貨力道趨緩(QoQ-4.4%)是否延續,以及是否有更多一次性業外收益細節揭露",
+      "approx": true
+    },
+    {
+      "date": "2026-10-15",
+      "code": "3481",
+      "event": "Q3法說會:剔除賣廠業外收益後的本業獲利能否驗證改善,FOPLP扇出型封裝實際訂單貢獻",
+      "approx": true
+    },
+    {
+      "date": "2026-09-10",
+      "code": "2409",
+      "event": "8月營收:雙軸轉型(Mobility/Vertical)成長動能是否延續",
+      "approx": true
+    },
+    {
+      "date": "2026-10-15",
+      "code": "2409",
+      "event": "Q3法說會:Mobility Solutions與Vertical Solutions能否維持雙位數季增,驗證FactSet目標價假設",
       "approx": true
     }
   ]

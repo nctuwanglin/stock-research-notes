@@ -104,14 +104,14 @@
     "name": "鈦昇",
     "market": "tpex",
     "file": "8027-eandr.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 172.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 186.5,
     "tags": [
       "設備"
     ],
     "target": 130,
-    "stop": 85,
-    "basis": "唯一券商目標價133;仍虧損無法用P/E",
+    "stop": 158.5,
+    "basis": "唯一公開券商目標價133(查無Q2財報後更新);Q2 EPS-0.24較Q1-0.22進一步惡化,虧損股禁用P/E",
     "rating": "avoid"
   },
   "8150": {
@@ -587,5 +587,35 @@
     "stop": 417,
     "basis": "法人法說後目標價下修至600(惟維持買進評等),本土法人估2026/2027年EPS 11.50/21.45;惟需留意鴻海集團7/20處分持股554.4萬股與法人揭露的三大壓力(摺疊機出貨遞延、研發投入、2027年起折舊墊高)",
     "rating": "buy"
+  },
+  "3481": {
+    "name": "群創",
+    "market": "twse",
+    "file": "3481-innolux.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 50.1,
+    "tags": [
+      "面板",
+      "顯示器"
+    ],
+    "target": 27,
+    "stop": 43.8,
+    "basis": "FactSet共識目標價27(5月調查,已過時);H1 EPS0.77含三筆賣廠業外收益197億,本業獲利品質存疑,循環股常態P/E法下明顯偏貴",
+    "rating": "avoid"
+  },
+  "2409": {
+    "name": "友達",
+    "market": "twse",
+    "file": "2409-auo.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 25.8,
+    "tags": [
+      "面板",
+      "顯示器"
+    ],
+    "target": 23.7,
+    "stop": 22.5,
+    "basis": "FactSet最新目標價23.7(反映Q2財報後,較前次25下修5.2%);Q2轉盈EPS0.18,雙軸轉型(Mobility/Vertical)驗證中,估值中性略偏貴",
+    "rating": "hold"
   }
 }
