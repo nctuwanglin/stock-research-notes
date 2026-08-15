@@ -90,15 +90,15 @@
     "name": "雙鴻",
     "market": "tpex",
     "file": "3324-auras.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 944.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1010.0,
     "tags": [
       "散熱"
     ],
-    "target": 1050,
-    "stop": 700,
-    "basis": "四情境Base中值;全年+70%財測待Q2驗證",
-    "rating": "hold"
+    "target": 1400,
+    "stop": 810,
+    "basis": "FactSet共識目標價1400(16家法人共識,2026E EPS中位57.97,50.3~62.6);與8/5分析目標價1050相比大幅上修,反映7月營收37.65億(YoY+116.70%)驗證GB系列加單動能",
+    "rating": "buy"
   },
   "8027": {
     "name": "鈦昇",
@@ -513,5 +513,34 @@
     "stop": 36,
     "basis": "2026E EPS約3.0(推演:H1實績1.18+H2保守外推) × 14~15x(AI伺服器轉型初期,較同業折價);公開FactSet目標價31.75已明顯過時(法說前舊資料),不採為主要依據",
     "rating": "hold"
+  },
+  "3017": {
+    "name": "奇鋐",
+    "market": "twse",
+    "file": "3017-avc.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 3235.0,
+    "tags": [
+      "散熱"
+    ],
+    "target": 3140,
+    "stop": 2625,
+    "basis": "FactSet共識目標價3140(2026E EPS共識93.75,19位分析師);現價3235已略高於此目標價,個別機構仍有更樂觀目標(大摩3333/澳系3600)但美銀(3090)已被超越,顯示法人共識與股價已相當接近",
+    "rating": "hold"
+  },
+  "6805": {
+    "name": "富世達",
+    "market": "twse",
+    "file": "6805-fositek.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1805.0,
+    "tags": [
+      "散熱",
+      "連接器"
+    ],
+    "target": 2600,
+    "stop": 1340,
+    "basis": "FactSet共識目標價2600(2026E EPS共識66.52,11位分析師);惟此調查早於Q2財報(摺疊機出貨不如預期導致QoQ下滑),核心水冷快接頭業務未受影響,7月營收MoM+12.75%驗證H2動能回升",
+    "rating": "buy"
   }
 }

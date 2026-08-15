@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奇鋐 (3017) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>奇鋐 (3017) <span class="badge amber">估值:合理(現價已接近FactSet共識目標價)</span> <span class="badge amber">結論:中性,好公司但現價已充分反映</span><span class="autodispo" data-code="3017"></span></h1>
+<div class="sub">台股(TWSE)・散熱模組龍頭,水冷/CDU/Data Center散熱|事件後估值版(Q2財報後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3017">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">2625</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3017">現價 <b>3235</b> → 目標價 <b>3140</b><span class="down"> (-2.9%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價3140(2026E EPS共識93.75,19位分析師);現價3235已略高於此目標價,個別機構仍有更樂觀目標(大摩3333/澳系3600)但美銀(3090)已被超越,顯示法人共識與股價已相當接近</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">3,235</div><div class="note">2026/08/14 收盤 +1.09%;8月盤中創新高3,320</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">185.90億</div><div class="note">創歷史新高,YoY+57.39%,MoM+5.52%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">24.37</div><div class="note">YoY+136.6%;H1累計EPS 44.45</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">32.57%</div><div class="note">QoQ+2.8pp,YoY+8.16pp</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">2,015~3,320</div><div class="note">7~8月區間;8/14盤中創今年新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,265~3,320</div><div class="note">1月低1,265、8/14盤中創新高3,320(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 8/12 Q2法說會,獲利創新高但現價已逼近共識目標價</h2>
+<div class="event">
+  <h3>事件摘要:Q2營收491.21億創新高,EPS24.37元(YoY+136.6%),伺服器占比跳升至66%</h3>
+  <div class="flow">奇鋐8/12召開Q2法說會:單季營收491.21億元,YoY+66%,創歷史新高;毛利率32.57%,較上季大增2.8個百分點、較去年同期大增8.16個百分點,營業利益率提升至27.44%;單季EPS 24.37元,YoY+136.6%。上半年累計營收981億元(YoY+85.5%),H1 EPS 44.45元。伺服器相關營收占Q2營收比重達66%,較去年同期提升15個百分點。法說會釋出正面展望:Q3營收應會比Q2好,水冷產品在Data Center的滲透率明年可望超過50%。稍早7月營收185.90億元創歷史新高,YoY+57.39%。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:伺服器散熱需求爆發 → Q2營收/EPS雙創新高、毛利率大幅改善 → 外資目標價陸續上修 → 股價提前反映,現價已逼近甚至超越部分共識目標</h3>
+  <div class="flow">奇鋐這波成長的核心驅動力是AI伺服器散熱需求的結構性擴張,伺服器占比從一年前的51%大幅提升至66%,毛利率同步從Q1的29.77%(統計狗數據)進一步改善至Q2的32.57%,顯示這不是單純的量增,而是產品組合優化帶來的獲利品質提升。但股價反應速度同樣快速:8月已多次創今年新高(盤中觸及3,320),已經超越FactSet共識目標價(3140)與美銀最新目標價(3090),只剩大摩(3333)、澳系外資(3600)等少數更樂觀的個別機構目標價仍在現價之上。這是評估「好公司」與「好價格」是否重疊時的關鍵矛盾。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(5/14 Q1法說後)</th><th>事件後(8/12 Q2法說+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 20.17元(季增21.05%)</td><td class="green">Q2 24.37元(YoY+136.6%),H1累計44.45</td></tr>
+    <tr><td>毛利率</td><td>Q1 29.77%(財報狗數據)</td><td class="green">Q2 32.57%(QoQ+2.8pp)</td></tr>
+    <tr><td>伺服器營收占比</td><td>查無精確Q1數字</td><td class="green">Q2達66%,YoY+15pp</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約87.95(較早調查)</td><td class="amber">93.75(19位分析師,調查日期不完全明確)</td></tr>
+    <tr><td>股價</td><td>約2,600附近(4~5月區間)</td><td class="red">3,235(8/14),8月盤中創今年新高3,320</td></tr>
+    <tr><td>本站評等</td><td>查無先前分析(本次為首次登記)</td><td class="amber">中性(現價已接近甚至超越部分機構目標價)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/14</span>Q1法說會:營收490.38億元(YoY+110.17%),EPS 20.17元創歷史新高,散熱需求爆發推升全年展望樂觀。</li>
+  <li><span class="date">2026年初~4月</span>股價從年初低點1,265飆升至4月高點3,010,反映AI伺服器散熱題材的樂觀重估。</li>
+  <li><span class="date">2026年5~7月</span>股價自4月高點回落整理,7月低點2,015,期間大摩將目標價自2,950上調至3,333。</li>
+  <li><span class="date">2026/08/上旬</span><b class="green">7月營收185.90億元創歷史新高,YoY+57.39%</b>,股價自7月低點回升,8/13單日大漲近一成收3,200。</li>
+  <li><span class="date">2026/08/12</span><b class="green">Q2法說會:營收491.21億創新高,EPS24.37元(YoY+136.6%),毛利率32.57%</b>,伺服器占比跳升至66%;管理層預告Q3優於Q2,水冷滲透率明年將破五成。</li>
+  <li><span class="date">2026/08/14</span>股價盤中觸及今年新高3,320,終場收3,235(+1.09%)。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①現價3,235已超越FactSet共識目標價(3,140)與美銀最新目標價(3,090),僅剩大摩(3,333)、澳系外資(3,600)等少數機構目標價仍在現價之上,追價的安全邊際明顯收窄;②FactSet EPS共識93.75的調查日期在公開資料中不完全明確,可能未完全反映8/12法說會後的最新展望,若後續有更新調查上修EPS,目前的「合理」判斷可能隨之改變;③H1 EPS44.45已達FactSet全年共識的47.4%,若H2依guidance逐季走高,全年實際獲利可能超越目前共識,但這仍是推演而非已確認的數字。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2營收491.21億創歷史新高,EPS24.37元年增136.6%,伺服器占比跳升至66%,散熱需求爆發式成長趨勢明確。<div class="src">— 8/12法說會整理</div></div>
+    <div class="quote">大摩將目標價由2,950上調至3,333,預估2026年EPS達96.5元;澳系外資給予目標價3,600,喊話「優於大盤」;美銀點名奇鋐是散熱/冷卻次產業「首選」,目標價上調至3,090元。<div class="src">— Yahoo股市、FTNN新聞網</div></div>
+    <div class="quote">法說會釋出Q3展望優於Q2,水冷產品在Data Center的滲透率明年可望超過五成,結構性成長動能明確。<div class="src">— 8/12法說會整理</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">現價3,235已超越FactSet共識目標價(3,140)與美銀最新目標價(3,090),僅剩少數更樂觀的個別機構目標價仍在現價之上,追價安全邊際明顯收窄。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet EPS共識93.75的調查日期在公開資料中不完全明確,可能落後於8/12法說會後的最新展望,估值判斷存在時效性疑慮。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價8月已多次創今年新高,單日漲幅一度近一成,短線籌碼結構是否過熱需留意。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>澳系外資(最高)</td><td class="green">3,600</td><td>EPS上看93.7,喊話「優於大盤」</td></tr>
+  <tr><td>大摩(上修)</td><td class="green">3,333</td><td>自2,950上調,預估2026年EPS達96.5</td></tr>
+  <tr class="hl"><td>FactSet共識(19位分析師)</td><td class="amber">3,140</td><td>2026E EPS中位93.75</td></tr>
+  <tr><td>美銀(散熱族群「首選」)</td><td class="red">3,090</td><td>已被現價超越</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">現價3,235已高於FactSet共識與美銀目標價,僅大摩、澳系外資目標價仍在現價之上;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3017"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+7,002</span></td><td>7/10</td><td><span class="green">+1,108</span></td></tr><tr><td>投信</td><td><span class="green">+4,609</span></td><td>8/10</td><td><span class="green">+785</span></td></tr><tr><td>自營商</td><td><span class="green">+221</span></td><td>7/10</td><td><span class="red">-197</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+11,834</span></td><td>9/10</td><td><span class="green">+1,696</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+1,108</span></td><td><span class="green">+785</span></td><td><span class="red">-197</span></td><td><span class="green">+1,696</span></td></tr><tr><td>08/13</td><td><span class="green">+1,860</span></td><td><span class="green">+699</span></td><td><span class="green">+41</span></td><td><span class="green">+2,600</span></td></tr><tr><td>08/12</td><td><span class="green">+139</span></td><td><span class="red">-32</span></td><td><span class="green">+153</span></td><td><span class="green">+260</span></td></tr><tr><td>08/11</td><td><span class="red">-6</span></td><td><span class="red">-20</span></td><td><span class="green">+149</span></td><td><span class="green">+124</span></td></tr><tr><td>08/10</td><td><span class="red">-295</span></td><td><span class="green">+120</span></td><td><span class="green">+60</span></td><td><span class="red">-115</span></td></tr><tr><td>08/07</td><td><span class="red">-240</span></td><td><span class="green">+527</span></td><td><span class="red">-44</span></td><td><span class="green">+244</span></td></tr><tr><td>08/06</td><td><span class="green">+2,311</span></td><td><span class="green">+908</span></td><td><span class="green">+45</span></td><td><span class="green">+3,263</span></td></tr><tr><td>08/05</td><td><span class="green">+794</span></td><td><span class="green">+524</span></td><td><span class="green">+55</span></td><td><span class="green">+1,373</span></td></tr><tr><td>08/04</td><td><span class="green">+506</span></td><td><span class="green">+527</span></td><td><span class="red">-85</span></td><td><span class="green">+949</span></td></tr><tr><td>08/03</td><td><span class="green">+825</span></td><td><span class="green">+571</span></td><td><span class="green">+44</span></td><td><span class="green">+1,440</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">185.90億</div><div class="note">MoM+5.52%,YoY+57.39%,歷史新高</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">24.37</div><div class="note">YoY+136.6%,H1累計44.45</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">32.57%</div><div class="note">QoQ+2.8pp,YoY+8.16pp</div></div>
+  <div class="card"><div class="label">伺服器營收占比</div><div class="value green">66%</div><div class="note">Q2,YoY+15pp</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">21檔,約475.6億</div><div class="note">散熱三檔中規模最大、最受青睞(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">水冷滲透率guidance</div><div class="value amber">2027年望破50%</div><div class="note">Data Center水冷產品長期展望</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與奇鋐的差異</th></tr>
+  <tr class="hl"><td>3017.TW</td><td>奇鋐</td><td>約33.5x(EPS93.75)</td><td>YoY+57.39%創新高</td><td>散熱模組龍頭,規模最大、主動式ETF持有度最高,惟現價已逼近共識目標價</td></tr>
+  <tr><td>3324.TWO</td><td>雙鴻(本站另篇分析)</td><td>約17.4x(EPS57.97)</td><td>YoY+116.70%,三檔中成長最快</td><td>AI伺服器水冷散熱,估值倍數明顯低於奇鋐,未被主動式ETF持有</td></tr>
+  <tr><td>6805.TW</td><td>富世達(本站另篇分析)</td><td>約27.1x(EPS66.52)</td><td>YoY+17.07%,Q2QoQ下滑</td><td>水冷快接頭+滑軌雙引擎,伺服器占比破五成</td></tr>
+  <tr><td>2421.TW</td><td>建准(參考,散熱風扇)</td><td>查無最新精確數字</td><td>查無最新</td><td>散熱風扇為主,與奇鋐的模組/水冷定位不同</td></tr>
+  <tr><td>—</td><td>散熱族群整體(參考)</td><td>普遍中高本益比</td><td>普遍受惠AI伺服器散熱需求</td><td>奇鋐是三檔中Forward P/E最高、股價已最接近甚至超越共識目標價的一檔</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——好公司的基本面故事完整,但現價已充分反映甚至略超前FactSet共識目標價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約33.5x(以FactSet共識EPS93.75計)是三檔散熱股中最高,反映市場給予散熱模組龍頭的規模與主動式資金認可度溢價。Q2營收/EPS雙創新高、毛利率大幅改善、伺服器占比跳升至66%,基本面故事完整且有具體數字支撐,是三檔中信心度最高的一檔。核心問題在於股價漲勢已快於法人共識目標價的上修速度——現價已超越FactSet共識與美銀目標價,顯示這是「好公司但可能不是好價格」的典型案例,不宜僅因基本面亮眼就忽視當下的追價風險。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價3,235 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS93.75,散熱龍頭常態倍數28~35x</td><td>2,625~3,281(中值2,953)</td><td class="red">貴 9.5%</td></tr>
+  <tr><td>FactSet共識目標價</td><td>19位分析師,目標價3,140(單點)</td><td>3,140(單點)</td><td class="red">貴 3.0%(接近合理)</td></tr>
+  <tr><td>個別機構樂觀目標價</td><td>大摩3,333/澳系3,600,取中值3,466.5</td><td>3,466.5(單點,信度中等)</td><td class="green">便宜 6.7%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:AI伺服器散熱需求的長期成長率高度不確定,加上資本支出持續擴大,近兩年FCF假設信度偏低。三種方法呈現罕見的「貴-接近合理-便宜」交錯結果,顯示現價恰好落在法人共識與個別樂觀機構目標價之間的過渡地帶——這正是「現價已充分反映」的量化證據,現階段追價需要更多個別機構跟進上修目標價,或等待FactSet共識調查反映最新法說會展望後再做判斷。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">創新高後追價熱絡,過熱警訊</div><div class="bar"><div style="width:78%;background:var(--red)"></div></div><div class="note">8月多次創今年新高,單日漲幅一度近一成</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">現價已超越共識目標價</div><div class="note">FactSet3,140已被超越,惟大摩/澳系仍看更高</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">44.45(H1實績)→93.75(2026E共識)</div><div class="note">Q3法說guidance能否兌現與FactSet是否上修是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>93.75(FactSet共識,單點)</td><td>28~35x</td><td>2,625~3,281(中值2,953)</td><td class="red">約 -9%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有水冷滲透率破五成的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬呈現負值,顯示現價已超前反映當年度的樂觀預期;2027、2028年因分析師覆蓋缺乏明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:奇鋐是三檔散熱股中確定性最高但價格也最不便宜的一檔,「好公司≠好價格」的紀律在此特別重要,不宜在現價追高。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 1800~4200;left% = (價格-1800)/2400×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:14.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,200~2,450</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,850~3,150</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">3,350~3,600</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:86.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,850~4,050</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:59.5%"><div class="arrow">▲</div><div class="price">3,235</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>2,200~2,450</td><td>Q3展望不如guidance或伺服器散熱需求放緩,倍數回落至25x附近</td><td class="red">約 -28%</td></tr>
+  <tr><td class="amber">Base</td><td>2,850~3,150</td><td>Q3動能延續但無驚喜,FactSet共識目標價區間內震盪;現價落於此區間上緣附近</td><td class="red">約 -8%</td></tr>
+  <tr><td class="green">Bull</td><td>3,350~3,600</td><td>大摩、澳系外資目標價逐步兌現,水冷滲透率提升guidance開始量化顯現</td><td class="green">約 +8%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3,850~4,050</td><td>散熱龍頭地位全面重估,FactSet新一輪調查大幅上修EPS共識</td><td class="green">約 +23%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">2,900~3,050</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">2,750~2,895</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">2,625~2,745</td><td>45%(現價已充分反映,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,625</b>(接近8月低點)= 伺服器散熱需求放緩或Q3展望不如guidance,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破3,320(8月盤中新高)+量能確認,且FactSet新一輪調查上修EPS共識<br>
+    進場區:<b class="green">3,330~3,450</b><br>
+    移動停利:跌破20日線或高點回檔12%<br>
+    假突破失效:觸發後3日內跌回3,200即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">3,350~3,600</div><div class="note">賣出30~50%;Bull區,大摩/澳系目標價達陣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,850~4,050</div><div class="note">Stretched區;續抱條件是FactSet共識大幅上修且水冷滲透率guidance持續兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:8/12 Q2法說會公布營收491.21億創新高、EPS24.37元(YoY+136.6%)、毛利率32.57%,伺服器占比跳升至66%;惟股價已提前反應至8月盤中新高3,320,現價已超越FactSet共識目標價(3,140)與美銀目標價(3,090)。</div>
+<div class="concl">① <b>催化劑</b>:AI伺服器散熱需求結構性擴張,7月營收年增57.39%創新高,Q2毛利率大幅改善驗證產品組合優化;但股價漲勢已快於法人共識上修速度,是三檔散熱股中股價反應最充分的一檔。</div>
+<div class="concl">② <b>估值</b>:合理——Forward P/E約33.5x是三檔中最高,現價已貴於FactSet共識目標價與自身本益比法區間,僅大摩、澳系外資等少數個別機構目標價仍在現價之上;三種估值方法呈現「貴-接近合理-便宜」交錯結果,顯示現價恰好處於充分反映的過渡地帶。</div>
+<div class="concl">③ <b>結論</b>:中性、好公司但現價已充分反映——現價3,235落於Base區間上緣,上檔Bull +8%/Stretched +23%對下檔Bear -28%,風險報酬比不特別吸引,不宜在現價追高;左側倉位應等回檔至2,900以下再分批布局,收盤跌破2,625即伺服器散熱需求放緩,無條件出場。下一個驗證點是FactSet新一輪調查是否上修EPS共識與Q3展望能否兌現guidance。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q1法說會(豐雲學堂,2026/05/14);Q2法說會(BigGo財經、CMoney投資網誌,2026/08/12);7月營收(CMoney投資網誌、鉅亨網、Yahoo股市,2026/08公告);FactSet共識EPS/目標價與個別機構目標價(鉅亨網FactSet速報、Yahoo股市、FTNN新聞網,調查日期部分不完全明確);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FactSet最新調查確切日期、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、豐雲學堂、BigGo財經、CMoney投資網誌、鉅亨網、Yahoo股市、FTNN新聞網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次分析刻意呈現現價已超越部分機構目標價的事實,不因基本面亮眼而忽視追價風險。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
