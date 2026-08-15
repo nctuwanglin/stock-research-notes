@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>景碩 (3189) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>景碩 (3189) <span class="badge amber">估值:合理(FactSet共識目標價僅小幅高於現價)</span> <span class="badge amber">結論:中性,分批布局但不追高</span><span class="autodispo" data-code="3189"><span class="badge dispo">處置中·2分撮合·至 8/14</span></span></h1>
+<div class="sub">台股(TWSE)・ABF載板+子公司晶碩矽水膠雙引擎|事件後估值版(7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3189">處置中:2分撮合,至 8/14(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">694</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3189">現價 <b>862</b> → 目標價 <b>935</b><span class="up"> (+8.5%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價935(2026E EPS共識10.92,13位分析師);7月營收45.49億(YoY+35.85%)驗證ABF載板需求持續,惟股價已大致反映此共識,上檔空間相對有限</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">862</div><div class="note">2026/08/14 收盤 +1.3%;8月區間高點872</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">45.49億</div><div class="note">YoY+35.85%</div></div>
+  <div class="card"><div class="label">4月營收</div><div class="value green">40.72億</div><div class="note">MoM+3.38%,YoY+26.75%(近期參考點)</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約78.9x</div><div class="note">FactSet共識EPS10.92(13位分析師)</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">541~939</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">151.5~939</div><div class="note">1月低151.5、7月高939(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 7月營收驗證ABF與晶碩雙引擎動能</h2>
+<div class="event">
+  <h3>事件摘要:7月營收45.49億元,年增35.85%,驗證ABF載板需求與晶碩矽水膠新品雙引擎動能</h3>
+  <div class="flow">景碩8月公告7月營收45.49億元,年增35.85%,延續4月營收40.72億元(YoY+26.75%)以來的成長軌跡。3月法說會管理層預期2026全年營收及毛利率皆將優於2025年(2025年合併營收393億元),核心成長引擎有二:一是ABF載板受惠AI與記憶體需求強勁,編列80億元資本支出全力擴充第六廠(幼獅廠)產能,確保2027年新產能順利開出;二是子公司晶碩憑藉高毛利矽水膠新品持續放量,成為集團另一大獲利引擎。FactSet最新調查13位分析師將2026年EPS共識中位數由10.22元上修至10.92元,目標價935元。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:ABF載板需求強勁+晶碩矽水膠放量 → 雙引擎驅動營收年增35.85% → FactSet共識溫和上修 → 股價已大致反映,不再有明顯低估空間</h3>
+  <div class="flow">景碩與南電、欣興同屬ABF載板受惠股,但多了子公司晶碩(矽水膠新品,推測為隱形眼鏡材料相關業務)這條非ABF的獲利引擎,業務組合較同業更分散。這是景碩的差異化定位,但也意味著市場對其重新評價的幅度不如純ABF曝險的南電、欣興來得劇烈——FactSet目標價僅溫和上修至935,較現價862僅有8.5%空間,遠低於欣興(19.6%)、臻鼎-KY(22.6%)的上行空間,顯示股價已大致反映7月營收的正面驗證。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(3月法說,依當時資料)</th><th>事件後(7月營收公布後)</th></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">45.49億,YoY+35.85%</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>10.22(調查中)</td><td class="amber">10.92(上修,13位分析師)</td></tr>
+    <tr><td>FactSet共識目標價</td><td>查無明確引用</td><td class="amber">935</td></tr>
+    <tr><td>股價</td><td>約400~600附近(3月區間)</td><td class="green">862(8/14),已大幅上漲</td></tr>
+    <tr><td>本站評等</td><td>查無先前分析(本次為首次登記)</td><td class="amber">中性(現價已大致反映共識目標價)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/03/10</span>法說會:AI與記憶體需求強勁,2026年營收與獲利重返成長,編列80億元資本支出擴充第六廠(幼獅廠)ABF產能,子公司晶碩矽水膠新品放量成為另一獲利引擎。</li>
+  <li><span class="date">2026年初~7月</span>股價從年初低點151.5一路飆升至7月高點939(逾6倍漲幅),反映ABF載板超級循環題材與晶碩獲利引擎的雙重樂觀重估。</li>
+  <li><span class="date">2026年8月初</span><b class="green">7月營收45.49億元,YoY+35.85%</b>,延續4月以來的成長軌跡,驗證雙引擎動能持續兌現。</li>
+  <li><span class="date">2026/08/10~14</span>股價高檔震盪(836→842→858→851→862),8月區間高點872,較7月高點939仍有距離。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet共識目標價(935)較現價僅有8.5%的上行空間,是四檔ABF/PCB股中最小的一檔,顯示股價已大致反映當前的樂觀預期;②精確Q2單季財報數字查無,現階段的評價仍主要依賴月營收數字與3月法說會的定性guidance;③子公司晶碩的矽水膠業務雖是差異化亮點,但公開資料對其具體營收貢獻比重與成長路徑仍缺乏精確數字,評估時應與純ABF業務分開看待;④景碩於8/14仍列處置股(2分撮合,至8/14,且為近期第2次處置),當日股價/量能為分盤撮合下產生,訊號可信度較平日低,不宜視為正常交易日數據解讀。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">2026全年營收及毛利率皆將優於2025年,ABF載板受惠AI與記憶體需求強勁,80億元資本支出擴充第六廠確保2027年新產能開出。<div class="src">— vocus法說筆記,2026/03/10</div></div>
+    <div class="quote">子公司晶碩憑藉高毛利矽水膠新品持續放量,成為集團另一大獲利引擎,業務組合較純ABF同業更分散。<div class="src">— vocus法說筆記</div></div>
+    <div class="quote">7月營收45.49億元、年增35.85%,延續4月以來的成長軌跡,FactSet共識同步上修EPS至10.92元。<div class="src">— 豐雲學堂,2026/08公告</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">FactSet共識目標價(935)較現價僅有8.5%空間,是四檔ABF/PCB股中最小的一檔,顯示股價已大致反映當前的樂觀預期,追價安全邊際有限。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">精確Q2單季財報數字查無,現階段評價仍主要依賴月營收與定性guidance,完整驗證仍待正式財報數字公布。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價自7月高點939已小幅回落,現價862距8月區間高點872也有距離,顯示短線動能可能正在減弱。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(13位分析師,較新)</td><td class="amber">935</td><td>2026E EPS中位10.92,自10.22上修</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無其他個別機構目標價可供交叉對照;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3189"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+1,943</span></td><td>6/10</td><td><span class="green">+682</span></td></tr><tr><td>投信</td><td><span class="green">+1,540</span></td><td>3/10</td><td><span class="red">-961</span></td></tr><tr><td>自營商</td><td><span class="green">+1,822</span></td><td>9/10</td><td><span class="green">+144</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+5,307</span></td><td>6/10</td><td><span class="red">-136</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+682</span></td><td><span class="red">-961</span></td><td><span class="green">+144</span></td><td><span class="red">-136</span></td></tr><tr><td>08/13</td><td><span class="green">+606</span></td><td><span class="red">-1,024</span></td><td><span class="green">+173</span></td><td><span class="red">-244</span></td></tr><tr><td>08/12</td><td><span class="green">+771</span></td><td>+0</td><td><span class="green">+227</span></td><td><span class="green">+998</span></td></tr><tr><td>08/11</td><td><span class="green">+209</span></td><td><span class="red">-1</span></td><td><span class="green">+403</span></td><td><span class="green">+611</span></td></tr><tr><td>08/10</td><td><span class="red">-161</span></td><td>+0</td><td><span class="green">+702</span></td><td><span class="green">+541</span></td></tr><tr><td>08/07</td><td><span class="red">-1,661</span></td><td><span class="red">-142</span></td><td><span class="red">-199</span></td><td><span class="red">-2,002</span></td></tr><tr><td>08/06</td><td><span class="red">-2,655</span></td><td><span class="green">+2,502</span></td><td><span class="green">+50</span></td><td><span class="red">-103</span></td></tr><tr><td>08/05</td><td><span class="green">+3,198</span></td><td><span class="green">+932</span></td><td><span class="green">+102</span></td><td><span class="green">+4,233</span></td></tr><tr><td>08/04</td><td><span class="red">-20</span></td><td><span class="green">+235</span></td><td><span class="green">+127</span></td><td><span class="green">+343</span></td></tr><tr><td>08/03</td><td><span class="green">+974</span></td><td><span class="red">-1</span></td><td><span class="green">+93</span></td><td><span class="green">+1,066</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">45.49億</div><div class="note">YoY+35.85%</div></div>
+  <div class="card"><div class="label">4月營收</div><div class="value green">40.72億</div><div class="note">MoM+3.38%,YoY+26.75%</div></div>
+  <div class="card"><div class="label">2025年全年營收</div><div class="value">393億</div><div class="note">基期參考,guidance 2026年優於此</div></div>
+  <div class="card"><div class="label">第六廠(幼獅廠)資本支出</div><div class="value amber">80億</div><div class="note">擴充ABF產能,確保2027年新產能開出</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">10檔,約83.6億</div><div class="note">四檔ABF/PCB股中規模最小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">子公司晶碩</div><div class="value green">矽水膠新品放量</div><div class="note">差異化獲利引擎,精確營收貢獻查無</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與景碩的差異</th></tr>
+  <tr class="hl"><td>3189.TW</td><td>景碩</td><td>約78.9x(EPS10.92)</td><td>YoY+35.85%</td><td>ABF載板+子公司晶碩矽水膠雙引擎,FactSet目標價上行空間四檔中最小</td></tr>
+  <tr><td>3037.TW</td><td>欣興(本站另篇分析)</td><td>約53.8x(EPS18.96)</td><td>YoY+43.69%</td><td>ABF載板技術領先廠,資本支出擴產最積極,FactSet共識最收斂</td></tr>
+  <tr><td>8046.TW</td><td>南電(本站另篇分析)</td><td>約84.1x(EPS15.52)</td><td>YoY+50.24%,7/15曾漲停後兩度跌停</td><td>ABF載板,現貨占比高、毛利率彈性優於同業,惟法人目標價分歧極大</td></tr>
+  <tr><td>4958.TW</td><td>臻鼎-KY(本站另篇分析)</td><td>約42.6x(本土法人估EPS11.50)</td><td>H1伺服器/光模塊/IC載板YoY+113%</td><td>PCB龍頭,業務更多元,非純ABF曝險</td></tr>
+  <tr><td>—</td><td>ABF載板族群整體(參考)</td><td>普遍高本益比(反映早期成長股定價)</td><td>普遍受惠AI伺服器/高階應用需求</td><td>景碩是四檔中規模最小、FactSet目標價上行空間最有限的一檔</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——FactSet共識目標價僅小幅高於現價,是四檔ABF/PCB股中上行空間最有限的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約78.9x(以FactSet共識EPS10.92計)在四檔中屬偏高段,僅次於南電(84.1x)。與南電、欣興、臻鼎-KY相比,景碩7月營收年增35.85%的動能相對溫和(四檔中最慢),FactSet共識目標價(935)較現價僅有8.5%空間,顯示市場已大致將這波ABF題材與晶碩的差異化引擎反映在股價上。核心亮點是晶碩矽水膠業務提供的分散化優勢,但精確財務貢獻數字仍待更多資訊補齊。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價862 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS10.92,ABF載板早期成長股倍數65~85x</td><td>710~928(中值819)</td><td class="red">貴 5.3%(對照情境,惟接近中值上緣)</td></tr>
+  <tr><td>FactSet共識目標價</td><td>13位分析師,目標價935(單點)</td><td>935(單點)</td><td class="green">便宜 8.5%</td></tr>
+  <tr><td>同業(欣興)倍數對照</td><td>欣興約53.8x套用景碩EPS10.92(規模/業務結構差異,信度中等)</td><td>單點約587(推演)</td><td class="red">貴 46.8%(規模與業務差異大,不宜直接採信)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:第六廠新產能2027年才開出,加上晶碩業務的長期貢獻路徑仍不明確,近三年FCF假設信度過低。三種方法呈現「小貴-小便宜-明顯貴」的分歧,自身本益比法(貴5.3%)與FactSet共識(便宜8.5%)兩者都指向現價已接近合理,同業倍數對照則因業務結構差異過大不宜採信。整體而言,景碩是四檔中估值上行空間最有限的一檔,不適合作為追價標的,較適合等回檔布局。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">高檔震盪,動能趨緩</div><div class="bar"><div style="width:50%;background:var(--amber)"></div></div><div class="note">現價862距7月高點939與8月高點872皆有距離</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet目標價空間四檔中最小</div><div class="note">935,較現價僅+8.5%</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收YoY+35.85%→2026E EPS10.92</div><div class="note">Q2完整財報數字與晶碩業務貢獻是下一驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>10.92(FactSet共識,單點)</td><td>65~85x</td><td>710~928(中值819)</td><td class="red">約 -5%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有第六廠2027年新產能開出的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬呈現小幅負值,顯示現價已充分反映甚至略超前FactSet共識中值;2027、2028年因第六廠新產能與晶碩業務的長期貢獻路徑不明確,查無共識,不強行推演。這條路徑的核心啟示是:景碩是四檔ABF/PCB股中「好故事、但價格已不便宜」的一檔,不宜在現價追高,適合等待回檔或Q2完整財報數字驗證後再考慮加碼。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 400~1200;left% = (價格-400)/800×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">600~680</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:43.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">780~900</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:66.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">980~1,080</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.1%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,150~1,200</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:57.1%"><div class="arrow">▲</div><div class="price">862</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>600~680</td><td>ABF題材降溫或晶碩業務貢獻不如預期,倍數回落至55x附近</td><td class="red">約 -26%</td></tr>
+  <tr><td class="amber">Base</td><td>780~900</td><td>Q2財報驗證營收動能延續但無驚喜,FactSet共識倍數區間內震盪;現價落於此區間內</td><td class="green">約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>980~1,080</td><td>第六廠擴產進度超預期或晶碩業務貢獻明確化,重返並超越7月高點</td><td class="green">約 +19%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,150~1,200</td><td>ABF+晶碩雙引擎全面兌現,估值倍數向欣興、南電看齊</td><td class="green">約 +36%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">780~830</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">730~775</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">694~725</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">694</b>(接近8月低點)= ABF題材降溫或晶碩業務貢獻不如預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破939(7月高點)+量能確認,且Q2財報數字驗證雙引擎動能<br>
+    進場區:<b class="green">945~990</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回915即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">980~1,080</div><div class="note">賣出30~50%;Bull區,估值向欣興、南電看齊後應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,150~1,200</div><div class="note">Stretched區;續抱條件是第六廠擴產與晶碩業務貢獻同步兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:7月營收45.49億元、年增35.85%,延續4月以來的成長軌跡,驗證ABF載板需求與子公司晶碩矽水膠新品放量的雙引擎動能;FactSet同步將2026年EPS共識上修至10.92元,目標價935元。</div>
+<div class="concl">① <b>催化劑</b>:ABF載板受惠AI與記憶體需求強勁,80億元資本支出擴充第六廠確保2027年新產能開出,子公司晶碩提供差異化獲利引擎;但7月營收年增速度是四檔ABF/PCB股中最慢的一檔。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet共識目標價(935)較現價僅有8.5%空間,是四檔中上行空間最有限的一檔;自身本益比法顯示現價已接近甚至略高於合理中值,不宜視為明顯低估。</div>
+<div class="concl">③ <b>結論</b>:中性、分批布局但不追高——現價862落於Base區間內,上檔Bull +19%/Stretched +36%對下檔Bear -26%,風險報酬比在四檔中相對保守;左側倉位應等回檔至780以下再分批布局,收盤跌破694即題材降溫,無條件出場。下一個驗證點是Q2完整財報數字與晶碩業務的具體貢獻。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);法說會(vocus法說筆記,2026/03/10);7月營收(豐雲學堂,2026/08公告);4月營收(財報狗、Win投資);FactSet共識EPS/目標價(鉅亨網FactSet速報,13位分析師10.92/935);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q2單季財報數字、晶碩業務精確營收貢獻查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、vocus法說筆記、豐雲學堂、財報狗、Win投資、鉅亨網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

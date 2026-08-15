@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>臻鼎-KY (4958) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>臻鼎-KY (4958) <span class="badge green">估值:便宜(法人維持買進,目標價高於現價逾兩成)</span> <span class="badge amber">結論:分批布局,惟留意大股東處分持股與三大壓力</span><span class="autodispo" data-code="4958"></span></h1>
+<div class="sub">台股(TWSE)・PCB龍頭,伺服器/光模塊/IC載板占比快速提升|事件後估值版(Q2財報+法說後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="4958">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">417</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="4958">現價 <b>489.5</b> → 目標價 <b>600</b><span class="up"> (+22.6%)</span></div>
+  <div class="vbasis">推導依據:法人法說後目標價下修至600(惟維持買進評等),本土法人估2026/2027年EPS 11.50/21.45;惟需留意鴻海集團7/20處分持股554.4萬股與法人揭露的三大壓力(摺疊機出貨遞延、研發投入、2027年起折舊墊高)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">489.5</div><div class="note">2026/08/14 收盤 +2.5%;8月區間高點522</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">2.19</div><div class="note">去年同期0.63,大幅成長;H1累計EPS 3.55(YoY+173%)</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">891.59億</div><div class="note">創同期新高,YoY+13.9%</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約42.6x</div><div class="note">依本土法人估2026E EPS11.50計算</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">368~659</div><div class="note">7~8月區間;現價落於區間中段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">138~659</div><div class="note">1月低138、7月高659(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2獲利大幅成長,惟法說後目標價下修+大股東處分持股雙重壓力</h2>
+<div class="event">
+  <h3>事件摘要:8/11法說Q2 EPS2.19大幅成長,惟外資目標價下修至600;7/20鴻海集團宣布處分持股554.4萬股</h3>
+  <div class="flow">臻鼎-KY 8/11召開2026年上半年法說會:Q2營收484.31億元(季增18.9%、年增26.8%),EPS 2.19元(去年同期僅0.63元);上半年營收891.59億元創歷年同期新高(YoY+13.9%),稅後淨利57.74億元(YoY+139.3%),歸屬母公司淨利38.17億元,H1 EPS 3.55元(YoY+173%)。伺服器/光模塊/IC載板業務H1營收年增113%,占比提升至21.6%,H1毛利率22.4%、營業利益率7.0%。董事長沈慶芳看好2027年營運續旺,喊出PCB產業進入「黃金時代」。惟法說會後外資將目標價下修至600元(仍維持買進),本土法人預估2026、2027年稅後EPS為11.50、21.45元。此外,7/20鴻海子公司Foxconn (Far East) Limited董事會決議處分臻鼎-KY普通股554.4萬股,以當時收盤價521元估算套現約28.88億元,消息一出股價當日開盤重挫逾7%。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:AI伺服器/光模塊/IC載板業務占比快速提升 → Q2獲利大幅成長 → 惟摺疊機出貨遞延+折舊墊高疑慮+大股東處分持股 → 法人目標價下修但仍維持買進</h3>
+  <div class="flow">臻鼎-KY的核心成長引擎(伺服器/光模塊/IC載板)H1營收年增113%,是驅動Q2獲利大幅成長的主因,顯示公司在高階PCB領域的轉型正在兌現。但法說會後法人同時揭露三大壓力:①摺疊機出貨遞延拖累消費性業務;②持續研發投入影響短期獲利率;③2027年起新產能開出將墊高折舊費用。加上7/20鴻海集團宣布處分部分持股(公司說明為「實現部分投資利益」而非退出,處分後鴻海集團仍持股27.05%為最大單一股東),雙重壓力導致法人目標價從法說前的水準下修至600元,但仍維持買進評等,反映法人對長期成長故事的基本信心未變,只是短期雜訊增加。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(法說會前)</th><th>事件後(8/11法說+持股處分後)</th></tr>
+    <tr><td>Q2 EPS</td><td>查無(尚未公布)</td><td class="green">2.19元(去年同期0.63)</td></tr>
+    <tr><td>H1 EPS</td><td>查無完整數字</td><td class="green">3.55元(YoY+173%)</td></tr>
+    <tr><td>伺服器/光模塊/IC載板占比</td><td>查無精確數字</td><td class="green">H1達21.6%(YoY營收+113%)</td></tr>
+    <tr><td>法人目標價</td><td>查無明確引用(3月法說時EPS估值上看10.78)</td><td class="red">下修至600(惟維持買進)</td></tr>
+    <tr><td>大股東持股</td><td>鴻海集團穩定持有</td><td class="red">7/20處分554.4萬股,套現約28.88億,股價當日重挫逾7%</td></tr>
+    <tr><td>本土法人2026/2027E EPS</td><td>查無明確共識</td><td class="amber">11.50/21.45</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼股價震盪劇烈(單月內經歷重挫又反彈)?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月</span>股價從年初低點138一路飆升至7月高點659(逾4.7倍漲幅),反映AI伺服器/光模塊/IC載板業務占比快速提升的樂觀重估。</li>
+  <li><span class="date">2026/07/20</span><b class="red">鴻海子公司宣布處分臻鼎-KY持股554.4萬股</b>,以收盤價521元估算套現約28.88億元;處分後鴻海集團仍持股27.05%、維持最大單一股東地位,惟消息公布當日股價開盤重挫逾7%。</li>
+  <li><span class="date">2026年8月初</span>股價自7月高點回落至8月低點368,反映大股東處分消息與整體市場情緒的雙重壓力。</li>
+  <li><span class="date">2026/08/11</span><b class="green">法說會:Q2 EPS2.19元大幅成長,H1累計EPS3.55元(YoY+173%)</b>,伺服器/光模塊/IC載板業務H1營收年增113%;惟法人同步下修目標價至600元(仍維持買進),揭露摺疊機出貨遞延、研發投入、2027年折舊墊高三大壓力。</li>
+  <li><span class="date">2026/08/12~14</span>股價震盪回升(471.5→477.5→489.5),8/14單日上漲2.5%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①鴻海集團的持股處分雖被官方定調為「實現部分投資利益」而非退出,但作為最大單一股東的減碼動作,仍可能持續影響散戶信心,後續是否有進一步處分動作值得追蹤;②法人揭露的三大壓力(摺疊機出貨遞延、研發投入、2027年折舊墊高)顯示即使AI業務成長強勁,傳統消費性業務與資本支出的雜訊仍會拖累獲利品質;③目標價從法說前水準下修至600,顯示即使基本面數字亮眼,法人對短期雜訊的疑慮已具體反映在估值調整上,不宜僅看EPS成長率而忽略這些下修訊號。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">伺服器/光模塊/IC載板業務H1營收年增113%,占比提升至21.6%,是驅動Q2獲利大幅成長的核心引擎;董事長喊出PCB產業進入「黃金時代」。<div class="src">— 豐雲學堂、聯合新聞網,2026/08/11法說整理</div></div>
+    <div class="quote">AI訂單能見度已看到2027年,法人在下修目標價的同時仍維持買進評等,反映對長期成長故事的基本信心未變。<div class="src">— 工商時報,2026/08/12</div></div>
+    <div class="quote">鴻海集團處分僅為部分持股調節,主要在於實現部分投資利益,並非退出投資,處分後仍是持股27.05%的最大單一股東。<div class="src">— 經濟日報,2026/07/20</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">法人在法說會後將目標價下修至600元,並具體揭露摺疊機出貨遞延、研發投入、2027年起折舊墊高三大壓力,顯示短期獲利品質仍有雜訊。<div class="src">— FTNN新聞網,2026/08</div></div>
+    <div class="quote">最大單一股東鴻海集團宣布處分持股554.4萬股,消息公布當日股價開盤重挫逾7%,顯示投資人信心對大股東動向高度敏感。<div class="src">— 經濟日報,2026/07/20</div></div>
+    <div class="quote">股價自7月高點659至今仍有相當距離,顯示市場對這兩起利空事件(大股東處分+目標價下修)的信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/來源</th><th>目標價/估值</th><th>依據</th></tr>
+  <tr class="hl"><td>法人(法說後,8/11)</td><td class="amber">600(下修,惟維持買進)</td><td>AI訂單看到2027年,惟需消化摺疊機出貨遞延、研發投入、折舊墊高三大壓力</td></tr>
+  <tr><td>本土法人EPS估值</td><td class="green">2026E 11.50 / 2027E 21.45</td><td>反映2027年新產能開出後獲利加速成長的預期</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無FactSet多分析師共識調查可供交叉對照;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="4958"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-31,345</span></td><td>4/10</td><td><span class="green">+6,384</span></td></tr><tr><td>投信</td><td><span class="green">+3,142</span></td><td>7/10</td><td><span class="green">+649</span></td></tr><tr><td>自營商</td><td><span class="green">+193</span></td><td>5/10</td><td><span class="green">+412</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-28,010</span></td><td>4/10</td><td><span class="green">+7,445</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+6,384</span></td><td><span class="green">+649</span></td><td><span class="green">+412</span></td><td><span class="green">+7,445</span></td></tr><tr><td>08/13</td><td><span class="green">+143</span></td><td><span class="green">+488</span></td><td><span class="red">-308</span></td><td><span class="green">+323</span></td></tr><tr><td>08/12</td><td><span class="red">-15,022</span></td><td><span class="red">-1,861</span></td><td><span class="red">-824</span></td><td><span class="red">-17,708</span></td></tr><tr><td>08/11</td><td><span class="green">+3,148</span></td><td><span class="red">-14</span></td><td><span class="green">+857</span></td><td><span class="green">+3,991</span></td></tr><tr><td>08/10</td><td><span class="red">-5,966</span></td><td><span class="red">-2,071</span></td><td><span class="red">-50</span></td><td><span class="red">-8,087</span></td></tr><tr><td>08/07</td><td><span class="red">-5,466</span></td><td><span class="green">+119</span></td><td><span class="green">+132</span></td><td><span class="red">-5,214</span></td></tr><tr><td>08/06</td><td><span class="red">-2,414</span></td><td><span class="green">+2,715</span></td><td><span class="red">-412</span></td><td><span class="red">-111</span></td></tr><tr><td>08/05</td><td><span class="red">-2,569</span></td><td><span class="green">+230</span></td><td><span class="green">+394</span></td><td><span class="red">-1,944</span></td></tr><tr><td>08/04</td><td><span class="green">+1,195</span></td><td><span class="green">+27</span></td><td><span class="green">+185</span></td><td><span class="green">+1,407</span></td></tr><tr><td>08/03</td><td><span class="red">-10,778</span></td><td><span class="green">+2,860</span></td><td><span class="red">-193</span></td><td><span class="red">-8,112</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">2.19</div><div class="note">去年同期0.63,大幅成長</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">3.55</div><div class="note">YoY+173%</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">891.59億</div><div class="note">創同期新高,YoY+13.9%</div></div>
+  <div class="card"><div class="label">伺服器/光模塊/IC載板占比</div><div class="value green">21.6%</div><div class="note">H1,YoY營收+113%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">14檔,約46.6億</div><div class="note">四檔ABF/PCB股中規模較小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">800億+</div><div class="note">聚焦iHDI/mSAP、HLC及高階軟板</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與臻鼎-KY的差異</th></tr>
+  <tr class="hl"><td>4958.TW</td><td>臻鼎-KY</td><td>約42.6x(本土法人估EPS11.50)</td><td>H1伺服器/光模塊/IC載板YoY+113%</td><td>PCB龍頭,業務更多元(軟板/HDI/ABF),非純ABF曝險,惟面臨大股東處分股票與三大壓力</td></tr>
+  <tr><td>3037.TW</td><td>欣興(本站另篇分析)</td><td>約53.8x(EPS18.96)</td><td>YoY+43.69%</td><td>ABF載板技術領先廠,估值訊號四檔中最一致</td></tr>
+  <tr><td>8046.TW</td><td>南電(本站另篇分析)</td><td>約84.1x(EPS15.52)</td><td>YoY+50.24%,7/15曾漲停後兩度跌停</td><td>ABF載板,現貨占比高,法人目標價分歧極大</td></tr>
+  <tr><td>3189.TW</td><td>景碩(本站另篇分析)</td><td>約78.9x(EPS10.92)</td><td>YoY+35.85%</td><td>ABF載板+子公司晶碩矽水膠雙引擎,FactSet目標價空間最有限</td></tr>
+  <tr><td>—</td><td>ABF/PCB族群整體(參考)</td><td>普遍高本益比(反映早期成長股定價)</td><td>普遍受惠AI伺服器/高階應用需求</td><td>臻鼎-KY是四檔中Forward P/E最低、業務組合最多元的一檔,惟大股東處分是特有風險</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——Forward P/E在四檔中最低,法人維持買進評等,但大股東處分持股與三大壓力是需要納入的特有風險。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約42.6x(以本土法人估2026E EPS11.50計)是四檔ABF/PCB股中最低,反映臻鼎-KY業務組合更多元(非純ABF曝險),市場給予的成長股溢價相對保守。H1伺服器/光模塊/IC載板業務營收年增113%,是驅動這波重估的核心引擎,法人也維持買進評等。但與其他三檔不同,臻鼎-KY有兩個特有的風險因子:最大單一股東鴻海集團的持股處分動作,以及法說會後具體揭露的三大壓力(摺疊機出貨遞延、研發投入、2027年折舊墊高),這些是評估「便宜」程度時必須納入的折價因素。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價489.5 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(本土法人)</td><td>EPS11.50,PCB龍頭常態倍數40~50x</td><td>460~575(中值517.5)</td><td class="amber">合理(接近中值)</td></tr>
+  <tr><td>法說後目標價(單點)</td><td>目標價600,惟已反映三大壓力下修後的結果</td><td>600(單點)</td><td class="green">便宜 18.4%</td></tr>
+  <tr><td>2027E P/E×EPS(推演,較長天期)</td><td>EPS21.45(本土法人估),同倍數40~50x</td><td>858~1,073(中值965.5,推演)</td><td class="green">便宜 49.3%(較長天期,信度隨時間拉長而降低)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:2027年起新產能開出將墊高折舊費用,加上大股東持股處分帶來的股權結構不確定性,近三年FCF假設信度偏低。三種方法方向一致顯示合理至便宜,其中自身2026E本益比法(接近合理)信度最高,法說後目標價與2027E方法則反映較長期的樂觀空間,但都應打折看待——法說後目標價本身已是下修後的結果,2027E方法的信度也隨時間拉長而降低。整體而言,現價的便宜程度不如其估值倍數表面顯示的那麼確定。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">大股東處分後信心修復中</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">7/20重挫逾7%後,現價489.5較8月低點368已回升逾三成</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價下修但維持買進</div><div class="note">600(下修),反映短期雜訊增加但長期信心未變</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.55(H1實績)→11.50(2026E,本土法人估)</div><div class="note">鴻海集團是否進一步處分持股是下一觀察點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,本土法人估)</td><td>11.50(單點)</td><td>40~50x</td><td>460~575(中值517.5)</td><td class="green">約 +6%</td></tr>
+  <tr><td>2027(+1年,本土法人估)</td><td>21.45(單點,信度隨時間降低)</td><td>40~50x</td><td>858~1,073(中值965.5)</td><td class="green">約 +40%/年</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027年若2027E EPS21.45能兌現則隱含報酬相當可觀,但這高度依賴新產能順利開出且折舊墊高未過度侵蝕獲利,信度應打折看待;2028年查無共識,不強行推演。這條路徑的核心啟示是:臻鼎-KY的長期成長故事具吸引力,但2027年是關鍵驗證年——折舊費用墊高與新產能貢獻的賽跑結果將決定這個樂觀路徑能否兌現。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 250~750;left% = (價格-250)/500×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:16.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">340~390</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">450~530</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">580~650</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">700~750</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:48%"><div class="arrow">▲</div><div class="price">489.5</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>340~390</td><td>鴻海集團進一步處分持股或三大壓力惡化,重測8月低點</td><td class="red">約 -25%</td></tr>
+  <tr><td class="amber">Base</td><td>450~530</td><td>Q3動能延續但三大壓力持續存在,法人共識目標價600部分兌現;現價落於此區間內</td><td class="green">約 +0%</td></tr>
+  <tr><td class="green">Bull</td><td>580~650</td><td>法人目標價600完全兌現,摺疊機出貨遞延問題緩解</td><td class="green">約 +26%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>700~750</td><td>重返並超越7月高點659,2027年新產能開出效益提前反映</td><td class="green">約 +48%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">450~480</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">420~445</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">417~440</td><td>45%(大股東處分與三大壓力風險未除,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">417</b>(接近8月低點)= 鴻海集團進一步處分持股或三大壓力惡化,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破522(8月區間高點)+量能確認,且未見鴻海集團進一步處分持股公告<br>
+    進場區:<b class="green">525~555</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回500即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">580~650</div><div class="note">賣出30~50%;Bull區,法人目標價達陣後應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">700~750</div><div class="note">Stretched區/重返7月高點;續抱條件是2027年新產能開出效益明確化且大股東持股穩定</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:8/11法說會公布Q2 EPS2.19元(去年同期0.63)、H1 EPS3.55元(YoY+173%),伺服器/光模塊/IC載板業務H1營收年增113%;惟法人同步將目標價下修至600元(仍維持買進),並揭露摺疊機出貨遞延、研發投入、2027年折舊墊高三大壓力;7/20鴻海集團宣布處分持股554.4萬股,股價當日重挫逾7%。</div>
+<div class="concl">① <b>催化劑</b>:AI伺服器/光模塊/IC載板業務占比快速提升是驅動Q2獲利大幅成長的核心引擎,董事長喊出PCB產業進入「黃金時代」;但大股東處分持股與法人揭露的三大壓力是特有的雜訊來源,股價自7月高點659至今仍有相當距離。</div>
+<div class="concl">② <b>估值</b>:便宜——Forward P/E約42.6x是四檔ABF/PCB股中最低,法人維持買進評等且目標價600較現價高逾18%;但這個目標價本身已是下修後的結果,且大股東處分帶來的股權不確定性是其他三檔沒有的特有風險,便宜程度應打折看待。</div>
+<div class="concl">③ <b>結論</b>:分批布局、惟留意大股東處分持股與三大壓力——現價489.5落於Base區間內,上檔Bull +26%/Stretched +48%對下檔Bear -25%,長期成長故事具吸引力但短期雜訊不少;左側倉位應保守分批,收盤跌破417即鴻海集團進一步處分持股或三大壓力惡化,無條件出場。下一個驗證點是鴻海集團是否有後續處分動作與Q3財報能否驗證三大壓力緩解。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);法說會(豐雲學堂、聯合新聞網、CMoney投資網誌,2026/08/11);鴻海集團處分持股(經濟日報、自由財經、台視財經,2026/07/20);法人目標價下修與三大壓力(FTNN新聞網、工商時報,2026/08/12);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FactSet多分析師共識調查、精確發行股數查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、豐雲學堂、聯合新聞網、CMoney投資網誌、FTNN新聞網、工商時報、經濟日報、自由財經。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔的大股東處分持股事件與三大壓力是四檔ABF/PCB股中獨有的特殊風險,已於報告中明確揭露不淡化處理。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

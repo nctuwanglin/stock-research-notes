@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欣興 (3037) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>欣興 (3037) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾一成九)</span> <span class="badge green">結論:分批布局,ABF訂單塞爆+資本支出三度上修</span><span class="autodispo" data-code="3037"><span class="badge dispo">處置中·2分撮合·至 8/14</span></span></h1>
+<div class="sub">台股(TWSE)・ABF載板技術領先廠,T-glass材料+AI高階應用|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3037">處置中:2分撮合,至 8/14(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">842</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3037">現價 <b>1020</b> → 目標價 <b>1220</b><span class="up"> (+19.6%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價1220(2026E EPS共識18.96,20位分析師);與8/5分析目標價1000相比上修,反映7/29 Q2法說EPS8.45創新高與資本支出三度上修至537億</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,020</div><div class="note">2026/08/14 收盤 +2.0%;8月區間高點1,045</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">162.54億</div><div class="note">MoM+9.11%,YoY+43.69%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">8.45</div><div class="note">創新高;H1累計EPS 11.7(Q1約3.28)</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約53.8x</div><div class="note">FactSet共識EPS18.96(20位分析師,12.99~24.84)</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">653~1,115</div><div class="note">7~8月區間;現價落於區間中段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">216~1,130</div><div class="note">1月低216、5月高1,130(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2法說EPS創新高,資本支出三度上修至537億</h2>
+<div class="event">
+  <h3>事件摘要:7/29法說Q2 EPS8.45元創新高,毛利率躍升24.8%,資本支出三度上修至537億</h3>
+  <div class="flow">欣興7/29召開Q2法說會:單季合併營收428.9億元,季增15%、年增32%,營業毛利率一舉躍升至24.8%,稅後淨利133.4億元,EPS達8.45元創新高;上半年累計EPS 11.7元(Q1約3.28元,改寫13季新高)。董事會決議調高2026年資本支出預算,由原規劃約340億元大幅增加197億元至537億元。公司看好高階AI訂單出貨增加與漲價反應成本,下半年營收可望持續成長,Q3毛利率有機會優於Q2,AI產品比重下半年可望增至七成。稍早公告7月營收162.54億元,YoY+43.69%。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:T-glass缺料推升ABF漲價循環 → Q2毛利率躍升24.8%、EPS創新高 → 資本支出三度上修為AI載板擴產鋪路 → 法人上修共識、目標價持續墊高</h3>
+  <div class="flow">欣興的Q1法說會已提及T-glass缺料推升ABF漲價循環的「預期差」正在放大,Q2財報則是這個邏輯的具體兌現——毛利率從此前水準躍升至24.8%,顯示ABF報價調漲的效益已實質反映在獲利數字上。資本支出三度上修(340億→537億)是管理層對AI載板長期需求的具體承諾,而非單純口頭樂觀。這條路徑與南電的「現貨彈性」邏輯不同,欣興更強調技術領先地位與AI產品占比持續攀升(H2拚七成),是ABF四雄中資本支出擴產動作最積極的一檔。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/5分析,依Q1資料)</th><th>事件後(7/29 Q2法說+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 3.28元(改寫13季新高)</td><td class="green">Q2 8.45元(創新高),H1累計11.7元</td></tr>
+    <tr><td>毛利率</td><td>查無Q2具體數字</td><td class="green">Q2躍升至24.8%</td></tr>
+    <tr><td>2026年資本支出</td><td>約340億(原規劃)</td><td class="amber">上修至537億(+197億)</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">162.54億,YoY+43.69%</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約14.21(7/中旬前調查)</td><td class="green">18.96(20位分析師,較新調查)</td></tr>
+    <tr><td>本站目標價/評等</td><td>1000/中性</td><td class="green">1220/偏多(上修並轉為偏多)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~5月</span>股價從年初低點216一路飆升至5月高點1,130,反映ABF載板漲價循環題材的樂觀情緒。</li>
+  <li><span class="date">2026年5~7月</span>股價自5月高點1,130回落整理,7月低點653,期間市場對T-glass缺料推升ABF漲價循環的「預期差」持續放大。</li>
+  <li><span class="date">2026/07/29</span><b class="green">Q2法說會:EPS 8.45元創新高,毛利率躍升24.8%</b>,資本支出三度上修至537億;管理層預告Q3毛利率優於Q2,AI產品占比H2拚七成。</li>
+  <li><span class="date">2026年8月</span><b class="green">7月營收162.54億元,YoY+43.69%</b>,驗證Q2法說會後的樂觀展望持續兌現。</li>
+  <li><span class="date">2026/08/10~14</span>股價高檔震盪(992→1,000→1,000→1,020),8月區間高點1,045。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①資本支出三度上修(340億→537億)意味著未來折舊費用同步墊高,是評估中長期獲利品質時需要納入的變數;②FactSet EPS共識在數月內經歷多次上修(14.21→18.96),顯示分析師社群仍在快速調整對ABF超級循環的認知,估值錨點尚未完全穩定;③股價自5月高點1,130至今仍有相當距離,即使Q2財報大幅超預期也僅部分收復失地,顯示市場信心修復需要更多季度數字驗證;④欣興於8/14仍列處置股(2分撮合,至8/14),當日股價/量能為分盤撮合下產生,訊號可信度較平日低,不宜視為正常交易日數據解讀。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2每股純益8.45元創新高,毛利率躍升至24.8%,資本支出三度上修至537億元,展望下半年AI占比拚七成。<div class="src">— 豐雲學堂,2026/08法說整理</div></div>
+    <div class="quote">T-glass缺料推升ABF漲價循環的預期差再放大,Q1法說會的伏筆在Q2財報獲得具體驗證。<div class="src">— 豐雲學堂PRIME盤後精選</div></div>
+    <div class="quote">高階AI訂單出貨增加與漲價反應成本,下半年營收可望持續成長,Q3毛利率有機會優於Q2。<div class="src">— Yahoo股市,2026/08法說整理</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">資本支出三度上修至537億元,意味著未來折舊費用同步墊高,是評估中長期獲利品質的重要變數,不宜只看EPS成長而忽略資本密集度提高的代價。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet EPS共識數月內大幅上修(14.21→18.96),顯示分析師社群對ABF超級循環的估值錨點仍未完全穩定,追價前應留意估值波動風險。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
+    <div class="quote">股價自5月高點1,130至今仍有相當距離,即使Q2財報大幅超預期也僅部分收復,顯示市場信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(20位分析師,較新)</td><td class="green">1,220</td><td>2026E EPS中位18.96(12.99~24.84),自18.51上修</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet近月調查數次上修(14.21→15.34→16.34→18.96),反映分析師持續上調對ABF超級循環的預估;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3037"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+19,632</span></td><td>7/10</td><td><span class="green">+3,480</span></td></tr><tr><td>投信</td><td><span class="green">+8,243</span></td><td>6/10</td><td><span class="red">-85</span></td></tr><tr><td>自營商</td><td><span class="green">+171</span></td><td>4/10</td><td><span class="green">+392</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+28,046</span></td><td>8/10</td><td><span class="green">+3,786</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+3,480</span></td><td><span class="red">-85</span></td><td><span class="green">+392</span></td><td><span class="green">+3,786</span></td></tr><tr><td>08/13</td><td><span class="green">+2,741</span></td><td><span class="red">-755</span></td><td><span class="green">+5</span></td><td><span class="green">+1,991</span></td></tr><tr><td>08/12</td><td><span class="green">+2,297</span></td><td><span class="red">-50</span></td><td><span class="green">+223</span></td><td><span class="green">+2,470</span></td></tr><tr><td>08/11</td><td><span class="green">+904</span></td><td><span class="red">-68</span></td><td><span class="red">-41</span></td><td><span class="green">+795</span></td></tr><tr><td>08/10</td><td><span class="green">+3,503</span></td><td><span class="green">+31</span></td><td><span class="green">+162</span></td><td><span class="green">+3,695</span></td></tr><tr><td>08/07</td><td><span class="red">-791</span></td><td><span class="green">+74</span></td><td><span class="red">-48</span></td><td><span class="red">-764</span></td></tr><tr><td>08/06</td><td><span class="red">-616</span></td><td><span class="green">+581</span></td><td><span class="red">-28</span></td><td><span class="red">-62</span></td></tr><tr><td>08/05</td><td><span class="green">+8,712</span></td><td><span class="green">+1,818</span></td><td><span class="red">-182</span></td><td><span class="green">+10,348</span></td></tr><tr><td>08/04</td><td><span class="red">-2,383</span></td><td><span class="green">+5,933</span></td><td><span class="red">-168</span></td><td><span class="green">+3,382</span></td></tr><tr><td>08/03</td><td><span class="green">+1,785</span></td><td><span class="green">+764</span></td><td><span class="red">-144</span></td><td><span class="green">+2,405</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">162.54億</div><div class="note">MoM+9.11%,YoY+43.69%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">8.45</div><div class="note">創新高;H1累計11.7</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">24.8%</div><div class="note">躍升,ABF漲價效益兌現</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">上修至537億</div><div class="note">原340億,+197億</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">21檔,約446.3億</div><div class="note">四檔ABF/PCB股中規模最大、最受青睞(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">AI產品占比guidance</div><div class="value green">H2拚七成</div><div class="note">管理層目標</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與欣興的差異</th></tr>
+  <tr class="hl"><td>3037.TW</td><td>欣興</td><td>約53.8x(EPS18.96)</td><td>YoY+43.69%</td><td>ABF載板技術領先廠,資本支出擴產動作最積極,主動式ETF持有度四檔中最高</td></tr>
+  <tr><td>8046.TW</td><td>南電(本站另篇分析)</td><td>約84.1x(EPS15.52)</td><td>YoY+50.24%,7/15曾漲停創新高後兩度跌停</td><td>ABF載板,現貨占比高、毛利率彈性優於同業,惟法人目標價分歧遠大於欣興</td></tr>
+  <tr><td>3189.TW</td><td>景碩(本站另篇分析)</td><td>約78.9x(EPS10.92)</td><td>YoY+35.85%</td><td>ABF載板+子公司晶碩矽水膠雙引擎,規模較小</td></tr>
+  <tr><td>4958.TW</td><td>臻鼎-KY(本站另篇分析)</td><td>約42.6x(本土法人估EPS11.50)</td><td>H1伺服器/光模塊/IC載板YoY+113%</td><td>PCB龍頭,業務更多元,非純ABF曝險</td></tr>
+  <tr><td>—</td><td>ABF載板族群整體(參考)</td><td>普遍高本益比(反映早期成長股定價)</td><td>普遍受惠AI伺服器/高階應用需求</td><td>欣興是四檔中估值訊號最一致偏便宜、法人共識分歧最小的一檔</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——FactSet共識目標價較現價高逾一成九,是四檔ABF/PCB股中估值訊號最一致的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約53.8x(以FactSet共識EPS18.96計)在四檔中屬中段,低於南電(84.1x)與景碩(78.9x)。與南電的「現貨彈性」故事、法人目標價出現59%極端分歧不同,欣興的Q2財報(毛利率24.8%、EPS8.45創新高)已具體驗證ABF漲價循環的效益,FactSet 20位分析師的共識也相對收斂(數次上修但方向一致),是四檔中信心度最高的一檔。核心風險是資本支出三度上修帶來的未來折舊墊高壓力,以及股價自5月高點仍有相當距離顯示的市場信心修復需求。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,020 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS18.96,ABF載板技術領先廠倍數50~65x</td><td>948~1,232(中值1,090)</td><td class="amber">合理(接近中值)</td></tr>
+  <tr><td>FactSet共識目標價</td><td>20位分析師,目標價1,220(單點)</td><td>1,220(單點)</td><td class="green">便宜 16.4%</td></tr>
+  <tr><td>H1實績年化對照(推演)</td><td>H1 EPS11.7×2=23.4(假設H2持平或更好),倍數50~65x</td><td>1,170~1,521(中值1,345.5,推演)</td><td class="green">便宜 24.2%(對照情境,反映H2guidance若兌現的樂觀空間)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:資本支出三度上修(340億→537億)使近兩年FCF可預測性明顯降低,強行套用多年期假設會製造虛假精確度。三種方法方向一致顯示合理至便宜,且信度都相對較高——自身本益比法接近合理、FactSet共識與H1年化對照都顯示便宜,是四檔中方法交集最一致的一檔。相較南電的極端分歧(高盛vs FactSet差59%),欣興的估值判斷相對可信,適合作為ABF載板族群的核心持股。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">Q2財報後穩健回升</div><div class="bar"><div style="width:62%;background:var(--green)"></div></div><div class="note">股價自5月高點1,130回落後逐步回升,8月區間相對穩定</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價高於現價逾一成九</div><div class="note">1,220,20位分析師,共識相對收斂</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">11.7(H1實績)→18.96(2026E共識)</div><div class="note">Q3毛利率能否優於Q2、AI占比拚七成是下一驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>12.99/18.96/24.84(FactSet共識)</td><td>50~65x</td><td>948~1,232(中值1,090)</td><td class="green">約 +7%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有資本支出擴產與AI占比拚七成的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027、2028年因資本支出擴產效益尚未有具體EPS數字guidance,查無共識,不強行推演。這條路徑的核心啟示是:欣興短期(2026年)的估值訊號相對可信且顯示溫和便宜,長期路徑則高度依賴537億資本支出擴產能否在AI載板需求持續強勁的前提下順利轉化為獲利成長。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 500~1600;left% = (價格-500)/1100×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:16.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">750~850</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">950~1,100</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,200~1,350</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,450~1,550</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:47.5%"><div class="arrow">▲</div><div class="price">1,020</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>750~850</td><td>ABF漲價循環提前結束或資本支出效益不如預期,倍數回落至40x附近</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>950~1,100</td><td>Q3動能延續但無驚喜,FactSet共識倍數區間內震盪;現價落於此區間內</td><td class="green">約 +0%</td></tr>
+  <tr><td class="green">Bull</td><td>1,200~1,350</td><td>Q3毛利率優於Q2guidance兌現,FactSet共識目標價1,220達陣並延伸</td><td class="green">約 +25%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,450~1,550</td><td>AI占比拚七成全面兌現,537億資本支出擴產效益提前顯現,重返5月高點附近</td><td class="green">約 +47%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">920~970</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">880~915</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">842~875</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">842</b>(接近8月低點)= ABF漲價循環轉折或資本支出效益不如預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破1,045(8月區間高點)+量能確認,且Q3毛利率驗證優於Q2guidance<br>
+    進場區:<b class="green">1,050~1,100</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回1,010即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,200~1,350</div><div class="note">賣出30~50%;Bull區,FactSet共識目標達陣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,450~1,550</div><div class="note">Stretched區/重返5月高點附近;續抱條件是AI占比guidance持續被財報數字驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:7/29 Q2法說會公布EPS8.45元創新高、毛利率躍升至24.8%,H1累計EPS達11.7元;資本支出三度上修至537億元(原340億),管理層預告Q3毛利率優於Q2、AI占比H2拚七成,7月營收162.54億元(YoY+43.69%)進一步驗證動能延續。</div>
+<div class="concl">① <b>催化劑</b>:T-glass缺料推升的ABF漲價循環在Q2財報獲得具體驗證,資本支出擴產是四檔ABF股中最積極的一檔;但股價自5月高點1,130至今仍有相當距離,市場信心修復仍需更多季度數字。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價1,220較現價高逾16%,20位分析師共識相對收斂,是四檔ABF/PCB股中估值訊號最一致的一檔;自身本益比法與H1年化對照皆方向一致顯示便宜,信度高於南電的極端分歧案例。</div>
+<div class="concl">③ <b>結論</b>:分批布局、ABF訂單塞爆+資本支出三度上修——現價1,020落於Base區間內,上檔Bull +25%/Stretched +47%對下檔Bear -22%,本站目標價自8/5分析的1000上修至1220並轉為偏多;左側倉位可正常分批,收盤跌破842即ABF漲價循環轉折,無條件出場。下一個驗證點是Q3毛利率能否優於Q2與AI占比拚七成guidance是否兌現。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2法說會(豐雲學堂、口袋學堂、聯合新聞網,2026/07/29);7月營收(鉅亨網,2026/08公告);FactSet共識EPS/目標價(鉅亨網FactSet速報,追蹤至8月最新18.96/1,220);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確發行股數、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、豐雲學堂、口袋學堂、聯合新聞網、Yahoo股市、鉅亨網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

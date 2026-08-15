@@ -217,17 +217,17 @@
   "3037": {
     "name": "欣興",
     "market": "twse",
-    "file": "3037-unimicron-event.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 924.59,
+    "file": "3037-unimicron.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1020.0,
     "tags": [
       "PCB",
       "ABF載板"
     ],
-    "target": 1000,
-    "stop": 600,
-    "basis": "四情境Base中段;ABF漲價已部分反映",
-    "rating": "hold"
+    "target": 1220,
+    "stop": 842,
+    "basis": "FactSet共識目標價1220(2026E EPS共識18.96,20位分析師);與8/5分析目標價1000相比上修,反映7/29 Q2法說EPS8.45創新高與資本支出三度上修至537億",
+    "rating": "buy"
   },
   "8299": {
     "name": "群聯",
@@ -541,6 +541,51 @@
     "target": 2600,
     "stop": 1340,
     "basis": "FactSet共識目標價2600(2026E EPS共識66.52,11位分析師);惟此調查早於Q2財報(摺疊機出貨不如預期導致QoQ下滑),核心水冷快接頭業務未受影響,7月營收MoM+12.75%驗證H2動能回升",
+    "rating": "buy"
+  },
+  "8046": {
+    "name": "南電",
+    "market": "twse",
+    "file": "8046-nanya-pcb.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1305.0,
+    "tags": [
+      "PCB",
+      "ABF載板"
+    ],
+    "target": 1450,
+    "stop": 940,
+    "basis": "FactSet共識目標價1450(2026E EPS共識15.52,14位分析師);高盛將目標價自1115大幅上調至2310(ABF史詩級缺貨情境),惟本站以信度較高的多分析師共識為主要依據,不採信單一機構的激進端數字",
+    "rating": "hold"
+  },
+  "3189": {
+    "name": "景碩",
+    "market": "twse",
+    "file": "3189-kinsus.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 862.0,
+    "tags": [
+      "PCB",
+      "ABF載板"
+    ],
+    "target": 935,
+    "stop": 694,
+    "basis": "FactSet共識目標價935(2026E EPS共識10.92,13位分析師);7月營收45.49億(YoY+35.85%)驗證ABF載板需求持續,惟股價已大致反映此共識,上檔空間相對有限",
+    "rating": "hold"
+  },
+  "4958": {
+    "name": "臻鼎-KY",
+    "market": "twse",
+    "file": "4958-zdt.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 489.5,
+    "tags": [
+      "PCB",
+      "軟板"
+    ],
+    "target": 600,
+    "stop": 417,
+    "basis": "法人法說後目標價下修至600(惟維持買進評等),本土法人估2026/2027年EPS 11.50/21.45;惟需留意鴻海集團7/20處分持股554.4萬股與法人揭露的三大壓力(摺疊機出貨遞延、研發投入、2027年起折舊墊高)",
     "rating": "buy"
   }
 }
