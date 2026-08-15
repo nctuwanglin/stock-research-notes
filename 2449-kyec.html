@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>京元電子 (2449) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>京元電子 (2449) <span class="badge amber">估值:合理(自身估值合理,同業日月光倍數對照顯示便宜)</span> <span class="badge amber">結論:分批布局,AI測試訂單能見度是核心優勢</span><span class="autodispo" data-code="2449"></span></h1>
+<div class="sub">台股(TWSE)・專業測試廠(不涉封裝)+AI晶片測試訂單能見度高|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/14|<span class="dispostat" data-code="2449">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">175</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2449">現價 <b>247</b> → 目標價 <b>284</b><span class="up"> (+15.0%)</span></div>
+  <div class="vbasis">推導依據:2026E EPS約10.5(推演,反映7月動能加速,高於FactSet 5月估值9.77) × 27x(測試專業廠+AI訂單能見度溢價)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">247</div><div class="note">2026/08/14 收盤 -2.6%;8/12觸及近期高點260</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">39.91億</div><div class="note">創歷史新高,YoY+36.75%,MoM+10.19%</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">253.24億</div><div class="note">YoY+36.18%</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約25.3x(推演)</div><div class="note">FactSet 5月估值EPS9.77(14位分析師),已顯著落後於7月確認的動能</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">195~262</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">252~367.5</div><div class="note">1月低252、7月高367.5(TWSE官方日成交資訊);注意年初低點已高於目前股價,顯示近期回檔明顯</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲(儘管仍低於年初水準)?</h2>
+<ul class="timeline">
+  <li><span class="date">2025年底~2026年5月</span>AI測試訂單能見度延伸至2026年,股價曾連噴三天衝上354元,與日月光、力成並列「封測三雄」比較對象。</li>
+  <li><span class="date">2026年6~7月</span>股價自高點回落至7月低點195,反映記憶體/封測族群系統性重挫(與台股7/17史上最大跌點同期)。</li>
+  <li><span class="date">2026/08/10</span><b class="green">7月營收39.91億元創歷史新高</b>:月增10.19%、年增36.75%,前七月累計253.24億元,年增36.18%,是封測四檔中7月YoY成長最快的一檔。</li>
+  <li><span class="date">2026/08/11~14</span>股價震盪走高後回落(246→259→253.5→247),8/12觸及近期高點260。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①現價247仍低於今年1月的低點252,顯示儘管7月營收創高,股價尚未完全收復年初以來的回檔,反映記憶體/封測族群系統性風險的陰影未散;②FactSet最新公開的共識調查是5月的舊資料(EPS9.77、目標價370),距今已逾3個月且未反映7月營收的加速動能,現階段引用時應大幅打折看待其時效性;③京元電子是純測試專業廠、不涉封裝,業務結構較日月光、力成更聚焦但也更集中於單一環節,客戶與訂單集中度風險需留意。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">AI測試訂單排到2026年,是封測三雄中訂單能見度最高的一檔,7月營收39.91億元創歷史新高印證這個故事。<div class="src">— readmo財經、鉅亨網,2026/08</div></div>
+    <div class="quote">7月營收年增36.75%是封測四檔中成長最快的一檔,前七月累計年增36.18%,動能持續加速而非放緩。<div class="src">— Yahoo股市,2026/08/10公告</div></div>
+    <div class="quote">股價連噴三天衝上354元,能否複製日月光的翻倍漲勢,是市場持續關注的比較焦點。<div class="src">— 今周刊,2026/05</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">現價247仍低於今年1月低點252,即使7月營收創高,股價尚未完全收復年初以來的跌幅,顯示市場信心修復仍需時間。<div class="src">— 本儀表板觀察,依TWSE官方股價資料</div></div>
+    <div class="quote">FactSet最新公開調查是5月的舊資料,距今已逾3個月未更新,現階段的估值判斷存在明顯的時效落差。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">AI測試訂單能見度雖高,但作為純測試專業廠,業務集中度風險(客戶、產品線)高於業務更多元的日月光、力成。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(14位分析師,5月調查,已過時)</td><td class="amber">370</td><td>2026E EPS中位9.77(區間9.08~10.79);此調查未反映7月營收加速動能</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無8月最新的FactSet或券商目標價更新;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2449"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-36,505</span></td><td>1/10</td><td><span class="red">-6,205</span></td></tr><tr><td>投信</td><td><span class="green">+4,823</span></td><td>6/10</td><td><span class="red">-79</span></td></tr><tr><td>自營商</td><td><span class="red">-1,502</span></td><td>4/10</td><td><span class="red">-220</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-33,183</span></td><td>1/10</td><td><span class="red">-6,504</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-6,205</span></td><td><span class="red">-79</span></td><td><span class="red">-220</span></td><td><span class="red">-6,504</span></td></tr><tr><td>08/13</td><td><span class="red">-10,623</span></td><td><span class="red">-383</span></td><td><span class="red">-1,201</span></td><td><span class="red">-12,206</span></td></tr><tr><td>08/12</td><td><span class="green">+5,585</span></td><td><span class="red">-133</span></td><td><span class="green">+781</span></td><td><span class="green">+6,234</span></td></tr><tr><td>08/11</td><td><span class="red">-4,934</span></td><td><span class="green">+67</span></td><td><span class="red">-22</span></td><td><span class="red">-4,889</span></td></tr><tr><td>08/10</td><td><span class="red">-3,882</span></td><td><span class="green">+38</span></td><td><span class="red">-504</span></td><td><span class="red">-4,348</span></td></tr><tr><td>08/07</td><td><span class="red">-3,167</span></td><td><span class="green">+7</span></td><td><span class="green">+3</span></td><td><span class="red">-3,156</span></td></tr><tr><td>08/06</td><td><span class="red">-1,072</span></td><td><span class="red">-290</span></td><td><span class="green">+117</span></td><td><span class="red">-1,246</span></td></tr><tr><td>08/05</td><td><span class="red">-2,081</span></td><td><span class="green">+213</span></td><td><span class="red">-302</span></td><td><span class="red">-2,170</span></td></tr><tr><td>08/04</td><td><span class="red">-3,728</span></td><td><span class="green">+1,663</span></td><td><span class="red">-204</span></td><td><span class="red">-2,269</span></td></tr><tr><td>08/03</td><td><span class="red">-6,398</span></td><td><span class="green">+3,720</span></td><td><span class="green">+50</span></td><td><span class="red">-2,629</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">39.91億</div><div class="note">創歷史新高,YoY+36.75%</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">253.24億</div><div class="note">YoY+36.18%</div></div>
+  <div class="card"><div class="label">FactSet 2026E EPS(5月,已過時)</div><div class="value amber">9.77</div><div class="note">區間9.08~10.79,未反映7月動能</div></div>
+  <div class="card"><div class="label">業務性質</div><div class="value">純測試(不涉封裝)</div><div class="note">AI晶片測試訂單能見度高</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">9檔,約34.8億</div><div class="note">封測四檔中規模居中(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">今年股價位置</div><div class="value red">低於1月低點</div><div class="note">現價247 vs 今年低點252,顯示尚未完全收復回檔</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與京元電子的差異</th></tr>
+  <tr class="hl"><td>2449.TW</td><td>京元電子</td><td>約25.3x(推演EPS10.5)</td><td>YoY+36.75%,四檔中最快</td><td>純測試專業廠,不涉封裝,AI測試訂單能見度高但業務集中度也高</td></tr>
+  <tr><td>3711.TW</td><td>日月光投控(本站另篇分析)</td><td>約39.2x(EPS15.71)</td><td>YoY+43.15%,單月新高</td><td>封測絕對龍頭,ATM封測+EMS+先進封裝三引擎,規模最大</td></tr>
+  <tr><td>6239.TW</td><td>力成(本站另篇分析)</td><td>約23.1x(EPS12.06)</td><td>YoY+29.4%,MoM+8.5%</td><td>記憶體封測+先進封裝後段委外雙引擎,規模與京元電子相近</td></tr>
+  <tr><td>8150.TW</td><td>南茂(本站另篇分析)</td><td>約22.8x(EPS4.03)</td><td>YoY+43.6%</td><td>記憶體+驅動IC封測,估值倍數與京元電子相近</td></tr>
+  <tr><td>SPIL/AMKR</td><td>矽品/Amkor(參考)</td><td>查無精確Fwd P/E</td><td>國際/併購後封測同業</td><td>矽品已併入日月光集團,Amkor為國際獨立OSAT大廠</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——自身估值中性,但與龍頭日月光的倍數對照顯示明顯折價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約25.3x(以推演EPS10.5計)在封測四檔中屬中段,高於力成、南茂,低於日月光。京元電子7月營收年增36.75%是四檔中成長最快的一檔,顯示AI測試訂單能見度確實正在轉化為實際財務貢獻。核心限制是FactSet最新公開調查(5月)已明顯過時,未反映7月動能加速,現階段估值判斷的信度不如本站其他有近期共識可查的個股;若改用同業日月光的評價倍數對照,京元電子現價則顯示相對便宜,反映測試專業廠可能未被市場給予足夠的AI測試題材溢價。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價247 vs 中值</th></tr>
+  <tr><td>FactSet目標價(5月調查,已過時)</td><td>單點370,未反映7月動能,信度存疑</td><td>單點370(低信度)</td><td class="green">便宜 -33.2%(方法本身已過時,應打折看待)</td></tr>
+  <tr><td>2026E P/E×EPS(自身,推演)</td><td>EPS約10.5(推演,反映7月動能加速),測試專業廠倍數23~30x</td><td>242~315(中值278.5)</td><td class="amber">合理 -11.3%</td></tr>
+  <tr><td>日月光同業倍數對照</td><td>套用日月光2026E Fwd P/E約39.2x於京元電子推演EPS 10.5(業務性質部分不同,僅供參考)</td><td>單點約411.8(推演)</td><td class="green">便宜 -40.0%(業務性質差異大,不宜直接採信)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:近期公開的EPS共識已過時(5月調查),缺乏近期實績可校準多年期FCF假設。三種方法呈現由便宜到合理的光譜:自身推演本益比法顯示合理略偏便宜(-11.3%),是三者中較可信的錨點;FactSet目標價與日月光倍數對照皆顯示更大幅度便宜,但前者已過時、後者業務性質差異過大,皆不宜作為主要判斷依據。整體而言,京元電子現階段估值判斷的核心限制是缺乏近期(8月)的機構共識可供交叉驗證。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">追價後高檔震盪</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">8/12觸及260後回落至247,現價仍低於今年1月低點</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">最新公開資料已過時(5月)</div><div class="note">查無8月最新目標價或EPS調查更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收確認加速→FactSet舊估值9.77(2026E,待更新)</div><div class="note">Q3法說會與機構是否更新共識是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,自身推演)</td><td>10.5(推演,反映7月動能)</td><td>23~30x</td><td>242~315(中值278.5)</td><td class="green">約 +13%</td></tr>
+  <tr><td>2026(FactSet舊估值,對照)</td><td>9.77(5月調查,已過時)</td><td>23~30x</td><td>225~293(中值259,推演)</td><td>約 +5%(對照情境)</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">本表並列自身推演與FactSet舊估值兩種2026年情境,兩者隱含報酬皆為正但幅度不同,反映EPS估值本身的不確定性;2027年因分析師覆蓋的近期共識查無,不強行推演。京元電子是封測四檔中中長期估值能見度相對最模糊的一檔,主因是缺乏近期(8月)的機構調查可供對照。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 150~450;left% = (價格-150)/300×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19%"><div class="lbl">Bear(3~6月)</div><div class="price red">195~215</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:37.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">230~265</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">300~330</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">375~400</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:33.8%"><div class="arrow">▲</div><div class="price">247</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>195~215</td><td>AI測試訂單能見度不如預期或客戶集中度風險浮現,重返7月低點195附近</td><td class="red">約 -17%</td></tr>
+  <tr><td class="amber">Base</td><td>230~265</td><td>7月動能延續但無驚喜,機構共識尚未更新;現價落於此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>300~330</td><td>Q3法說會驗證AI測試訂單持續放量,機構更新目標價至300以上</td><td class="green">約 +28%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>375~400</td><td>AI測試題材全面重新評價,重返並超越今年高點367.5</td><td class="green">約 +57%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">225~238</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">205~222</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">185~202</td><td>40%(機構共識已過時,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">175</b>(明顯低於今年低點區間)= AI測試訂單能見度出現實質裂痕或客戶集中度風險爆發,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破262(近期高點)+量能確認,且機構釋出8月最新目標價更新<br>
+    進場區:<b class="green">263~280</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回255即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">300~330</div><div class="note">賣出30~50%;Bull下緣,測試題材股高檔應紀律分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">375~400</div><div class="note">Stretched區/重返並超越今年高點;續抱條件是AI測試訂單能見度持續延伸、機構共識同步上修</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:7月營收39.91億元創歷史新高(月增10.19%、年增36.75%),是封測四檔中7月YoY成長最快的一檔,前七月累計年增36.18%驗證AI測試訂單能見度正在轉化為實際財務貢獻;但現價247仍低於今年1月低點252,顯示儘管營收創高,股價尚未完全收復年初以來記憶體/封測族群系統性重挫的跌幅。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet最新公開調查是5月的舊資料(EPS9.77、目標價370),已逾3個月未更新且未反映7月動能加速,是本檔最大的資料缺口;自身推演本益比法(反映7月確認的動能)顯示現價合理略偏便宜約11%,是三種方法中較可信的錨點,與同業日月光的倍數對照則顯示更大幅度便宜,但業務性質差異過大不宜直接採信。</div>
+<div class="concl">③ <b>結論</b>:分批布局、AI測試訂單能見度是核心優勢——現價247落於Base區間內,上檔Bull +28%/Stretched +57%對下檔Bear -17%;左側倉位應保守分批(機構共識已過時,信度不如其他個股),收盤跌破175即AI測試訂單能見度出現裂痕或客戶集中度風險爆發,無條件出場。下一個驗證點是機構是否釋出8月最新目標價更新,以及Q3法說會。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(Yahoo股市,2026/08公告);AI測試訂單能見度背景(readmo財經、今周刊,2026/05);FactSet共識EPS與目標價(LINE TODAY鉅亨速報,5月調查9.77元/370元,查無8月最新更新);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;8月最新機構目標價、2027年EPS共識、精確發行股數查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、Yahoo股市、readmo財經、今周刊、LINE TODAY鉅亨速報、nStock股市資訊、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔的核心限制是機構共識已過時(5月調查),估值判斷已明確標註此信度落差,不應僅採信對多方有利的舊數字。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

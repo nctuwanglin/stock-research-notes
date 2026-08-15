@@ -28,6 +28,18 @@
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -63,142 +75,131 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>南茂 (8150) <span class="badge amber">估值:合理偏貴(自身P/E已反映EPS大幅上修)</span> <span class="badge amber">結論:分批布局,靜待Q2財報驗證</span><span class="autodispo" data-code="8150"></span></h1>
-<div class="sub">台股(TWSE)・記憶體封測(DRAM/Flash)+驅動IC封測雙引擎|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="8150">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>南茂 (8150) <span class="badge amber">估值:合理(自身推演本益比法接近現價)</span> <span class="badge amber">結論:中性,靜待資本支出效益與Q3驗證</span><span class="autodispo" data-code="8150"></span></h1>
+<div class="sub">台股(TWSE)・記憶體封測(DRAM/Flash)+驅動IC封測雙引擎|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="8150">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">46</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="8150">現價 <b>91.9</b> → 目標價 <b>78</b><span class="down"> (-15.1%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS 4.03 × 19x(OSAT封測服務業)</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">65</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="8150">現價 <b>91.9</b> → 目標價 <b>90</b><span class="down"> (-2.1%)</span></div>
+  <div class="vbasis">推導依據:2026E EPS約4.5(推演:H1實績2.00+H2保守外推) × 20x(OSAT封測服務業,反映Q2獲利大幅超預期但資本支出大幅上修帶來短期FCF壓力);較8/7分析目標價78上修,反映Q2財報與7月營收確認動能加速</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">86.3</div><div class="note">2026/08/07 收盤 -0.7%;7月大漲後拉回整理</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約608.0億</div><div class="note">股本70.45億,已發行704,523,126股</div></div>
-  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">0.72</div><div class="note">季增1%,年增200%;Q2財報尚未公布</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約21.4x</div><div class="note">依法人上修後EPS估值4.03計算</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">65.7~125</div><div class="note">7月區間;現價落於區間中上段</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">91.9</div><div class="note">2026/08/14 收盤 -1.0%(-1.1%);8/11法說會後高點99.4</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">28.23億</div><div class="note">YoY+43.6%,MoM+11.2%</div></div>
+  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">1.28</div><div class="note">季增76.6%,年增267.3%,四年新高;H1累計EPS 2.00</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約20.4x(推演)</div><div class="note">依自身推演EPS 4.5計算,法人2月估值(4.03~4.06)已過時</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">65.7~125</div><div class="note">7~8月區間;現價落於區間中段</div></div>
   <div class="card"><div class="label">今年(2026)區間</div><div class="value">46.8~125</div><div class="note">1月低46.8、7月高125(TWSE官方日成交資訊)</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼漲(儘管仍距7月高點有距離)?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~2月</span><b class="green">法說會:記憶體封測需求強勁復甦,報價調漲</b>:南茂已在Q1再度調漲記憶體產品(DRAM/Flash)相關封測報價,董座證實新產能已簽三年保障合約,顯示議價能力提升。</li>
-  <li><span class="date">2026年初</span><b class="green">法人大幅調升EPS估值</b>:受惠記憶體與車用需求強勁,加上封測產能嚴重短缺,法人將全年EPS估值由原估2.63元大幅調升至4.03元,調升幅度逾53%。</li>
-  <li><span class="date">2026/Q1</span>Q1 EPS 0.72元,季增1%、年增200%;記憶體封測產能自2025年Q4起已全數滿載並預計延續至2026年上半年,現階段僅能滿足既有客戶約八成訂單——產能供不應求本身就是報價持續調漲的基礎。</li>
-  <li><span class="date">2026/07</span>股價從7月初約73附近一路衝上7月高點125,反映市場對記憶體封測超級循環與南茂作為主要受惠OSAT廠地位的樂觀情緒。</li>
-  <li><span class="date">2026/08/07</span>股價收86.3(-0.7%),自7月高點125已回檔約31%,顯示市場情緒較高點已明顯降溫,但仍處相對高檔區間。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2財報公布日期查無,是本次分析的即期資料缺口,市場目前仍在等待Q1的高成長動能(EPS年增200%)能否延續至Q2;②公司財測公開表示「除第1季因工作天數較少而有小幅修正外,下半年表現可望優於上半年」,這代表Q2可能是相對淡季,不宜直接以Q1的高成長率線性外推全年;③7月營收公告查無,無法驗證6月營收(23.84億,月減3.1%)後的最新動能是否延續。</li>
+  <li><span class="date">2026/02/25</span>法說會:記憶體封測需求強勁復甦,董座證實新產能已簽三年保障合約;法人將全年EPS估值由2.63元上修至4.03~4.06元,給予目標價70元——此為目前公開可查的最新券商目標價,已明顯落後於後續實績。</li>
+  <li><span class="date">2026年初~7月</span>股價從年初低點46.8一路飆升至7月16日高點125,隨後急殺至7月30日低點65.7(跌幅近48%),反映市場對記憶體封測超級循環故事的樂觀情緒先透支、後急速修正。</li>
+  <li><span class="date">2026/08/10</span><b class="green">7月營收28.23億元,月增11.2%,年增43.6%</b>:前七月累計171.42億元,年增29.5%,動能持續加速。</li>
+  <li><span class="date">2026/08/11</span><b class="green">Q2法說會:單季EPS 1.28元,季增76.6%(近八成)、年增267.3%,雙雙創四年新高;毛利率跳升至18.0%(季增4.2個百分點);H1累計EPS達2.00元</b>,已達2月法人上修後全年估值(4.03~4.06元)近半。董事長鄭世杰同時宣布重大資本支出計畫:2026年資本支出占營收比重由原本不到20%大幅上修至25%以上,2027年維持同一水位,啟動兩年高強度擴產期,瞄準記憶體、行動裝置、AI ASIC、光通訊/矽光子等新產品需求。</li>
+  <li><span class="date">2026/08/11~14</span>股價劇烈反應——法說會當日收99.0(+6.1%,近月高點99.4),隔日拉回92.2(-6.8%),8/13持平92.9(+0.7%),8/14收91.9(-1.0%)。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①資本支出占比大幅上修意味著2026~2027年折舊費用將同步走高,若記憶體封測報價循環轉折,毛利率反而可能受資本密集度提高侵蝕,不宜只看營收/EPS成長而忽略自由現金流壓力;②公開可查的最新券商目標價仍停留在2月的70元、EPS估值4.03~4.06元,明顯落後於Q2實績(H1已達2.00,幾乎是當時全年估值的一半),但市場尚未見到明確更新後的目標價,存在資訊落差;③股價自7/16高點125已一度回檔至65.7(近48%),即使Q2財報與7月營收皆超預期,截至8/14仍未收復失地(距高點仍有約26.5%距離),顯示市場對資本支出上修是否稀釋短期獲利仍有疑慮。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">記憶體封測產能自2025年Q4起已全數滿載,現階段僅能滿足既有客戶約八成訂單,產能供不應求支撐報價持續調漲。<div class="src">— 經濟日報,南茂法說會整理</div></div>
-    <div class="quote">法人火速將全年EPS估值由2.63元大幅調升至4.03元,反映記憶體超級循環對OSAT封測廠的實質獲利貢獻正在兌現。<div class="src">— 旺得富理財網,2026/02</div></div>
-    <div class="quote">新產能已簽三年保障合約,顯示南茂議價能力提升,不再是單純代工角色。<div class="src">— 鉅亨網,南茂法說會</div></div>
+    <div class="quote">Q2單季EPS季增近八成至1.28元,毛利率衝上18%,並宣布啟動兩年高強度擴產計畫,瞄準記憶體、AI ASIC與光通訊/矽光子新產品需求。<div class="src">— Sinotrade豐雲學堂,2026/08法說整理</div></div>
+    <div class="quote">7月營收28.23億元、年增43.6%,前七月累計年增29.5%,驗證記憶體封測與驅動IC雙引擎動能持續加速。<div class="src">— TechNews科技新報、MoneyDJ,2026/08/10公告</div></div>
+    <div class="quote">董事長鄭世杰表示記憶體客戶備貨積極,加上驅動IC季節性需求與急單挹注,下半年營運「穩健樂觀」,並將2026年資本支出占比拉高至25%以上、2027年維持同一水位。<div class="src">— 股市爆料同學會,2026/08法說整理</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">公司財測明確表示「下半年表現可望優於上半年」,暗示Q1~Q2可能是相對淡季,不宜直接以Q1年增200%的高成長率線性外推全年獲利。<div class="src">— 經濟日報,南茂法說會整理</div></div>
-    <div class="quote">股價自7月高點125已回檔約31%,即使記憶體封測基本面沒有轉差,顯示市場已提前透支部分樂觀預期。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">Q2財報公布日期與7月營收皆查無,現階段對南茂的樂觀判斷仍缺乏最新數據驗證,存在資訊落差。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">資本支出占比大幅上修暗示短期折舊費用與資本壓力增加,自由現金流可能受壓,這與EPS高成長的樂觀敘事形成對比,不宜僅看獲利成長而忽略資本密集度提高的代價。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">公開可查的最新券商目標價(70元)與EPS估值(4.03~4.06元)仍停留在2月,H1實績EPS已達2.00元、逼近該估值近半,但查無Q2財報後的正式目標價調整,存在明顯的資訊落差。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價自7月高點125已一度重挫至65.7(近48%),即使Q2財報與7月營收皆超預期,截至8/14仍未收復,顯示市場對資本支出效益兌現時點仍存疑慮。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>EPS估值</th><th>依據</th></tr>
-  <tr class="hl"><td>法人上修後估值(2026年初)</td><td class="green">4.03</td><td>自原估2.63元上修逾53%,受惠記憶體與車用需求強勁+封測產能嚴重短缺</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">查無明確券商目標價可供交叉對照,亦查無最新一次(Q2財報後)的EPS估值調整;三大法人近10日買賣超以下方自動更新籌碼區塊為準。外資近期買賣超單日曾見-8,156張(7/13資料),顯示籌碼面短線仍有調節。</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>法人估值(2026/02,已過時)</td><td class="amber">70</td><td>EPS估值上修至4.03~4.06元;此估值未反映Q2財報(EPS1.28創四年新高)與7月營收動能</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無Q2財報(8/11)後正式更新的券商目標價或EPS估值;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
-<div class="instflow" data-code="8150"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-21,239</span></td><td>3/10</td><td><span class="green">+11,741</span></td></tr><tr><td>投信</td><td><span class="red">-12,173</span></td><td>1/10</td><td><span class="red">-8,298</span></td></tr><tr><td>自營商</td><td><span class="green">+1,309</span></td><td>5/10</td><td><span class="green">+694</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-32,104</span></td><td>2/10</td><td><span class="green">+4,137</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/13</td><td><span class="green">+11,741</span></td><td><span class="red">-8,298</span></td><td><span class="green">+694</span></td><td><span class="green">+4,137</span></td></tr><tr><td>08/12</td><td><span class="red">-24,203</span></td><td>+0</td><td><span class="red">-2,221</span></td><td><span class="red">-26,424</span></td></tr><tr><td>08/11</td><td><span class="red">-3,597</span></td><td><span class="red">-6</span></td><td><span class="green">+1,852</span></td><td><span class="red">-1,750</span></td></tr><tr><td>08/10</td><td><span class="green">+5,196</span></td><td>+0</td><td><span class="green">+287</span></td><td><span class="green">+5,483</span></td></tr><tr><td>08/07</td><td><span class="red">-3,112</span></td><td>+0</td><td><span class="red">-55</span></td><td><span class="red">-3,167</span></td></tr><tr><td>08/06</td><td><span class="red">-1,020</span></td><td>+0</td><td><span class="red">-175</span></td><td><span class="red">-1,195</span></td></tr><tr><td>08/05</td><td><span class="red">-3,364</span></td><td><span class="red">-165</span></td><td><span class="green">+484</span></td><td><span class="red">-3,045</span></td></tr><tr><td>08/04</td><td><span class="red">-1,747</span></td><td><span class="green">+30</span></td><td><span class="red">-396</span></td><td><span class="red">-2,114</span></td></tr><tr><td>08/03</td><td><span class="red">-1,687</span></td><td><span class="red">-1,377</span></td><td><span class="green">+851</span></td><td><span class="red">-2,214</span></td></tr><tr><td>07/31</td><td><span class="green">+554</span></td><td><span class="red">-2,357</span></td><td><span class="red">-12</span></td><td><span class="red">-1,815</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 07/31~08/13(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<div class="instflow" data-code="8150"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-27,383</span></td><td>2/10</td><td><span class="red">-5,590</span></td></tr><tr><td>投信</td><td><span class="red">-9,812</span></td><td>2/10</td><td><span class="green">+4</span></td></tr><tr><td>自營商</td><td><span class="green">+472</span></td><td>5/10</td><td><span class="red">-849</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-36,724</span></td><td>2/10</td><td><span class="red">-6,435</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-5,590</span></td><td><span class="green">+4</span></td><td><span class="red">-849</span></td><td><span class="red">-6,435</span></td></tr><tr><td>08/13</td><td><span class="green">+11,741</span></td><td><span class="red">-8,298</span></td><td><span class="green">+694</span></td><td><span class="green">+4,137</span></td></tr><tr><td>08/12</td><td><span class="red">-24,203</span></td><td>+0</td><td><span class="red">-2,221</span></td><td><span class="red">-26,424</span></td></tr><tr><td>08/11</td><td><span class="red">-3,597</span></td><td><span class="red">-6</span></td><td><span class="green">+1,852</span></td><td><span class="red">-1,750</span></td></tr><tr><td>08/10</td><td><span class="green">+5,196</span></td><td>+0</td><td><span class="green">+287</span></td><td><span class="green">+5,483</span></td></tr><tr><td>08/07</td><td><span class="red">-3,112</span></td><td>+0</td><td><span class="red">-55</span></td><td><span class="red">-3,167</span></td></tr><tr><td>08/06</td><td><span class="red">-1,020</span></td><td>+0</td><td><span class="red">-175</span></td><td><span class="red">-1,195</span></td></tr><tr><td>08/05</td><td><span class="red">-3,364</span></td><td><span class="red">-165</span></td><td><span class="green">+484</span></td><td><span class="red">-3,045</span></td></tr><tr><td>08/04</td><td><span class="red">-1,747</span></td><td><span class="green">+30</span></td><td><span class="red">-396</span></td><td><span class="red">-2,114</span></td></tr><tr><td>08/03</td><td><span class="red">-1,687</span></td><td><span class="red">-1,377</span></td><td><span class="green">+851</span></td><td><span class="red">-2,214</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
 <!--/instflow-->
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">6月營收</div><div class="value amber">23.84億</div><div class="note">MoM-3.1%,YoY+17.72%;7月營收查無</div></div>
-  <div class="card"><div class="label">前五月累計營收</div><div class="value green">117.80億</div><div class="note">YoY+25.08%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">0.72</div><div class="note">季增1%,年增200%</div></div>
-  <div class="card"><div class="label">封裝稼動率</div><div class="value green">>75%</div><div class="note">記憶體封測產能滿載,僅能滿足既有客戶約八成訂單</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">3檔,0.64億</div><div class="note">合計規模小,主動式資金關注度低</div></div>
-  <div class="card"><div class="label">2025年全年營收</div><div class="value">239.33億</div><div class="note">基期參考</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">28.23億</div><div class="note">MoM+11.2%,YoY+43.6%</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">171.42億</div><div class="note">YoY+29.5%</div></div>
+  <div class="card"><div class="label">H1 2026 EPS</div><div class="value green">2.00</div><div class="note">Q1 0.72 + Q2 1.28(季增76.6%)</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">18.0%</div><div class="note">季增4.2個百分點</div></div>
+  <div class="card"><div class="label">2026年資本支出占比</div><div class="value amber">上修至25%+</div><div class="note">原<20%;2027年維持同水位,兩年高強度擴產</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">3檔,約0.64億</div><div class="note">封測四檔中規模最小(2026/08/07資料)</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>2026動能</th><th>與南茂的差異</th></tr>
-  <tr class="hl"><td>8150.TW</td><td>南茂</td><td>約21.4x(依上修後EPS4.03計)</td><td>Q1 EPS年增200%,記憶體封測產能滿載</td><td>記憶體+驅動IC雙引擎OSAT廠,直接受惠記憶體超級循環</td></tr>
-  <tr><td>6239.TW</td><td>力成(參考,記憶體封測同業)</td><td>查無精確Fwd P/E</td><td>同受惠記憶體封測需求</td><td>規模更大的記憶體封測龍頭,本站另有獨立分析可交叉參考</td></tr>
-  <tr><td>2408.TW</td><td>南亞科(DRAM原廠,參考)</td><td>約7.8x(EPS58.67,本站另篇分析)</td><td>7月營收YoY+719.61%</td><td>DRAM原廠而非封測服務商,估值倍數通常低於OSAT服務業</td></tr>
-  <tr><td>AMKR</td><td>Amkor Technology(美股,封測同業)</td><td>查無精確Fwd P/E</td><td>國際封測大廠</td><td>國際OSAT龍頭,規模遠大於南茂,可作評價參照</td></tr>
-  <tr><td>3711.TW</td><td>日月光投控(先進封裝龍頭,參考)</td><td>查無直接可比</td><td>先進封裝需求強勁</td><td>業務範疇更廣(含先進封裝),與南茂記憶體封測利基定位不同</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與南茂的差異</th></tr>
+  <tr class="hl"><td>8150.TW</td><td>南茂</td><td>約20.4x(EPS4.5,推演)</td><td>YoY+43.6%,MoM+11.2%</td><td>記憶體+驅動IC封測雙引擎,封測四檔中資本支出上修幅度最大</td></tr>
+  <tr><td>3711.TW</td><td>日月光投控(本站另篇分析)</td><td>約39.2x(EPS15.71)</td><td>YoY+43.15%,單月新高</td><td>封測絕對龍頭,規模與估值倍數皆遠高於南茂</td></tr>
+  <tr><td>6239.TW</td><td>力成(本站另篇分析)</td><td>約23.1x(EPS12.06)</td><td>YoY+29.4%,MoM+8.5%</td><td>記憶體封測+先進封裝後段委外雙引擎,券商目標價普遍高於現價</td></tr>
+  <tr><td>2449.TW</td><td>京元電子(本站另篇分析)</td><td>約25.3x(EPS9.77,已過時,推演約更低)</td><td>YoY+36.75%,創歷史新高</td><td>純測試專業廠,不涉封裝,AI測試訂單能見度高</td></tr>
+  <tr><td>AMKR</td><td>Amkor Technology(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際封測同業</td><td>國際OSAT大廠,可作長期評價參照</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理偏貴——自身本益比已相當程度反映法人上修後的樂觀EPS估值。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約21.4x(以法人上修後EPS 4.03計)已不算便宜,顯示市場已提前反映記憶體封測產能滿載、報價調漲的樂觀故事。與DRAM原廠南亞科(約7.8x)相比看似昂貴,但兩者業務性質不同——OSAT封測服務商通常享有比原廠更高的評價倍數,不宜直接類比。核心風險在於Q2財報與7月營收皆查無最新數據,現階段的樂觀評價仍缺乏最新驗證,加上公司自身財測暗示上半年可能是相對淡季,若Q2成長率不如Q1的年增200%亮眼,現價的合理性將面臨考驗。</div>
+  <b>估值判斷:合理——自身推演本益比法顯示現價已相當程度反映Q2獲利大幅超預期,但資本支出大幅上修帶來的短期壓力尚未被市場充分定價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約20.4x(以自身推演EPS4.5計)在封測四檔中屬中低段,低於日月光(39.2x)與京元電子(25.3x),與力成(23.1x)相近。公開可查的唯一券商目標價(70元)明顯過時,已被H1實績(EPS2.00)追過近半。核心風險在於資本支出占比大幅上修(由<20%拉高至25%以上)意味著折舊費用同步走高,若記憶體封測報價循環轉折,毛利率可能反而受資本密集度提高侵蝕;現階段的「合理」判斷應理解為Q2實績與擴產題材已部分反映於股價,尚未到明顯低估的程度。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價86.3 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(法人上修後)</td><td>EPS 4.03,OSAT封測服務業合理倍數15~22x</td><td>60.5~88.7(中值74.6)</td><td class="red">貴 +15.7%</td></tr>
-  <tr><td>2026E P/E×EPS(保守情境)</td><td>若Q2成長不如Q1,採原估2.63元,倍數15~22x</td><td>39.5~57.9(中值48.7,推演)</td><td class="red">貴 +77.2%(對照情境,凸顯EPS假設敏感度極高)</td></tr>
-  <tr><td>南亞科(DRAM原廠)倍數對照</td><td>套用南亞科2026E Fwd P/E約7.8x於南茂EPS 4.03(業務性質不同,僅供參考)</td><td>單點約31.4(推演,信度低)</td><td class="red">貴(業務性質差異過大,不宜直接採信)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價91.9 vs 中值</th></tr>
+  <tr><td>法人估值(2026/02,已過時)</td><td>EPS4.03~4.06,目標價70(單點)</td><td>70(單點)</td><td class="red">貴 +31.3%(基期過時,已被H1實績追過近半,不宜採信為主要依據)</td></tr>
+  <tr><td>2026E P/E×EPS(自身推演)</td><td>EPS4.5(H1實績2.00+H2保守外推),OSAT封測服務業倍數18~22x</td><td>81~99(中值90)</td><td class="red">貴 +2.1%(接近合理,為本站主要依據)</td></tr>
+  <tr><td>封測同業(力成/日月光/京元電)Fwd P/E平均對照</td><td>三檔平均約29.2x套用南茂EPS4.5(業務組合/毛利率結構差異大,信度低)</td><td>單點約131.4(推演)</td><td class="green">便宜 -30.1%(業務結構差異過大,不宜直接採信)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2財報與7月營收皆查無,缺乏近期實績可供多年期FCF假設校準。本表刻意並列「法人上修後」與「保守(原估)」兩種EPS情境,顯示南茂目前的估值合理性高度依賴EPS 4.03這個上修後數字能否被Q2財報驗證——若Q2成長動能不如Q1,現價的貴/便宜判斷會出現逾60個百分點的落差,這種敏感度本身就是重要的風險提示。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:資本支出占比大幅上修(至25%以上、維持兩年)使近兩年自由現金流可預測性明顯降低,強行套用多年期FCF假設會製造虛假精確度。三種方法中,2月的過時估值已明顯失去參考價值,自身推演本益比法(貴約2%)是本站認為信度最高的主要依據,同業倍數對照僅供參考且刻意標註低信度——南茂目前的估值合理性,關鍵仍在於Q3能否驗證資本支出擴產計畫不會侵蝕短期毛利率。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月大漲後拉回整理</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">股價自7月高點125回檔逾31%,外資近期單日賣超8,156張</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">EPS大幅上修但查無目標價</div><div class="note">EPS估值自2.63上修至4.03,惟查無明確券商目標價</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">0.72(Q1)→4.03(2026E上修)</div><div class="note">Q2財報公布日期查無,是關鍵驗證點</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報後劇烈震盪,情緒分歧</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">法說會當日+6.1%,隔日即-6.8%,顯示市場對資本支出題材看法不一</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">唯一公開目標價已過時</div><div class="note">70元(2026/02),查無Q2財報後正式更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.00(H1實績)→4.5(2026E推演)</div><div class="note">Q3法說會與資本支出效益是下一個驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年,法人上修後)</td><td>4.03(單點,查無低高區間)</td><td>15~22x</td><td>60.5~88.7(中值74.6)</td><td class="red">約 -13%</td></tr>
-  <tr><td>2026(保守情境,對照)</td><td>2.63(原估)</td><td>15~22x</td><td>39.5~57.9(中值48.7,推演)</td><td class="red">約 -44%(對照情境)</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年,自身推演)</td><td>4.5(單點,H1實績2.00+H2外推)</td><td>18~22x</td><td>81~99(中值90)</td><td class="red">約 -2%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識(公司預期資本支出效益於2027年顯現,但無EPS數字)</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">兩種2026年EPS情境的隱含報酬都偏負,顯示現價已較充分反映樂觀預期,並未提供明顯的低估空間;2027年因分析師覆蓋不足查無共識,不強行推演。這與其他幾檔記憶體超級循環受惠股(如南亞科、群聯)的路徑不同,反映南茂的漲勢可能已較同族群更早透支未來預期。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬接近持平,顯示現價已大致反映Q2實績與擴產題材,並未提供明顯的低估空間;2027、2028年因公司雖有資本支出擴產指引但未給出對應EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:南茂短期(2026年)估值已大致合理,長期路徑高度依賴資本支出擴產計畫能否在不侵蝕毛利率的前提下兌現記憶體、AI ASIC與矽光子新產品需求的成長故事。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 35~140;left% = (價格-35)/105×92+4 -->
+<!-- 刻度 40~140;left% = (價格-40)/100×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">48~55</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41%"><div class="lbl">Base(6~12月)</div><div class="price amber">70~82</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">95~105</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">122~130</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:49.9%"><div class="arrow">▲</div><div class="price">86.3</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:23.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">58~65</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:48.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">82~95</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:69.8%"><div class="lbl">Bull(12~18月)</div><div class="price green">105~118</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">122~135</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:51.8%"><div class="arrow">▲</div><div class="price">91.9</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>48~55</td><td>Q2成長不如Q1、EPS回落至原估2.63元附近,或記憶體封測報價轉折</td><td class="red">約 -40%</td></tr>
-  <tr><td class="amber">Base</td><td>70~82</td><td>Q2成長動能持平但無驚喜,EPS落在2.63~4.03之間;現價落於此區間上緣附近</td><td class="red">約 -12%</td></tr>
-  <tr><td class="green">Bull</td><td>95~105</td><td>Q2財報驗證EPS4.03上修合理,產能滿載與報價調漲持續兌現</td><td class="green">約 +16%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>122~130</td><td>記憶體封測超級循環延續力道超預期,重返7月高點附近</td><td class="green">約 +46%</td></tr>
+  <tr><td class="red">Bear</td><td>58~65</td><td>資本支出侵蝕毛利率或記憶體封測報價循環轉折,跌破7/30低點</td><td class="red">約 -33%</td></tr>
+  <tr><td class="amber">Base</td><td>82~95</td><td>Q3動能持平、資本支出效益尚待驗證,無明顯驚喜;現價落於此區間內</td><td class="red">約 -4%</td></tr>
+  <tr><td class="green">Bull</td><td>105~118</td><td>Q3法說會驗證資本支出擴產效益、旺季動能延續,券商陸續更新目標價</td><td class="green">約 +21%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>122~135</td><td>資本支出題材全面兌現,重返並穩定站上7月高點125</td><td class="green">約 +40%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -207,35 +208,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">70~76</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">60~68</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">50~58</td><td>45%(EPS假設敏感度高,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">82~88</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">74~81</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">65~73</td><td>40%(資本支出效益未驗證,倉位應保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">46</b>(接近今年低點)= 記憶體封測報價轉折或Q2財報大幅不如預期,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">65</b>(跌破7/30低點及資本支出題材發酵前整理區間下緣)= 記憶體封測動能轉差或資本支出侵蝕毛利率確立,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破91.9(近期高點)+量能確認,且Q2財報公布並驗證EPS4.03上修合理<br>
-    進場區:<b class="green">92~100</b><br>
+    觸發條件:收盤突破99.4(8/11法說會後高點)+量能確認,且Q3營收與法說會驗證資本支出擴產效益不侵蝕毛利率<br>
+    進場區:<b class="green">100~108</b><br>
     移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回88即出場</div>
+    假突破失效:觸發後3日內跌回96即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">95~105</div><div class="note">賣出30~50%;Bull下緣,OSAT封測股高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">122~130</div><div class="note">Stretched區/重返7月高點附近;續抱條件是Q2財報驗證EPS上修、7月營收公布後動能未歇</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">105~118</div><div class="note">賣出30~50%;Bull下緣,OSAT封測股高檔應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">122~135</div><div class="note">Stretched區/重返7月高點附近;續抱條件是資本支出效益驗證、記憶體封測動能未歇</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:記憶體封測產能自2025年Q4起已全數滿載、現僅能滿足既有客戶約八成訂單,支撐持續調漲報價,法人已將全年EPS估值由2.63元大幅上修至4.03元;但Q2財報公布日期與7月營收皆查無,股價自7月高點125已回檔約31%,顯示市場正在等待最新數據驗證這波上修是否真實兌現。</div>
-<div class="concl">② <b>估值</b>:合理偏貴——Forward P/E約21.4x(以上修後EPS4.03計)已相當程度反映樂觀預期,若改用保守情境(原估2.63元),隱含貴的程度將擴大至逾77%,這種敏感度顯示現價合理性高度依賴Q2財報能否驗證EPS上修;公司自身財測也暗示上半年可能是相對淡季,不宜直接以Q1年增200%線性外推。</div>
-<div class="concl">③ <b>結論</b>:分批布局、靜待Q2財報驗證——現價86.3落於Base區間上緣附近,上檔Bull +16%/Stretched +46%對下檔Bear -40%,風險報酬比並不特別吸引人;左側倉位應保守分批並預留較大比例給財報公布後,收盤跌破46即報價轉折或財報大幅不如預期,無條件出場。下一個驗證點是Q2財報與7月營收的正式公布。</div>
+<div class="concl">① <b>催化劑</b>:Q2單季EPS 1.28元(季增76.6%、年增267.3%,四年新高)、毛利率跳升至18.0%,加上7月營收28.23億元(YoY+43.6%)確認記憶體封測與驅動IC雙引擎動能加速,H1累計EPS已達2.00元;公司同步宣布將2026年資本支出占比由<20%大幅上修至25%以上、2027年維持同水位,啟動兩年高強度擴產,但股價自7月高點125仍有約26.5%距離,顯示市場對擴產是否侵蝕短期獲利仍存疑慮。</div>
+<div class="concl">② <b>估值</b>:合理——自身推演本益比法(EPS4.5×18~22x,中值90)顯示現價91.9已相當程度反映Q2實績,較現價僅貴約2%;公開可查的唯一券商目標價(70元,2026/02)已明顯過時,被H1實績追過近半,不宜作為主要依據。核心風險是資本支出占比大幅上修意味著折舊費用同步走高,若記憶體封測報價循環轉折,毛利率可能反遭侵蝕。</div>
+<div class="concl">③ <b>結論</b>:中性、靜待Q3驗證資本支出效益——現價91.9落於Base區間內,上檔Bull +21%/Stretched +40%對下檔Bear -33%,本站目標價自8/7分析的78上修,惟風險報酬比因資本支出題材尚待驗證而僅屬中性;左側倉位應保守分批並預留較大比例給財報公布後,收盤跌破65即記憶體封測動能轉差或資本支出侵蝕毛利率確立,無條件出場。下一個驗證點是Q3法說會與資本支出效益是否兌現。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數彙整自財經媒體(約7.045億股);法說會與EPS上修(經濟日報、旺得富理財網、鉅亨網,2026年初~Q1);6月營收(nStock,2026/07公告,7月營收查無);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報公布日期、7月營收、明確券商目標價、2027年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、經濟日報、旺得富理財網、鉅亨網、nStock、財報狗、口袋學堂。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已刻意呈現EPS假設敏感度,不應僅採信對多方有利的上修後數字。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);股本/發行股數彙整自財經媒體(約7.045億股);法說會與EPS上修(旺得富理財網,2026/02);Q2法說會與資本支出計畫(Sinotrade豐雲學堂、股市爆料同學會,2026/08/11);7月營收(TechNews科技新報、MoneyDJ理財網、Yahoo股市,2026/08/10公告);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新,未於本次分析重新拉取);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q3財報公布日期、Q2財報後正式更新之券商目標價、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、Sinotrade豐雲學堂、股市爆料同學會、TechNews科技新報、MoneyDJ理財網、Yahoo股市、旺得富理財網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已刻意呈現過時估值與自身推演的落差,不應僅採信對多方有利的數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

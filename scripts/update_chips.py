@@ -18,6 +18,8 @@
 import json
 import os
 import re
+import ssl
+import subprocess
 import sys
 import urllib.request
 from datetime import date, timedelta
@@ -38,6 +40,19 @@ LOOKBACK = 40 # 回補時最多往前找幾個日曆日
 SHARES_PER_LOT = 1000
 
 
+def _fetch_via_curl(url, timeout):
+    """回退路徑,僅在 urllib 的 SSL 驗證失敗時使用。curl 走 macOS 系統信任庫,
+    仍會驗證憑證鏈(不是關閉驗證),只是能接受 Python/OpenSSL 較嚴格判定為
+    「缺 Subject Key Identifier」而拒絕、但瀏覽器與 curl 均接受的憑證。"""
+    r = subprocess.run(
+        ["curl", "-sS", "-A", "Mozilla/5.0 (research-notes-updater)",
+         "--max-time", str(timeout), url],
+        capture_output=True, timeout=timeout + 5)
+    if r.returncode != 0:
+        raise RuntimeError(f"curl exit {r.returncode}: {r.stderr.decode(errors='replace')[:200]}")
+    return r.stdout.decode("utf-8", errors="replace")
+
+
 def fetch(url, timeout=30, retries=3):
     last = None
     for _ in range(retries):
@@ -47,6 +62,13 @@ def fetch(url, timeout=30, retries=3):
                 "Accept": "application/json,text/csv,*/*"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", errors="replace")
+        except urllib.error.URLError as e:
+            last = e
+            if isinstance(e.reason, ssl.SSLCertVerificationError):
+                try:
+                    return _fetch_via_curl(url, timeout)
+                except Exception as ce:  # noqa: BLE001
+                    last = ce
         except Exception as e:  # noqa: BLE001
             last = e
     raise last

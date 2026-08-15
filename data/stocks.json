@@ -73,17 +73,17 @@
   "6239": {
     "name": "力成",
     "market": "twse",
-    "file": "6239-powertech-event.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 262.5,
+    "file": "6239-powertech.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 278.0,
     "tags": [
       "封測",
       "記憶體"
     ],
-    "target": 295,
+    "target": 345,
     "stop": 175,
-    "basis": "四情境Base上緣;TSV量產Q4才認列",
-    "rating": "hold"
+    "basis": "券商目標價共識5家(290~400,中值345);較8/7分析目標價295上修,反映7月營收確認雙引擎動能加速",
+    "rating": "buy"
   },
   "3324": {
     "name": "雙鴻",
@@ -117,15 +117,15 @@
     "name": "南茂",
     "market": "twse",
     "file": "8150-chipmos.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 86.3,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 91.9,
     "tags": [
       "封測",
       "記憶體"
     ],
-    "target": 78,
-    "stop": 46,
-    "basis": "2026E EPS 4.03 × 19x(OSAT封測服務業)",
+    "target": 90,
+    "stop": 65,
+    "basis": "2026E EPS約4.5(推演:H1實績2.00+H2保守外推) × 20x(OSAT封測服務業);較8/7分析目標價78上修,反映Q2財報與7月營收確認動能加速,惟資本支出大幅上修帶來短期FCF壓力",
     "rating": "hold"
   },
   "2303": {
@@ -347,15 +347,15 @@
     "name": "日月光投控",
     "market": "twse",
     "file": "3711-ase.html",
-    "analysis_date": "2026-08-06",
-    "analysis_price": 595.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 616.0,
     "tags": [
       "封測",
       "先進封裝"
     ],
     "target": 650,
     "stop": 380,
-    "basis": "四情境Base上緣;ATM毛利率結構區間上緣",
+    "basis": "FactSet 2026E EPS共識15.71 × 30x(先進封裝倍增題材溢價,高於傳統ATM倍數);與8/6分析目標價650一致,7月營收beat未改變估值假設",
     "rating": "hold"
   },
   "2345": {
@@ -456,5 +456,19 @@
     "stop": 46,
     "rating": "hold",
     "basis": "2027E EPS 約4.0(推演,查無券商共識) × 17x;毛利率僅4.84%,不適用散熱同業(奇鋐26.5%、雙鴻29.77%)的倍數"
+  },
+  "2449": {
+    "name": "京元電子",
+    "market": "twse",
+    "file": "2449-kyec.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 247.0,
+    "tags": [
+      "封測"
+    ],
+    "target": 284,
+    "stop": 175,
+    "basis": "2026E EPS約10.5(推演,反映7月動能加速,高於FactSet 5月估值9.77) × 27x(測試專業廠+AI訂單能見度溢價)",
+    "rating": "hold"
   }
 }
