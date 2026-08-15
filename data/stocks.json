@@ -32,42 +32,43 @@
     "name": "旺宏",
     "market": "twse",
     "file": "2337-macronix.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 121.5,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 137.0,
     "tags": [
       "記憶體"
     ],
-    "target": 155,
-    "stop": 85,
-    "basis": "2026E EPS 18.62 × 8x(轉盈初期折價)",
-    "rating": "buy"
+    "target": 150,
+    "stop": 95,
+    "basis": "本土法人保守PB法(2026E淨值×3~3.5倍)給92~93元,惟外資樂觀情境給180~182元,兩派專業意見分歧近2倍;本站取兩者間偏保守的中間值,反映Q2毛利率跳升主因存貨跌價回冲屬非常態效應,信度需Q3驗證",
+    "rating": "hold"
   },
   "2408": {
     "name": "南亞科",
     "market": "twse",
     "file": "2408-nanya.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 457.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 512.0,
     "tags": [
       "記憶體"
     ],
-    "target": 530,
-    "stop": 310,
-    "basis": "2026E EPS 58.67 × 9x(2028獲利回落不給更高)",
-    "rating": "buy"
+    "target": 555,
+    "stop": 325,
+    "basis": "FactSet共識目標價555(2026E EPS共識58.67,14位分析師);與8/7分析目標價530相近,惟股價自457漲至512(+12%)已縮小折價空間,評等由偏多轉為中性",
+    "rating": "hold"
   },
   "2344": {
     "name": "華邦電",
     "market": "twse",
     "file": "2344-winbond.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 163.5,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 183.5,
     "tags": [
-      "記憶體"
+      "記憶體",
+      "晶圓代工"
     ],
-    "target": 190,
-    "stop": 110,
-    "basis": "2026E EPS 21.27 × 9x(CMS結構性題材溢價)",
+    "target": 236,
+    "stop": 130,
+    "basis": "FactSet共識目標價236(2026E EPS共識24.43,11位分析師);與8/7分析目標價190相比上修,反映7月營收267.73億創歷史新高(YoY+291.55%)驗證記憶體漲價循環延續至Q3",
     "rating": "buy"
   },
   "6239": {
@@ -232,16 +233,16 @@
     "name": "群聯",
     "market": "tpex",
     "file": "8299-phison.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 2020.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 2080.0,
     "tags": [
       "記憶體",
       "IC設計"
     ],
-    "target": 2100,
-    "stop": 1380,
-    "basis": "正常化EPS約250 × 8.4x(2027E腰斬53%不可用2026峰值)",
-    "rating": "hold"
+    "target": 2998,
+    "stop": 1650,
+    "basis": "FactSet共識目標價2998(2026E EPS共識359.86,13位分析師,約8.3倍本益比,與先前分析「不用2026峰值本益比」的紀律一致);與8/7分析目標價2100相比大幅上修,反映H1實績EPS187.43大幅超越先前保守假設,惟8/14法說會後股價重挫8.77%屬利多出盡式賣壓",
+    "rating": "buy"
   },
   "3008": {
     "name": "大立光",

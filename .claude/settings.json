@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git fetch:*)",
+      "Bash(git mv:*)",
+      "Bash(git rm:*)",
+      "Bash(python3:*)",
+      "Bash(curl:*)",
+      "Bash(cp:*)",
+      "Bash(ls:*)",
+      "Bash(sleep:*)",
+      "Edit",
+      "Write"
+    ]
+  }
+}
