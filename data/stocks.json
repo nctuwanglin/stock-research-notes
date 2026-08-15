@@ -247,14 +247,14 @@
     "name": "大立光",
     "market": "twse",
     "file": "3008-largan.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 4355.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 4610.0,
     "tags": [
       "光學鏡頭"
     ],
-    "target": 4500,
+    "target": 5150,
     "stop": 2800,
-    "basis": "四情境Base上緣;CPO試產線良率未驗證",
+    "basis": "FactSet共識目標價5150(2026E EPS共識187.55,19位分析師);7月營收月增31.38%驗證8月拉貨動能轉強,惟CPO首家客戶仍在認證階段,估值仍高度依賴長期選擇權價值",
     "rating": "hold"
   },
   "2327": {
@@ -303,45 +303,45 @@
     "name": "聯亞",
     "market": "tpex",
     "file": "3081-unia.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 1965.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 2540.0,
     "tags": [
       "光通訊",
       "矽光子"
     ],
-    "target": 1400,
-    "stop": 850,
-    "basis": "四情境Base上緣;暴漲已透支未來情境",
+    "target": 1500,
+    "stop": 1750,
+    "basis": "2027E EPS 24.3(美系券商預估) × 60x(題材溢價倍數,已高於一般成長股常態);美系券商12個月目標價4,738元與其自行揭露的2029年EPS×終值倍數換算結果不完全吻合,本站對該數字持保留態度,改採更保守的框架",
     "rating": "avoid"
   },
   "6442": {
     "name": "光聖",
     "market": "twse",
     "file": "6442-guansheng.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 1395.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1560.0,
     "tags": [
       "光通訊"
     ],
-    "target": 1450,
-    "stop": 700,
-    "basis": "四情境Base上緣;6月營收降溫待Q2財報解釋",
-    "rating": "hold"
+    "target": 2093,
+    "stop": 1300,
+    "basis": "財經媒體測算2026年EPS約46.5元(非機構共識,信度中等) × 45x(合理評價情境);與8/5分析目標價1450相比上修,反映Q2獲利季增46.75%創新高與7月營收動能加速",
+    "rating": "buy"
   },
   "3665": {
     "name": "貿聯-KY",
     "market": "twse",
     "file": "3665-bizlink.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 2300.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 2200.0,
     "tags": [
       "連接器",
       "線束"
     ],
-    "target": 2400,
-    "stop": 1500,
-    "basis": "四情境Base上緣;毛利率改善待新產能",
-    "rating": "hold"
+    "target": 3300,
+    "stop": 1820,
+    "basis": "FactSet共識目標價3300(2026E EPS共識64.8,17位分析師);與8/5分析目標價2400相比大幅上修,反映7月營收年增59.6%創歷史新高與HPC客戶出貨動能加速",
+    "rating": "buy"
   },
   "3711": {
     "name": "日月光投控",

@@ -26,6 +26,20 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -39,6 +53,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -60,74 +78,82 @@
   .bar>div{height:100%;}
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
-  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
-  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>聯亞 (3081) <span class="badge red">估值:明顯偏貴(暴漲已透支多年樂觀情境)</span> <span class="badge amber">結論:觀望,勿追高</span> <span class="autodispo" data-code="3081"><span class="badge dispo">處置中·2分撮合·至 8/17</span></span></h1>
-<div class="sub">台股上櫃・光通訊(矽光子/CPO 磊晶片)|資料截至 2026/08/04 收盤,製表 2026/08/05|<span class="dispostat" data-code="3081">處置中:2分撮合,至 8/17(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>聯亞 (3081) <span class="badge red">估值:極度昂貴(現價已計入未來3~4年成長路徑)</span> <span class="badge red">結論:觀望,追高安全邊際極薄</span><span class="autodispo" data-code="3081"><span class="badge dispo">處置中·2分撮合·至 8/17</span></span></h1>
+<div class="sub">台股(TPEx)・光通訊磊晶片(LD/PD),InP雷射磊晶+CPO/矽光子上游材料|事件後估值版(7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3081">處置中:2分撮合,至 8/17(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">850</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3081">現價 <b>2540</b> → 目標價 <b>1400</b><span class="down"> (-44.9%)</span></div>
-  <div class="vbasis">推導依據:四情境Base上緣;暴漲已透支未來情境</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">1750</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3081">現價 <b>2540</b> → 目標價 <b>1500</b><span class="down"> (-40.9%)</span></div>
+  <div class="vbasis">推導依據:2027E EPS 24.3(美系券商預估) × 60x(題材溢價倍數,已高於一般成長股常態);美系券商12個月目標價4,738元與其自行揭露的2029年EPS×終值倍數換算結果不完全吻合,本站對該數字持保留態度,改採更保守的框架</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">1,965</div><div class="note">08/04 收盤 +9.78%,連 3 漲;昨收 1,790</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">查無精確值</div><div class="note">本益比 235.2x(trailing,基期過低嚴重失真)</div></div>
-  <div class="card"><div class="label">近 3 日漲幅</div><div class="value red">連 3 漲</div><div class="note">CPO/矽光子題材+籌碼共振,今日近逼漲停</div></div>
-  <div class="card"><div class="label">今年區間</div><div class="value amber">查無精確值</div><div class="note">1 月法說會後題材股一度衝高,精確年度高低點未取得</div></div>
-  <div class="card"><div class="label">Forward P/E</div><div class="value red">129x</div><div class="note">現價 ÷ 2026E EPS 平均 15.21(5 家券商估值範圍 13.32~17.75,外資 17.6)</div></div>
-  <div class="card"><div class="label">券商目標價</div><div class="value red">1,100~1,300</div><div class="note">現價已高於<b>最高</b>目標價(富邦 1,300)+51.2%</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">2,540</div><div class="note">2026/08/14 收盤 -4.69%;8/12漲停後高點2,845</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約258.5億</div><div class="note">股本10.17億,已發行約1.018億股</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">5.01億</div><div class="note">創歷史新高,YoY+176.54%,MoM+19.19%</div></div>
+  <div class="card"><div class="label">2026E Forward P/E</div><div class="value red">約203x</div><div class="note">依美系券商2026E EPS12.5計算,遠高於一般成長股常態倍數</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">1,335~2,845</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">606~3,305</div><div class="note">1月低606、4月高3,305(TPEx官方日成交資訊)</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>⓪ 事件影響分析 — 7月營收創新高,連四個月倍數成長</h2>
+<div class="event">
+  <h3>事件摘要:7月營收首衝5億大關,年增176.54%創歷史新高</h3>
+  <div class="flow">聯亞8/5公告7月營收5.01億元,月增19.19%、年增176.54%,創歷史新高,前七月累計26.27億元,YoY+120.95%,已連續4個月年增呈倍數增長。5、6月合計稅後純益達3.23億元,已超越今年Q1單季獲利。8/12將召開法說會,市場關注下半年展望與資本支出計畫;近期美國傳出正研擬限制中國製造光收發模組進口的草案,外界預期台廠光通訊供應鏈有望受惠轉單效應。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:1.6T矽光量產+InP磊晶題材發酵 → 營收連續倍數成長 → 股價多次漲停 → 券商目標價數字本身出現內部矛盾</h3>
+  <div class="flow">聯亞的1.6T矽光產品已開始量產、3.2T正送客戶驗證(估H2量產),客戶數自過去7~8家擴大至10家,這是支撐營收連續4個月倍數成長的實質基本面。但股價反應速度遠快於基本面能見度:8月已多次亮燈漲停(CPO+InP磊晶題材發酵),部分券商目標價一口氣喊到4,738元。值得特別注意的是,該美系券商同時揭露2026~2029年EPS路徑為12.5/24.3/37.9/54.1元,若以其宣稱的「2029年44倍PE」計算終值僅約2,380元,與其發布的12個月目標價4,738元不完全吻合——這種目標價推導邏輯的內部矛盾,是評估此股時必須誠實揭露的資訊落差。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/5分析,依7月中資料)</th><th>事件後(7月營收+8月法說前)</th></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">5.01億,YoY+176.54%創新高</td></tr>
+    <tr><td>股價</td><td>1,965(8/4)</td><td class="red">2,540(8/14),累計再漲逾29%</td></tr>
+    <tr><td>本站目標價/評等</td><td>1,400/觀望</td><td class="amber">1,500/觀望(小幅上修但評等不變,現價已再度大幅超越)</td></tr>
+    <tr><td>券商目標價</td><td>查無明確券商目標價</td><td class="red">美系券商喊出4,738元,惟其推導邏輯與自身揭露的EPS路徑不完全吻合</td></tr>
+    <tr><td>法說會</td><td>尚未排定</td><td class="amber">8/12召開,關注下半年展望與資本支出</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲(儘管估值已極度昂貴)?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/01/28</span><b>Q4 法說會定調「矽光子商轉元年」</b>:2025 全年毛利率 43%、EPS 4.66 元;會後外資大幅調升 2026~2028 年 EPS 預估至 17.6/28.8/50.6 元,股價當日直奔漲停。</li>
-  <li><span class="date">2026/05</span><b>Q1 財報三率三升</b>:營收 9.04 億元(YoY +99%)、毛利率攀升至 <b>54.8%</b>(創 8 年新高)、EPS 3.44 元(QoQ +67%、YoY +648%)。</li>
-  <li><span class="date">2026/07</span><b>Q2 營收改寫新高</b>:12.21 億元(QoQ +35%、YoY +1.2 倍);6 月單月 4.21 億元續創新高。1.6T 矽光產品已量產,3.2T 送客戶驗證中(估 H2 量產),客戶數從 7~8 家擴大至 10 家,並與住友電工簽 InP 基板長期供貨合約、追加 13.15 億元擴產資本支出。</li>
-  <li><span class="date">2026/08/04</span><b>「光通訊鬼故事」不甩,族群齊飆高</b>:光聖、聯亞、汎銓、前鼎、全新皆漲停或近漲停,聯亞收 1,965(+9.78%),為連 3 漲;市場聚焦 NVIDIA CPO 量產點火+資金回流高價股+前一日三大法人轉買超,題材與籌碼共振。</li>
-  <li><span class="date">警訊</span>三件事同時成立:(1) 現價 1,965 <b>已高於所有已知券商目標價</b>(最高富邦 1,300,+51.2%);(2) trailing 本益比 235x 雖因基期低而失真,但即使用外資最樂觀的 2026E EPS 17.6 元計算,Forward P/E 仍達 111.6x;(3) 5 家券商對 2026E EPS 的估計分歧極大(13.32~17.75 元,近 33% 差距),顯示連法人自己都還在摸索這個高成長故事的實際兌現節奏,而股價已經先跑到所有人的目標價之上。</li>
+  <li><span class="date">2026年初~4月</span>股價從年初低點606一路飆升至4月高點3,305(逾5倍漲幅),反映CPO/矽光子題材從無到有的重新評價。</li>
+  <li><span class="date">2026年5~7月</span>股價自4月高點回落至7月低點1,335,期間5、6月合計稅後純益3.23億元已超越Q1單季獲利,驗證獲利實質改善。</li>
+  <li><span class="date">2026/08/05</span><b class="green">7月營收5.01億元創歷史新高,YoY+176.54%</b>,連續4個月年增呈倍數增長。</li>
+  <li><span class="date">2026年8月</span>股價多次亮燈漲停(8/6、8/10、8/12等交易日皆出現逾9%以上單日漲幅),CPO+InP磊晶題材發酵,美系券商喊出12個月目標價4,738元。</li>
+  <li><span class="date">2026/08/14</span>股價自8/12高點2,845回落至2,540(-4.69%),波段漲勢出現獲利了結賣壓。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①以美系券商自己的2026E EPS12.5元計算,現價本益比已達約203倍,遠高於一般成長股常態的30~60倍區間,現價實質上是在為2028~2029年的獲利路徑定價;②該券商12個月目標價4,738元與其自身揭露的EPS路徑(2029年54.1元×44倍終值倍數≈2,380元)換算結果不完全吻合,推導邏輯存在內部矛盾,不宜照單全收;③Q1 EPS 3.44元的年增647.83%主要來自2025年極低的獲利基期(全年EPS僅4.66元),百分比成長的視覺效果會放大真實的獲利改善幅度;④近四季EPS的公開資料本身出現版本落差(不同財經平台分別揭露7.61元與25.44元兩個差異極大的數字),反映這類基期效應劇烈的小型股,獲利數字的可信度需要格外謹慎看待。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">「光通訊的台積電」——CPO 晶片升級、AI 主流規格自 800G 轉向 1.6T,磷化銦供應吃緊,NVIDIA 因戰略考量壟斷 EML 雷射晶片產能,交期已排到 2027 年後<div class="src">— 產業討論串,2026/08</div></div>
-    <div class="quote">「不甩光通訊鬼故事」,EPS 跳增 3 倍、毛利率衝 6 成,大咖法人讚 AI 純度極高<div class="src">— Yahoo 股市,2026/08</div></div>
+    <div class="quote">聯亞卡位AI資料中心高速光通訊與CPO架構供應鏈上游關鍵材料(LD/PD磊晶片),1.6T矽光產品已量產、3.2T送驗中,客戶數自7~8家擴大至10家。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">美系券商大幅上調2026至2028年獲利預估,揭露2029年EPS上看54.1元,以此路徑計算12個月目標價一舉調升至4,738元。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">美國傳出研擬限制中國製造光收發模組進口草案,台廠光通訊供應鏈有望獲得轉單效應,聯亞身處InP雷射磊晶關鍵材料位置。<div class="src">— MoneyDJ理財網,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">「本益比 90 倍的關鍵:成長故事能說多久?」——連 5 家券商對明年 EPS 看法都對不齊,現價已跑到目標價前面<div class="src">— CMoney 投資網誌,2026</div></div>
+    <div class="quote">以美系券商自身揭露的2026E EPS12.5元計算,現價本益比已達約203倍,即使是題材股也罕見如此高的當期本益比,現價實質上是在為3~4年後的獲利路徑定價。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">該券商12個月目標價4,738元,與其自行揭露的2029年EPS×44倍終值倍數換算結果(約2,380元)不完全吻合,目標價推導邏輯存在內部矛盾。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">矽光子族群曾出現「大逃殺」式急殺(理財周刊報導聯亞一度自3,000元附近急墜),顯示題材股籌碼結構脆弱,股價波動遠大於基本面變化速度。<div class="src">— 理財周刊</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>外資(1 月法說後)</td><td>查無明確目標價(僅 EPS 預估)</td><td>2026~2028E EPS 17.6/28.8/50.6 元</td></tr>
-  <tr><td>富邦</td><td>1,300</td><td>2026E EPS 13.85、2027E 21.72</td></tr>
-  <tr><td>中信投顧</td><td>1,200</td><td>2026E EPS 13.32(自 10.27 上修)、2027E 23.86</td></tr>
-  <tr><td>群益(買進)</td><td>1,200</td><td>2026E EPS 17.75</td></tr>
-  <tr><td>國票投顧</td><td>1,200</td><td>查無詳細依據</td></tr>
-  <tr><td>合庫</td><td>1,100</td><td>2026E EPS 13.52、2027E 24.71</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">現價 1,965 已高於<b>全部</b>已知目標價,距最高的富邦 1,300 仍高出 51.2%;三大法人 8/4 精確買賣超數字查無,僅知前一日(8/3)轉為買超。</td></tr>
+  <tr><td>美系券商(最高,單一機構)</td><td class="red">4,738</td><td>2026~2029年EPS路徑12.5/24.3/37.9/54.1元,惟推導邏輯與其揭露的終值倍數換算結果不完全吻合</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無FactSet等多分析師共識調查可供交叉對照;3081股本規模小,分析師覆蓋有限,單一機構目標價的代表性應打折看待。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -136,107 +162,108 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2 營收</div><div class="value green">12.21 億</div><div class="note">QoQ +35%,YoY +1.2 倍,創新高</div></div>
-  <div class="card"><div class="label">Q1 毛利率</div><div class="value green">54.8%</div><div class="note">創 8 年新高</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">3.44 元</div><div class="note">QoQ +67%,YoY +648%</div></div>
-  <div class="card"><div class="label">產品進度</div><div class="value">1.6T 量產/3.2T 驗證</div><div class="note">估 H2 量產 3.2T</div></div>
-  <div class="card"><div class="label">客戶數</div><div class="value">7~8 家 → 10 家</div><div class="note">2026 年擴大新增客戶</div></div>
-  <div class="card"><div class="label">EPS 軌跡(券商平均)</div><div class="value amber">15.21→24.77→50.6</div><div class="note">2026E/2027E(4 家平均)/2028E(僅外資)</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">5.01億</div><div class="note">MoM+19.19%,YoY+176.54%,歷史新高</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">26.27億</div><div class="note">YoY+120.95%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">3.44</div><div class="note">YoY+647.83%(基期極低),季增逾66%</div></div>
+  <div class="card"><div class="label">2025年全年EPS</div><div class="value">4.66</div><div class="note">基期參考,2026年成長率放大效果來源</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">9檔,約29.9億</div><div class="note">相對市值(258.5億)占比不低(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">5/6月合計稅後純益</div><div class="value green">3.23億</div><div class="note">已超越Q1單季獲利,惟Q2完整EPS查無精確數字</div></div>
 </div>
 
-<h2>五家最接近的競爭對手(光通訊/矽光子供應鏈)</h2>
+<h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>本益比</th><th>成長動能</th><th>與聯亞的差異</th></tr>
-  <tr class="hl"><td>3081</td><td>聯亞</td><td>235x(trailing,失真)/約 129x(2026E 平均)</td><td>Q1 EPS YoY +648%,矽光子占營收 85~90%</td><td>基準;InP 磊晶片龍頭,AI 純度最高</td></tr>
-  <tr><td>6442</td><td>光聖</td><td>查無精確數字(同日近漲停)</td><td>與聯亞同步走強</td><td>光纖連接器/通訊光電介面組裝,本次另立分析</td></tr>
-  <tr><td>3163</td><td>波若威</td><td>69.2x(trailing,同業平均 52.15)</td><td>Q1 EPS 3.03 元,連 3 季成長創 40 季新高</td><td>被動元件/封裝為主,成長動能同樣強勁但估值相對克制</td></tr>
-  <tr><td>3363</td><td>上詮</td><td>20.1x(同業平均)</td><td>2 月營收 YoY +27.67%</td><td>光纖元件,估值明顯低於聯亞,成長性也較溫和</td></tr>
-  <tr><td>2455</td><td>全新</td><td>查無精確數字(同日漲停 +9.97%)</td><td>與聯亞同步走強</td><td>磊晶代工廠,間接受惠矽光子拉貨,非直接同業</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>7月營收動能</th><th>與聯亞的差異</th></tr>
+  <tr class="hl"><td>3081.TWO</td><td>聯亞</td><td>約203x(2026E,美系券商EPS12.5計)</td><td>YoY+176.54%創新高</td><td>光通訊磊晶片上游關鍵材料,市值最小、估值倍數四檔中最極端</td></tr>
+  <tr><td>3008.TW</td><td>大立光(本站另篇分析)</td><td>約24.6x(EPS187.55)</td><td>7月MoM+31.38%</td><td>光學鏡頭本業+CPO長期選擇權,估值倍數遠低於聯亞</td></tr>
+  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>約34x(推演,信度中等)</td><td>7月YoY+49.25%</td><td>光被動元件/CPO模組,估值倍數同樣偏高但遠低於聯亞</td></tr>
+  <tr><td>3665.TW</td><td>貿聯-KY(本站另篇分析)</td><td>約34x(FactSet EPS64.8計)</td><td>7月YoY+59.6%</td><td>連接器/線束,業務性質差異大,僅作估值倍數對照</td></tr>
+  <tr><td>—</td><td>矽光子/CPO族群整體(參考)</td><td>普遍偏高</td><td>族群性波動大</td><td>理財周刊報導族群曾現「大逃殺」式急殺,籌碼結構脆弱</td></tr>
 </table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:極度昂貴——即使採信最樂觀的美系券商EPS路徑,現價仍遠超合理區間。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以美系券商自身給出的2026E EPS12.5元計算,現價本益比約203倍;即使用2027年EPS24.3元計算也高達約104倍;要到2028年EPS37.9元,本益比才降至約67倍。這意味著現價已經計入未來3~4年的成長路徑,一旦任何一年的獲利成長不如預期,估值修正的空間極大。營收成長本身是真實的(連4個月倍數年增),但股價漲幅(年初至今逾4倍)已明顯超前於獲利兌現的速度,安全邊際極薄。</div>
+</div>
+
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 1,965 vs 中值</th></tr>
-  <tr><td>2026E P/E 70~95x</td><td>由 4 家券商目標價/EPS 反推的隱含倍數(67.6x~93.9x)套用 5 家平均 EPS 15.21</td><td>1,065~1,445(中值 1,255)</td><td class="red">貴 56.6%</td></tr>
-  <tr><td>券商目標價分布</td><td>富邦 1,300/中信 1,200/群益 1,200/國票 1,200/合庫 1,100,取中位數 1,200</td><td>1,100~1,300(中位數 1,200)</td><td class="red">貴 63.7%</td></tr>
-  <tr><td>2027E P/E 50~65x</td><td>4 家平均 EPS 24.77 × 較保守倍數(反映成長趨緩後的合理化)。<b>未計時間折現</b></td><td>1,239~1,610(中值 1,424)</td><td class="red">貴 38.0%</td></tr>
-  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 15.21/24.77/50.6(僅外資單一 2028E 路徑)當 FCF 近似。<b>此法在本股極不可靠,結果僅供參考</b>:一方面未扣 capex 而聯亞正加碼 13.15 億元擴產,現金流有一定高估;但更關鍵的扭曲是 2027→2028E 隱含成長 +104%,顯性期結束後卻立刻假設永續成長僅 2~3%,等於「明年還在倍增,後年起瞬間熄火」,這個斷崖式假設對任何仍在爬坡期的公司都會嚴重低估,終值占比達 86~90%</td><td>490~745(中值 618,推演)</td><td class="red">貴 218%(不採用作主要判斷依據)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2,540 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(美系券商)</td><td>EPS12.5,即使給予題材股高溢價倍數40~60x</td><td>500~750(中值625)</td><td class="red">貴 306.4%</td></tr>
+  <tr><td>2027E P/E×EPS(推演,較合理的1年後錨點)</td><td>EPS24.3,溢價倍數50~70x</td><td>1,215~1,701(中值1,458)</td><td class="red">貴 74.2%</td></tr>
+  <tr><td>美系券商12個月目標價(單點,信度存疑)</td><td>目標價4,738,惟推導邏輯與其自身EPS路徑不完全吻合</td><td>4,738(單點)</td><td class="green">便宜 86.5%(信度低,推導邏輯有內部矛盾,不採為主要依據)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">拿掉不可靠的 DCF,三種可信方法一致指向<b>大幅偏貴 38~64%</b>,而且是四種方法中分歧最小的一次——通常「當年度貴、未來年便宜」的時間軸分歧在這裡完全不成立,連 2027E(反映一年後成長兌現)都還是貴 38%。這代表這波連 3 漲、尤其今天近漲停的漲幅,已經把 2027 年甚至部分 2028 年的樂觀情境提前計入股價,而非市場錯殺。</div>
-
-<div class="card" style="margin-top:10px">
-  <b>估值判斷:明顯偏貴,暴漲已透支未來 2~3 年的樂觀情境。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">
-  現價 1,965 是本次分析中<b>唯一一檔現價已超越所有券商目標價</b>的標的——距最高目標(富邦 1,300)仍高出 51.2%。即使套用外資最樂觀的 2026E EPS 17.6 元,Forward P/E 仍達 111.6x;用 2027E(4 家平均 24.77)也要到 79.3x。矽光子/CPO 的長期故事本身沒有問題(客戶擴大、1.6T 量產、毛利率衝上 54.8%),但故事的兌現需要時間,而股價在 3 天內(尤其今日近漲停)把時間直接跳過了。這不是「錯誤定價」的便宜訊號,而是族群性題材狂熱下的過熱訊號。</div>
-</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:小型題材股的營收/獲利基期效應極端(2025年全年EPS僅4.66元),多年期FCF假設在如此劇烈的基期波動下毫無意義。三種方法中,前兩種以合理溢價倍數計算皆顯示現價嚴重偏貴,唯有直接採信單一美系券商的目標價才顯示便宜——但如事件影響分析所述,該目標價的推導邏輯本身與其揭露的EPS路徑不完全吻合,信度應大幅打折。本站認為2027E方法(貴74%)是相對較平衡的參考錨點,現價安全邊際極薄。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value red">追價過熱</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">「光聖、聯亞、汎銓、前鼎、全新皆漲停」,族群性狂熱,一面倒看多是警訊</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價 1,100~1,300</div><div class="note">5 家券商/外資,現價已全數超越</div></div>
-  <div class="card"><div class="label">EPS 分歧度</div><div class="value red">13.32~17.75(2026E)</div><div class="note">5 家估計差距近 33%,連法人都尚未收斂</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">追高情緒濃厚,過熱警訊</div><div class="bar"><div style="width:88%;background:var(--red)"></div></div><div class="note">8月多次亮燈漲停,籌碼面多空激烈換手</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無多分析師共識,單一機構目標價推導有疑義</div><div class="note">4,738元(單一美系券商,信度存疑)</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.44(Q1)→12.5(2026E,券商推估)</div><div class="note">8/12法說會展望與資本支出計畫是下一驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026E</td><td>13.32 / 15.21(平均) / 17.75</td><td>70~95x</td><td>1,065~1,445(中值 1,255)</td><td class="red">-36.1%</td></tr>
-  <tr><td>2027E</td><td>21.72 / 24.77(平均) / 28.8</td><td>50~65x</td><td>1,239~1,610(中值 1,424)</td><td class="red">-14.9%/年</td></tr>
-  <tr><td>2028E</td><td>查無多家共識,僅外資單一路徑 50.6</td><td>35~45x</td><td>1,771~2,277(中值 2,024)</td><td class="amber">+1.0%/年</td></tr>
+  <tr><th>年度</th><th>EPS假設(美系券商路徑)</th><th>合理倍數(題材股溢價)</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>12.5(單點,券商推估)</td><td>40~60x</td><td>500~750(中值625)</td><td class="red">約 -75%</td></tr>
+  <tr><td>2027(+1年)</td><td>24.3(單點,券商推估)</td><td>50~70x</td><td>1,215~1,701(中值1,458)</td><td class="red">約 -24%/年</td></tr>
+  <tr><td>2028(+2年)</td><td>37.9(單點,券商推估)</td><td>45~65x</td><td>1,706~2,464(中值2,085)</td><td class="red">約 -8%/年</td></tr>
 </table>
-<div class="note" style="font-size:12px;color:var(--muted);margin:4px 2px 0">三年皆呈現負或趨近於零的年化報酬,代表現價已經買在多數樂觀情境的終點;必須等到 2028 年高標情境兌現,現價才勉強打平。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">即使全數採信美系券商最樂觀的EPS成長路徑,現價買入的隱含年化報酬在未來三年皆為負值,直到2029年(EPS54.1)才可能轉正——這是本站認為現階段應維持觀望的核心量化依據。單一機構的EPS預估本身信度有限,不宜作為主要投資決策依據,僅供風險評估參考。</div>
 
 <h2>四種股價情境</h2>
+<!-- 刻度 500~3500;left% = (價格-500)/3000×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:13.2%"><div class="lbl">Bear(3~6月)</div><div class="price red">900~1,100</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:27.0%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,200~1,400</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:56.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,800~2,100</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:86.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">2,600</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:57.6%"><div class="arrow">▲</div><div class="price">1,965</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:15.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">900~1,100</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:34.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,400~1,700</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,200~2,600</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.1%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,100~3,305</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:66.6%"><div class="arrow">▲</div><div class="price">2,540</div><div class="lbl">現價</div></div>
 </div>
 <table>
-  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
-  <tr><td class="red">Bear</td><td>900~1,100</td><td>題材降溫、籌碼去化,回測本波起漲前整理區,2026E EPS 下修至低標,倍數壓回 60~65x</td><td class="red">-54.2%~-44.0%</td></tr>
-  <tr><td class="amber">Base</td><td>1,200~1,400</td><td>市場情緒回歸理性,股價向已知券商目標價(1,100~1,300)收斂</td><td class="amber">-38.9%~-28.7%</td></tr>
-  <tr><td class="green">Bull</td><td>1,800~2,100</td><td>2027E EPS 靠攏外資 28.8 元且市場維持 70~80x 溢價,大致貼近現價區間</td><td class="amber">-8.4%~+6.9%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched Bull</td><td>2,600</td><td>2028E EPS 50.6 元(外資單一路徑)提前計入,以 50x 反映極限樂觀情境</td><td class="green">+32.3%</td></tr>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>900~1,100</td><td>題材股估值修正、CPO/矽光子訂單成長不如預期,倍數大幅回落</td><td class="red">約 -61%</td></tr>
+  <tr><td class="amber">Base</td><td>1,400~1,700</td><td>營收成長延續但估值回歸較合理的2027E倍數區間</td><td class="red">約 -39%</td></tr>
+  <tr><td class="green">Bull</td><td>2,200~2,600</td><td>營收動能持續倍數成長,3.2T矽光如期H2量產;現價落於此區間內</td><td class="red">約 -6%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3,100~3,305</td><td>重返並測試今年4月高點,美系券商樂觀路徑部分兌現</td><td class="green">約 +12%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期(高風險,倉位應嚴格控管)</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">1,300~1,400</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">1,150~1,250</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">950~1,050</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">1,700~1,900</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">1,400~1,650</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">1,000~1,350</td><td>50%(估值已極度昂貴,倉位應高度保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">階梯依據:第一批貼近券商目標價上緣;第二批貼近目標價中樞;第三批對應 Bear 區間上緣。<br><br>硬停損:收盤跌破 <b class="red">850</b> 無條件出場 = 矽光子/CPO 商轉元年題材與 2026 年高成長財測邏輯失效。</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,750</b>(約8月起漲點前整理區間下緣)= 矽光子/CPO題材動能轉差或營收成長不如預期,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段(不建議現階段追價)</div>
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,僅供參考)</div>
+    <div class="note" style="border:1px dashed var(--red);border-radius:8px;padding:8px 10px;color:#ff8a80;font-size:12.5px;margin-bottom:8px;">⚠ 現正處置中(2分撮合,至8/17):分盤撮合下量能與盤中價格訊號皆無參考意義,以下右側突破計畫僅於處置期滿(8/17後)才適用,期間請勿依此進場</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:現價已在無券商目標價支撐下創高,右側追價風險極高,<b>建議不設右側進場,等回檔驗證後再評估</b><br>
-    若仍要參與波段:僅在 Q2 財報/法說會後,2027E EPS 共識明確上修至 28 元以上且股價拉回站穩 1,700 才考慮<br>
-    移動停利:跌破 10 日線或高點回檔 15%(題材股波動大)<br>
-    假突破失效:無明確券商共識支撐前,任何跌破 1,850 視為過熱回檔開始</div>
+    觸發條件:收盤突破2,845(8/12近期高點)+量能確認,且8/12法說會釋出資本支出與客戶擴增明確時程<br>
+    進場區:<b class="green">2,880~3,000</b>(高本益比股波段風險極高,建議小倉位試單)<br>
+    移動停利:跌破10日線或高點回檔10%(較一般個股更嚴格)<br>
+    假突破失效:觸發後2日內跌回2,700即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(若已持有)</div><div class="value amber">1,965~2,100</div><div class="note">現價附近即建議減碼 30~50%,鎖住暴漲獲利</div></div>
-  <div class="card"><div class="label">第二次減碼(若已持有)</div><div class="value amber">2,300~2,600</div><div class="note">Stretched Bull 區間,續留部位需嚴格控管</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,200~2,600</div><div class="note">賣出40~60%;Bull區,高本益比題材股應積極獲利了結而非續抱</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,100~3,305</div><div class="note">Stretched區/重返4月高點;續抱條件是獲利成長速度真正追上股價漲幅</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:矽光子商轉元年+CPO 題材發酵,Q1 毛利率衝上 54.8%(8 年新高)、Q2 營收年增 1.2 倍,加上今日光通訊族群齊漲停/近漲停的族群性狂熱,是這波連 3 漲的真正原因;但很少人注意到的是,現價 1,965 已經<b>超越所有 5 家券商的目標價</b>(最高富邦僅 1,300),股價漲得比法人共識還快。</div>
-<div class="concl">② <b>估值</b>:如果你相信矽光子/CPO 長期故事,那麼相較 2027 年以後的樂觀情境或許還有空間;但只看可信的三種估值法(2026E/2027E 倍數、券商目標價),現價一致顯示<b>貴 38~64%</b>,連通常會顯示便宜的「未來年」方法在這裡都還是貴——這在本系列分析中是罕見的全面性偏貴訊號。</div>
-<div class="concl">③ <b>結論</b>:這是一筆<b>建議觀望、嚴禁追高</b>的標的,原因是題材與籌碼的狂熱已經跑到基本面與法人共識前面,連券商自己對明年 EPS 的看法都分歧近 33%;若已持有應考慮現價附近先減碼鎖利,若尚未持有應等回檔至券商目標價區間(1,100~1,300)再評估,並嚴守 850 的題材失效停損。</div>
+<div class="concl">⓪ <b>事件影響</b>:8/5公告7月營收5.01億元創歷史新高,年增176.54%,連續4個月呈倍數成長;股價8月多次亮燈漲停,美系券商喊出12個月目標價4,738元,但該目標價與其自行揭露的2029年EPS路徑換算結果不完全吻合,存在推導邏輯上的矛盾。</div>
+<div class="concl">① <b>催化劑</b>:1.6T矽光量產+3.2T送驗+InP磊晶題材發酵,客戶數自7~8家擴大至10家,是連續倍數成長的實質基本面;但股價年初至今已上漲逾4倍,漲勢明顯超前於獲利兌現速度,理財周刊曾報導矽光子族群出現「大逃殺」式急殺,籌碼結構脆弱。</div>
+<div class="concl">② <b>估值</b>:極度昂貴——以最樂觀的美系券商2026E EPS12.5元計算,現價本益比已達約203倍,即使給予題材股高溢價倍數(40~60x)仍貴逾3倍;要到2027年甚至2028年的獲利路徑,本益比才降至相對「合理」但仍偏高的水準。</div>
+<div class="concl">③ <b>結論</b>:觀望、追高安全邊際極薄——現價2,540落於Bull區間內,已計入相當程度的未來成長預期,即使全數採信券商最樂觀路徑,未來三年隱含年化報酬仍為負值;左側倉位應高度保守分批,收盤跌破1,750即題材動能轉差,無條件出場。下一個驗證點是8/12法說會的資本支出與客戶擴增時程。</div>
 
 <footer>
-資料時間:股價/籌碼 2026/08/04;Q1 財報 2026/05,Q2 營收 2026/07;法說會 2026/01/28(Q4)。<br>
-主要來源:Yahoo 股市、CMoney 投資網誌、財報狗、旺得富理財網、Threads 產業筆記、Dcard 股票板、readmo。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。EPS 預估來自 5 家個別券商報告而非單一 FactSet 共識,分歧本身即是重要風險訊號。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方個股日成交資訊);股本/發行股數(Goodinfo,2026/08);7月營收(Sinotrade豐雲學堂、鉅亨網、CMoney、TechNews,2026/08/05公告);美系券商EPS路徑與目標價、矽光子族群波動(CMoney投資網誌、理財周刊);Q1 EPS與歷史EPS(財報狗、nStock);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2完整EPS精確數字、FactSet多分析師共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、Sinotrade豐雲學堂、鉅亨網、CMoney投資網誌、理財周刊、MoneyDJ理財網、財報狗、nStock。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次分析刻意揭露美系券商目標價推導邏輯的內部矛盾,不應僅採信對多方有利的單一數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

@@ -26,6 +26,20 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -64,95 +78,87 @@
   .bar>div{height:100%;}
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
-  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
-  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>大立光 (3008) <span class="badge amber">估值:偏貴(樂觀假設尚待驗證,漲停後更貴)</span> <span class="badge amber">結論:觀望,等認證結果驗證</span> <span class="autodispo" data-code="3008"></span></h1>
-<div class="sub">台股(TWSE)・光學鏡頭/CPO 光通訊新事業|事件驅動版(CPO 首張訂單 + 法說保守語氣雙重事件,含 8/4 蘋果備貨+CPO反彈更新)|股價截至 2026/08/04 收盤,製表 2026/08/05|<span class="dispostat" data-code="3008">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>大立光 (3008) <span class="badge amber">估值:中性偏貴(CPO選擇權溢價未縮小)</span> <span class="badge amber">結論:中性,靜待CPO認證與良率驗證</span><span class="autodispo" data-code="3008"></span></h1>
+<div class="sub">台股(TWSE)・光學鏡頭/CPO光通訊新事業|事件後估值版(7月營收+CPO試產進度後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3008">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
   <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">2800</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3008">現價 <b>4610</b> → 目標價 <b>4500</b><span class="down"> (-2.4%)</span></div>
-  <div class="vbasis">推導依據:四情境Base上緣;CPO試產線良率未驗證</div>
+  <div class="verdict" data-code="3008">現價 <b>4610</b> → 目標價 <b>5150</b><span class="up"> (+11.7%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價5150(2026E EPS共識187.55,19位分析師);7月營收月增31.38%驗證8月拉貨動能轉強,惟CPO首家客戶仍在認證階段,估值仍高度依賴長期選擇權價值</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">4,355</div><div class="note">2026/08/04 漲停 +9.97%;7/17 低見 4,010 後反彈</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約 5,696 億</div><div class="note">約 1.308 億股 × 4,355</div></div>
-  <div class="card"><div class="label">本益比(TTM)</div><div class="value">24.72x</div><div class="note">Yahoo 股市(8/4)</div></div>
-  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約 23.2x(2026E)</div><div class="note">2026E EPS 共識中值 187.55(FactSet 19 家,175.24~199.16);2027E 208.75 → 約 20.9x</div></div>
-  <div class="card"><div class="label">法人目標價</div><div class="value green">4,850~6,263(部分續喊 5,150)</div><div class="note">FactSet 最新共識目標 5,150,距現價 +18.3%</div></div>
-  <div class="card"><div class="label">52 週高低</div><div class="value">2,020~5,360</div><div class="note">波動劇烈,反映 CPO 敘事大起大落</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">4,610</div><div class="note">2026/08/14 收盤 -1.07%;8/12法說後高點4,920</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約6,029億</div><div class="note">股本約13.08億元,約1.308億股</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">48.77億</div><div class="note">MoM+31.38%,YoY-10.66%(去年同期基期高)</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約24.6x</div><div class="note">FactSet共識EPS187.55(19位分析師,175.24~199.16)</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">3,670~4,920</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">2,135~5,360</div><div class="note">4月低2,135、6月高5,360(TWSE官方日成交資訊)</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — CPO 首張訂單 + 法說保守語氣,雙重事件疊加</h2>
+<h2>⓪ 事件影響分析 — 7月營收公布,驗證8月拉貨動能轉強</h2>
 <div class="event">
-  <h3>事件一:CPO 首張量產客戶訂單落地(7/13)</h3>
-  <div class="flow">大立光去年 9 月宣布跨足共同封裝光學(CPO)市場,僅歷時約 10 個月即取得<b>首張量產導向客戶訂單</b>(光纖陣列 FA),進度超越市場預期,消息一出當日股價跳空漲停(+10%,3,950→4,345)。四家外資當週齊喊買進:花旗、大摩、野村、瑞銀目標價落在 4,836~6,125;隨後幾天內高盛更把目標價從 3,423 一口氣拉升至 <b>6,231</b>,成為市場最高目標價。</div>
+  <h3>事件摘要:8/5公告7月營收48.77億,月增31.38%,驗證客戶新舊機種交替期後動能回升</h3>
+  <div class="flow">大立光8/5公告7月營收48.77億元,月增31.38%(年減10.66%,主因去年同期基期較高),1~7月累計營收340.86億元,YoY+7.49%。公司說明6月因客戶端新舊機種交替導致營收降至13個月新低,7月動能已明顯回升,以目前掌握訂單來看,<b>8月營運動能還要再增</b>。這是繼7/16 Q2法說會保守語氣導致7/17族群性重挫後,首個具體驗證「動能是否真的回升」的月度數字,結果正面。</div>
 </div>
 <div class="event">
-  <h3>事件二:法說會「老實樹」再發威(7/16 晚間)</h3>
-  <div class="flow">董事長林恩平在 Q2 法說會坦言:FA <b>目前僅有一家生產型客戶</b>,毛利率「還難估」——FA 的 ASP 雖高於手機鏡頭,但良率不佳將顯著侵蝕獲利;現階段仍以提供元件為主,尚未進入量產。同時 Q2 毛利率 49.4%(年減 4.2 個百分點),"5 字頭"毛利率時代已結束三季;核心手機鏡頭本業缺乏明確第二成長曲線。這是林恩平一貫的保守作風(4 月法說會同樣因保守語氣導致單日重挫逾 7%),市場稱其「老實豆沙包吃太多」。</div>
+  <h3>傳導路徑:新舊機種交替結束 → 7月拉貨回補 → 驗證H2旺季啟動,但與CPO長期題材是兩條獨立邏輯線</h3>
+  <div class="flow">7月營收月增31.38%主要反映的是核心手機鏡頭本業的季節性旺季回補,與CPO長期選擇權題材是兩條獨立的邏輯線——前者驗證的是「今年H2財測是否可信」,後者仍完全繫於CPO客戶認證與良率能否如期於2027年中放量。7月營收本身不改變CPO的估值假設,但确认了本業基本面沒有因族群性賣壓而出現裂痕。</div>
 </div>
 <div class="event">
-  <h3>對股價的含義:利多出盡式的族群性賣壓</h3>
-  <div class="flow">7/17 股價重挫 5.87% 至 4,010(盤中一度跌逾 7%,低見 3,985),同業玉晶光(-6.8%)、亞光(-7.4%)、先進光(-8.0%)同步大跌,顯示這是<b>光學股族群性去槓桿</b>,而非單一利空;基本面本身並未出現裂痕(Q2 營收仍年增 17.1%),但市場在「CPO 敘事+高評價」的組合下,對任何保守措辭都極度敏感——資金在目標價喊到六千以上後迅速獲利了結。值得留意的是,本土法人(元大、國泰期貨)反而在法說會後<b>上調</b>目標價至 4,850~5,650,與股價下跌方向相反,顯示法人與市場情緒之間出現分歧。</div>
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/5分析,依7/17~8/4資料)</th><th>事件後(7月營收公布後)</th></tr>
+    <tr><td>營收動能驗證</td><td>僅有公司口頭guidance「7月拉貨動能可望轉強」</td><td class="green">7月營收48.77億,MoM+31.38%,guidance獲驗證</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>187.55(7/14調查)</td><td class="amber">187.55(未見更新調查,沿用同一數字)</td></tr>
+    <tr><td>FactSet共識目標價</td><td>5,150</td><td class="amber">5,150(沿用)</td></tr>
+    <tr><td>股價</td><td>8/4收4,355(當日漲停)</td><td class="green">8/14收4,610,較8/4上漲約5.9%</td></tr>
+    <tr><td>本站目標價/評等</td><td>4,500/中性</td><td class="green">5,150/中性(上修但評等不變)</td></tr>
+  </table>
 </div>
 
 <h2>① 催化劑分析 — 為什麼漲/跌?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/07/05</span><b>6 月營收 37.12 億元,創 13 個月新低</b>:月減 19.2%、年減 10.5%,上半年累計 292.09 億(年增 11.3%);公司表示 6 月受客戶排程影響,估 7 月拉貨動能可望轉強。股價自 4,210 一路滑落至 7/7 的 3,890(-245,單日跌 5.9%)。</li>
-  <li><span class="date">2026/07/09</span><b>林恩平親上火線談 CPO 時程</b>:FA 7 月送樣,若通過認證,Q3 底完成試產線,最快 2027 年中放量;2027 年手機鏡頭規格同步升級(潛望鏡頭增加鏡片以達內變焦效果)。</li>
-  <li><span class="date">2026/07/13</span><b class="green">CPO 首張量產客戶訂單確認,股價跳空漲停</b>:自去年 9 月切入 CPO 僅 10 個月即拿下首張訂單,3,950 直奔漲停 4,345(+10%);花旗、大摩、野村、瑞銀四大外資同週喊出目標價 4,836~6,125。</li>
-  <li><span class="date">2026/07/14~15</span><b>獲利了結,高盛喊出全市場最高目標價</b>:14 日自高點 4,485 拉回收 4,265(-80);15 日續跌至 4,040(-225),盤中低見 3,985。同期間高盛將目標價自 3,423 大幅上修至 <b>6,231</b>,創市場最高紀錄。</li>
-  <li><span class="date">2026/07/16</span><b>Q2 法說會:營收成長但毛利率承壓,CPO 語氣保守</b>:Q2 營收 136.65 億(年增 17.1%),毛利率 49.4%(年減 4.2 個百分點),單季 EPS 35.72 元、上半年 EPS 82.35 元(年增 44%,主因去年同期匯損墊高基期)。林恩平坦言 FA 僅一家生產客戶、毛利率難估、良率不佳恐侵蝕獲利;核心手機鏡頭缺乏第二成長曲線。當日股價收 4,260(+220),法說會後市場才開始消化保守語氣。</li>
-  <li><span class="date">2026/07/17</span><b class="red">光學股族群系統性重挫,大立光盤中一度跌逾 7%</b>:收 4,010(-5.87%),同業玉晶光(-6.8%)、亞光(-7.4%)、先進光(-8.0%)同日皆大跌,屬「利多出盡」式族群賣壓;同日本土法人(元大 5,650、國泰期貨由中立轉買進至 4,850)反而上調目標價,法人估值與股價走勢方向相反。</li>
-  <li><span class="date">2026/07(下旬)</span><b>FA 首家客戶正式送樣,進入認證階段</b>:大立光取得首家客戶 FA 量產規格,7 月正式送樣,若認證順利最快 <b>2027 年中</b>開始量產挹注營收;CPO/FAU 試產線仍按 9 月啟動時程推進,精度達 0.3 微米,惟部分重要產品良率仍不足,預估仍需 1~2 季優化,速度偏慢。</li>
-  <li><span class="date">2026/08/04</span><b class="green">股價再度漲停,重回 4,000 元以上</b>:收 4,355(+9.97%),受惠蘋果新機備貨題材 + CPO 族群反彈,資金回流光學龍頭;同期 FactSet 最新調查(19 位分析師)顯示 2026E EPS 中位數<b>下修</b>至 187.55(前次 189.72),但目標價<b>逆勢上修</b>至 <b>5,150</b>(2027E EPS 208.75、2028E 239.29)——獲利估計下修、目標價卻上修,反映法人持續把更多權重放在 CPO 的長期選擇權價值,而非近期 EPS。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①目標價在數週內部分近乎翻倍(高盛 3,423→6,231),上修速度快於公司實際揭露的進度;②CPO 目前對 EPS 貢獻趨近於零,法人估 2028 年 CPO 營收占比僅 1~2%,要到 2030 年才有機會貢獻約 150 億元營收成為第二大支柱;③自動化瓶頸是被低估的執行風險——若以現有半自動方式達到規劃產能(每月 200 萬顆光通訊元件),需約 4 萬名人力,而大立光全公司目前僅約 8,000 名員工,自動化良率與擴產速度是能否兌現法人樂觀假設的關鍵變數;④康寧發表 Glass Bridge 技術搶進 CPO,雖採不同耦合架構(EC vs 大立光的 GC),短期非直接取代威脅,但長期技術路線之爭仍是潛在變數。</li>
+  <li><span class="date">2026/07/13</span>CPO首張量產客戶訂單確認,股價跳空漲停;四大外資同週喊出目標價4,836~6,125,高盛隨後由3,423大幅上修至6,231創市場最高。</li>
+  <li><span class="date">2026/07/16</span>Q2法說會:營收136.65億(YoY+17.1%),毛利率49.4%(YoY-4.2pp),EPS 35.72元,H1 EPS 82.35元(YoY+44%,主因去年匯損墊高基期)。董事長林恩平坦言FA僅一家生產客戶、毛利率「還難估」,核心本業缺乏第二成長曲線。</li>
+  <li><span class="date">2026/07/17</span>光學股族群系統性重挫,大立光收4,010(-5.87%),同業玉晶光、亞光、先進光同日皆大跌,屬利多出盡式族群賣壓。</li>
+  <li><span class="date">2026/08/04</span>股價再度漲停收4,355,受惠蘋果新機備貨題材+CPO族群反彈;FactSet同期調查出現「EPS下修(187.55)、目標價卻上修(5,150)」的不尋常組合。</li>
+  <li><span class="date">2026/08/05</span><b class="green">7月營收48.77億,月增31.38%</b>,驗證公司guidance的拉貨回升確實兌現,1~7月累計340.86億(YoY+7.49%)。</li>
+  <li><span class="date">2026/08/12~14</span>股價高檔震盪(4,585→4,660→4,610),8/12盤中觸及近期高點4,920後拉回。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①目標價在數週內部分近乎翻倍(高盛3,423→6,231),上修速度快於公司實際揭露的CPO進度;②CPO目前對EPS貢獻趨近於零,首家客戶仍在認證階段、良率尚未達標,尚無任何確定的量產時程;③自動化人力瓶頸是被低估的執行風險——若以半自動方式達成規劃產能需約4萬名人力,大立光全公司僅約8,000名員工;④7月營收月增31.38%雖驗證H2旺季啟動,但年減10.66%顯示與去年同期的高基期相比,成長動能尚未真正轉正。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">切入 CPO 僅 10 個月即拿下首張量產客戶訂單,精密公差低於 0.3 微米(優於業界 0.5~0.8 微米水準),技術優勢明確,四大外資同週喊出目標價衝上 5,000~6,200 元。<div class="src">— 工商時報/理財周刊,2026/07/13~14</div></div>
-    <div class="quote">GC(光柵耦合)市場規模目前大於康寧主打的 EC(邊緣耦合),兩條技術路線長期並存而非互相取代;大立光在精密對位製程的既有優勢可複製到 CPO 產品。<div class="src">— 法說精華摘要,simpletechtrend</div></div>
-    <div class="quote">2027 年手機鏡頭規格升級(潛望鏡頭增加鏡片、內變焦),核心本業仍有溫和成長動能可對沖 CPO 尚未量產的空窗期。</div>
+    <div class="quote">切入CPO僅10個月即拿下首張量產客戶訂單,精密公差低於0.3微米,技術優勢明確,四大外資同週喊出目標價衝上5,000~6,200元。<div class="src">— 工商時報/理財周刊,2026/07/13~14</div></div>
+    <div class="quote">7月營收月增31.38%,驗證公司guidance「7月拉貨動能可望轉強、8月將再增」確實兌現,H2旺季啟動訊號明確。<div class="src">— 鉅亨網、Yahoo股市,2026/08/05</div></div>
+    <div class="quote">GC(光柵耦合)市場規模目前大於康寧主打的EC(邊緣耦合),兩條技術路線長期並存;大立光精密對位製程優勢可複製到CPO產品。<div class="src">— 法說精華摘要,simpletechtrend</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">董事長林恩平親口坦言:FA 目前僅一家生產客戶,毛利率「還難估」,良率不佳恐顯著侵蝕獲利——CPO 現階段仍是「概念」而非可量化的獲利貢獻。<div class="src">— Q2 法說會,2026/07/16</div></div>
-    <div class="quote">自動化人力瓶頸:規劃產能若以半自動方式達成需約 4 萬名工人,大立光全公司僅約 8,000 人,擴產速度存在被市場低估的執行風險。<div class="src">— 獨家報導,Facebook/bwnet</div></div>
-    <div class="quote">目標價數週內近乎翻倍(高盛 3,423→6,231),上修速度快於公司實際揭露的進度資訊,與本季稍早南茂、群聯的「估值追價」模式如出一轍,可信度需要打折。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">董事長林恩平親口坦言FA目前僅一家生產客戶,毛利率「還難估」,良率不佳恐顯著侵蝕獲利——CPO現階段仍是「概念」而非可量化的獲利貢獻。<div class="src">— Q2法說會,2026/07/16</div></div>
+    <div class="quote">自動化人力瓶頸:規劃產能若以半自動方式達成需約4萬名工人,大立光全公司僅約8,000人,擴產速度存在被市場低估的執行風險。<div class="src">— 獨家報導,Facebook/bwnet</div></div>
+    <div class="quote">7月營收年減10.66%,顯示月增31.38%的回升主要是相對6月低基期的季節性反彈,尚未真正轉為年增正成長。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>高盛(最高,7/14 前後)</td><td class="green">6,231</td><td>自 3,423 大幅上修,CPO 長期成長動能重估</td></tr>
-  <tr><td>花旗</td><td class="green">6,125~6,263</td><td>CPO 收割題材,2027/2028 淨利預估分別上修 2%/1%</td></tr>
-  <tr><td>野村 / 大摩 / 瑞銀</td><td>6,000 / 4,836 / 5,000</td><td>7/13 CPO 首張訂單確認後同週齊喊買進</td></tr>
-  <tr><td>元大投顧(法說後,7/16~17)</td><td class="amber">5,650</td><td>27 倍 2027E 本益比,預估 2026E EPS 196.95、2027E 208.75</td></tr>
-  <tr><td>國泰期貨(法說後)</td><td class="amber">中立→買進,4,850</td><td>原目標 3,200,法說後上調,預估 2026E EPS 195.97、2027E 229.89</td></tr>
-  <tr><td>FactSet 共識(18 位分析師)</td><td>查無單一目標價</td><td>2026E EPS 中位數 189.72(176.23~211.7)</td></tr>
-  <tr><td colspan="4" style="color:var(--muted)">法人目標價與股價走勢方向相反(法說後仍上調,股價卻重挫),外資與本土評等分歧達 1,400 元以上;精確法人 7 月買賣超數字查無。</td></tr>
+  <tr><td>高盛(最高)</td><td class="green">6,231</td><td>自3,423大幅上修,CPO長期成長動能重估</td></tr>
+  <tr><td>花旗</td><td class="green">6,125~6,263</td><td>CPO收割題材,2027/2028淨利預估上修</td></tr>
+  <tr><td>野村/大摩/瑞銀</td><td>6,000/4,836/5,000</td><td>7/13 CPO首張訂單確認後同週齊喊買進</td></tr>
+  <tr><td>元大投顧(法說後)</td><td class="amber">5,650</td><td>27倍2027E本益比,預估2026E EPS 196.95、2027E 208.75</td></tr>
+  <tr class="hl"><td>FactSet共識(19位分析師,較新)</td><td class="amber">5,150</td><td>2026E EPS中位187.55(175.24~199.16)</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">法人目標價分歧達1,400元以上,外資與本土評等方向不一致;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -161,71 +167,69 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">營收成長</div><div class="value green">Q2 +17.1%</div><div class="note">Q2 營收 136.65 億;惟 6 月單月創 13 個月新低(-10.5% YoY)</div></div>
-  <div class="card"><div class="label">EPS 成長</div><div class="value">Q2 35.72</div><div class="note">上半年 82.35(YoY+44%,主因去年匯損墊高基期,非本業結構性改善)</div></div>
-  <div class="card"><div class="label">毛利率</div><div class="value amber">49.4%</div><div class="note">年減 4.2 個百分點;"5 字頭"時代已結束三季</div></div>
-  <div class="card"><div class="label">股本稀釋</div><div class="value">幾無</div><div class="note">股本約 13.08 億元,約 1.308 億股,長年穩定</div></div>
-  <div class="card"><div class="label">資本支出</div><div class="value">Q2 約 27.8 億</div><div class="note">含 CPO 自動化試產線投入</div></div>
-  <div class="card"><div class="label">股利/淨值</div><div class="value">殖利率 2.00%</div><div class="note">PB 2.84x(TWSE,7/17)</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">48.77億</div><div class="note">MoM+31.38%,YoY-10.66%</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value amber">340.86億</div><div class="note">YoY+7.49%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value amber">49.4%</div><div class="note">YoY-4.2pp,「5字頭」時代已結束三季</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">82.35</div><div class="note">YoY+44%,主因去年匯損墊高基期</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">13檔,約79.0億</div><div class="note">四檔中規模最大(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">CPO試產線進度</div><div class="value amber">Q3底完成,9月啟動</div><div class="note">精度0.3微米,2027年中最快放量</div></div>
 </div>
 
-<h2>四家最接近的競爭對手</h2>
+<h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>Fwd P/E(2026E)</th><th>成長動能</th><th>與大立光的差異</th></tr>
-  <tr class="hl"><td>3008.TW</td><td>大立光</td><td>約 20.9~23.2x(4,355 / EPS 187.55~208.75)</td><td>手機鏡頭本業溫和成長 + CPO 長期選擇權</td><td>—</td></tr>
-  <tr><td>3406.TW</td><td>玉晶光</td><td>約 13.4~13.8x(519 / EPS 37.67~38.8)</td><td>手機鏡頭為主,無獨立 CPO 題材</td><td>同業純鏡頭估值錨;7/17 同步重挫 6.8%</td></tr>
-  <tr><td>3019.TW</td><td>亞光</td><td>TTM 19.10x;2026E 查無精確</td><td>光學元件多元化(車用、消費性)</td><td>TTM 本益比低於大立光;7/17 同步重挫 7.4%</td></tr>
-  <tr><td>3362.TWO</td><td>先進光</td><td>查無精確</td><td>光學鏡頭,規模較小</td><td>7/17 同步重挫 8.0%,顯示光學股族群連動高</td></tr>
-  <tr><td>—</td><td>康寧(Corning,美股,非同業比價)</td><td>不適用</td><td>Glass Bridge 技術主打 EC 架構</td><td>CPO 領域潛在長期競爭者,非傳統光學鏡頭同業,僅作技術路線對照</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收/近況動能</th><th>與大立光的差異</th></tr>
+  <tr class="hl"><td>3008.TW</td><td>大立光</td><td>約24.6x(EPS187.55)</td><td>7月MoM+31.38%,YoY-10.66%</td><td>手機鏡頭本業溫和成長+CPO長期選擇權,四檔中CPO題材最純粹</td></tr>
+  <tr><td>3406.TW</td><td>玉晶光(參考)</td><td>約13.4~13.8x(EPS37.67~38.8)</td><td>7/17同步重挫6.8%</td><td>手機鏡頭為主,無獨立CPO題材,估值錨較純粹</td></tr>
+  <tr><td>3019.TW</td><td>亞光(參考)</td><td>TTM約19.1x</td><td>7/17同步重挫7.4%</td><td>光學元件多元化(車用、消費性)</td></tr>
+  <tr><td>3081.TWO</td><td>聯亞(本站另篇分析)</td><td>極高(現價已計入多年成長路徑)</td><td>7月YoY+176.54%創新高</td><td>光通訊磊晶片上游,同屬CPO/矽光子供應鏈但業務性質完全不同</td></tr>
+  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>約34x(推演,信度中等)</td><td>7月YoY+49.25%</td><td>光被動元件,CPO模組供應商,同屬光通訊族群但規模較小</td></tr>
 </table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:中性偏貴——CPO選擇權溢價未因7月營收轉強而縮小。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約24.6x(以FactSet共識EPS187.55計)已高於自身歷史常態區間上緣;若剝離CPO敘事單用同業(玉晶光)鏡頭本業倍數對照,現價貴了近7成。FactSet最新調查出現「EPS下修、目標價卻上修」的不尋常組合,顯示法人持續把權重從近期獲利轉向CPO長期選擇權。7月營收月增31.38%驗證了本業H2旺季啟動,但這與CPO能否如期於2027年中放量是兩條獨立邏輯線,現階段的估值溢價主要仍是CPO選擇權部分,而非本業基本面的重新評價。</div>
+</div>
+
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 4,355 vs 中值</th></tr>
-  <tr><td>2026E P/E 18~23x</td><td>FactSet 共識中位 187.55 × 貼近 trailing 24.72x 的合理化倍數</td><td>3,376~4,314(中值 3,845)</td><td class="red">貴 13.3%</td></tr>
-  <tr><td>2027E P/E 20~25x</td><td>FactSet 共識中位 208.75 × 倍數。<b>未計時間折現</b></td><td>4,175~5,219(中值 4,697)</td><td class="amber">便宜 7.3%</td></tr>
-  <tr><td>FactSet 目標價(最新)</td><td>19 位分析師共識,反映 CPO 選擇權部分權重</td><td>5,150(單點)</td><td class="green">便宜 15.4%</td></tr>
-  <tr><td>玉晶光同業倍數對照</td><td>純鏡頭本業倍數 13.4~13.8x × 2026E EPS 中值 187.55</td><td>2,513~2,588</td><td class="red">貴 69%</td></tr>
-  <tr><td>簡化 DCF r9~11%/g2~3%</td><td>EPS 187.55/208.75/239.29 當 FCF 近似。<b>兩個方向相反的偏誤要同時知道</b>:此法未扣 capex,大立光正加碼 CPO 自動化試產線資本支出,現金流有一定高估(偏樂觀);但永續成長只給 2~3%,對仍在早期投資階段、CPO 尚未貢獻營收的公司而言,終值占估值 79~86%,是否偏保守取決於 CPO 能否如期放量——若 CPO 認證延遲,2~3% 反而可能仍嫌樂觀</td><td>2,496~3,705(中值 3,100,推演)</td><td class="red">貴 40.5%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價4,610 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS187.55,自身歷史常態倍數18~23x</td><td>3,376~4,314(中值3,845)</td><td class="red">貴 19.9%</td></tr>
+  <tr><td>FactSet共識目標價</td><td>19位分析師,目標價5,150(單點)</td><td>5,150(單點)</td><td class="green">便宜 10.5%</td></tr>
+  <tr><td>玉晶光同業倍數對照</td><td>純鏡頭本業倍數13.4~13.8x × 2026E EPS中值187.55</td><td>2,513~2,588(中值2,550)</td><td class="red">貴 80.8%(業務性質差異大,CPO溢價未計入,僅供參考)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">漲停後,估值分歧結構出現變化:2026E 倍數法轉為貴 13.3%(此前 7/17 分析時尚在合理區間內),與玉晶光同業對照(貴 69%)、DCF(貴 40.5%)方向一致收斂;唯有 2027E 倍數(便宜 7.3%)與 FactSet 目標價(便宜 15.4%)仍顯示便宜,但這兩者本質上都是「相信 CPO 長期兌現」的同一組樂觀假設。與 7/17 相比,「便宜」的證據明顯減少、幅度也收斂,而「貴」的證據增加——這波反彈已經吃掉不少此前因法說保守語氣殺出來的安全邊際。</div>
-
-<div class="card" style="margin-top:10px">
-  <b>估值判斷:偏貴,且漲停後比 7/17 分析時更貴。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">現價 4,355 對應 2026E P/E 23.2x,已高於自身歷史常態區間上緣;若剝離 CPO 敘事單用同業(玉晶光)鏡頭本業倍數對照,現價貴了近 7 成。FactSet 最新一輪調查出現「EPS 下修、目標價卻上修」的不尋常組合(187.55↓ 但目標價 5,150↑),顯示法人持續把權重從近期獲利轉向 CPO 長期選擇權——但 CPO 首家客戶仍在認證階段、部分產品良率仍不足,尚未有任何確定的量產時程。現階段的合理定位仍是「本業穩健 + CPO 選擇權溢價」,但這次上漲讓溢價部分進一步膨脹,安全邊際比 7/17 時更薄。</div>
-</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:CPO自動化試產線資本支出持續加碼,加上首家客戶仍在認證階段、良率未達標,近兩年FCF可預測性明顯偏低,強行套用多年期假設會製造虛假精確度。三種方法呈現明顯分歧:自身本益比法與同業對照法都顯示偏貴,唯有FactSet共識目標價(信賴CPO長期選擇權價值)顯示便宜——這正是大立光估值的核心矛盾,現階段不宜僅採信任一方,需待CPO客戶認證與良率結果驗證後才能收斂。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value red">追高套牢後觀望</div><div class="bar"><div style="width:40%;background:var(--red)"></div></div><div class="note">7/13 漲停追價的買盤,7/17 重挫後普遍套牢</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">樂觀但分歧大,方向與股價相反</div><div class="note">法說後仍上調目標價,惟股價同期重挫,外資與本土評等差距逾 1,400 元</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">187.55 → 208.75 → 239.29</div><div class="note">2026E/2027E/2028E FactSet 共識中值(最新);CPO 貢獻尚未計入</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">高檔震盪,分歧明顯</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">8/12觸及近期高點4,920後拉回,籌碼結構未見一致方向</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">樂觀但分歧大,方向與股價走勢不一致</div><div class="note">外資與本土評等差距逾1,400元</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">82.35(H1實績)→187.55(2026E共識)</div><div class="note">CPO客戶認證結果與9月試產線進度是下一驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識 EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026</td><td>175.24 / 187.55 / 199.16(FactSet 共識,最新)</td><td>18~23x</td><td>3,376~4,314(中值 3,845)</td><td class="red">-11.7%</td></tr>
-  <tr><td>2027</td><td>查無低高,中位 208.75(FactSet)</td><td>20~25x</td><td>4,175~5,219(中值 4,697)</td><td class="green">+3.9%/年</td></tr>
-  <tr><td>2028</td><td>查無低高,中位 239.29(FactSet)</td><td>18~23x</td><td>4,307~5,504(中值 4,905)</td><td class="green">+4.0%/年</td></tr>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026</td><td>175.24/187.55/199.16(FactSet共識)</td><td>18~23x</td><td>3,376~4,314(中值3,845)</td><td class="red">約 -17%</td></tr>
+  <tr><td>2027</td><td style="color:var(--muted)">查無低高,中位208.75(FactSet)</td><td>20~25x</td><td>4,175~5,219(中值4,697)</td><td class="green">約 +1%/年</td></tr>
+  <tr><td>2028</td><td style="color:var(--muted)">查無低高,中位239.29(FactSet)</td><td>18~23x</td><td>4,307~5,504(中值4,905)</td><td class="green">約 +2%/年</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">EPS 估值區間本身就寬(尤其 2027/2028),反映 CPO 認證與放量時程的高度不確定性;上緣情境需要「CPO 全面兌現 + 高倍數重估」同時成立,下緣則對應「本業成長放緩 + 倍數回歸同業水準」,兩種情境目前都有支持證據,不宜單押任一方向。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">EPS估值區間本身就寬(尤其2027/2028),反映CPO認證與放量時程的高度不確定性;現價買入的隱含年化報酬偏低,顯示市場已提前反映相當程度的樂觀預期,不宜視為明顯低估。</div>
 
 <h2>四種股價情境</h2>
 <!-- 刻度 2000~6500;left% = (價格-2000)/4500×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
   <div class="mark" style="left:26.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">3,000~3,200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:47.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">4,000~4,300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:47.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">4,000~4,400</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
   <div class="mark" style="left:71.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,000~5,650</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
   <div class="mark" style="left:89.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">6,125~6,263</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:52.1%"><div class="arrow">▲</div><div class="price">4,355</div><div class="lbl">現價</div></div>
+  <div class="mark below" style="left:57.6%"><div class="arrow">▲</div><div class="price">4,610</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>3,000~3,200</td><td>CPO 首張客戶訂單延遲或認證未過、良率不如預期,倍數回歸同業(玉晶光)水準的 15~17x</td><td class="red">約 -23%</td></tr>
-  <tr><td class="amber">Base</td><td>4,000~4,300</td><td>CPO 依原訂時程推進(Q3 底試產、2027 中放量),核心本業維持溫和成長,倍數持平現水位;現價已在此區間內</td><td>約 +7%</td></tr>
-  <tr><td class="green">Bull</td><td>5,000~5,650</td><td>本土法人法說後目標(元大 5,650/國泰 4,850)完全兌現,CPO 客戶擴增或提前放量</td><td class="green">約 +36%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>6,125~6,263</td><td>外資最高目標(高盛/花旗)完全兌現,CPO 長期選擇權價值提前定價</td><td class="green">約 +54%</td></tr>
+  <tr><td class="red">Bear</td><td>3,000~3,200</td><td>CPO首張客戶認證未過或良率不如預期,倍數回歸同業(玉晶光)水準15~17x</td><td class="red">約 -33%</td></tr>
+  <tr><td class="amber">Base</td><td>4,000~4,400</td><td>CPO依原訂時程推進(9月試產、2027中放量),本業維持H2旺季動能;現價落於此區間附近</td><td class="red">約 -9%</td></tr>
+  <tr><td class="green">Bull</td><td>5,000~5,650</td><td>本土法人法說後目標(元大5,650)完全兌現,CPO客戶擴增或提前放量</td><td class="green">約 +16%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>6,125~6,263</td><td>外資最高目標(高盛/花旗)完全兌現,CPO長期選擇權價值提前定價</td><td class="green">約 +34%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -234,35 +238,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">4,000~4,100</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">3,600~3,800</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">3,000~3,200</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">4,000~4,200</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">3,600~3,900</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">3,000~3,300</td><td>40%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,800</b> = 等同 CPO 首張客戶訂單生變或毛利率結構性跌破 45%,CPO 論述失效,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,800</b> = 等同CPO首張客戶訂單生變或毛利率結構性跌破45%,CPO論述失效,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:<b>8/4 已站回並漲停突破 4,345(7/13 前波高)</b>,右側條件已滿足;後續需站穩 4,485(7/14 高點)+量能持續確認才具波段延續力<br>
-    進場區:<b class="green">4,485~4,650</b><br>
-    移動停利:跌破 10 日線或高點回檔 12%<br>
-    假突破失效:觸發後 3 日內跌回 4,200 即出場</div>
+    觸發條件:收盤突破4,920(8/12近期高點)+量能確認,且8月營收驗證拉貨動能持續轉強<br>
+    進場區:<b class="green">4,950~5,100</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回4,750即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">5,000~5,650</div><div class="note">賣出 25~50%;Bull 區,本土法人法說後目標完全兌現</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,125~6,263</div><div class="note">Stretched 區;續抱條件是 CPO 客戶數實際擴增且良率驗證通過</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">5,000~5,650</div><div class="note">賣出25~50%;Bull區,本土法人法說後目標完全兌現</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,125~6,263</div><div class="note">Stretched區;續抱條件是CPO客戶數實際擴增且良率驗證通過</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:CPO 首張量產客戶訂單 7/13 確認後,7/16 法說會保守語氣一度導致 7/17 重挫至 4,010;但 FA 已於 7 月正式送樣進入客戶認證,加上 8/4 蘋果新機備貨題材 + CPO 族群反彈,股價再度漲停收 4,355、重回 4,000 之上。很少人注意到的是,FactSet 最新調查同時出現「2026E EPS 下修至 187.55、目標價卻上修至 5,150」的不尋常組合,顯示法人持續把權重從近期獲利轉向 CPO 長期選擇權。</div>
-<div class="concl">② <b>估值</b>:Forward P/E 約 20.9~23.2x(2026E/2027E),對比純鏡頭同業玉晶光約 13.4~13.8x 貴了近 7 成,反映的仍是 CPO 長期選擇權溢價;但 CPO 首家客戶仍在認證階段、良率尚未達標,對獲利貢獻依然趨近於零。與 7/17 相比,「便宜」的估值證據明顯減少——2026E 倍數法已從合理轉為貴 13.3%,漲停後的安全邊際比先前更薄。</div>
-<div class="concl">③ <b>結論</b>:觀望,等 CPO 客戶認證與良率結果驗證——現價已高於原 Base 情境上緣、貼近 Bull 區間下緣,上檔空間較 7/17 時收斂,下檔風險相對放大。自動化人力瓶頸(全公司僅約 8 千人 vs 全自動化所需 4 萬人)與康寧 GlassBridge 長期架構競爭仍是尚未充分反映的風險;左側 4,000~4,100 以下分批小量佈局,收盤跌破 2,800 視為 CPO 論述失效無條件出場,下一個驗證點是 9 月試產線進度與 FA 認證結果。</div>
+<div class="concl">⓪ <b>事件影響</b>:8/5公告7月營收48.77億元,月增31.38%,驗證公司guidance「7月拉貨動能轉強、8月再增」確實兌現,前七月累計340.86億元(YoY+7.49%);但年減10.66%顯示與去年高基期相比尚未真正轉正,且此事件不改變CPO長期選擇權的估值假設。</div>
+<div class="concl">① <b>催化劑</b>:7/13 CPO首張量產客戶訂單確認後股價跳空漲停,7/16法說保守語氣一度導致7/17族群性重挫,8/4蘋果備貨題材+CPO反彈再度漲停;FactSet最新調查出現「EPS下修、目標價卻上修」的不尋常組合,顯示法人持續把權重從近期獲利轉向CPO長期選擇權。</div>
+<div class="concl">② <b>估值</b>:中性偏貴——Forward P/E約24.6x已高於自身歷史常態區間上緣,對比純鏡頭同業玉晶光貴了近8成;僅FactSet共識目標價(信賴CPO長期價值)顯示便宜,自身本益比法與同業對照法皆顯示偏貴,估值分歧明顯。</div>
+<div class="concl">③ <b>結論</b>:中性、靜待CPO認證與良率驗證——現價4,610落於Base區間附近,上檔Bull +16%/Stretched +34%對下檔Bear -33%,風險報酬比因CPO仍處早期驗證階段而僅屬中性;左側倉位應保守分批,收盤跌破2,800即CPO論述失效,無條件出場。下一個驗證點是9月CPO試產線啟動進度與首家客戶認證結果。</div>
 
 <footer>
-資料時間:台股股價 2026/08/04 收盤(Yahoo 股市);6 月營收 2026/07/05 公告(TechNews/自由財經);7/9、7/13 CPO 進展(中時新聞網);Q2 法說會 2026/07/16(豐雲學堂/simpletechtrend);FA 送樣與 CPO 試產線最新進度 2026/07 下旬(統整自多篇報導);FactSet 共識 EPS/目標價 2026 年 8 月初調查(鉅亨網)。7 月營收與 Q3 法說會日期尚未公布,均未反映;精確法人 8 月買賣超、內部人申報、CPO 客戶名稱、亞光/先進光精確 forward P/E 查無。<br>
-主要來源:TWSE/TPEx 開放資料、工商時報、中時新聞網、理財周刊、經濟日報、TechNews 科技新報、Yahoo 股市、simpletechtrend(法說精華)、豐雲學堂。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔法人目標價分歧極大(本土與外資差距逾 1,400 元),情境誤差區間較一般個股更大。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);股本/發行股數(先前資料彙整,約1.308億股);CPO進展與Q2法說會(工商時報、中時新聞網、理財周刊、simpletechtrend,2026/07);7月營收(鉅亨網、Yahoo股市,2026/08/05公告);FactSet共識EPS/目標價(鉅亨網FactSet速報,追蹤至8月最新187.55/5,150);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確CPO客戶名稱、8月最新FactSet調查更新、內部人申報查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、工商時報、中時新聞網、理財周刊、鉅亨網、Yahoo股市、simpletechtrend。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔法人目標價分歧極大(本土與外資差距逾1,400元),情境誤差區間較一般個股更大。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
