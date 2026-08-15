@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>廣達 (2382) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>廣達 (2382) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾兩成)</span> <span class="badge amber">結論:分批布局,GB300轉換期留意毛利率</span><span class="autodispo" data-code="2382"></span></h1>
+<div class="sub">台股(TWSE)・CSP ASIC伺服器ODM首選,GB200/GB300機櫃組裝|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2382">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">275</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2382">現價 <b>327.5</b> → 目標價 <b>394</b><span class="up"> (+20.3%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價394(2026E EPS共識23.82,22位分析師);7月營收YoY+131.32%驗證AI伺服器動能,惟Q2毛利率季減0.87pp反映GB200→GB300轉換期成本壓力</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">327.5</div><div class="note">2026/08/14 收盤 +0.77%;8/12法說會後高點336.5</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約1.27兆</div><div class="note">股本386.26億,已發行38.63億股</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value amber">4.37(推算)/H1累計9.43</div><div class="note">Q1 5.5創同期高,官方H1累計數字為主要依據</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約13.8x</div><div class="note">FactSet共識EPS23.82(22位分析師,19.99~27.14)</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">279~393</div><div class="note">7~8月區間;現價落於區間中段</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">268.5~438.0</div><div class="note">2月低268.5、6月高438.0(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 8/12 Q2法說會與7月營收</h2>
+<div class="event">
+  <h3>事件摘要:8/12 Q2法說會,資本支出大舉上修至400億,GB300 Q3底逐步放量</h3>
+  <div class="flow">廣達8/12公布Q2暨上半年財報,H1稅後淨利363.59億元(YoY逾30%),EPS 9.43元;Q2單季營收504.12億元(QoQ+3.8%,YoY+62.6%),毛利率7.05%(QoQ-0.87pp),營業利益率4.05%(QoQ-1.02pp)。管理層說明目前處於GB200轉GB300的產品轉換期,預期Q3底逐步放量;資本支出guidance自300億元大舉上修至400億元。稍早8/10公告<b>7月營收3,662.74億元,YoY+131.32%</b>,前7月累計2.21兆元,YoY+92.67%。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:GB200→GB300轉換期 → 毛利率短期承壓 → 資本支出上修為Q3底放量鋪路 → 7月營收先行驗證動能未歇</h3>
+  <div class="flow">法說會揭示的核心矛盾是:Q2毛利率季減0.87pp反映產品轉換期的一次性成本(新產能建置、舊產能稼動率過渡),但7月營收年增131.32%的強勁數字已經驗證,即使處於轉換期,出貨動能本身並未放緩。資本支出guidance由300億大幅上修至400億,是為Q3底GB300放量預先鋪路,若如期兌現,Q3毛利率有機會止穩回升。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1法說,5/14)</th><th>事件後(8/12 Q2法說+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 5.5元(創同期新高)</td><td class="amber">Q2 H1累計9.43元(季度數字換算約3.93~4.37)</td></tr>
+    <tr><td>毛利率</td><td>Q1未特別強調轉換期壓力</td><td class="red">Q2 7.05%(季減0.87pp),GB200→GB300轉換期成本浮現</td></tr>
+    <tr><td>資本支出guidance</td><td>約300億元</td><td class="green">上修至400億元</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">3,662.74億,YoY+131.32%</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約23.66(調查中)</td><td class="green">23.82(上修,22位分析師)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/05/14</span>Q1法說會:營收8,092億元創單季歷史新高(QoQ+26.7%,YoY+66.6%),EPS 5.5元創同期新高,AI訂單旺到2027年後。</li>
+  <li><span class="date">2026年初~6月</span>股價從年初約270附近一路飆升至6月高點438,反映市場對CSP ASIC伺服器龍頭地位的高度樂觀情緒。</li>
+  <li><span class="date">2026/07</span>股價自6月高點438大幅回落至7月低點279(跌幅逾36%),反映GB200→GB300轉換期的獲利雜訊與AI伺服器族群系統性回檔。</li>
+  <li><span class="date">2026/08/10</span><b class="green">7月營收3,662.74億元,YoY+131.32%</b>:前7月累計2.21兆元,YoY+92.67%,驗證轉換期出貨動能未歇。</li>
+  <li><span class="date">2026/08/12</span><b class="amber">Q2法說會:H1 EPS 9.43元,Q2毛利率季減0.87pp至7.05%</b>,資本支出guidance自300億上修至400億,管理層預告GB300 Q3底逐步放量。</li>
+  <li><span class="date">2026/08/13~14</span>股價高檔震盪(325→336.5→327.5),8/14小幅收高。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率季減0.87pp、營業利益率季減1.02pp,是本次法說最值得留意的訊號,若GB300轉換期比預期更長,獲利雜訊可能延續至Q3;②公開資料對Q2單季EPS的計算存在版本差異(官方H1累計9.43元 vs 以Q1 5.5元反推Q2約3.93元,另有市場流傳Q2單季4.37元的說法),精確單季數字建議以官方H1累計為準,不強行擇一;③股價自6月高點438已回檔逾25%,即使7月營收大幅超預期也僅部分收復失地,顯示市場對轉換期獲利雜訊的疑慮尚未完全消化。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">7月營收3,662.74億元、年增131.32%,前7月累計年增92.67%,證明即使處於GB200轉GB300的產品轉換期,出貨動能依然強勁。<div class="src">— 財報狗、鉅亨網,2026/08/10</div></div>
+    <div class="quote">法人預估2026年AI伺服器營收占比可望上看八成,2026年EPS上看22元以上,提出400元目標價。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">Q1法說會AI訂單能見度已看到2027年後,顯示CSP客戶的長期委外承諾並未因短期轉換雜訊而動搖。<div class="src">— Yahoo股市,2026/05/14法說整理</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q2毛利率季減0.87pp至7.05%、營業利益率季減1.02pp至4.05%,GB200轉GB300的產品轉換期成本壓力已在數字上浮現,不宜僅看營收成長而忽略獲利品質。<div class="src">— 鉅亨網,2026/08/12法說整理</div></div>
+    <div class="quote">股價自6月高點438已回檔逾25%,即使7月營收大幅超預期也僅部分收復,顯示市場對轉換期獲利雜訊的疑慮尚未完全消化。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">資本支出guidance大舉上修至400億元,短期內將墊高折舊費用,若GB300放量時程不如預期,可能進一步壓縮毛利率。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(22位分析師,法說後)</td><td class="green">394</td><td>2026E EPS中位數上修至23.82(區間19.99~27.14)</td></tr>
+  <tr><td>法人樂觀情境</td><td class="amber">400</td><td>預估2026年AI伺服器營收占比上看八成,EPS上看22元以上</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2382"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-8,055</span></td><td>4/10</td><td><span class="green">+6,634</span></td></tr><tr><td>投信</td><td><span class="green">+1,237</span></td><td>6/10</td><td><span class="green">+148</span></td></tr><tr><td>自營商</td><td><span class="red">-1,666</span></td><td>4/10</td><td><span class="red">-543</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-8,485</span></td><td>4/10</td><td><span class="green">+6,238</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+6,634</span></td><td><span class="green">+148</span></td><td><span class="red">-543</span></td><td><span class="green">+6,238</span></td></tr><tr><td>08/13</td><td><span class="red">-4,475</span></td><td><span class="green">+660</span></td><td><span class="green">+97</span></td><td><span class="red">-3,719</span></td></tr><tr><td>08/12</td><td><span class="green">+636</span></td><td><span class="green">+1,098</span></td><td><span class="green">+17</span></td><td><span class="green">+1,752</span></td></tr><tr><td>08/11</td><td><span class="red">-1,442</span></td><td><span class="green">+205</span></td><td><span class="red">-71</span></td><td><span class="red">-1,307</span></td></tr><tr><td>08/10</td><td><span class="green">+2,327</span></td><td><span class="green">+323</span></td><td><span class="green">+447</span></td><td><span class="green">+3,096</span></td></tr><tr><td>08/07</td><td><span class="red">-6,303</span></td><td><span class="green">+79</span></td><td><span class="red">-379</span></td><td><span class="red">-6,603</span></td></tr><tr><td>08/06</td><td><span class="red">-1,537</span></td><td><span class="red">-349</span></td><td><span class="green">+95</span></td><td><span class="red">-1,791</span></td></tr><tr><td>08/05</td><td><span class="red">-3,356</span></td><td><span class="red">-10</span></td><td><span class="red">-851</span></td><td><span class="red">-4,217</span></td></tr><tr><td>08/04</td><td><span class="red">-2,549</span></td><td><span class="red">-682</span></td><td><span class="red">-432</span></td><td><span class="red">-3,663</span></td></tr><tr><td>08/03</td><td><span class="green">+2,010</span></td><td><span class="red">-235</span></td><td><span class="red">-46</span></td><td><span class="green">+1,729</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">3,662.74億</div><div class="note">YoY+131.32%</div></div>
+  <div class="card"><div class="label">前七月累計營收</div><div class="value green">2.21兆</div><div class="note">YoY+92.67%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value amber">7.05%</div><div class="note">季減0.87pp,GB200→GB300轉換期成本壓力</div></div>
+  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value green">23.82</div><div class="note">22位分析師,19.99~27.14</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">9檔,約8.1億</div><div class="note">四檔中規模較小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">資本支出guidance</div><div class="value amber">上修至400億</div><div class="note">原300億,為GB300 Q3底放量鋪路</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收/Q2動能</th><th>與廣達的差異</th></tr>
+  <tr class="hl"><td>2382.TW</td><td>廣達</td><td>約13.8x(EPS23.82)</td><td>7月YoY+131.32%,Q2毛利率季減0.87pp</td><td>CSP ASIC伺服器首選,主攻Meta/Google,毛利率高於鴻海但正處轉換期雜訊</td></tr>
+  <tr><td>2317.TW</td><td>鴻海(本站另篇分析)</td><td>約14.5x(EPS17.92)</td><td>7月YoY+54.19%,Q2 EPS年增34%</td><td>GB系列機櫃出貨規模最大,毛利率結構性低於廣達</td></tr>
+  <tr><td>3231.TW</td><td>緯創(本站另篇分析)</td><td>約13.8x(EPS約14)</td><td>7月YoY+60.76%,Q2 EPS季增54%</td><td>輝達GPU供應鏈,毛利率同樣偏薄(5.66%)</td></tr>
+  <tr><td>2324.TW</td><td>仁寶(本站另篇分析)</td><td>約14.4x(EPS推演約3.0)</td><td>Q2 EPS季增60%+,AI伺服器占比僅一成</td><td>AI伺服器轉型最晚,傳統NB本業占比仍高</td></tr>
+  <tr><td>6669.TW</td><td>緯穎(參考,純AI曝險)</td><td>約11~12x</td><td>北美CSP客製化伺服器最大供應商</td><td>純AI曝險彈性最高,規模遠小於廣達</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——FactSet共識目標價394較現價高逾兩成,但GB300轉換期的毛利率雜訊是短期須留意的風險。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約13.8x(以FactSet共識EPS23.82計)在五家同業中屬中低段,低於鴻海(14.5x),與緯創(13.8x)相近。7月營收年增131.32%是四檔中最快,驗證即使處於產品轉換期,CSP客戶委外動能依然強勁。核心風險是Q2毛利率季減0.87pp,若GB300放量時程比管理層guidance(Q3底)更晚,轉換期的獲利雜訊可能延續更久,現階段的「便宜」判斷應理解為法人對轉換期後獲利回升的信心,而非當下已完全消化的低估。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價327.5 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS23.82,CSP ASIC伺服器溢價倍數13~17x</td><td>310~405(中值357.5)</td><td class="green">便宜 8.4%</td></tr>
+  <tr><td>FactSet共識目標價</td><td>22位分析師,目標價394(單點)</td><td>394(單點)</td><td class="green">便宜 16.9%</td></tr>
+  <tr><td>法人樂觀情境(推演)</td><td>EPS上看22元以上×倍數13~17x(信度中等)</td><td>286~374(中值330)</td><td class="amber">合理(接近中值)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:資本支出guidance於本次法說大舉上修(300億→400億),加上GB200→GB300轉換期的獲利雜訊,近兩年FCF可預測性明顯降低。三種方法方向一致偏便宜或合理,但FactSet共識目標價與自身本益比法的信度高於法人樂觀情境;Q2毛利率季減0.87pp是本次法說最需要留意的訊號,若Q3未能如期止穩回升,便宜的空間可能因獲利雜訊延續而收斂。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月營收後高檔震盪</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">股價自6月高點438回檔逾25%,尚未完全收復</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價高於現價逾兩成</div><div class="note">394,22位分析師</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">9.43(H1實績)→23.82(2026E共識)</div><div class="note">Q3毛利率能否止穩回升是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>23.82(FactSet共識,19.99~27.14)</td><td>13~17x</td><td>310~405(中值357.5)</td><td class="green">約 +9%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無明確共識(法人僅表態AI訂單旺到2027年後)</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027、2028年因分析師覆蓋未給出明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:廣達短期(2026年)估值訊號相對可信且顯示溫和便宜,但長期路徑高度依賴GB300轉換期能否順利收斂為毛利率回升。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 220~480;left% = (價格-220)/260×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:14.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">255~275</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">330~365</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">400~430</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">450~470</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.9%"><div class="arrow">▲</div><div class="price">327.5</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>255~275</td><td>GB300轉換期延長,毛利率持續稀釋,P/E回落至11x附近</td><td class="red">約 -19%</td></tr>
+  <tr><td class="amber">Base</td><td>330~365</td><td>Q3底GB300如期放量、毛利率止穩,FactSet共識目標價緩步達陣;現價落於此區間下緣</td><td class="green">約 +6%</td></tr>
+  <tr><td class="green">Bull</td><td>400~430</td><td>GB300放量超預期、毛利率回升至8%以上,法人樂觀情境400兌現</td><td class="green">約 +27%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>450~470</td><td>AI伺服器營收占比上看八成全數兌現,重返並超越6月高點438</td><td class="green">約 +41%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">300~315</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">285~300</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">275~285</td><td>40%(轉換期雜訊未散,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">275</b>(接近7月低點)= GB300轉換期延長或CSP訂單能見度惡化,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破336.5(8/12法說後高點)+量能確認,且Q3毛利率驗證止穩回升<br>
+    進場區:<b class="green">338~350</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回325即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">400~430</div><div class="note">賣出30~50%;Bull下緣/法人樂觀目標達陣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">450~470</div><div class="note">Stretched區/重返6月高點附近;續抱條件是AI伺服器占比持續攀升且毛利率回升</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:8/12 Q2法說會公布H1 EPS 9.43元,惟Q2毛利率季減0.87pp至7.05%,反映GB200轉GB300的產品轉換期成本壓力;管理層同步將資本支出guidance自300億上修至400億,預告GB300 Q3底逐步放量,7月營收年增131.32%已先行驗證出貨動能未歇。</div>
+<div class="concl">① <b>催化劑</b>:7月營收3,662.74億元(YoY+131.32%)是四檔中成長最快,前7月累計年增92.67%;但股價自6月高點438已回檔逾25%,即使營收大幅超預期也僅部分收復,顯示市場對轉換期獲利雜訊的疑慮尚未完全消化。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價394較現價高逾16%,自身2026E本益比法也顯示便宜約8%;核心風險是Q2毛利率季減0.87pp的轉換期雜訊,若Q3未能如期止穩回升,便宜的空間可能因獲利品質疑慮而收斂。</div>
+<div class="concl">③ <b>結論</b>:分批布局、留意GB300轉換期毛利率驗證——現價327.5落於Base區間下緣,上檔Bull +27%/Stretched +41%對下檔Bear -19%,風險報酬比尚可但須待Q3毛利率驗證;左側倉位應保守分批,收盤跌破275即轉換期延長或訂單能見度惡化,無條件出場。下一個驗證點是Q3毛利率與GB300放量進度。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);股本/發行股數(Yahoo股市,2026/08/13);Q2法說會(鉅亨網、LINE TODAY CMoney,2026/08/12);7月營收(財報狗、鉅亨網,2026/08/10公告);FactSet共識EPS/目標價(豐雲學堂、鉅亨網FactSet速報,追蹤至8月最新23.82/394);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q2單季EPS(公開資料版本不一)、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網、財報狗、CMoney投資網誌、豐雲學堂、Yahoo股市。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;Q2單季EPS因公開資料版本不一,已明確以官方H1累計數字為主要依據,不強行擇一。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

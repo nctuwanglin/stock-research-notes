@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仁寶 (2324) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>仁寶 (2324) <span class="badge amber">估值:合理(法說利多後大漲,已部分反映)</span> <span class="badge amber">結論:中性,剛觸及漲停慎防利多出盡</span><span class="autodispo" data-code="2324"></span></h1>
+<div class="sub">台股(TWSE)・傳統NB ODM轉型AI伺服器,四檔中AI占比最低但成長最快|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2324">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">36</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2324">現價 <b>43.2</b> → 目標價 <b>42</b><span class="down"> (-2.8%)</span></div>
+  <div class="vbasis">推導依據:2026E EPS約3.0(推演:H1實績1.18+H2保守外推) × 14~15x(AI伺服器轉型初期,較同業折價);公開FactSet目標價31.75已明顯過時(法說前舊資料),不採為主要依據</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">43.2</div><div class="note">2026/08/14 收盤漲停 +9.92%,成交量逾27萬張全市場之冠</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約1,904億</div><div class="note">股本440.71億,已發行約44.07億股</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.73</div><div class="note">季增逾60%;H1累計EPS 1.18</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約14.4x(推演)</div><div class="note">依自身推演EPS 3.0計算,公開券商共識已過時</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">33.2~43.2</div><div class="note">7~8月區間;8/14收在區間高點</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">26.75~47.75</div><div class="note">4月低26.75、6月高47.75(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 8/13 Q2法說會,AI伺服器業務進展超前</h2>
+<div class="event">
+  <h3>事件摘要:8/13法說會,H1獲利51億元、EPS 1.18元,AI伺服器2027年營收占比上看四成,股價當日鎖漲停</h3>
+  <div class="flow">仁寶8/13召開法說會,公布上半年獲利51億元,EPS 1.18元(Q1 0.45+Q2 0.73);Q2單季合併營收2,382.95億元(QoQ+18%,YoY+32%),EPS 0.73元較Q1季增逾六成,主要由PC與伺服器業務帶動。管理層釋出兩大利多:①<b>2026年AI伺服器營收占比上看10%</b>(較先前guidance明顯提升);②<b>2027年AI伺服器營收占比上看四成</b>,顯示AI伺服器轉型進度超前市場預期。消息激勵股價8/14開盤不到一小時成交量便突破27萬張,一度高居台股成交量之冠,強攻漲停鎖死43.2元,漲停板上仍有逾3.8萬張買單排隊搶買。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:PC/NB本業回溫+AI伺服器業務加速 → Q2獲利季增逾六成 → 法說會上修AI伺服器占比guidance → 股價鎖漲停重新評價</h3>
+  <div class="flow">仁寶在四檔AI伺服器代工股中轉型進度原本最晚(AI伺服器營收占比最低),市場長期給予傳統NB ODM的較低評價倍數。本次法說會的關鍵訊號是管理層明確上修AI伺服器占比guidance(2026年10%、2027年四成),等於向市場宣告仁寶不再只是「傳統NB ODM」,而是正加速追趕鴻海、廣達、緯創的AI伺服器轉型腳步——這正是股價單日鎖漲停、重新評價的核心邏輯。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(法說會前)</th><th>事件後(8/13法說會後)</th></tr>
+    <tr><td>股價</td><td>8/13收39.30</td><td class="green">8/14收43.20(漲停+9.92%)</td></tr>
+    <tr><td>Q2 EPS</td><td>查無(尚未公布)</td><td class="green">0.73元,季增逾60%</td></tr>
+    <tr><td>AI伺服器2026年營收占比guidance</td><td>查無明確數字</td><td class="green">上看10%</td></tr>
+    <tr><td>AI伺服器2027年營收占比guidance</td><td>查無明確數字</td><td class="green">上看四成</td></tr>
+    <tr><td>FactSet券商目標價(6位分析師)</td><td>31.75(法說前舊調查)</td><td class="red">已明顯過時,現價43.2已超越逾36%,尚無公開的法說後正式更新</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲(單日漲停的完整脈絡)?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價從年初低點26.75一路飆升至6月高點47.75,反映市場對AI伺服器族群系統性樂觀情緒的補漲行情。</li>
+  <li><span class="date">2026/07</span>股價自6月高點47.75回落至7月低點33.2(跌幅逾30%),疊加台股系統性回檔。</li>
+  <li><span class="date">2026/08/13</span><b class="green">法說會:H1獲利51億元、EPS 1.18元,Q2 EPS 0.73元季增逾六成</b>,管理層釋出AI伺服器2026年占比上看10%、2027年上看四成的樂觀guidance。</li>
+  <li><span class="date">2026/08/14</span><b class="green">股價強攻漲停43.2元(+9.92%)</b>:開盤不到一小時成交量突破27萬張,一度居台股成交量之冠,漲停板上仍有逾3.8萬張買單排隊搶買,均線多頭排列吸引資金追價。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①股價單日鎖漲停,成交量創天量,是典型的「利多出盡」風險訊號,短線追價的安全邊際明顯低於左側布局;②唯一公開可查的FactSet券商目標價(31.75)是法說會前的舊調查,現價已超越該目標逾36%,尚查無法說會後的正式券商目標價更新,本站目標價因此改採自身推演;③AI伺服器營收占比即使上修至2026年10%、2027年四成,占比仍是四檔中最低,轉型進度落後鴻海、廣達、緯創,重新評價的持續性需要後續季度數字驗證,不宜僅憑一次法說guidance線性外推。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">仁寶第二季獲利季增逾六成,EPS 0.73元,加上AI伺服器發威、今年營收占比上看10%,是老AI股補漲行情的最新一棒。<div class="src">— CMoney研究員,2026/08/14即時新聞</div></div>
+    <div class="quote">法說會釋出AI伺服器業務進展超前、2027年伺服器營收占比上看四成等利多,激勵資金大舉湧入,開盤不到一小時成交量便突破27萬張。<div class="src">— Yahoo股市,2026/08/14</div></div>
+    <div class="quote">老AI股大牛翻身,仁寶衝漲停,均線多頭排列吸引資金追價。<div class="src">— 股市爆料同學會,2026/08/14</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">股價單日鎖漲停、成交量創天量,是典型「利多出盡」風險訊號,追高者面對的安全邊際明顯低於左側分批布局者。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">唯一公開的FactSet券商目標價(31.75)是法說會前的舊資料,現價已超越該目標逾36%,現階段查無法說後正式更新的目標價可供交叉對照。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
+    <div class="quote">AI伺服器占比即使上修至2027年四成,仍是四檔中轉型進度最落後的一檔,重新評價能否延續需要後續季度數字持續驗證。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(6位分析師,法說前舊調查)</td><td class="red">31.75</td><td>自30.25上修+4.96%,區間28.4~36.6;此調查未反映8/13法說利多</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無法說會(8/13)後正式更新的券商目標價;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2324"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+144,041</span></td><td>7/10</td><td><span class="green">+47,850</span></td></tr><tr><td>投信</td><td><span class="green">+1,361</span></td><td>3/10</td><td><span class="red">-47</span></td></tr><tr><td>自營商</td><td><span class="green">+10,544</span></td><td>7/10</td><td><span class="green">+3,909</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+155,946</span></td><td>7/10</td><td><span class="green">+51,712</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+47,850</span></td><td><span class="red">-47</span></td><td><span class="green">+3,909</span></td><td><span class="green">+51,712</span></td></tr><tr><td>08/13</td><td><span class="green">+12,613</span></td><td><span class="red">-43</span></td><td><span class="green">+3,366</span></td><td><span class="green">+15,936</span></td></tr><tr><td>08/12</td><td><span class="green">+51,024</span></td><td><span class="green">+61</span></td><td><span class="green">+3,904</span></td><td><span class="green">+54,989</span></td></tr><tr><td>08/11</td><td><span class="red">-155</span></td><td><span class="red">-23</span></td><td><span class="green">+11</span></td><td><span class="red">-167</span></td></tr><tr><td>08/10</td><td><span class="red">-3,237</span></td><td><span class="red">-9</span></td><td><span class="red">-420</span></td><td><span class="red">-3,666</span></td></tr><tr><td>08/07</td><td><span class="red">-2,765</span></td><td><span class="red">-13</span></td><td><span class="red">-304</span></td><td><span class="red">-3,082</span></td></tr><tr><td>08/06</td><td><span class="green">+2,157</span></td><td><span class="red">-42</span></td><td><span class="red">-407</span></td><td><span class="green">+1,709</span></td></tr><tr><td>08/05</td><td><span class="green">+12,932</span></td><td><span class="red">-2</span></td><td><span class="green">+180</span></td><td><span class="green">+13,110</span></td></tr><tr><td>08/04</td><td><span class="green">+13,720</span></td><td><span class="green">+417</span></td><td><span class="green">+73</span></td><td><span class="green">+14,210</span></td></tr><tr><td>08/03</td><td><span class="green">+9,902</span></td><td><span class="green">+1,062</span></td><td><span class="green">+232</span></td><td><span class="green">+11,195</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2營收</div><div class="value green">2,382.95億</div><div class="note">QoQ+18%,YoY+32%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">1.18</div><div class="note">Q1 0.45 + Q2 0.73(季增逾60%)</div></div>
+  <div class="card"><div class="label">AI伺服器2026年營收占比guidance</div><div class="value amber">上看10%</div><div class="note">四檔中占比最低</div></div>
+  <div class="card"><div class="label">AI伺服器2027年營收占比guidance</div><div class="value green">上看四成</div><div class="note">管理層釋出的轉型加速訊號</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約0.65億</div><div class="note">四檔中規模最小、最冷門(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">2026/08/14成交量</div><div class="value green">27萬張+</div><div class="note">全市場之冠,漲停板上逾3.8萬張排隊</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收/Q2動能</th><th>與仁寶的差異</th></tr>
+  <tr class="hl"><td>2324.TW</td><td>仁寶</td><td>約14.4x(EPS推演約3.0)</td><td>Q2 EPS季增60%+,AI伺服器占比僅約一成</td><td>傳統NB ODM轉型AI伺服器最晚,占比四檔最低但guidance上修速度最快</td></tr>
+  <tr><td>2317.TW</td><td>鴻海(本站另篇分析)</td><td>約14.5x(EPS17.92)</td><td>7月YoY+54.19%,Q2 EPS年增34%</td><td>AI伺服器機櫃出貨規模最大,轉型最成熟</td></tr>
+  <tr><td>2382.TW</td><td>廣達(本站另篇分析)</td><td>約13.8x(EPS23.82)</td><td>7月YoY+131.32%,Q2毛利率季減0.87pp</td><td>CSP ASIC伺服器首選,AI占比遠高於仁寶</td></tr>
+  <tr><td>3231.TW</td><td>緯創(本站另篇分析)</td><td>約13.8x(EPS約14)</td><td>7月YoY+60.76%,Q2 EPS季增54%</td><td>NVIDIA GPU供應鏈,轉型進度早於仁寶</td></tr>
+  <tr><td>6669.TW</td><td>緯穎(參考,純AI曝險)</td><td>約11~12x</td><td>北美CSP客製化伺服器最大供應商</td><td>純AI曝險彈性最高,與仁寶的傳統本業結構完全不同</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——法說利多後單日大漲已部分反映轉型加速題材,自身推演本益比與同業群組大致接軌。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約14.4x(以自身推演EPS3.0計)與鴻海(14.5x)相近,已從過去「傳統NB ODM折價」的定位追近AI伺服器代工群組的平均倍數。唯一公開的FactSet目標價(31.75)是法說前舊資料,現價已大幅超越,現階段公開資料沒有可信的更新目標價可供交叉對照,本站因此改採自身推演為主要依據。核心風險是股價單日鎖漲停、成交量創天量,若後續數個交易日無法延續買盤動能,「利多出盡」的獲利了結賣壓可能立即出現。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價43.2 vs 中值</th></tr>
+  <tr><td>FactSet共識(法說前,已過時)</td><td>目標價31.75(單點,6位分析師)</td><td>31.75(單點)</td><td class="red">貴 36.1%(基期過時,已被法說利多與股價追過,不宜採信)</td></tr>
+  <tr><td>2026E P/E×EPS(自身推演)</td><td>EPS3.0(H1實績1.18+H2保守外推),AI伺服器轉型初期倍數13~16x</td><td>39~48(中值43.5)</td><td class="amber">合理(接近中值)</td></tr>
+  <tr><td>同業(鴻海/廣達/緯創)Fwd P/E平均對照</td><td>三檔平均約14x套用仁寶EPS3.0(轉型階段差異大,信度中等)</td><td>單點約42(推演)</td><td class="amber">合理(接近中值)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:AI伺服器占比guidance剛於本次法說大幅上修(2026年10%、2027年四成),尚無足夠歷史數據校準多年期FCF假設。三種方法中,法說前的FactSet舊目標價已明顯失去參考價值;自身推演本益比法與同業倍數對照兩者方向一致顯示現價大致合理,這與其他三檔OSAT/ODM股票「便宜」的估值訊號不同——仁寶本次的漲停已一次性消化了法說利多,現階段不宜視為明顯低估。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">單日鎖漲停,過熱警訊</div><div class="bar"><div style="width:82%;background:var(--red)"></div></div><div class="note">成交量27萬張+全市場之冠,漲停板上逾3.8萬張排隊搶買</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">唯一公開目標價已過時</div><div class="note">31.75(法說前),查無法說後正式更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.18(H1實績)→3.0(2026E推演)</div><div class="note">Q3能否延續AI伺服器占比上修動能是下一驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,自身推演)</td><td>3.0(單點,H1實績1.18+H2外推)</td><td>13~16x</td><td>39~48(中值43.5)</td><td class="amber">約 +1%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識(僅有AI伺服器占比guidance上看四成,無對應EPS數字)</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬接近持平,顯示漲停後的現價已大致反映法說利多,並未提供明顯的低估空間;2027、2028年因公司僅給出AI伺服器占比guidance而無對應EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:仁寶本次重新評價的第一步已透過漲停兌現,後續能否延續取決於2027年AI伺服器占比四成的guidance能否被季度數字逐步驗證。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 20~62;left% = (價格-20)/42×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:15.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">27~31</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">38~44</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">49~55</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:90.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">58~62</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:54.9%"><div class="arrow">▲</div><div class="price">43.2</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>27~31</td><td>漲停後利多出盡、AI伺服器占比guidance未如期兌現,回落至7月低點附近</td><td class="red">約 -33%</td></tr>
+  <tr><td class="amber">Base</td><td>38~44</td><td>Q3動能延續但無新驚喜,估值回歸自身推演本益比區間;現價落於此區間內</td><td class="red">約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>49~55</td><td>Q3驗證AI伺服器占比持續上修、券商法說後正式上修目標價,重返並超越6月高點</td><td class="green">約 +20%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>58~62</td><td>2027年AI伺服器占比四成guidance提前驗證,轉型故事全面重新評價</td><td class="green">約 +39%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">38~41</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">34~37</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">31~33</td><td>45%(單日鎖漲停後利多出盡風險偏高,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">36</b>(接近漲停前整理區間)= AI伺服器轉型guidance生變或利多出盡賣壓確立,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:漲停打開後續強,收盤站穩43.2+量能確認未見大量獲利了結<br>
+    進場區:<b class="green">43~46</b><br>
+    移動停利:跌破20日線或高點回檔15%<br>
+    假突破失效:觸發後3日內跌回40即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">49~55</div><div class="note">賣出30~50%;Bull下緣,單日鎖漲停股高檔應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">58~62</div><div class="note">Stretched區/重返6月高點附近;續抱條件是AI伺服器占比guidance持續被季度數字驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:8/13法說會公布H1獲利51億元、EPS 1.18元,Q2 EPS 0.73元季增逾六成,管理層同步上修AI伺服器營收占比guidance至2026年10%、2027年四成;消息激勵股價8/14單日鎖漲停43.2元,成交量27萬張+全市場之冠,漲停板上逾3.8萬張買單排隊。</div>
+<div class="concl">① <b>催化劑</b>:PC/NB本業回溫加上AI伺服器業務加速轉型,是四檔中占比最低但guidance上修速度最快的一檔;但股價單日鎖漲停、成交量創天量,是典型「利多出盡」風險訊號,唯一公開的FactSet目標價(31.75)已是法說前舊資料,查無法說後正式更新。</div>
+<div class="concl">② <b>估值</b>:合理——自身推演本益比法(EPS3.0×13~16x,中值43.5)顯示現價已大致合理,與同業倍數對照結果一致;法說利多已透過本次漲停一次性消化,不宜視為明顯低估,與其他三檔OSAT/ODM股票的「便宜」訊號明顯不同。</div>
+<div class="concl">③ <b>結論</b>:中性、剛觸及漲停慎防獲利了結——現價43.2落於Base區間內,上檔Bull +20%/Stretched +39%對下檔Bear -33%,風險報酬比因單日爆量漲停而偏向保守;左側倉位應保守分批並優先等待漲停打開後的買盤延續性確認,收盤跌破36即轉型guidance生變或利多出盡賣壓確立,無條件出場。下一個驗證點是Q3能否延續AI伺服器占比上修動能。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);股本/發行股數(cnyes鉅亨網,2026/08/15);法說會與Q2財報(CMoney研究員、Yahoo股市,2026/08/13);FactSet券商目標價(鉅亨網FactSet速報,法說前舊調查,6位分析師);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;法說會後正式券商目標價更新、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney研究員即時新聞、Yahoo股市、股市爆料同學會、鉅亨網、cnyes鉅亨網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次估值刻意標註公開券商目標價已過時,改採自身推演為主要依據,不強行沿用失去時效性的舊數字。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

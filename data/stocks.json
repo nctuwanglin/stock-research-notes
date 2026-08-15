@@ -203,14 +203,14 @@
     "name": "鴻海",
     "market": "twse",
     "file": "2317-honhai.html",
-    "analysis_date": "2026-08-05",
-    "analysis_price": 250.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 259.5,
     "tags": [
       "電子代工"
     ],
-    "target": 295,
+    "target": 320,
     "stop": 190,
-    "basis": "四情境Base中值;AI伺服器毛利改善未完全反映",
+    "basis": "FactSet共識目標價320(2026E EPS約17.92);與8/5分析目標價295相比上修,反映8/12法說會Q2 EPS 4.27創同期新高與7月營收9,465億創歷史新高",
     "rating": "buy"
   },
   "3037": {
@@ -469,6 +469,48 @@
     "target": 284,
     "stop": 175,
     "basis": "2026E EPS約10.5(推演,反映7月動能加速,高於FactSet 5月估值9.77) × 27x(測試專業廠+AI訂單能見度溢價)",
+    "rating": "hold"
+  },
+  "2382": {
+    "name": "廣達",
+    "market": "twse",
+    "file": "2382-quanta.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 327.5,
+    "tags": [
+      "電子代工"
+    ],
+    "target": 394,
+    "stop": 275,
+    "basis": "FactSet共識目標價394(2026E EPS共識23.82,22位分析師);7月營收YoY+131.32%驗證AI伺服器動能,惟Q2毛利率季減0.87pp反映GB200→GB300轉換期成本壓力",
+    "rating": "buy"
+  },
+  "3231": {
+    "name": "緯創",
+    "market": "twse",
+    "file": "3231-wistron.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 193.5,
+    "tags": [
+      "電子代工"
+    ],
+    "target": 200,
+    "stop": 139,
+    "basis": "FactSet共識目標價203~210(2026E EPS約13.7~14.3)與國內券商因毛利率偏薄下修目標價188兩者取中值約200;Q2 EPS季增54%創單季新高,惟毛利率5.66%仍偏薄",
+    "rating": "hold"
+  },
+  "2324": {
+    "name": "仁寶",
+    "market": "twse",
+    "file": "2324-compal.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 43.2,
+    "tags": [
+      "電子代工"
+    ],
+    "target": 42,
+    "stop": 36,
+    "basis": "2026E EPS約3.0(推演:H1實績1.18+H2保守外推) × 14~15x(AI伺服器轉型初期,較同業折價);公開FactSet目標價31.75已明顯過時(法說前舊資料),不採為主要依據",
     "rating": "hold"
   }
 }
