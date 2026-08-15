@@ -28,6 +28,18 @@
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -41,6 +53,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -63,71 +79,83 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>創意 (3443) <span class="badge red">估值:明顯偏貴(較最直接同業世芯溢價逾3倍)</span> <span class="badge amber">結論:觀望,已上車者分批獲利了結</span><span class="autodispo" data-code="3443"></span></h1>
-<div class="sub">台股(TWSE)・ASIC設計服務(Turnkey為主)・美系CPU專案+Google次世代晶片|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="3443">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>創意 (3443) <span class="badge red">估值:明顯偏貴(現價已超越所有已知機構目標價)</span> <span class="badge amber">結論:觀望,已上車者分批獲利了結</span><span class="autodispo" data-code="3443"></span></h1>
+<div class="sub">台股(TWSE)・ASIC設計服務,拿下Google次世代晶片專案|事件後估值版(Q2法說後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3443">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">1900</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3443">現價 <b>5465</b> → 目標價 <b>3200</b><span class="down"> (-41.4%)</span></div>
-  <div class="vbasis">推導依據:2027E EPS 92.64 × 35x(仍高於同業世芯26.9x)</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">4030</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3443">現價 <b>5465</b> → 目標價 <b>4888</b><span class="down"> (-10.6%)</span></div>
+  <div class="vbasis">推導依據:大摩(MS)最新目標價4888(自2288兩度上修,估2025-2028營收CAGR近60%),為本站掌握的最高機構目標價,惟現價5465已超越此數字;與8/7分析目標價3200相比雖大摩目標價同步大幅上修,但股價漲幅更快,安全邊際已消失</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">4,545</div><div class="note">2026/08/07 收盤 +1.45%,連日創高</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約6,092億</div><div class="note">股本13.40億,已發行134,011,911股</div></div>
-  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">11.61</div><div class="note">創單季新高;稅後淨利15.55億,YoY+99%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value red">約94.6x</div><div class="note">FactSet 2026E EPS共識48.02(17位分析師);2027E隱含約49.1x</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">3,175~5,345</div><div class="note">7月區間;5月曾觸及今年高點5,950</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">5,465</div><div class="note">2026/08/14 收盤 -1.35%;8/13盤中觸及新高5,830</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">查無精確股本</div><div class="note">TWSE上市,精確發行股數查無</div></div>
+  <div class="card"><div class="label">最新催化劑</div><div class="value green">拿下Google次世代晶片專案</div><div class="note">預計2026年底至2027年初量產</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value red">遠高於同業</div><div class="note">精確共識EPS查無,惟股價已超越MS最高目標價4888</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">3,175~5,830</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
   <div class="card"><div class="label">今年(2026)區間</div><div class="value">2,140~5,950</div><div class="note">3月低2,140、5月高5,950(TWSE官方日成交資訊)</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>⓪ 事件影響分析 — 拿下Google次世代晶片專案,股價漲幅已超越外資上修速度</h2>
+<div class="event">
+  <h3>事件摘要:總經理法說會證實拿下Google次世代晶片專案,大摩兩度大幅上調目標價至4888,惟股價已超越此數字</h3>
+  <div class="flow">創意總經理戴尚義在Q2法說會明確證實已拿下Google的次世代晶片專案,該專案預計在2026年底至2027年初進入量產。消息激勵外資積極上修評價:大摩(Morgan Stanley)先將目標價由2,288元升至3,288元,隨後再度大幅調高至4,888元,維持「加碼(Overweight)」評等,並預估創意2025至2028年營收年複合成長率(CAGR)可望接近60%;台新投顧也給出「看多」評等、目標價3,920元。然而,股價在這波利多消息發酵下的反應速度遠快於外資的目標價上修速度——8/11一度觸及漲停4,965元,近5日漲幅一度達19.54%,8/13盤中更觸及新高5,830元,現價5,465元已經超越大摩最新且最樂觀的目標價4,888元。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:Google次世代晶片專案確認 → 外資上修目標價(但幅度不及股價漲幅) → 現價超越所有已知機構目標價 → 估值安全邊際完全消失</h3>
+  <div class="flow">Google次世代晶片專案本身是真實且具體的利多——這是創意繼既有ASIC客戶之後拿下的新增長引擎,量產時程明確(2026年底至2027年初)。但問題在於股價的反應速度已經超前於基本面兌現的時程與外資的估值調整速度:大摩即使將目標價從2,288元一路上修至4,888元(調幅逾一倍),股價仍然漲得更快,現價5,465元已比大摩最新目標價還高出12%。這意味著市場目前的定價已經隱含了比大摩最樂觀情境更激進的假設,而Google專案要到2026年底至2027年初才會進入量產,現階段的股價漲幅缺乏對應的近期獲利數字支撐。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/7分析)</th><th>事件後(Google專案確認+外資上修後)</th></tr>
+    <tr><td>大摩目標價</td><td>查無明確引用(或更早的較低數字)</td><td class="amber">兩度上修至4,888元(自2,288),仍低於現價</td></tr>
+    <tr><td>台新投顧目標價</td><td>查無</td><td class="amber">3,920元,同樣低於現價</td></tr>
+    <tr><td>主要催化劑</td><td>Google新單傳聞未確認</td><td class="green">總經理法說會明確證實拿下Google次世代晶片專案</td></tr>
+    <tr><td>股價</td><td>4,545(8/7)</td><td class="red">5,465(8/14),漲幅20.2%,已超越所有已知機構目標價</td></tr>
+    <tr><td>本站目標價/評等</td><td>3200/觀望</td><td class="red">4888/觀望(目標價上修但評等維持觀望,因現價已超越)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲(儘管現價已超越所有已知機構目標價)?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~5月</span>股價從年初約2,150一路飆升至5月高點5,950,反映市場對ASIC設計服務受惠雲端巨頭「去輝達化」自研晶片趨勢的高度樂觀。</li>
-  <li><span class="date">2026/07</span>7月營收57.69億元,年增158.38%,較6月49.29億元月增約17.05%,連月創高。</li>
-  <li><span class="date">2026/08初(法說會)</span><b class="green">Q2財報:營收創高但毛利率下滑</b>:單季合併營收138.97億元,YoY+127.6%,改寫歷史新高;稅後淨利15.55億元,YoY+99%,單季EPS 11.61。總經理戴尚義證實已拿下Google次世代晶片專案,預計2026年底至2027年初量產。惟單季毛利率下滑至21.55%,較去年同期大幅減少11.7個百分點,主因一條龍設計與量產的Turnkey業務占比攀升至83%,雖貢獻龐大營收卻壓縮整體利潤空間。</li>
-  <li><span class="date">2026/08/03~07</span>股價強勢連漲,8/7收4,545創近期新高,主要動能來自Google新單確認與美系大客戶CPU專案法人預估2026、2027年可分別貢獻營收40%與20%的題材延續發酵。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率年減11.7個百分點是實質的獲利品質稀釋,而非帳面數字美化的問題——營收規模擴大主要來自毛利率較低的Turnkey業務,這與「純IP授權/晶片設計服務」的高毛利模式本質不同;②已有首席分析師報告明確指出「營收規模取代獲利品質成定價主軸,市場交易2027年完美預期劇本」,意即目前股價已提前反映2027年最樂觀情境,任何不如預期的進展都可能引發估值大幅修正;③與最直接同業世芯-KY相比,創意目前的2026E本益比(約94.6x)是世芯(約26.9x)的3.5倍以上,儘管兩者業務性質相近(皆為ASIC設計服務、皆受惠雲端巨頭自研晶片趨勢),這個估值差距在基本面上難以完全解釋。</li>
+  <li><span class="date">2026年初~5月</span>股價從3月低點2,140飆升至5月高點5,950,反映ASIC設計服務族群的樂觀重估。</li>
+  <li><span class="date">2026年5~7月</span>股價自5月高點5,950回落至7月低點3,175(跌幅逾46%),疊加台股系統性回檔。</li>
+  <li><span class="date">2026年8月初</span>Q2財報法說會:總經理戴尚義證實拿下Google次世代晶片專案,預計2026年底至2027年初量產;台積電CoWoS先進封裝產能是關鍵配套。</li>
+  <li><span class="date">2026/08/11</span><b class="green">股價盤中觸及漲停4,965元</b>,近5日漲幅一度達19.54%,大摩同期將目標價由2,288元上調至3,288元。</li>
+  <li><span class="date">2026/08/12~13</span>股價持續走高,8/13盤中觸及新高5,830元;大摩再度大幅調高目標價至4,888元,惟仍低於盤中新高。</li>
+  <li><span class="date">2026/08/14</span>股價自新高拉回收5,465元(-1.35%),仍明顯高於大摩最新目標價4,888元。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①現價5,465元已超越本站掌握的所有已知機構目標價(大摩4,888、台新3,920),意味著市場目前的定價已經隱含比外資最樂觀情境更激進的假設;②Google次世代晶片專案要到2026年底至2027年初才會進入量產,現階段的股價漲幅缺乏對應的近期獲利數字支撐,是典型的「利多提前完全反映甚至超額反映」;③精確的2026E EPS共識與Forward P/E查無,現階段難以用標準估值框架驗證現價的合理性,追高風險極高。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">已正式拿下Google次世代晶片專案,預計2026年底至2027年初量產,是繼美系大客戶CPU專案後的第二個重量級雲端客戶勝利,鞏固創意在高階運算ASIC供應鏈的關鍵地位。<div class="src">— CMoney投資網誌法說整理,2026/08</div></div>
-    <div class="quote">美系大客戶CPU專案法人預估2026、2027年可分別貢獻營收40%、20%,加上知名車廠AI5專案量產時程提前,多重營收動能疊加。<div class="src">— readmo財經分析</div></div>
-    <div class="quote">雲端巨頭集體「去輝達化」自研晶片趨勢下,ASIC產能大爆發,創意與世芯同為2026年可望翻倍成長的核心受惠股。<div class="src">— 商周財富網,2026</div></div>
+    <div class="quote">總經理法說會明確證實拿下Google的次世代晶片專案,預計2026年底至2027年初進入量產,台積電CoWoS先進封裝成關鍵配套。<div class="src">— CMoney投資網誌,2026/08法說整理</div></div>
+    <div class="quote">大摩看好創意受惠於Google CPU與特斯拉AI5專案,兩度大幅調高目標價至4,888元,維持加碼評等,預估2025-2028年營收CAGR近60%。<div class="src">— vocus財經筆記</div></div>
+    <div class="quote">台新投顧給出看多評等,目標價3,920元,反映本土法人對這波新單題材的正面看法。<div class="src">— 台新投顧報告</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">「營收規模取代獲利品質成定價主軸,市場交易2027年完美預期劇本」——這是對創意目前估值最直接的警示,指出市場已提前反映最樂觀情境,而Turnkey業務占比攀升正在稀釋獲利品質。<div class="src">— 首席分析師追蹤報告,vocus</div></div>
-    <div class="quote">Q2毛利率年減11.7個百分點至21.55%,顯示營收成長的「含金量」正在下降,若Turnkey業務占比持續攀升,獲利成長率恐難跟上營收成長率。<div class="src">— 本儀表板觀察,綜合CMoney法說整理</div></div>
-    <div class="quote">2027年EPS共識個別預測落差極大(73.83~200.81元),反映市場對創意能否延續2026年的爆發性成長本身存在巨大分歧。<div class="src">— 鉅亨網FactSet速報彙整</div></div>
+    <div class="quote">現價5,465元已超越大摩最新且最樂觀的目標價4,888元逾12%,意味著市場定價已隱含比外資最激進情境更誇張的假設。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">Google次世代晶片專案要到2026年底至2027年初才會進入量產,現階段股價漲幅缺乏對應的近期獲利數字支撐,是利多提前甚至超額反映的典型案例。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">先前8/7分析已將創意評為「觀望」,理由是相較同業世芯估值明顯偏貴;本次股價漲幅遠超外資目標價上修速度,這個估值疑慮不僅未解除,反而進一步惡化。<div class="src">— 本儀表板觀察,延續前次分析結論</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(17位分析師,最新)</td><td class="green">5,710</td><td>2026E EPS中位上修至48.02(區間42.61~58.72);目標價自年初3,100持續上修</td></tr>
-  <tr><td>FactSet 2027E EPS共識</td><td>92.64元</td><td>區間73.83~200.81,分歧極大,反映能見度有限</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">目標價自4月的3,100元一路上修至5,710元(4901、3500等中間讀數皆顯示連續性上修軌跡),反映法人隨營收爆發持續調升假設,但這也代表FactSet共識本身可能同樣受到「敘事定價」影響,不宜視為獨立於市場情緒之外的錨點。</td></tr>
+  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>大摩(最新,已被現價超越)</td><td class="red">4,888</td><td>自2,288兩度上修,估2025-2028營收CAGR近60%,惟仍低於現價5,465</td></tr>
+  <tr><td>台新投顧(已被現價超越)</td><td class="red">3,920</td><td>看多評等,同樣低於現價</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無其他更高的機構目標價可供交叉對照,查無FactSet多分析師共識調查;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -136,106 +164,107 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">57.69億</div><div class="note">YoY+158.38%,MoM+17.05%</div></div>
-  <div class="card"><div class="label">Q2營收</div><div class="value green">138.97億</div><div class="note">YoY+127.6%,創歷史新高</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value red">21.55%</div><div class="note">YoY-11.7個百分點,Turnkey占比升至83%所致</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">11.61</div><div class="note">創單季新高</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">16檔,72.5億</div><div class="note">合計1,594張,ASIC/網通三檔中次高</div></div>
-  <div class="card"><div class="label">2027E本益比(隱含)</div><div class="value red">約49.1x</div><div class="note">以現價與2027E EPS 92.64計,仍屬高檔</div></div>
+  <div class="card"><div class="label">最新催化劑</div><div class="value green">Google次世代晶片專案</div><div class="note">2026年底至2027年初量產,尚未貢獻近期營收</div></div>
+  <div class="card"><div class="label">3月營收(參考)</div><div class="value amber">28.92億</div><div class="note">YoY+31.92%(先前資料,7月營收查無)</div></div>
+  <div class="card"><div class="label">大摩估營收CAGR(2025-2028)</div><div class="value green">近60%</div><div class="note">MS法人預估,未拆解各年度精確數字</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">16檔,約89.8億</div><div class="note">四檔中規模居中(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">股價自5月高點回檔幅度</div><div class="value amber">現價僅較5,950低8.2%</div><div class="note">已幾乎完全收復5月高點</div></div>
+  <div class="card"><div class="label">現價 vs 大摩最新目標價</div><div class="value red">高出12%</div><div class="note">已超越所有已知機構目標價</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與創意的差異</th></tr>
-  <tr class="hl"><td>3443.TW</td><td>創意</td><td>約94.6x(EPS48.02)</td><td>Q2營收YoY+127.6%,毛利率年減11.7pp</td><td>ASIC設計服務,Turnkey占比高,估值倍數為同業中最高</td></tr>
-  <tr><td>3661.TW</td><td>世芯-KY</td><td>約26.9x(EPS138.16)</td><td>H2營收爆發前過渡期</td><td>同為ASIC設計服務最直接同業,估值倍數僅創意的約28%,是本表核心對照基準</td></tr>
-  <tr><td>2345.TW</td><td>智邦</td><td>約26.6x(EPS83.21)</td><td>7月營收YoY+71.69%</td><td>資料中心交換器系統整合商,業務性質與創意不同但同受惠AI基建</td></tr>
-  <tr><td>MRVL</td><td>Marvell(美股)</td><td>查無精確Fwd P/E</td><td>國際custom silicon龍頭</td><td>國際ASIC/custom silicon大廠,規模遠大於創意,可作為長期評價參照</td></tr>
-  <tr><td>2454.TW</td><td>聯發科(自研ASIC布局)</td><td>查無直接可比</td><td>2027年AI ASIC營收目標高盛估120~160億美元</td><td>後進切入AI ASIC市場,尚未直接與創意競爭同一客戶群</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與創意的差異</th></tr>
+  <tr class="hl"><td>3443.TW</td><td>創意</td><td>估值倍數無法精確計算(EPS共識查無),惟股價已超越所有已知機構目標價</td><td>拿下Google次世代晶片專案,惟尚未貢獻近期營收</td><td>ASIC設計服務,估值倍數四檔中最高、股價漲幅最劇烈</td></tr>
+  <tr><td>3661.TW</td><td>世芯-KY(本站另篇分析)</td><td>約31.2x(EPS135)</td><td>7月YoY+181%創新高</td><td>ASIC設計服務同業,FactSet共識目標價仍高於現價逾29%,估值訊號相對健康</td></tr>
+  <tr><td>2345.TW</td><td>智邦(本站另篇分析)</td><td>約27.6x(EPS83.21)</td><td>7月YoY+71.69%,歷史次高</td><td>網通交換器,非ASIC設計</td></tr>
+  <tr><td>6770.TW</td><td>力積電(本站另篇分析)</td><td>約9.1x(EPS8.61)</td><td>近3年首次配息+CEO異動</td><td>晶圓代工,業務性質完全不同</td></tr>
+  <tr><td>—</td><td>ASIC設計服務族群整體(參考)</td><td>普遍高本益比</td><td>普遍受惠客製化AI晶片需求</td><td>創意是四檔中唯一現價已超越所有已知機構目標價的一檔</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:明顯偏貴——與最直接同業世芯的估值倍數差距高達3.5倍以上,難以完全用基本面解釋。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">創意與世芯同為ASIC設計服務商、同受惠雲端巨頭自研晶片趨勢,理論上應享有相近的評價倍數區間。但創意目前2026E Forward P/E約94.6x,世芯僅約26.9x,價差之大已超出「創意成長動能已實際兌現(Q2營收YoY+127.6%)、世芯仍在H2爆發前過渡期(H1營收年減)」這項差異所能合理解釋的範圍。更值得留意的是,創意Q2毛利率年減11.7個百分點,獲利品質正在稀釋,與其享有的溢價評價方向相反——若市場最終將創意重新評價至接近世芯的倍數水準,潛在修正空間相當可觀。</div>
+  <b>估值判斷:明顯偏貴——現價已超越本站掌握的所有已知機構目標價,包含最激進的大摩上修後數字。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">與世芯-KY(FactSet共識目標價仍高於現價逾29%)形成鮮明對比,創意的現價5,465元已比大摩最新且最樂觀的目標價4,888元還高出12%。Google次世代晶片專案本身是真實的長期利多,但要到2026年底至2027年初才會進入量產,現階段的股價漲幅缺乏對應的近期獲利數字支撐。這與先前8/7分析將創意評為「觀望」的邏輯(相較同業世芯估值明顯偏貴)一致,且本次股價漲幅遠超外資目標價上修速度,估值疑慮不僅未解除反而進一步惡化。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價4,545 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識</td><td>17位分析師,中位5,710(單點,同樣可能受敘事定價影響)</td><td>單點5,710</td><td class="green">便宜 -20.4%</td></tr>
-  <tr><td>2026E P/E×EPS(自身隱含倍數)</td><td>共識EPS 48.02,採目前市場實際隱含倍數區間80~110x(不做武斷修正,反映當前定價)</td><td>3,842~5,282(中值4,562)</td><td class="amber">合理 -0.4%(基本符合當前市場定價,但定價本身可能過高)</td></tr>
-  <tr><td class="hl">世芯同業倍數對照(核心方法)</td><td>套用最直接同業世芯2026E Fwd P/E約26.9x、2027E約20.5x於創意EPS(48.02/92.64)</td><td>1,292~1,899(中值1,596)</td><td class="red">貴 +184.8%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價5,465 vs 中值</th></tr>
+  <tr><td>大摩目標價(最激進,單點)</td><td>估2025-2028營收CAGR近60%,兩度上修後的最新數字</td><td>4,888(單點)</td><td class="red">貴 11.8%</td></tr>
+  <tr><td>台新投顧目標價(單點)</td><td>看多評等</td><td>3,920(單點)</td><td class="red">貴 39.4%</td></tr>
+  <tr><td>同業(世芯)倍數對照(推演,低信度)</td><td>世芯Fwd P/E約31.2x,假設創意套用同倍數(業務高度相似,信度中等)</td><td>需精確EPS共識,惟查無,無法計算(推演受限)</td><td>查無(EPS共識缺失,本方法無法完整執行)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2毛利率單季驟降11.7個百分點,獲利軌跡波動度過大,強行假設穩定的多年期FCF會產生誤導性精確度。三種方法呈現極端分歧:自身隱含倍數與FactSet目標價顯示「合理偏便宜」,但這兩者本質上都是「創意目前的市場定價是否延續」的同義反覆,並未提供獨立驗證;唯一真正獨立的驗證基準——套用最直接同業世芯的評價倍數——顯示創意較合理價值貴出近1.85倍。這個巨大分歧本身就是最重要的訊號:創意的估值錨點高度依賴其自身的敘事延續性,而非同業可比的估值紀律。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Google次世代晶片專案尚未貢獻近期營收,近三年FCF假設缺乏足夠的量產數據校準。三種方法中,前兩種(大摩、台新目標價)都明確顯示現價偏貴,第三種因精確EPS共識查無而無法完整執行——這本身就是一個重要的資訊缺口,顯示創意現階段的估值判斷缺乏標準框架可供交叉驗證,加重了追高的風險。與世芯-KY形成鮮明對比:世芯FactSet共識目標價仍高於現價,創意則是本次分析範圍內唯一現價已超越所有已知目標價的一檔。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價波動引關注,追高與觀望並存</div><div class="bar"><div style="width:60%;background:var(--amber)"></div></div><div class="note">股市爆料同學會討論創意股價波動引發關注</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">目標價持續上修</div><div class="note">自4月3,100元一路上修至5,710元,但區間預測(2027E)分歧達73.83~200.81</div></div>
-  <div class="card"><div class="label">獲利品質趨勢</div><div class="value red">營收升、毛利率降</div><div class="note">Turnkey占比83%稀釋利潤空間,是本波成長故事中最大的隱憂</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">一面倒追高,過熱警訊明確</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">8/11漲停、8/13盤中觸及新高5,830,近5日漲幅一度達19.54%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">現價已超越所有已知目標價</div><div class="note">大摩4,888/台新3,920,皆低於現價5,465</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">Google專案2026年底~2027年初量產</div><div class="note">近期並無對應的獲利數字驗證這波漲幅</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年,自身隱含倍數)</td><td>42.61 / 48.02 / 58.72</td><td>80~110x(市場當前定價)</td><td>3,842~5,282(中值4,562)</td><td>約 0%</td></tr>
-  <tr><td>2026(同業世芯倍數對照)</td><td>48.02</td><td>26.9x</td><td>約1,292(推演)</td><td class="red">約 -71%(推演,對照基準)</td></tr>
-  <tr><td>2027(+1年,自身隱含倍數)</td><td>73.83 / 92.64 / 200.81</td><td>45~55x</td><td>4,172~10,945(中值7,558)</td><td class="green">約 +29%/年(區間極寬)</td></tr>
+  <tr><th>年度</th><th>EPS/估值假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td style="color:var(--muted)">查無精確EPS共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">Google專案量產起始年,惟無對應EPS數字</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2028(+2年)</td><td style="color:var(--muted)">大摩CAGR假設近60%,惟無對應絕對EPS數字</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">本表刻意並列「自身隱含倍數」與「同業世芯倍數對照」兩種視角,呈現創意估值路徑的核心矛盾:若市場持續給予創意遠高於同業的倍數,隱含報酬仍可觀;但若市場最終要求創意向同業世芯的估值紀律收斂(這是任何「敘事股」長期都可能面臨的重新評價風險),下檔空間可達-71%。2027年EPS共識區間(73.83~200.81)本身也極寬,不宜對單一數字過度採信。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">三年估值路徑表因精確EPS共識查無而無法完整計算,這本身就是重要的風險訊號——在缺乏標準估值框架可供驗證的情況下,現價已超越所有已知機構目標價,意味著市場完全是在為「Google專案量產後的樂觀想像」定價,而非已確認的近期獲利路徑。這條路徑的核心啟示是:創意是本次分析範圍內確定性最低、追高風險最高的一檔。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 1200~6500;left% = (價格-1200)/5300×92+4 -->
+<!-- 刻度 2500~7000;left% = (價格-2500)/4500×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:5.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,600~2,000</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:35.1%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,800~4,300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:56.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,200~5,800</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">7,500~8,200</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:62.1%"><div class="arrow">▲</div><div class="price">4,545</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:16.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">3,700~4,100</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">4,600~5,100</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">5,400~5,830</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:82.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">6,300~6,700</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:64.7%"><div class="arrow">▲</div><div class="price">5,465</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>1,600~2,000</td><td>市場對「敘事定價」信心動搖,估值向同業世芯的倍數紀律大幅收斂,或毛利率稀釋趨勢加劇引發獲利疑慮</td><td class="red">約 -60%</td></tr>
-  <tr><td class="amber">Base</td><td>3,800~4,300</td><td>Google專案與美系CPU專案如期推進但無驚喜,毛利率維持21~23%區間;現價略高於此區間上緣</td><td class="red">約 -11%</td></tr>
-  <tr><td class="green">Bull</td><td>5,200~5,800</td><td>Google專案提前放量或新客戶確認,FactSet目標價5,710達陣</td><td class="green">約 +21%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>7,500~8,200</td><td>2027年完美情境全數兌現(EPS上看200.81的樂觀端),市場延續當前94.6x的高倍數</td><td class="green">約 +73%</td></tr>
+  <tr><td class="red">Bear</td><td>3,700~4,100</td><td>Google專案時程遞延或市場重新評估估值合理性,回落至大摩、台新目標價區間</td><td class="red">約 -29%</td></tr>
+  <tr><td class="amber">Base</td><td>4,600~5,100</td><td>股價回歸大摩最新目標價4,888附近,消化過度反映的漲幅</td><td class="red">約 -11%</td></tr>
+  <tr><td class="green">Bull</td><td>5,400~5,830</td><td>股價維持現有高檔,重測並持平8/13新高;現價落於此區間內</td><td class="green">約 +3%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>6,300~6,700</td><td>Google專案提前有具體進度更新,市場進一步追捧尚未量產的想像空間</td><td class="green">約 +21%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期(本檔不建議積極加碼)</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段進場,僅供已持股者參考)</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">3,600~3,900</td><td>20%</td></tr>
-      <tr><td>第二批</td><td class="green">3,000~3,400</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">2,000~2,500</td><td>50%(估值明顯偏貴,倉位應大幅保守)</td></tr>
+      <tr><td>第一批</td><td class="green">4,600~4,900</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">4,300~4,590</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">4,030~4,290</td><td>50%(估值已明顯偏貴,倉位應高度保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,900</b>(接近今年3月低點)= Google/美系CPU專案時程生變或市場敘事崩解,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">4,030</b>(接近8月低點)= Google專案題材降溫或市場重新評估估值合理性,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段(需嚴格執行停利)</div>
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,追高風險極高)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破5,345(7月高點)+量能確認,且法人正式將2027E EPS上修至100以上<br>
-    進場區:<b class="amber">5,350~5,600</b>(僅適合短波段,不建議中長期持有)<br>
-    移動停利:跌破10日線或高點回檔10%(估值已偏貴,停利應更緊)<br>
-    假突破失效:觸發後2日內跌回5,200即出場</div>
+    觸發條件:收盤突破5,830(8/13盤中新高)+量能確認,且有Google專案具體進度更新<br>
+    進場區:<b class="green">5,850~6,050</b>(現價已超越所有已知目標價,右側追價風險極高,建議極小倉位試單或不參與)<br>
+    移動停利:跌破10日線或高點回檔10%(較一般個股更嚴格)<br>
+    假突破失效:觸發後2日內跌回5,700即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,800~5,200</div><div class="note">賣出40~60%;鑑於估值已明顯偏貴,建議提高減碼比例</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">5,700~6,000</div><div class="note">FactSet目標價上緣;續抱條件僅限毛利率止穩回升、Turnkey占比不再攀升</div></div>
+  <div class="card"><div class="label">第一次減碼(已持股者,建議提前執行)</div><div class="value amber">現價區間(5,400~5,830)</div><div class="note">賣出40~60%;現價已超越所有已知機構目標價,應積極獲利了結而非等待更高減碼點</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,300~6,700</div><div class="note">Stretched區;續抱條件是Google專案提前有具體量產進度更新獲驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:Q2財報營收創新高(YoY+127.6%)、確認拿下Google次世代晶片專案是股價連日創高的主因,但同時Q2毛利率年減11.7個百分點至21.55%,主因Turnkey業務占比攀升至83%稀釋利潤空間——營收規模擴大與獲利品質惡化同時發生,是本波上漲中最容易被忽略的隱憂。</div>
-<div class="concl">② <b>估值</b>:明顯偏貴——創意目前2026E Forward P/E約94.6x,較最直接同業世芯(約26.9x)溢價逾3.5倍,已有首席分析師報告明確指出市場正在「交易2027年完美預期劇本」。FactSet目標價共識(5,710)與自身隱含倍數法顯示「合理偏便宜」,但這些方法本質上是市場自身定價的同義反覆;唯一獨立的驗證基準(世芯倍數對照)顯示現價較合理價值貴出近1.85倍,這個分歧本身就是核心訊號。</div>
-<div class="concl">③ <b>結論</b>:觀望、已上車者分批獲利了結——現價4,545已高於Base區間,上檔Bull +21%/Stretched +73%對下檔Bear -60%,風險報酬比明顯不對稱;若市場最終要求創意向同業世芯的估值紀律收斂,下檔空間相當可觀。已持有者建議提高減碼比例(40~60%)並嚴格執行停利,尚未持有者不建議在目前估值追高;收盤跌破1,900即市場敘事崩解確認,無條件出場。</div>
+<div class="concl">⓪ <b>事件影響</b>:創意總經理於Q2法說會證實拿下Google次世代晶片專案,預計2026年底至2027年初量產;大摩兩度大幅上調目標價至4,888元(自2,288元),惟股價漲幅更快,現價已超越這個最新且最樂觀的機構目標價。</div>
+<div class="concl">① <b>催化劑</b>:Google次世代晶片專案是真實且具體的長期利多,但要到2026年底至2027年初才會進入量產,現階段股價漲幅(8/11漲停、8/13盤中觸及新高5,830)缺乏對應的近期獲利數字支撐,是典型的利多提前甚至超額反映。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——現價5,465元已超越本站掌握的所有已知機構目標價(大摩4,888、台新3,920),精確EPS共識查無使得標準估值框架難以驗證現價合理性,這種資訊缺口本身就是追高風險的警訊。</div>
+<div class="concl">③ <b>結論</b>:觀望、已上車者分批獲利了結——現價5,465落於Bull區間內,但這個區間本身已建立在超越所有已知目標價的基礎上,下檔Base情境對應約-11%、Bear情境約-29%,風險報酬比明顯不利於新資金進場;已持股者應積極分批減碼而非等待更高點,收盤跌破4,030即題材降溫或估值重新評估,無條件出場。下一個驗證點是Google專案是否有具體量產進度更新。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數鉅亨網;Q2財報與法說(CMoney投資網誌,2026/08);7月營收(Yahoo股市公告,2026/08);FactSet共識EPS與目標價(鉅亨網速報,追蹤至最新5,710元/EPS 48.02,歷史軌跡3,100→3,500→4,901→5,710);同業世芯估值倍數對照(本儀表板依世芯獨立分析計算);首席分析師「2027完美預期劇本」報告(vocus);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q1 EPS官方數字、內部人申報查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網(FactSet速報)、CMoney投資網誌、readmo財經、vocus首席分析師追蹤報告、商周財富網、股市爆料同學會。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表刻意呈現方法間的巨大分歧,不應僅採信對多方有利的單一方法(如FactSet目標價),世芯同業倍數對照法應被視為最重要的獨立驗證。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2法說會與Google專案(CMoney投資網誌,2026/08);大摩目標價上修(vocus財經筆記、經濟日報,2026/08);台新投顧目標價(readmo財經);3月營收(Yahoo股市,先前資料,7月營收查無);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確2026E EPS共識、7月營收、精確發行股數查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney投資網誌、vocus財經筆記、經濟日報、readmo財經。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔是本次分析範圍內唯一現價已超越所有已知機構目標價的一檔,估值判斷應格外謹慎,不應僅因基本面利多而忽視價格已透支的事實。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

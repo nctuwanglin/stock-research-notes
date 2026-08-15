@@ -28,6 +28,18 @@
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -41,6 +53,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -63,72 +79,82 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>世芯-KY (3661) <span class="badge green">估值:合理(相對同業定價紀律良好)</span> <span class="badge amber">結論:分批布局,靜待8/14法說驗證</span><span class="autodispo" data-code="3661"></span></h1>
-<div class="sub">台股(TWSE)・ASIC設計服務(AWS N3/N2專案)・下半年營收爆發型|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="3661">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>世芯-KY (3661) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾四成)</span> <span class="badge green">結論:分批布局,3奈米AI加速器放量+H2爆發成長期</span><span class="autodispo" data-code="3661"></span></h1>
+<div class="sub">台股(TWSE)・ASIC設計服務,北美客戶3奈米AI加速器晶片|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3661">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">2500</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3661">現價 <b>4210</b> → 目標價 <b>4300</b><span class="up"> (+2.1%)</span></div>
-  <div class="vbasis">推導依據:2027E EPS 181.62 × 24x;待8/14財報驗證</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">3050</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3661">現價 <b>4210</b> → 目標價 <b>6000</b><span class="up"> (+42.5%)</span></div>
+  <div class="vbasis">推導依據:FactSet共識目標價6000(2026E EPS共識135,17位分析師,19位分析師中17位積極樂觀);與8/7分析目標價4300相比大幅上修,反映8/14 Q2財報EPS20.02創新高與7月營收74.33億(YoY+181%)創單月歷史新高</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">3,715</div><div class="note">2026/08/07 收盤 +1.5%,連日創近期新高</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約3,050億</div><div class="note">股本約8.15~8.21億,發行股數約8,209萬股</div></div>
-  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">17.55</div><div class="note">毛利率50.16%創40季新高;Q2財報尚未公布</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約26.9x</div><div class="note">FactSet 2026E EPS共識138.16(17位分析師)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">2,630~4,895</div><div class="note">7月區間;5月曾觸及今年高點5,640</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">4,210</div><div class="note">2026/08/14 收盤 +0.48%;8月盤中觸及新高4,530</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">74.33億</div><div class="note">創單月歷史新高,MoM+108%,YoY+181%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">20.02</div><div class="note">季增14.07%;H1累計EPS 37.57</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約31.2x</div><div class="note">FactSet共識EPS135(17位分析師,90.64~175.42)</div></div>
+  <div class="card"><div class="label">近30天區間</div><div class="value">2,630~4,895</div><div class="note">7~8月區間;現價落於區間中段</div></div>
   <div class="card"><div class="label">今年(2026)區間</div><div class="value">2,480~5,640</div><div class="note">3月低2,480、5月高5,640(TWSE官方日成交資訊)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 8/14 Q2財報,7月營收爆發式創新高</h2>
+<div class="event">
+  <h3>事件摘要:Q2 EPS20.02元季增14%,毛利率下滑至34.86%;7月營收74.33億創單月歷史新高</h3>
+  <div class="flow">世芯-KY 8/14董事會通過Q2財報:H1累計營收118.27億元,H1毛利47.63億元,H1營業利益30.14億元,H1稅後淨利30.65億元,H1基本EPS 37.57元。Q1 EPS 17.55元(創同期新高),Q2 EPS 20.02元(季增14.07%);但Q2毛利率自Q1的50.1%明顯下滑至34.86%,顯示營收規模擴大的同時產品組合出現變化。稍早8月公告7月營收74.33億元,月增逾一倍(108%)、年增181%,創單月歷史新高峰,主因北美主要客戶3奈米AI加速器晶片放量出貨。法說會釋出正面展望:N3 AI加速器Q3將進一步爆量,下半年營收迎爆發成長期。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:北美客戶3奈米AI加速器放量出貨 → 7月營收爆發式創新高 → Q2 EPS季增14%但毛利率下滑 → 法人上修共識並喊出H2爆發成長期</h3>
+  <div class="flow">世芯-KY的核心投資邏輯是ASIC設計服務直接綁定北美大型雲端業者的客製化AI加速器晶片專案,7月營收月增108%的爆發式數字驗證了這條邏輯正在具體兌現。但Q2毛利率從Q1的50.1%下滑至34.86%,是需要拆解的訊號——營收規模快速擴大時,產品組合(可能是量產型晶片占比提升,稀釋了設計服務的高毛利部分)通常會帶來毛利率結構性稀釋,這與EPS仍能季增14%形成對比,顯示規模效應足以抵銷毛利率稀釋,但長期毛利率趨勢仍需持續追蹤。FactSet分析師的高度一致樂觀(19位中17位積極樂觀、0位保守悲觀)反映市場對這個規模化路徑的高度信心。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/7分析,依Q1資料)</th><th>事件後(8/14 Q2財報+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 17.55元(創同期新高)</td><td class="green">Q2 20.02元(季增14.07%),H1累計37.57元</td></tr>
+    <tr><td>毛利率</td><td>Q1 50.1%(創歷史新高)</td><td class="red">Q2 34.86%(明顯下滑,惟EPS仍成長)</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">74.33億,MoM+108%,YoY+181%,單月歷史新高</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約131.46~135(調查中)</td><td class="amber">135(17位分析師,較新調查沿用)</td></tr>
+    <tr><td>FactSet共識目標價</td><td>4,500~6,000(不同時點調查)</td><td class="green">6,000(6月上修後維持)</td></tr>
+    <tr><td>本站目標價/評等</td><td>4300/偏多</td><td class="green">6000/偏多(大幅上修,評等不變)</td></tr>
+  </table>
 </div>
 
 <h2>① 催化劑分析 — 為什麼漲?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/03~05</span>股價從3月低點2,480飆升至5月高點5,640,反映市場提前布局「下半年營收爆發」題材;隨後隨大盤與AI基建情緒回落至7月低點2,630。</li>
-  <li><span class="date">2026/05/08</span><b class="green">Q1法說會:毛利率創40季新高</b>:營收41.9億元(約1.32億美元),毛利率50.16%(季增7.86%、年增27%),創單季歷史新高,主要受惠高NRE(工程服務)營收占比;稅後淨利14.28億元,EPS 17.55。管理層明確表示成長動能將自Q2回升,Q3起因北美客戶Tranium 3大量出貨而出現「非常強勁的季成長」;2026年NRE收入也將表現強勁,主因N2加速器專案預計年底完成Tape-out。已確認拿下AWS N3與N2兩項重要專案,樂觀看待2026~2029年四年成長。</li>
-  <li><span class="date">2026/03~06(H1營收基期低)</span>3~5月營收年減幅度達32~47%(3月-46.57%、4月-32.3%、5月-33.5%),6月營收35.72億元轉為年增15.39%,是「H1弱、H2爆發」敘事的實質轉折點,但成長幅度仍相對溫和,尚未看到管理層預告的「非常強勁」季增數字。</li>
-  <li><span class="date">2026/08/07(未來事件前夕)</span>股價收3,715(+1.5%),連日走高,反映市場提前卡位8/14董事會/Q2財報的期待;7月營收公告查無,是本次分析最大的資料缺口。</li>
-  <li><span class="date">2026/08/14(未來事件)</span><b class="amber">董事會/Q2財報公布</b>:這是驗證「H2爆發」敘事能否兌現的第一個關鍵時點,市場高度關注。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①截至目前(8/9)世芯Q2財報尚未公布,現階段股價完全建立在管理層Q1法說會的前瞻指引之上,存在guidance未兌現的風險;②7月營收公告查無(其餘記憶體/ASIC同業皆已於8/5~8/7公告7月營收),這本身可能只是時間差異,但也提醒現階段對世芯的分析比智邦、創意更依賴管理層口徑而非已實現數字;③散戶持股比例高達23.91%、融資占已發行股數2.49%,籌碼結構顯示短線多空皆有防禦性布局,8/14前波動可能加劇。</li>
+  <li><span class="date">2026年初~5月</span>股價從3月低點2,480飆升至5月高點5,640,反映ASIC設計服務與北美客戶AI加速器晶片專案的樂觀重估。</li>
+  <li><span class="date">2026年5~7月</span>股價自5月高點5,640回落至7月低點2,630(跌幅逾53%),疊加台股7月系統性回檔。</li>
+  <li><span class="date">2026/08月初</span><b class="green">7月營收74.33億元創單月歷史新高</b>,月增逾一倍(108%)、年增181%,主因北美主要客戶3奈米AI加速器晶片放量出貨。</li>
+  <li><span class="date">2026/08/14</span><b class="green">Q2財報:H1 EPS37.57元,Q2單季EPS20.02元(季增14.07%)</b>,惟毛利率自Q1的50.1%下滑至34.86%;法說會釋出N3 AI加速器Q3爆量、H2迎爆發成長期的樂觀展望。</li>
+  <li><span class="date">2026/08/10~14</span>股價高檔震盪(3,800→3,955→4,055→4,190→4,210),8月盤中觸及新高4,530。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率自50.1%大幅下滑至34.86%,是這次財報最需要拆解的數字,若這個下滑趨勢延續,即使營收持續爆發式成長,獲利成長速度也可能不如營收成長速度;②FactSet 19位分析師中17位積極樂觀、0位保守悲觀,顯示市場對世芯的評價幾乎一面倒,是健康的多頭共識還是過度樂觀的警訊值得留意;③股價自5月高點5,640至今仍有相當距離,即使Q2財報與7月營收皆超預期也僅部分收復失地,顯示市場信心修復需要更多季度數字驗證。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">北美客戶Tranium 3將於Q3起大量出貨,帶動營收與獲利呈現「非常強勁」的季成長;2026年營收將有80%集中於下半年。<div class="src">— 世芯-KY Q1法說會,2026/05/08</div></div>
-    <div class="quote">已確認拿下AWS N3與N2兩項重要專案,N2加速器專案預計年底完成Tape-out,管理層樂觀看待2026~2029年未來四年成長。<div class="src">— 豐雲學堂法說整理</div></div>
-    <div class="quote">雲端巨頭集體「去輝達化」自研晶片趨勢下,世芯與創意同為2026年可望翻倍成長的ASIC核心受惠股。<div class="src">— 商周財富網</div></div>
+    <div class="quote">7月營收74.33億元、月增逾一倍、年增181%,創單月歷史新高峰,主因北美主要客戶3奈米AI加速器晶片放量出貨。<div class="src">— 經濟日報,2026/08</div></div>
+    <div class="quote">Q1 EPS17.55元、毛利率創歷史新高,N3 AI加速器第三季爆量,下半年營收迎爆發成長期。<div class="src">— 豐雲學堂,2026/08</div></div>
+    <div class="quote">FactSet最新調查19位分析師中17位積極樂觀、0位保守悲觀,2026E EPS共識中位135元,目標價6000元。<div class="src">— 鉅亨網FactSet速報</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">3~5月營收年減達32~47%,顯示H1實際表現疲弱,「下半年爆發」目前仍是管理層guidance而非已驗證的事實,8/14財報是關鍵檢驗點。<div class="src">— 本儀表板觀察,綜合statementdog月營收數據</div></div>
-    <div class="quote">6月營收雖轉正(YoY+15.39%),但成長幅度遠低於管理層預告的「非常強勁」季增,是否僅是季節性波動、還是真正的轉折點仍待驗證。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">散戶持股達23.91%、融資占比2.49%,籌碼結構偏防禦性,顯示市場對8/14財報前的方向仍有分歧,「殺不下去就往上收」的膠著格局。<div class="src">— 股市爆料同學會</div></div>
+    <div class="quote">Q2毛利率自Q1的50.1%大幅下滑至34.86%,若此趨勢延續,即使營收持續爆發式成長,獲利成長速度也可能不如營收成長速度。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet分析師評級幾乎一面倒(17位積極樂觀、0位保守悲觀),是健康共識還是過度樂觀值得留意,一面倒的評等本身可能是過熱警訊。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價自5月高點5,640至今仍有相當距離,即使近期利多頻傳也僅部分收復,顯示市場信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(17位分析師,最新)</td><td class="green">6,000</td><td>2026E EPS中位上修至138.16(區間90.64~163.01);自4,500上調33.33%</td></tr>
-  <tr><td>FactSet 2027E EPS共識</td><td>181.62元</td><td>區間153.56~212.42,相對創意的73.83~200.81窄得多,能見度較高</td></tr>
-  <tr><td>19位分析師評等</td><td colspan="2">17位正向、1位中立、0位負向</td></tr>
+  <tr class="hl"><td>FactSet共識(17位分析師,較新)</td><td class="green">6,000</td><td>2026E EPS中位135(90.64~175.42),6月自4500上修33.33%後維持</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">19位分析師中17位積極樂觀、1位中立、0位保守悲觀;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -137,69 +163,69 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">6月營收</div><div class="value green">35.72億</div><div class="note">YoY+15.39%,轉正的第一個月</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value amber">查無</div><div class="note">公開來源尚未取得精確數字</div></div>
-  <div class="card"><div class="label">Q1毛利率</div><div class="value green">50.16%</div><div class="note">創40季新高,主因高NRE營收占比</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">17.55</div><div class="note">Q2財報尚未公布(8/14董事會)</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">5檔,9.0億</div><div class="note">合計243張,ASIC/網通三檔中最低</div></div>
-  <div class="card"><div class="label">2027E本益比(隱含)</div><div class="value amber">約20.5x</div><div class="note">以現價與2027E EPS 181.62計,低於2026E的26.9x</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">74.33億</div><div class="note">MoM+108%,YoY+181%,單月歷史新高</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">118.27億</div><div class="note">H1毛利47.63億,H1營業利益30.14億</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">37.57</div><div class="note">Q1 17.55 + Q2 20.02(季增14.07%)</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value red">34.86%</div><div class="note">自Q1的50.1%明顯下滑</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">4檔,約9.9億</div><div class="note">四檔中規模最小(股本小,2026/08/14資料)</div></div>
+  <div class="card"><div class="label">N3 AI加速器展望</div><div class="value green">Q3爆量,H2爆發成長期</div><div class="note">法說會guidance</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與世芯的差異</th></tr>
-  <tr class="hl"><td>3661.TW</td><td>世芯-KY</td><td>約26.9x(EPS138.16)</td><td>H1營收年減,H2爆發前過渡期</td><td>ASIC設計服務,AWS N3/N2專案,估值倍數相對合理</td></tr>
-  <tr><td>3443.TW</td><td>創意</td><td>約94.6x(EPS48.02)</td><td>Q2營收YoY+127.6%,毛利率年減11.7pp</td><td>同為ASIC設計服務最直接同業,但估值倍數是世芯的3.5倍以上</td></tr>
-  <tr><td>2345.TW</td><td>智邦</td><td>約26.6x(EPS83.21)</td><td>7月營收YoY+71.69%</td><td>系統整合商而非晶片設計,估值倍數與世芯相近</td></tr>
-  <tr><td>MRVL</td><td>Marvell(美股)</td><td>查無精確Fwd P/E</td><td>國際custom silicon龍頭</td><td>國際ASIC/custom silicon大廠,規模遠大於世芯</td></tr>
-  <tr><td>688981.SS</td><td>寒武紀等中國AI晶片(參考)</td><td>查無精確Fwd P/E</td><td>中國自研AI晶片供應鏈</td><td>地緣政治區隔明確,非直接競爭但反映同一產業趨勢</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與世芯的差異</th></tr>
+  <tr class="hl"><td>3661.TW</td><td>世芯-KY</td><td>約31.2x(EPS135)</td><td>7月YoY+181%創單月新高</td><td>ASIC設計服務,綁定北美客戶3奈米AI加速器晶片,Q2毛利率下滑需留意</td></tr>
+  <tr><td>3443.TW</td><td>創意(本站另篇分析)</td><td>估值分歧,股價已超越多數機構目標</td><td>拿下Google次世代晶片專案</td><td>ASIC設計服務同業,估值倍數四檔中最高、股價漲幅最劇烈</td></tr>
+  <tr><td>2345.TW</td><td>智邦(本站另篇分析)</td><td>約27.6x(EPS83.21)</td><td>7月YoY+71.69%,歷史次高</td><td>網通交換器,非ASIC設計,業務性質不同</td></tr>
+  <tr><td>6770.TW</td><td>力積電(本站另篇分析)</td><td>約9.1x(EPS8.61)</td><td>近3年首次配息+CEO異動</td><td>晶圓代工,業務性質與ASIC設計完全不同</td></tr>
+  <tr><td>—</td><td>ASIC設計服務族群整體(參考)</td><td>普遍高本益比(反映成長股定價)</td><td>普遍受惠客製化AI晶片需求</td><td>世芯與創意同屬ASIC設計,惟世芯毛利率波動更明顯,創意估值倍數更高</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——與最相近同業智邦的估值倍數幾乎一致,顯示市場定價相對有紀律。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">世芯目前2026E Forward P/E約26.9x,與智邦的26.6x幾乎相同,兩者雖業務性質不同(晶片設計vs系統整合),但同屬「AI基建結構性成長股」定價邏輯,顯示市場對世芯的評價相對理性,並未出現創意那樣的估值背離。2027E隱含本益比(約20.5x)低於2026E(26.9x),反映市場預期獲利成長速度快於股價,是相對健康的訊號。核心風險不在估值本身,而在於目前的樂觀評價仍高度依賴8/14財報能否驗證管理層「H2爆發」的guidance。</div>
+  <b>估值判斷:便宜——FactSet共識目標價較現價高逾四成,分析師評等高度一致樂觀,惟Q2毛利率下滑是需要持續追蹤的變數。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約31.2x(以FactSet共識EPS135計)低於同業創意(股價已超越多數機構目標,隱含更高倍數)。7月營收月增108%、創單月歷史新高的爆發式數字,加上法說會釋出的Q3爆量、H2爆發成長期guidance,是這波重估的核心邏輯。核心風險是Q2毛利率自50.1%下滑至34.86%,若這個結構性稀釋趨勢延續,即使營收持續爆發式成長,獲利品質也可能不如營收成長速度亮眼,是評估「便宜」程度時需要打折的因素。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價3,715 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識</td><td>17位分析師,中位6,000(區間3,755~6,200)</td><td>3,755~6,200(中值4,977.5)</td><td class="green">便宜 -25.4%</td></tr>
-  <tr><td>2026E P/E×EPS</td><td>共識EPS 138.16,結構性成長股倍數20~28x</td><td>2,763~3,868(中值3,316)</td><td class="red">貴 +12.0%</td></tr>
-  <tr><td>智邦同業倍數對照</td><td>套用最相近同業智邦2026E Fwd P/E約26.6x、2027E約19.4x於世芯EPS(138.16/181.62)</td><td>3,524~3,675(中值3,600)</td><td class="amber">合理 +3.2%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價4,210 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS135,ASIC設計服務成長股倍數28~38x</td><td>3,780~5,130(中值4,455)</td><td class="amber">合理(接近中值)</td></tr>
+  <tr><td>FactSet共識目標價</td><td>17位分析師,目標價6,000(單點)</td><td>6,000(單點)</td><td class="green">便宜 29.8%</td></tr>
+  <tr><td>H1實績年化對照(推演,較保守)</td><td>H1 EPS37.57×2=75.14(假設H2持平,較FactSet135保守,未計入Q3爆量guidance),倍數28~38x</td><td>2,104~2,855(中值2,479.5,推演)</td><td class="red">貴 69.9%(對照情境,反映H2能否延續加速的敏感度極高)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2財報尚未公布,2026年EPS路徑高度依賴guidance而非已驗證的實績,強行推演多年期FCF意義有限。三種方法中,FactSet目標價顯示便宜,但2026E自身本益比顯示略貴,唯一與最相近同業(智邦)的交叉對照落在合理區間(+3.2%),是三者中最可信的錨點——這與創意的情況形成鮮明對比(創意任何自身方法都顯示合理、但同業對照顯示嚴重高估)。世芯目前的估值紀律相對健康,主要不確定性來自基本面本身(guidance能否兌現)而非估值過高。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:ASIC設計服務的營收高度集中於少數大客戶專案,近三年FCF假設信度極低。三種方法呈現巨大分歧:自身本益比法顯示接近合理,FactSet共識顯示明顯便宜,但保守的H1年化對照(未計入H2爆量guidance)卻顯示貴近7成——這種極端敏感度顯示世芯現階段的估值合理性完全取決於H2是否真的如法說會guidance爆發性成長,若僅是H1動能的線性延續而非加速,現價將明顯偏貴。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">籌碼防禦性布局,靜待8/14</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">散戶持股23.91%、融資占2.49%,買盤集中約3,720附近</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">17正向1中立0負向</div><div class="note">目標價區間3,755~6,200,中位6,000</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">17.55(Q1)→138.16(2026E)</div><div class="note">Q1實績僅達全年共識約13%,H2動能是能否兌現的關鍵</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">財報+7月營收雙重利多後追價熱絡</div><div class="bar"><div style="width:68%;background:var(--green)"></div></div><div class="note">8月盤中觸及新高4,530,惟仍距5月高點5,640有距離</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">高度一致樂觀</div><div class="note">19位中17位積極樂觀,目標價6,000</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">37.57(H1實績)→135(2026E共識)</div><div class="note">Q3能否驗證爆量guidance且毛利率止穩是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>90.64 / 138.16 / 163.01</td><td>20~28x</td><td>2,763~3,868(中值3,316)</td><td class="red">約 -11%</td></tr>
-  <tr><td>2027(+1年)</td><td>153.56 / 181.62 / 212.42</td><td>18~26x</td><td>3,270~4,722(中值3,996)</td><td class="green">約 +4%/年</td></tr>
+  <tr><td>2026(今年)</td><td>90.64/135/175.42(FactSet共識,區間極寬)</td><td>28~38x</td><td>3,780~5,130(中值4,455)</td><td class="green">約 +6%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有H2爆發成長期的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
   <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為負,反映Q1實績僅達全年共識約13%,若H2「爆發性成長」guidance無法兌現,全年EPS共識本身即面臨下修風險;2027年轉為正報酬,顯示市場預期基本面將隨N2專案量產與AWS合作深化而改善。2028年因分析師覆蓋不足查無共識,不強行推演。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜,但EPS估值區間本身極寬(90.64~175.42,高低相差近2倍)反映分析師對世芯獲利路徑的看法尚未收斂;2027、2028年因僅有定性guidance而無對應EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:世芯是四檔中爆發力最強但確定性也相對較低的一檔,適合中等倉位參與並密切追蹤毛利率趨勢。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 1800~6800;left% = (價格-1800)/5000×92+4 -->
+<!-- 刻度 2000~7000;left% = (價格-2000)/5000×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:14%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,300~2,700</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:35.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,500~3,900</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:56.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">4,700~5,200</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:85.1%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">6,200~6,600</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:39.2%"><div class="arrow">▲</div><div class="price">3,715</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:16.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">2,900~3,300</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">3,900~4,500</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:65.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">4,900~5,400</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">5,800~6,200</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:44.4%"><div class="arrow">▲</div><div class="price">4,210</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>2,300~2,700</td><td>8/14財報不如guidance(H2爆發未如期發生),或Tranium 3出貨時程遞延,2026E EPS大幅下修</td><td class="red">約 -33%</td></tr>
-  <tr><td class="amber">Base</td><td>3,500~3,900</td><td>8/14財報符合Q1法說指引,H2成長動能開始顯現但幅度中性;現價落於此區間內</td><td>約 -1%</td></tr>
-  <tr><td class="green">Bull</td><td>4,700~5,200</td><td>Tranium 3放量超預期、N2 Tape-out如期完成,FactSet目標價6,000下緣附近達陣</td><td class="green">約 +33%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>6,200~6,600</td><td>AWS N3/N2雙專案全面兌現,重返5月高點附近,估值向創意的高倍數靠攏(風險情境)</td><td class="green">約 +73%</td></tr>
+  <tr><td class="red">Bear</td><td>2,900~3,300</td><td>Q3爆量guidance未如期兌現或毛利率持續下滑,倍數回落至22~25x附近</td><td class="red">約 -26%</td></tr>
+  <tr><td class="amber">Base</td><td>3,900~4,500</td><td>H2動能延續但無驚喜,自身本益比法區間內震盪;現價落於此區間內</td><td class="green">約 +0%</td></tr>
+  <tr><td class="green">Bull</td><td>4,900~5,400</td><td>N3 AI加速器Q3爆量guidance兌現,毛利率止穩,重返5月高點附近</td><td class="green">約 +23%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>5,800~6,200</td><td>FactSet共識目標價6,000完全兌現,H2爆發成長期全面驗證</td><td class="green">約 +43%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +234,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">3,400~3,600</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">3,000~3,300</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">2,600~2,900</td><td>45%(8/14財報結果未知,倉位應保守至財報公布)</td></tr>
+      <tr><td>第一批</td><td class="green">3,700~3,900</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">3,350~3,650</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">3,050~3,300</td><td>40%(毛利率下滑趨勢未止穩,倉位應保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2,500</b>(接近7月低點)= H2爆發guidance確認落空或Tranium 3訂單生變,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">3,050</b>(接近8月低點)= N3 AI加速器爆量guidance生變或毛利率持續惡化,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:8/14財報公布後收盤突破4,895(7月高點)+量能確認,且財報驗證H2成長動能<br>
-    進場區:<b class="green">4,900~5,200</b><br>
+    觸發條件:收盤突破4,530(8月盤中新高)+量能確認,且Q3法說會驗證爆量guidance<br>
+    進場區:<b class="green">4,550~4,750</b><br>
     移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回4,700即出場</div>
+    假突破失效:觸發後3日內跌回4,400即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,700~5,200</div><div class="note">賣出25~40%;Bull下緣/FactSet目標價6,000下緣附近,高檔應分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">6,200~6,600</div><div class="note">Stretched區;續抱條件是N2 Tape-out如期完成、AWS合作持續深化</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">4,900~5,400</div><div class="note">賣出30~50%;Bull區,重返5月高點附近應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">5,800~6,200</div><div class="note">Stretched區/FactSet共識目標達陣;續抱條件是毛利率止穩且H2爆發成長期獲驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:世芯目前的股價完全建立在5/8 Q1法說會的前瞻指引之上——管理層預告Q3起因北美客戶Tranium 3大量出貨將出現「非常強勁」的季成長,已確認拿下AWS N3與N2兩項重要專案;但截至目前(8/9)Q2財報尚未公布(8/14董事會),7月營收也查無公告,是本次分析中能見度最低、最依賴guidance兌現與否的一檔。</div>
-<div class="concl">② <b>估值</b>:合理——世芯2026E Forward P/E約26.9x與最相近同業智邦(26.6x)幾乎一致,同業倍數交叉對照顯示現價僅較合理值貴3.2%,估值紀律相對健康,與創意(估值較同業世芯溢價逾3倍)形成鮮明對比。核心風險不在估值過高,而在guidance能否兌現:2026年隱含報酬為負(-11%),反映Q1實績僅達全年共識約13%,H2動能是否如期發生仍是未知數。</div>
-<div class="concl">③ <b>結論</b>:分批布局、靜待8/14法說驗證——現價3,715落於Base區間內,上檔Bull +33%/Stretched +73%對下檔Bear -33%,風險報酬比尚可但確定性完全繫於即將公布的Q2財報;左側倉位應保守分批,第三批留待財報公布後視結果調整,收盤跌破2,500即H2爆發guidance確認落空,無條件出場。</div>
+<div class="concl">⓪ <b>事件影響</b>:8/14 Q2財報公布H1 EPS37.57元、Q2單季20.02元(季增14.07%),惟毛利率自Q1的50.1%明顯下滑至34.86%;7月營收74.33億元創單月歷史新高(YoY+181%),法說會釋出N3 AI加速器Q3爆量、H2迎爆發成長期的樂觀展望。</div>
+<div class="concl">① <b>催化劑</b>:北美客戶3奈米AI加速器晶片放量出貨是這波重估的核心邏輯,7月營收的爆發式數字是最具體的驗證;但Q2毛利率下滑趨勢是評估獲利品質時不容忽視的變數,股價自5月高點5,640至今仍有相當距離。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價6,000較現價高逾29%,自身本益比法顯示接近合理;但若保守假設H2僅是H1動能的線性延續而非加速,估值訊號會轉為貴近7成,顯示現價的合理性完全取決於Q3能否真正兌現爆量guidance。</div>
+<div class="concl">③ <b>結論</b>:分批布局、3奈米AI加速器放量+H2爆發成長期——現價4,210落於Base區間內,上檔Bull +23%/Stretched +43%對下檔Bear -26%,本站目標價自8/7分析的4300大幅上修至6000;左側倉位應保守分批,收盤跌破3,050即爆量guidance生變或毛利率持續惡化,無條件出場。下一個驗證點是Q3能否驗證爆量guidance且毛利率止穩。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數nstock、Goodinfo(兩來源略有差異,已並列);Q1法說(vocus、豐雲學堂、threads法說摘要,2026/05/08);月營收(statementdog、Yahoo股市,追蹤至6月,7月查無);FactSet共識EPS與目標價(鉅亨網速報,追蹤至最新6,000元/EPS 138.16);同業智邦估值倍數對照(本儀表板依智邦獨立分析計算);籌碼結構(股市爆料同學會);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報尚未公布、7月營收查無,現階段分析高度依賴管理層guidance,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、nstock、Goodinfo、vocus、豐雲學堂、statementdog、Yahoo股市、鉅亨網(FactSet速報)、股市爆料同學會。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔的核心不確定性來自尚未公布的Q2財報,而非估值方法本身的分歧,應與智邦、創意的分析性質區別看待。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2財報(豐雲學堂、Disp BBS,2026/08/14董事會);7月營收(經濟日報,2026/08公告);FactSet共識EPS/目標價(鉅亨網FactSet速報、YouTube財經頻道,追蹤至8月最新135/6,000);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確發行股數、2027/2028年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、豐雲學堂、經濟日報、鉅亨網FactSet速報。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次估值方法交叉檢核表刻意呈現保守年化對照與FactSet共識之間逾69%的落差,不應僅採信對多方有利的樂觀數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

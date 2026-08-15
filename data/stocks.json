@@ -276,28 +276,28 @@
     "name": "世芯-KY",
     "market": "twse",
     "file": "3661-alchip.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 3715.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 4210.0,
     "tags": [
       "IC設計"
     ],
-    "target": 4300,
-    "stop": 2500,
-    "basis": "2027E EPS 181.62 × 24x;待8/14財報驗證",
+    "target": 6000,
+    "stop": 3050,
+    "basis": "FactSet共識目標價6000(2026E EPS共識135,17位分析師,19位分析師中17位積極樂觀);與8/7分析目標價4300相比大幅上修,反映8/14 Q2財報EPS20.02創新高與7月營收74.33億(YoY+181%)創單月歷史新高",
     "rating": "buy"
   },
   "3443": {
     "name": "創意",
     "market": "twse",
     "file": "3443-guc.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 4545.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 5465.0,
     "tags": [
       "IC設計"
     ],
-    "target": 3200,
-    "stop": 1900,
-    "basis": "2027E EPS 92.64 × 35x(仍高於同業世芯26.9x)",
+    "target": 4888,
+    "stop": 4030,
+    "basis": "大摩(MS)最新目標價4888(自2288兩度上修,估2025-2028營收CAGR近60%),為本站掌握的最高機構目標價,惟現價5465已超越此數字;與8/7分析目標價3200相比雖大摩目標價同步大幅上修,但股價漲幅更快,安全邊際已消失",
     "rating": "avoid"
   },
   "3081": {
@@ -363,14 +363,14 @@
     "name": "智邦",
     "market": "twse",
     "file": "2345-accton.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 2215.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 2300.0,
     "tags": [
       "網通"
     ],
-    "target": 2600,
-    "stop": 1700,
-    "basis": "2027E EPS 113.9 × 23x(DCF示警故壓下緣)",
+    "target": 3500,
+    "stop": 1840,
+    "basis": "FactSet共識目標價3500(2026E EPS共識83.21,10位分析師);與8/7分析目標價2600相比大幅上修,反映7月營收394.73億(YoY+71.69%)創歷史次高驗證800G/1.6T交換器出貨動能延續",
     "rating": "buy"
   },
   "5347": {
@@ -391,15 +391,15 @@
     "name": "力積電",
     "market": "twse",
     "file": "6770-psmc.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 65.5,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 78.4,
     "tags": [
       "晶圓代工"
     ],
-    "target": 78,
-    "stop": 40,
-    "basis": "2026E EPS 8.61(大摩清洗後) × 9x",
-    "rating": "buy"
+    "target": 88,
+    "stop": 54,
+    "basis": "外資估EPS8.61 × 約10.2倍(對應目標價88);與8/7分析目標價78相比小幅上修,反映8/11董事會通過近3年首度配息(0.23元)+執行長異動雙重事件,股價8/12強攻漲停",
+    "rating": "hold"
   },
   "2313": {
     "name": "華通",
