@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新盛力 (4931) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .dispowarn{background:rgba(231,76,60,.12);border:1px dashed var(--red);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:#ffb3ab;line-height:1.7;}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>新盛力 (4931) <span class="badge red">處置中(2分撮合,至8/21)</span> <span class="badge amber">估值:成長強勁但現正處置,估值訊號需高度謹慎</span> <span class="badge red">結論:觀望,處置期間量價訊號不可靠</span><span class="autodispo" data-code="4931"><span class="badge dispo">處置中·2分撮合·至 8/21</span></span></h1>
+<div class="sub">台股(TPEx)・鋰電池模組廠,轉向AI伺服器BBU與工業級電池模組,BBU占比近5成|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="4931">處置中:2分撮合,至 8/21(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">220</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="4931">現價 <b>263</b> → 目標價 <b>230</b><span class="down"> (-12.5%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS約3.48(Q1 1.48+Q2估2)+公司guidance之Q3單季EPS拚3元,全年推演約9.48×BBU成長股倍數20~28x得約189.6~265.4(中值227.5);現正因短期股價異常上漲(5日累計漲幅34.17%)被列入處置股(2分撮合,至8/21),量價訊號需高度謹慎看待</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">263.00</div><div class="note">2026/08/14 收盤;8月區間191~267</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">4.49億</div><div class="note">MoM+14%,YoY+159.52%,創15年來新高</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">1.48</div><div class="note">季減5.55%;Q2精確EPS查無,法人估挑戰2元</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">11.13億</div><div class="note">首度突破10億,季增41%,年增140%,創新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">120.5~279.5</div><div class="note">3月低、6月高;全年振幅逾1.3倍</div></div>
+  <div class="card"><div class="label">處置狀態</div><div class="value red">2分撮合,至8/21</div><div class="note">8/13公告,前5日累計漲幅34.17%異常波動</div></div>
+</div>
+
+<div class="dispowarn">⚠️ 新盛力現正處於台灣證交所/櫃買中心「處置股」狀態(2分鐘撮合一次,處置期間2026/08/13~08/21),原因是短期股價異常波動(公告前5日累計漲幅達34.17%)。處置期間的量能與盤中價格訊號參考價值大幅降低,右側突破交易計畫需等處置期滿(8/21最後一天,次一交易日恢復正常撮合)後才適用。</div>
+
+<h2>① 催化劑分析 — 為什麼營收創15年新高卻觸發處置?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~5月</span>股價於120.5~229.5區間盤整攀升,反映BBU轉型題材逐步發酵。</li>
+  <li><span class="date">2026年5月</span>單月自結EPS達0.79元,較去年同期由虧轉盈,是獲利轉折的重要訊號。</li>
+  <li><span class="date">2026年6月</span>股價衝上今年高點279.5(6/9)。</li>
+  <li><span class="date">2026年7月中</span>股價回落至7月低點161.5(7/30)。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收4.49億元公告,月增14%、年增159.52%,創15年(掛牌以來)單月新高,公告後股價亮燈漲停;累計前七月營收23.5億元,年增82%,同創15年來高點。</li>
+  <li><span class="date">2026/08/11</span>董事會通過Q2財報:Q2營收11.13億元首度突破10億,季增41%、年增140%,創新高;Q1 EPS1.48元(季減5.55%),Q2精確EPS查無官方公告,法人預估挑戰2元(改寫2019年掛牌以來最佳單季)。</li>
+  <li><span class="date">2026/08/13</span><b class="red">因短期股價異常波動(公告前5日累計漲幅34.17%)被列入處置股</b>,採2分鐘撮合一次,處置期間至8/21。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①這是四檔BBU分析標的中唯一目前處於處置股狀態的個股,處置期間的股價、量能訊號參考價值大幅降低,不宜以處置期間的盤中表現直接推論公司價值;②查無任何具名券商的正式目標價報告,估值判斷完全仰賴自估方法;③公司guidance「Q3單季EPS拚3元」屬前瞻性說法,尚未獲Q3實際財報驗證,不宜過度樂觀外推。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">7月營收4.49億元創15年來新高,年增159.52%,成長主因資料中心BBU需求上升;Q2營收首度突破10億元,季增41%、年增140%創新高。<div class="src">— 公司自結營收與財報公告,2026/08</div></div>
+    <div class="quote">BBU產品占比已逼近5成,高雄廠今年產能預計擴增約50%,高壓BBU產品預計2026年下半年放量;展望Q3傳統旺季,年增率估持續破百,單季EPS拚3元水準。<div class="src">— 公司法說會、產業報導彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">股價在7月營收公告後短期內累計漲幅達34.17%,已觸發交易所處置機制,顯示這波上漲的速度本身已超出正常監理容忍範圍,追高風險不可輕忽。<div class="src">— twse-disposition處置股公告,2026/08/13</div></div>
+    <div class="quote">Q2精確EPS查無官方公告數字,僅有法人「挑戰2元」的預估性說法;查無任何具名券商的正式目標價報告,估值判斷完全仰賴自估方法,外部驗證基礎薄弱。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無任何具名券商的正式目標價報告或FactSet共識調查。籌碼面:外資持股17.23%、大戶持股24.38%(2026/1/16資料,時效性較舊);本益比約27倍附近(查詢時點不明確)。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="4931"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+4,955</span></td><td>6/10</td><td><span class="green">+281</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="green">+350</span></td><td>7/10</td><td><span class="red">-42</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+5,307</span></td><td>8/10</td><td><span class="green">+239</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+281</span></td><td>+0</td><td><span class="red">-42</span></td><td><span class="green">+239</span></td></tr><tr><td>08/13</td><td><span class="green">+372</span></td><td>+0</td><td><span class="red">-11</span></td><td><span class="green">+361</span></td></tr><tr><td>08/12</td><td><span class="green">+2,681</span></td><td>+0</td><td><span class="green">+15</span></td><td><span class="green">+2,696</span></td></tr><tr><td>08/11</td><td><span class="green">+1,157</span></td><td>+0</td><td><span class="green">+41</span></td><td><span class="green">+1,198</span></td></tr><tr><td>08/10</td><td><span class="green">+319</span></td><td>+0</td><td><span class="red">-4</span></td><td><span class="green">+315</span></td></tr><tr><td>08/07</td><td><span class="green">+1,800</span></td><td>+0</td><td><span class="green">+117</span></td><td><span class="green">+1,918</span></td></tr><tr><td>08/06</td><td><span class="red">-614</span></td><td>+0</td><td><span class="green">+64</span></td><td><span class="red">-550</span></td></tr><tr><td>08/05</td><td><span class="red">-2</span></td><td>+0</td><td><span class="green">+74</span></td><td><span class="green">+72</span></td></tr><tr><td>08/04</td><td><span class="red">-1,021</span></td><td>+0</td><td><span class="green">+16</span></td><td><span class="red">-1,005</span></td></tr><tr><td>08/03</td><td><span class="red">-18</span></td><td>+0</td><td><span class="green">+80</span></td><td><span class="green">+63</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">4.49億</div><div class="note">YoY+159.52%,15年來新高</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">11.13億</div><div class="note">首度破10億,YoY+140%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">1.48</div><div class="note">Q2精確EPS查無,估計挑戰2元</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約172.5億</div><div class="note">股本約6.56億(約6,557萬股),以現價263計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">BBU占比</div><div class="value green">逼近5成</div><div class="note">高雄廠今年產能估擴增約50%</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與新盛力的差異</th></tr>
+  <tr class="hl"><td>4931.TWO</td><td>新盛力</td><td>自估189.6~265.4(推演);查無正式目標價</td><td>7月營收創15年新高YoY+159.52%,惟目前處置中</td><td>BBU占比近5成成長最快,惟規模最小、現正處置,量價訊號不可靠</td></tr>
+  <tr><td>6781.TW</td><td>AES-KY(本站另篇分析)</td><td>MS目標價1285(中立);另一外資1680(買進)</td><td>7月營收連續創高YoY+28.24%</td><td>BBU族群純度最高,機構覆蓋與獲利能見度優於新盛力</td></tr>
+  <tr><td>3211.TWO</td><td>順達(本站另篇分析)</td><td>自估325~455;外資目標價分歧550/800</td><td>Q2 EPS1.35不如預期</td><td>BBU轉型中的成長引擎,惟Q2財報不如新盛力亮眼</td></tr>
+  <tr><td>2301.TW</td><td>光寶科(本站另篇分析)</td><td>自估204.75(公司整體);外資分歧170/300</td><td>公司整體Q2 EPS3.14創新高YoY+128%</td><td>大型多角化企業,BBU僅占公司總營收約一成</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:成長動能是四檔中最強,惟現正處置且查無機構覆蓋,估值訊號需高度謹慎。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS(約3.48,Q1實績1.48+Q2法人估計2)搭配公司guidance之Q3單季EPS3元推演全年約9.48元,套用BBU成長股倍數20~28倍計算,合理價區間約189.6~265.4元(中值227.5),現價263落於此區間上緣附近,大致合理。新盛力是四檔BBU分析標的中營收成長速度最快的一檔(7月YoY+159.52%,15年來新高),BBU占比也已逼近5成,顯示轉型故事的具體兌現程度領先同業。但這個估值判斷有兩大不確定性來源:一是完全仰賴公司自身guidance與法人非正式預估,查無任何具名券商的正式目標價報告可資交叉驗證;二是股價現正因短期異常波動觸發處置機制,近期的量價表現本身已不具正常參考意義,現價是否已反映處置後的合理修正尚待觀察。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價263.00 vs 中值</th></tr>
+  <tr><td>H1+guidance全年推演×倍數(自估)</td><td>H1約3.48+Q3guidance3元+Q4估3(推演約9.48),BBU成長股倍數20~28x</td><td>189.6~265.4(中值227.5)</td><td class="red">貴 15.6%</td></tr>
+  <tr><td>H1年化×倍數(保守情境)</td><td>H1 EPS3.48×2=6.96(假設H2與H1持平,未計入guidance),倍數20~28x</td><td>139.2~194.9(中值167,推演)</td><td class="red">貴 57.5%(對照情境)</td></tr>
+  <tr><td>P/E法(現有本益比,對照)</td><td>約27倍(查詢時點不明確),對照現階段EPS</td><td>無法精確回推(EPS基礎不明確)</td><td>不適用</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司獲利轉折仍屬早期階段且股價正處置中,多年期FCF假設完全缺乏可靠基礎。兩種自估方法呈現分歧:納入公司guidance的推演法顯示現價略貴(15.6%),而更保守、未計入guidance的H1年化法則顯示現價貴逾57%。這個落差凸顯新盛力的估值高度仰賴Q3、Q4能否兌現guidance中的高速成長,在缺乏機構覆蓋驗證且股價正處置的情況下,任何一種估值方法的確定性都應打折看待。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">處置前5日累計漲幅34.17%,過熱警訊明確(官方投機過熱指標)</div><div class="bar"><div style="width:88%;background:var(--red)"></div></div><div class="note">已觸發處置機制,股市爆料同學會討論熱絡,惟需留意處置期間籌碼面訊號失真</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何具名券商正式目標價</div><div class="note">四檔BBU分析標的中唯一完全缺乏機構覆蓋且現正處置者</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.48(Q1)→約9.48(2026E推演,含guidance)</div><div class="note">Q2精確EPS公告與Q3能否兌現guidance是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>6.96(H1年化,保守) / 9.48(含guidance,推演)</td><td>20~28x</td><td>139.2~265.4(區間反映假設落差)</td><td class="red">查無精確共識,不強行推演單一數字</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,高壓BBU放量貢獻未量化</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS假設高度依賴Q3、Q4能否延續7月營收的高速成長,保守與含guidance情境對應的合理價差距近一倍,反映這檔股票在缺乏機構覆蓋、且現正處置的情況下,估值不確定性明顯偏高;2027年高壓BBU產品放量的具體財務貢獻查無量化數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 100~350;left% = (價格-100)/250×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">150~175</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">205~235</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">265~290</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">320~340</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:64.2%"><div class="arrow">▲</div><div class="price">263.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>150~175</td><td>處置後籌碼面明顯降溫,Q3未能兌現guidance,股價回歸保守估值區間</td><td class="red">約 -38%</td></tr>
+  <tr><td class="amber">Base</td><td>205~235</td><td>處置期滿後恢復正常撮合,Q3維持成長但增速不如guidance樂觀;現價落於此區間上緣附近</td><td class="red">約 -16%</td></tr>
+  <tr><td class="green">Bull</td><td>265~290</td><td>Q3財報驗證guidance,BBU占比持續提升,高壓BBU放量時程明朗;現價落於此區間下緣</td><td class="green">約 6%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>320~340</td><td>guidance全面兌現且開始有券商發布首次覆蓋報告,重返6月高點279.5並向上突破</td><td class="green">約 25%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議處置期間進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">205~220</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">180~204</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">150~179</td><td>50%(處置後量價訊號待重新確立,倉位應高度保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">220</b>(處置後修正支撐)= guidance未能兌現或處置後籌碼持續失血,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(處置期滿前不適用)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    ⚠️ 處置期間(2026/08/13~08/21,2分鐘撮合)量價訊號不可靠,右側突破計畫須待處置期滿(8/21最後一天,次一交易日恢復正常撮合)後才適用<br>
+    觸發條件(處置期滿後):收盤突破267(8月區間高點)+量能確認,且Q2精確EPS公告優於預期<br>
+    進場區:<b class="green">270~285</b><br>
+    移動停利:跌破10日線或高點回檔15%</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">265~290</div><div class="note">賣出30~50%;Bull區,處置股高檔應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">320~340</div><div class="note">Stretched區;續抱條件是guidance全面兌現且開始有正式券商覆蓋支撐估值</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:7月營收4.49億元創15年來新高(YoY+159.52%),Q2營收首度突破10億元(季增41%、年增140%),BBU占比逼近5成;惟股價因短期異常波動(5日累計漲幅34.17%)於8/13被列入處置股(2分撮合,至8/21),是四檔BBU分析標的中唯一現正處置者。</div>
+<div class="concl">② <b>估值</b>:貴約15.6%(納入公司guidance)——以H1實績搭配公司自身「Q3單季EPS拚3元」的guidance推演全年EPS(約9.48),套用BBU成長股倍數計算合理價227.5元,現價263貴約15.6%;若不計入guidance僅用H1年化的保守法,現價則貴逾57%,查無任何具名券商正式目標價可資交叉驗證。</div>
+<div class="concl">③ <b>結論</b>:觀望、處置期間量價訊號不可靠——現價263落於Bull區間下緣,上檔Stretched +25%對下檔Bear -38%,處置狀態本身即為重大風險警訊;新資金不建議在處置期間進場,右側突破計畫須待8/21處置期滿後才適用,收盤跌破220即無條件出場。下一個驗證點是Q2精確EPS公告與處置期滿後的籌碼穩定度。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);7月營收(公司自結營收公告,2026/08);Q1/Q2財報(公司董事會公告,2026/08/11);處置股狀態(本機twse-disposition,2026/08/14更新,處置期間2026/08/13~08/21);法說會與BBU占比guidance(公司法說會、產業報導彙整,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2精確EPS、任何具名券商正式目標價、正式FactSet共識調查查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、公司自結營收與財報公告、本機twse-disposition處置股資料庫、產業報導彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;現正處置期間,所有量價相關數字的參考價值應打折看待。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

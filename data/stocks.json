@@ -788,5 +788,89 @@
     "stop": 217,
     "basis": "三檔功率半導體中「最全面受惠」Nexperia轉單+AI伺服器需求;Q2毛利率40.8%史上次高,惟查無任何券商目標價覆蓋,8/7本益比已達46.4倍",
     "rating": "hold"
+  },
+  "8033": {
+    "name": "雷虎",
+    "market": "twse",
+    "file": "8033-thundertiger.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 201.5,
+    "tags": [
+      "軍工"
+    ],
+    "target": 90,
+    "stop": 175,
+    "basis": "H1年化EPS1.24×極高溢價倍數40~60x得約49.6~74.4;7月營收月減47.64%顯示無人機訂單尚未穩定轉化為營收,查無正式券商目標價",
+    "rating": "avoid"
+  },
+  "2634": {
+    "name": "漢翔",
+    "market": "twse",
+    "file": "2634-aidc.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 70.6,
+    "tags": [
+      "軍工"
+    ],
+    "target": 73,
+    "stop": 61,
+    "basis": "富邦(7/20)目標價75、中國信託(7/21)目標價71平均約73;Q2 EPS1.02大幅超預期(季增264%),惟現價已相當貼近券商目標價",
+    "rating": "hold"
+  },
+  "6781": {
+    "name": "AES-KY",
+    "market": "twse",
+    "file": "6781-aes.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1120.0,
+    "tags": [
+      "BBU"
+    ],
+    "target": 1250,
+    "stop": 964,
+    "basis": "摩根士丹利(8/7)目標價1285但評等中立;另一外資1680(買進),兩者分歧極大;BBU族群純度最高,惟LEV業務疲弱",
+    "rating": "hold"
+  },
+  "3211": {
+    "name": "順達",
+    "market": "tpex",
+    "file": "3211-simplo.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 391.0,
+    "tags": [
+      "BBU"
+    ],
+    "target": 450,
+    "stop": 309,
+    "basis": "法人預估2026EPS約13×BBU成長股倍數25~35x得約325~455;Q2財報不如預期(EPS1.35季減33.75%),市場流傳目標價550/800分歧極大",
+    "rating": "hold"
+  },
+  "4931": {
+    "name": "新盛力",
+    "market": "tpex",
+    "file": "4931-stl.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 263.0,
+    "tags": [
+      "BBU"
+    ],
+    "target": 230,
+    "stop": 220,
+    "basis": "現正處置中(2分撮合,至8/21,因5日累計漲幅34.17%);7月營收創15年新高YoY+159.52%,惟查無任何具名券商目標價,估值高度仰賴公司guidance",
+    "rating": "avoid"
+  },
+  "2301": {
+    "name": "光寶科",
+    "market": "twse",
+    "file": "2301-liteon.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 267.0,
+    "tags": [
+      "BBU"
+    ],
+    "target": 245,
+    "stop": 224,
+    "basis": "法人預估2026EPS9.1×多角化企業倍數20~25x得約182~227.5;BBU僅占公司總營收約一成,外資目標價分歧極大(170持股續抱 vs 300買進)",
+    "rating": "hold"
   }
 }

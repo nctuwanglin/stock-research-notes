@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>漢翔 (2634) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>漢翔 (2634) <span class="badge amber">估值:大致合理,現價已貼近多數券商目標價</span> <span class="badge amber">結論:中性,國防訂單能見度佳但上檔空間有限</span><span class="autodispo" data-code="2634"></span></h1>
+<div class="sub">台股(TWSE)・國家隊等級航太國防廠(AIDC),F-16V維修升級/勇鷹教練機/國防預算受惠|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2634">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">61</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2634">現價 <b>70.6</b> → 目標價 <b>73</b><span class="up"> (+3.4%)</span></div>
+  <div class="vbasis">推導依據:富邦證券(7/20)目標價75、中國信託證券(7/21)目標價71,兩家皆為Q2財報前的近期調查,平均約73;自估H1年化EPS2.60×20~25x得約52~65,較保守;現價70.60已相當貼近券商目標價區間中值,查無8月Q2財報後正式更新的FactSet共識</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">70.60</div><div class="note">2026/08/14 收盤+9.94%(近漲停);8月區間60.5~70.6</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">31.97億</div><div class="note">MoM+12.41%,YoY+19.99%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">1.02</div><div class="note">QoQ+264.29%,YoY+525%;H1累計約1.30</div></div>
+  <div class="card"><div class="label">Q1 EPS(對照)</div><div class="value amber">0.28</div><div class="note">YoY+12%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">45.0~71.5</div><div class="note">6月低、7月高;全年振幅逾58%</div></div>
+  <div class="card"><div class="label">2026年台灣國防預算</div><div class="value amber">約9,495億</div><div class="note">另有特別預算討論中,金額來源不一</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價於45~57區間低檔盤整,反映當時市場對國防訂單能見度的保守看待。</li>
+  <li><span class="date">2026年4月法說會</span>公司表示「國防訂單創高、無人機卡位,民用穩健撐腰」,並宣布配發現金股利0.778元。</li>
+  <li><span class="date">2026年5月</span>總統賴清德宣布特別國防預算(金額各方報導不一,約7,800億上下),市場視為正向催化劑;無人機特別預算草案亦進入立法院審議。</li>
+  <li><span class="date">2026年7月</span>股價自6月低點45.0急拉至7月高點71.5,富邦證券(7/20)給出75元目標價、中國信託證券(7/21)給出71元目標價,兩者皆為看多評等。</li>
+  <li><span class="date">2026年7月</span>三大法人合計買超18,916張,惟外資單月轉為淨賣超6,022張,呈現「外資快速換手、投信小幅承接」的分歧籌碼結構。</li>
+  <li><span class="date">2026/08/12</span>董事會通過Q2財報:EPS1.02元大幅優於Q1的0.28元(季增264.29%,年增525%),H1累計約1.30元,已超越2025全年EPS(0.78元)。</li>
+  <li><span class="date">2026/08/14</span><b class="green">股價近漲停+9.94%至70.60</b>,反映Q2財報大幅優於預期的利多。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①現價70.60已相當貼近富邦(75)與中信(71)兩家券商7月的目標價,顯示這波財報利多在股價中的反映空間可能有限;②國防特別預算的確切金額在不同報導間存在明顯落差(7,800億等說法未經統一確認),核心催化劑本身仍有資訊品質疑慮;③7月外資轉為淨賣超,與投信小幅承接形成的籌碼結構分歧,顯示機構法人對後續走勢的看法本身並不一致。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">國防訂單創高、無人機卡位,民用航太業務穩健撐腰;新增訂單達200億元,橫跨國防、民用航空與技術服務。<div class="src">— 公司法說會、產業報導彙整,2026</div></div>
+    <div class="quote">Q2 EPS1.02元大幅優於Q1的0.28元,季增264.29%、年增525%,H1累計已超越2025全年獲利水準。<div class="src">— 公司財報公告,2026/08/12</div></div>
+    <div class="quote">2026年台灣國防預算約9,495億元,特別國防預算與無人機特別預算草案審議中,提供中長期訂單能見度。<div class="src">— 政府預算資料彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">現價70.60已相當貼近富邦(75)與中信(71)兩家券商的近期目標價,這波財報利多在股價中的反映空間可能已相對有限。<div class="src">— 本儀表板觀察,依券商目標價比對</div></div>
+    <div class="quote">7月外資轉為淨賣超6,022張,與投信小幅承接形成籌碼結構分歧,顯示機構法人看法本身並不一致;股價部分也隨國際地緣政治新聞(如中東局勢緩解消息)波動,反映軍工類股情緒交易的成分。<div class="src">— CMoney投資網誌、本儀表板觀察,2026/07~08</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>富邦證券(2026/07/20)</td><td class="green">75(買進)</td><td>國防訂單能見度佳</td></tr>
+  <tr class="hl"><td>中國信託綜合證券(2026/07/21)</td><td class="amber">71(增持)</td><td>民用航空穩健支撐</td></tr>
+  <tr><td>另一投顧機構(日期不明)</td><td class="amber">63</td><td>依據不明,較保守</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet較舊調查(疑似2025年3月數字,EPS2.28/目標價50)已明顯過時,遠低於現價,不採用;查無Q2財報後(8月)正式更新的FactSet共識。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2634"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+15,952</span></td><td>4/10</td><td><span class="green">+6,343</span></td></tr><tr><td>投信</td><td><span class="red">-1,539</span></td><td>1/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="green">+2,501</span></td><td>5/10</td><td><span class="green">+1,391</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+16,914</span></td><td>5/10</td><td><span class="green">+7,734</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+6,343</span></td><td>+0</td><td><span class="green">+1,391</span></td><td><span class="green">+7,734</span></td></tr><tr><td>08/13</td><td><span class="green">+12,572</span></td><td>+0</td><td><span class="green">+466</span></td><td><span class="green">+13,038</span></td></tr><tr><td>08/12</td><td><span class="red">-1,876</span></td><td><span class="red">-12</span></td><td><span class="red">-282</span></td><td><span class="red">-2,170</span></td></tr><tr><td>08/11</td><td><span class="red">-808</span></td><td><span class="red">-7</span></td><td><span class="green">+501</span></td><td><span class="red">-314</span></td></tr><tr><td>08/10</td><td><span class="red">-3,056</span></td><td><span class="red">-6</span></td><td><span class="red">-68</span></td><td><span class="red">-3,130</span></td></tr><tr><td>08/07</td><td><span class="red">-29</span></td><td><span class="red">-2</span></td><td><span class="green">+38</span></td><td><span class="green">+7</span></td></tr><tr><td>08/06</td><td><span class="red">-3,754</span></td><td><span class="red">-847</span></td><td><span class="red">-287</span></td><td><span class="red">-4,888</span></td></tr><tr><td>08/05</td><td><span class="green">+9,487</span></td><td><span class="green">+1</span></td><td><span class="green">+936</span></td><td><span class="green">+10,424</span></td></tr><tr><td>08/04</td><td><span class="green">+746</span></td><td><span class="red">-324</span></td><td><span class="red">-32</span></td><td><span class="green">+390</span></td></tr><tr><td>08/03</td><td><span class="red">-3,673</span></td><td><span class="red">-342</span></td><td><span class="red">-162</span></td><td><span class="red">-4,177</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">31.97億</div><div class="note">YoY+19.99%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">約1.30</div><div class="note">Q1 0.28/Q2 1.02</div></div>
+  <div class="card"><div class="label">6月營收(對照)</div><div class="value amber">28.44億</div><div class="note">YoY+7.23%</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約665億</div><div class="note">股本約94.19億(約9.42億股),以現價70.6計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">新增訂單</div><div class="value amber">約200億</div><div class="note">橫跨國防/民用航空/技術服務,認列時程未明</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與漢翔的差異</th></tr>
+  <tr class="hl"><td>2634.TW</td><td>漢翔</td><td>自估52~65;富邦75/中信71</td><td>7月營收YoY+19.99%,Q2 EPS大幅超預期</td><td>國家隊等級航太國防廠,訂單能見度與機構覆蓋遠優於雷虎</td></tr>
+  <tr><td>8033.TW</td><td>雷虎(本站另篇分析)</td><td>自估49.6~74.4(極高溢價倍數);查無正式目標價</td><td>7月營收大幅回落MoM-47.64%,Q2 EPS季減</td><td>原遙控模型玩具廠轉型軍工無人機,營收基期小、波動性遠高於漢翔</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:大致合理——Q2財報大幅超預期,惟現價已相當貼近近期券商目標價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS年化(約2.60)套用航太國防股常見的20~25倍本益比計算,合理價區間約52~65元(中值58.5),現價70.60較此區間中值高出約21%;但若採信富邦(75)與中信(71)兩家券商7月的目標價(平均約73),現價僅便宜約3.4%。這個落差反映券商目標價已預先計入Q2財報大幅超預期的成長動能,而自估的簡單年化法則相對保守。整體而言,現價已大致貼近多數可信目標價,加上7月外資轉為淨賣超的籌碼訊號,上檔空間相對有限,但國防訂單能見度(2026年預算9,495億、200億新增訂單)提供中長期的下檔支撐。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價70.60 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估,保守)</td><td>H1 EPS約1.30×2=2.60,航太國防股倍數20~25x</td><td>52~65(中值58.5)</td><td class="red">貴 20.7%</td></tr>
+  <tr><td>券商目標價均值(近期,7月)</td><td>富邦75+中信71,平均約73</td><td>71~75(中值73)</td><td class="amber">合理 -3.3%</td></tr>
+  <tr><td>Q2年化×倍數(較樂觀情境)</td><td>Q2 EPS1.02×4=4.08(假設全年維持Q2單季水準),倍數20~25x</td><td>81.6~102(中值91.8,推演)</td><td class="green">便宜 -23.1%(對照情境)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:國防訂單認列具階段性且新增200億訂單的時程分布未明,多年期FCF假設在此時點缺乏可靠基礎。三種方法呈現明顯分歧:保守的H1年化法顯示現價貴約21%,券商目標價均值顯示現價大致合理,而若假設Q2單季的爆發性成長能延續全年,則現價反而便宜逾23%。核心判斷變數是Q2的高速成長(季增264%)能否延續而非一次性因素——H1才剛驗證獲利軌道明確轉強,尚待Q3進一步確認趨勢的持續性。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報利多帶動近漲停,惟籌碼面外資轉賣</div><div class="bar"><div style="width:64%;background:var(--amber)"></div></div><div class="note">8/14單日+9.94%,7月外資淨賣超6,022張與投信小幅承接形成分歧</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">券商目標價區間52~75,分歧不小</div><div class="note">富邦75、中信71、另一機構63,查無Q2財報後正式更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.30(H1)→查無正式2026E共識</div><div class="note">Q3能否延續Q2的爆發性成長是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>2.60(H1年化,保守) / 4.08(Q2年化,樂觀推演)</td><td>20~25x</td><td>52~102(區間反映假設落差)</td><td class="red">查無精確共識,不強行推演單一數字</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,國防訂單認列時程未明</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS假設區間極寬,反映Q2爆發性成長能否延續全年存在高度不確定性;2027年查無機構財測共識,國防特別預算的具體金額與時程、勇鷹教練機交機完成後的維修保養營收轉換節奏皆是關鍵變數,現階段查無足夠具體的財測,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~110;left% = (價格-40)/70×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20%"><div class="lbl">Bear(3~6月)</div><div class="price red">52~58</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">65~74</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">82~90</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">97~104</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:44.4%"><div class="arrow">▲</div><div class="price">70.60</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>52~58</td><td>Q2爆發性成長為一次性因素,Q3回歸較低速成長,估值回歸自估保守區間</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>65~74</td><td>Q3維持穩健成長但無驚喜,券商目標價區間(71~75)大致獲驗證;現價落於此區間內</td><td>約 -1%</td></tr>
+  <tr><td class="green">Bull</td><td>82~90</td><td>Q2成長動能延續至Q3,國防特別預算具體通過並帶動新一輪訂單能見度</td><td class="green">約 22%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>97~104</td><td>國防訂單全面兌現且Q2高速成長模式確立為新常態,大幅超越7月高點71.5</td><td class="green">約 42%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">64~67</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">58~63</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">52~57</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">61</b>(8月漲勢前的近期支撐)= Q2成長動能確認為一次性因素或國防預算利多不如預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破71.5(今年高點)+量能確認,且Q3財報驗證成長動能延續<br>
+    進場區:<b class="green">72~78</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回70即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">82~90</div><div class="note">賣出30~50%;Bull區,現價已貼近多數券商目標價,高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">97~104</div><div class="note">Stretched區;續抱條件是國防訂單全面兌現且Q2高速成長確立為新常態</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:國防訂單創高、新增訂單約200億(橫跨國防/民用航空/技術服務),疊加2026年國防預算(約9,495億)與特別國防預算討論,是核心多頭敘事;Q2財報8/12公布大幅超預期(EPS1.02,季增264%),股價8/14近漲停反映利多。</div>
+<div class="concl">② <b>估值</b>:大致合理——自估保守H1年化法顯示現價貴約21%,但現價已相當貼近富邦(75)與中信(71)兩家券商7月的目標價均值(73,-3.3%);若Q2的爆發性成長能延續全年,現價甚至可能便宜逾23%,核心變數是Q2成長是否為一次性因素。</div>
+<div class="concl">③ <b>結論</b>:中性、國防訂單能見度佳但上檔空間有限——現價70.60落於Base區間內,上檔Bull +22%/Stretched +42%對下檔Bear -22%,風險報酬大致平衡;可正常左側分批布局,收盤跌破61即Q2成長動能確認為一次性因素,無條件出場。下一個驗證點是Q3財報能否延續Q2的高速成長,以及國防特別預算能否具體通過。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月/6月營收(公司自結營收公告,2026/08);Q1/Q2財報(公司董事會公告,2026/08/12);富邦證券/中國信託證券目標價(券商報告,2026/07/20~21);國防預算與新增訂單(政府預算資料、產業報導彙整,2026);法說會內容(公司法說會,2026/04);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後正式更新之FactSet共識、2027年EPS共識、精確國防特別預算金額查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司財報與法說會公告、券商報告彙整、CMoney投資網誌、PTT股票板討論彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;資料來源出現矛盾之處(如特別國防預算金額)已於內文明確標註。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

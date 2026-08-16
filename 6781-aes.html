@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AES-KY (6781) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>AES-KY (6781) <span class="badge amber">估值:合理,惟兩家外資目標價分歧極大</span> <span class="badge amber">結論:中性,BBU族群純度最高但已部分反映在股價</span><span class="autodispo" data-code="6781"></span></h1>
+<div class="sub">台股(TWSE)・新普(6121)持股73%子公司,AI伺服器BBU電池模組+LEV電動車電池模組雙引擎|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6781">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">964</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6781">現價 <b>1120</b> → 目標價 <b>1250</b><span class="up"> (+11.6%)</span></div>
+  <div class="vbasis">推導依據:摩根士丹利(8/7)目標價1285但評等中立;另一美系外資給出目標價1680但評等買進,兩家外資分歧極大;現價1120介於兩者之間,採較貼近摩根士丹利(較新且評等更審慎)的1250為目標價</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,120.00</div><div class="note">2026/08/14 收盤;8月區間964~1,195</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">17.23億</div><div class="note">MoM+2.26%,YoY+28.24%,連續創單月新高</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">10.64</div><div class="note">季增12.14%;Q2精確EPS查無(估計值11~12.81不一致)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">110.61億</div><div class="note">YoY+26.35%,同創新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">842~1,320</div><div class="note">7月低、1/5月高;全年振幅約57%</div></div>
+  <div class="card"><div class="label">BBU市場規模(2026E)</div><div class="value amber">約400億元</div><div class="note">摩根士丹利估算,GB200出貨5萬台驅動</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼是BBU族群純度最高的一檔?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~5月</span>股價於957~1,320區間高檔震盪,反映AI伺服器BBU題材帶動的估值重估。</li>
+  <li><span class="date">2026年7月</span>股價一度回落至今年低點842(7/30),隨後在8月反彈至1,195(8/10)。</li>
+  <li><span class="date">2026/08/06</span>Q2財報董事會通過;Q1 EPS10.64元已相當亮眼,Q2精確EPS查無官方確認數字,市場估計介於11~12.81元之間(來源不一致)。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收17.23億元公布,月增2.26%、年增28.24%,連續創單月歷史新高;累計前7月營收110.61億元,年增26.35%,同創新高。</li>
+  <li><span class="date">2026/08/07</span>摩根士丹利發布報告:目標價1,285元,惟評等「中立」;另有美系外資給出買進評等、目標價1,680元,兩家外資看法分歧極大。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2精確EPS查無官方公告數字,市場估計版本(11元 vs 12.81元)本身就存在明顯落差,不宜直接採信任一數字;②摩根士丹利雖給出1,285元目標價,但評等僅為「中立」而非買進,顯示即使目標價高於現價,機構本身對進一步上攻的信心並不強;③LEV(電動兩輪車)業務相對疲弱,雖庫存去化中回溫,但BBU單一業務的高度集中曝險意味著若BBU需求出現任何季節性或客戶集中度風險,對公司整體營收的衝擊將遠大於業務分散的同業。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">NVIDIA GB200伺服器將BBU由選配轉標配,摩根士丹利估算明年GB200出貨5萬台將帶動BBU市場規模達新台幣400億元;AES-KY為BBU族群純度最高、技術領先者,高壓HVDC BBU產品具優勢。<div class="src">— 摩根士丹利報告、產業報導彙整,2026</div></div>
+    <div class="quote">7月營收連續創單月歷史新高,累計前七月營收同創新高,動能來自AI伺服器BBU出貨增加;毛利率約37~39%,居同業前段班。<div class="src">— 公司自結營收公告,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">摩根士丹利雖給出1,285元目標價,但評等僅為「中立」,顯示機構本身對股價進一步上攻的信心有限,與另一家美系外資的買進評等、1,680元目標價形成鮮明對比,顯示外資圈本身分歧極大。<div class="src">— 本儀表板觀察,依券商報告比對</div></div>
+    <div class="quote">LEV(電動兩輪車)業務相對疲弱,公司高度仰賴BBU單一業務動能,若客戶集中度或訂單季節性出現波動,對公司整體營收的衝擊將遠大於業務分散的同業。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>摩根士丹利(Morgan Stanley,2026/08/07)</td><td class="amber">1,285(評等:中立)</td><td>BBU市場規模看好,惟評等審慎</td></tr>
+  <tr><td>另一美系外資(日期不明)</td><td class="green">1,680(評等:買進)</td><td>依據不明,與摩根士丹利分歧極大</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">兩家外資目標價差異達31%,反映市場對估值分歧不小,查無正式FactSet多分析師共識調查。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="6781"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+2,593</span></td><td>9/10</td><td><span class="green">+15</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="green">+41</span></td><td>5/10</td><td><span class="red">-6</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+2,633</span></td><td>8/10</td><td><span class="green">+9</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+15</span></td><td>+0</td><td><span class="red">-6</span></td><td><span class="green">+9</span></td></tr><tr><td>08/13</td><td><span class="green">+9</span></td><td>+0</td><td><span class="red">-14</span></td><td><span class="red">-5</span></td></tr><tr><td>08/12</td><td><span class="green">+354</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="green">+353</span></td></tr><tr><td>08/11</td><td><span class="green">+540</span></td><td>+0</td><td><span class="red">-29</span></td><td><span class="green">+510</span></td></tr><tr><td>08/10</td><td><span class="green">+213</span></td><td>+0</td><td><span class="green">+27</span></td><td><span class="green">+240</span></td></tr><tr><td>08/07</td><td><span class="green">+1,035</span></td><td>+0</td><td><span class="red">-4</span></td><td><span class="green">+1,031</span></td></tr><tr><td>08/06</td><td><span class="red">-5</span></td><td>+0</td><td><span class="green">+3</span></td><td><span class="red">-2</span></td></tr><tr><td>08/05</td><td><span class="green">+310</span></td><td>+0</td><td><span class="green">+11</span></td><td><span class="green">+321</span></td></tr><tr><td>08/04</td><td><span class="green">+34</span></td><td>+0</td><td><span class="green">+40</span></td><td><span class="green">+74</span></td></tr><tr><td>08/03</td><td><span class="green">+88</span></td><td>+0</td><td><span class="green">+14</span></td><td><span class="green">+102</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">17.23億</div><div class="note">YoY+28.24%,連續創新高</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">10.64</div><div class="note">季增12.14%</div></div>
+  <div class="card"><div class="label">Q1毛利率</div><div class="value green">逾36%</div><div class="note">Q2因競爭增加估降至35%以下</div></div>
+  <div class="card"><div class="label">母公司</div><div class="value">新普(6121)持股73%</div><div class="note">2020年1月成立之子公司</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">BBU客戶定位</div><div class="value amber">大型雲端服務商(CSP)</div><div class="note">AWS、微軟Azure等,具體訂單金額未量化</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與AES-KY的差異</th></tr>
+  <tr class="hl"><td>6781.TW</td><td>AES-KY</td><td>MS目標價1285(中立);另一外資1680(買進)</td><td>7月營收連續創高YoY+28.24%,Q2精確EPS查無</td><td>BBU族群純度最高,惟LEV業務疲弱、客戶集中度風險高於多角化同業</td></tr>
+  <tr><td>3211.TWO</td><td>順達(本站另篇分析)</td><td>自估325~455;外資目標價分歧550/800</td><td>Q2 EPS1.35不如預期,惟7月營收查無精確數字</td><td>BBU為轉型中的成長引擎,惟Q2財報表現不如AES-KY</td></tr>
+  <tr><td>4931.TWO</td><td>新盛力(本站另篇分析)</td><td>自估189.6~265.4(推演);查無正式目標價</td><td>7月營收創15年新高YoY+159.52%,惟目前處置中</td><td>BBU占比近5成成長最快,惟規模最小且現正處置</td></tr>
+  <tr><td>2301.TW</td><td>光寶科(本站另篇分析)</td><td>自估204.75(公司整體);外資分歧170/300</td><td>公司整體Q2 EPS3.14創新高YoY+128%</td><td>大型多角化企業,BBU僅占公司總營收約一成,曝險程度遠低於AES-KY</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——BBU族群純度最高的定位有其溢價支撐,惟兩家外資目標價分歧極大反映不確定性不小。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">現價1,120元介於摩根士丹利的1,285元(中立評等)與另一美系外資的1,680元(買進評等)之間。這種評等與目標價方向不完全一致的情況(摩根士丹利目標價高於現價卻仍給中立)值得留意——通常代表機構認為上檔空間有限或風險與報酬大致平衡,而非積極看多。AES-KY作為BBU族群業務純度最高的一檔(相對於光寶科這類多角化企業),提供最直接的AI伺服器電源備援題材曝險,但這也代表公司對單一業務線(BBU)的依賴度與風險集中度都高於同業,LEV業務的疲弱進一步凸顯這個風險。綜合兩家外資的分歧看法,採較貼近摩根士丹利(較新且評等更審慎)的立場,估值大致合理。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,120.00 vs 中值</th></tr>
+  <tr><td>摩根士丹利目標價(較新,審慎評等)</td><td>1,285(單點,惟評等僅中立)</td><td>1,285(單點)</td><td class="green">便宜 -12.8%</td></tr>
+  <tr><td>另一外資目標價(較樂觀評等)</td><td>1,680(單點,評等買進,依據不明)</td><td>1,680(單點)</td><td class="green">便宜 -33.3%</td></tr>
+  <tr><td>Q1年化×倍數(自估,保守情境)</td><td>Q1 EPS10.64×4=42.56(假設全年維持Q1水準,較保守),BBU龍頭溢價倍數25~30x</td><td>1,064~1,276.8(中值1,170.4)</td><td class="amber">合理 -4.3%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:BBU市場仍處早期高速成長階段,加上Q2精確EPS查無官方確認數字,多年期FCF假設信度不足。三種方法中,兩家外資目標價皆顯示現價便宜,而自估的Q1年化法(較保守,未計入Q2可能的進一步成長)則顯示現價大致合理。這個一致偏向「便宜或合理」的結論,與摩根士丹利「目標價高於現價卻仍中立」的審慎立場形成有趣對比,顯示市場對這檔股票的風險認知可能高於單純的估值數字所呈現的。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">BBU題材熱度高,惟高價位賣壓沉重</div><div class="bar"><div style="width:60%;background:var(--amber)"></div></div><div class="note">股市爆料同學會討論1,680元附近賣壓沉重、短線有回檔疑慮</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">兩家外資目標價分歧極大(1285 vs 1680)</div><div class="note">摩根士丹利中立評等,另一家買進評等</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">10.64(Q1)→Q2精確數字查無</div><div class="note">Q2財報精確EPS公告與LEV業務回溫進度是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>42.56(Q1年化,保守推演)</td><td>25~30x</td><td>1,064~1,276.8(中值1,170.4)</td><td class="green">約 4.5%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,惟這是建立在Q1單季年化的保守假設之上(未計入Q2可能的進一步成長)。2027年EPS共識查無穩定區間,BBU市場規模能否如摩根士丹利估算(2026年約400億元)持續擴大、AES-KY能否維持族群領先的技術優勢,是決定中長期路徑的關鍵,現階段查無具體財測,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 700~1500;left% = (價格-700)/800×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">900~980</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,070~1,170</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,280~1,360</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,430~1,480</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:52.3%"><div class="arrow">▲</div><div class="price">1,120.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>900~980</td><td>BBU需求成長不如預期或客戶集中度風險爆發,LEV業務持續疲弱拖累整體</td><td class="red">約 -16%</td></tr>
+  <tr><td class="amber">Base</td><td>1,070~1,170</td><td>維持現有成長軌道但無驚喜,兩家外資分歧持續;現價落於此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>1,280~1,360</td><td>Q2財報精確數字驗證優於預期成長,摩根士丹利目標價(1285)獲驗證並上修</td><td class="green">約 18%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,430~1,480</td><td>BBU市場規模全面兌現且另一外資的1,680元樂觀目標價逐步靠攏,重返1月/5月高點1,320附近</td><td class="green">約 30%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">1,050~1,090</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">1,000~1,049</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">900~999</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">964</b>(8月區間低點)= BBU需求成長不如預期或客戶集中度風險浮現,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破1,195(8月區間高點)+量能確認,且Q2財報精確EPS數字公告優於預期<br>
+    進場區:<b class="green">1,200~1,250</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回1,150即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,280~1,360</div><div class="note">賣出30~50%;Bull區,BBU題材股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,430~1,480</div><div class="note">Stretched區;續抱條件是BBU市場規模全面兌現且外資評等轉為一致看多</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:NVIDIA GB200伺服器將BBU由選配轉標配,摩根士丹利估算2026年BBU市場規模約400億元,AES-KY為族群純度最高、技術領先者;7月營收連續創單月新高(YoY+28.24%),惟Q2精確EPS查無官方確認數字,市場估計版本本身即有落差。</div>
+<div class="concl">② <b>估值</b>:合理——摩根士丹利(8/7)目標價1,285但評等僅中立,另一家美系外資給出買進評等目標價1,680,兩者分歧達31%;自估的Q1年化保守法顯示現價大致合理(-4.3%),整體傾向現價已在合理範圍內,不宜過度樂觀外推。</div>
+<div class="concl">③ <b>結論</b>:中性、BBU族群純度最高但已部分反映在股價——現價1,120落於Base區間內,上檔Bull +18%/Stretched +30%對下檔Bear -16%,風險報酬大致平衡;可正常左側分批布局,收盤跌破964即無條件出場。下一個驗證點是Q2財報精確EPS數字公告,以及LEV業務能否回溫緩解單一業務集中度風險。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司自結營收公告,2026/08);Q1財報(公司財報公告,2026);摩根士丹利報告(2026/08/07);另一美系外資目標價(市場報導彙整,日期不明);BBU市場規模估算(摩根士丹利報告);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2精確EPS、正式FactSet多分析師共識、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、摩根士丹利報告、公司自結營收與財報公告、CMoney投資網誌、市場報導彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;Q2 EPS市場估計版本間的落差已於內文明確標註,不做選擇性採信。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

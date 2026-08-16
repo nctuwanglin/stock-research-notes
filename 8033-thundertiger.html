@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雷虎 (8033) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>雷虎 (8033) <span class="badge red">估值:明顯偏貴,7月營收大幅回落與股價漲停脫鉤</span> <span class="badge red">結論:觀望,無人機訂單題材尚未轉化為穩定營收</span><span class="autodispo" data-code="8033"></span></h1>
+<div class="sub">台股(TWSE)・軍工無人機(原遙控模型玩具廠轉型國防無人機),MND/美國DoD訂單題材|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="8033">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">175</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="8033">現價 <b>201.5</b> → 目標價 <b>90</b><span class="down"> (-55.3%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS0.62年化1.24,即使給予無人機成長題材極高溢價倍數40~60x也僅約49.6~74.4;查無任何正式券商目標價,7月營收月減47.64%顯示訂單能見度尚未穩定轉化為營收;現價201.5(8/14漲停)遠超任何可驗證的獲利基礎,採目標價90</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">201.50</div><div class="note">2026/08/14 收盤漲停+9.81%;8月區間172~201.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value red">1.18億</div><div class="note">MoM-47.64%,YoY-9.48%(較6月大幅回落)</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value amber">0.28</div><div class="note">QoQ-17.65%,YoY-37.78%;H1累計0.62</div></div>
+  <div class="card"><div class="label">6月營收(對照)</div><div class="value amber">2.26億</div><div class="note">MoM+92.87%,YoY+19.63%(單月異常暴衝)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">125~269.5</div><div class="note">6月低、7月高;全年振幅逾2倍</div></div>
+  <div class="card"><div class="label">MND無人機標案</div><div class="value amber">預算金額來源不一</div><div class="note">查得50億與500億兩種說法,尚待官方確認</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲停但營收卻大幅回落?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價於125~170區間低檔盤整,反映當時市場對無人機訂單能否兌現仍持保留態度。</li>
+  <li><span class="date">2026/02/24</span>董事會決議現金增資,發行不超過1,200萬股,暫定發行價105元(遠低於現價)。</li>
+  <li><span class="date">2026年Q1</span>美國國防部Q1訂單1,520台無人機,並宣布參與美國「Drone Advantage Program」(目標2027年前逾30萬台致命性無人機採購案,規模約10億美元);另取得陸軍訓練用無人機合約2,033萬元。</li>
+  <li><span class="date">2026年6月</span>股價從低點125急拉至169.5,單月營收暴衝至2.26億元(MoM+92.87%)。</li>
+  <li><span class="date">2026年7月中</span>股價一度衝上今年高點269.5,惟隨後回落。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收公布:僅1.18億元,月減47.64%、年減9.48%,幾乎回吐6月的暴衝;8/11董事會通過Q2財報,EPS0.28元較Q1的0.34元衰退。</li>
+  <li><span class="date">2026/08/14</span><b class="red">股價漲停+9.81%至201.50</b>,市場歸因於MSCI全球小型股指數納入消息與主力買盤,惟此漲停與7月營收大幅回落的基本面訊號明顯脫鉤。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收較6月大幅回落47.64%,顯示無人機訂單題材尚未轉化為穩定、可持續的營收成長,單月營收波動性極端;②查無任何正式券商目標價報告,僅有技術面觀察位(180~191元,現價已突破);③國防部無人機標案預算金額在不同來源間出現50億元與500億元兩種懸殊說法,顯示這個核心催化劑本身的資訊品質存在重大不確定性,不宜直接採信任一數字;④2月現金增資的暫定發行價僅105元,遠低於現價201.5,顯示公司自身對股票價值的定價基準與目前市場情緒存在巨大落差。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">「國防+AI」無人機平台轉型題材,公司角逐國防部近48,750台商規軍用無人機標案(A~E型),並與美國國防部及Drone Advantage Program建立合作關係。<div class="src">— 市場報導彙整,2026</div></div>
+    <div class="quote">嘉義大埔美研發基地與蘇澳新廠2026年Q1陸續啟用,分析師估算月產能可望擴增至5,000台,迎接交機高峰。<div class="src">— 產業報導彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">7月營收較6月大幅回落47.64%,顯示無人機訂單題材尚未轉化為穩定的營收動能,單月營收波動性極端,不宜以單月暴衝數字線性外推。<div class="src">— 本儀表板觀察,依公司自結營收公告</div></div>
+    <div class="quote">國防部無人機標案預算金額在不同來源間有50億與500億兩種懸殊說法,核心催化劑本身的資訊品質存在重大不確定性。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">2月現金增資暫定發行價僅105元,遠低於現價201.5,顯示公司內部對股票價值的定價基準與市場現階段的樂觀情緒存在巨大落差。<div class="src">— 本儀表板觀察,依公司重大訊息公告</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無任何正式券商目標價報告。僅有技術面觀察位「短線目標觀察位為2025年高點壓力區180~191元」,現價201.5已突破此區間;查無FactSet或具名券商的2026E EPS共識。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="8033"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-9,021</span></td><td>4/10</td><td><span class="red">-1,611</span></td></tr><tr><td>投信</td><td><span class="red">-12</span></td><td>1/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="green">+304</span></td><td>5/10</td><td><span class="green">+189</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-8,728</span></td><td>4/10</td><td><span class="red">-1,422</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-1,611</span></td><td>+0</td><td><span class="green">+189</span></td><td><span class="red">-1,422</span></td></tr><tr><td>08/13</td><td><span class="green">+344</span></td><td>+0</td><td><span class="green">+195</span></td><td><span class="green">+539</span></td></tr><tr><td>08/12</td><td><span class="red">-5,107</span></td><td><span class="red">-3</span></td><td><span class="red">-27</span></td><td><span class="red">-5,137</span></td></tr><tr><td>08/11</td><td><span class="red">-1,282</span></td><td>+0</td><td><span class="green">+23</span></td><td><span class="red">-1,259</span></td></tr><tr><td>08/10</td><td><span class="red">-1,619</span></td><td>+0</td><td><span class="red">-5</span></td><td><span class="red">-1,623</span></td></tr><tr><td>08/07</td><td><span class="red">-30</span></td><td>+0</td><td><span class="red">-68</span></td><td><span class="red">-98</span></td></tr><tr><td>08/06</td><td><span class="green">+114</span></td><td><span class="red">-10</span></td><td><span class="red">-11</span></td><td><span class="green">+93</span></td></tr><tr><td>08/05</td><td><span class="green">+196</span></td><td>+0</td><td><span class="green">+11</span></td><td><span class="green">+207</span></td></tr><tr><td>08/04</td><td><span class="green">+112</span></td><td><span class="green">+3</span></td><td><span class="red">-13</span></td><td><span class="green">+102</span></td></tr><tr><td>08/03</td><td><span class="red">-138</span></td><td><span class="red">-2</span></td><td><span class="green">+10</span></td><td><span class="red">-130</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value red">1.18億</div><div class="note">MoM-47.64%,YoY-9.48%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">0.62</div><div class="note">Q1 0.34/Q2 0.28(季減)</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value amber">8.39億</div><div class="note">毛利3.08億</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約307~310億</div><div class="note">股本約15.26億(約1.526億股),以現價201.5計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">現增暫定發行價</div><div class="value red">105元(2月決議)</div><div class="note">遠低於現價201.5,尚未執行完成</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與雷虎的差異</th></tr>
+  <tr class="hl"><td>8033.TW</td><td>雷虎</td><td>自估49.6~74.4(極高溢價倍數);查無正式目標價</td><td>7月營收大幅回落MoM-47.64%,Q2 EPS季減</td><td>原遙控模型玩具廠轉型軍工無人機,營收基期小、波動性最劇烈</td></tr>
+  <tr><td>2634.TW</td><td>漢翔(本站另篇分析)</td><td>自估58.5;富邦75/中國信託71</td><td>7月營收YoY+19.99%,Q2 EPS大幅超預期</td><td>國家隊等級航太廠,訂單能見度與機構覆蓋遠優於雷虎</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:明顯偏貴——無人機訂單題材真實存在,惟尚未轉化為穩定可預測的營收與獲利。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS0.62年化(1.24)計算,即使給予無人機成長題材極高的40~60倍溢價本益比(遠高於一般電子零組件股常見倍數,反映對未來訂單放量的樂觀想像),合理價區間也僅約49.6~74.4元,現價201.5較此區間中值高出約2.25倍。核心疑慮是7月營收較6月暴衝後大幅回落47.64%,顯示美國DoD訂單、國防部標案等題材目前仍處於「潛在」而非「已穩定認列」的階段,單月營收的巨大波動性使得任何線性外推的估值方法都需要高度謹慎。2月現金增資暫定發行價僅105元,某種程度上反映公司內部對合理股價的基準判斷,與現價的落差同樣值得留意。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價201.50 vs 中值</th></tr>
+  <tr><td>H1年化×極高溢價倍數(自估)</td><td>H1 EPS0.62×2=1.24,無人機題材極高溢價倍數40~60x</td><td>49.6~74.4(中值62)</td><td class="red">貴 225%</td></tr>
+  <tr><td>現增暫定發行價(公司自身定價,2月)</td><td>105元(單點,惟為2月決議,早於後續股價大幅上漲)</td><td>105(單點)</td><td class="red">貴 91.9%</td></tr>
+  <tr><td>技術面觀察位(對照,非基本面方法)</td><td>2025年高點壓力區180~191元</td><td>180~191(中值185.5)</td><td class="red">貴 8.6%(現價已突破此技術區間)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司獲利基期極小且營收波動性極端,加上國防訂單能見度尚未穩定,多年期FCF假設完全缺乏可靠基礎。三種方法(即使是最寬鬆的自估極高溢價倍數法)皆顯示現價明顯偏貴,是本次分析範圍內估值風險最高的個股之一——核心原因不是題材本身不存在(美國DoD訂單、Drone Advantage Program、國防部標案皆為真實催化劑),而是這些題材目前仍缺乏穩定、可預測的營收認列證據,7月營收的大幅回落正是這個風險的具體體現。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">MSCI納入消息帶動漲停,追高情緒濃厚</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">8/14單日漲停+9.81%,與7月營收大幅回落的基本面訊號脫鉤</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何正式券商目標價</div><div class="note">僅有已被突破的技術面觀察位</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">0.62(H1)→查無2026E共識</div><div class="note">國防訂單能否穩定轉化為營收是核心驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>1.24(H1年化,推演)</td><td>40~60x</td><td>49.6~74.4(中值62)</td><td class="red">約 -45%(以中值估算)</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,國防訂單認列時程未明</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬呈現大幅負值,即使採用無人機成長題材極高的溢價倍數假設,現價仍明顯超前反映任何可驗證的獲利基礎。2027年查無機構財測共識,國防部標案(預算金額本身尚有50億與500億的巨大落差)與美國DoD訂單的具體認列時程皆未明朗,不強行推演。這條路徑的核心啟示是:雷虎現價幾乎完全建立在無人機國家隊題材的想像空間,而非已確認的獲利軌跡。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 100~300;left% = (價格-100)/200×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">120~140</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">160~185</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">210~230</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">255~275</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:50.7%"><div class="arrow">▲</div><div class="price">201.50</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>120~140</td><td>國防訂單認列進度不如預期,月營收波動延續,股價回歸自估保守區間附近</td><td class="red">約 -36%</td></tr>
+  <tr><td class="amber">Base</td><td>160~185</td><td>Q3營收動能未見明顯改善,國防標案審標時程延續但無新進展;現價落於此區間上緣</td><td class="red">約 -14%</td></tr>
+  <tr><td class="green">Bull</td><td>210~230</td><td>MND無人機標案結果公布且雷虎得標份額具體確認,美國DoD訂單持續擴大</td><td class="green">約 9%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>255~275</td><td>國防訂單全面兌現且開始穩定貢獻月營收,重返7月高點269.5附近</td><td class="green">約 32%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">160~175</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">140~159</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">120~139</td><td>50%(國防訂單能見度不明朗,倉位應高度保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">175</b>(8/14漲停前的近期支撐)= 漲停行情反轉或營收波動持續惡化,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破201.5(8月區間高點)+量能確認,且國防標案有具體得標公告<br>
+    進場區:<b class="green">205~220</b>(估值風險極高,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回195即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(190~215)</div><div class="note">賣出40~60%;估值明顯偏貴且7月營收已回落,應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">255~275</div><div class="note">Stretched區;續抱條件是國防訂單全面兌現且穩定貢獻月營收</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:國防部無人機標案(約48,750台商規軍用無人機)、美國DoD訂單與Drone Advantage Program是核心多頭敘事,惟7月營收僅1.18億元,較6月暴衝的2.26億元大幅回落47.64%,顯示訂單題材尚未轉化為穩定的營收動能;8/14股價漲停與此基本面回落訊號明顯脫鉤。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——即使給予無人機成長題材極高的40~60倍溢價本益比,合理價區間也僅約49.6~74.4元,現價201.5較此區間中值高出逾2倍;2月現金增資暫定發行價僅105元,同樣遠低於現價,顯示現階段股價已大幅超前反映尚未兌現的訂單題材。</div>
+<div class="concl">③ <b>結論</b>:觀望、無人機訂單題材尚未轉化為穩定營收——現價201.5落於Bull區間下緣,上檔Stretched +32%對下檔Bear -36%,風險報酬明顯不利;新資金不建議追高,既有持股者應審慎評估獲利了結,收盤跌破175即無條件出場。下一個驗證點是國防部無人機標案能否具體公布得標結果,以及月營收能否止穩重回成長軌道。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月/6月營收(公司自結營收公告,2026/08);Q1/Q2財報(公司董事會公告,2026/08/11);美國DoD訂單與Drone Advantage Program(市場報導彙整,2026);國防部無人機標案(市場報導彙整,惟預算金額不同來源出現50億與500億兩種說法,未確認官方數字);2月現金增資決議(公司重大訊息公告,2026/02/24);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;任何正式券商目標價、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司自結營收與財報公告、市場報導彙整、CMoney投資網誌、PTT股票板討論彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;資料來源出現明顯矛盾之處(如國防部標案預算金額)已於內文明確標註,不做選擇性採信。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光寶科 (2301) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>光寶科 (2301) <span class="badge amber">估值:合理,惟BBU僅為公司總營收約一成的分部業務</span> <span class="badge amber">結論:中性,以公司整體AI/雲端動能而非純BBU題材評價</span><span class="autodispo" data-code="2301"></span></h1>
+<div class="sub">台股(TWSE)・大型多角化電子零組件廠,伺服器電源全球市占第二,BBU僅為雲端/物聯網部門下的一項產品線|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2301">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">224</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2301">現價 <b>267</b> → 目標價 <b>245</b><span class="down"> (-8.2%)</span></div>
+  <div class="vbasis">推導依據:法人預估2026全年EPS9.1(YoY+36%)×多角化企業合理倍數20~25x得約182~227.5(中值204.75);外資分歧極大,美系外資目標價170(持股續抱)vs另一投顧300(買進);採較貼近自估與較保守外資的245為目標價,反映BBU僅占公司總營收約一成、不宜完全比照純BBU股給予成長溢價</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">267.00</div><div class="note">2026/08/14 收盤;8月區間229.5~271.5</div></div>
+  <div class="card"><div class="label">7月營收(公司整體)</div><div class="value green">190.06億</div><div class="note">YoY+37.61%,近八年單月新高</div></div>
+  <div class="card"><div class="label">Q2 EPS(公司整體)</div><div class="value green">3.14</div><div class="note">創歷史新高,季增89%,年增128%;H1累計4.8</div></div>
+  <div class="card"><div class="label">雲端/物聯網部門營收占比</div><div class="value amber">約55%</div><div class="note">Q2占比;BBU僅為此部門下產品線之一</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">140.5~271.5</div><div class="note">3月低、8月高;全年振幅約93%</div></div>
+  <div class="card"><div class="label">BBU占雲端部門營收</div><div class="value amber">近2成</div><div class="note">推算約占公司總營收一成左右,規劃產能60萬→90萬套</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?(公司整體AI/雲端動能,非純BBU題材)</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~3月</span>股價於140.5~193.5區間低檔盤整。</li>
+  <li><span class="date">2026年5~6月</span>股價自3月低點140.5攀升至6月高點250,AI伺服器電源與BBU題材帶動雲端/物聯網部門營收占比突破5成。</li>
+  <li><span class="date">2026年7月</span>股價回落至7月低點185(7/29)。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收(公司整體)190.06億元公布,年增37.61%,創近八年單月新高;雲端及物聯網部門7月營收占比達59%,年增近8成。</li>
+  <li><span class="date">2026年8月上旬</span>Q2財報(公司整體):營收527億元,季增21%、年增30%;毛利率27.2%創高,稅後淨利71億元,年增126%,EPS3.14元創歷史新高;董事會核准配發現金股利2.5元;資本支出上修至180億元,高雄二期廠(Q3)與越南廣寧廠(Q4)陸續投產。</li>
+  <li><span class="date">2026年8月</span>股價衝上今年高點271.5(8/10),隨後小幅回落至267。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①光寶科是本次BBU分析範圍內唯一的大型多角化企業,BBU僅為雲端/物聯網部門下的一項產品線(該部門營收占公司總營收約55%,BBU又僅占該部門營收近2成,推算BBU占公司總營收約一成左右),市場敘事若將公司整體AI/雲端成長直接等同於「BBU概念股」邏輯,容易高估BBU本身對公司股價的驅動力度;②800V HVDC Power Rack預計2026年8月送樣測試,若順利11月小量生產,2027年Q1才會明顯放量,現階段仍屬早期階段;③美系外資(目標價170,持股續抱)與另一投顧機構(目標價300,買進)的評等分歧極大,顯示市場對這波成長能否持續存在不小的意見分歧。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2稅後淨利71億元,年增126%,EPS3.14元創歷史新高;雲端及物聯網部門營收占比已突破5成,AI、雲端運算及高階伺服器出貨暢旺帶動該部門營收年增近8成。<div class="src">— 公司財報公告,2026/08</div></div>
+    <div class="quote">全球伺服器電源供應商市占第二(僅次台達電),為全球首家將電源供應器與BBU模組整合供應的廠商;2026年BBU規劃產能由60萬套提高至90萬套。<div class="src">— 產業報導彙整,2026</div></div>
+    <div class="quote">另一投顧機構將12個月目標價由246元大幅上調至300元,維持買進評等;法人預估2026年全年營收2,176億元(年增31%)、EPS9.1元(年增36%)。<div class="src">— 投顧報告彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">BBU業務僅是雲端/物聯網部門內的一項產品線,該部門營收占公司總營收約55%,BBU又僅占該部門營收近2成,推算BBU占公司總營收比重約一成左右,遠低於AES-KY、順達等純度更高的同業,不應將公司整體AI/雲端成長直接等同於「BBU概念股」的成長邏輯。<div class="src">— 本儀表板觀察,依公司分部營收占比推算</div></div>
+    <div class="quote">美系外資僅將目標價由150上調至170、評等維持「持股續抱」而非積極買進,與另一投顧機構300元目標價的樂觀評等形成鮮明對比,顯示外資圈本身對後續成長性存在分歧。<div class="src">— 本儀表板觀察,依外資報告比對</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>美系外資(2026)</td><td class="amber">170(上調自150,評等:持股續抱)</td><td>2026-2027年估年成長29%、25%</td></tr>
+  <tr><td>另一投顧機構(2026)</td><td class="green">300(上調自246,評等:買進)</td><td>依據不明確,較樂觀</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">法人預估2026年全年營收2,176億元(YoY+31%)、EPS9.1元(YoY+36%)。兩家機構目標價差異達76%,反映對公司整體成長性的看法分歧不小。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2301"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+72,707</span></td><td>6/10</td><td><span class="red">-1,381</span></td></tr><tr><td>投信</td><td><span class="green">+2,332</span></td><td>6/10</td><td><span class="red">-20</span></td></tr><tr><td>自營商</td><td><span class="green">+795</span></td><td>6/10</td><td><span class="red">-206</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+75,831</span></td><td>7/10</td><td><span class="red">-1,607</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-1,381</span></td><td><span class="red">-20</span></td><td><span class="red">-206</span></td><td><span class="red">-1,607</span></td></tr><tr><td>08/13</td><td><span class="green">+11,528</span></td><td><span class="green">+205</span></td><td><span class="green">+425</span></td><td><span class="green">+12,157</span></td></tr><tr><td>08/12</td><td><span class="green">+707</span></td><td><span class="green">+1,403</span></td><td><span class="red">-69</span></td><td><span class="green">+2,040</span></td></tr><tr><td>08/11</td><td><span class="red">-307</span></td><td><span class="red">-19</span></td><td><span class="red">-802</span></td><td><span class="red">-1,127</span></td></tr><tr><td>08/10</td><td><span class="green">+2,573</span></td><td><span class="red">-25</span></td><td><span class="green">+748</span></td><td><span class="green">+3,295</span></td></tr><tr><td>08/07</td><td><span class="green">+2,129</span></td><td><span class="green">+20</span></td><td><span class="green">+148</span></td><td><span class="green">+2,297</span></td></tr><tr><td>08/06</td><td><span class="red">-500</span></td><td><span class="green">+299</span></td><td><span class="green">+13</span></td><td><span class="red">-188</span></td></tr><tr><td>08/05</td><td><span class="green">+29,758</span></td><td><span class="green">+471</span></td><td><span class="red">-220</span></td><td><span class="green">+30,008</span></td></tr><tr><td>08/04</td><td><span class="green">+28,743</span></td><td><span class="green">+2</span></td><td><span class="green">+12</span></td><td><span class="green">+28,757</span></td></tr><tr><td>08/03</td><td><span class="red">-543</span></td><td><span class="red">-4</span></td><td><span class="green">+746</span></td><td><span class="green">+199</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收(公司整體)</div><div class="value green">190.06億</div><div class="note">YoY+37.61%,近八年新高</div></div>
+  <div class="card"><div class="label">Q2 EPS(公司整體)</div><div class="value green">3.14</div><div class="note">創新高,YoY+128%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">27.2%</div><div class="note">創高</div></div>
+  <div class="card"><div class="label">資本支出(上修)</div><div class="value amber">180億</div><div class="note">高雄二期廠Q3、越南廣寧廠Q4投產</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約0.6億</div><div class="note">合計224,000股,BBU族群中占比最小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">800V HVDC Power Rack</div><div class="value amber">2026/08送樣測試</div><div class="note">2027年Q1才會明顯放量</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與光寶科的差異</th></tr>
+  <tr class="hl"><td>2301.TW</td><td>光寶科</td><td>自估182~227.5(公司整體);外資分歧170/300</td><td>公司整體Q2 EPS3.14創新高YoY+128%</td><td>大型多角化企業,BBU僅占公司總營收約一成,不宜完全比照純BBU股評價</td></tr>
+  <tr><td>6781.TW</td><td>AES-KY(本站另篇分析)</td><td>MS目標價1285(中立);另一外資1680(買進)</td><td>7月營收連續創高YoY+28.24%</td><td>BBU族群純度最高,單一業務曝險程度遠高於光寶科</td></tr>
+  <tr><td>3211.TWO</td><td>順達(本站另篇分析)</td><td>自估325~455;外資目標價分歧550/800</td><td>Q2 EPS1.35不如預期</td><td>BBU為轉型中的成長引擎,業務純度介於光寶科與AES-KY之間</td></tr>
+  <tr><td>4931.TWO</td><td>新盛力(本站另篇分析)</td><td>自估189.6~265.4(推演);查無正式目標價</td><td>7月營收創15年新高YoY+159.52%,惟目前處置中</td><td>BBU占比近5成,業務純度高於光寶科,惟規模最小</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:大致合理——公司整體AI/雲端動能扎實,惟不應以純BBU股的成長溢價邏輯評價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以法人預估的2026全年EPS(9.1)套用大型多角化企業合理的20~25倍本益比(低於純BBU股的成長溢價倍數,反映光寶科業務組合更分散、單一題材曝險較低但成長彈性也相對有限),合理價區間約182~227.5元(中值204.75),現價267較此區間中值高出約30%。核心提醒是:光寶科的股價上漲主要反映公司整體AI伺服器電源與雲端/物聯網部門的全面成長(該部門營收占比已突破5成),而非單純的BBU題材——BBU僅占公司總營收約一成,若市場過度將光寶科的股價表現簡化為「BBU概念股」邏輯,可能高估這個單一產品線對公司整體評價的驅動力度。兩家外資目標價(170 vs 300)的巨大分歧也反映市場本身對這個問題的看法並不一致。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價267.00 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(法人預估,自估)</td><td>EPS9.1,多角化企業合理倍數20~25x</td><td>182~227.5(中值204.75)</td><td class="red">貴 30.4%</td></tr>
+  <tr><td>美系外資目標價(較保守,持股續抱)</td><td>170(單點,評等審慎)</td><td>170(單點)</td><td class="red">貴 57.1%</td></tr>
+  <tr><td>另一投顧目標價(較樂觀,買進)</td><td>300(單點,依據不明確)</td><td>300(單點)</td><td class="green">便宜 -11.0%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司為多角化企業,各事業部成長速度差異大且BBU等新興業務仍處早期放量階段,多年期FCF假設信度不足。三種方法呈現明顯分歧:自估P/E法與較保守的美系外資目標價皆顯示現價貴逾30~57%,僅有較樂觀的投顧目標價(300,依據不明確)顯示現價便宜。整體而言,現價已相當程度反映Q2財報大幅超預期的利多,加上BBU僅是公司眾多成長引擎之一而非唯一驅動力,現階段的估值判斷應以較保守的方法為主要依據,傾向大致合理偏貴。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">Q2財報後股價罕見不跌反漲,惟關鍵價位技術面分歧</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">股市爆料同學會討論254元、248元等技術關鍵價位是否跌破;融資餘額續增為風險點</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">兩家機構目標價分歧達76%(170 vs 300)</div><div class="note">美系外資審慎(持股續抱),另一投顧樂觀(買進)</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">4.8(H1)→9.1(2026E法人預估)</div><div class="note">BBU占比能否持續提升、800V Power Rack放量時程是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>9.1(法人預估,單點)</td><td>20~25x</td><td>182~227.5(中值204.75)</td><td class="red">約 -23%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為負值,反映以多角化企業合理倍數計算,現價已提前反映部分樂觀預期。2027年EPS共識查無穩定區間,800V HVDC Power Rack能否如期於2027年Q1明顯放量、BBU產能(60萬→90萬套)擴增後的實際貢獻,是決定中長期路徑的關鍵,現階段查無足夠具體的財測,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 130~330;left% = (價格-130)/200×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:22.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">195~215</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">240~260</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:66.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">280~300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">320~335</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:67.2%"><div class="arrow">▲</div><div class="price">267.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>195~215</td><td>雲端/物聯網部門成長放緩,市場重新評估BBU題材對公司整體的實質貢獻程度,估值倍數壓縮</td><td class="red">約 -23%</td></tr>
+  <tr><td class="amber">Base</td><td>240~260</td><td>Q3維持公司整體成長但增速略緩,BBU占比穩定但無驚喜;現價落於此區間上緣附近</td><td class="red">約 -7%</td></tr>
+  <tr><td class="green">Bull</td><td>280~300</td><td>雲端/物聯網部門持續強勢成長,800V Power Rack送樣測試順利,另一投顧目標價(300)獲驗證</td><td class="green">約 8%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>320~335</td><td>AI伺服器電源與BBU業務全面兌現且評價重估至純題材股水準,重返並超越8月高點271.5</td><td class="green">約 22%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">240~250</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">220~239</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">195~219</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">224</b>(8月區間低點附近)= 雲端/物聯網部門成長動能明顯放緩或市場重新評估BBU題材貢獻,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破271.5(8月區間高點)+量能確認,且Q3財報驗證雲端/物聯網部門成長延續<br>
+    進場區:<b class="green">273~288</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回265即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">280~300</div><div class="note">賣出30~50%;Bull區,較樂觀投顧目標價(300)附近應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">320~335</div><div class="note">Stretched區;續抱條件是AI伺服器電源與BBU業務全面兌現且評價重估至純題材股水準</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:公司整體Q2 EPS3.14元創歷史新高(YoY+128%),7月營收190.06億元創近八年單月新高,雲端及物聯網部門營收占比已突破5成;惟BBU僅是這個部門下的一項產品線(占部門營收近2成,推算約占公司總營收一成),不應將公司整體AI/雲端成長直接等同於純BBU題材的成長邏輯。</div>
+<div class="concl">② <b>估值</b>:大致合理偏貴——法人預估2026全年EPS9.1×多角化企業合理倍數計算,現價貴約30%;美系外資較保守的目標價(170,持股續抱)顯示現價貴逾57%,僅較樂觀的投顧目標價(300,依據不明確)顯示現價便宜,兩家機構分歧達76%反映市場對這波成長能否持續看法不一。</div>
+<div class="concl">③ <b>結論</b>:中性、以公司整體AI/雲端動能而非純BBU題材評價——現價267落於Base區間上緣附近,上檔Bull +8%/Stretched +22%對下檔Bear -23%,風險報酬中性偏保守;可正常左側分批布局,收盤跌破224即無條件出場。下一個驗證點是800V HVDC Power Rack送樣測試進度與雲端/物聯網部門成長動能能否延續。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收與Q2財報(公司財報公告,2026/08);雲端/物聯網部門與BBU占比拆分(產業報導彙整,2026);美系外資與投顧目標價(市場報導彙整,2026,依據與券商名稱部分不明確);800V HVDC Power Rack時程(產業報導彙整,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確BBU營收金額拆分、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司財報公告、市場報導彙整、股市爆料同學會討論彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;BBU業務占公司總營收比重為推算值(基於分部占比逐層相乘),已於內文明確標註計算邏輯。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
