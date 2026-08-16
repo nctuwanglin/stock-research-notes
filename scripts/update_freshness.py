@@ -589,20 +589,29 @@ def build_calendar_html(cal_events, stocks, dispo, today):
                     f'<span class="calbody"><span class="calcaret">▸</span> {t}'
                     f' · <b>{len(items)}</b> 檔追蹤中</span></summary>'
                     f'<div class="caltags">{tags}</div></details>')
-        empty = '<div style="color:var(--muted);font-size:12.5px">本月無事件</div>'
-        listing = "".join(rows) or empty
+        ndays_evt = len({d for d in daymap if (d.year, d.month) == (y, m)})
+        hint = (f'點選上方有標記的日期查看事件(本月 {ndays_evt} 天有事件)'
+                if ndays_evt else '本月無事件')
         hidden = "" if (y, m) == cur else " hidden"
         panels.append(
             f'<div class="calpanel" data-m="{y}-{m:02d}"{hidden}>{grid}'
-            f'<div class="callist">{listing}</div></div>')
+            f'<div class="calhint">{hint}</div>'
+            f'<div class="callist">{"".join(rows)}</div></div>')
 
     n_solo, n_agg_stocks = len(solo), sum(len(i) for _, _, i in aggs)
     js = (
         "(function(){var c=document.getElementById('calwrap');if(!c)return;"
         "var ps=c.querySelectorAll('.calpanel'),i=0;"
         "ps.forEach(function(p,k){if(!p.hasAttribute('hidden'))i=k;});"
+        # 收合:清掉選取狀態、隱藏事件清單、還原提示行
+        "function clr(){"
+        "c.querySelectorAll('.calcell.sel').forEach(function(x){x.classList.remove('sel');});"
+        "c.querySelectorAll('.calrow.show').forEach(function(x){"
+        "x.classList.remove('show');if(x.tagName==='DETAILS')x.open=false;});"
+        "c.querySelectorAll('.callist.on').forEach(function(x){x.classList.remove('on');});"
+        "c.querySelectorAll('.calhint').forEach(function(x){x.hidden=false;});}"
         "function show(k){i=Math.max(0,Math.min(ps.length-1,k));"
-        "ps.forEach(function(p,j){p.hidden=(j!==i);});"
+        "ps.forEach(function(p,j){p.hidden=(j!==i);});clr();"
         "var m=ps[i].dataset.m.split('-');"
         "c.querySelector('.calmon').textContent=m[0]+'年'+parseInt(m[1],10)+'月';"
         "c.querySelector('[data-nav=prev]').disabled=(i===0);"
@@ -611,14 +620,15 @@ def build_calendar_html(cal_events, stocks, dispo, today):
         "c.querySelector('[data-nav=next]').onclick=function(){show(i+1);};"
         "var tb=c.querySelector('[data-nav=today]');if(tb)tb.onclick=function(){"
         "ps.forEach(function(p,j){if(p.dataset.m==='" + f"{cur[0]}-{cur[1]:02d}" + "')show(j);});};"
+        # 點日期:展開當日事件;再點同一天則收合
         "c.addEventListener('click',function(e){var cell=e.target.closest('.calcell.has');"
-        "if(!cell)return;var d=cell.dataset.d;"
-        "c.querySelectorAll('.calcell.sel,.calrow.sel').forEach(function(x){x.classList.remove('sel');});"
+        "if(!cell)return;var was=cell.classList.contains('sel');var p=ps[i];clr();"
+        "if(was)return;"
         "cell.classList.add('sel');"
-        "var first=null;c.querySelectorAll('.calrow[data-d=\"'+d+'\"]').forEach(function(r){"
-        "r.classList.add('sel');if(!first)first=r;});"
-        "if(first){if(first.tagName==='DETAILS')first.open=true;"
-        "first.scrollIntoView({block:'nearest',behavior:'smooth'});}});"
+        "p.querySelector('.calhint').hidden=true;"
+        "p.querySelector('.callist').classList.add('on');"
+        "p.querySelectorAll('.calrow[data-d=\"'+cell.dataset.d+'\"]').forEach("
+        "function(r){r.classList.add('show');});});"
         "show(i);})();")
 
     legend = ('<span class="callegend">'
@@ -631,8 +641,8 @@ def build_calendar_html(cal_events, stocks, dispo, today):
             f'<button class="calnav" data-nav="next">›</button>'
             f'<button class="calnav" data-nav="today">今日</button>{legend}</div>')
     foot = (f'<div class="calmore">共 {n_solo} 筆個股專屬催化劑;'
-            f'月營收/法說會等常態事件已聚合為 {len(aggs)} 列(涵蓋 {n_agg_stocks} 檔次),點擊展開。'
-            f'點月曆日期可跳至當日事件。</div>')
+            f'月營收/法說會等常態事件已聚合為 {len(aggs)} 列(涵蓋 {n_agg_stocks} 檔次)。'
+            f'點月曆日期展開當日事件,再點一次收合。</div>')
     return (f'<div class="cal" id="calwrap"><h3>📅 催化劑日曆(自動更新 {upd})</h3>'
             f'{head}{"".join(panels)}{foot}</div><script>{js}</script>')
 
