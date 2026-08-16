@@ -29,6 +29,18 @@
   .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -68,97 +80,81 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>國巨 (2327) <span class="badge purple">事件:Q2財報開獎(7/29)</span> <span class="badge green">估值:被低估(財報基本面被籌碼面利空掩蓋)</span> <span class="badge amber">結論:逢回分批,以循環股紀律操作</span><span class="autodispo" data-code="2327"></span></h1>
-<div class="sub">台股(TWSE)・被動元件(MLCC)龍頭・AI伺服器/車用需求驅動|事件驅動版(Q2財報)|股價截至 2026/08/10 收盤,製表 2026/08/10|<span class="dispostat" data-code="2327">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>國巨 (2327) <span class="badge purple">事件:7月營收創高+外資目標價下修</span> <span class="badge amber">估值:大致合理,基本面強勢但估值已部分反映</span> <span class="badge amber">結論:中性,籌碼修復中續抱觀察</span><span class="autodispo" data-code="2327"></span></h1>
+<div class="sub">台股(TWSE)・被動元件(MLCC)龍頭・AI伺服器/車用需求驅動|事件驅動版(7月營收+Q2財報後續)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2327">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">400</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2327">現價 <b>622</b> → 目標價 <b>620</b><span class="down"> (-0.3%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS 19.73 × 31x;籌碼信任修復中</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">540</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2327">現價 <b>622</b> → 目標價 <b>700</b><span class="up"> (+12.5%)</span></div>
+  <div class="vbasis">推導依據:高盛(1280)、花旗(1450)8月同步下修目標價但維持買進評等,兩家皆明言下修反映去槓桿導致本益比壓縮而非獲利變化;自估2026E EPS19.73×循環龍頭保守倍數20~28x得合理區間394.6~552.4;現價622已高於自估保守區間但遠低於外資新目標價,兩者落差反映「基本面無虞但估值錨點極不穩定」,綜合折衷後採中性目標價700</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">573.0</div><div class="note">2026/08/10 收盤 +6.1%;較7/30低點456.5已反彈+25.5%</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約2,969.5億</div><div class="note">股本35.23億,已發行518,241,455股(股票一拆四尚未生效)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">622.0</div><div class="note">2026/08/14 收盤;8月區間540~662,較7/30低點456.5已反彈+36.3%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">161.31億</div><div class="note">MoM+5.0%,YoY+51.5%,連續第5個月創單月新高</div></div>
   <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">4.59</div><div class="note">季增17.7%,年增88.4%,H1累計8.48(YoY+65%)</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value green">約29x</div><div class="note">FactSet 2026E EPS共識19.73(此數字橫跨崩跌前後皆未大幅修正)</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">230~1,220</div><div class="note">1月低230、7月高1,220(TWSE官方日成交資訊);全年振幅逾5倍</div></div>
-  <div class="card"><div class="label">FactSet目標價</div><div class="value green">1,262.5</div><div class="note">距現價+120.3%;惟此數字可信度存疑(詳見下文)</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約31.5x</div><div class="note">FactSet 2026E EPS共識19.73(查無8月更新後數字)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">230~1,220</div><div class="note">1月低230、7月初高1,220;全年振幅逾5倍</div></div>
+  <div class="card"><div class="label">外資目標價(8月最新)</div><div class="value amber">1280/1450</div><div class="note">高盛/花旗,雙雙下修但維持買進評等</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7/29 Q2財報開獎,財報亮眼卻被籌碼面利空淹沒</h2>
+<h2>⓪ 事件影響分析 — 7月營收再創新高,惟外資同步下修目標價反映去槓桿風險</h2>
 <div class="event">
-  <h3>事件:Q2單季EPS 4.59元創新高,H1年增65%,但財報公布當日股價續跌9.9%</h3>
-  <div class="flow">國巨於<b>2026/07/29</b>召開Q2法人說明會,公布單季合併營收444.56億元(季增16.5%、年增35.7%),創歷史新高;毛利率升至38.5%,營業利益率26.4%(季增1.2個百分點、年增4.9個百分點);EPS 4.59元,季增17.7%、年增88.4%,創單季新高。上半年累計EPS達8.48元,年增65%。受惠AI需求持續強勁、產品組合優化及價格調漲效益顯現。</div>
+  <h3>事件摘要:7月營收161.31億元(YoY+51.5%)連五月創高,惟高盛/花旗8月同步下修目標價</h3>
+  <div class="flow">國巨公布2026年7月合併營收約161.31億元,月增5.0%、年增高達51.5%,為連續第5個月刷新單月歷史新高;1~7月累計營收987.53億元,年增32.5%。公司表示成長動能來自AI相關應用需求持續強勁,標準品及特殊品皆呈穩定成長。然而幾乎同一時間,外資高盛與花旗證券同步發布最新報告:高盛目標價由1,490元下修至1,280元,花旗由1,500元下修至1,450元,但兩家外資都仍維持「買進」評等,並明確指出此次下修主要反映產業去槓桿導致本益比遭壓縮,而非國巨獲利本身出現變化。</div>
 </div>
 <div class="event">
-  <h3>財報當日股價反而續跌,原因是籌碼面利空尚未平息</h3>
-  <div class="flow">儘管財報數字亮眼,國巨股價在<b>7/29財報公布當日仍下跌9.9%至507元</b>,隔日(7/30)進一步探底至<b>456.5元</b>(較6月高點1,155已重挫逾6成)。核心原因是財報公布前後,市場正深陷「大股東質押疑雲」與「NVIDIA Kyber機櫃延期傳言」兩大非基本面利空引發的融資斷頭與違約交割賣壓(單日曾爆逾4,131萬元違約交割),財報本身的正面資訊被籌碼面的技術性賣壓完全淹沒,兩者在傳導路徑上幾乎脫鉤。</div>
+  <h3>傳導路徑:7月營收創高證實需求動能不墜 → 外資目標價卻同步下修 → 訊號分歧的核心是「倍數」而非「獲利」→ 股價8/11~8/13單週大漲逾30%後又需消化估值合理性疑慮</h3>
+  <div class="flow">本次最需要拆解的是「基本面強勁」與「估值倍數下修」同時發生的矛盾表象。7月營收年增51.5%、連五個月創高,證實AI伺服器與車用MLCC的需求動能並未因7月的籌碼風暴而受影響;但高盛、花旗這兩家長期給出千元以上目標價的外資,在看到7月營收數字後仍選擇下修目標價,理由是「去槓桿導致本益比壓縮」——換言之,即使獲利持續超預期,市場願意付出的本益比倍數本身正在收斂,這正是6月股價噴出到1,220天價、又在7月籌碼危機中腰斬的核心教訓。國巨股價於8/11~8/13單週再度大漲(8/13單日收662、隔日拉回622),顯示市場情緒仍在「基本面強勁」與「估值紀律」之間反覆拉扯,尚未形成穩定共識。</div>
 </div>
 <div class="event">
-  <h3>兩大利空事後皆獲官方否認,股價自7/31起明確反彈</h3>
-  <div class="flow">國巨其後發布重大聲明,澄清<b>「未收到該股東任何股權變動之申報或通知,持股狀況並無任何變動」</b>,正式駁斥大股東解質押賣股傳聞;而Kyber延期傳言源自SemiAnalysis於7月初的報告,指NVIDIA新一代Kyber NVL144機櫃PCB中板面臨製造瓶頸,但<b>NVIDIA事後正式回應「產品路線圖沒有改變」</b>。兩大利空皆獲官方否認後,國巨股價自7/31起連續反彈,截至8/10收573元,較7/30低點456.5已回升+25.5%。</div>
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/10,股價573)</th><th>事件後(8/14,7月營收公布+外資下修後)</th></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">161.31億,YoY+51.5%,連五月創高</td></tr>
+    <tr><td>高盛目標價</td><td>1,490(較早)</td><td class="amber">1,280(下修14.1%,惟維持買進)</td></tr>
+    <tr><td>花旗目標價</td><td>1,500(較早)</td><td class="amber">1,450(下修3.3%,惟維持買進)</td></tr>
+    <tr><td>股價</td><td>573(8/10,反彈中)</td><td class="green">622(8/14,8/13曾觸662)</td></tr>
+    <tr><td>本站目標價</td><td>620</td><td class="amber">700(小幅上修,惟仍遠低於外資新目標價)</td></tr>
+  </table>
 </div>
 
-<h2>事件前後對照表</h2>
-<table>
-  <tr><th>項目</th><th>事件前(7/24,股價642)</th><th>事件後(8/10,股價573)</th><th>變化</th></tr>
-  <tr><td>FactSet 2026E EPS共識</td><td>約19.59~19.73元</td><td>約19.73元(查無更新後數字)</td><td class="amber">未見明顯修正</td></tr>
-  <tr><td>FactSet目標價</td><td>約1,240~1,275元</td><td>約1,262.5元(同上,查無更新)</td><td class="amber">未見明顯修正</td></tr>
-  <tr><td>Q2/H1實績</td><td>僅Q1已知(EPS 3.9)</td><td>Q2 EPS 4.59創新高,H1累計8.48(YoY+65%)確認</td><td class="green">財報實際優於原先預期路徑</td></tr>
-  <tr><td>股價</td><td>642(7/24,崩跌途中)</td><td>573(8/10,反彈中)</td><td class="red">仍較崩跌前(6月高點1,155)低約50%</td></tr>
-</table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">最值得留意的訊號是:FactSet的EPS與目標價共識在股價從642崩跌至456.5、又反彈至573的整個過程中幾乎沒有大幅修正,顯示分析師社群自始至終認為這波股價崩跌是籌碼面(質押疑雲、Kyber傳言、違約交割)造成,而非基本面出現問題——這與7/29財報實際優於預期的結果相互印證。但也正因為這個目標價數字橫跨了「崩跌前」與「崩跌後」都未更新,其時效性與可信度需要打折扣看待,不宜直接視為現階段最精確的估值錨點。</div>
-
-<h2>① 催化劑分析 — 為什麼跌(又為什麼反彈)?</h2>
+<h2>① 催化劑分析 — 為什麼漲?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/05~06</span>股價從4月底317元一路飆漲至6月高點1,155(甚至7月初觸及1,220天價),外資目標價一度喊上1,500元(花旗自495大幅上調),反映AI伺服器與車用MLCC需求的極度樂觀情緒;5月營收150.58億元創單月歷史新高,連三個月刷新紀錄。</li>
-  <li><span class="date">2026/07月初</span><b class="red">兩大利空齊發</b>:大股東質押疑雲與NVIDIA Kyber機櫃延期傳言同步發酵,加上7/17台股史上最大單日跌點,股價自天價1,220急速回落。</li>
-  <li><span class="date">2026/07/24~30</span><b class="red">融資斷頭+違約交割加劇賣壓</b>:股價連續五個交易日重挫(642→625→563→507→456.5),融資維持率一度降至131%,單日爆出逾4,131萬元違約交割,籌碼面完全主導股價。</li>
-  <li><span class="date">2026/07/29</span>Q2財報公布:EPS 4.59創新高,H1年增65%,但財報當日股價仍續跌9.9%,反映籌碼面利空尚未出清。</li>
-  <li><span class="date">2026/07/30</span>股價探底456.5,較7月天價1,220已重挫近62.6%。</li>
-  <li><span class="date">2026/07/31~08/10</span><b class="green">兩大利空獲官方否認,股價明確反彈</b>:國巨聲明澄清質押傳聞、NVIDIA否認Kyber延期後,股價自7/31起連續反彈,8/10收573(+6.1%),較低點456.5已回升+25.5%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①財報本身從頭到尾都是正面的(EPS連續創高、H1年增65%),這波崩跌是純粹的籌碼/信任危機,不是基本面惡化,但市場情緒修正需要時間,不會因為官方澄清就立即完全消化;②FactSet目標價(1,262.5元)橫跨崩跌前後都未修正,若這個數字確實可信,代表現價573距合理價值仍有逾一倍空間,但也可能只是分析師尚未跟上股價劇烈波動後的模型更新,不宜盲目套用;③國巨已通過股票「一拆四」決議(面額10元→2.5元,股數518,241,455股→2,072,965,820股),目前尚未生效,生效後現有的股價、EPS、目標價數字都需要除以4才能與屆時的股價比較,是未來需要留意的技術性調整,但本身不影響公司實質價值。</li>
+  <li><span class="date">2026/07/29</span>Q2財報:EPS4.59創新高,H1年增65%,惟因籌碼面利空(質押疑雲、Kyber傳言)股價當日仍續跌。</li>
+  <li><span class="date">2026/07/31~08/10</span>兩大利空獲官方否認後股價明確反彈,8/10收573(+6.1%)。</li>
+  <li><span class="date">2026/08/11~13</span><b class="green">被動元件族群齊漲停/近漲停</b>:國巨、華新科雙漲停,禾伸堂同步走高,單週累計國巨+31.87%、華新科+45.18%;報導指向可能與MSCI相關消息面題材有關,惟官方MSCI台股加入名單中並未見國巨、華新科(僅記憶體/ABF等其他個股入列),此因果關聯查無確切證實,不宜直接採信。</li>
+  <li><span class="date">2026/08/10</span>國巨7月營收公布:161.31億元,MoM+5.0%,YoY+51.5%,連續第5個月創單月歷史新高。</li>
+  <li><span class="date">2026年8月</span><b class="amber">高盛、花旗同步下修目標價</b>(1490→1280、1500→1450),惟雙雙維持買進評等,強調下修反映去槓桿本益比壓縮而非獲利惡化。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收創高與外資目標價下修同時發生,顯示「獲利動能」與「估值倍數」正在脫鉤,不能簡單以營收創高論斷股價低估;②8/11~8/13單週逾30%的暴漲原因查無確切證實(疑似MSCI題材但官方名單未列入),追高風險不可輕忽;③國巨股票一拆四決議尚未生效,生效後所有每股數字需重新校準。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">AI伺服器對電力穩定性與訊號品質要求極高,一台NVIDIA GB200機櫃MLCC用量約45萬顆、是手機的300倍,長約鎖定產能的客戶愈來愈多,長線需求結構性向上。<div class="src">— 財經媒體彙整,2026/07</div></div>
-    <div class="quote">Q2財報證實基本面完全無虞,EPS連續創新高、H1年增65%,這波崩跌純粹是籌碼面問題,兩大利空皆已獲官方正式否認。<div class="src">— 本儀表板觀察,依國巨聲明與NVIDIA回應</div></div>
-    <div class="quote">FactSet目標價1,262.5元距現價有逾一倍空間,分析師社群自始至終未大幅下修對國巨的長期獲利假設。<div class="src">— 鉅亨網FactSet速報彙整</div></div>
+    <div class="quote">7月合併營收161.31億元再創單月歷史新高,連續五個月刷新紀錄,AI相關應用需求持續強勁,標準品及特殊品皆呈現穩定成長。<div class="src">— 國巨7月營收公告彙整</div></div>
+    <div class="quote">高盛雖短期因價格假設保守下修目標價,但仍看好長期AI驅動需求趨勢不變,認為國巨仍能受惠MLCC價格展望改善;花旗認為長線投資題材仍在,AI應用與長約需求推動結構性成長。<div class="src">— 高盛/花旗8月報告彙整</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">FactSet目標價(1,262.5元)橫跨股價腰斬前後都未修正,時效性存疑,可能只是分析師尚未跟上劇烈波動後的模型更新,不宜直接採信為現階段的精確錨點。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">財報公布當日股價仍續跌9.9%、隔日再破底,顯示即使基本面優異,籌碼面(融資斷頭、違約交割)的殺傷力在短期內可能完全壓過財報利多,反彈過程也可能出現反覆。<div class="src">— 本儀表板觀察,依TWSE官方股價資料</div></div>
-    <div class="quote">大股東質押疑雲雖經公司澄清「未收到申報或通知」,但這是消極否認而非積極證實持股完全無虞,市場信任修復仍需時間觀察。<div class="src">— 豐雲學堂,2026/07</div></div>
+    <div class="quote">兩家外資同步下修目標價的核心理由是「去槓桿導致本益比壓縮」,這意味著即使獲利持續超預期,市場願付倍數本身正在收斂,不宜線性外推股價回到6月天價的估值邏輯。<div class="src">— 本儀表板觀察,依高盛/花旗報告</div></div>
+    <div class="quote">8/11~8/13單週逾30%的暴漲原因查無確切證實,可能屬短線消息面題材炒作,追高在此波動劇烈的族群風險極高。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(橫跨事件前後)</td><td class="green">1,262.5</td><td>2026E EPS共識19.73(此前19.59、19.89等相近數字),13位分析師,最高21.22最低16.98</td></tr>
-  <tr><td>花旗環球(較早,5月)</td><td class="green">1,500</td><td>自495大幅上調,發布於股價噴出高點期間,樂觀程度最高</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">另有部分較舊調查顯示目標價區間350~384元(伴隨EPS估值16.18~16.57元),與上述1,240~1,500元的高估值群明顯不同,兩組數字發布時點與方法論差異不明,不宜混用平均;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>高盛(2026/08最新)</td><td class="amber">1,280(下修自1,490)</td><td>維持買進;下修反映去槓桿本益比壓縮,非獲利惡化</td></tr>
+  <tr class="hl"><td>花旗環球(2026/08最新)</td><td class="amber">1,450(下修自1,500)</td><td>維持買進;長線AI應用與長約需求結構性成長題材仍在</td></tr>
+  <tr><td>FactSet共識(查無8月更新)</td><td>1,262.5(舊值)</td><td>2026E EPS共識19.73,13位分析師,查無是否已納入高盛/花旗8月下修</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">另有較舊調查目標價區間350~384元,與上述高估值群明顯不同,方法論差異不明,不混用;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -167,69 +163,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2營收</div><div class="value green">444.56億</div><div class="note">QoQ+16.5%,YoY+35.7%,創歷史新高</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">4.59</div><div class="note">創單季新高</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">38.5%</div><div class="note">產品組合優化+價格調漲效益顯現</div></div>
-  <div class="card"><div class="label">Q2營業利益率</div><div class="value green">26.4%</div><div class="note">QoQ+1.2個百分點,YoY+4.9個百分點</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">14檔,261.6億</div><div class="note">合計45,647張;8/10出現00401A、00403A加碼與00985A減碼</div></div>
-  <div class="card"><div class="label">股票分割</div><div class="value amber">一拆四(尚未生效)</div><div class="note">面額10元→2.5元,股數增至20.73億股,價值中性</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">161.31億</div><div class="note">YoY+51.5%,連五月創高</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">4.59</div><div class="note">H1累計8.48,YoY+65%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">38.5%</div><div class="note">產品組合優化+價格調漲效益</div></div>
+  <div class="card"><div class="label">BB Ratio</div><div class="value green">2.2</div><div class="note">訂單能見度延續至年底以後</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">16檔,約289.6億</div><div class="note">合計46,559張,族群中持有度最高(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">股票分割</div><div class="value amber">一拆四(尚未生效)</div><div class="note">面額10元→2.5元,價值中性</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>2026動能</th><th>與國巨的差異</th></tr>
-  <tr class="hl"><td>2327.TW</td><td>國巨</td><td>約29x(EPS19.73)</td><td>Q2 EPS創新高,H1 YoY+65%</td><td>被動元件(MLCC)絕對龍頭,近期籌碼面風暴後估值訊號最鮮明</td></tr>
-  <tr><td>2492.TW</td><td>華新科(參考,MLCC同業)</td><td>查無精確Fwd P/E</td><td>受惠AI電源被動元件需求增長,獲利回溫</td><td>國巨主要對手,規模較小但同受惠高階MLCC價格競爭降溫</td></tr>
-  <tr><td>6449.TW</td><td>鈺邦(參考,被動元件同業)</td><td>查無精確Fwd P/E</td><td>被動元件族群外溢效應受惠</td><td>鋁質電容為主,產品線與國巨部分互補</td></tr>
-  <tr><td>TDK</td><td>TDK Corporation(日股,參考)</td><td>查無精確Fwd P/E</td><td>國際MLCC/被動元件大廠</td><td>國際級被動元件廠,規模遠大於國巨,可作長期評價參照</td></tr>
-  <tr><td>Murata</td><td>村田製作所(日股,參考)</td><td>查無精確Fwd P/E</td><td>國際MLCC龍頭</td><td>全球MLCC市佔最大廠商,國巨在中低階與利基型MLCC市場與其部分競爭</td></tr>
+  <tr class="hl"><td>2327.TW</td><td>國巨</td><td>約31.5x(EPS19.73);外資目標價1,280~1,450</td><td>7月營收連五月創高YoY+51.5%,H1 YoY+65%</td><td>被動元件(MLCC)絕對龍頭,主動式ETF持有度族群最高(16檔)</td></tr>
+  <tr><td>2492.TW</td><td>華新科(本站另篇分析)</td><td>查無精確共識目標價</td><td>7月營收YoY+42%,Q2 EPS3.24</td><td>國巨主要對手,規模較小,惟本波族群漲幅更凶猛(單週+45.18%)</td></tr>
+  <tr><td>3026.TW</td><td>禾伸堂(本站另篇分析)</td><td>查無公開券商目標價覆蓋</td><td>7月營收YoY+37.05%,創40個月新高</td><td>被動元件族群中波動最劇烈,查無分析師覆蓋,估值錨點最不穩定</td></tr>
+  <tr><td>TDK/Murata</td><td>TDK、村田製作所(日股,參考)</td><td>查無精確Fwd P/E</td><td>國際級MLCC大廠</td><td>規模遠大於國巨,可作長期評價參照,惟未受台股籌碼面波動影響</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:被低估——財報實績優於預期,但股價尚未完全修復籌碼面利空造成的折價。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約29x(以FactSet 2026E EPS 19.73計)對照H1 EPS已達8.48(YoY+65%)、且AI伺服器/車用MLCC需求結構性向上的成長軌跡,並不算貴;但現價573距FactSet目標價1,262.5仍有逾一倍差距,顯示市場尚未將財報實績完全反映回股價,籌碼面信任修復仍在進行中。核心风险不在基本面(Q2財報已證實無虞),而在於「質押疑雲」「Kyber傳言」這類非基本面事件是否會再度發生,以及FactSet目標價本身因橫跨崩跌前後未修正而可信度存疑。</div>
+  <b>估值判斷:大致合理——基本面持續強勢但股價已部分反映,外資目標價下修凸顯估值倍數本身的不確定性。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">7月營收連五月創高、Q2 EPS再創單季紀錄,證實AI伺服器/車用MLCC結構性需求無虞;但高盛、花旗8月同步下修目標價(雖仍遠高於現價)明確指出「去槓桿本益比壓縮」才是近期的核心風險,而非獲利本身。以自估2026E EPS19.73×循環龍頭保守倍數20~28x計算,合理區間394.6~552.4,現價622已站上此區間上緣;但若採信外資最新目標價(1,280~1,450),現價仍有逾一倍空間。兩種方法落差反映這檔股票的估值錨點目前極不穩定,不宜偏廢任一方,採中性立場較為審慎。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價573.0 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識(需打折看待)</td><td>2026E EPS 19.73,目標價1,262.5(橫跨崩跌前後未修正,可信度存疑)</td><td>單點1,262.5(低信度)</td><td class="green">便宜 -54.6%(方法本身可信度需打折)</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 19.73,循環龍頭股保守倍數20~28x</td><td>394.6~552.4(中值473.5)</td><td class="red">貴 +21.0%</td></tr>
-  <tr><td>H1年化×倍數(較保守情境)</td><td>H1 EPS 8.48×2=16.96(假設H2與H1持平,未計入AI需求加速可能性),倍數20~28x</td><td>339.2~474.9(中值407.1)</td><td class="red">貴 +40.8%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價622.0 vs 中值</th></tr>
+  <tr><td>外資最新目標價(高盛/花旗,2026/08)</td><td>兩家皆維持買進,目標價1,280~1,450(平均1,365)</td><td>1,280~1,450(中值1,365)</td><td class="green">便宜 -54.4%</td></tr>
+  <tr><td>2026E P/E×EPS(自估,保守)</td><td>共識EPS19.73,循環龍頭保守倍數20~28x</td><td>394.6~552.4(中值473.5)</td><td class="red">貴 +31.4%</td></tr>
+  <tr><td>H1年化×倍數(更保守情境)</td><td>H1 EPS8.48×2=16.96(假設H2與H1持平,未計入7月營收加速),倍數20~28x</td><td>339.2~474.9(中值407.1)</td><td class="red">貴 +52.8%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:剛經歷籌碼面劇烈風暴,加上即將生效的股票一拆四會改變每股基礎,此時點的多年期FCF假設意義有限。三種方法呈現明顯分歧:FactSet目標價顯示大幅便宜,但這個數字本身因未隨股價崩跌與反彈更新而可信度存疑;兩種基於已知EPS實績計算的方法反而顯示現價偏貴21~41%。真正該採信的訊號是:財報本身確認基本面無虞(H1 YoY+65%),但現階段股價可能已提前反映了一定程度的樂觀復甦預期,不宜將FactSet的舊目標價當作立即可實現的低估空間。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:剛經歷籌碼面劇烈風暴且股票一拆四尚未生效,此時點的多年期FCF假設意義有限。三種方法呈現本季最極端的分歧之一:外資最新目標價顯示現價仍便宜逾五成,但這是基於AI結構性成長題材完全兌現的樂觀假設;自估的保守P/E法則顯示現價已偏貴三到五成。真正該採信的訊號是:7月營收證實基本面無虞,但現價已充分甚至提前反映一定程度的樂觀復甦預期,外資雖仍看多但已開始壓縮倍數假設,追高風險不宜輕忽。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">信任修復中,籌碼仍不穩定</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">融資維持率131%,近期曾爆逾4,131萬元違約交割,反彈中仍需觀察籌碼是否穩定</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價未隨股價劇烈波動更新</div><div class="note">1,262.5元橫跨崩跌前後皆未修正,時效性存疑</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">8.48(H1)→19.73(2026E)</div><div class="note">H1實績已達全年共識約43%,Q3~Q4能否延續是關鍵驗證點</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">8/11~8/13單週暴漲,追高情緒濃厚</div><div class="bar"><div style="width:70%;background:var(--red)"></div></div><div class="note">單週漲幅逾30%,原因查無確切證實,籌碼穩定性仍需觀察</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">高盛/花旗雙雙下修目標價但維持買進</div><div class="note">下修反映本益比壓縮,非獲利惡化</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">8.48(H1)→19.73(2026E共識)</div><div class="note">7月營收年增51.5%,H2動能延續是關鍵驗證</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>16.98 / 19.73 / 21.22</td><td>20~28x</td><td>339.6~594.2(中值466.9)</td><td class="red">約 -18%</td></tr>
+  <tr><td>2026(今年)</td><td>16.98 / 19.73 / 21.22</td><td>20~28x</td><td>339.6~594.2(中值466.9)</td><td class="red">約 -25%</td></tr>
   <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識</td><td>—</td><td>查無</td><td>查無</td></tr>
   <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為負,反映以循環龍頭股的保守倍數計算,現價已無明顯低估空間,這與FactSet目標價法呈現的「便宜逾50%」形成強烈對比——後者因未隨股價劇烈波動更新而可信度存疑,不應作為投資決策的主要依據。2027、2028年EPS共識查無穩定區間,不強行推演;股票一拆四生效後,所有每股數字都需重新校準。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">以循環龍頭股保守倍數計算,2026年隱含報酬為負,與外資目標價法呈現的「便宜逾五成」形成強烈對比;鑑於兩家外資的目標價本身也在8月同步下修,不宜將較舊、更樂觀的目標價當作立即可實現的空間。2027、2028年EPS共識查無穩定區間,不強行推演;股票一拆四生效後,所有每股數字都需重新校準。</div>
 
 <h2>四種股價情境</h2>
 <!-- 刻度 300~1400;left% = (價格-300)/1100×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
   <div class="mark" style="left:16.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">380~430</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:35.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">530~600</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:37.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">570~650</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
   <div class="mark" style="left:58.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">680~750</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
   <div class="mark" style="left:88%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">920~1,000</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:26.8%"><div class="arrow">▲</div><div class="price">573.0</div><div class="lbl">現價</div></div>
+  <div class="mark below" style="left:30.9%"><div class="arrow">▲</div><div class="price">622.0</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>380~430</td><td>新一輪籌碼面利空(質押/違約交割)再現,或AI伺服器MLCC需求不如預期,2026E EPS低值×20~21x</td><td class="red">約 -29%</td></tr>
-  <tr><td class="amber">Base</td><td>530~600</td><td>Q3~Q4維持財報動能但無驚喜,籌碼面持續修復但無突破性利多;現價落於此區間內</td><td>約 -1%</td></tr>
-  <tr><td class="green">Bull</td><td>680~750</td><td>AI伺服器MLCC長約鎖定產能兌現,籌碼面信任完全修復,自身P/E法上緣(552)附近或超越</td><td class="green">約 +25%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>920~1,000</td><td>市場情緒完全回歸基本面,FactSet目標價部分兌現(但不完全達陣1,262.5)</td><td class="green">約 +68%</td></tr>
+  <tr><td class="red">Bear</td><td>380~430</td><td>去槓桿本益比壓縮加劇,或新一輪籌碼面利空再現,2026E EPS低值×20~21x</td><td class="red">約 -35%</td></tr>
+  <tr><td class="amber">Base</td><td>570~650</td><td>7月營收動能延續但無驚喜,外資目標價持續向現價收斂;現價落於此區間內</td><td>約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>680~750</td><td>AI伺服器MLCC長約鎖定產能兌現,籌碼面完全穩定,外資目標價止穩不再下修</td><td class="green">約 +15%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>920~1,000</td><td>市場情緒完全回歸基本面樂觀,外資目標價部分兌現(但不完全達陣1,280~1,450)</td><td class="green">約 +54%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -238,35 +233,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">530~555</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">480~520</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">420~470</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">570~595</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">520~565</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">430~515</td><td>40%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">400</b>(明顯低於7/30實際低點456.5)= 新一輪籌碼面危機爆發或AI伺服器MLCC需求實質轉弱,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">540</b>(8月區間低點)= 8/11~13暴漲行情反轉,籌碼面信任再度動搖,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破618(近期高點)+量能確認,且籌碼面(融資、違約交割)持續改善無新增利空<br>
-    進場區:<b class="green">620~660</b><br>
+    觸發條件:收盤突破662(8月區間高點)+量能確認,且外資目標價止穩無再下修<br>
+    進場區:<b class="green">665~700</b><br>
     移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回600即出場</div>
+    假突破失效:觸發後3日內跌回630即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">680~750</div><div class="note">賣出25~40%;Bull下緣,循環龍頭股高檔應分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">920~1,000</div><div class="note">Stretched區;續抱條件是籌碼面信任完全修復、AI伺服器長約訂單持續兌現,注意屆時股票一拆四可能已生效,價位需重新校準</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">680~750</div><div class="note">賣出25~40%;Bull下緣,追高後應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">920~1,000</div><div class="note">Stretched區;續抱條件是外資目標價止穩、籌碼面完全穩定,注意股票一拆四生效後需重新校準價位</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>事件影響</b>:7/29 Q2財報公布EPS 4.59元創新高(H1年增65%),財報本身從頭到尾都是正面訊息,但公布當日股價仍續跌9.9%、隔日再探底456.5,因為當時「大股東質押疑雲」與「NVIDIA Kyber延期傳言」引發的融資斷頭與違約交割賣壓完全淹沒了財報利多;兩大利空其後皆獲官方正式否認,股價自7/31起明確反彈,截至8/10已回升25.5%至573元。</div>
-<div class="concl">② <b>估值</b>:被低估但需謹慎解讀——FactSet目標價(1,262.5元)橫跨股價崩跌前後皆未修正,顯示分析師自始至終未因籌碼面風暴而下修基本面假設,但這也代表該數字的時效性存疑,不應直接視為現階段可實現的低估空間;若改用H1實績與自身循環股保守倍數計算,現價反而略貴21~41%,真正可信的結論是「財報證實基本面無虞,但股價可能已提前反映一定程度的復甦預期」。</div>
-<div class="concl">③ <b>結論</b>:逢回分批、以循環股紀律操作——現價573.0落於Base區間內,上檔Bull +25%/Stretched +68%對下檔Bear -29%,核心風險不在基本面(Q2財報已證實無虞)而在於籌碼面信任是否完全修復;左側倉位可正常分批,收盤跌破400即新一輪籌碼危機或需求實質轉弱確認,無條件出場。股票一拆四尚未生效,生效後需重新校準所有每股數字。</div>
+<div class="concl">⓪ <b>事件影響</b>:7月合併營收161.31億元(YoY+51.5%)連五月創高,證實AI伺服器/車用MLCC需求動能不墜;惟高盛、花旗8月同步下修目標價(1490→1280、1500→1450),雙雙明言反映去槓桿導致本益比壓縮而非獲利惡化,顯示「基本面強勁」與「估值倍數收斂」正同時發生。</div>
+<div class="concl">① <b>催化劑</b>:7月營收創高與BB Ratio2.2顯示訂單能見度延續至年底以後;但8/11~8/13單週逾30%的暴漲原因查無確切證實(疑似MSCI題材惟官方名單未列入),籌碼面穩定性仍待觀察。</div>
+<div class="concl">② <b>估值</b>:大致合理、方法分歧極大——外資最新目標價(1,280~1,450)顯示現價便宜逾五成,但自估保守P/E法(394.6~552.4)顯示現價已貴逾三成;真正該採信的訊號是股價已充分反映近期樂觀情緒,外資雖仍看多但已開始壓縮倍數假設。</div>
+<div class="concl">③ <b>結論</b>:中性、籌碼修復中續抱觀察——現價622落於Base區間內,上檔Bull +15%/Stretched +54%對下檔Bear -35%,基本面本身無虞但估值錨點極不穩定;已持股者可續抱觀察,新資金建議等待回檔至左側批次價位再分批進場,收盤跌破540即籌碼信任再度動搖的訊號,無條件出場。</div>
 
 <footer>
-資料時間:股價/今年區間 2026/08/10收盤(TWSE官方STOCK_DAY);股本/發行股數(Goodinfo、Yahoo股市,一拆四決議尚未生效);Q2法說會(豐雲學堂、經濟日報、聯合新聞網,2026/07/29公告);籌碼面危機與官方澄清(豐雲學堂、鉅亨網、FTNN新聞網,2026/07);FactSet共識EPS與目標價(LINE TODAY鉅亨速報,追蹤至最新19.73元/1,262.5元,另有花旗5月上修至1,500元、較舊調查16.18~16.57元/350~384元兩組數字,發布時點與方法論差異不明);主動式ETF持有度(本機active-etf資料庫,2026/08/10更新);處置/注意股狀態(本機twse-disposition,2026/08/10更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識、精確TTM本益比、股票一拆四正式生效日查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、Goodinfo、豐雲學堂、經濟日報、聯合新聞網、鉅亨網(FactSet速報)、FTNN新聞網、readmo財經、stockgod.net。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確標註FactSet目標價因未隨股價劇烈波動更新而可信度存疑,不應單獨作為投資判斷依據。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(工商時報、鉅亨網,2026/08/10公告);Q2財報與Q2法說會(豐雲學堂、經濟日報,2026/07/29);高盛/花旗8月最新目標價下修(綜合財經媒體彙整,2026/08);MSCI台股名單(經濟日報,2026/08/13,查無國巨/華新科列入);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FactSet共識是否已納入高盛/花旗8月下修查無,股票一拆四正式生效日查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、工商時報、鉅亨網、豐雲學堂、經濟日報、今周刊、FTNN新聞網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確標註外資目標價與自估保守法之間存在極大分歧,不應單獨採信任一方。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

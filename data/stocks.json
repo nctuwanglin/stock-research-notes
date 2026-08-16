@@ -262,14 +262,14 @@
     "name": "國巨",
     "market": "twse",
     "file": "2327-yageo.html",
-    "analysis_date": "2026-08-10",
-    "analysis_price": 573.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 622.0,
     "tags": [
       "被動元件"
     ],
-    "target": 620,
-    "stop": 400,
-    "basis": "2026E EPS 19.73 × 31x;籌碼信任修復中",
+    "target": 700,
+    "stop": 540,
+    "basis": "高盛(1280)/花旗(1450)8月同步下修目標價但維持買進;自估2026E EPS19.73×20~28x得394.6~552.4,現價已站上此區間上緣,估值錨點極不穩定",
     "rating": "hold"
   },
   "3661": {
@@ -617,5 +617,33 @@
     "stop": 22.5,
     "basis": "FactSet最新目標價23.7(反映Q2財報後,較前次25下修5.2%);Q2轉盈EPS0.18,雙軸轉型(Mobility/Vertical)驗證中,估值中性略偏貴",
     "rating": "hold"
+  },
+  "2492": {
+    "name": "華新科",
+    "market": "twse",
+    "file": "2492-walsin.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 302.5,
+    "tags": [
+      "被動元件"
+    ],
+    "target": 300,
+    "stop": 250,
+    "basis": "查無可靠券商目標價;H1 EPS4.93+H2成長假設(BB Ratio1.8)全年EPS推演12~13,套用20~28x得約250~350,現價大致落於區間中段",
+    "rating": "hold"
+  },
+  "3026": {
+    "name": "禾伸堂",
+    "market": "twse",
+    "file": "3026-holystone.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 647.0,
+    "tags": [
+      "被動元件"
+    ],
+    "target": 350,
+    "stop": 588,
+    "basis": "查無任何公開券商目標價覆蓋;H1 EPS6.73+H2成長假設全年EPS推演14~15,套用20~28x得約280~420,現價遠高於此區間,三檔中估值錨點最不穩定",
+    "rating": "avoid"
   }
 }
