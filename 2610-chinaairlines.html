@@ -26,8 +26,21 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -41,6 +54,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -63,69 +80,81 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>華航 (2610) <span class="badge amber">估值:合理(略偏貴,Q2獲利成長明顯放緩)</span> <span class="badge amber">結論:觀望,等回檔或油價風險降溫</span><span class="autodispo" data-code="2610"></span></h1>
-<div class="sub">台股(TWSE)・航空客貨運(客運創高+貨運成長)|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="2610">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>華航 (2610) <span class="badge purple">事件:7月營收創高,惟油價逆風股價續跌</span> <span class="badge amber">估值:合理,Q2放緩疑慮延續</span> <span class="badge amber">結論:中性,等油價風險降溫</span><span class="autodispo" data-code="2610"></span></h1>
+<div class="sub">台股(TWSE)・航空客貨運(客運創高+貨運成長)|事件後估值版(7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2610">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">17</span>(收盤跌破即出場)</span></div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">17.5</span>(收盤跌破即出場)</span></div>
   <div class="verdict" data-code="2610">現價 <b>19.9</b> → 目標價 <b>21</b><span class="up"> (+5.5%)</span></div>
-  <div class="vbasis">推導依據:正常化EPS約1.75 × 12x(Q2單季僅0.23)</div>
+  <div class="vbasis">推導依據:FactSet近期調查在21~27.95元間反覆調整,較穩定的中樞落在約21元(EPS共識1.71~1.78);7月營收創高但中東局勢推升油價、加上8/1起貨運燃油附加費調降,H2獲利能見度轉弱,現價19.90較此中樞目標價仍有溫和空間但確定性不足</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">22.5</div><div class="note">2026/08/07 收盤 +1.58%</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約1,377億</div><div class="note">股本611.99億,已發行約61.20億股</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">19.90</div><div class="note">2026/08/14 收盤;較8/7分析價22.5已下跌-11.6%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">222.35億</div><div class="note">MoM+2.18%,YoY+25.34%,創單月歷史新高</div></div>
   <div class="card"><div class="label">H1 2026 EPS</div><div class="value amber">1.08</div><div class="note">雙創歷年同期次高;Q2單季僅約0.23,較Q1明顯放緩</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約10.6x</div><div class="note">FactSet 2026E EPS共識2.13</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">20.1~23.7</div><div class="note">7月區間</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">17.7~24.75</div><div class="note">4月低17.7、6月高24.75(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value green">約9.3x</div><div class="note">FactSet 2026E EPS共識約2.13(查無8月最新更新)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">17.8~24.75</div><div class="note">4月低、6月高;全年振幅約39%</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">1,430.38億</div><div class="note">YoY+17.43%</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲(跌)?</h2>
+<h2>⓪ 事件影響分析 — 7月營收創單月新高,惟中東油價逆風使股價自8/7以來持續走跌</h2>
+<div class="event">
+  <h3>事件摘要:7月合併營收222.35億元創單月歷史新高(YoY+25.34%),惟股價自Q2財報公布後反轉向下</h3>
+  <div class="flow">華航公布2026年7月合併營收222.35億元,月增2.18%、年增25.34%,一舉改寫單月歷史新高紀錄;1~7月累計營收1,430.38億元,年增17.43%。其中客運收入126.35億元(YoY+18.63%)、貨運收入75.89億元(YoY+34.72%),客貨運雙雙成長。然而值得注意的是,自8/7公布Q2暨上半年財報(EPS1.08,惟Q2單季僅約0.23、較Q1明顯放緩)以來,股價並未因7月營收創高而止穩,反而持續下探:8/7收22.50後,8/10即跳空跌至20.45,8/14進一步收在19.90,累計跌幅達11.6%。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:中東局勢升溫推升國際油價 → 燃油成本壓力預期升高 → 加上8/1起貨運燃油附加費主動調降(反映運價競爭而非成本下降) → H2獲利能見度轉弱 → 7月營收創高的利多被油價與運價雙重疑慮抵銷</h3>
+  <div class="flow">這波股價與營收表現脫鉤的核心原因,是中東地緣政治局勢升溫帶動國際油價走高的預期,使市場對華航H2燃油成本壓力的疑慮加深——這與Q2單季獲利已明顯放緩(EPS僅0.23)的既有疑慮相互疊加。同時,華航、長榮、星宇於8/1、8/2起同步調降貨運燃油附加費(歐美長程線降幅逾20%),雖然附加費調降本身反映的可能是運價競爭策略調整,但也代表貨運端的收益率(yield)可能面臨壓縮,即使貨運「量」持續成長(7月YoY+34.72%),獲利轉換效率仍是問號。這正是「7月營收創新高」與「股價持續走跌」這兩個看似矛盾的現象背後的合理解釋。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/7,股價22.50)</th><th>事件後(8/14,7月營收公布+油價逆風後)</th></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">222.35億,YoY+25.34%,單月新高</td></tr>
+    <tr><td>1~7月累計營收</td><td>查無</td><td class="green">1,430.38億,YoY+17.43%</td></tr>
+    <tr><td>股價</td><td>22.50</td><td class="red">19.90,累計跌幅-11.6%</td></tr>
+    <tr><td>油價/地緣政治</td><td>相對平穩</td><td class="red">中東局勢升溫,國際油價走高預期升高</td></tr>
+    <tr><td>貨運燃油附加費</td><td>調降前</td><td class="amber">8/1起調降(歐美線降逾20%),貨運yield能見度轉弱</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼跌?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/04</span>股價落至今年低點17.7附近,反映當時油價與需求前景的雙重壓力。</li>
-  <li><span class="date">2026/06</span><b class="green">油價回落,客貨業績均旺,股價飛上15個月新高</b>:股價衝上今年高點24.75,麥格理下修2026年油價預測至每桶約77美元(遠低於先前89美元預測),顯著降低燃油成本壓力的市場疑慮。</li>
-  <li><span class="date">2026/08/07</span><b class="green">Q2暨上半年財報公布:營收創新高,獲利雙創次高</b>:第二季合併營收638.18億元、歸屬母公司淨利14.13億元;累計上半年營收1,208.15億元創歷史新高,合併營業淨利91.01億元,歸屬母公司淨利65.82億元,EPS 1.08元,雙創歷年同期次高。上半年客運收入702.44億元(YoY+10.56%,創歷年最高)、貨運收入401.79億元(YoY+24.89%)。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①雖然H1 EPS(1.08)創次高,但拆解來看Q1單季EPS已達0.85,代表Q2單季EPS僅約0.23元,較Q1大幅放緩逾7成——這與7、8月暑期旺季客運營收應強勁的直覺相反,很可能反映油價逆風已開始侵蝕旺季獲利率,不宜只看H1創高的表面數字;②FactSet EPS估值在近期呈現非單向變化:2025年12月為2.20元,2026年7月一度降至1.80元,近期又回升至2.13元,顯示市場對航空景氣的判斷本身就在反覆調整,並非穩定的上修趨勢;③澳洲麥格理雖下修油價預測至77美元,但地緣政治風險若使油價反彈,即使客貨運營收創高,燃油成本上升仍可能抵銷部分獲利,這正是Q2單季獲利明顯放緩的潛在解釋之一。</li>
+  <li><span class="date">2026/06</span>油價回落、客貨業績均旺,股價衝上今年高點24.75。</li>
+  <li><span class="date">2026/08/07</span>Q2暨H1財報:EPS1.08雙創同期次高,惟拆解後Q2單季EPS僅約0.23,較Q1的0.85大幅放緩逾7成。</li>
+  <li><span class="date">2026/08/10</span><b class="red">股價跳空重挫至20.45</b>,反映Q2放緩疑慮加上中東局勢升溫帶動的油價擔憂同步發酵。</li>
+  <li><span class="date">2026/08/10</span>7月營收公布:222.35億元創單月歷史新高,YoY+25.34%,客貨運雙雙成長。</li>
+  <li><span class="date">2026/08/11~14</span>股價持續走跌至19.90,顯示7月營收創高並未能扭轉市場對H2油價與貨運yield的疑慮。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收創高的主要動能來自「量」的成長(客貨運皆創高),但8/1起貨運燃油附加費調降代表「價」端可能承壓,量增不代表獲利同步成長,這正是Q2單季獲利已明顯放緩的延續疑慮;②FactSet EPS估值近期呈現非單向調整(2.20→1.80→2.13,查無8月最新更新),市場對航空景氣的判斷本身仍在反覆調整;③中東地緣政治風險若持續升溫推升油價,即使客貨運營收維持創高軌跡,燃油成本上升仍可能進一步侵蝕獲利率。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">上半年客運收入年增10.56%創歷年最高、貨運收入年增24.89%,營收已創歷史新高,評價仍處相對克制區間。<div class="src">— CMoney投資網誌,2026/08</div></div>
-    <div class="quote">麥格理下修2026、2027年油價預測至每桶約77美元,遠低於先前89美元預測值,燃油成本壓力較市場原先擔憂的更輕。<div class="src">— 財經媒體彙整,2026</div></div>
-    <div class="quote">油價回落、客貨業績均旺,股價飛上15個月新高,反映基本面實質改善而非單純題材炒作。<div class="src">— Yahoo股市,2026/06</div></div>
+    <div class="quote">7月合併營收222.35億元創單月歷史新高,客運收入年增18.63%、貨運收入年增34.72%,客貨運雙引擎動能明確。<div class="src">— CMoney投資網誌,2026/08</div></div>
+    <div class="quote">1~7月累計營收1,430.38億元,年增17.43%,全年營收動能持續優於去年同期。<div class="src">— 鉅亨網,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">拆解H1 EPS 1.08元,Q2單季僅約0.23元、較Q1(0.85元)大幅放緩逾7成,暑期旺季客運營收強勁卻未能轉化為對應的獲利成長,值得留意成本端壓力。<div class="src">— 本儀表板觀察,依工商時報財報數字計算</div></div>
-    <div class="quote">FactSet EPS估值近期呈現非單向變化(2.20→1.80→2.13),顯示市場對航空景氣的判斷本身仍在反覆調整,並非穩定的上修趨勢。<div class="src">— 鉅亨網FactSet速報彙整</div></div>
-    <div class="quote">油價若因地緣政治反覆走高,即使7、8月客運旺季營收強勁,也可能被燃油成本端抵銷部分效果。<div class="src">— CMoney投資網誌,2026/08</div></div>
+    <div class="quote">中東局勢升溫,國際油價走高,航空公司下半年面臨燃油成本增加的壓力,是近期航空股股價全面走弱的核心因素。<div class="src">— 聯合新聞網,2026/08</div></div>
+    <div class="quote">8/1起貨運燃油附加費調降(歐美長程線降幅逾20%),在客運票價已處高檔的情況下,貨運能否維持高運價、高載運率成為H2獲利的關鍵疑慮。<div class="src">— 聯合新聞網,2026/08</div></div>
+    <div class="quote">股價自8/7財報公布後持續破底(22.5→19.90),顯示市場對Q2單季獲利放緩疑慮尚未消化,7月營收創高的利多未能扭轉股價趨勢。<div class="src">— 本儀表板觀察,依TWSE官方股價資料</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價/EPS</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(最新)</td><td class="amber">目標價25.7,EPS 2.13</td><td>區間EPS高2.34/低1.38;此前一度自2.20(2025/12)降至1.80(2026/07)再回升</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">另有較早期FactSet調查顯示目標價21元、EPS1.88,反映近期持續有調整;券商目標價區間介於19.6~26.0元。</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>花旗美邦(2026/08/10)</td><td class="green">25.7</td><td>看多評等,惟為單一券商報告非FactSet廣泛共識</td></tr>
+  <tr><td>FactSet共識(近期歷史軌跡,查無8月最新)</td><td class="amber">21~27.95區間反覆</td><td>2026E EPS估值同樣反覆調整(1.71~2.33),較穩定中樞約21元/EPS1.7~1.8</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet目標價與EPS共識近期呈現非單向、多次調整的軌跡,顯示法人對華航獲利路徑的能見度本身有限;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -134,69 +163,67 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2營收</div><div class="value green">638.18億</div><div class="note">單季</div></div>
-  <div class="card"><div class="label">H1營收</div><div class="value green">1,208.15億</div><div class="note">創歷史新高</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value amber">1.08</div><div class="note">雙創同期次高;Q2單季約0.23,明顯放緩</div></div>
-  <div class="card"><div class="label">H1客運收入</div><div class="value green">702.44億</div><div class="note">YoY+10.56%,創歷年最高</div></div>
-  <div class="card"><div class="label">H1貨運收入</div><div class="value green">401.79億</div><div class="note">YoY+24.89%</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,0.33億</div><div class="note">主動式資金關注度極低</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">222.35億</div><div class="note">YoY+25.34%,單月新高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">1.08</div><div class="note">Q2單季約0.23,較Q1(0.85)明顯放緩</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">1,430.38億</div><div class="note">YoY+17.43%</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約1,218億</div><div class="note">股本611.99億,約61.20億股,以現價19.90計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約1.6億</div><div class="note">主動式資金關注度極低(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">P/S(TTM年化,估)</div><div class="value amber">約0.50x</div><div class="note">同族群四檔中最低,反映客貨並重的傳統定位</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與華航的差異</th></tr>
-  <tr class="hl"><td>2610.TW</td><td>華航</td><td>約10.6x(EPS2.13)</td><td>H1營收創高,貨運YoY+24.89%</td><td>國籍航空客貨並重,貨運成長速度領先客運</td></tr>
-  <tr><td>2618.TW</td><td>長榮航(參考,國籍航空同業)</td><td>查無精確Fwd P/E</td><td>同受惠客運旺季與貨運需求</td><td>長榮航貨運機隊比重與定位與華航有差異,通常互為比較基準</td></tr>
-  <tr><td>DAL</td><td>Delta Air Lines(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際航空業景氣指標</td><td>國際大型航空公司,可作油價/需求敏感度的參照</td></tr>
-  <tr><td>CPA</td><td>國泰航空(參考)</td><td>查無精確Fwd P/E</td><td>亞太區客貨運需求</td><td>亞太區域競爭對手,航線網絡部分重疊</td></tr>
-  <tr><td>—</td><td>散裝/貨櫃航運(參考,非直接同業)</td><td>—</td><td>—</td><td>貨運需求邏輯有部分連動但業務性質不同,僅供總經參考</td></tr>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E / P/S</th><th>2026動能</th><th>與華航的差異</th></tr>
+  <tr class="hl"><td>2610.TW</td><td>華航</td><td>約9.3x;P/S約0.50x</td><td>7月營收創高YoY+25.34%,Q2 EPS放緩</td><td>國籍航空客貨並重,同族群中P/S估值最保守</td></tr>
+  <tr><td>2618.TW</td><td>長榮航(本站另篇分析)</td><td>FactSet目標價39;P/S約0.84x</td><td>7月營收創次高YoY+21.42%,H1 EPS2.24</td><td>獲利能力優於華航,惟同受油價逆風壓抑</td></tr>
+  <tr><td>2646.TW</td><td>星宇航空(本站另篇分析)</td><td>虧損股禁用P/E;P/S約1.08x</td><td>7月營收創高YoY+42.79%,惟Q2虧損12.55億</td><td>成長最快但仍虧損,燃油成本敏感度最高</td></tr>
+  <tr><td>6757.TW</td><td>台灣虎航(本站另篇分析)</td><td>查無穩定券商目標價;P/S約1.22x</td><td>7月營收創同期新高YoY+27%,H1 EPS3.65最佳</td><td>LCC模式獲利能力族群最佳,惟規模最小</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理,略偏貴——Q2獲利成長明顯放緩是核心觀察重點。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約10.6x(以FactSet最新EPS2.13計)對航空股而言不算便宜也不算貴,落在傳統景氣循環股常見的估值區間內。核心疑慮在於H1 EPS雖創次高,但拆解後Q2單季獲利成長已明顯放緩(約0.23元,遠低於Q1的0.85元),暑期旺季營收創高卻未能等比例轉化為獲利,油價與燃油成本壓力可能是主要解釋。FactSet EPS估值近期呈現非單向調整(2.20→1.80→2.13),顯示法人對航空景氣本身的判斷仍不穩定,不宜將最新數字視為確立的上修趨勢。</div>
+  <b>估值判斷:合理——Q2放緩與油價逆風已部分反映在股價,惟H2能見度仍待驗證。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約9.3x(以FactSet約2.13計)在航空景氣循環股中屬合理偏低區間,股價自8/7以來的11.6%跌幅已部分消化Q2放緩與油價逆風的疑慮。但核心不確定性仍在於:Q2單季獲利明顯放緩是否為一次性因素或趨勢轉折,以及中東局勢是否持續推升油價侵蝕H2獲利率。在四檔航空股中,華航的P/S估值(約0.50x)是最保守的,反映其客貨並重的傳統定位而非成長溢價,下檔風險相對有限但上檔也需要具體的獲利改善訊號才能重估。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價22.5 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識</td><td>最新目標價25.7(單點);此前一度為21</td><td>21~25.7(中值23.35)</td><td class="amber">合理 -3.6%</td></tr>
-  <tr><td>2026E P/E×EPS</td><td>共識EPS 2.13(區間1.38~2.34),航空景氣循環股倍數9~12x</td><td>19.2~28.1(中值23.65)</td><td class="amber">合理 -4.9%</td></tr>
-  <tr><td>Q2年化推演(保守情境)</td><td>若Q2單季0.23元的放緩趨勢延續,全年EPS推演約1.5~1.7元(而非FactSet的2.13),倍數9~12x</td><td>13.5~20.4(中值16.95,推演)</td><td class="red">貴 +32.7%(對照情境,凸顯Q2放緩的風險)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價19.90 vs 中值</th></tr>
+  <tr><td>FactSet近期目標價區間</td><td>近期調查在21~27.95元間反覆,較穩定中樞約21元</td><td>21(單點,中樞)</td><td class="green">便宜 -5.2%</td></tr>
+  <tr><td>2026E P/E×EPS</td><td>共識EPS約2.13(查無8月最新更新),航空循環股倍數9~12x</td><td>19.2~25.6(中值22.4)</td><td class="green">便宜 -11.2%</td></tr>
+  <tr><td>Q2年化推演(保守情境)</td><td>若Q2單季0.23元的放緩趨勢延續且H2受油價侵蝕,全年EPS推演約1.5~1.7元,倍數9~12x</td><td>13.5~20.4(中值16.95,推演)</td><td class="red">貴 +17.4%(對照情境,凸顯油價風險)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:航空股獲利對油價、匯率、地緣政治等外生變數高度敏感,穩定的多年期FCF假設意義有限。FactSet目標價與自身本益比法皆顯示現價大致合理,但本表特別並列「Q2放緩趨勢延續」的保守情境,顯示若Q2單季獲利明顯放緩並非一次性因素而是趨勢轉折,現價可能顯著偏貴逾30%——這個風險目前尚未被市場共識充分定價。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:航空股獲利對油價、匯率、地緣政治等外生變數高度敏感,穩定的多年期FCF假設意義有限。FactSet目標價與自身本益比法皆顯示現價便宜逾5~11%,反映股價已提前消化部分Q2放緩疑慮;但若中東局勢持續升溫、油價進一步走高侵蝕H2獲利,保守情境下現價仍可能偏貴逾17%。這個分歧的核心變數是油價,不是需求(7月營收創高已證實需求本身無虞)。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報創高但Q2放緩訊號待消化</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">股價自6月高點24.75回檔約9%,尚未完全反映Q2單季放緩</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">EPS估值近期反覆調整</div><div class="note">2.20(2025/12)→1.80(2026/07)→2.13(最新),非穩定上修</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.08(H1)→2.13(2026E)</div><div class="note">Q2單季放緩是否延續至Q3,是關鍵驗證點</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月營收創高未能止跌,情緒偏保守</div><div class="bar"><div style="width:42%;background:var(--amber)"></div></div><div class="note">股價自8/7以來持續破底,較6月高點24.75已回檔約19.6%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet目標價/EPS近期反覆調整</div><div class="note">21~27.95區間震盪,非穩定上修軌跡</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.08(H1)→2.13(2026E,查無8月更新)</div><div class="note">Q2放緩是否延續至Q3、油價走勢是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>1.38 / 2.13 / 2.34</td><td>9~12x</td><td>19.2~28.1(中值23.65)</td><td class="green">約 +5%</td></tr>
+  <tr><td>2026(今年)</td><td>1.38 / 2.13 / 2.34</td><td>9~12x</td><td>19.2~28.1(中值23.65)</td><td class="green">約 +19%</td></tr>
   <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高區間</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">華航2027、2028年EPS共識查無穩定區間,反映航空股受油價、匯率等外生變數影響,分析師對中長期獲利路徑的能見度本身就有限;2026年隱含報酬雖為正,但這是建立在FactSet最新(而非最穩定)的EPS估值之上,考量Q2單季獲利明顯放緩,實際確定性應打折看待。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">以FactSet近期EPS共識計算,2026年隱含報酬轉為正值(因股價已較8/7下跌逾11%),惟這是建立在查無8月最新更新的FactSet數字之上,考量中東局勢與油價風險尚未完全明朗,實際確定性應打折看待。2027年EPS共識查無穩定區間,反映航空股受外生變數影響、分析師對中長期路徑能見度本身有限,不強行推演。</div>
 
 <h2>四種股價情境</h2>
 <!-- 刻度 14~30;left% = (價格-14)/16×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">17~18.5</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">21~23</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">25~27</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:19.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">16~17.5</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">19~21</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:60.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">23~25</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
   <div class="mark" style="left:87.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">29~30</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:53.5%"><div class="arrow">▲</div><div class="price">22.5</div><div class="lbl">現價</div></div>
+  <div class="mark below" style="left:38%"><div class="arrow">▲</div><div class="price">19.90</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>17~18.5</td><td>Q2獲利放緩趨勢延續確認,或油價因地緣政治反彈侵蝕燃油成本,全年EPS回落至1.5元附近×9~10x</td><td class="red">約 -21%</td></tr>
-  <tr><td class="amber">Base</td><td>21~23</td><td>Q3客運旺季維持穩定,獲利成長略優於Q2但無驚喜;現價落於此區間內</td><td>約 -2%</td></tr>
-  <tr><td class="green">Bull</td><td>25~27</td><td>油價持續回落至77美元以下,貨運成長動能延續,FactSet目標價25.7達陣或超越</td><td class="green">約 +16%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>29~30</td><td>客貨運雙引擎全面兌現,重返並超越6月高點24.75</td><td class="green">約 +31%</td></tr>
+  <tr><td class="red">Bear</td><td>16~17.5</td><td>中東局勢惡化推升油價大幅走高,加上Q2獲利放緩趨勢延續確認,全年EPS降至1.5元附近×9~10x</td><td class="red">約 -16%</td></tr>
+  <tr><td class="amber">Base</td><td>19~21</td><td>Q3客運旺季維持穩定,油價維持現有水準無大幅波動;現價落於此區間內</td><td>約 +0.5%</td></tr>
+  <tr><td class="green">Bull</td><td>23~25</td><td>油價回落緩解成本壓力,貨運yield在附加費調降後仍維持穩定,獲利成長重新加速</td><td class="green">約 +21%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>29~30</td><td>客貨運雙引擎全面兌現且油價維持低檔,重返並超越6月高點24.75</td><td class="green">約 +48%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -205,35 +232,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">20.5~21.5</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">19~20.3</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">17.5~18.8</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">19~19.8</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">18~18.9</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">17~17.9</td><td>40%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">17</b>(接近今年低點)= Q2獲利放緩確認為趨勢轉折或油價大幅反彈侵蝕獲利率,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">17.5</b>(接近今年低點)= 油價風險升級或Q2放緩確認為結構性趨勢,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破23.7(7月高點)+量能確認,且Q3展望或8月營收顯示獲利放緩趨勢逆轉<br>
-    進場區:<b class="green">23.8~25</b><br>
+    觸發條件:收盤突破22.6(8月初高點)+量能確認,且油價走勢明朗回落<br>
+    進場區:<b class="green">22.7~24</b><br>
     移動停利:跌破20日線或高點回檔12%<br>
-    假突破失效:觸發後3日內跌回23.2即出場</div>
+    假突破失效:觸發後3日內跌回22即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">25~27</div><div class="note">賣出30~50%;Bull下緣/FactSet目標價25.7達陣,航空循環股高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">29~30</div><div class="note">Stretched區/重返並超越今年高點;續抱條件是Q3獲利成長重新加速、油價維持低檔</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">23~25</div><div class="note">賣出30~50%;Bull下緣,航空循環股高檔應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">29~30</div><div class="note">Stretched區;續抱條件是油價維持低檔、Q3獲利重新加速</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:8/7公布的Q2暨上半年財報顯示H1營收創歷史新高(1,208.15億)、EPS 1.08雙創同期次高,客運YoY+10.56%創歷年最高、貨運YoY+24.89%;但拆解後Q2單季EPS僅約0.23元,較Q1的0.85元大幅放緩逾7成,暑期旺季營收強勁卻未能等比例轉化為獲利,油價與燃油成本壓力是可能的解釋,這是市場容易忽略的細節。</div>
-<div class="concl">② <b>估值</b>:合理,略偏貴——FactSet目標價與自身本益比法皆顯示現價大致合理(±5%內),但若Q2的獲利放緩趨勢延續而非一次性因素,保守情境下現價可能偏貴逾30%,這個風險目前尚未被市場共識充分定價;FactSet EPS估值近期呈現非單向調整(2.20→1.80→2.13),顯示法人對航空景氣本身的判斷仍不穩定。</div>
-<div class="concl">③ <b>結論</b>:觀望、等回檔或油價風險降溫——現價22.5落於Base區間內,上檔Bull +16%/Stretched +31%對下檔Bear -21%,風險報酬比並不特別吸引人;左側倉位可正常分批但不宜追高,收盤跌破17即Q2放緩確認為趨勢轉折或油價大幅反彈,無條件出場。下一個驗證點是Q3展望與8月營收能否顯示獲利成長重新加速。</div>
+<div class="concl">⓪ <b>事件影響</b>:7月合併營收222.35億元(YoY+25.34%)創單月歷史新高,客貨運雙雙成長;惟股價自8/7 Q2財報公布以來持續走跌(22.5→19.90,-11.6%),核心原因是中東局勢升溫推升油價預期,加上8/1起貨運燃油附加費調降使H2獲利能見度轉弱,7月營收創高的利多被這兩項疑慮抵銷。</div>
+<div class="concl">① <b>催化劑</b>:客貨運需求本身無虞(7月營收創單月新高),但Q2單季獲利已明顯放緩(EPS僅0.23)的疑慮,疊加中東地緣政治風險推升的油價擔憂,是股價持續破底的核心原因;貨運燃油附加費調降是否代表yield承壓,是後續需驗證的細節。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet目標價與自身本益比法皆顯示現價便宜逾5~11%(股價已較8/7下跌超過一成),但若中東局勢惡化、油價進一步走高侵蝕H2獲利,保守情境下現價仍可能偏貴逾17%,核心變數是油價而非需求。</div>
+<div class="concl">③ <b>結論</b>:中性、等油價風險降溫——現價19.90落於Base區間內,上檔Bull +21%/Stretched +48%對下檔Bear -16%,風險報酬轉趨中性偏正向但確定性不足;左側倉位可正常分批,收盤跌破17.5即油價風險升級或Q2放緩確認為結構性趨勢,無條件出場。下一個驗證點是國際油價走勢與Q3客運旺季獲利能否重新加速。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數彙整自財經媒體(約61.20億股);Q2暨上半年財報(工商時報,2026/08/07公告);FactSet共識EPS與目標價(LINE TODAY鉅亨速報,追蹤至最新2.13元/目標價25.7元,歷史軌跡2.20→1.80→2.13);油價預測(麥格理,財經媒體彙整);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027、2028年EPS共識查無,精確Q2單季客貨運收入拆分查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、工商時報、LINE TODAY鉅亨速報、CMoney投資網誌、財報狗、Yahoo股市。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已刻意呈現Q2放緩情境的風險,不應僅採信對多方有利的FactSet最新數字。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(CMoney投資網誌、鉅亨網,2026/08/10公告);Q2暨上半年財報(工商時報,2026/08/07);油價與貨運燃油附加費(工商時報、聯合新聞網,2026/07~08);花旗美邦8/10評等報告與FactSet歷史目標價軌跡(鉅亨網、豐雲學堂、LINE TODAY);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FactSet 8月最新共識查無,2027年EPS共識查無,精確Q2單季客貨運收入拆分查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney投資網誌、工商時報、聯合新聞網、鉅亨網、豐雲學堂、LINE TODAY鉅亨速報。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確呈現油價風險情境,不應僅採信對多方有利的數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

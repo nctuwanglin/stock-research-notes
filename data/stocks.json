@@ -147,14 +147,14 @@
     "name": "華航",
     "market": "twse",
     "file": "2610-chinaairlines.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 22.5,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 19.9,
     "tags": [
       "航空"
     ],
     "target": 21,
-    "stop": 17,
-    "basis": "正常化EPS約1.75 × 12x(Q2單季僅0.23)",
+    "stop": 17.5,
+    "basis": "FactSet近期調查21~27.95元間反覆,較穩定中樞約21元;7月營收創高YoY+25.34%惟中東油價逆風與貨運燃油附加費調降使H2能見度轉弱",
     "rating": "hold"
   },
   "2454": {
@@ -645,5 +645,47 @@
     "stop": 588,
     "basis": "查無任何公開券商目標價覆蓋;H1 EPS6.73+H2成長假設全年EPS推演14~15,套用20~28x得約280~420,現價遠高於此區間,三檔中估值錨點最不穩定",
     "rating": "avoid"
+  },
+  "2618": {
+    "name": "長榮航",
+    "market": "twse",
+    "file": "2618-evaair.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 39.9,
+    "tags": [
+      "航空"
+    ],
+    "target": 39,
+    "stop": 38,
+    "basis": "FactSet最新目標價下修至39(降幅3.7%)但2026E EPS同步上修至3.84,反映獲利認可但倍數壓縮;現價已大致貼近目標價",
+    "rating": "hold"
+  },
+  "2646": {
+    "name": "星宇航空",
+    "market": "twse",
+    "file": "2646-starlux.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 20.4,
+    "tags": [
+      "航空"
+    ],
+    "target": 17,
+    "stop": 19,
+    "basis": "虧損股禁用P/E;H1EPS-0.11、Q2單季虧損12.55億(燃油成本YoY+124%);P/S對照獲利穩健的長榮航(0.84x)顯示現價偏貴,合理價約16~17",
+    "rating": "avoid"
+  },
+  "6757": {
+    "name": "台灣虎航",
+    "market": "twse",
+    "file": "6757-tigerair.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 54.8,
+    "tags": [
+      "航空"
+    ],
+    "target": 62,
+    "stop": 54,
+    "basis": "查無穩定券商目標價;H1EPS3.65族群最佳,惟Q2較Q1放緩74.6%;保守推演全年EPS約5.1×10~14x得約51~72,現價落於區間下段",
+    "rating": "hold"
   }
 }

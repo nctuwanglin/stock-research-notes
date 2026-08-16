@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星宇航空 (2646) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>星宇航空 (2646) <span class="badge purple">事件:Q2財報+7月營收</span> <span class="badge red">估值:虧損股禁用P/E,P/S估值已優於獲利中的同業</span> <span class="badge red">結論:觀望,燃油成本敏感度最高</span><span class="autodispo" data-code="2646"></span></h1>
+<div class="sub">台股(TWSE)・航空客運(新興航空,積極擴張機隊與歐洲航網)|事件後估值版(Q2財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2646">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">19</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2646">現價 <b>20.4</b> → 目標價 <b>17</b><span class="down"> (-16.7%)</span></div>
+  <div class="vbasis">推導依據:虧損股禁用P/E估值,改採P/S交叉檢核;現價P/S約1.08x已高於獲利穩健的長榮航(約0.84x),對照現階段仍虧損(H1 EPS-0.11、Q2單季虧損12.55億)的獲利現況,估值明顯偏貴;若套用與長榮航相近的P/S倍數,合理價約落在16~17元</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">20.40</div><div class="note">2026/08/14 收盤;8月區間20.40~21.30</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">57.29億</div><div class="note">MoM+8.36%,YoY+42.79%,創單月新高</div></div>
+  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value red">虧損</div><div class="note">單季稅後虧損12.55億,H1 EPS-0.11(Q1單季EPS0.3)</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">147.93億</div><div class="note">YoY+37.36%,創歷史新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">20.0~23.6</div><div class="note">5月低、1月高;全年振幅約18%,四檔中波動最小</div></div>
+  <div class="card"><div class="label">燃油成本壓力</div><div class="value red">YoY+124%</div><div class="note">航空燃油價格年增124%是Q2虧損主因之一</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 7月營收創新高,惟Q2燃油成本暴增124%釀鉅額虧損</h2>
+<div class="event">
+  <h3>事件摘要:Q2單季虧損12.55億元(H1 EPS-0.11),7月營收57.29億元創單月新高,燃油成本年增124%是核心解釋</h3>
+  <div class="flow">星宇航空董事會於8/11通過Q2財報,單季營收147.93億元、年增37.36%,創歷史新高,但第二季稅後虧損12.55億元,上半年每股虧損0.11元(換算Q1單季EPS約0.3元、Q2單季虧損幅度遠超Q1獲利)。虧損主因是航空燃油價格較去年同期大增124%,加上新機陸續交付後折舊及管銷費用增加。與此同時,7月營收57.29億元(月增8.36%、年增42.79%)再創單月新高,累計前七月營收342.82億元(YoY+31.97%);客運營收45.08億元(YoY+42%)受惠暑假旅遊旺季,貨運營收6.84億元(YoY+43%)受惠AI及雲端基礎設施投資動能延續;8/1起首航台北-布拉格,插旗歐洲航線。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:機隊/航網積極擴張帶動營收高速成長 → 惟燃油成本年增124%+新機折舊管銷費用同步攀升 → Q2轉盈為虧,虧損幅度遠超H1獲利積累 → 7月營收創高的量能成長尚未能轉化為獲利改善,是四檔航空股中對油價最敏感的一檔</h3>
+  <div class="flow">星宇的財務結構清楚呈現「高成長、高成本敏感度」的新興航空特徵:營收成長速度(Q2 YoY+37.36%、7月YoY+42.79%)是四檔分析標的中最快的,但同時也是唯一在Q2轉為虧損的一檔,核心原因是燃油成本年增124%的衝擊幅度遠超同業所承受的壓力,加上機隊持續擴張(新機交付)帶來的折舊與管銷費用同步攀升。這與已成熟、機隊規模較穩定的華航、長榮航形成鮮明對比——後兩者雖然也受油價逆風影響,但仍維持獲利,只是成長放緩;星宇則是直接由盈轉虧。歐洲航線(布拉格)的開通代表公司仍在積極投資未來成長動能,但這也意味著短期內折舊與前置成本壓力難以緩解。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後)</th><th>事件後(Q2財報+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1約0.3(獲利)</td><td class="red">Q2虧損(單季虧損12.55億),H1 EPS-0.11</td></tr>
+    <tr><td>單季營收</td><td>Q1約137.60億,YoY+23%</td><td class="green">Q2 147.93億,YoY+37.36%,創新高</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">57.29億,YoY+42.79%,單月新高</td></tr>
+    <tr><td>燃油成本</td><td>壓力已顯現但未量化</td><td class="red">YoY+124%,明確為Q2轉虧主因之一</td></tr>
+    <tr><td>公開券商目標價</td><td>查無</td><td class="red">查無(事件後仍未見新增覆蓋)</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼營收創高但虧損?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~5月</span>股價於20.0~23.6區間盤整,四檔航空股中波動最小的一檔,反映市場對其獲利能見度的保守看待。</li>
+  <li><span class="date">2026年Q1</span>單季EPS約0.3元(獲利),營收年增23%,受惠旺季與地緣政治轉機效應。</li>
+  <li><span class="date">2026/08/01~02</span>與華航、長榮同步調降貨運燃油附加費(歐美長程線降幅逾20%)。</li>
+  <li><span class="date">2026/08/01</span>首航台北-布拉格,插旗歐洲航線,機隊與航網持續擴張。</li>
+  <li><span class="date">2026/08/11</span><b class="red">Q2財報:營收147.93億創歷史新高,惟稅後虧損12.55億</b>,燃油成本年增124%加上新機折舊管銷費用增加是主因。</li>
+  <li><span class="date">2026/08中旬</span>7月營收57.29億元創單月新高(YoY+42.79%),累計前七月342.82億元(YoY+31.97%)。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①星宇是四檔航空股中唯一Q2轉為虧損者,且虧損幅度(12.55億)遠超Q1獲利積累,顯示公司對燃油成本的敏感度明顯高於已成熟的華航、長榮航;②查無任何公開券商目標價覆蓋,估值判斷完全仰賴自估方法,與同族群的台灣虎航同樣面臨機構覆蓋稀薄的問題;③持續擴張機隊與航網(布拉格新航線)雖是長期成長動能,但短期內折舊與前置成本壓力難以緩解,獲利何時能穩定轉正仍是未知數。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">7月營收57.29億元再飆新高,暑假旅遊旺季市場需求持續暢旺,累計前七月營收342.82億元、年增31.97%,成長動能是四檔航空股中最快的一檔。<div class="src">— 經濟日報、自由財經,2026/08</div></div>
+    <div class="quote">星宇航空壯大機隊與航網,多管齊下拚連3年獲利,8月起開航首條歐洲航線台北-布拉格,長期成長布局積極。<div class="src">— Yahoo股市,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">航空燃油價格年增124%,星宇H1虧逾3億,Q2單季更是虧損12.55億,顯示公司對燃油成本的敏感度明顯高於同業。<div class="src">— 東森新聞,2026/08</div></div>
+    <div class="quote">星宇是四檔分析標的中唯一查無任何公開券商目標價覆蓋、且Q2轉為虧損的個股,現階段P/S估值(約1.08x)已高於同樣受油價逆風但仍獲利的長榮航(約0.84x),估值與獲利現況明顯不對稱。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無任何公開券商目標價覆蓋。虧損股禁用P/E估值,本分析改採P/S與同業對照作為主要估值依據(詳見估值方法交叉檢核表)。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2646"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-13,063</span></td><td>2/10</td><td><span class="red">-972</span></td></tr><tr><td>投信</td><td><span class="red">-1,796</span></td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-374</span></td><td>3/10</td><td><span class="red">-9</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-15,231</span></td><td>2/10</td><td><span class="red">-981</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-972</span></td><td>+0</td><td><span class="red">-9</span></td><td><span class="red">-981</span></td></tr><tr><td>08/13</td><td><span class="red">-2,608</span></td><td>+0</td><td><span class="green">+120</span></td><td><span class="red">-2,488</span></td></tr><tr><td>08/12</td><td><span class="red">-2,296</span></td><td>+0</td><td><span class="green">+3</span></td><td><span class="red">-2,293</span></td></tr><tr><td>08/11</td><td><span class="red">-1,171</span></td><td><span class="red">-14</span></td><td><span class="red">-2</span></td><td><span class="red">-1,187</span></td></tr><tr><td>08/10</td><td><span class="red">-6,592</span></td><td>+0</td><td><span class="red">-9</span></td><td><span class="red">-6,601</span></td></tr><tr><td>08/07</td><td><span class="green">+804</span></td><td>+0</td><td><span class="green">+9</span></td><td><span class="green">+814</span></td></tr><tr><td>08/06</td><td><span class="red">-652</span></td><td>+0</td><td><span class="red">-71</span></td><td><span class="red">-722</span></td></tr><tr><td>08/05</td><td><span class="green">+1,145</span></td><td>+0</td><td><span class="red">-6</span></td><td><span class="green">+1,139</span></td></tr><tr><td>08/04</td><td><span class="red">-12</span></td><td><span class="red">-894</span></td><td><span class="red">-202</span></td><td><span class="red">-1,108</span></td></tr><tr><td>08/03</td><td><span class="red">-709</span></td><td><span class="red">-888</span></td><td><span class="red">-207</span></td><td><span class="red">-1,804</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">57.29億</div><div class="note">YoY+42.79%,單月新高</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">147.93億</div><div class="note">YoY+37.36%,創歷史新高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value red">-0.11</div><div class="note">Q2單季虧損12.55億</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約614億</div><div class="note">股本300.87億,約30.09億股,以現價20.40計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">與台灣虎航同樣未獲主動式資金關注(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">P/S(TTM年化,估)</div><div class="value red">約1.08x</div><div class="note">高於獲利穩健的華航(0.50x)、長榮航(0.84x)</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E / P/S</th><th>2026動能</th><th>與星宇的差異</th></tr>
+  <tr class="hl"><td>2646.TW</td><td>星宇航空</td><td>虧損股禁用P/E;P/S約1.08x</td><td>7月營收創高YoY+42.79%,惟Q2虧損12.55億</td><td>四檔中成長最快但唯一虧損,燃油成本敏感度最高,查無券商覆蓋</td></tr>
+  <tr><td>2610.TW</td><td>華航(本站另篇分析)</td><td>約9.3x;P/S約0.50x</td><td>7月營收創高YoY+25.34%,Q2 EPS放緩但仍獲利</td><td>機隊規模成熟,獲利波動性遠低於星宇</td></tr>
+  <tr><td>2618.TW</td><td>長榮航(本站另篇分析)</td><td>FactSet目標價39;P/S約0.84x</td><td>7月營收創次高YoY+21.42%,Q2 EPS0.71</td><td>獲利穩健,FactSet覆蓋完整,估值判斷有可信外部錨點</td></tr>
+  <tr><td>6757.TW</td><td>台灣虎航(本站另篇分析)</td><td>查無穩定券商目標價;P/S約1.22x</td><td>7月營收創同期新高YoY+27%,H1 EPS3.65最佳</td><td>同屬LCC模式但獲利能力遠優於星宇,規模較小</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:虧損股禁用P/E,以P/S對照同業顯示現價已優於獲利中的長榮航,估值明顯不對稱。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">星宇目前仍處虧損狀態(H1 EPS-0.11),依循本站一貫紀律禁用P/E估值。改以P/S對照同業:星宇現階段P/S約1.08x,反而高於已穩定獲利的長榮航(約0.84x),僅略低於同樣獲利能力更佳的台灣虎航(約1.22x)。這個現象值得高度留意——星宇的P/S估值並未因其虧損狀態而較獲利中的同業更保守,反而隱含市場仍以成長股邏輯給予估值溢價,但Q2虧損12.55億的規模已顯示這個成長故事的兌現時程可能比預期更長。若套用與長榮航相近的P/S倍數(反映合理的獲利折讓),合理價約落在16~17元附近,較現價有明顯落差。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價20.40 vs 中值</th></tr>
+  <tr><td>P/S對照長榮航(獲利穩健同業)</td><td>套用長榮航P/S約0.84x於星宇年化營收(約571億)</td><td>約15.9~17.9(中值16.9,推演)</td><td class="red">貴 20.7%</td></tr>
+  <tr><td>P/S對照台灣虎航(同屬LCC/新興航空)</td><td>套用台灣虎航P/S約1.22x於星宇年化營收</td><td>約22.5~24.5(中值23.5,推演)</td><td class="green">便宜 -13.2%</td></tr>
+  <tr><td>P/E法(不適用,虧損股禁用)</td><td>H1 EPS-0.11,尚無正值EPS可供計算</td><td>不適用</td><td>不適用</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司仍處虧損狀態且燃油成本波動性極高,多年期FCF假設缺乏可靠基礎。P/S交叉檢核呈現明顯分歧:若對照獲利穩健、風險溢價較低的長榮航,現價偏貴逾20%;若對照同屬新興/LCC模式、成長邏輯較相近的台灣虎航,則現價反而便宜逾13%。核心判斷在於:星宇目前仍虧損,其估值理應更接近甚至低於獲利穩健的長榮航(因為多了一層獲利能見度的折讓),而非向獲利能力最佳的台灣虎航看齊。因此本站採用較保守的長榮航對照組作為主要依據,認為現價明顯偏貴。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月營收創高但Q2虧損消息壓抑做多意願</div><div class="bar"><div style="width:38%;background:var(--amber)"></div></div><div class="note">股價全年僅於20.0~23.6區間盤整,四檔中波動最小</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何公開券商目標價覆蓋</div><div class="note">與台灣虎航同樣缺乏機構覆蓋</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">-0.11(H1虧損)→查無2026E共識</div><div class="note">燃油成本走勢與新機折舊費用能否趨緩是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td colspan="3" style="color:var(--muted)">仍處虧損(H1 EPS-0.11),查無正值EPS共識可供P/E法推演,不強行湊數</td><td>查無</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識,公司guidance為「多管齊下拚連3年獲利」但未量化</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">星宇目前仍處虧損階段,查無任何機構財測共識可供三年估值路徑推演,依本站紀律不強行湊數。公司公開表示「壯大機隊與航網,多管齊下拚連3年獲利」,但這是定性guidance而非量化財測,能否兌現需持續觀察Q3、Q4財報,尤其是燃油成本走勢與新機折舊費用能否隨機隊規模擴大而攤薄。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 14~28;left% = (價格-14)/14×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:17.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">16~17.5</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">19~21</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:61.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">22~23.5</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">25.5~27</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41%"><div class="arrow">▲</div><div class="price">20.40</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>16~17.5</td><td>燃油成本持續攀升、Q3仍未止虧,市場重新以P/S對照獲利穩健同業定價</td><td class="red">約 -18%</td></tr>
+  <tr><td class="amber">Base</td><td>19~21</td><td>Q3維持營收成長但獲利能見度仍不明朗;現價落於此區間內</td><td>約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>22~23.5</td><td>燃油成本回落、Q3轉虧為盈,證實公司guidance的獲利改善路徑</td><td class="green">約 +12%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>25.5~27</td><td>連續多季穩定獲利,開始有券商發布首次覆蓋報告,重返並超越1月高點23.6</td><td class="green">約 +29%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">19~20</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">17.6~18.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">16~17.5</td><td>40%(獲利能見度不明朗,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">19</b>(接近今年低點20.0下緣)= 燃油成本壓力惡化或Q3持續虧損擴大,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,獲利能見度不明朗)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破21.3(8月區間高點)+量能確認,且Q3財報驗證轉虧為盈<br>
+    進場區:<b class="green">21.4~22.5</b>(獲利能見度不明朗,建議小倉位)<br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回20.5即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">22~23.5</div><div class="note">賣出30~50%;Bull區,獲利能見度不明朗應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">25.5~27</div><div class="note">Stretched區;續抱條件是連續多季穩定獲利兌現公司guidance</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:Q2營收147.93億元創歷史新高(YoY+37.36%),惟稅後虧損12.55億元(H1 EPS-0.11),航空燃油價格年增124%加上新機折舊管銷費用增加是主因;7月營收57.29億元同創單月新高(YoY+42.79%),顯示需求動能不減但獲利尚未能同步跟上。</div>
+<div class="concl">① <b>催化劑</b>:機隊與航網積極擴張(8/1首航布拉格插旗歐洲航線)是成長題材核心,惟星宇是四檔航空股中唯一Q2轉為虧損者,對燃油成本的敏感度明顯高於已成熟的華航、長榮航,且查無任何公開券商目標價覆蓋。</div>
+<div class="concl">② <b>估值</b>:虧損股禁用P/E估值——P/S對照顯示現價(約1.08x)已高於獲利穩健的長榮航(約0.84x),隱含市場仍以成長股邏輯給予估值溢價,但Q2虧損規模顯示這個成長故事的兌現時程可能比預期更長;若套用更保守的長榮航P/S倍數,合理價約16~17元,現價偏貴逾20%。</div>
+<div class="concl">③ <b>結論</b>:觀望、燃油成本敏感度最高——現價20.40落於Base區間內,上檔Bull +12%/Stretched +29%對下檔Bear -18%,風險報酬並不吸引人;新資金不建議追高,既有持股者可續抱觀察Q3能否轉虧為盈,收盤跌破19即無條件出場。下一個驗證點是Q3財報能否證實燃油成本壓力緩解、獲利重回正軌。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q1/Q2財報(財報狗、Yahoo股市,2026/08/11董事會公告);7月營收(工商時報、經濟日報、自由財經,2026/08公告);燃油成本與布拉格新航線(東森新聞、Yahoo股市,2026/07~08);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;任何公開券商目標價、精確發行股數之官方最新數字查無,2026E EPS共識查無(公司仍虧損),未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、財報狗、Yahoo股市、東森新聞、工商時報、經濟日報、自由財經。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
