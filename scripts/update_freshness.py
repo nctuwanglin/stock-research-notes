@@ -433,6 +433,30 @@ def build_dispo_badge(code, dispo, attn, market):
     return ""
 
 
+def _cal_routine_type(ev_text):
+    """常態(全體適用)事件分類。個股專屬催化劑回傳 None。
+
+    月營收/法說會是全台上市櫃普遍的制度性揭露,同一天常有數十檔同時觸發,
+    逐檔列出只會灌爆版面且無差異化資訊,故聚合成單列。
+    """
+    if "營收" in ev_text:
+        return "月營收公告"
+    if "法說" in ev_text or "財報" in ev_text:
+        return "法說會/財報"
+    return None
+
+
+def _cal_datetag(d, today, approx):
+    """日期標籤:逾期紅、7 天內琥珀、其餘灰。"""
+    delta = (d - today).days
+    ds = d.strftime("%m/%d") + ("(約)" if approx else "")
+    if delta < 0:
+        return f'<span class="due">{ds}</span>'
+    if delta <= 7:
+        return f'<span class="soon">{ds}</span>'
+    return f'<span style="color:var(--muted)">{ds}</span>'
+
+
 def build_calendar_html(cal_events, stocks, dispo, today):
     events = []
     for e in cal_events:
@@ -442,64 +466,175 @@ def build_calendar_html(cal_events, stocks, dispo, today):
             continue
         events.append((d, e.get("code", ""), e.get("event", ""), bool(e.get("approx"))))
     # 處置迄日(僅已分析個股)
-    for code, d in dispo.items():
-        if code in stocks and d.get("end"):
+    # 已在 calendar.json 手動登記處置事件的 (代號, 日期) 不重複產生
+    manual_dispo = {(d, code) for d, code, ev, _ in events if "處置" in ev}
+    for code, dd in dispo.items():
+        if code in stocks and dd.get("end"):
             try:
-                m, dd = d["end"].split("/")
-                dt = date(today.year, int(m), int(dd))
-                if dt < today:  # 跨年
-                    dt = date(today.year + 1, int(m), int(dd))
-                events.append((dt, code, f"處置期滿(恢復正常撮合,現為{d['auction']})", False))
+                m, day = dd["end"].split("/")
+                dt = date(today.year, int(m), int(day))
+                # 僅在明顯跨年時(相差逾半年)才推到明年;
+                # 近期已期滿的處置就是結束了,不可誤推成一年後
+                if (today - dt).days > 180:
+                    dt = date(today.year + 1, int(m), int(day))
+                if dt < today:      # 已期滿 → 不再列入
+                    continue
+                if (dt, code) in manual_dispo:
+                    continue
+                events.append((dt, code, f"處置期滿(恢復正常撮合,現為{dd['auction']})", False))
             except (ValueError, IndexError):
                 pass
     # 只保留:未來事件 + 過去 14 天內(逾期=待驗證)
-    kept = [(d, code, ev, approx) for d, code, ev, approx in events if (d - today).days >= -14]
-    # 同一股票的多個事件合併成一列;整列以該股「最早的未過期事件」排序(全過期則用最近的逾期日)
-    by_code = {}
-    for d, code, ev, approx in kept:
-        by_code.setdefault(code, []).append((d, ev, approx))
-
-    def sort_key(code):
-        ds = sorted(by_code[code])
-        future = [d for d, _, _ in ds if (d - today).days >= 0]
-        return (future[0] if future else ds[-1][0])
-
-    rows = []
-    for code in sorted(by_code, key=sort_key):
-        name = stocks.get(code, {}).get("name", code)
-        href = stocks.get(code, {}).get("file", "#")
-        evs = sorted(by_code[code])
-        # 每個事件一行小字:日期 + 事件;逾期紅、7 天內琥珀
-        lines = []
-        for d, ev, approx in evs:
-            delta = (d - today).days
-            ds = d.strftime("%m/%d") + ("(約)" if approx else "")
-            if delta < 0:
-                dtag = f'<span class="due">{ds} 已過{-delta}天,待驗證</span>'
-            elif delta <= 7:
-                dtag = f'<span class="soon">{ds}</span>'
-            else:
-                dtag = f'<span style="color:var(--muted)">{ds}</span>'
-            lines.append(f'<div style="padding:2px 0"><b>{dtag}</b> {ev}</div>')
-        # 整列的日期欄:顯示該股最近待辦的日期狀態(取排序鍵那筆)+ 多事件註記
-        head_d = sort_key(code)
-        hdelta = (head_d - today).days
-        head_ds = head_d.strftime("%m/%d")
-        cls = "due" if hdelta < 0 else ("soon" if hdelta <= 7 else "")
-        head_ds = f'<span class="{cls}">{head_ds}</span>' if cls else head_ds
-        more = f'<br><span style="color:var(--muted);font-size:11px">共 {len(evs)} 事件</span>' if len(evs) > 1 else ""
-        head_html = head_ds + more
-        mk = (' <span style="color:var(--muted);font-size:11px">US</span>'
-              if stocks.get(code, {}).get("market") == "us" else "")
-        rows.append(f'<tr><td style="white-space:nowrap;vertical-align:top">{head_html}</td>'
-                    f'<td style="vertical-align:top"><a href="{href}" '
-                    f'style="color:var(--blue);text-decoration:none">{name} {code}</a>{mk}</td>'
-                    f'<td>{"".join(lines)}</td></tr>')
-    if not rows:
-        rows.append('<tr><td colspan="3" style="color:var(--muted)">近期無待驗證事件</td></tr>')
+    kept = [x for x in events if (x[0] - today).days >= -14]
     upd = today.strftime("%Y/%m/%d")
-    return (f'<div class="cal"><h3>📅 催化劑日曆(自動更新 {upd})</h3>'
-            f'<table><tr><th>日期</th><th>個股</th><th>事件</th></tr>{"".join(rows)}</table></div>')
+    if not kept:
+        return (f'<div class="cal"><h3>📅 催化劑日曆(自動更新 {upd})</h3>'
+                f'<div style="color:var(--muted);font-size:12.5px">近期無待驗證事件</div></div>')
+
+    # ── 事件分層 ────────────────────────────────────────────────
+    # 同日同類型且 >=3 檔的常態事件 → 聚合成一列(可展開);其餘照個股列出
+    routine, solo = {}, []
+    for d, code, ev, approx in kept:
+        t = _cal_routine_type(ev)
+        if t:
+            routine.setdefault((d, t), []).append((code, ev, approx))
+        else:
+            solo.append((d, code, ev, approx))
+    aggs = []
+    for (d, t), items in routine.items():
+        if len(items) >= 3:
+            aggs.append((d, t, items))
+        else:
+            for code, ev, approx in items:
+                solo.append((d, code, ev, approx))
+
+    # ── 每日事件計數(供月曆格子畫圓點)────────────────────────
+    daymap = {}
+    for d, code, ev, approx in solo:
+        e = daymap.setdefault(d, {"solo": 0, "agg": 0, "due": False})
+        e["solo"] += 1
+        if (d - today).days < 0:
+            e["due"] = True
+    for d, t, items in aggs:
+        e = daymap.setdefault(d, {"solo": 0, "agg": 0, "due": False})
+        e["agg"] += 1
+        if (d - today).days < 0:
+            e["due"] = True
+
+    def stock_link(code):
+        name = stocks.get(code, {}).get("name", code)
+        href = stocks.get(code, {}).get("file", "")
+        mk = " US" if stocks.get(code, {}).get("market") == "us" else ""
+        if not href:
+            return f"{name} {code}{mk}"
+        return f'<a href="{href}">{name} {code}{mk}</a>'
+
+    # ── 逐月產生:月曆網格 + 該月事件清單 ──────────────────────
+    months = sorted({(d.year, d.month) for d in daymap})
+    cur = (today.year, today.month)
+    if cur not in months:
+        months.append(cur)
+        months.sort()
+    dows = ["日", "一", "二", "三", "四", "五", "六"]
+    panels = []
+    for y, m in months:
+        first = date(y, m, 1)
+        nxt = date(y + 1, 1, 1) if m == 12 else date(y, m + 1, 1)
+        ndays = (nxt - first).days
+        lead = (first.weekday() + 1) % 7  # 週日起算
+        cells = ['<div class="dow">%s</div>' % w for w in dows]
+        cells += ['<div class="calcell pad"></div>'] * lead
+        for dd in range(1, ndays + 1):
+            d = date(y, m, dd)
+            info = daymap.get(d)
+            klass = "calcell"
+            dots = ""
+            if info:
+                klass += " has"
+                bits = ""
+                if info["solo"]:
+                    bits += '<i class="%s"></i>' % ("p" if info["due"] else "k")
+                if info["agg"]:
+                    bits += '<i class="r"></i>'
+                dots = f'<span class="caldots">{bits}</span>'
+            if d == today:
+                klass += " today"
+            attr = f' data-d="{d.isoformat()}"' if info else ""
+            cells.append(f'<div class="{klass}"{attr}><span>{dd}</span>{dots}</div>')
+        grid = f'<div class="calgrid">{"".join(cells)}</div>'
+
+        rows = []
+        month_items = [(d, "solo", code, ev, approx) for d, code, ev, approx in solo
+                       if (d.year, d.month) == (y, m)]
+        month_items += [(d, "agg", t, items, None) for d, t, items in aggs
+                        if (d.year, d.month) == (y, m)]
+        for it in sorted(month_items, key=lambda x: (x[0], x[1])):
+            d = it[0]
+            if it[1] == "solo":
+                _, _, code, ev, approx = it
+                overdue = ((d - today).days < 0)
+                tail = f' <span class="due">已過{(today - d).days}天,待驗證</span>' if overdue else ""
+                rows.append(
+                    f'<div class="calrow" data-d="{d.isoformat()}">'
+                    f'<span class="caldate">{_cal_datetag(d, today, approx)}</span>'
+                    f'<span class="calbody">{stock_link(code)} — {ev}{tail}</span></div>')
+            else:
+                _, _, t, items, _ = it
+                approx_any = any(a for _, _, a in items)
+                tags = "".join(stock_link(c) for c, _, _ in
+                               sorted(items, key=lambda x: x[0]))
+                rows.append(
+                    f'<details class="calrow calagg" data-d="{d.isoformat()}">'
+                    f'<summary><span class="caldate">{_cal_datetag(d, today, approx_any)}</span>'
+                    f'<span class="calbody"><span class="calcaret">▸</span> {t}'
+                    f' · <b>{len(items)}</b> 檔追蹤中</span></summary>'
+                    f'<div class="caltags">{tags}</div></details>')
+        empty = '<div style="color:var(--muted);font-size:12.5px">本月無事件</div>'
+        listing = "".join(rows) or empty
+        hidden = "" if (y, m) == cur else " hidden"
+        panels.append(
+            f'<div class="calpanel" data-m="{y}-{m:02d}"{hidden}>{grid}'
+            f'<div class="callist">{listing}</div></div>')
+
+    n_solo, n_agg_stocks = len(solo), sum(len(i) for _, _, i in aggs)
+    js = (
+        "(function(){var c=document.getElementById('calwrap');if(!c)return;"
+        "var ps=c.querySelectorAll('.calpanel'),i=0;"
+        "ps.forEach(function(p,k){if(!p.hasAttribute('hidden'))i=k;});"
+        "function show(k){i=Math.max(0,Math.min(ps.length-1,k));"
+        "ps.forEach(function(p,j){p.hidden=(j!==i);});"
+        "var m=ps[i].dataset.m.split('-');"
+        "c.querySelector('.calmon').textContent=m[0]+'年'+parseInt(m[1],10)+'月';"
+        "c.querySelector('[data-nav=prev]').disabled=(i===0);"
+        "c.querySelector('[data-nav=next]').disabled=(i===ps.length-1);}"
+        "c.querySelector('[data-nav=prev]').onclick=function(){show(i-1);};"
+        "c.querySelector('[data-nav=next]').onclick=function(){show(i+1);};"
+        "var tb=c.querySelector('[data-nav=today]');if(tb)tb.onclick=function(){"
+        "ps.forEach(function(p,j){if(p.dataset.m==='" + f"{cur[0]}-{cur[1]:02d}" + "')show(j);});};"
+        "c.addEventListener('click',function(e){var cell=e.target.closest('.calcell.has');"
+        "if(!cell)return;var d=cell.dataset.d;"
+        "c.querySelectorAll('.calcell.sel,.calrow.sel').forEach(function(x){x.classList.remove('sel');});"
+        "cell.classList.add('sel');"
+        "var first=null;c.querySelectorAll('.calrow[data-d=\"'+d+'\"]').forEach(function(r){"
+        "r.classList.add('sel');if(!first)first=r;});"
+        "if(first){if(first.tagName==='DETAILS')first.open=true;"
+        "first.scrollIntoView({block:'nearest',behavior:'smooth'});}});"
+        "show(i);})();")
+
+    legend = ('<span class="callegend">'
+              '<span><i style="background:var(--amber)"></i>個股催化劑</span>'
+              '<span><i style="background:var(--muted);opacity:.75"></i>常態(月營收/法說)</span>'
+              '</span>')
+    head = (f'<div class="calhead">'
+            f'<button class="calnav" data-nav="prev">‹</button>'
+            f'<span class="calmon">{cur[0]}年{cur[1]}月</span>'
+            f'<button class="calnav" data-nav="next">›</button>'
+            f'<button class="calnav" data-nav="today">今日</button>{legend}</div>')
+    foot = (f'<div class="calmore">共 {n_solo} 筆個股專屬催化劑;'
+            f'月營收/法說會等常態事件已聚合為 {len(aggs)} 列(涵蓋 {n_agg_stocks} 檔次),點擊展開。'
+            f'點月曆日期可跳至當日事件。</div>')
+    return (f'<div class="cal" id="calwrap"><h3>📅 催化劑日曆(自動更新 {upd})</h3>'
+            f'{head}{"".join(panels)}{foot}</div><script>{js}</script>')
 
 
 def main():
