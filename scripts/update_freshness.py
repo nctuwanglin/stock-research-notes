@@ -433,6 +433,67 @@ def build_dispo_badge(code, dispo, attn, market):
     return ""
 
 
+def build_chips_html(stocks):
+    """依 stocks.json 自動產生篩選 chips(市場→結論→產業別)。
+
+    產業別過去寫死在 index.html,每次新增產業都要手動同步,實務上必然漏掉;
+    改為由資料推導,新標籤登記後隔天自動出現在篩選器。
+    """
+    tag_n, concl_n, mkt_n = {}, {}, {}
+    for v in stocks.values():
+        if not isinstance(v, dict):
+            continue
+        for t in v.get("tags", []):
+            tag_n[t] = tag_n.get(t, 0) + 1
+        r = v.get("rating")
+        if r:
+            concl_n[r] = concl_n.get(r, 0) + 1
+        m = "us" if v.get("market") == "us" else "tw"
+        mkt_n[m] = mkt_n.get(m, 0) + 1
+    total = sum(1 for v in stocks.values() if isinstance(v, dict))
+
+    def chip(f, label, n, on=False):
+        cnt = f'<span class="n">{n}</span>' if n is not None else ""
+        return (f'<span class="chip{" on" if on else ""}" data-f="{f}">'
+                f'{label}{cnt}</span>')
+
+    rows = []
+    # 市場(最上)
+    cs = [chip("all", "全部", total, True)]
+    for key, lab in (("tw", "台股"), ("us", "美股")):
+        if mkt_n.get(key):
+            cs.append(chip(f"market:{key}", lab, mkt_n[key]))
+    rows.append(f'<div class="chips" id="chips-market" data-dim="market">'
+                f'<span class="clabel">市場</span>{"".join(cs)}</div>')
+    # 結論
+    cs = [chip("all", "全部", total, True)]
+    for key, lab in (("buy", "偏多"), ("hold", "中性"), ("avoid", "觀望")):
+        if concl_n.get(key):
+            cs.append(chip(f"concl:{key}", lab, concl_n[key]))
+    rows.append(f'<div class="chips" id="chips-concl" data-dim="concl">'
+                f'<span class="clabel">結論</span>{"".join(cs)}</div>')
+    # 產業別(最下,依檔數多寡排序);超過 VISIBLE 個先收起,避免灌爆版面
+    VISIBLE = 9
+    ordered = sorted(tag_n.items(), key=lambda x: (-x[1], x[0]))
+    cs = [chip("all", "全部", total, True)]
+    for idx, (t, n) in enumerate(ordered):
+        c = chip(f"tag:{t}", t, n)
+        if idx >= VISIBLE:
+            c = c.replace('class="chip"', 'class="chip more"')
+        cs.append(c)
+    hidden_n = max(0, len(ordered) - VISIBLE)
+    toggle = (f'<span class="chipmore" data-more="chips-tag" '
+              f'data-n="{hidden_n}">＋{hidden_n} 更多</span>' if hidden_n else "")
+    rows.append(f'<div class="chips" id="chips-tag" data-dim="tag">'
+                f'<span class="clabel">產業別</span>{"".join(cs)}{toggle}</div>')
+
+    js = ("(function(){var t=document.querySelector('.chipmore');if(!t)return;"
+          "t.onclick=function(){var g=document.getElementById(t.dataset.more);"
+          "var open=g.classList.toggle('expanded');"
+          "t.textContent=open?'收合':'＋'+t.dataset.n+' 更多';};})();")
+    return f'<div class="filters">{"".join(rows)}</div><script>{js}</script>'
+
+
 def _cal_routine_type(ev_text):
     """常態(全體適用)事件分類。個股專屬催化劑回傳 None。
 
@@ -599,6 +660,9 @@ def build_calendar_html(cal_events, stocks, dispo, today):
             f'<div class="callist">{"".join(rows)}</div></div>')
 
     n_solo, n_agg_stocks = len(solo), sum(len(i) for _, _, i in aggs)
+    # 載入時自動選取「最近一個有事件的日期」:優先未來最近,全過期則取最後一筆
+    upcoming = sorted(d for d in daymap if d >= today)
+    init_d = upcoming[0] if upcoming else max(daymap)
     js = (
         "(function(){var c=document.getElementById('calwrap');if(!c)return;"
         "var ps=c.querySelectorAll('.calpanel'),i=0;"
@@ -620,16 +684,22 @@ def build_calendar_html(cal_events, stocks, dispo, today):
         "c.querySelector('[data-nav=next]').onclick=function(){show(i+1);};"
         "var tb=c.querySelector('[data-nav=today]');if(tb)tb.onclick=function(){"
         "ps.forEach(function(p,j){if(p.dataset.m==='" + f"{cur[0]}-{cur[1]:02d}" + "')show(j);});};"
-        # 點日期:展開當日事件;再點同一天則收合
-        "c.addEventListener('click',function(e){var cell=e.target.closest('.calcell.has');"
-        "if(!cell)return;var was=cell.classList.contains('sel');var p=ps[i];clr();"
-        "if(was)return;"
-        "cell.classList.add('sel');"
+        # 選取某日:展開當日事件
+        "function pick(cell){var p=ps[i];cell.classList.add('sel');"
         "p.querySelector('.calhint').hidden=true;"
         "p.querySelector('.callist').classList.add('on');"
         "p.querySelectorAll('.calrow[data-d=\"'+cell.dataset.d+'\"]').forEach("
-        "function(r){r.classList.add('show');});});"
-        "show(i);})();")
+        "function(r){r.classList.add('show');});}"
+        # 點日期:展開當日事件;再點同一天則收合
+        "c.addEventListener('click',function(e){var cell=e.target.closest('.calcell.has');"
+        "if(!cell)return;var was=cell.classList.contains('sel');clr();"
+        "if(!was)pick(cell);});"
+        # 載入時自動選取最近一個有事件的日期
+        "var initD='" + init_d.isoformat() + "';"
+        "ps.forEach(function(p,j){if(p.dataset.m==='" + f"{init_d.year}-{init_d.month:02d}" + "')i=j;});"
+        "show(i);"
+        "var ic=ps[i].querySelector('.calcell.has[data-d=\"'+initD+'\"]');if(ic)pick(ic);"
+        "})();")
 
     legend = ('<span class="callegend">'
               '<span><i style="background:var(--amber)"></i>個股催化劑</span>'
@@ -701,6 +771,10 @@ def main():
     cal_html = build_calendar_html(cal.get("events", []), stocks, dispo, today)
     s = re.sub(r'<!--CALENDAR_START-->.*?<!--CALENDAR_END-->',
                "<!--CALENDAR_START-->\n" + cal_html + "\n<!--CALENDAR_END-->", s, flags=re.S)
+
+    chips_html = build_chips_html(stocks)
+    s = re.sub(r'<!--CHIPS_START-->.*?<!--CHIPS_END-->',
+               "<!--CHIPS_START-->\n" + chips_html + "\n<!--CHIPS_END-->", s, flags=re.S)
 
     open(INDEX, "w", encoding="utf-8").write(s)
 
