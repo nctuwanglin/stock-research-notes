@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聖暉 (5536) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>聖暉 (5536) <span class="badge purple">事件:Q2財報創高+7月營收明顯回落</span> <span class="badge red">估值:偏貴,Q2紀錄與7月動能背離</span> <span class="badge red">結論:觀望,7月回落訊號不容忽視</span><span class="autodispo" data-code="5536"></span></h1>
+<div class="sub">台股(TPEx)・廠務工程(半導體/資料中心/生技無塵室),客戶較四雄同業分散|事件後估值版(Q2財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="5536">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">895</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="5536">現價 <b>925</b> → 目標價 <b>820</b><span class="down"> (-11.4%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS23.73創同期新高,惟7月營收月減18.61%、年增僅3.41%明顯減速,顯示H2動能能否延續H1步調存疑;採較保守的全年推演(約44)×15~20x得約660~880(中值770),另市場流傳目標價750/975兩則對2026E EPS假設分歧(57.26 vs 45.48),不宜平均採信,綜合採目標價820</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">925.00</div><div class="note">2026/08/14 收盤;8月區間895~1,435</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value red">38.85億</div><div class="note">MoM-18.61%,YoY僅+3.41%,明顯減速</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">10.97</div><div class="note">同期新高;H1累計23.73</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">133.8億</div><div class="note">QoQ+15%,YoY+23%,單季新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">618~1,435</div><div class="note">2月低、7月高;全年振幅逾2.3倍</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">逾550億</div><div class="note">台灣69%/中國21%/東南亞及其他10%</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2財報數字亮眼創高,惟7月營收公布後明顯減速</h2>
+<div class="event">
+  <h3>事件摘要:Q2 EPS10.97元創同期新高(H1累計23.73),惟7月營收月減18.61%、年增僅3.41%</h3>
+  <div class="flow">聖暉於8/11公布Q2財報:Q2營收133.8億元,季增15%、年增23%,創單季新高;Q2營業利益21.3億元,年增36%;Q2歸屬母公司淨利13.6億元,年增58%;Q2 EPS10.97元,為同期新高紀錄。H1累計營收249.8億元,年增28%;H1歸屬母公司淨利29.4億元,年增96%;H1 EPS23.73元(可與Q1財報公布的12.76元交叉驗證:12.76+10.97=23.73,內部一致)。然而,幾乎同一時間公布的7月營收卻明顯背離這個強勢趨勢:僅38.85億元,月減18.61%、年增僅3.41%,與同族群其他四檔(漢唐YoY+63.76%、亞翔YoY+62.28%、洋基工程YoY+177.06%、帆宣YoY+101.35%)相比明顯落後,是廠務族群本次分析中唯一出現營收明顯減速的個股。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:Q2財報的強勁數字建立在既有專案的完工認列高峰 → 7月營收回落顯示新專案接續動能尚未跟上 → 百分比完工法下的營收認列本質上具有波動性,惟這個減速幅度值得高度關注</h3>
+  <div class="flow">聖暉這次分析最需要拆解的矛盾現象,與亞翔的「財報創高卻股價重挫」剛好相反——這裡是「Q2財報創高、惟緊接著7月營收明顯回落」。合理的解釋涉及廠務工程業普遍採用的百分比完工法(percentage-of-completion)認列會計原則:Q2的亮眼數字很可能反映特定既有專案進入完工認列高峰期,而7月營收的明顯回落(月減18.61%)則可能顯示新專案的接續動能尚未完全跟上,是專案週期間的正常波動,而非需求出現結構性問題。法說會提及美國德州專案將於2026年下半年開始認列收入、鳳凰城(亞利桑那)專案時程則遞延至2027年上半年後,這類大型海外專案的認列時程本身就具有相當的不確定性。但無論如何,這個減速幅度(較6月大減18.61%,年增僅3.41%遠低於Q2的23%營收成長)已經明顯偏離「訂單滿手」的族群樂觀敘事,是本次分析中最需要謹慎看待的訊號。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後,5/26法說會)</th><th>事件後(Q2財報+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 12.76(同期新高)</td><td class="green">Q2 10.97(同期新高),H1累計23.73</td></tr>
+    <tr><td>單季營收QoQ</td><td>Q1 YoY+36%</td><td class="green">Q2 QoQ+15%,YoY+23%(單季新高)</td></tr>
+    <tr><td>月營收趨勢</td><td>查無(Q1財報前)</td><td class="red">7月MoM-18.61%,YoY僅+3.41%,明顯減速</td></tr>
+    <tr><td>在手訂單</td><td>逾550億(台灣69%/中國21%/其他10%)</td><td class="amber">查無8月更新數字,沿用Q1法說會揭露</td></tr>
+    <tr><td>股價</td><td>查無精確值(Q1財報前)</td><td class="red">925.00(8/14),自7月高點1435已回檔逾35%</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼股價從高點大幅回落?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月初</span>股價從2月低點618飆升至7月高點1435(逾2.3倍漲幅),廠務族群中漲幅最劇烈者之一。</li>
+  <li><span class="date">2026/05/26</span>法說會:Q1營收116億元,年增36%,毛利率約25%,Q1 EPS12.76元創同期新高;管理層表示北美大型訂單預期2026下半年增加,德州專案收入認列自2H26起,鳳凰城專案時程遞延至2027上半年後。</li>
+  <li><span class="date">2026年7月初~中旬</span>股價自高點1435急殺至8月低點895(重挫逾37%),與族群整體高檔獲利了結賣壓同步發生。</li>
+  <li><span class="date">2026/08/11</span>Q2財報:EPS10.97創同期新高,H1累計23.73;惟同期發布的7月營收僅38.85億元,月減18.61%、年增僅3.41%,明顯落後族群其他四檔。</li>
+  <li><span class="date">2026年8月中旬</span>股價自895小幅反彈至925,惟仍遠低於7月高點。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收增速(YoY+3.41%)是廠務族群五檔中最弱者,與Q2財報創高的強勢印象形成明顯落差,若這個減速趨勢延續至Q3,將是需要高度警惕的訊號;②市場流傳的兩則目標價(750與975)對2026E EPS的假設分歧甚大(57.26 vs 45.48),兩者差距逾25%,顯示分析師對聖暉全年獲利路徑的判斷本身就有重大分歧;③德州、鳳凰城等大型海外專案的認列時程仍存在不確定性(管理層已明確表示鳳凰城時程遞延),不宜線性外推H1的強勢動能至H2。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2 EPS10.97元創同期新高,H1累計EPS23.73元,年增96%的淨利成長速度是廠務族群中數一數二的亮眼表現。<div class="src">— 公司財報公告,2026/08/11</div></div>
+    <div class="quote">客戶結構較同業分散(半導體約占60%,資料中心與生技也是重要成長引擎),在手訂單逾550億元,美國德州與鳳凰城專案提供中長期成長動能。<div class="src">— 法說會內容,2026/05/26</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">7月營收較6月大減18.61%,年增僅3.41%,是廠務族群五檔中增速最弱者,與Q2財報創高的強勢印象形成明顯落差,值得高度警惕。<div class="src">— 本儀表板觀察,依公司MOPS營收公告計算</div></div>
+    <div class="quote">市場流傳的兩則目標價(750、975)對2026E EPS的假設分歧達25%以上,顯示分析師對全年獲利路徑的判斷本身就有重大分歧,不宜平均採信任一方向。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">鳳凰城專案時程已明確遞延至2027年上半年後,顯示大型海外專案的認列時程存在相當不確定性,不宜線性外推H1的強勢動能。<div class="src">— 公司法說會,2026/05/26</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>市場報導A(發布日期未確認)</td><td class="amber">750(買進)</td><td>2025E EPS30.23,2026E EPS57.26</td></tr>
+  <tr><td>市場報導B(發布日期未確認)</td><td class="green">975</td><td>2026E EPS約45.48,與報導A對2026E EPS假設差異逾25%</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">兩則目標價對2026年EPS的假設明顯不一致,不宜平均採信;查無正式FactSet多分析師共識調查與Q2財報後的更新版本。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="5536"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-545</span></td><td>5/10</td><td><span class="green">+183</span></td></tr><tr><td>投信</td><td><span class="red">-843</span></td><td>1/10</td><td><span class="red">-152</span></td></tr><tr><td>自營商</td><td><span class="green">+53</span></td><td>6/10</td><td><span class="green">+30</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-1,334</span></td><td>2/10</td><td><span class="green">+60</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+183</span></td><td><span class="red">-152</span></td><td><span class="green">+30</span></td><td><span class="green">+60</span></td></tr><tr><td>08/13</td><td><span class="red">-295</span></td><td><span class="red">-28</span></td><td><span class="green">+5</span></td><td><span class="red">-318</span></td></tr><tr><td>08/12</td><td><span class="red">-77</span></td><td><span class="red">-420</span></td><td><span class="green">+9</span></td><td><span class="red">-487</span></td></tr><tr><td>08/11</td><td><span class="red">-432</span></td><td><span class="red">-99</span></td><td><span class="green">+1</span></td><td><span class="red">-531</span></td></tr><tr><td>08/10</td><td><span class="green">+5</span></td><td><span class="red">-84</span></td><td><span class="red">-5</span></td><td><span class="red">-84</span></td></tr><tr><td>08/07</td><td><span class="green">+2</span></td><td>+0</td><td><span class="red">-5</span></td><td><span class="red">-2</span></td></tr><tr><td>08/06</td><td><span class="red">-15</span></td><td><span class="red">-14</span></td><td><span class="green">+14</span></td><td><span class="red">-15</span></td></tr><tr><td>08/05</td><td><span class="red">-42</span></td><td>+0</td><td><span class="red">-6</span></td><td><span class="red">-47</span></td></tr><tr><td>08/04</td><td><span class="green">+47</span></td><td><span class="red">-53</span></td><td>+0</td><td><span class="red">-6</span></td></tr><tr><td>08/03</td><td><span class="green">+79</span></td><td><span class="green">+7</span></td><td><span class="green">+10</span></td><td><span class="green">+96</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value red">38.85億</div><div class="note">MoM-18.61%,YoY僅+3.41%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">23.73</div><div class="note">Q1 12.76/Q2 10.97</div></div>
+  <div class="card"><div class="label">Q2營業利益</div><div class="value green">21.3億</div><div class="note">YoY+36%</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約1,148億</div><div class="note">124,080,930股(確認),以現價925計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">3檔,約36.86億</div><div class="note">合計3,985,000股(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">客戶結構</div><div class="value amber">半導體約60%</div><div class="note">資料中心+生技為次要成長引擎</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與聖暉的差異</th></tr>
+  <tr class="hl"><td>5536.TWO</td><td>聖暉</td><td>自估660~880(保守推演);市場流傳750/975(分歧)</td><td>Q2 EPS創同期新高,惟7月營收MoM-18.61%明顯回落</td><td>客戶較同業分散,惟7月動能明顯轉弱,是族群唯一減速者</td></tr>
+  <tr><td>2404.TW</td><td>漢唐(本站另篇分析)</td><td>自估1086.9~1449.2;市場流傳1170/1345</td><td>7月營收YoY+63.76%持續強勢</td><td>核心客戶TSMC,7月動能未見減速,估值訊號相對正向</td></tr>
+  <tr><td>6139.TW</td><td>亞翔(本站另篇分析)</td><td>自估777.3~1036.4;市場流傳1280~1500(信度存疑)</td><td>7月營收YoY+62.28%,在手訂單創高</td><td>7月動能同樣強勢,惟股價與財報表現脫鉤</td></tr>
+  <tr><td>6691.TW</td><td>洋基工程(本站另篇分析)</td><td>自估316.2~421.6;查無正式目標價</td><td>7月營收YoY+177.06%全族群最高</td><td>7月動能最強勁,與聖暉形成鮮明對比</td></tr>
+  <tr><td>6196.TW</td><td>帆宣(本站另篇分析)</td><td>自估397.8~530.4;目標價450→650(已上修)</td><td>H1 EPS創同期新高YoY+101.35%</td><td>7月動能同樣強勢(YoY+101.35%),另涉設備代理業務</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴——Q2財報數字雖亮眼,但7月營收的明顯減速是族群中唯一的負向訊號,不容忽視。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">聖暉是本次廠務族群分析中唯一出現7月營收明顯減速的個股(YoY僅+3.41%,遠低於同業的63~177%不等),這與Q2財報創高的強勢印象形成鮮明落差。考量這個減速訊號,本站採用較保守的全年EPS推演(約44,而非簡單H1年化的47.46),套用15~20倍本益比計算合理價區間約660~880元(中值770),現價925.00較此區間中值高出約20%。市場流傳的兩則目標價(750、975)本身對2026年EPS的假設就有逾25%的分歧,顯示機構分析師對聖暉全年獲利路徑的判斷缺乏共識,不宜簡單平均採信。在廠務族群五檔中,聖暉是唯一評等為觀望的個股,核心原因不是基本面本身轉差(H1實績仍相當扎實),而是7月營收的減速訊號尚未獲得市場充分消化與解釋。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價925.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(樂觀情境,未計入7月減速)</td><td>H1 EPS23.73×2=47.46,廠務工程股倍數15~20x</td><td>711.9~949.2(中值830.55)</td><td class="amber">合理 11.4%</td></tr>
+  <tr><td>保守全年推演×倍數(計入7月減速訊號)</td><td>全年EPS推演約44(反映7月動能明顯轉弱),倍數15~20x</td><td>660~880(中值770)</td><td class="red">貴 20.1%</td></tr>
+  <tr><td>市場流傳目標價(對照,分歧極大)</td><td>750~975(中值862.5,惟兩則對EPS假設分歧逾25%)</td><td>750~975(中值862.5,低信度)</td><td class="amber">合理 7.2%(低信度)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:廠務工程股採百分比完工法認列營收,7月的明顯減速顯示營收波動性本質高,加上大型海外專案(德州、鳳凰城)的認列時程尚未明朗,多年期FCF假設信度不足。三種方法呈現溫和分歧:未計入7月減速訊號的樂觀H1年化法顯示現價大致合理,但納入這個減速訊號的保守推演則顯示現價貴約20%。核心判斷應以7月營收的實際表現為準——這是唯一已確認發生、而非推演的數字,顯示Q2的強勢動能未能延續至Q3初期,估值判斷應偏向保守。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">高檔重挫後情緒偏保守</div><div class="bar"><div style="width:40%;background:var(--red)"></div></div><div class="note">股價自7月高點1435已回檔逾35%,查無深度PTT/Dcard討論串</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">兩則目標價對EPS假設分歧逾25%</div><div class="note">750(EPS57.26) vs 975(EPS45.48)</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">23.73(H1)→7月動能明顯轉弱</div><div class="note">Q3能否止穩並延續H1動能是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>44(保守推演,計入7月減速) / 47.46(H1年化,樂觀)</td><td>15~20x</td><td>660~949.2(區間反映假設落差)</td><td class="red">約 -8%(以保守推演中值估算)</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,德州/鳳凰城專案認列時程未明</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬在保守情境下為負值,反映7月營收明顯減速的訊號尚未被市場充分消化;若採較樂觀的H1簡單年化,則隱含報酬轉為溫和正值。2027年EPS共識查無穩定區間,德州專案(2H26起認列)與鳳凰城專案(遞延至2027上半年後)的具體貢獻時程仍待觀察,不強行推演。這條路徑的核心啟示是:聖暉的估值合理性高度取決於Q3能否驗證7月的減速僅是短期波動而非趨勢轉折。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 550~1500;left% = (價格-550)/950×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">700~770</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">850~930</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,020~1,100</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,220~1,300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.5%"><div class="arrow">▲</div><div class="price">925.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>700~770</td><td>Q3營收延續7月減速趨勢,德州/鳳凰城專案進一步遞延,估值回歸保守區間</td><td class="red">約 -21%</td></tr>
+  <tr><td class="amber">Base</td><td>850~930</td><td>Q3營收溫和回升但增速仍不如Q2財報印象強勢;現價落於此區間內</td><td>約 -4%</td></tr>
+  <tr><td class="green">Bull</td><td>1,020~1,100</td><td>Q3財報驗證7月減速僅是短期波動,德州專案如期於2H26開始認列貢獻</td><td class="green">約 15%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,220~1,300</td><td>大型海外專案全面兌現且獲利動能重新加速,重返7月高點1435附近的部分空間</td><td class="green">約 36%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">850~890</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">790~849</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">700~789</td><td>40%(7月減速訊號未消化,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">895</b>(8月區間低點)= Q3營收延續減速趨勢或德州/鳳凰城專案再度遞延,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,7月減速訊號未消化)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破1000+量能確認,且8月營收驗證回升趨勢<br>
+    進場區:<b class="green">1,010~1,080</b>(7月減速訊號未消化,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回925即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(890~980)</div><div class="note">賣出40~60%;7月減速訊號未獲充分解釋,應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,220~1,300</div><div class="note">Stretched區;續抱條件是Q3財報全面驗證減速僅是短期波動</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:Q2 EPS10.97元創同期新高(H1累計23.73),惟緊接著公布的7月營收僅38.85億元,月減18.61%、年增僅3.41%,是廠務族群五檔中唯一出現明顯減速的個股,與Q2財報創高的強勢印象形成鮮明落差。</div>
+<div class="concl">① <b>催化劑</b>:客戶結構較同業分散(半導體約60%,資料中心與生技為次要引擎)、在手訂單逾550億是既有優勢;惟德州專案雖預計2H26開始認列,鳳凰城專案時程已明確遞延至2027上半年後,大型海外專案的認列時程存在相當不確定性。</div>
+<div class="concl">② <b>估值</b>:偏貴——未計入7月減速訊號的樂觀H1年化法顯示現價大致合理,但納入這個已確認發生的減速訊號後,保守推演顯示現價貴約20%;市場流傳的兩則目標價本身對2026年EPS假設分歧逾25%,不具參考共識價值。</div>
+<div class="concl">③ <b>結論</b>:觀望、7月回落訊號不容忽視——現價925落於Base區間內,上檔Bull +15%/Stretched +36%對下檔Bear -21%,風險報酬因7月減速訊號而轉趨保守;已持股者應積極分批獲利了結,新資金不建議追高,收盤跌破895即無條件出場。下一個驗證點是Q3(尤其8月營收)能否止穩並延續H1動能。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);Q2財報(公司8/11董事會公告,news.nextapple.com、udn.com);7月營收(公司MOPS公開資訊觀測站自結營收公告,2026/08,經technews.tw交叉驗證);Q1法說會內容(2026/05/26);市場流傳目標價(來源與發布日期未能確認,已於內文標註分歧);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;8月在手訂單更新數字、正式FactSet共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、公司MOPS公開資訊觀測站、公司法說會內容、news.nextapple.com、udn.com、technews.tw。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;搜尋過程中曾發現部分文章實為2025年舊資料(標題含「2026」關鍵字但發布日期實為2025年),已排除不採用,僅採信經MOPS官方營收公告交叉驗證之數字。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

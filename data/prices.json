@@ -367,6 +367,36 @@
    "date": "20260814",
    "analysis_price": 267.0,
    "analysis_date": "2026-08-14"
+  },
+  "2404": {
+   "close": 1125.0,
+   "date": "20260814",
+   "analysis_price": 1125.0,
+   "analysis_date": "2026-08-14"
+  },
+  "6139": {
+   "close": 798.0,
+   "date": "20260814",
+   "analysis_price": 798.0,
+   "analysis_date": "2026-08-14"
+  },
+  "5536": {
+   "close": 925.0,
+   "date": "20260814",
+   "analysis_price": 925.0,
+   "analysis_date": "2026-08-14"
+  },
+  "6691": {
+   "close": 728.0,
+   "date": "20260814",
+   "analysis_price": 728.0,
+   "analysis_date": "2026-08-14"
+  },
+  "6196": {
+   "close": 510.0,
+   "date": "20260814",
+   "analysis_price": 510.0,
+   "analysis_date": "2026-08-14"
   }
  }
 }

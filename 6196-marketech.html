@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>帆宣 (6196) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>帆宣 (6196) <span class="badge amber">估值:合理,目標價已獲上修驗證</span> <span class="badge amber">結論:中性,雙業務組合分散單一風險</span><span class="autodispo" data-code="6196"></span></h1>
+<div class="sub">台股(TWSE)・廠務工程+設備代理雙業務(自動化供應系統37%/設備代理30%/整合系統17%/客製化設備16%),美國亞利桑那P2廠案進入認列高峰|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6196">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">460</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6196">現價 <b>510</b> → 目標價 <b>550</b><span class="up"> (+7.8%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS13.26年化26.52(與券商2026E EPS估值23.62相近),套用倍數15~20x得約397.8~530.4(中值464.1);券商目標價於6/26自450上修至650(2026E EPS23.62,是廠務族群中唯一發布日期明確且呈上修序列的目標價),信度較高;綜合自估與券商上修序列採目標價550</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">510.00</div><div class="note">2026/08/14 收盤;8月區間460~541</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">75.19億</div><div class="note">MoM-1.01%,YoY+101.35%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">約8.18</div><div class="note">創同期新高;H1累計13.26,同創同期新高</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">430.27億</div><div class="note">YoY+47.39%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">258~590</div><div class="note">2月低、7月高;全年振幅逾2.3倍</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">約1,081億</div><div class="note">支撐約2年營收高點,能見度至2027年</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼是廠務族群中估值訊號最一致的一檔?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月中</span>股價從2月低點258飆升至7月高點590(逾2.3倍漲幅),隨廠務族群整體受惠TSMC資本支出上修重估。</li>
+  <li><span class="date">2026年初法說會</span>Q1營收143.08億元,季減2.29%、年增7.9%;Q1營業利益11.79億元創紀錄,季增81.28%、年增55.22%;Q1 EPS5.08元創同期新高;在手訂單約1,081億元,支撐約2年營收高點,能見度延伸至2027年。</li>
+  <li><span class="date">2026/06/26</span>券商將目標價自450元上修至650元,維持買進評等,2026E EPS上修6%至23.62元,2027E EPS上修13%至26.71元。</li>
+  <li><span class="date">2026/08/05</span>Q2財報:Q2營收211.99億元,Q2淨利18億元創紀錄,Q2 EPS約8.18元創同期新高;H1營收355.08億元,H1淨利29.13億元,H1 EPS13.26元(逾一個股本,歷年同期新高);H1毛利率13.5%為16年同期新高,營業利益率8.65%為23年同期新高。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收75.19億元公布,月減1.01%、年增101.35%;累計1~7月營收430.27億元,年增47.39%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①帆宣約30%營收來自設備代理業務(代理國際半導體設備品牌),這部分業務性質與純廠務工程不同,理論上應適用不同的估值倍數,惟公開資料查無拆分後的個別毛利率或估值假設;②美國亞利桑那P2廠案進入認列高峰,管理層guidance約50~60%完工比例將於2026年認列,若實際進度不如預期,將直接影響H2營收動能;③7月營收MoM-1.01%顯示營收動能較6月持平,尚待觀察是否為短期波動或動能趨緩的前兆。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">H1 EPS13.26元創歷年同期新高(逾一個股本),毛利率13.5%為16年同期新高,營業利益率8.65%為23年同期新高,獲利品質全面改善。<div class="src">— 公司財報公告,2026/08/05</div></div>
+    <div class="quote">在手訂單約1,081億元,支撐約2年營收高點,能見度延伸至2027年;管理層表示客戶催貨、提前完工需求是目前最大的營運挑戰(反映需求強勁而非疲弱)。<div class="src">— 公司法說會,2026年初</div></div>
+    <div class="quote">券商於6/26將目標價自450上修至650,2026E/2027E EPS雙雙上修,是廠務族群中發布日期最明確、且呈現上修序列的券商評等。<div class="src">— 券商報告,2026/06/26</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">約30%營收來自設備代理業務,與純廠務工程業務性質不同,理論上應適用較低的估值倍數,惟公開資料查無拆分後的個別毛利率或估值假設,籠統套用單一倍數可能高估整體價值。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">7月營收月減1.01%,顯示營收動能較6月持平,美國亞利桑那P2廠案的認列進度(guidance約50~60%完工比例)若不如預期,將直接影響H2動能。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>券商(2026/06/26,最新)</td><td class="green">650(上修自450,買進)</td><td>2026E EPS上修6%至23.62,2027E EPS上修13%至26.71</td></tr>
+  <tr><td>同券商(較早,發布日期未確認)</td><td class="amber">450(前次目標價)</td><td>與上修後的650形成內部一致的序列</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">是本次廠務族群五檔分析中唯一發布日期明確、且目標價呈現內部一致上修序列的個股,信度相對較高;查無Q2財報後(8月)是否進一步更新的資訊。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="6196"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+1,806</span></td><td>6/10</td><td><span class="red">-74</span></td></tr><tr><td>投信</td><td><span class="red">-636</span></td><td>2/10</td><td><span class="red">-2</span></td></tr><tr><td>自營商</td><td><span class="green">+63</span></td><td>6/10</td><td><span class="red">-3</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+1,234</span></td><td>5/10</td><td><span class="red">-79</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-74</span></td><td><span class="red">-2</span></td><td><span class="red">-3</span></td><td><span class="red">-79</span></td></tr><tr><td>08/13</td><td><span class="green">+835</span></td><td><span class="red">-1</span></td><td><span class="green">+25</span></td><td><span class="green">+859</span></td></tr><tr><td>08/12</td><td><span class="red">-40</span></td><td><span class="red">-183</span></td><td><span class="red">-9</span></td><td><span class="red">-232</span></td></tr><tr><td>08/11</td><td><span class="red">-155</span></td><td>+0</td><td><span class="red">-8</span></td><td><span class="red">-163</span></td></tr><tr><td>08/10</td><td><span class="green">+395</span></td><td>+0</td><td><span class="green">+7</span></td><td><span class="green">+402</span></td></tr><tr><td>08/07</td><td><span class="green">+410</span></td><td><span class="red">-458</span></td><td><span class="green">+1</span></td><td><span class="red">-47</span></td></tr><tr><td>08/06</td><td><span class="red">-42</span></td><td><span class="green">+98</span></td><td><span class="green">+7</span></td><td><span class="green">+63</span></td></tr><tr><td>08/05</td><td><span class="green">+100</span></td><td>+0</td><td><span class="green">+45</span></td><td><span class="green">+145</span></td></tr><tr><td>08/04</td><td><span class="green">+6</span></td><td><span class="red">-102</span></td><td><span class="green">+4</span></td><td><span class="red">-92</span></td></tr><tr><td>08/03</td><td><span class="green">+371</span></td><td><span class="green">+12</span></td><td><span class="red">-6</span></td><td><span class="green">+378</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">75.19億</div><div class="note">YoY+101.35%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">13.26</div><div class="note">Q1 5.08/Q2約8.18</div></div>
+  <div class="card"><div class="label">H1毛利率</div><div class="value green">13.5%</div><div class="note">16年同期新高</div></div>
+  <div class="card"><div class="label">業務組合(Q1)</div><div class="value">自動化37%/代理30%</div><div class="note">整合系統17%/客製化設備16%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">4檔,約2.06億</div><div class="note">合計404,000股(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">美國亞利桑那P2廠案</div><div class="value amber">2026年認列高峰</div><div class="note">guidance約50~60%完工比例</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與帆宣的差異</th></tr>
+  <tr class="hl"><td>6196.TW</td><td>帆宣</td><td>自估397.8~530.4;目標價450→650(已上修,信度較高)</td><td>H1 EPS創同期新高YoY+101.35%</td><td>唯一涉及設備代理業務(占營收約3成)的廠務概念股,業務組合更分散</td></tr>
+  <tr><td>2404.TW</td><td>漢唐(本站另篇分析)</td><td>自估1086.9~1449.2;市場流傳1170/1345</td><td>7月營收YoY+63.76%</td><td>純廠務工程業務,核心客戶集中於TSMC</td></tr>
+  <tr><td>6139.TW</td><td>亞翔(本站另篇分析)</td><td>自估777.3~1036.4;市場流傳1280~1500(信度存疑)</td><td>7月營收YoY+62.28%,在手訂單創高</td><td>純廠務工程業務,惟股價與財報表現脫鉤</td></tr>
+  <tr><td>5536.TWO</td><td>聖暉(本站另篇分析)</td><td>自估660~880(保守推演);市場流傳750/975(分歧)</td><td>Q2 EPS創同期新高,惟7月營收MoM-18.61%回落</td><td>純廠務工程業務,惟7月動能明顯轉弱</td></tr>
+  <tr><td>6691.TW</td><td>洋基工程(本站另篇分析)</td><td>自估316.2~421.6;查無正式目標價</td><td>7月營收YoY+177.06%全族群最高</td><td>純廠務工程業務,估值明顯偏貴且機構覆蓋最稀薄</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——現價與券商上修序列大致吻合,是廠務族群中估值訊號最一致的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS13.26年化(26.52)套用廠務工程股常見的15~20倍本益比計算,合理價區間約397.8~530.4元(中值464.1),現價510.00大致落於此區間內偏上緣。值得注意的是,自估的年化EPS(26.52)與券商最新2026E EPS估值(23.62)相當接近,顯示這個估值假設具備一定的交叉驗證基礎;而券商目標價自450上修至650的序列(6/26,發布日期明確),是本次廠務族群五檔分析中信度相對最高的一則目標價數字。帆宣約30%營收來自設備代理業務,與純廠務工程股(如漢唐、亞翔)的業務性質不同,理論上部分業務應適用較低的估值倍數,但這個組合也提供了一定程度的業務分散效果,不完全依賴單一廠務工程訂單週期。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價510.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估)</td><td>H1 EPS13.26×2=26.52,廠務工程股倍數15~20x</td><td>397.8~530.4(中值464.1)</td><td class="red">貴 9.9%</td></tr>
+  <tr><td>券商目標價(2026/06/26,信度較高)</td><td>650(單點,2026E EPS23.62,已上修驗證)</td><td>650(單點)</td><td class="green">便宜 -21.5%</td></tr>
+  <tr><td>券商EPS估值×自估倍數(交叉驗證)</td><td>2026E EPS23.62(券商估值),倍數15~20x</td><td>354.3~472.4(中值413.35)</td><td class="red">貴 23.4%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司業務組合含設備代理(相對低毛利、低成長溢價)與廠務工程(較高成長溢價)兩種性質不同的業務,加上美國亞利桑那P2廠案的認列進度存在不確定性,多年期FCF假設信度不足。三種方法呈現溫和分歧:自估的H1年化法與券商EPS估值套用相同倍數皆顯示現價略貴(10~23%),但券商自身給出的目標價(650,已隱含約27.5倍本益比)則顯示現價便宜逾21%——這個差異反映券商對帆宣雙業務組合給予的估值溢價高於本站採用的保守廠務工程股倍數。整體而言,現價大致落於這些方法框住的合理區間內,是廠務族群中估值訊號最一致、分歧程度最小的案例。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">獲利創高帶動族群重估,惟高檔震盪</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">股價自7月高點590已回檔約14%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">券商上修序列信度較高</div><div class="note">目標價450→650(6/26),2026E/2027E EPS雙雙上修</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">13.26(H1)→23.62(2026E券商估值)</div><div class="note">亞利桑那P2廠案認列進度是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>23.62(券商估值,單點)</td><td>15~20x</td><td>354.3~472.4(中值413.35)</td><td class="red">約 -19%</td></tr>
+  <tr><td>2027(+1年)</td><td>26.71(券商估值,單點)</td><td>15~20x</td><td>400.65~534.2(中值467.4)</td><td class="red">約 -4%(以中值估算,2年期)</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026、2027年隱含報酬皆為負值(以本站保守倍數計算),與券商自身給出的650元目標價(隱含更高倍數)形成對比,反映券商對帆宣雙業務組合的成長性給予比本站更高的估值溢價。這條路徑的核心啟示是:帆宣的估值合理性高度取決於市場最終採信較保守的廠務工程股倍數,還是券商隱含的更高成長溢價倍數,兩者的差異本身就是重要的風險報酬資訊。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 250~750;left% = (價格-250)/500×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">350~390</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">440~490</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">540~580</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">640~680</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:51.8%"><div class="arrow">▲</div><div class="price">510.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>350~390</td><td>亞利桑那P2廠案認列進度不如guidance,或設備代理業務景氣轉弱,估值倍數壓縮至自估保守區間</td><td class="red">約 -28%</td></tr>
+  <tr><td class="amber">Base</td><td>440~490</td><td>Q3維持穩健成長但無驚喜,雙業務組合大致符合預期;現價落於此區間上緣附近</td><td class="red">約 -9%</td></tr>
+  <tr><td class="green">Bull</td><td>540~580</td><td>亞利桑那P2廠案認列進度符合或優於guidance,券商目標價(650)方向獲部分驗證</td><td class="green">約 10%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>640~680</td><td>雙業務組合全面兌現且券商目標價(650)完全驗證,重返並超越7月高點590</td><td class="green">約 29%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">440~460</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">400~439</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">350~399</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">460</b>(8月區間低點)= 亞利桑那P2廠案認列進度不如預期或設備代理業務景氣轉弱,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破541(8月區間高點)+量能確認,且Q3財報驗證亞利桑那P2廠案認列進度<br>
+    進場區:<b class="green">545~570</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回510即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">540~580</div><div class="note">賣出30~50%;Bull區,廠務工程股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">640~680</div><div class="note">Stretched區;續抱條件是券商目標價(650)完全驗證且雙業務組合持續兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:H1 EPS13.26元創歷年同期新高(毛利率13.5%為16年同期新高),美國亞利桑那P2廠案進入認列高峰(guidance約50~60%完工比例於2026年認列);券商於6/26將目標價自450上修至650,是廠務族群中發布日期最明確、且呈上修序列的目標價。</div>
+<div class="concl">② <b>估值</b>:合理——自估H1年化法與券商EPS估值套用相同倍數皆顯示現價略貴(10~23%),惟券商自身給出的650元目標價則顯示現價便宜逾21%,兩者的差異反映券商對帆宣雙業務組合(廠務工程+設備代理)給予的成長溢價高於本站保守假設;整體而言是廠務族群中估值訊號最一致的一檔。</div>
+<div class="concl">③ <b>結論</b>:中性、雙業務組合分散單一風險——現價510落於Base區間上緣附近,上檔Bull +10%/Stretched +29%對下檔Bear -28%,風險報酬大致平衡;可正常左側分批布局,收盤跌破460即無條件出場。下一個驗證點是美國亞利桑那P2廠案的認列進度是否符合guidance,以及設備代理業務的景氣延續性。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站自結營收公告,2026/08);Q2財報(公司8/5公告,中時、udn新聞);Q1財報與法說會(公司法說會,2026年初);券商目標價上修(券商報告,2026/06/26);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;設備代理與廠務工程業務個別拆分後的毛利率、Q2財報後券商是否進一步更新目標價查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站、公司法說會內容、中時新聞網、udn新聞、券商報告彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

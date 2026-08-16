@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洋基工程 (6691) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>洋基工程 (6691) <span class="badge red">估值:明顯偏貴,現價隱含倍數遠超同族群</span> <span class="badge red">結論:觀望,7月營收暴衝但單季獲利波動大</span><span class="autodispo" data-code="6691"></span></h1>
+<div class="sub">台股(TWSE)・廠務工程(內裝/維生系統,高低壓配電/空調/製程冷卻水),客戶含TSMC/大立光/南亞科|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6691">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">650</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6691">現價 <b>728</b> → 目標價 <b>450</b><span class="down"> (-38.2%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS10.54年化21.08,套用廠務工程股倍數15~20x得約316.2~421.6(中值368.9);現價728隱含本益比約34.5倍,遠高於同族群漢唐(15.5x)與亞翔(15.4x)的可比水準,推算Q2單季EPS(約3.35)較Q1(7.19)明顯下滑,不宜完全比照其他四檔給予相同溢價;查無正式券商目標價,採目標價450</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">728.00</div><div class="note">2026/08/14 收盤;8月區間662~735</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">47.64億</div><div class="note">MoM+7.30%,YoY+177.06%,全族群最高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">10.54</div><div class="note">Q1 7.19,Q2約3.35(推算,較Q1明顯下滑)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">228.75億</div><div class="note">YoY+98.09%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">554~797</div><div class="note">1月低、6月高;全年振幅約44%</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">約553億</div><div class="note">2025年底,含美系記憶體大廠合約逾200億</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼7月營收暴衝但估值需要謹慎?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價從1月低點554攀升至6月高點797(逾44%漲幅),隨廠務工程族群整體受惠TSMC資本支出上修而重估。</li>
+  <li><span class="date">2025年底~2026年初</span>取得美系記憶體大廠(市場推測為Micron)新廠合約,金額逾200億元,帶動在手訂單於2025年底達553億元(創紀錄),客戶另含TSMC、大立光、南亞科、緯創等。</li>
+  <li><span class="date">2026年7月27日</span>董事會決議送出Q2財報(確切公告日查無精確資料)。</li>
+  <li><span class="date">2026年8月上旬</span>H1 EPS10.54元公布(市場稱「賺逾一個股本」);其中Q1 EPS7.19元(YoY+45.25%)已知,推算Q2單季EPS約3.35元,較Q1明顯下滑(季減約53%),顯示單季獲利波動性大,惟精確的Q2單季拆分數字查無官方獨立揭露。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收47.64億元公布,月增7.30%、年增177.06%,是廠務族群五檔中年增率最高者;累計1~7月營收228.75億元,年增98.09%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①推算的Q2單季EPS(約3.35)較Q1(7.19)大幅下滑,顯示儘管7月營收暴增,單季獲利本身的波動性相當大,百分比完工法下的營收與獲利認列時點可能存在落差;②查無任何具名券商的正式目標價報告或FactSet共識調查,是本次廠務族群分析中唯一完全缺乏機構覆蓋的個股;③現價728元隱含的本益比約34.5倍,明顯高於同族群漢唐(約15.5倍)、亞翔(約15.4倍)以H1年化計算的可比水準,顯示市場可能過度外推7月營收的暴衝力道,而未充分反映Q2單季獲利明顯下滑的訊號。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">7月營收47.64億元,年增177.06%全族群最高,公司自結說明「本月正在投入進行的專案較去年同期增加所致」;累計1~7月營收年增98.09%,接近翻倍成長。<div class="src">— 公司MOPS自結營收公告,2026/08</div></div>
+    <div class="quote">上半年EPS10.54元,賺逾一個股本;取得美系記憶體大廠新廠合約逾200億元,帶動在手訂單達553億元創紀錄;連續9年獲利逾一個股本。<div class="src">— sinotrade.com.tw、公司財報彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">推算的Q2單季EPS(約3.35)較Q1(7.19)明顯下滑約53%,顯示儘管7月營收暴增,單季獲利本身的波動性相當大,不宜僅憑營收暴衝就線性外推全年獲利。<div class="src">— 本儀表板觀察,依H1與Q1 EPS推算</div></div>
+    <div class="quote">現價728元隱含本益比約34.5倍,明顯高於同族群漢唐、亞翔以H1年化計算的15倍左右水準,且查無任何具名券商目標價可資驗證,估值判斷完全仰賴自估方法。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無任何具名券商目標價報告或FactSet共識調查,是本次廠務族群五檔分析中唯一完全缺乏機構覆蓋的個股。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="6691"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+294</span></td><td>4/10</td><td><span class="red">-93</span></td></tr><tr><td>投信</td><td><span class="green">+81</span></td><td>2/10</td><td><span class="red">-2</span></td></tr><tr><td>自營商</td><td><span class="green">+21</span></td><td>6/10</td><td><span class="red">-7</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+396</span></td><td>5/10</td><td><span class="red">-101</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-93</span></td><td><span class="red">-2</span></td><td><span class="red">-7</span></td><td><span class="red">-101</span></td></tr><tr><td>08/13</td><td><span class="red">-85</span></td><td>+0</td><td><span class="green">+1</span></td><td><span class="red">-84</span></td></tr><tr><td>08/12</td><td><span class="green">+39</span></td><td><span class="red">-2</span></td><td><span class="green">+5</span></td><td><span class="green">+41</span></td></tr><tr><td>08/11</td><td><span class="red">-54</span></td><td><span class="red">-1</span></td><td><span class="red">-8</span></td><td><span class="red">-63</span></td></tr><tr><td>08/10</td><td><span class="red">-8</span></td><td><span class="red">-6</span></td><td><span class="red">-26</span></td><td><span class="red">-40</span></td></tr><tr><td>08/07</td><td><span class="green">+417</span></td><td><span class="red">-1</span></td><td><span class="green">+14</span></td><td><span class="green">+430</span></td></tr><tr><td>08/06</td><td><span class="green">+33</span></td><td><span class="green">+92</span></td><td><span class="green">+3</span></td><td><span class="green">+128</span></td></tr><tr><td>08/05</td><td><span class="green">+75</span></td><td><span class="red">-1</span></td><td><span class="green">+36</span></td><td><span class="green">+110</span></td></tr><tr><td>08/04</td><td><span class="red">-21</span></td><td><span class="green">+3</span></td><td><span class="red">-12</span></td><td><span class="red">-30</span></td></tr><tr><td>08/03</td><td><span class="red">-9</span></td><td><span class="red">-1</span></td><td><span class="green">+15</span></td><td><span class="green">+5</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">47.64億</div><div class="note">YoY+177.06%,全族群最高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">10.54</div><div class="note">Q1 7.19,Q2約3.35(推算,明顯下滑)</div></div>
+  <div class="card"><div class="label">2025年全年EPS(對照)</div><div class="value">24.76</div><div class="note">YoY+47.1%,連續9年獲利逾一股本</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約885億</div><div class="note">股本約12.15億(約1.215億股,來源不一致),以現價728計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約0.93億</div><div class="note">合計128,000股,廠務族群中持有度最低(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">約553億</div><div class="note">2025年底創紀錄,含美系記憶體大廠合約逾200億</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與洋基工程的差異</th></tr>
+  <tr class="hl"><td>6691.TW</td><td>洋基工程</td><td>自估316.2~421.6;查無正式目標價</td><td>7月營收YoY+177.06%全族群最高,惟推算Q2單季EPS明顯低於Q1</td><td>聚焦內裝/維生系統,現價隱含本益比明顯高於同族群,機構覆蓋最稀薄</td></tr>
+  <tr><td>2404.TW</td><td>漢唐(本站另篇分析)</td><td>自估1086.9~1449.2;市場流傳1170/1345</td><td>7月營收YoY+63.76%</td><td>現價隱含本益比約15.5倍,估值訊號相對正向</td></tr>
+  <tr><td>6139.TW</td><td>亞翔(本站另篇分析)</td><td>自估777.3~1036.4;市場流傳1280~1500(信度存疑)</td><td>7月營收YoY+62.28%,在手訂單創高</td><td>現價隱含本益比約15.4倍,惟股價與財報表現脫鉤</td></tr>
+  <tr><td>5536.TWO</td><td>聖暉(本站另篇分析)</td><td>自估660~880(保守推演);市場流傳750/975(分歧)</td><td>Q2 EPS創同期新高,惟7月營收MoM-18.61%回落</td><td>7月動能族群中最弱,與洋基工程形成鮮明對比</td></tr>
+  <tr><td>6196.TW</td><td>帆宣(本站另篇分析)</td><td>自估397.8~530.4;目標價450→650(已上修)</td><td>H1 EPS創同期新高YoY+101.35%</td><td>另涉設備代理業務,7月動能同樣強勢但估值相對溫和</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:明顯偏貴——7月營收暴衝的表象掩蓋了Q2單季獲利明顯下滑的事實,現價隱含倍數遠超同族群。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS10.54年化(21.08)套用廠務工程股常見的15~20倍本益比計算,合理價區間約316.2~421.6元(中值368.9),現價728.00較此區間中值高出約97%,現價隱含本益比達約34.5倍。相較之下,同族群的漢唐與亞翔以相同方法計算的隱含本益比僅約15.4~15.5倍,顯示洋基工程的現價明顯偏離同族群的估值水準。核心疑慮是:推算的Q2單季EPS(約3.35)較Q1(7.19)出現明顯下滑,顯示儘管7月營收年增177.06%(全族群最高),這個營收暴衝並未完全轉化為對應的獲利成長,百分比完工法下的營收與獲利認列時點可能存在落差。加上查無任何具名券商目標價可資驗證,洋基工程是本次廠務族群分析中估值不確定性最高、風險最需警惕的一檔。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價728.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估,與同族群一致基準)</td><td>H1 EPS10.54×2=21.08,廠務工程股倍數15~20x</td><td>316.2~421.6(中值368.9)</td><td class="red">貴 97.4%</td></tr>
+  <tr><td>2025年全年EPS×倍數(對照,較保守)</td><td>2025年全年EPS24.76(已實現數字),倍數15~20x</td><td>371.4~495.2(中值433.3)</td><td class="red">貴 68.0%</td></tr>
+  <tr><td>7月營收暴衝外推(樂觀情境,推演)</td><td>假設全年獲利成長速度貼近7月營收YoY+177%的部分比例(較保守折算為全年EPS成長50%至約15.8),倍數15~20x</td><td>237~316(中值276.5,推演,低信度)</td><td class="red">貴 163.3%(對照情境,凸顯營收與獲利脫鉤的風險)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:洋基工程單季獲利波動性大(推算Q2較Q1下滑約53%),加上美系記憶體大廠合約的認列時程未明,多年期FCF假設完全缺乏可靠基礎。三種方法一致顯示現價明顯偏貴(68~163%),且即使採用已實現的2025年全年EPS作為保守基準,現價仍貴逾68%。這是本次廠務族群分析中估值扭曲程度最嚴重的案例——7月營收暴衝的表象容易讓市場忽略Q2單季獲利明顯下滑的事實,兩者的脫鉤是核心風險所在。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月營收暴衝帶動題材,惟機構覆蓋稀薄</div><div class="bar"><div style="width:65%;background:var(--amber)"></div></div><div class="note">查無任何具名券商目標價,估值判斷完全仰賴自估方法</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何具名券商目標價覆蓋</div><div class="note">廠務族群五檔中唯一完全缺乏機構覆蓋者</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">10.54(H1)→Q2單季明顯低於Q1</div><div class="note">Q3能否驗證營收成長轉化為對應獲利成長是關鍵</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>21.08(H1年化,推演)</td><td>15~20x</td><td>316.2~421.6(中值368.9)</td><td class="red">約 -49%(以中值估算)</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,美系記憶體大廠合約認列時程未明</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬呈現大幅負值,反映現價已遠遠超前反映任何可驗證的獲利基礎。2027年查無機構財測共識,美系記憶體大廠合約(逾200億元)的具體認列時程未明,是決定中長期路徑的關鍵,現階段查無足夠具體的財測,不強行推演。這條路徑的核心啟示是:洋基工程現價幾乎完全建立在7月營收暴衝的想像空間,而非已確認的獲利軌跡,是本次廠務族群分析中風險最高的一檔。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 350~850;left% = (價格-350)/500×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">450~500</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">560~620</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">670~730</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">800~840</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:69.6%"><div class="arrow">▲</div><div class="price">728.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>450~500</td><td>Q3單季獲利延續下滑趨勢,市場重新評估估值倍數向同族群水準收斂</td><td class="red">約 -35%</td></tr>
+  <tr><td class="amber">Base</td><td>560~620</td><td>Q3營收維持成長但獲利波動性持續,估值倍數部分收斂;現價落於此區間上緣</td><td class="red">約 -19%</td></tr>
+  <tr><td class="green">Bull</td><td>670~730</td><td>Q3財報驗證營收成長轉化為對應獲利成長,美系記憶體大廠合約開始具體貢獻;現價落於此區間內</td><td>約 -4%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>800~840</td><td>7月營收暴衝的動能全面延續且獲利同步加速,重返6月高點797附近</td><td class="green">約 12%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">560~590</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">500~559</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">450~499</td><td>40%(估值扭曲程度最嚴重,倉位應高度保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">650</b>(接近8月區間低點下緣)= Q3獲利波動加劇或美系記憶體大廠合約認列生變,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破735(8月區間高點)+量能確認,且Q3財報驗證營收成長轉化為對應獲利成長<br>
+    進場區:<b class="green">738~780</b>(估值風險極高,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回725即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(700~750)</div><div class="note">賣出40~60%;估值明顯偏貴且機構覆蓋稀薄,應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">800~840</div><div class="note">Stretched區;續抱條件是獲利成長明確追上營收成長速度</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:美系記憶體大廠新廠合約(逾200億元)帶動在手訂單達553億元創紀錄;7月營收47.64億元(YoY+177.06%)是廠務族群五檔中年增率最高者,累計1~7月營收年增98.09%接近翻倍。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——以H1年化EPS計算,現價隱含本益比約34.5倍,遠高於同族群漢唐(約15.5倍)、亞翔(約15.4倍)的可比水準,現價較自估合理區間貴逾97%;即使採用已實現的2025年全年EPS作為保守基準,現價仍貴逾68%。</div>
+<div class="concl">③ <b>結論</b>:觀望、7月營收暴衝但單季獲利波動大——現價728落於Bull區間內,上檔Stretched +12%對下檔Bear -35%,風險報酬明顯不利;推算的Q2單季EPS(約3.35)較Q1(7.19)明顯下滑,顯示營收暴衝尚未完全轉化為對應的獲利成長。已持股者應積極分批獲利了結,新資金不建議追高,收盤跌破650即無條件出場。下一個驗證點是Q3財報能否驗證營收成長轉化為對應的獲利成長。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站自結營收公告,2026/08);H1 EPS與Q1 EPS(sinotrade.com.tw、statementdog財報狗,2026);2025年全年財報(公司年報,查證FY2025 EPS24.76);在手訂單與美系記憶體大廠合約(產業報導彙整,2026,金額查無官方精確公告);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2單季EPS精確拆分(官方獨立揭露數字)、Q2財報確切公告日期、任何具名券商目標價、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站、sinotrade.com.tw、statementdog財報狗、產業報導彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;Q2單季EPS為以H1總額減去Q1推算而得,非官方獨立揭露數字,已於內文明確標註。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

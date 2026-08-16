@@ -872,5 +872,75 @@
     "stop": 224,
     "basis": "法人預估2026EPS9.1×多角化企業倍數20~25x得約182~227.5;BBU僅占公司總營收約一成,外資目標價分歧極大(170持股續抱 vs 300買進)",
     "rating": "hold"
+  },
+  "2404": {
+    "name": "漢唐",
+    "market": "twse",
+    "file": "2404-uis.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1125.0,
+    "tags": [
+      "廠務工程"
+    ],
+    "target": 1250,
+    "stop": 1010,
+    "basis": "H1 EPS36.23年化72.46×廠務工程股倍數15~20x得約1086.9~1449.2;市場流傳目標價1345/1170發布日期未確認,信度存疑",
+    "rating": "hold"
+  },
+  "6139": {
+    "name": "亞翔",
+    "market": "twse",
+    "file": "6139-lk.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 798.0,
+    "tags": [
+      "廠務工程"
+    ],
+    "target": 900,
+    "stop": 728,
+    "basis": "H1 EPS25.91年化51.82×15~20x得約777.3~1036.4;在手訂單4400.73億創高但財報公布當日股價反重挫逾7%,市場流傳目標價1280~1500與現價落差異常巨大不予採信",
+    "rating": "hold"
+  },
+  "5536": {
+    "name": "聖暉",
+    "market": "tpex",
+    "file": "5536-acter.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 925.0,
+    "tags": [
+      "廠務工程"
+    ],
+    "target": 820,
+    "stop": 895,
+    "basis": "Q2 EPS10.97創同期新高惟7月營收月減18.61%/年增僅3.41%明顯減速,廠務族群五檔中唯一減速者;保守全年推演×15~20x得約660~880",
+    "rating": "avoid"
+  },
+  "6691": {
+    "name": "洋基工程",
+    "market": "twse",
+    "file": "6691-yankey.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 728.0,
+    "tags": [
+      "廠務工程"
+    ],
+    "target": 450,
+    "stop": 650,
+    "basis": "H1 EPS10.54年化21.08×15~20x得約316.2~421.6,現價隱含本益比約34.5倍遠高於同族群漢唐/亞翔(15.5x);推算Q2單季EPS較Q1明顯下滑,查無正式券商目標價",
+    "rating": "avoid"
+  },
+  "6196": {
+    "name": "帆宣",
+    "market": "twse",
+    "file": "6196-marketech.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 510.0,
+    "tags": [
+      "廠務工程"
+    ],
+    "target": 550,
+    "stop": 460,
+    "basis": "H1 EPS13.26年化26.52與券商2026E EPS估值23.62相近;券商目標價6/26自450上修至650(廠務族群中信度最高之目標價)",
+    "rating": "hold"
   }
 }
