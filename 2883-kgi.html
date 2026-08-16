@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凱基金 (2883) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>凱基金 (2883) <span class="badge amber">估值:合理,7月獲利大幅回落反映股市修正衝擊</span> <span class="badge amber">結論:中性,證券為主體波動性大</span><span class="autodispo" data-code="2883"></span></h1>
+<div class="sub">台股(TWSE)・金融控股(證券為主體,凱基證券+凱基銀行+凱基人壽,前身中華開發金控),證券/銀行/壽險綜合型金控|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="2883">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">26</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2883">現價 <b>31.65</b> → 目標價 <b>35</b><span class="up"> (+10.6%)</span></div>
+  <div class="vbasis">推導依據:前七月EPS1.77年化3.03,套用金控證券股本益比12~15x得約36.4~45.5(中值40.9);每股淨值14.27,現價31.65對應P/B約2.22倍;惟7月單月獲利月減65.8%反映股市修正對證券業務的直接衝擊,採目標價35</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">31.65</div><div class="note">2026/08/14 收盤,當日創年內新高;8月區間30.4~31.65</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value red">稅後純益20.89億</div><div class="note">月減65.8%,年減59.44%</div></div>
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">1.77</div><div class="note">累計稅後純益305.29億,年增187.3%,已超越去年全年(1.74)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">17.2~31.65</div><div class="note">全年振幅約84%,金融股中波動最大者之一</div></div>
+  <div class="card"><div class="label">每股淨值</div><div class="value">14.27</div><div class="note">P/B約2.22倍(以現價估算)</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">1(2026/06/30配發)</div><div class="note">殖利率約3.16%;近5年平均殖利率3.9%,連3年配息</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼7月獲利大幅回落,股價卻仍創年內新高?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價從年初低點17.2元一路走高至8月14日的31.65元(當日創年內新高),漲幅高達84%,是本次金融股批次中股價漲幅最凌厲者之一,惟今年整體振幅也高達84%,波動劇烈。</li>
+  <li><span class="date">2026年第1季</span>EPS0.69元,季增6%、年增33%;去年(2025)全年EPS為1.74元。</li>
+  <li><span class="date">2026年上半年~7月上旬</span>台股成交量放大帶動證券業務獲利大幅成長,凱基金累計前七月稅後純益衝上305.29億元,創歷史同期新高,年成長187.3%,每股盈餘(EPS)達1.77元,已超越去年全年度獲利及去年EPS(1.74元)。</li>
+  <li><span class="date">2026/08(月中)</span>公告7月單月稅後純益僅20.89億元,月減65.8%、年減59.44%;財經媒體指出,7月以來台股呈現修正格局,凱基金旗下證券、銀行及壽險等業務仍展現營運韌性,但單月獲利數字明顯較6月大幅回落。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月單月獲利月減65.8%、年減59.44%,是本次金融股批次中降幅最劇烈者,直接反映證券為主體的獲利結構對股市成交量與行情修正的高度敏感性;②儘管7月獲利大幅回落,股價當日(8/14)仍創年內新高,顯示市場可能仍聚焦於前七月187.3%的驚人年增率與「已超越去年全年獲利」的敘事,而相對忽略了7月單月數字所透露的動能轉弱訊號;③187.3%的累計年增率含有前次(去年)基期相對較低的效應,不宜線性外推全年成長速度。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">前七月賺305.29億元、EPS1.77元,雙雙超越去年全年,創歷史同期新高,展現凱基金在台股成交量放大環境下的獲利爆發力。<div class="src">— 聯合新聞網,2026/08</div></div>
+    <div class="quote">7月以來台股呈現修正格局,凱基金旗下證券、銀行及壽險等業務仍展現營運韌性,單月獲利雖回落但未轉虧,顯示業務結構具一定分散度。<div class="src">— 財經媒體彙整,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">7月單月稅後純益月減65.8%、年減59.44%,是本次金融股批次中降幅最劇烈者,直接印證證券為主體的獲利結構對股市修正的高度敏感性,187.3%的累計年增率不應被線性外推。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價在7月獲利明顯轉弱的情況下仍創年內新高,顯示市場情緒可能過度聚焦於累計數字的驚人年增率,而相對忽略單月動能轉弱的警訊,存在追高風險。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式外資或本土法人2026年最新目標價之公開資料。三大法人近10日買賣超以下方自動更新籌碼區塊為準。本站以本益比法與P/B法自估目標價35元(詳見估值方法交叉檢核表)。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2883"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+28,675</span></td><td>5/10</td><td><span class="red">-4,055</span></td></tr><tr><td>投信</td><td><span class="green">+63,126</span></td><td>8/10</td><td><span class="green">+25,024</span></td></tr><tr><td>自營商</td><td><span class="red">-6,805</span></td><td>2/10</td><td><span class="red">-491</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+84,996</span></td><td>9/10</td><td><span class="green">+20,478</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-4,055</span></td><td><span class="green">+25,024</span></td><td><span class="red">-491</span></td><td><span class="green">+20,478</span></td></tr><tr><td>08/13</td><td><span class="green">+12,142</span></td><td><span class="green">+6,047</span></td><td><span class="red">-619</span></td><td><span class="green">+17,570</span></td></tr><tr><td>08/12</td><td><span class="green">+2,857</span></td><td><span class="green">+4,243</span></td><td><span class="red">-122</span></td><td><span class="green">+6,978</span></td></tr><tr><td>08/11</td><td><span class="green">+68</span></td><td><span class="green">+5,287</span></td><td><span class="red">-261</span></td><td><span class="green">+5,093</span></td></tr><tr><td>08/10</td><td><span class="red">-1,772</span></td><td><span class="green">+7,178</span></td><td><span class="red">-561</span></td><td><span class="green">+4,846</span></td></tr><tr><td>08/07</td><td><span class="red">-3,622</span></td><td><span class="green">+3,985</span></td><td><span class="green">+151</span></td><td><span class="green">+515</span></td></tr><tr><td>08/06</td><td><span class="red">-19,748</span></td><td><span class="green">+4,112</span></td><td><span class="red">-1,739</span></td><td><span class="red">-17,375</span></td></tr><tr><td>08/05</td><td><span class="green">+39,176</span></td><td><span class="red">-1,155</span></td><td><span class="red">-751</span></td><td><span class="green">+37,269</span></td></tr><tr><td>08/04</td><td><span class="green">+12,142</span></td><td><span class="red">-2,115</span></td><td><span class="red">-2,752</span></td><td><span class="green">+7,275</span></td></tr><tr><td>08/03</td><td><span class="red">-8,513</span></td><td><span class="green">+10,520</span></td><td><span class="green">+340</span></td><td><span class="green">+2,347</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">1.77</div><div class="note">年增187.3%,已超越去年全年</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value red">20.89億</div><div class="note">月減65.8%,年減59.44%</div></div>
+  <div class="card"><div class="label">每股淨值</div><div class="value">14.27</div><div class="note">P/B約2.22倍(以現價估算)</div></div>
+  <div class="card"><div class="label">股利殖利率</div><div class="value">3.16%</div><div class="note">近5年平均殖利率3.9%,近4年平均4.88%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">3檔持有,合計1.63億元</div><div class="note">2026/08/14資料,金融股批次中屬最低水位</div></div>
+  <div class="card"><div class="label">業務結構</div><div class="value">證券為主體</div><div class="note">凱基證券+凱基銀行+凱基人壽,前身中華開發金控</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>業務結構</th><th>前七月EPS</th><th>與凱基金的差異</th></tr>
+  <tr class="hl"><td>2883.TW</td><td>凱基金</td><td>證券為主體</td><td>1.77(年增187.3%,已超越去年全年)</td><td>7月單月獲利大幅回落(-65.8%),股價卻創年內新高,估值訊號較矛盾</td></tr>
+  <tr><td>2885.TW</td><td>元大金(本站另篇分析)</td><td>證券為主體</td><td>3.22(前七月,創同期新高)</td><td>同屬證券為主體,惟未見類似7月單月大幅回落的訊號,規模也遠大於凱基金</td></tr>
+  <tr><td>2881.TW</td><td>富邦金(本站另篇分析)</td><td>壽險為主體</td><td>核心6.54(含一次性13.73)</td><td>壽險為主體,獲利結構與股市成交量敏感度不同</td></tr>
+  <tr><td>2882.TW</td><td>國泰金(本站另篇分析)</td><td>壽險為主體</td><td>5.68(前七月,年增59.4%)</td><td>壽險為主體,7月單月維持獲利未見類似回落</td></tr>
+  <tr><td>2891.TW</td><td>中信金(本站另篇分析)</td><td>銀行為主體</td><td>2.19(前七月,年增5%)</td><td>銀行為主體,獲利對股市波動敏感度遠低於凱基金</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——P/B與本益比法方向大致一致,惟7月單月獲利大幅回落是股價創新高後需審慎看待的警訊。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以前七月EPS1.77元年化(3.03)套用金控證券股常見的12~15倍本益比計算,合理價區間約36.4~45.5元(中值40.9),現價31.65落於此區間下緣以下。以P/B角度觀察,現價對應每股淨值14.27元計算約2.22倍,與元大金(2.59x)相近但略低,屬證券股常見的評價區間內。整體而言,雖然兩種方法都顯示現價尚未過度高估,但7月單月稅後純益月減65.8%、年減59.44%的訊號不容忽視——這是本次金融股批次中降幅最劇烈的個案,直接反映證券業務對股市成交量與行情修正的高敏感性。股價在此情況下仍創年內新高,存在市場情緒過度聚焦於累計年增率、而相對忽略單月動能轉弱的風險,建議中性看待、不追價。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價31.65 vs 中值</th></tr>
+  <tr><td>EPS年化×P/E(自估)</td><td>前七月EPS1.77×12/7=3.03,金控證券股本益比12~15x</td><td>36.4~45.5(中值40.9)</td><td class="green">便宜 -22.6%</td></tr>
+  <tr><td>P/B法</td><td>每股淨值14.27,證券股P/B常見1.8~2.3x</td><td>25.7~32.8(中值29.3)</td><td class="amber">合理 +8.0%</td></tr>
+  <tr><td>7月動能調整後P/E(保守情境)</td><td>若全年動能回歸7月單月水準年化(20.89×12/實際股數估算EPS約1.53),本益比12~15x</td><td>約18.4~23.0(中值20.7,推演)</td><td class="red">貴 +52.9%(悲觀情境)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:證券業獲利波動性極高、高度依賴股市成交量,多年期FCF假設信度不足。三種方法出現顯著分歧:樂觀的EPS年化法(假設全年動能與前七月同等強勁)顯示現價便宜,P/B法顯示現價大致合理,但若採用更保守的「7月單月動能年化」情境,現價則明顯偏貴。這個分歧本身就是凱基金當前估值的核心矛盾——現價究竟該反映187.3%的累計年增率,還是7月單月-65.8%的動能急凍,取決於8月及後續月份的獲利數字能否止穩,現階段本站傾向採P/B法的中性判斷,不偏向任一極端情境。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價創年內新高,惟獲利動能訊號矛盾</div><div class="bar"><div style="width:70%;background:var(--amber)"></div></div><div class="note">8月區間30.4~31.65,當日(8/14)創年內新高</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">查無正式目標價,本站自估35</div><div class="note">綜合本益比與P/B法</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.77(前七月)→3.03(樂觀年化) vs 7月單月動能(悲觀情境)</div><div class="note">8月獲利公告能否止穩7月的大幅回落是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,樂觀情境)</td><td>3.03(前七月年化)</td><td>12~15x</td><td>36.4~45.5(中值40.9)</td><td class="green">約 29%</td></tr>
+  <tr><td>2026(今年,保守情境)</td><td>約1.53(7月單月動能年化,推演)</td><td>12~15x</td><td>18.4~23.0(中值20.7)</td><td class="red">約 -34%</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">兩種情境的隱含報酬差距懸殊(+29%對-34%),反映凱基金當前估值高度依賴「7月是否為單一季節性/事件性回落,或代表全年動能已明顯轉弱」的判斷,這是本次金融股批次中不確定性最高的一檔。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演,建議密切觀察8月及後續月份獲利數字。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 18~42;left% = (價格-18)/24×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:22.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">21~24</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:47.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">28~32</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">35~38</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:92%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">40~42</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:56.9%"><div class="arrow">▲</div><div class="price">31.65</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>21~24</td><td>8月獲利延續7月的大幅回落趨勢,證實成交量萎縮已實質衝擊全年獲利動能</td><td class="red">約 -29%</td></tr>
+  <tr><td class="amber">Base</td><td>28~32</td><td>8月獲利較7月回穩但不若前七月火熱,全年成長增速正常化,現價落於此區間內</td><td>約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>35~38</td><td>8月獲利明顯回升,證實7月僅為單一季節性回落,重返並超越31.65的年內高點</td><td class="green">約 15%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>40~42</td><td>台股成交量重新放大,證券業務獲利全面回升並創新高,評價重估</td><td class="green">約 29%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">28~29.5</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">25~27.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">21~24</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">26</b>(接近P/B法估值下緣)= 8月獲利數字證實7月回落非單一事件,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破31.65(年內高點)+量能確認,且8月獲利公告顯示較7月明顯回升<br>
+    進場區:<b class="green">32~35</b><br>
+    移動停利:跌破10日線或高點回檔15%(證券股波動大,停利幅度宜放寬)<br>
+    假突破失效:觸發後2日內跌回30.5即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">35~38</div><div class="note">賣出30~50%;Bull區,證券股高檔波動大應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">40~42</div><div class="note">Stretched區;續抱條件是台股成交量持續放大且8月獲利明顯回升</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:前七月稅後純益305.29億元、年增187.3%,EPS1.77元已超越去年全年獲利,惟7月單月稅後純益僅20.89億元,月減65.8%、年減59.44%,是本次金融股批次中降幅最劇烈者,直接反映證券為主體的獲利結構對股市修正的高敏感性。</div>
+<div class="concl">② <b>估值</b>:合理——EPS年化法(樂觀情境)顯示現價便宜,P/B法顯示現價大致合理(+8.0%),但若採7月單月動能年化的保守情境,現價則明顯偏貴,三法分歧程度是本次批次中最大者,凸顯凱基金當前估值高度依賴8月能否止穩7月的回落。</div>
+<div class="concl">③ <b>結論</b>:中性、證券為主體波動性大——現價31.65落於Base區間內,上檔Bull +15%/Stretched +29%對下檔Bear -29%,風險報酬中性但不確定性高於批次其他個股;不建議在此追價,可等待8月獲利數字確認方向後再決定左側或右側進場,收盤跌破26即無條件出場。下一個驗證點是8月自結獲利能否較7月明顯回升。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月自結稅後純益、前七月累計獲利(公司公告,2026/08);每股淨值(公開資料彙整,2026年);股利政策(2026/06/30配發);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式外資/本土法人2026年目標價、正式FactSet多分析師共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司公告、聯合新聞網、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

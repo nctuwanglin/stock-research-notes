@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>華城 (1519) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>華城 (1519) <span class="badge purple">事件:Q2財報+7月營收(YoY轉負)</span> <span class="badge red">估值:明顯偏貴,營收軌跡與樂觀敘事背離</span> <span class="badge red">結論:觀望,累計營收年減與全年+35%guidance矛盾</span><span class="autodispo" data-code="1519"></span></h1>
+<div class="sub">台股(TWSE)・重電(變壓器龍頭),北美資料中心訂單題材,惟近期營收數字未支撐樂觀敘事|事件後估值版(Q2財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="1519">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">655</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="1519">現價 <b>710</b> → 目標價 <b>400</b><span class="down"> (-43.7%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS6.52年化13.04(保守情境),套用重電股倍數18~24x得約234.7~312.96(中值273.8);FactSet目標價已從1035下修至945(6月,降幅8.7%),且該數字隱含2026全年EPS21.16~21.38,較H1年化數字高出逾6成,需H2大幅加速方能達成,惟1~7月累計營收實際已年減3.67%,與此樂觀假設明顯矛盾;綜合保守自估與營收背離風險採目標價400</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">710.00</div><div class="note">2026/08/14 收盤;8月區間653~720</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value red">20.50億</div><div class="note">MoM+18.50%,惟YoY-8.32%(年減)</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">6.52</div><div class="note">Q1 3.29(季減38.08%),Q2約3.23(推算)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value red">122.62億</div><div class="note">YoY-3.67%(年減)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">655~1,080</div><div class="note">7月低、1月高;全年振幅約65%</div></div>
+  <div class="card"><div class="label">FactSet目標價(6月,已下修)</div><div class="value amber">945</div><div class="note">自1035下修8.7%,6位分析師皆為積極樂觀</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — 市場預期全年營收+35%,惟1~7月累計實際年減3.67%,存在明顯矛盾</h2>
+<div class="event">
+  <h3>事件摘要:H1 EPS6.52元(較去年同期成長但Q1已較Q4大幅季減38.08%),7月營收月增18.50%惟年減8.32%,累計年減3.67%</h3>
+  <div class="flow">華城於8/10董事會通過Q2財報,H1累計EPS6.52元(公司表示「下半年將優於上半年」)。拆解來看,Q1 EPS3.29元已較前一季大幅季減38.08%,顯示獲利軌道自去年底高點以來持續放緩。更關鍵的是7月營收數字(依官方MOPS公開資訊觀測站公告):7月合併營收20.50億元,雖較6月月增18.50%,但年增率實際為**負8.32%**;累計1~7月營收122.62億元,較去年同期**年減3.67%**。這與市場報導引述的「最新市場預估2026年營收年增35%達330.6億元,受北美資料中心訂單及產能提升推動」的樂觀敘事形成明顯矛盾——若要達成全年330.6億元、年增35%的目標,H2(8~12月)營收需要達到約208億元,較1~7月的122.62億元大幅跳增,且需要扭轉目前累計已年減的趨勢。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:北美資料中心變壓器訂單題材推升股價與FactSet樂觀EPS預估 → 惟H1實際營收與獲利數字未能支撐這個樂觀假設 → FactSet目標價本身也從1035下修至945(降幅8.7%)→ 若H2未能大幅加速,現價的估值基礎將面臨重新評估</h3>
+  <div class="flow">華城這次分析最需要高度警惕的矛盾現象,是「市場敘事」與「已確認發生的財務數字」之間的明顯落差。市場普遍將華城定位為北美資料中心變壓器需求與美國電網汰舊換新的核心受惠者,這個題材本身有其合理性(公司確實有美國市場布局),但截至目前為止,這個題材尚未在營收數字中得到驗證——7月營收年減8.32%、累計年減3.67%,都與「全年營收年增35%」的市場預估形成鮮明對比。FactSet自身的目標價也呈現下修軌跡(從1035降至945,降幅8.7%),雖然6位分析師仍全數維持積極樂觀評等,但這個下修動作本身透露出,即使是原本樂觀的機構分析師,也開始對原先的高成長假設進行修正。現價710元距FactSet最新目標價945元仍有約33%的空間,但這個目標價所隱含的全年EPS(21.16~21.38元)較H1實際年化數字(13.04元)高出逾6成,若H2未能大幅超乎預期地加速,這個估值基礎將面臨嚴峻考驗。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後,約5月)</th><th>事件後(Q2財報+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1 3.29(季減38.08%)</td><td class="amber">H1累計6.52,Q2約3.23(推算,較Q1持平略降)</td></tr>
+    <tr><td>月營收趨勢</td><td>5月營收14.77億,YoY-9.3%</td><td class="red">7月20.50億,MoM+18.50%但YoY-8.32%,累計YoY-3.67%</td></tr>
+    <tr><td>FactSet目標價</td><td>1035(較早調查)</td><td class="red">945(6月,已下修8.7%)</td></tr>
+    <tr><td>FactSet 2026E EPS</td><td>21.38(較早調查)</td><td class="amber">21.16(最新,微幅下修)</td></tr>
+    <tr><td>股價</td><td>查無精確值(Q1財報前)</td><td class="amber">710.00(8/14),8月區間653~720</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼股價仍在高檔?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~1月</span>股價衝上今年高點1080,反映北美資料中心變壓器需求題材的樂觀重估。</li>
+  <li><span class="date">2026年5月</span>單月營收14.77億元,年減9.3%,已顯露成長動能放緩的跡象。</li>
+  <li><span class="date">2026年7月初</span>股價自高點1080大幅回落至7月低點655(重挫逾39%),與族群整體高檔獲利了結賣壓同步發生。</li>
+  <li><span class="date">2026/08/05</span>除權息(現金股利11元、股票股利1元)。</li>
+  <li><span class="date">2026/08/10</span>Q2財報:H1累計EPS6.52元,公司表示「下半年將優於上半年」;惟同期公布的7月營收年減8.32%,累計年減3.67%。</li>
+  <li><span class="date">2026年8月中旬</span>股價自655反彈至720,累計較7月低點回升約10%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①市場流傳「2026年營收年增35%達330.6億元」的樂觀預估,與已確認的1~7月累計營收實際年減3.67%明顯矛盾,若要達成全年目標,H2營收需較H1大幅跳增且扭轉現有的年減趨勢;②FactSet目標價本身已從1035下修至945(降幅8.7%),顯示連原本樂觀的機構分析師也開始調整假設;③該目標價隱含的全年EPS(21.16~21.38)較H1年化數字(13.04)高出逾6成,是一個相當激進的H2加速假設,尚未獲得任何已確認數字的支撐。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">最新市場預估2026年營收年增35%達330.6億元,受北美資料中心訂單及產能提升推動,EPS上看20.9元。<div class="src">— CMoney投資網誌,2026</div></div>
+    <div class="quote">FactSet最新調查共6位分析師,全數給予積極樂觀評等,無中立或保守悲觀評等,顯示機構法人對北美資料中心題材的長期信心。<div class="src">— 鉅亨網FactSet速報,2026/06</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">1~7月累計營收實際年減3.67%,7月單月年減8.32%,與市場流傳的全年營收年增35%預估明顯矛盾,若H2未能大幅加速扭轉這個趨勢,全年目標恐難以達成。<div class="src">— 本儀表板觀察,依公司MOPS官方營收公告計算</div></div>
+    <div class="quote">FactSet目標價已從1035下修至945(降幅8.7%),即使分析師評等仍維持積極樂觀,這個下修動作本身透露出對原先高成長假設的修正。<div class="src">— 本儀表板觀察,依鉅亨網FactSet速報歷史軌跡</div></div>
+    <div class="quote">本益比43倍是否合理,需要從成長故事能否兌現、產業風險與持股策略的關鍵角度重新檢視。<div class="src">— CMoney投資網誌(讀墨),2026</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(2026/06,最新)</td><td class="amber">945(下修自1035,降幅8.7%)</td><td>2026E EPS共識21.16(範圍17.37~24.1),6位分析師皆積極樂觀</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet目標價與EPS共識近期呈現下修軌跡,惟仍隱含相對於H1實績的大幅H2加速假設,與已確認的1~7月累計營收年減趨勢形成矛盾,本站對這組數字的採信度保留高度保守態度。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="1519"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-879</span></td><td>2/10</td><td><span class="red">-416</span></td></tr><tr><td>投信</td><td><span class="red">-32</span></td><td>3/10</td><td><span class="green">+41</span></td></tr><tr><td>自營商</td><td><span class="red">-3</span></td><td>4/10</td><td><span class="red">-32</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-915</span></td><td>2/10</td><td><span class="red">-406</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-416</span></td><td><span class="green">+41</span></td><td><span class="red">-32</span></td><td><span class="red">-406</span></td></tr><tr><td>08/13</td><td><span class="red">-38</span></td><td>+0</td><td><span class="red">-5</span></td><td><span class="red">-43</span></td></tr><tr><td>08/12</td><td><span class="red">-58</span></td><td><span class="green">+15</span></td><td><span class="green">+9</span></td><td><span class="red">-34</span></td></tr><tr><td>08/11</td><td><span class="red">-89</span></td><td><span class="red">-1</span></td><td><span class="green">+41</span></td><td><span class="red">-48</span></td></tr><tr><td>08/10</td><td><span class="green">+111</span></td><td>+0</td><td><span class="green">+44</span></td><td><span class="green">+155</span></td></tr><tr><td>08/07</td><td><span class="red">-246</span></td><td>+0</td><td><span class="red">-7</span></td><td><span class="red">-254</span></td></tr><tr><td>08/06</td><td><span class="red">-161</span></td><td><span class="red">-90</span></td><td><span class="red">-18</span></td><td><span class="red">-269</span></td></tr><tr><td>08/05</td><td><span class="red">-177</span></td><td>+0</td><td><span class="red">-19</span></td><td><span class="red">-196</span></td></tr><tr><td>08/04</td><td><span class="green">+252</span></td><td>+0</td><td><span class="green">+11</span></td><td><span class="green">+262</span></td></tr><tr><td>08/03</td><td><span class="red">-57</span></td><td><span class="green">+3</span></td><td><span class="red">-27</span></td><td><span class="red">-82</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value red">20.50億</div><div class="note">MoM+18.50%,YoY-8.32%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">6.52</div><div class="note">Q1 3.29(季減38.08%)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value red">122.62億</div><div class="note">YoY-3.67%</div></div>
+  <div class="card"><div class="label">2025年全年EPS(對照)</div><div class="value">13.99</div><div class="note">YoY+3.1%,創歷史新高</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">2檔,約685萬</div><div class="note">合計9,660股,重電族群中規模極小(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">外資持股比例</div><div class="value amber">約21.56%</div><div class="note">2026年資料</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與華城的差異</th></tr>
+  <tr class="hl"><td>1519.TW</td><td>華城</td><td>自估234.7~312.96(保守);FactSet945(下修軌跡)</td><td>1~7月累計營收年減3.67%,與市場樂觀敘事矛盾</td><td>重電龍頭且題材知名度最高,惟營收軌跡與樂觀敘事背離程度也最嚴重</td></tr>
+  <tr><td>1503.TW</td><td>士電(本站另篇分析)</td><td>自估181.4~259.75;券商目標價278(日期不明確)</td><td>7月營收YoY+15.10%,H1 EPS5.04創同期新高</td><td>H1實績與市場預估的一致性優於華城,7月營收動能未見背離</td></tr>
+  <tr><td>1513.TW</td><td>中興電(本站另篇分析)</td><td>自估162~216;券商目標價195</td><td>7月營收YoY+3.83%,已取得TSMC美廠訂單資格</td><td>營收成長速度較溫和但方向正確,未出現累計年減的矛盾</td></tr>
+  <tr><td>1514.TW</td><td>亞力(本站另篇分析)</td><td>自估82.5~115.5;券商目標價137(3月,已過時)</td><td>H1 EPS1.65創同期新高,在手訂單120億創高</td><td>H1獲利與訂單能見度扎實,惟7月單月MoM下滑幅度較大</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:明顯偏貴——市場樂觀敘事與已確認的營收數字存在重大矛盾,是本次重電族群分析中風險最高的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS6.52年化(13.04,保守假設H2與H1持平)套用重電股常見的18~24倍本益比計算,合理價區間約234.7~312.96元(中值273.8),現價710.00較此區間中值高出約1.6倍。核心疑慮是:市場流傳的「全年營收年增35%」樂觀預估,與已確認發生的1~7月累計營收實際年減3.67%的官方數字形成鮮明矛盾。即使採信FactSet最新目標價(945,已下修),這個數字所隱含的全年EPS(21.16~21.38)也較H1年化數字高出逾6成,需要H2出現大幅超乎預期的加速才能達成,而目前唯一已確認的近期數字(7月營收)卻顯示相反的方向。這種「敘事驅動股價、數字尚未驗證」的落差,是投資人在追高前應該高度警惕的核心風險。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價710.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估,保守情境)</td><td>H1 EPS6.52×2=13.04(假設H2與H1持平),重電股倍數18~24x</td><td>234.7~312.96(中值273.8)</td><td class="red">貴 159.3%</td></tr>
+  <tr><td>FactSet目標價(已下修,惟隱含激進H2假設)</td><td>945(單點,隱含全年EPS21.16~21.38,需H2較H1大幅加速)</td><td>945(單點)</td><td class="green">便宜 -24.9%(惟H2假設與已知7月數字矛盾)</td></tr>
+  <tr><td>2025年全年EPS×倍數(對照,較保守)</td><td>2025年全年EPS13.99(已實現),重電股倍數18~24x</td><td>251.8~335.76(中值293.8)</td><td class="red">貴 141.7%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司獲利對北美訂單認列時程高度敏感,加上目前市場敘事與已確認數字存在重大矛盾,多年期FCF假設完全缺乏可靠基礎。三種方法呈現極端分歧:兩種基於已實現/保守假設的方法皆顯示現價明顯偏貴逾1.4倍,僅有FactSet的樂觀目標價顯示現價便宜——但這個目標價本身隱含的H2加速假設,與唯一已確認的近期數字(7月營收年減)方向相反。這是本次分析範圍內「市場敘事」與「財務現實」落差最大的案例,追高風險極高。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">北美資料中心題材熱度高,惟營收數字未驗證</div><div class="bar"><div style="width:70%;background:var(--red)"></div></div><div class="note">股價7月曾重挫逾39%,8月中旬反彈但仍遠低於1月高點1080</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet目標價下修但評等仍積極樂觀</div><div class="note">945(降幅8.7%),隱含全年EPS假設與7月數字矛盾</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">6.52(H1)→21.16(FactSet全年,存疑)</div><div class="note">H2能否大幅加速並扭轉營收年減趨勢是核心驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,保守情境)</td><td>13.04(H1年化,推演)</td><td>18~24x</td><td>234.7~312.96(中值273.8)</td><td class="red">約 -61%</td></tr>
+  <tr><td>2026(今年,FactSet樂觀情境,存疑)</td><td>17.37 / 21.16 / 24.1</td><td>18~24x</td><td>312.7~578.4(中值445.6)</td><td class="red">約 -37%(以中值估算,惟與7月數字矛盾)</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">無論採用保守情境或FactSet樂觀情境,2026年隱含報酬皆為負值,反映現價已大幅超前反映任何可驗證的獲利基礎。核心問題在於FactSet的樂觀情境本身尚未獲得已確認數字的支持——1~7月累計營收實際年減3.67%,與全年EPS大幅成長的假設方向相反。這條路徑最重要的啟示是:華城現價幾乎完全建立在北美資料中心題材的想像空間,而非已確認的獲利軌跡,是本次分析範圍內風險最高的重電股。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 500~1200;left% = (價格-500)/700×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">550~610</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">680~750</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">820~890</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">970~1,030</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:31.9%"><div class="arrow">▲</div><div class="price">710.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>550~610</td><td>H2營收延續年減趨勢,市場重新評估「全年+35%」預估的可信度,估值倍數大幅壓縮</td><td class="red">約 -18%</td></tr>
+  <tr><td class="amber">Base</td><td>680~750</td><td>H2營收溫和回升但未能扭轉累計年減趨勢,現價落於此區間內</td><td>約 +1%</td></tr>
+  <tr><td class="green">Bull</td><td>820~890</td><td>H2營收出現明確加速訊號,北美資料中心訂單開始具體貢獻並反映在月營收數字</td><td class="green">約 20%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>970~1,030</td><td>全年+35%營收目標全面兌現且FactSet目標價(945)獲驗證並進一步上修,重返1月高點1080附近</td><td class="green">約 41%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">680~700</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">610~679</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">550~609</td><td>50%(營收軌跡與敘事矛盾未解,倉位應高度保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">655</b>(7月低點)= 市場重新評估全年營收目標可信度,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破720(8月區間高點)+量能確認,且8月營收數字驗證年增轉正、扭轉累計年減趨勢<br>
+    進場區:<b class="green">725~770</b>(估值風險極高,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回700即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(680~750)</div><div class="note">賣出40~60%;營收軌跡與樂觀敘事矛盾未解,應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">970~1,030</div><div class="note">Stretched區;續抱條件是全年+35%營收目標開始獲得月營收數字具體驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:H1 EPS6.52元(公司guidance「下半年將優於上半年」),惟7月營收年減8.32%、1~7月累計年減3.67%,與市場流傳「全年營收年增35%達330.6億元」的樂觀預估形成明顯矛盾;FactSet目標價已從1035下修至945(降幅8.7%),雖6位分析師仍全數積極樂觀,但下修動作本身透露對原先高成長假設的修正。</div>
+<div class="concl">① <b>催化劑</b>:北美資料中心變壓器需求與美國電網汰舊換新是核心多頭敘事,惟這個題材尚未在已確認的營收數字中得到驗證,反而呈現累計年減的相反方向;8/11~8/13單週股價反彈的原因查無明確催化劑。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——自估的兩種保守方法(H1年化法、2025年全年EPS對照法)皆顯示現價貴逾1.4倍;唯一顯示現價便宜的FactSet目標價,其隱含的全年EPS假設需要H2較H1大幅加速,而這與唯一已確認的近期數字(7月營收年減)方向相反,信度存疑。</div>
+<div class="concl">③ <b>結論</b>:觀望、累計營收年減與全年+35%guidance矛盾——現價710落於Bull區間下緣,上檔Stretched +41%對下檔Bear -18%,惟這個上檔空間完全仰賴尚未驗證的樂觀假設;已持股者應積極分批獲利了結,新資金不建議追高,收盤跌破655即無條件出場。下一個驗證點是8月營收能否扭轉累計年減趨勢、驗證全年成長目標的可信度。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);H1財報(公司8/10董事會公告);2025年全年財報(公司年報);FactSet共識EPS與目標價(鉅亨網FactSet速報、豐雲學堂,追蹤軌跡1035→945,2026/06);市場「全年+35%」預估(CMoney投資網誌,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後(8月)FactSet是否進一步更新目標價、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、鉅亨網FactSet速報、豐雲學堂、CMoney投資網誌。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測;市場流傳的樂觀營收預估與已確認的官方營收數字之間的矛盾,已於內文明確標註且以官方數字為準,不做選擇性採信對多方有利的敘事。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

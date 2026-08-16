@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>國泰金 (2882) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>國泰金 (2882) <span class="badge amber">估值:合理,獲利品質相對純淨</span> <span class="badge green">結論:偏多,前七月獲利年增近六成續創新高</span><span class="autodispo" data-code="2882"></span></h1>
+<div class="sub">台股(TWSE)・金融控股(壽險為主體,國泰人壽+國泰世華銀行+國泰產險+國泰證券+國泰投信),壽險/銀行/產險/證券/投信綜合型金控|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="2882">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">88</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2882">現價 <b>101.5</b> → 目標價 <b>105</b><span class="up"> (+3.4%)</span></div>
+  <div class="vbasis">推導依據:前七月EPS5.68年化9.74,套用金控壽險股本益比11~14x得約107.1~136.4(中值121.8);以2025Q3每股淨值55.06元(較舊)估算現階段P/B約1.7~1.9x,與同業壽險股相近;綜合本益比法與股利殖利率法採目標價105</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">101.50</div><div class="note">2026/08/14 收盤;8月區間97.5~101.5</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value green">稅後純益108.2億</div><div class="note">維持獲利,未見轉虧</div></div>
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">5.68</div><div class="note">累計稅後純益873.4億,年增59.4%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">70~115.5</div><div class="note">全年振幅約65%,金融股中波動偏大</div></div>
+  <div class="card"><div class="label">每股淨值(2025Q3,較舊)</div><div class="value amber">55.06</div><div class="note">P/B約1.84x(以現價估算)</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">3.5(前次配發)</div><div class="note">殖利率約3.45%;連17年配息,累計34.08元</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼前七月獲利年增近六成?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價從年初低點70元一路走高至8月115.5高點附近(近期回落至101.5),漲幅逾40%,反映市場對其獲利成長的持續正向評價。</li>
+  <li><span class="date">2026年5月</span>累計稅後淨利59.93億元,EPS4.07元(單月數字);全年獲利動能持續加速。</li>
+  <li><span class="date">2026/08/13</span>公告7月自結合併稅後純益108.2億元,累計前七月稅後純益達873.4億元,年增59.4%,每股稅後純益(EPS)5.68元;子公司國泰人壽累計獲利516.7億元(年增124.2%)、國泰世華銀行累計313億元(年增13%)、國泰產險累計28.6億元(年增28.8%)、國泰證券累計54億元(年增155.9%)、國泰投信累計21.2億元(年增35%)。</li>
+  <li><span class="date">財經媒體報導</span>國泰金與多家金控同日揭露7月獲利,國泰金暫居金控獲利三冠王之列(單月/累計/成長率),9家金控前七月累計獲利寫下同期新高。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①股價今年振幅達65%,是本次金融股批次中波動較大者之一,追高風險需留意;②每股淨值最新查得資料為2025年第3季(55.06元),距今近一年,若股東權益已隨獲利累積成長,實際P/B可能低於本站估算,但反之若有配息稀釋淨值增速,則估算P/B可能偏低,精確數字待官方最新財報確認;③壽險為主體的獲利結構下,國泰人壽貢獻超過全公司獲利一半,IFRS17制度下獲利對投資市場波動與利率環境的敏感度仍相對較高。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">前七月稅後純益873.4億元,年增59.4%,續創同期新高;國泰人壽、國泰世華銀行、國泰證券三大主力子公司獲利同步大幅成長,顯示集團綜效與獲利品質俱佳。<div class="src">— 工商時報/經濟日報,2026/08/13</div></div>
+    <div class="quote">9家金控前七月累計獲利寫下同期新高,國泰金暫居三冠王,股價今年以來漲幅居金控股前段班。<div class="src">— 聯合新聞網,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">股價今年振幅達65%,漲勢已相當可觀,現階段追價需留意獲利成長是否能延續同等幅度,若成長動能邊際趨緩,股價修正風險也相對較高。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">每股淨值最新可得數字已是2025年第3季(距今近一年),精確的最新P/B估值存在不確定性,壽險為主體的獲利結構對投資市場波動仍具敏感度。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式外資或本土法人2026年最新目標價之公開資料。三大法人近10日買賣超以下方自動更新籌碼區塊為準。本站以本益比法與股利殖利率法自估目標價105元(詳見估值方法交叉檢核表)。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2882"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+5,326</span></td><td>5/10</td><td><span class="green">+7,838</span></td></tr><tr><td>投信</td><td><span class="green">+12,674</span></td><td>5/10</td><td><span class="red">-31</span></td></tr><tr><td>自營商</td><td><span class="red">-2,070</span></td><td>4/10</td><td><span class="green">+56</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+15,930</span></td><td>8/10</td><td><span class="green">+7,863</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+7,838</span></td><td><span class="red">-31</span></td><td><span class="green">+56</span></td><td><span class="green">+7,863</span></td></tr><tr><td>08/13</td><td><span class="red">-400</span></td><td><span class="green">+1,211</span></td><td><span class="green">+416</span></td><td><span class="green">+1,227</span></td></tr><tr><td>08/12</td><td><span class="green">+2,362</span></td><td><span class="green">+1,163</span></td><td><span class="green">+188</span></td><td><span class="green">+3,713</span></td></tr><tr><td>08/11</td><td><span class="red">-43</span></td><td><span class="red">-181</span></td><td><span class="red">-76</span></td><td><span class="red">-300</span></td></tr><tr><td>08/10</td><td><span class="green">+2,900</span></td><td><span class="red">-5</span></td><td><span class="red">-196</span></td><td><span class="green">+2,699</span></td></tr><tr><td>08/07</td><td><span class="green">+4,317</span></td><td><span class="red">-2</span></td><td><span class="green">+61</span></td><td><span class="green">+4,376</span></td></tr><tr><td>08/06</td><td><span class="red">-8,172</span></td><td><span class="green">+35</span></td><td><span class="red">-298</span></td><td><span class="red">-8,435</span></td></tr><tr><td>08/05</td><td><span class="green">+3,166</span></td><td><span class="red">-632</span></td><td><span class="red">-71</span></td><td><span class="green">+2,464</span></td></tr><tr><td>08/04</td><td><span class="red">-1,200</span></td><td><span class="green">+4,519</span></td><td><span class="red">-1,617</span></td><td><span class="green">+1,701</span></td></tr><tr><td>08/03</td><td><span class="red">-5,442</span></td><td><span class="green">+6,597</span></td><td><span class="red">-533</span></td><td><span class="green">+622</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">5.68</div><div class="note">年增59.4%</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value green">108.2億</div><div class="note">維持獲利動能</div></div>
+  <div class="card"><div class="label">每股淨值(2025Q3)</div><div class="value amber">55.06</div><div class="note">當時P/B約1.37x(股價約75元)</div></div>
+  <div class="card"><div class="label">股利殖利率</div><div class="value">3.45%</div><div class="note">近5年平均殖利率4.35%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔持有,合計1.60億元</div><div class="note">2026/08/14資料,金融股中屬中等水位</div></div>
+  <div class="card"><div class="label">業務結構</div><div class="value">壽險為主體</div><div class="note">壽險貢獻獲利占比逾五成</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>業務結構</th><th>前七月EPS</th><th>與國泰金的差異</th></tr>
+  <tr class="hl"><td>2882.TW</td><td>國泰金</td><td>壽險為主體</td><td>5.68(年增59.4%)</td><td>獲利品質相對純淨(未見一次性利益干擾),7月單月維持獲利,惟股價今年振幅較大</td></tr>
+  <tr><td>2881.TW</td><td>富邦金(本站另篇分析)</td><td>壽險為主體</td><td>核心6.54(含一次性13.73)</td><td>核心EPS略高但含大額一次性利益,且7月單月轉虧,現價已超越法人目標價</td></tr>
+  <tr><td>2891.TW</td><td>中信金(本站另篇分析)</td><td>銀行為主體</td><td>2.19(前七月)</td><td>銀行放款業務為主,獲利對股市波動敏感度較低</td></tr>
+  <tr><td>2885.TW</td><td>元大金(本站另篇分析)</td><td>證券為主體</td><td>3.22(前七月,創新高)</td><td>證券業務占比高,獲利對股市成交量敏感度較高</td></tr>
+  <tr><td>2887.TW</td><td>台新新光金(本站另篇分析)</td><td>合併後綜合型</td><td>2.04(前七月,創新高)</td><td>台新新光合併綜效發酵,EPS年增幅度居金控股之冠</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——獲利品質相對純淨,前七月成長動能為金融股批次中數一數二,現價大致反映基本面。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以前七月EPS5.68元年化(9.74)套用金控壽險股常見的11~14倍本益比計算,合理價區間約107.1~136.4元(中值121.8),現價101.50落於此區間下緣以下。以2025年第3季每股淨值55.06元估算,現價對應P/B約1.84倍,較該季當時的1.37倍已明顯提升,但由於淨值資料已偏舊(距今近一年),若股東權益隨獲利累積成長,實際P/B可能低於此估算。整體而言,國泰金前七月獲利年增59.4%且未見類似富邦金的一次性利益干擾或7月轉虧疑慮,獲利品質相對純淨,現價相對於本益比法估值區間仍有一定安全邊際。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價101.50 vs 中值</th></tr>
+  <tr><td>EPS年化×P/E(自估)</td><td>前七月EPS5.68×12/7=9.74,金控壽險股本益比11~14x</td><td>107.1~136.4(中值121.8)</td><td class="green">便宜 -16.6%</td></tr>
+  <tr><td>股利殖利率法</td><td>現金股利3.5元(前次),金控股合理殖利率3~4%</td><td>87.5~116.7(中值102.1)</td><td class="amber">合理 -0.6%</td></tr>
+  <tr><td>P/B法(基準偏舊)</td><td>2025Q3每股淨值55.06,壽險股常見P/B 1.7~2.0x(推演)</td><td>93.6~110.1(中值101.9,推演)</td><td class="amber">合理 -0.4%(惟BPS基準已偏舊)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:壽險業獲利對投資市場波動與IFRS17精算假設高度敏感,多年期FCF假設信度不足。三種方法中,股利殖利率法與P/B法(儘管基準偏舊)均顯示現價幾乎精準落在合理中值,僅EPS年化法顯示現價明顯便宜(-16.6%)——這是因為年化法假設全年獲利動能與前七月同等強勁,可能較為樂觀;整體而言三法交集指向現價大致合理、無明顯高估風險。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">獲利驅動股價走高,情緒正向</div><div class="bar"><div style="width:66%;background:var(--green)"></div></div><div class="note">8月區間97.5~101.5,自115.5高點回落但獲利動能未變</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">查無正式目標價,本站自估105</div><div class="note">綜合本益比與股利殖利率法</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">5.68(前七月)→9.74(年化)</div><div class="note">Q3投資市場表現與國泰人壽獲利延續性是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>9.74(前七月年化)</td><td>11~14x</td><td>107.1~136.4(中值121.8)</td><td class="green">約 20%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為明顯正值,顯示現價相對於前七月年化獲利仍有一定安全邊際,是本次金融股批次中隱含報酬較佳者之一。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演;惟需留意年化法假設全年動能與前七月同等強勁,存在一定樂觀假設風險。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 65~145;left% = (價格-65)/80×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:18.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">82~90</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">98~108</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64%"><div class="lbl">Bull(12~18月)</div><div class="price green">116~126</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">136~145</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:46.9%"><div class="arrow">▲</div><div class="price">101.50</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>82~90</td><td>投資市場劇烈修正,壽險投資收益大幅回落,獲利年增動能明顯放緩</td><td class="red">約 -15%</td></tr>
+  <tr><td class="amber">Base</td><td>98~108</td><td>H2獲利成長延續但增速略緩於前七月的59.4%,現價落於此區間下緣</td><td>約 2%</td></tr>
+  <tr><td class="green">Bull</td><td>116~126</td><td>獲利成長動能延續,重返並超越115.5的今年高點</td><td class="green">約 19%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>136~145</td><td>資本市場大多頭延續,壽險投資收益與各子公司獲利全面創高,評價重估</td><td class="green">約 38%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">96~100</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">90~95</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">82~89</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">88</b>(接近8月區間下緣加計緩衝)= 獲利成長動能明顯轉弱確認,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破101.5(近期高點)+量能確認,且8月獲利公告顯示成長動能延續<br>
+    進場區:<b class="green">103~110</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回99即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">116~126</div><div class="note">賣出30~50%;Bull區,金融股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">136~145</div><div class="note">Stretched區;續抱條件是各子公司獲利持續同步創高</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:前七月稅後純益873.4億元,年增59.4%,續創同期新高;國泰人壽、國泰世華銀行、國泰證券三大主力子公司獲利同步大幅成長,7月單月維持108.2億元獲利,未見類似同業的一次性利益干擾或轉虧疑慮,獲利品質相對純淨。</div>
+<div class="concl">② <b>估值</b>:合理——股利殖利率法與P/B法均顯示現價幾乎精準落在合理中值(-0.4~-0.6%),EPS年化法則顯示現價明顯便宜(-16.6%,惟假設較樂觀),三法交集指向現價大致合理、無明顯高估風險,是本次金融股批次中估值相對安全的一檔。</div>
+<div class="concl">③ <b>結論</b>:偏多、前七月獲利年增近六成續創新高——現價101.50落於Base區間內,上檔Bull +19%/Stretched +38%對下檔Bear -15%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破88即無條件出場。下一個驗證點是Q3投資市場表現能否支撐國泰人壽獲利延續性。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月自結合併損益、前七月累計獲利(公司公告,2026/08/13);每股淨值(財報狗,2025年第3季,已偏舊,查無2026年最新一期精確數字);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式外資/本土法人2026年目標價、正式FactSet多分析師共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司公告、工商時報、經濟日報、聯合新聞網、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

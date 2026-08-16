@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元大金 (2885) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>元大金 (2885) <span class="badge amber">估值:合理,P/B已明顯高於歷史區間</span> <span class="badge amber">結論:中性,證券業獲利對股市成交量敏感度高</span><span class="autodispo" data-code="2885"></span></h1>
+<div class="sub">台股(TWSE)・金融控股(證券為主體,元大證券+元大銀行+元大人壽+元大投信,國內最大證券龍頭),證券/銀行/壽險/投信綜合型金控,0050/0056發行機構|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="2885">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">58</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2885">現價 <b>69.7</b> → 目標價 <b>72</b><span class="up"> (+3.3%)</span></div>
+  <div class="vbasis">推導依據:前七月EPS3.22年化5.52,套用金控證券股本益比12~15x得約66.2~82.8(中值74.5);以2026Q1每股淨值26.92元估算,現價69.70對應P/B約2.59倍,已明顯高於歷史P/B區間(2026Q1當時2.53倍);兩法中值取中,採目標價72</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">69.70</div><div class="note">2026/08/14 收盤;8月區間67.1~69.7</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value green">稅後純益63.59億</div><div class="note">年增逾97%;證券單月貢獻48億</div></div>
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">3.22</div><div class="note">累計稅後純益429.31億,創同期新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">39.3~71.5</div><div class="note">全年振幅約82%,金融股中波動最大者之一</div></div>
+  <div class="card"><div class="label">每股淨值(2026Q1)</div><div class="value">26.92</div><div class="note">P/B約2.59倍(以現價估算),Q1當時2.53倍</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">1.55(2025年)</div><div class="note">殖利率約2.64%;連19年配息,累計17.79元</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼股市成交量放大直接推升元大金獲利?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價從年初低點39.3元一路走高至8月71.5高點,漲幅逾80%,是本次金融股批次中股價漲幅最凌厲者,反映市場對台股成交量放大、證券業獲利爆發的高度樂觀預期。</li>
+  <li><span class="date">2026年第1季</span>EPS1.08元,季增46.53%、年增83%;每股淨值26.92元,當時P/B約2.53倍。</li>
+  <li><span class="date">2026年5月</span>單月營收212.61億元,月增23.23%、年增928.42%(基期效應);累計營收820.23億元,年增167.93%。</li>
+  <li><span class="date">2026/08/12</span>公告7月自結稅後純益63.59億元,年增逾97%,其中元大證券單月貢獻48億元;累計前七月稅後純益429.31億元,每股稅後純益(EPS)達3.22元,創同期新高(若不適用外匯價格變動準備金,累計EPS為3.24元)。旗下元大證券累計前七月稅後純益293.28億元,EPS達4.12元;元大銀行累計前七月稅後純益92.27億元,EPS為1元。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①元大金的獲利結構高度仰賴證券業務(元大證券貢獻累計獲利逾三分之二),使獲利對台股成交量、大盤指數表現的敏感度遠高於銀行或壽險為主體的同業,一旦成交量萎縮或股市大幅修正,獲利成長動能容易迅速反轉;②現價69.70對應的P/B約2.59倍,已明顯高於2026年第1季當時的2.53倍以及金控股普遍1.5~2.2倍的估值區間,顯示股價漲勢已相當程度反映樂觀情境;③股價今年振幅高達82%,是本次批次中波動最劇烈者,追高的風險報酬比需審慎評估。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">前七月稅後純益429.31億元,EPS達3.22元再創同期新高;元大證券單月貢獻48億元,充分受惠於台股成交量放大與資本市場活絡行情,是0050、0056等指數型ETF的核心受惠標的關聯股。<div class="src">— 聯合新聞網,2026/08</div></div>
+    <div class="quote">元大金為國內最大證券龍頭,元大證券7月單月貢獻48億元、累計前七月EPS達4.12元,展現在成交量放大環境下的規模優勢。<div class="src">— Newtalk新聞,2026/08/12</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">現價對應P/B約2.59倍,已明顯高於今年第1季的2.53倍與金控股普遍估值區間,股價今年漲幅逾80%、振幅達82%,追高風險需審慎評估。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">獲利結構高度仰賴證券業務,對股市成交量與大盤表現的敏感度遠高於銀行、壽險為主體的同業,若8月股市修正導致成交量萎縮,獲利成長動能可能迅速放緩。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式外資或本土法人2026年最新目標價之公開資料。三大法人近10日買賣超以下方自動更新籌碼區塊為準。本站以本益比法與P/B法自估目標價72元(詳見估值方法交叉檢核表)。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2885"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-151</span></td><td>6/10</td><td><span class="red">-9,277</span></td></tr><tr><td>投信</td><td><span class="green">+12,810</span></td><td>7/10</td><td><span class="green">+5,101</span></td></tr><tr><td>自營商</td><td><span class="red">-2,408</span></td><td>0/10</td><td><span class="red">-59</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+10,250</span></td><td>7/10</td><td><span class="red">-4,235</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-9,277</span></td><td><span class="green">+5,101</span></td><td><span class="red">-59</span></td><td><span class="red">-4,235</span></td></tr><tr><td>08/13</td><td><span class="green">+3,459</span></td><td><span class="green">+2,322</span></td><td><span class="red">-278</span></td><td><span class="green">+5,502</span></td></tr><tr><td>08/12</td><td><span class="green">+734</span></td><td><span class="red">-458</span></td><td><span class="red">-35</span></td><td><span class="green">+241</span></td></tr><tr><td>08/11</td><td><span class="red">-1,259</span></td><td><span class="green">+676</span></td><td><span class="red">-105</span></td><td><span class="red">-689</span></td></tr><tr><td>08/10</td><td><span class="green">+6,692</span></td><td><span class="red">-3,965</span></td><td><span class="red">-365</span></td><td><span class="green">+2,362</span></td></tr><tr><td>08/07</td><td><span class="green">+2,635</span></td><td><span class="green">+351</span></td><td><span class="red">-25</span></td><td><span class="green">+2,961</span></td></tr><tr><td>08/06</td><td><span class="red">-5,344</span></td><td><span class="red">-1,821</span></td><td><span class="red">-3</span></td><td><span class="red">-7,168</span></td></tr><tr><td>08/05</td><td><span class="green">+514</span></td><td><span class="green">+1,361</span></td><td><span class="red">-677</span></td><td><span class="green">+1,198</span></td></tr><tr><td>08/04</td><td><span class="green">+5,259</span></td><td><span class="green">+5,350</span></td><td><span class="red">-592</span></td><td><span class="green">+10,017</span></td></tr><tr><td>08/03</td><td><span class="red">-3,564</span></td><td><span class="green">+3,893</span></td><td><span class="red">-269</span></td><td><span class="green">+61</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">3.22</div><div class="note">創同期新高</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value green">63.59億</div><div class="note">年增逾97%</div></div>
+  <div class="card"><div class="label">每股淨值(2026Q1)</div><div class="value amber">26.92</div><div class="note">P/B已升至約2.59倍(以現價估算)</div></div>
+  <div class="card"><div class="label">股利殖利率</div><div class="value">2.64%</div><div class="note">近5年平均殖利率4.39%,今年殖利率明顯低於歷史平均</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">10檔持有,合計12.89億元</div><div class="note">2026/08/14資料,金融股批次中持有度最高</div></div>
+  <div class="card"><div class="label">業務結構</div><div class="value">證券為主體</div><div class="note">元大證券貢獻累計獲利逾三分之二</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>業務結構</th><th>前七月EPS</th><th>與元大金的差異</th></tr>
+  <tr class="hl"><td>2885.TW</td><td>元大金</td><td>證券為主體</td><td>3.22(創同期新高)</td><td>證券龍頭規模優勢,惟P/B已明顯高於歷史區間,股價今年振幅居批次之冠</td></tr>
+  <tr><td>2883.TW</td><td>凱基金(本站另篇分析)</td><td>證券為主體</td><td>1.77(前七月,已超越去年全年)</td><td>同屬證券為主體,惟7月單月獲利大幅回落,反映股市修正對證券業務的直接衝擊</td></tr>
+  <tr><td>2881.TW</td><td>富邦金(本站另篇分析)</td><td>壽險為主體</td><td>核心6.54(含一次性13.73)</td><td>壽險為主體,獲利結構與股市成交量敏感度不同</td></tr>
+  <tr><td>2882.TW</td><td>國泰金(本站另篇分析)</td><td>壽險為主體</td><td>5.68(前七月)</td><td>壽險為主體,獲利品質相對純淨,股價振幅相對較小</td></tr>
+  <tr><td>2891.TW</td><td>中信金(本站另篇分析)</td><td>銀行為主體</td><td>2.19(前七月)</td><td>銀行放款業務為主,獲利對股市波動敏感度最低</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏貴——P/B已明顯高於歷史區間,證券業獲利對股市成交量的高敏感度是雙面刃。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以前七月EPS3.22元年化(5.52)套用金控證券股常見的12~15倍本益比計算,合理價區間約66.2~82.8元(中值74.5),現價69.70落於此區間中段偏下。惟以P/B角度觀察,現價對應2026年第1季每股淨值26.92元計算約2.59倍,已明顯高於當季的2.53倍,反映股價漲幅(+80%)已超過同期基本面(獲利年增)的成長幅度,存在一定的評價擴張(multiple expansion)成分。元大金作為國內證券龍頭,充分受惠於今年以來台股成交量放大的順風,但這也是其最大的風險——一旦成交量萎縮,獲利成長動能與股價評價可能同步承壓。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價69.70 vs 中值</th></tr>
+  <tr><td>EPS年化×P/E(自估)</td><td>前七月EPS3.22×12/7=5.52,金控證券股本益比12~15x</td><td>66.2~82.8(中值74.5)</td><td class="amber">合理 -6.4%</td></tr>
+  <tr><td>P/B法</td><td>2026Q1每股淨值26.92,證券股P/B常見1.8~2.3x(推演)</td><td>48.5~61.9(中值55.2,推演)</td><td class="red">貴 +26.3%</td></tr>
+  <tr><td>股利殖利率法</td><td>現金股利1.55元(2025年),金控股合理殖利率3~4%</td><td>38.8~51.7(中值45.2)</td><td class="red">貴 +54.2%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:證券業獲利波動性極高、高度依賴股市成交量與行情,多年期FCF假設信度不足。三種方法出現明顯分歧:EPS年化法顯示現價合理略便宜,但P/B法與股利殖利率法(以歷史平均殖利率為錨)均顯示現價明顯偏貴(+26~54%)。分歧的核心原因是,今年以來的獲利爆發尚未充分反映在淨值成長與股利發放上(淨值成長滯後於當期獲利、股利發放滯後於獲利成長一個完整年度),若獲利成長能延續,P/B與殖利率隨時間推移將自然改善;但若成交量萎縮導致獲利回落,現階段的評價擴張將面臨修正壓力。本站傾向給予「合理」而非「便宜」的中性判斷。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價漲幅凌厲,情緒偏熱但近期回落</div><div class="bar"><div style="width:78%;background:var(--amber)"></div></div><div class="note">8月區間67.1~69.7,自71.5高點小幅回落</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">查無正式目標價,本站自估72</div><div class="note">綜合本益比與P/B法</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.22(前七月)→5.52(年化)</div><div class="note">8月台股成交量與大盤走勢是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>5.52(前七月年化)</td><td>12~15x</td><td>66.2~82.8(中值74.5)</td><td class="green">約 7%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟基期已墊高(若2026年為成交量高峰年)</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,但需留意此估算基於前七月動能持續全年的樂觀假設。2027年EPS共識查無穩定區間,且若2026年為台股成交量的階段性高峰年,2027年獲利基期比較將面臨挑戰,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 35~95;left% = (價格-35)/60×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:22.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">46~52</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:47.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">62~70</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">78~85</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:92%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">91~95</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:57.2%"><div class="arrow">▲</div><div class="price">69.70</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>46~52</td><td>台股成交量顯著萎縮或大盤修正,證券業務獲利大幅回落,P/B評價修正至歷史區間</td><td class="red">約 -30%</td></tr>
+  <tr><td class="amber">Base</td><td>62~70</td><td>H2成交量維持穩定但難再放大,獲利成長增速趨緩,現價落於此區間上緣</td><td>約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>78~85</td><td>台股成交量與行情延續熱絡,獲利成長動能不墜,重返並超越71.5的今年高點</td><td class="green">約 17%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>91~95</td><td>台股大多頭延續且成交量創歷史新高,證券股評價全面重估</td><td class="green">約 33%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">62~65</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">56~61</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">48~55</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">58</b>(接近P/B法估值上緣)= 評價擴張的支撐邏輯轉弱確認,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破71.5(今年高點)+量能確認,且8月台股成交量數據顯示未見萎縮<br>
+    進場區:<b class="green">72~78</b><br>
+    移動停利:跌破10日線或高點回檔15%(證券股波動大,停利幅度宜放寬)<br>
+    假突破失效:觸發後2日內跌回69即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">78~85</div><div class="note">賣出30~50%;Bull區,證券股高檔波動大應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">91~95</div><div class="note">Stretched區;續抱條件是台股成交量持續創新高且未見明顯降溫</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:前七月稅後純益429.31億元、EPS3.22元創同期新高,元大證券7月單月貢獻48億元,充分受惠於台股成交量放大;惟證券業務貢獻累計獲利逾三分之二,使獲利結構對股市成交量與大盤表現的敏感度遠高於同業。</div>
+<div class="concl">② <b>估值</b>:合理偏貴——EPS年化法顯示現價合理略便宜(-6.4%),但P/B法與股利殖利率法均顯示現價明顯偏貴(+26~54%),分歧反映淨值與股利發放對今年獲利爆發的反映滯後;股價今年振幅達82%,是本次批次中評價擴張最明顯的一檔。</div>
+<div class="concl">③ <b>結論</b>:中性、證券業獲利對股市成交量敏感度高——現價69.70落於Base區間上緣,上檔Bull +17%/Stretched +33%對下檔Bear -30%,風險報酬中性偏謹慎;不建議追價,可等待回檔至左側批次價位再分批布局,收盤跌破58即無條件出場。下一個驗證點是8月台股成交量能否維持熱絡不萎縮。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月自結稅後純益、前七月累計獲利(公司公告,2026/08/12);每股淨值/EPS/P&#47;B(財報狗,2026年第1季);股利政策(公開資料彙整,2025年配發);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式外資/本土法人2026年目標價、正式FactSet多分析師共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司公告、聯合新聞網、Newtalk新聞、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

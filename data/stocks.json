@@ -1,5 +1,159 @@
 {
   "_comment": "研究筆記個股註冊表。發佈新分析時必須登記/更新:market=twse|tpex|us,analysis_date/analysis_price=該次分析所採用的基準價(台股盤後分析用收盤價;美股盤中分析就用當下價,幣別 USD),須與儀表板內文的價位錨點一致。tags=中文產業分類(update_freshness.py 會用 twse-disposition 的 stock_info.json tags 補充,美股無此來源)",
+  "1519": {
+    "name": "華城",
+    "market": "twse",
+    "file": "1519-fortune-electric.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 710.0,
+    "tags": [
+      "重電"
+    ],
+    "target": 400,
+    "stop": 655,
+    "basis": "H1年化EPS法234.7~312.96,惟FactSet945(下修中)與市場+35%全年營收敘事,直接矛盾於MOPS確認1~7月累計營收YoY-3.67%",
+    "rating": "avoid"
+  },
+  "1503": {
+    "name": "士電",
+    "market": "twse",
+    "file": "1503-shihlin-electric.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 198.5,
+    "tags": [
+      "重電"
+    ],
+    "target": 235,
+    "stop": 178,
+    "basis": "H1 EPS5.04創同期新高,自估201.6~252與元大證券278交叉驗證;7月營收29.71億YoY+10.84%,重電四檔中動能與敘事一致性最佳",
+    "rating": "buy"
+  },
+  "1513": {
+    "name": "中興電",
+    "market": "twse",
+    "file": "1513-chunghsin-electric.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 170.0,
+    "tags": [
+      "重電"
+    ],
+    "target": 190,
+    "stop": 155,
+    "basis": "H1年化EPS9.0與外資券商2026E EPS估值9.17高度吻合,自估162~220.08;已取得TSMC美廠合格供應商資格,首案9月簽約",
+    "rating": "hold"
+  },
+  "1514": {
+    "name": "亞力",
+    "market": "twse",
+    "file": "1514-allis-electric.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 101.0,
+    "tags": [
+      "重電"
+    ],
+    "target": 115,
+    "stop": 92,
+    "basis": "H1 EPS1.65創同期新高,自估H1年化法82.5~115.5;CTBC證券137(3/27已偏舊)打折後採115,在手訂單120億+創高含NVIDIA相關拉美訂單",
+    "rating": "hold"
+  },
+  "2881": {
+    "name": "富邦金",
+    "market": "twse",
+    "file": "2881-fubon.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 129.5,
+    "tags": [
+      "金融"
+    ],
+    "target": 108,
+    "stop": 92,
+    "basis": "前七月核心EPS6.54(含一次性利益達13.73),本土法人目標價103較現價低25.7%,7月單月轉虧17.6億為警訊",
+    "rating": "avoid"
+  },
+  "2882": {
+    "name": "國泰金",
+    "market": "twse",
+    "file": "2882-cathay.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 101.5,
+    "tags": [
+      "金融"
+    ],
+    "target": 105,
+    "stop": 88,
+    "basis": "前七月EPS5.68年增59.4%,獲利品質相對純淨;股利殖利率法與P/B法均顯示現價大致合理",
+    "rating": "buy"
+  },
+  "2885": {
+    "name": "元大金",
+    "market": "twse",
+    "file": "2885-yuanta.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 69.7,
+    "tags": [
+      "金融"
+    ],
+    "target": 72,
+    "stop": 58,
+    "basis": "前七月EPS3.22創新高,惟P/B已升至2.59倍明顯高於2026Q1的2.53倍,證券業獲利對股市成交量敏感度高",
+    "rating": "hold"
+  },
+  "2891": {
+    "name": "中信金",
+    "market": "twse",
+    "file": "2891-ctbc.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 65.8,
+    "tags": [
+      "金融"
+    ],
+    "target": 75,
+    "stop": 58,
+    "basis": "前七月EPS2.19年增僅5%(批次最慢)但P/B約2.35倍與Q1持平未擴張,殖利率5.53%優於近5年平均4.70%",
+    "rating": "buy"
+  },
+  "2887": {
+    "name": "台新新光金",
+    "market": "twse",
+    "file": "2887-taishin.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 37.75,
+    "tags": [
+      "金融"
+    ],
+    "target": 42,
+    "stop": 32,
+    "basis": "前七月EPS2.04年增281%創新高(合併綜效),P/B約1.76倍低於同業區間,惟高成長率含基期效應不宜線性外推",
+    "rating": "buy"
+  },
+  "2890": {
+    "name": "永豐金",
+    "market": "twse",
+    "file": "2890-sinopac.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 40.55,
+    "tags": [
+      "金融"
+    ],
+    "target": 46,
+    "stop": 35,
+    "basis": "前七月EPS1.96年增89%創新高,年化ROE17.1%為批次最高,對應P/B約2.22倍相對同業偏低",
+    "rating": "buy"
+  },
+  "2883": {
+    "name": "凱基金",
+    "market": "twse",
+    "file": "2883-kgi.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 31.65,
+    "tags": [
+      "金融"
+    ],
+    "target": 35,
+    "stop": 26,
+    "basis": "前七月EPS1.77年增187.3%已超越去年全年,惟7月單月月減65.8%反映股市修正對證券業務的直接衝擊",
+    "rating": "hold"
+  },
   "MU": {
     "name": "美光 Micron",
     "market": "us",

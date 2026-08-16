@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>士電 (1503) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>士電 (1503) <span class="badge green">估值:合理偏低,重電族群中營收與敘事一致性最佳</span> <span class="badge green">結論:偏多,H1獲利創同期新高且動能未見背離</span><span class="autodispo" data-code="1503"></span></h1>
+<div class="sub">台股(TWSE)・重電(馬達/變壓器/配電盤),受惠AI資料中心(AIDC)內外銷需求暢旺|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="1503">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">178</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="1503">現價 <b>198.5</b> → 目標價 <b>235</b><span class="up"> (+18.4%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS5.04年化10.08,與市場預估2026全年EPS約10.39高度吻合;套用重電股倍數20~25x得約201.6~252(中值226.8);7月營收年增15.10%動能未見背離,元大證券曾給予278元目標價(日期不明確,僅供參考),綜合採目標價235</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">198.50</div><div class="note">2026/08/14 收盤;8月區間193.5~201.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">29.71億</div><div class="note">MoM-4.42%,YoY+15.10%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.04</div><div class="note">創同期新高;Q1 2.79(YoY+18.85%)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">240.93億</div><div class="note">YoY+10.84%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">168~268</div><div class="note">1月低、6月高;全年振幅約60%</div></div>
+  <div class="card"><div class="label">2026全年市場預估</div><div class="value amber">營收445.61億/EPS10.39</div><div class="note">與H1年化數字高度吻合</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼是重電族群中營收動能最一致的一檔?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價從1月低點168攀升至6月高點268(逾59%漲幅),隨重電族群整體受惠AI資料中心(AIDC)需求題材而重估。</li>
+  <li><span class="date">2026年5月法說會</span>Q1 2026營收115.59億元(YoY+12.28%),毛利率23.77%,營業利益18.55億元,稅後純益14.53億元(YoY+18.85%),Q1 EPS2.79元略優於預期;公司表示電子業接單暢旺,錶後儲能結案大多落在下半年,2026年全年營收穩健成長。</li>
+  <li><span class="date">2026/08/06</span>董事會通過Q2財報:H1累計EPS5.04元,創同期新高。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收29.71億元(依MOPS官方公告),月減4.42%、年增15.10%;累計1~7月營收240.93億元,年增10.84%,是重電族群四檔中營收成長軌跡與市場敘事一致性最佳者(未出現華城式的累計年減矛盾)。</li>
+  <li><span class="date">2026年8月中旬</span>股價於193.5~201.5區間相對穩健震盪,波動幅度小於同族群其他三檔。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①股市爆料同學會論壇提醒「重電業用案場認列營收,單月看會失真」,提醒投資人不宜過度解讀單月營收數字的短期波動,應以累計數字與訂單能見度為主要判斷依據;②公司提及儲能結案多落在H2,若這些專案認列時程延遲,可能影響H2營收的實際兌現速度;③元大證券的278元目標價發布日期不明確,信度需適度保留,不宜直接視為現階段的精確錨點。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">1Q26 EPS2.79元略優預期,2026年獲利可望穩健成長,電子業接單暢旺,錶後儲能結案大多落在下半年。<div class="src">— 豐雲學堂,2026/05</div></div>
+    <div class="quote">7月營收年增15.10%,累計1~7月營收年增10.84%,H1 EPS5.04元創同期新高,是重電族群中營收與獲利動能兼備、且方向一致的一檔。<div class="src">— 公司MOPS公開資訊觀測站官方公告,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">重電業用案場認列營收,單月營收數字容易失真,不宜過度解讀單月波動(如7月MoM-4.42%),應以累計數字與訂單能見度為主要判斷依據。<div class="src">— 股市爆料同學會討論彙整,2026</div></div>
+    <div class="quote">元大證券的278元目標價發布日期不明確,信度需適度保留;若H2儲能結案認列時程延遲,可能影響全年營收的實際兌現速度。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>元大證券(發布日期不明確)</td><td class="green">278(積極,一年展望目標價277.5)</td><td>2026年估值營收約445.61億元,EPS約10.39元</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式FactSet多分析師共識調查與Q2財報後的更新版本,惟元大證券的2026年EPS估值(10.39)與H1年化數字(10.08)高度吻合,交叉驗證基礎相對紮實。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="1503">籌碼資料更新中(每日盤後自動更新)</div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">29.71億</div><div class="note">YoY+15.10%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.04</div><div class="note">創同期新高</div></div>
+  <div class="card"><div class="label">Q1毛利率</div><div class="value green">23.77%</div><div class="note">Q1稅後純益14.53億,YoY+18.85%</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">240.93億</div><div class="note">YoY+10.84%,無累計年減疑慮</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">主要成長引擎</div><div class="value amber">AIDC+電子業接單</div><div class="note">錶後儲能結案多落在H2</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與士電的差異</th></tr>
+  <tr class="hl"><td>1503.TW</td><td>士電</td><td>自估201.6~252;元大證券278(日期不明確)</td><td>7月營收YoY+15.10%,累計YoY+10.84%,H1 EPS創同期新高</td><td>重電族群中營收成長軌跡與市場敘事一致性最佳,未見累計年減矛盾</td></tr>
+  <tr><td>1519.TW</td><td>華城(本站另篇分析)</td><td>自估234.7~312.96;FactSet945(下修軌跡)</td><td>1~7月累計營收年減3.67%,與市場樂觀敘事矛盾</td><td>題材知名度最高但營收軌跡與樂觀敘事嚴重背離,估值風險最高</td></tr>
+  <tr><td>1513.TW</td><td>中興電(本站另篇分析)</td><td>自估162~216;券商目標價195</td><td>7月營收YoY+3.83%,已取得TSMC美廠訂單資格</td><td>成長速度較溫和,惟方向正確且有具體新客戶進展</td></tr>
+  <tr><td>1514.TW</td><td>亞力(本站另篇分析)</td><td>自估82.5~115.5;券商目標價137(3月,已過時)</td><td>H1 EPS1.65創同期新高,在手訂單120億創高</td><td>H1獲利扎實,惟7月單月MoM下滑幅度較大(-23.99%)</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏低——是重電族群四檔中營收數字與市場敘事一致性最佳者。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS5.04年化(10.08)套用重電股常見的20~25倍本益比計算,合理價區間約201.6~252元(中值226.8),現價198.50較此區間中值折價約12.5%。值得注意的是,這個自估年化EPS(10.08)與元大證券引用的2026年市場估值EPS(10.39)高度吻合,顯示這組估值假設具備相對紮實的交叉驗證基礎——這與華城「FactSet樂觀EPS與已確認營收數字矛盾」的情況形成鮮明對比。士電的7月營收(YoY+15.10%)與累計營收(YoY+10.84%)雙雙維持正成長,未出現任何累計年減的疑慮,是本次重電族群分析中「敘事與數字一致性」表現最佳的一檔。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價198.50 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估)</td><td>H1 EPS5.04×2=10.08,重電股倍數20~25x</td><td>201.6~252(中值226.8)</td><td class="green">便宜 -12.5%</td></tr>
+  <tr><td>市場估值EPS×倍數(交叉驗證)</td><td>2026年估值EPS10.39(元大證券),倍數20~25x</td><td>207.8~259.75(中值233.8)</td><td class="green">便宜 -15.1%</td></tr>
+  <tr><td>元大證券目標價(日期不明確)</td><td>278(單點,惟發布日期未確認)</td><td>278(單點)</td><td class="green">便宜 -28.6%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:重電業用案場採百分比完工法認列營收,單月數字容易失真,加上H2儲能結案的認列時程存在一定不確定性,多年期FCF假設信度不足。三種方法方向高度一致,皆顯示現價便宜12.5~28.6%,是本次重電族群分析中估值訊號最正向、方法間分歧最小的案例——這個一致性本身也提高了整體判斷的可信度。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">股價相對穩健,波動幅度小於同族群</div><div class="bar"><div style="width:64%;background:var(--green)"></div></div><div class="note">8月區間193.5~201.5,波動幅度明顯小於華城、中興電</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">元大證券278元目標價(日期不明確)</div><div class="note">2026年估值EPS10.39與H1年化數字高度吻合</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">5.04(H1)→10.39(2026E市場估值)</div><div class="note">H2儲能結案認列進度是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>10.08(H1年化) / 10.39(市場估值)</td><td>20~25x</td><td>201.6~259.75(中值230.7)</td><td class="green">約 16%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正值,反映H1實績與市場估值EPS的一致性支撐現價的合理性。2027年EPS共識查無穩定區間,H2儲能結案的認列進度與AI資料中心需求的延續性,是決定中長期路徑的關鍵,現階段查無足夠具體的財測,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 150~330;left% = (價格-150)/180×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">175~190</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">210~230</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">250~270</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">295~315</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:29.7%"><div class="arrow">▲</div><div class="price">198.50</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>175~190</td><td>H2儲能結案認列延遲或電子業接單動能放緩,估值倍數壓縮</td><td class="red">約 -8%</td></tr>
+  <tr><td class="amber">Base</td><td>210~230</td><td>H2維持穩健成長但無驚喜,自估合理區間獲驗證;現價落於此區間下緣附近</td><td class="green">約 11%</td></tr>
+  <tr><td class="green">Bull</td><td>250~270</td><td>H2儲能結案如期認列且AIDC需求持續強勁,重返並超越6月高點268</td><td class="green">約 31%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>295~315</td><td>元大證券278元目標價全面兌現並進一步上修,重電族群評價系統性重估</td><td class="green">約 53%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">190~197</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">183~189</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">175~182</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">178</b>(接近7月低點)= H2儲能結案延遲或電子業接單動能明顯放緩,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破201.5(8月區間高點)+量能確認,且8月營收驗證動能延續<br>
+    進場區:<b class="green">203~215</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回197即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">250~270</div><div class="note">賣出30~50%;Bull區,重電股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">295~315</div><div class="note">Stretched區;續抱條件是元大證券目標價全面兌現且族群評價系統性重估</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:AI資料中心(AIDC)內外銷需求暢旺、電子業接單暢旺,加上H2儲能結案陸續認列,是核心多頭敘事;7月營收年增15.10%、累計年增10.84%,是重電族群四檔中營收動能與市場敘事一致性最佳者。</div>
+<div class="concl">② <b>估值</b>:合理偏低——自估H1年化法與市場估值EPS交叉驗證高度吻合,兩種方法皆顯示現價便宜12.5~15.1%;元大證券的278元目標價雖發布日期不明確,但方向與自估結果一致,是本次重電族群分析中估值訊號最正向、方法間分歧最小的案例。</div>
+<div class="concl">③ <b>結論</b>:偏多、H1獲利創同期新高且動能未見背離——現價198.50落於Base區間下緣,上檔Bull +31%/Stretched +53%對下檔Bear -8%,風險報酬明顯正向;可正常左側分批布局,收盤跌破178即無條件出場。下一個驗證點是H2儲能結案的認列進度與8月營收能否延續動能。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q1法說會與H1財報(豐雲學堂,2026/05;公司8/6董事會公告);元大證券目標價(來源引用,發布日期不明確);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式FactSet多分析師共識調查、2027年EPS共識、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、豐雲學堂、股市爆料同學會討論彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

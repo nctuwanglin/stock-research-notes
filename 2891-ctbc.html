@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中信金 (2891) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>中信金 (2891) <span class="badge green">估值:便宜,銀行為主體且AI放款帶動雙位數成長</span> <span class="badge green">結論:偏多,獲利對股市波動敏感度低,防禦性佳</span><span class="autodispo" data-code="2891"></span></h1>
+<div class="sub">台股(TWSE)・金融控股(銀行為主體,中國信託銀行+台灣人壽),銀行/壽險綜合型金控,AI放款與財富管理業務動能穩健|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="2891">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">58</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2891">現價 <b>65.8</b> → 目標價 <b>75</b><span class="up"> (+14.0%)</span></div>
+  <div class="vbasis">推導依據:前七月EPS2.19年化3.76,套用金控銀行股本益比13~17x得約48.9~63.9(中值56.4);以2026Q1每股淨值27.97元、P/B2.35x估算,現價65.80對應P/B約2.35x與Q1持平,顯示評價未擴張;近5年平均殖利率4.70%具吸引力,採目標價75(反映銀行放款成長動能延續)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">65.80</div><div class="note">2026/08/14 收盤;8月區間64.6~66.8</div></div>
+  <div class="card"><div class="label">7月單月</div><div class="value green">稅後純益44.10億</div><div class="note">中國信託銀行單月45.07億</div></div>
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">2.19</div><div class="note">累計稅後盈餘439.48億,年增5%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">49.3~72.4</div><div class="note">全年振幅約47%,金融股中波動相對溫和</div></div>
+  <div class="card"><div class="label">每股淨值(2026Q1)</div><div class="value">27.97</div><div class="note">P/B約2.35倍(以現價估算),ROE單季4.13%(年化約16.5%)</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">2.5</div><div class="note">殖利率約5.53%;連19年配息,累計24.88元</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼銀行放款業務是金融股中防禦性最佳的成長故事?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價從年初低點49.3元走高至8月72.4高點,漲幅逾46%,波動幅度相對本次批次中的元大金、富邦金收斂,反映銀行為主體的獲利結構受到市場給予相對穩定的評價。</li>
+  <li><span class="date">2026/04</span>首季法說會:EPS1.18元創同期新高,季增16.92%、年增15.69%,AI放款業務帶動雙位數成長,單季稅後淨利231億元(年增16%),宣布現金股利2.5元。</li>
+  <li><span class="date">2026年上半年</span>子公司中國信託銀行放款及財富管理業務動能穩健,單季獲利穩健成長;每股淨值27.97元,P/B約2.35倍(以年中股價估算)。</li>
+  <li><span class="date">2026/08</span>公告累計前七月合併稅後盈餘439.48億元、年增5%,單月稅後盈餘44.10億元,EPS2.19元;子公司中國信託銀行7月單月稅後獲利45.07億元,累計前七月稅後獲利356.85億元,較去年同期成長11%;台灣人壽因7月債券殖利率攀升,單月稅後獲利僅3.01億元,累計前七月稅後獲利105.78億元。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①前七月整體獲利年增僅5%,增速遠低於同業(國泰金+59.4%、永豐金+89%、台新新光金+281%),核心原因是銀行放款業務(中信銀累計年增11%)增速穩健但不算爆發,加上台灣人壽因7月債券殖利率波動而獲利偏低;②「AI放款帶動雙位數成長」的具體放款規模與利差貢獻,查無公開的精確量化數字;③銀行為主體的獲利結構雖然對股市成交量與投資市場波動的敏感度低於元大金、富邦金等同業,但同樣暴露於利率環境變化(尤其對台灣人壽的債券部位)的風險。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">首季EPS1.18元創同期高,AI放款帶動雙位數成長,現金股利2.5元;中國信託銀行放款及財富管理業務動能穩健,展現銀行為主體金控的防禦性優勢。<div class="src">— Yahoo股市,2026/04/23</div></div>
+    <div class="quote">前七月累計稅後盈餘439.48億元,雖然年增幅度不若部分同業亮眼,但獲利基期已相對較高、成長軌跡穩健,加上5.53%的現金股利殖利率具吸引力。<div class="src">— 自由財經/ETtoday,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">前七月獲利年增僅5%,是本次金融股批次中成長增速最慢者,顯示放款業務雖穩健但缺乏同業普遍展現的爆發性成長動能。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">台灣人壽7月因債券殖利率攀升導致單月獲利大幅縮水至3.01億元,顯示旗下壽險子公司同樣暴露於利率環境變化的風險,並非完全免疫於投資市場波動。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式外資或本土法人2026年最新目標價之公開資料。三大法人近10日買賣超以下方自動更新籌碼區塊為準。本站以本益比法與股利殖利率法自估目標價75元(詳見估值方法交叉檢核表)。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2891"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+52,583</span></td><td>9/10</td><td><span class="green">+1,792</span></td></tr><tr><td>投信</td><td><span class="green">+417</span></td><td>4/10</td><td><span class="green">+225</span></td></tr><tr><td>自營商</td><td><span class="red">-3,362</span></td><td>3/10</td><td><span class="red">-503</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+49,637</span></td><td>9/10</td><td><span class="green">+1,514</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+1,792</span></td><td><span class="green">+225</span></td><td><span class="red">-503</span></td><td><span class="green">+1,514</span></td></tr><tr><td>08/13</td><td><span class="red">-4,745</span></td><td><span class="green">+3,496</span></td><td><span class="red">-187</span></td><td><span class="red">-1,437</span></td></tr><tr><td>08/12</td><td><span class="green">+4,780</span></td><td><span class="red">-4,280</span></td><td><span class="green">+209</span></td><td><span class="green">+709</span></td></tr><tr><td>08/11</td><td><span class="green">+4,797</span></td><td><span class="red">-260</span></td><td><span class="red">-444</span></td><td><span class="green">+4,093</span></td></tr><tr><td>08/10</td><td><span class="green">+1,603</span></td><td><span class="green">+2,891</span></td><td><span class="red">-967</span></td><td><span class="green">+3,528</span></td></tr><tr><td>08/07</td><td><span class="green">+6,210</span></td><td><span class="red">-181</span></td><td><span class="green">+94</span></td><td><span class="green">+6,122</span></td></tr><tr><td>08/06</td><td><span class="green">+1,698</span></td><td><span class="red">-502</span></td><td><span class="red">-397</span></td><td><span class="green">+799</span></td></tr><tr><td>08/05</td><td><span class="green">+15,925</span></td><td><span class="red">-980</span></td><td><span class="red">-813</span></td><td><span class="green">+14,132</span></td></tr><tr><td>08/04</td><td><span class="green">+9,427</span></td><td><span class="green">+1,215</span></td><td><span class="red">-1,288</span></td><td><span class="green">+9,354</span></td></tr><tr><td>08/03</td><td><span class="green">+11,096</span></td><td><span class="red">-1,207</span></td><td><span class="green">+934</span></td><td><span class="green">+10,823</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">2.19</div><div class="note">年增5%</div></div>
+  <div class="card"><div class="label">中信銀行前七月</div><div class="value green">356.85億</div><div class="note">年增11%</div></div>
+  <div class="card"><div class="label">每股淨值(2026Q1)</div><div class="value">27.97</div><div class="note">P/B約2.35倍(以現價估算)</div></div>
+  <div class="card"><div class="label">股利殖利率</div><div class="value green">5.53%</div><div class="note">近5年平均殖利率4.70%,今年殖利率優於歷史平均</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">7檔持有,合計4.66億元</div><div class="note">2026/08/14資料,金融股批次中屬中高水位</div></div>
+  <div class="card"><div class="label">業務結構</div><div class="value">銀行為主體</div><div class="note">中信銀貢獻累計獲利逾八成</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>業務結構</th><th>前七月EPS</th><th>與中信金的差異</th></tr>
+  <tr class="hl"><td>2891.TW</td><td>中信金</td><td>銀行為主體</td><td>2.19(年增5%)</td><td>放款業務穩健但成長增速為批次最慢,防禦性佳且殖利率具吸引力</td></tr>
+  <tr><td>2890.TW</td><td>永豐金(本站另篇分析)</td><td>銀行為主體</td><td>1.96(前七月,年增89%,創新高)</td><td>同屬銀行為主體,惟成長增速遠高於中信金,ROE17%亦優於中信金</td></tr>
+  <tr><td>2887.TW</td><td>台新新光金(本站另篇分析)</td><td>合併後綜合型</td><td>2.04(前七月,年增281%,創新高)</td><td>合併綜效發酵帶動爆發性成長,增速遠高於中信金</td></tr>
+  <tr><td>2881.TW</td><td>富邦金(本站另篇分析)</td><td>壽險為主體</td><td>核心6.54(含一次性13.73)</td><td>壽險為主體,獲利對投資市場波動敏感度較高</td></tr>
+  <tr><td>2882.TW</td><td>國泰金(本站另篇分析)</td><td>壽險為主體</td><td>5.68(前七月,年增59.4%)</td><td>壽險為主體,成長增速遠高於中信金</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——P/B評價未隨股價上漲擴張,加上5.53%的殖利率在金融股批次中具吸引力。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以前七月EPS2.19元年化(3.76)套用金控銀行股常見的13~17倍本益比計算,合理價區間約48.9~63.9元(中值56.4),現價65.80已略高於此區間上緣,主因銀行股年化法本益比假設偏保守。惟以P/B角度觀察,現價對應2026年第1季每股淨值27.97元計算約2.35倍,與該季當時的P/B水準大致持平,顯示股價漲幅(+46%)大致與淨值/獲利成長同步,並未出現如元大金般的評價擴張現象。加上前七月獲利雖增速僅5%、為批次最慢,但這反映的是「基期已高、成長穩健」而非基本面惡化,搭配5.53%的現金股利殖利率明顯優於近5年平均(4.70%)與同業普遍水準,整體而言是本次金融股批次中防禦性與價值面兼具的一檔。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價65.80 vs 中值</th></tr>
+  <tr><td>EPS年化×P/E(自估)</td><td>前七月EPS2.19×12/7=3.76,金控銀行股本益比13~17x</td><td>48.9~63.9(中值56.4)</td><td class="red">貴 +16.7%</td></tr>
+  <tr><td>P/B法</td><td>2026Q1每股淨值27.97,銀行股P/B常見2.0~2.6x</td><td>55.9~72.7(中值64.3)</td><td class="amber">合理 +2.3%</td></tr>
+  <tr><td>股利殖利率法</td><td>現金股利2.5元,金控股合理殖利率4~5.5%</td><td>45.5~62.5(中值54.0)</td><td class="red">貴 +21.9%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:銀行放款業務雖較穩健,但利率環境與信用風險假設的多年期展望信度不足。三種方法中,P/B法(考量到現價P/B與Q1持平、未擴張)顯示現價幾乎精準合理(+2.3%),是本站認為最貼近實際的估值錨點;EPS年化法與股利殖利率法(以歷史平均為基準)則顯示現價偏貴,但這兩法未充分反映銀行放款業務典型的「淨值穩健成長、獲利季增溫和」特性,不宜過度悲觀解讀。綜合而言,現價大致合理略偏低估。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">股價穩健走高,波動相對收斂</div><div class="bar"><div style="width:48%;background:var(--green)"></div></div><div class="note">8月區間64.6~66.8,今年振幅47%為批次中相對溫和</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">查無正式目標價,本站自估75</div><div class="note">綜合本益比與P/B法</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.19(前七月)→3.76(年化)</div><div class="note">AI放款成長動能能否延續與台灣人壽利率風險是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>3.76(前七月年化)</td><td>13~17x</td><td>48.9~63.9(中值56.4)</td><td class="red">約 -14%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟AI放款業務動能提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS年化法隱含報酬為負值,惟本站認為P/B法(現價+2.3%)更貼近銀行放款業務穩健成長的實際情況,此處負值反映的是年化法本益比假設較保守,而非基本面惡化的訊號。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~90;left% = (價格-40)/50×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">51~56</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">63~69</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:68%"><div class="lbl">Bull(12~18月)</div><div class="price green">76~82</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:90.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">86~90</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:51.7%"><div class="arrow">▲</div><div class="price">65.80</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>51~56</td><td>利率環境不利放款利差,台灣人壽債券部位持續拖累,整體獲利年增轉負</td><td class="red">約 -19%</td></tr>
+  <tr><td class="amber">Base</td><td>63~69</td><td>H2放款業務維持穩健成長,獲利年增延續個位數~低雙位數,現價落於此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>76~82</td><td>AI放款動能加速兌現,台灣人壽利率壓力緩解,重返並超越72.4的今年高點</td><td class="green">約 20%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>86~90</td><td>放款成長全面優於預期且評價重估,搭配殖利率支撐吸引更多資金流入</td><td class="green">約 34%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">62~64</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">58~61</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">51~57</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">58</b>(接近P/B法估值下緣)= 放款成長動能明顯轉弱或利率風險擴大確認,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破72.4(今年高點)+量能確認,且8月獲利公告顯示放款成長動能延續或加速<br>
+    進場區:<b class="green">73~78</b><br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回71即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">76~82</div><div class="note">賣出30~50%;Bull區,金融股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">86~90</div><div class="note">Stretched區;續抱條件是AI放款業務持續帶動雙位數成長</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:AI放款帶動雙位數成長,中國信託銀行前七月累計獲利356.85億元(年增11%),惟整體集團前七月獲利年增僅5%(為批次最慢),主因台灣人壽因7月債券殖利率攀升導致獲利偏低;銀行為主體的獲利結構使中信金對股市成交量與投資市場波動的敏感度低於同業。</div>
+<div class="concl">② <b>估值</b>:便宜——P/B法顯示現價幾乎精準合理(+2.3%),現價P/B與2026年第1季持平、未隨股價上漲擴張,加上5.53%現金股利殖利率明顯優於近5年平均(4.70%),是本次金融股批次中防禦性與價值面兼具的一檔。</div>
+<div class="concl">③ <b>結論</b>:偏多、獲利對股市波動敏感度低,防禦性佳——現價65.80落於Base區間內,上檔Bull +20%/Stretched +34%對下檔Bear -19%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破58即無條件出場。下一個驗證點是AI放款成長動能能否延續,以及台灣人壽利率風險能否緩解。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月自結合併損益、前七月累計獲利(公司公告,2026/08);首季法說會(Yahoo股市,2026/04/23);每股淨值/ROE(財報狗,2026年第1季);股利政策(公開資料彙整,2026/07配發);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式外資/本土法人2026年目標價、AI放款具體規模量化數字、正式FactSet多分析師共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司公告、Yahoo股市、自由財經、ETtoday財經雲、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

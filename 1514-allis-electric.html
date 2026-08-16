@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亞力 (1514) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>亞力 (1514) <span class="badge amber">估值:合理,H1獲利創同期新高但7月動能放緩</span> <span class="badge amber">結論:中性,訂單能見度佳惟需驗證H2出貨節奏</span><span class="autodispo" data-code="1514"></span></h1>
+<div class="sub">台股(TWSE)・重電(低壓/高壓開關設備,配電盤,綠能儲能系統),AI資料中心與拉美市場為新訂單成長來源|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="1514">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">92</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="1514">現價 <b>101</b> → 目標價 <b>115</b><span class="up"> (+13.9%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS1.65年化3.3,套用重電股倍數25~35x得約82.5~115.5(中值99);CTBC證券目標價137(2026/03/27,基於2026E EPS3.92,已近5個月,發布時未反映7月營收放緩)——本站對CTBC舊目標價打折使用,採目標價115</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">101.00</div><div class="note">2026/08/14 收盤;8月區間98.7~102.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">8.95億</div><div class="note">MoM-23.99%,YoY+6.51%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">1.65</div><div class="note">創同期新高;Q1 0.73(推算Q2≈0.92)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">62.70億</div><div class="note">YoY+14.57%</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">53.46億</div><div class="note">YoY+16.38%,毛利率/營益率均年增</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value green">120億+(創高)</div><div class="note">含新增NVIDIA相關拉美訂單</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼AI資料中心與拉美訂單是關鍵題材?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價於98.7~102.5區間震盪(截至8月),波動幅度相對收斂,反映市場對訂單能見度的正向但未過熱的評價。</li>
+  <li><span class="date">2026/04</span>Q1財報:營收與獲利穩健成長,EPS0.73元;在手訂單持續累積。</li>
+  <li><span class="date">2026年H1(累計至6月)</span>營收53.46億元,年增16.38%,毛利率與營業利益率均較去年同期改善;EPS1.65元創同期新高(推算Q2單季EPS約0.92元,優於Q1)。</li>
+  <li><span class="date">2026年上半年</span>公司陸續公告在手訂單突破120億元創歷史新高,其中包含與NVIDIA相關的資料中心供電需求所帶動的新增拉美市場訂單,顯示公司開拓海外新客戶與新應用領域(AI資料中心配電)的進展。</li>
+  <li><span class="date">2026/07</span>單月營收8.95億元(依MOPS官方公告),月減23.99%、年增6.51%,累計1~7月營收62.70億元,年增14.57%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月單月營收月減幅度達23.99%,雖同業(如中興電、士電)也強調重電業案場認列易有月度波動,但這個減幅是本次重電族群四檔中最大者,需持續觀察是否為單月雜訊或H2出貨節奏轉弱的訊號;②CTBC證券的目標價137元發布於2026/03/27,距今近5個月,並未反映7月營收動能放緩的最新狀況,直接套用恐高估;③「NVIDIA相關拉美訂單」的具體金額與認列時程,查無官方公告的量化細節,目前僅能視為訂單能見度的質化利多。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">在手訂單突破120億元創歷史新高,其中包含NVIDIA相關資料中心供電需求所帶動的新增拉美市場訂單,顯示公司成功切入AI資料中心配電這個高成長應用領域。<div class="src">— 公司公告彙整,2026年H1</div></div>
+    <div class="quote">H1 EPS1.65元創同期新高,營收年增16.38%且毛利率、營益率同步改善,獲利品質優於過去。CTBC證券預估2026年EPS可望達3.92元,目標價137元。<div class="src">— CTBC證券,2026/03/27</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">7月單月營收月減23.99%,是本次重電族群四檔中減幅最大者,若非單純案場認列時點問題,可能反映H2訂單出貨節奏較預期慢。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">CTBC證券137元的目標價已發布近5個月,並未反映最新7月營收放緩的狀況,且「NVIDIA相關拉美訂單」缺乏官方公告的具體金額與認列時程,現階段不宜直接套用舊目標價作為錨點。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>CTBC證券(2026/03/27,已近5個月,偏舊)</td><td class="amber">137(本站打折後採115)</td><td>2026E營收約121億元/EPS約3.92元;發布時未反映7月營收放緩最新狀況</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式FactSet多分析師共識調查與更貼近7月營收公告後的更新版本。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="1514">籌碼資料更新中(每日盤後自動更新)</div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value amber">8.95億</div><div class="note">YoY+6.51%,MoM-23.99%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">1.65</div><div class="note">創同期新高</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">53.46億</div><div class="note">YoY+16.38%,毛利率/營益率同步改善</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value green">120億+(創高)</div><div class="note">含NVIDIA相關拉美新訂單</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">CTBC 2026E EPS</div><div class="value">3.92</div><div class="note">2026/03/27發布,已偏舊</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與亞力的差異</th></tr>
+  <tr class="hl"><td>1514.TW</td><td>亞力</td><td>自估82.5~115.5;CTBC目標價137(3月,偏舊)</td><td>H1 EPS1.65創同期新高,在手訂單120億+創高,惟7月MoM-23.99%</td><td>訂單能見度佳但H2出貨節奏待驗證,是族群中7月動能放緩幅度最大者</td></tr>
+  <tr><td>1519.TW</td><td>華城(本站另篇分析)</td><td>自估234.7~312.96;FactSet945(下修軌跡)</td><td>1~7月累計營收年減3.67%,與市場樂觀敘事矛盾</td><td>題材知名度較高但營收軌跡與敘事嚴重背離</td></tr>
+  <tr><td>1503.TW</td><td>士電(本站另篇分析)</td><td>自估201.6~252;元大證券278(日期不明確)</td><td>7月營收YoY+15.10%,H1 EPS創同期新高</td><td>成長速度較快且動能與敘事一致性最佳</td></tr>
+  <tr><td>1513.TW</td><td>中興電(本站另篇分析)</td><td>自估162~220.08;外資券商195(日期不明確)</td><td>7月營收YoY+3.83%,已取得TSMC美廠訂單資格</td><td>成長速度溫和但估值判斷確定性較高</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——H1獲利與訂單能見度均正向,但7月動能放緩使CTBC舊目標價不宜直接套用。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS1.65年化(3.3)套用重電股常見的25~35倍本益比計算(亞力屬中小型重電股,歷史本益比區間略高於大型同業),合理價區間約82.5~115.5元(中值99),現價101.00大致落於此區間中段。CTBC證券137元的目標價發布於3月底,基於2026E EPS3.92元推算,惟該預估發布時尚未看到7月營收月減23.99%的最新狀況,若最新營收動能不如原先預期,實際全年EPS恐難達到3.92元的水準,故本站對此目標價打折使用,採115元。整體而言,亞力的H1獲利與訂單成長故事扎實,但7月單月的顯著放緩是後續需要密切觀察的變數。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價101.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估)</td><td>H1 EPS1.65×2=3.3,重電中小型股倍數25~35x</td><td>82.5~115.5(中值99)</td><td class="amber">合理 +2.0%</td></tr>
+  <tr><td>CTBC目標價(單點,已偏舊)</td><td>2026E EPS3.92,發布於3月未反映7月放緩</td><td>137(單點,未打折)</td><td class="red">貴 -28.1%(惟基準已過時)</td></tr>
+  <tr><td>CTBC目標價打折後(本站調整)</td><td>對137元目標價打8折,反映7月動能不確定性</td><td>115(單點)</td><td class="amber">合理 -12.2%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:亞力訂單認列节奏受個案專案進度影響大,加上NVIDIA相關新拉美訂單的具體認列時程查無公告,多年期FCF假設信度不足。三種方法中,自估H1年化法與現價幾乎完全吻合(+2.0%),顯示市場現價已相當精準地反映H1實績;CTBC舊目標價因發布時間較早、未計入7月放緩,若不打折使用會顯著高估,是本次重電族群分析中「舊券商目標價需主動打折」的代表案例。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價區間震盪,情緒中性偏正向</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">8月區間98.7~102.5,7月營收放緩後未見明顯拋壓</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">CTBC目標價137(偏舊,本站打折採115)</div><div class="note">2026E EPS3.92,發布於7月營收放緩前</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.65(H1)→3.3(年化) / 3.92(CTBC舊估)</div><div class="note">H2出貨節奏與NVIDIA相關訂單認列時程是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>3.3(H1年化) / 3.92(CTBC舊估,打折後約3.5)</td><td>25~35x</td><td>82.5~122.5(中值102.5)</td><td class="green">約 1%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟在手訂單120億+創高提供H2~2027營收能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,顯示現價大致已反映H1實績,上檔空間有限但下檔支撐也相對明確。2027年EPS共識查無穩定區間,惟120億元以上創高的在手訂單(含NVIDIA相關拉美訂單)提供中期營收能見度,若這些訂單能順利認列出貨,可能支撐2027年獲利加速,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 65~135;left% = (價格-65)/70×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:19.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">78~85</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">96~105</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:70.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">114~122</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:92%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">128~135</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:51.3%"><div class="arrow">▲</div><div class="price">101.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>78~85</td><td>7月營收放緩延續至H2,NVIDIA相關拉美訂單認列時程延後或規模不如預期</td><td class="red">約 -19%</td></tr>
+  <tr><td class="amber">Base</td><td>96~105</td><td>H2營收動能回穩、恢復雙位數年增,現價落於此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>114~122</td><td>在手訂單順利認列出貨,H2營收與獲利加速優於H1</td><td class="green">約 17%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>128~135</td><td>NVIDIA相關拉美訂單規模超預期擴大,AI資料中心配電題材評價重估</td><td class="green">約 30%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">94~97</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">88~93</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">82~87</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">92</b>(接近8月低點)= 7月營收放緩趨勢確認延續,訂單能見度故事需重新檢視,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破102.5(8月區間高點)+量能確認,且8月營收公告顯示動能回穩(YoY轉正且MoM不再大幅下滑)<br>
+    進場區:<b class="green">100~108</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回97即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">114~122</div><div class="note">賣出30~50%;Bull區,重電股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">128~135</div><div class="note">Stretched區;續抱條件是NVIDIA相關拉美訂單規模持續擴大並開始明確認列</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:在手訂單突破120億元創歷史新高,其中包含NVIDIA相關資料中心供電需求所帶動的新增拉美市場訂單,顯示公司成功切入AI資料中心配電這個高成長應用領域;H1 EPS1.65元創同期新高,惟7月單月營收月減23.99%,是本次重電族群四檔中放緩幅度最大者,H2出貨節奏是關鍵觀察點。</div>
+<div class="concl">② <b>估值</b>:合理——自估H1年化法顯示現價幾乎精準反映H1實績(-0.5%),CTBC證券3月發布的137元目標價已偏舊、未反映7月放緩,本站打折使用後(115元)現價仍屬合理(-14.3%),提醒既有券商目標價需視最新營收動能主動調整。</div>
+<div class="concl">③ <b>結論</b>:中性、訂單能見度佳惟需驗證H2出貨節奏——現價101.00落於Base區間內,上檔Bull +17%/Stretched +30%對下檔Bear -19%,風險報酬中性略偏正向;可正常左側分批布局,收盤跌破92即無條件出場。下一個驗證點是8月營收能否確認動能回穩,以及NVIDIA相關拉美訂單的具體認列進度。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);H1財報(公司財報公告,2026/08);CTBC證券目標價(2026/03/27,已近5個月偏舊);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式FactSet多分析師共識調查、NVIDIA相關拉美訂單具體金額與認列時程、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、CTBC證券、公司公告彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

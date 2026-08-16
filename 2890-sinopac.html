@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>永豐金 (2890) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>永豐金 (2890) <span class="badge green">估值:便宜,ROE居金控股批次之冠</span> <span class="badge green">結論:偏多,前七月獲利年增89%創歷史新高</span><span class="autodispo" data-code="2890"></span></h1>
+<div class="sub">台股(TWSE)・金融控股(銀行為主體,永豐銀行+京城銀行+惠立證券),2025年完成柬埔寨Amret、京城銀行、惠立證券三項併購|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="2890">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">35</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2890">現價 <b>40.55</b> → 目標價 <b>46</b><span class="up"> (+13.4%)</span></div>
+  <div class="vbasis">推導依據:前七月EPS1.96年化3.36,套用金控銀行股本益比13~17x得約43.7~57.1(中值50.4);每股淨值18.3(Q1)、年化ROE17.1%為批次最高,現價40.55對應P/B約2.22倍,對照ROE水準屬合理;股利配發率71%殖利率3.5%,採目標價46</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">40.55</div><div class="note">2026/08/14 收盤;8月區間38.7~40.55</div></div>
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">1.96</div><div class="note">累計淨利289.32億,年增89%,創歷史同期新高</div></div>
+  <div class="card"><div class="label">永豐銀行前七月</div><div class="value green">155.18億</div><div class="note">年增21%,連續第6年創獲利新高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">28.6~41.9</div><div class="note">全年振幅約46%,金融股中波動相對溫和</div></div>
+  <div class="card"><div class="label">每股淨值/ROE(2026Q1)</div><div class="value">18.3 / 17.1%</div><div class="note">ROE為本次金融股批次最高</div></div>
+  <div class="card"><div class="label">現金股利</div><div class="value">1.1+股票0.2</div><div class="note">殖利率約3.5%,配發率71%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼永豐金的ROE能達到批次最高的17.1%?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價從年初低點28.6元走高至8月41.9高點,漲幅逾46%,波動幅度相對本次批次中的元大金、台新新光金收斂,呈現穩健向上的走勢。</li>
+  <li><span class="date">2025年</span>完成三項重要併購案:柬埔寨Amret(消費金融平台)、京城銀行、惠立證券,大幅擴展業務版圖與規模。</li>
+  <li><span class="date">2026年第1季法說會(2026/06/23)</span>每股淨值18.3元,EPS達0.76元,年化股東權益報酬率(ROE)提升至17.1%,稅後淨利年增42%,展現三項併購案綜效逐步發酵。</li>
+  <li><span class="date">2026/07/23</span>除權息,配發現金股利1.1元加股票股利0.2元,配發率71%,現金殖利率3.5%(以除息參考價估算)。</li>
+  <li><span class="date">2026年8月上旬</span>公告前七月稅後淨利飆289.32億元,年增89%,EPS達1.96元創歷史新高;永豐銀行前七月稅後淨利達155.18億元,年增21%,連續第6年創下獲利新高,京城銀行也貢獻顯著獲利。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①89%的年增率含有京城銀行併購後首次完整納入合併報表的基期效應,用此增速線性外推2027年成長可能過於樂觀;②柬埔寨Amret消費金融平台的具體獲利貢獻與風險曝險(如當地信用風險、匯率風險),查無公開的詳細量化拆分;③永豐銀行自身(不含新併購子公司)的年增21%是較能反映本業有機成長的數字,與集團整體89%的年增率有明顯落差,需注意區分「有機成長」與「併購貢獻」。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">前七月淨利飆289億元、年增89%創歷史新高,EPS達1.96元;永豐銀行連續第6年創獲利新高,加上2025年完成的三項併購案(Amret、京城銀行、惠立證券)綜效持續發酵,顯示集團規模與獲利能力同步躍升。<div class="src">— 民視新聞網/鉅亨網,2026/08/11</div></div>
+    <div class="quote">2026年第1季年化ROE達17.1%,較去年同期明顯提升,是本次金融股批次中股東權益報酬率最高者,展現優異的資本運用效率。<div class="src">— 富果直送法說會備忘錄,2026/06/23</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">89%的年增率含有京城銀行併購後首次完整納入合併報表的基期效應,若剔除此效應,永豐銀行自身有機成長率為21%,與集團整體增速有明顯落差,不宜將89%視為常態化成長速度。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">柬埔寨Amret消費金融平台的具體獲利貢獻與當地信用/匯率風險曝險,查無公開的詳細量化拆分,是三項併購案中資訊揭露相對不透明的一塊。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式外資或本土法人2026年最新目標價之公開資料。三大法人近10日買賣超以下方自動更新籌碼區塊為準。本站以本益比法與P/B×ROE法自估目標價46元(詳見估值方法交叉檢核表)。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2890"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+32,111</span></td><td>8/10</td><td><span class="red">-2,998</span></td></tr><tr><td>投信</td><td><span class="green">+12,894</span></td><td>5/10</td><td><span class="green">+14,421</span></td></tr><tr><td>自營商</td><td><span class="red">-6,096</span></td><td>2/10</td><td><span class="red">-1,399</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+38,908</span></td><td>8/10</td><td><span class="green">+10,024</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-2,998</span></td><td><span class="green">+14,421</span></td><td><span class="red">-1,399</span></td><td><span class="green">+10,024</span></td></tr><tr><td>08/13</td><td><span class="green">+969</span></td><td><span class="green">+1,559</span></td><td><span class="red">-834</span></td><td><span class="green">+1,694</span></td></tr><tr><td>08/12</td><td><span class="green">+8,870</span></td><td><span class="green">+118</span></td><td><span class="red">-256</span></td><td><span class="green">+8,732</span></td></tr><tr><td>08/11</td><td><span class="green">+3,172</span></td><td><span class="green">+10</span></td><td><span class="red">-23</span></td><td><span class="green">+3,159</span></td></tr><tr><td>08/10</td><td><span class="green">+312</span></td><td><span class="red">-82</span></td><td><span class="red">-956</span></td><td><span class="red">-726</span></td></tr><tr><td>08/07</td><td><span class="green">+2,428</span></td><td><span class="green">+33</span></td><td><span class="green">+16</span></td><td><span class="green">+2,477</span></td></tr><tr><td>08/06</td><td><span class="red">-982</span></td><td><span class="red">-1,880</span></td><td><span class="red">-268</span></td><td><span class="red">-3,131</span></td></tr><tr><td>08/05</td><td><span class="green">+6,692</span></td><td><span class="red">-217</span></td><td><span class="red">-1,366</span></td><td><span class="green">+5,109</span></td></tr><tr><td>08/04</td><td><span class="green">+10,937</span></td><td><span class="red">-973</span></td><td><span class="red">-1,377</span></td><td><span class="green">+8,587</span></td></tr><tr><td>08/03</td><td><span class="green">+2,711</span></td><td><span class="red">-95</span></td><td><span class="green">+367</span></td><td><span class="green">+2,983</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">前七月EPS</div><div class="value green">1.96</div><div class="note">年增89%,創歷史新高</div></div>
+  <div class="card"><div class="label">永豐銀行前七月</div><div class="value green">155.18億</div><div class="note">有機成長年增21%</div></div>
+  <div class="card"><div class="label">每股淨值/ROE(Q1)</div><div class="value green">18.3 / 17.1%</div><div class="note">ROE為批次最高</div></div>
+  <div class="card"><div class="label">股利殖利率</div><div class="value">3.5%</div><div class="note">配發率71%,近5年平均殖利率3.80%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔持有,合計2.97億元</div><div class="note">2026/08/14資料,金融股批次中屬中等水位</div></div>
+  <div class="card"><div class="label">業務結構</div><div class="value">銀行為主體</div><div class="note">2025年三項併購(Amret/京城銀行/惠立證券)擴大版圖</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>業務結構</th><th>前七月EPS</th><th>與永豐金的差異</th></tr>
+  <tr class="hl"><td>2890.TW</td><td>永豐金</td><td>銀行為主體</td><td>1.96(年增89%,創新高)</td><td>ROE17.1%為批次最高,惟增速含併購基期效應</td></tr>
+  <tr><td>2891.TW</td><td>中信金(本站另篇分析)</td><td>銀行為主體</td><td>2.19(前七月,年增5%)</td><td>ROE年化約16.5%略低於永豐金,惟成長增速遠不及永豐金,防禦性較佳</td></tr>
+  <tr><td>2887.TW</td><td>台新新光金(本站另篇分析)</td><td>合併後綜合型</td><td>2.04(前七月,年增281%,創新高)</td><td>合併基期效應更明顯,增速為批次最高</td></tr>
+  <tr><td>2881.TW</td><td>富邦金(本站另篇分析)</td><td>壽險為主體</td><td>核心6.54(含一次性13.73)</td><td>壽險為主體,獲利結構與永豐金截然不同</td></tr>
+  <tr><td>2885.TW</td><td>元大金(本站另篇分析)</td><td>證券為主體</td><td>3.22(前七月,創新高)</td><td>證券為主體,獲利對股市成交量敏感度遠高於永豐金</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——ROE17.1%為批次最高,對應P/B約2.22倍屬合理,尚未充分反映三項併購綜效的長期價值。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以前七月EPS1.96元年化(3.36)套用金控銀行股常見的13~17倍本益比計算,合理價區間約43.7~57.1元(中值50.4),現價40.55落於此區間下緣以下,顯示現價相對於年化獲利具有安全邊際。以P/B×ROE角度觀察,永豐金年化ROE達17.1%,是本次金融股批次中最高者,對應現價P/B約2.22倍(每股淨值18.3元),在「高ROE理應享有較高P/B」的邏輯下,這個估值倍數相對於同業(如ROE較低的中信金P/B卻達2.35倍)顯得偏低,顯示市場可能尚未充分認可永豐金透過三項併購案(Amret、京城銀行、惠立證券)所帶來的規模與獲利能力躍升。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價40.55 vs 中值</th></tr>
+  <tr><td>EPS年化×P/E(自估)</td><td>前七月EPS1.96×12/7=3.36,金控銀行股本益比13~17x</td><td>43.7~57.1(中值50.4)</td><td class="green">便宜 -19.6%</td></tr>
+  <tr><td>P/B×ROE法</td><td>每股淨值18.3,ROE17.1%理應享有較高P/B(2.4~3.0x,推演)</td><td>43.9~54.9(中值49.4,推演)</td><td class="green">便宜 -17.9%</td></tr>
+  <tr><td>股利殖利率法</td><td>現金股利1.1元,金控股合理殖利率3~4%</td><td>27.5~36.7(中值32.1)</td><td class="red">貴 +26.3%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:三項併購案的長期綜效兌現節奏與被併購標的(尤其海外的Amret)的風險曝險具高度不確定性,多年期FCF假設信度不足。三種方法中,EPS年化法與P/B×ROE法方向一致指向現價便宜(-17.9~-19.6%),兩者互相印證「高ROE尚未充分反映在股價評價」的判斷;僅股利殖利率法(以較低的現金股利1.1元為基準,且未計入股票股利0.2元的稀釋效果)顯示現價偏貴,但股利殖利率法通常對成長股較不友善,不宜作為主要錨點。整體而言本站認為現價便宜的訊號較為可信。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value green">獲利創新高驅動股價穩健走高</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">8月區間38.7~40.55,今年振幅46%相對溫和</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">查無正式目標價,本站自估46</div><div class="note">綜合本益比與P/B×ROE法</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.96(前七月)→3.36(年化)</div><div class="note">三項併購綜效能否持續超越基期效應是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>3.36(前七月年化)</td><td>13~17x</td><td>43.7~57.1(中值50.4)</td><td class="green">約 24%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟需留意2026年89%高成長基期效應消退後的正常化增速(永豐銀行本業有機成長約21%可作參考下限)</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為批次中最高的正值之一,顯示現價相對於年化獲利有明顯的安全邊際。2027年EPS共識查無穩定區間,惟永豐銀行自身(不含新併購子公司)的年增21%可作為較保守的正常化成長參考下限,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 24~62;left% = (價格-24)/38×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">30~33</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">37~41</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:69.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">45~49</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:91.9%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">53~57</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:48.9%"><div class="arrow">▲</div><div class="price">40.55</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>30~33</td><td>京城銀行/Amret併購綜效不如預期,或當地信用風險爆發拖累整體獲利</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>37~41</td><td>H2成長增速較前七月放緩但延續本業約21%的有機成長水準,現價落於此區間內</td><td>約 -4%</td></tr>
+  <tr><td class="green">Bull</td><td>45~49</td><td>併購綜效持續發酵且ROE維持17%以上高檔,P/B評價向同業高ROE股靠攏</td><td class="green">約 16%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>53~57</td><td>ROE持續提升且市場全面認可併購後的規模效益,評價重估至同業溢價區間</td><td class="green">約 36%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">37~38.5</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">34~36.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">30~33</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">35</b>(接近8月區間下緣加計緩衝)= 併購綜效成長動能明顯轉弱或海外風險浮現確認,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破41.9(今年高點)+量能確認,且8月獲利公告顯示ROE持續維持15%以上高檔<br>
+    進場區:<b class="green">42~45</b><br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回40即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">45~49</div><div class="note">賣出30~50%;Bull區,金融股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">53~57</div><div class="note">Stretched區;續抱條件是ROE持續維持17%以上高檔</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:前七月稅後淨利飆289.32億元、年增89%創歷史新高,EPS達1.96元;永豐銀行前七月獲利年增21%連續第6年創新高,加上2025年完成的柬埔寨Amret、京城銀行、惠立證券三項併購案綜效持續發酵,年化ROE提升至17.1%為金融股批次最高。</div>
+<div class="concl">② <b>估值</b>:便宜——EPS年化法與P/B×ROE法方向一致指向現價便宜(-17.9~-19.6%),對照批次最高的17.1%ROE,現價P/B約2.22倍相對偏低,顯示市場尚未充分認可併購後的規模與獲利能力躍升。</div>
+<div class="concl">③ <b>結論</b>:偏多、前七月獲利年增89%創歷史新高——現價40.55落於Base區間內,上檔Bull +16%/Stretched +36%對下檔Bear -22%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破35即無條件出場。下一個驗證點是H2成長增速能否延續本業約21%的有機成長水準,及柬埔寨Amret風險曝險的後續觀察。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);前七月累計獲利、永豐銀行子公司獲利(公司公告,2026/08/11);法說會每股淨值/ROE(富果直送,2026/06/23);股利政策(公開資料彙整,2026/07/23除息);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;柬埔寨Amret獲利貢獻拆分、正式外資/本土法人2026年目標價、正式FactSet多分析師共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司公告、民視新聞網、鉅亨網、富果直送。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

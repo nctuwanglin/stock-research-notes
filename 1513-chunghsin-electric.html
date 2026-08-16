@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中興電 (1513) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>中興電 (1513) <span class="badge amber">估值:合理,取得TSMC美廠訂單資格為新催化劑</span> <span class="badge amber">結論:中性,成長速度溫和但方向正確</span><span class="autodispo" data-code="1513"></span></h1>
+<div class="sub">台股(TWSE)・重電(綠能/輸配電力設備,節能空調,氫能發電系統),已取得TSMC美廠合格供應商資格|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="1513">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">155</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="1513">現價 <b>170</b> → 目標價 <b>190</b><span class="up"> (+11.8%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS4.5年化9.0,與外資券商2026年EPS估值9.17高度吻合;套用重電股倍數18~24x得約162~216(中值189);外資券商目標價195(依據9.17元EPS),綜合自估與券商數字採目標價190</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">170.00</div><div class="note">2026/08/14 收盤;8月區間155.5~171</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">24.10億</div><div class="note">MoM-14.92%,YoY+3.83%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">4.5</div><div class="note">創同期新高;Q1 1.90(YoY+8.87%)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">164.34億</div><div class="note">YoY+3.53%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">143~187</div><div class="note">3月低、6月高;全年振幅約31%,重電族群中波動最小</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">431億(Q1)</div><div class="note">已取得TSMC美廠合格供應商資格,首案預計9月簽約</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼取得TSMC美廠訂單資格是重要新催化劑?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~6月</span>股價於143~187區間相對溫和震盪,是重電族群四檔中全年振幅最小者(約31%),反映市場對其成長速度的溫和預期。</li>
+  <li><span class="date">2025年全年</span>營收達275億元(YoY+7.2%),EPS8.07元,均創歷史新高,預計配發現金股利6元。</li>
+  <li><span class="date">2026/04/23</span>法說會:Q1 2026營收64.91億元(YoY+0.67%),毛利率25.98%,營業利益12.03億元,稅後淨利9.56億元(YoY+8.87%),Q1 EPS1.90元略優於預期,在手訂單431億元;公司表示今年將再爭取訂單260億元,民間市場是重點,已成為半導體龍頭廠(市場推測為TSMC)的合格供應商,第一個案子預計9月簽約,1Q27出貨。</li>
+  <li><span class="date">2026/08/03</span>公告Q2財務報告提報董事會決議日期。</li>
+  <li><span class="date">2026年8月上旬</span>H1累計EPS4.5元公布,創同期新高;7月營收24.10億元(依MOPS官方公告),月減14.92%、年增3.83%,累計1~7月營收164.34億元,年增3.53%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①取得TSMC美廠合格供應商資格雖是重要的長期正向訊號,但首案預計9月才簽約、1Q27才出貨,短期內對營收貢獻有限,不宜過度提前反映;②7月營收月減14.92%,雖公司過去已提醒單月數字易受案場認列時點影響而失真,但這個減幅仍值得留意是否為短期波動或動能轉緩的訊號;③公司計畫今年再爭取260億元新訂單,聚焦民間市場,這個目標的達成進度目前查無中期追蹤數字。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">公司已成為半導體龍頭廠合格供應商,第一個案子預計9月簽約、1Q27出貨,是打入AI供應鏈的重要里程碑;在手訂單431億元,今年計畫再爭取260億元新訂單。<div class="src">— 公司法說會,2026/04/23</div></div>
+    <div class="quote">H1累計EPS4.5元創同期新高,累計1~7月營收年增3.53%,維持正成長軌道;外資券商預估2026年EPS可望衝上9.17元,目標價195元。<div class="src">— 財經媒體彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">取得TSMC美廠合格供應商資格的首案預計9月才簽約、1Q27才出貨,短期內對營收貢獻有限,現階段股價不宜過度提前反映這個尚未兌現的長期題材。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">7月營收月減14.92%,今年計畫爭取的260億元新訂單目前查無中期追蹤進度,成長故事的兌現速度仍需持續觀察。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>外資券商(發布日期不明確)</td><td class="amber">195</td><td>2026年EPS估值9.17元,與H1年化數字(9.0)高度吻合</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式FactSet多分析師共識調查與Q2財報後的更新版本;引用的外資券商EPS估值與自估H1年化數字交叉驗證基礎相對紮實。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="1513"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+17,460</span></td><td>8/10</td><td><span class="green">+1,325</span></td></tr><tr><td>投信</td><td><span class="red">-170</span></td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="green">+390</span></td><td>5/10</td><td><span class="red">-453</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+17,676</span></td><td>8/10</td><td><span class="green">+872</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+1,325</span></td><td>+0</td><td><span class="red">-453</span></td><td><span class="green">+872</span></td></tr><tr><td>08/13</td><td><span class="green">+9,070</span></td><td><span class="red">-1</span></td><td><span class="green">+590</span></td><td><span class="green">+9,659</span></td></tr><tr><td>08/12</td><td><span class="green">+4,032</span></td><td>+0</td><td><span class="green">+346</span></td><td><span class="green">+4,378</span></td></tr><tr><td>08/11</td><td><span class="green">+236</span></td><td><span class="red">-2</span></td><td><span class="green">+18</span></td><td><span class="green">+251</span></td></tr><tr><td>08/10</td><td><span class="green">+353</span></td><td><span class="red">-1</span></td><td><span class="green">+2</span></td><td><span class="green">+354</span></td></tr><tr><td>08/07</td><td><span class="red">-145</span></td><td>+0</td><td><span class="red">-34</span></td><td><span class="red">-179</span></td></tr><tr><td>08/06</td><td><span class="red">-256</span></td><td>+0</td><td><span class="red">-67</span></td><td><span class="red">-324</span></td></tr><tr><td>08/05</td><td><span class="green">+1,001</span></td><td><span class="red">-4</span></td><td><span class="red">-22</span></td><td><span class="green">+974</span></td></tr><tr><td>08/04</td><td><span class="green">+1,303</span></td><td><span class="red">-77</span></td><td><span class="red">-6</span></td><td><span class="green">+1,220</span></td></tr><tr><td>08/03</td><td><span class="green">+541</span></td><td><span class="red">-85</span></td><td><span class="green">+16</span></td><td><span class="green">+471</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value amber">24.10億</div><div class="note">YoY+3.83%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">4.5</div><div class="note">創同期新高</div></div>
+  <div class="card"><div class="label">Q1毛利率</div><div class="value green">25.98%</div><div class="note">Q1稅後淨利9.56億,YoY+8.87%</div></div>
+  <div class="card"><div class="label">在手訂單</div><div class="value amber">431億(Q1)</div><div class="note">今年計畫再爭取260億新訂單</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">TSMC美廠合格供應商</div><div class="value amber">首案9月簽約</div><div class="note">1Q27出貨,短期貢獻有限</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與中興電的差異</th></tr>
+  <tr class="hl"><td>1513.TW</td><td>中興電</td><td>自估162~216;外資券商目標價195</td><td>7月營收YoY+3.83%,H1 EPS創同期新高,已取得TSMC美廠訂單資格</td><td>成長速度較溫和但方向正確,股價波動性重電族群中最小</td></tr>
+  <tr><td>1519.TW</td><td>華城(本站另篇分析)</td><td>自估234.7~312.96;FactSet945(下修軌跡)</td><td>1~7月累計營收年減3.67%,與市場樂觀敘事矛盾</td><td>題材知名度較高但營收軌跡與敘事嚴重背離</td></tr>
+  <tr><td>1503.TW</td><td>士電(本站另篇分析)</td><td>自估201.6~252;元大證券278(日期不明確)</td><td>7月營收YoY+15.10%,H1 EPS創同期新高</td><td>成長速度較快且動能與敘事一致性最佳</td></tr>
+  <tr><td>1514.TW</td><td>亞力(本站另篇分析)</td><td>自估82.5~115.5;券商目標價137(3月,已過時)</td><td>H1 EPS1.65創同期新高,在手訂單120億創高</td><td>H1獲利扎實,惟7月單月MoM下滑幅度較大</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——H1實績與外資EPS估值高度吻合,取得TSMC美廠訂單資格是尚待兌現的新催化劑。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS4.5年化(9.0)套用重電股常見的18~24倍本益比計算,合理價區間約162~216元(中值189),現價170.00大致落於此區間內偏下段。這個自估年化EPS(9.0)與外資券商引用的2026年EPS估值(9.17)高度吻合,交叉驗證基礎相對紮實。取得TSMC美廠合格供應商資格是重要的長期正向訊號,但首案要到9月才簽約、1Q27才出貨,現階段對營收的實質貢獻仍待觀察,不宜提前過度反映。中興電是重電族群四檔中成長速度較溫和但股價波動性最小的一檔,適合作為族群配置中相對穩健的選項。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價170.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估)</td><td>H1 EPS4.5×2=9.0,重電股倍數18~24x</td><td>162~216(中值189)</td><td class="amber">合理 -10.1%</td></tr>
+  <tr><td>外資EPS估值×倍數(交叉驗證)</td><td>2026年EPS估值9.17(外資券商),倍數18~24x</td><td>165.06~220.08(中值192.6)</td><td class="amber">合理 -11.7%</td></tr>
+  <tr><td>外資券商目標價(發布日期不明確)</td><td>195(單點,依據EPS9.17)</td><td>195(單點)</td><td class="amber">合理 -12.8%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:重電業用案場認列營收具波動性,加上TSMC美廠訂單的具體認列時程仍待9月簽約後才明朗,多年期FCF假設信度不足。三種方法方向一致,皆顯示現價大致合理略偏低估(-10.1~-12.8%),分歧程度小,是本次重電族群分析中估值判斷確定性相對較高的一檔。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">股價溫和上揚,波動性重電族群中最小</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">8月區間155.5~171,近期股價逐步走高</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">外資券商目標價195</div><div class="note">2026年EPS估值9.17與H1年化數字高度吻合</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">4.5(H1)→9.17(2026E外資估值)</div><div class="note">TSMC美廠首案9月簽約進度是關鍵新催化劑驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>9.0(H1年化) / 9.17(外資估值)</td><td>18~24x</td><td>162~220.08(中值191.04)</td><td class="green">約 12%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟TSMC美廠首案1Q27開始出貨</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,反映H1實績與外資EPS估值的一致性支撐現價的合理性。2027年EPS共識查無穩定區間,惟TSMC美廠首案預計1Q27開始出貨,若能順利兌現,可能是2027年獲利加速的關鍵驅動力,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 120~260;left% = (價格-120)/140×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">145~158</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">175~190</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">205~220</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">238~252</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:39.6%"><div class="arrow">▲</div><div class="price">170.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>145~158</td><td>TSMC美廠首案9月簽約延遲,或民間260億新訂單爭取進度不如預期</td><td class="red">約 -11%</td></tr>
+  <tr><td class="amber">Base</td><td>175~190</td><td>H2維持穩健成長但無驚喜,現價落於此區間下緣附近</td><td>約 7%</td></tr>
+  <tr><td class="green">Bull</td><td>205~220</td><td>TSMC美廠首案如期9月簽約,民間新訂單爭取進度符合guidance</td><td class="green">約 25%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>238~252</td><td>TSMC供應鏈地位全面確立且評價重估,重返並超越6月高點187</td><td class="green">約 44%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">160~168</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">150~159</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">145~149</td><td>30%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">155</b>(接近8月低點)= TSMC美廠首案簽約延遲或民間訂單進度不如預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破171(8月區間高點)+量能確認,且TSMC美廠首案簽約進度有具體公告<br>
+    進場區:<b class="green">173~185</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回169即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">205~220</div><div class="note">賣出30~50%;Bull區,重電股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">238~252</div><div class="note">Stretched區;續抱條件是TSMC供應鏈地位全面確立且訂單持續擴大</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:已取得半導體龍頭廠(市場推測為TSMC)美廠合格供應商資格,首案預計2026年9月簽約、1Q27出貨,是打入AI供應鏈的重要里程碑;在手訂單431億元,今年計畫再爭取260億元新訂單,聚焦民間市場。</div>
+<div class="concl">② <b>估值</b>:合理——自估H1年化法與外資EPS估值(9.17)交叉驗證高度吻合,三種方法皆顯示現價大致合理略偏低估(-10.1~-12.8%),分歧程度小,是本次重電族群分析中確定性相對較高的一檔。</div>
+<div class="concl">③ <b>結論</b>:中性、成長速度溫和但方向正確——現價170落於Base區間內,上檔Bull +25%/Stretched +44%對下檔Bear -11%,風險報酬中性偏正向;可正常左側分批布局,收盤跌破155即無條件出場。下一個驗證點是TSMC美廠首案能否如期9月簽約,以及民間260億新訂單的爭取進度。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q1法說會(富果直送,2026/04/23);H1財報(公司財報公告,2026/08);外資券商目標價(財經媒體彙整,發布日期不明確);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式FactSet多分析師共識調查、260億新訂單爭取進度之中期追蹤數字、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、富果直送、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
