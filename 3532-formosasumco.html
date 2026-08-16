@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台勝科 (3532) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>台勝科 (3532) <span class="badge purple">事件:Q2轉盈但H1仍淨損</span> <span class="badge red">估值:虧損股禁用P/E,P/S隱含估值極端偏貴</span> <span class="badge red">結論:觀望,轉機訊號尚早不足以支撐現價</span><span class="autodispo" data-code="3532"></span></h1>
+<div class="sub">台股(TWSE)・矽晶圓(台塑集團與日本SUMCO合資),主攻8吋/12吋半導體級矽晶圓|事件後估值版(Q2財報後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3532">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">280</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3532">現價 <b>356</b> → 目標價 <b>110</b><span class="down"> (-69.1%)</span></div>
+  <div class="vbasis">推導依據:H1仍淨損(EPS-0.05),虧損股禁用P/E估值;改以P/S對照,現價隱含P/S約10倍,即使給予轉機股的樂觀溢價(2~4倍)仍遠低於現價;查無任何近期具可信度的公開券商目標價(僅有明顯過時的270元單點數字,已被現價遠遠超越)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">356.00</div><div class="note">2026/08/14 收盤;8月區間265~358</div></div>
+  <div class="card"><div class="label">Q2營業利益</div><div class="value green">0.95億</div><div class="note">由Q1營業虧損1.05億轉盈,近2年半高點營收</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.12</div><div class="note">H1累計EPS-0.05,仍為淨損</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">36.1億</div><div class="note">季增9.11%,年增20.63%,近2年半高點</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">96.8~523.0</div><div class="note">1月低、7月高;全年振幅逾5.4倍</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value red">查無</div><div class="note">僅查得5月數字(12.18億,YoY+24.43%)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2由虧轉盈是真實的轉機訊號,惟H1整體仍淨損,不足以支撐現價的估值水準</h2>
+<div class="event">
+  <h3>事件摘要:Q2營業利益0.95億元由Q1虧損1.05億元轉盈,惟H1整體EPS仍為-0.05元</h3>
+  <div class="flow">台勝科Q2合併營收36.1億元,季增9.11%、年增20.63%,為近2年半高點;營業利益由Q1的虧損1.05億元轉為Q2獲利0.95億元,稅後淨利0.47億元,Q2 EPS0.12元。然而上半年整體而言,公司仍呈現淨損狀態,H1 EPS為-0.05元。Q1營收33.09億元,年增10.8%。公司對H2及2027年展望表示樂觀,預期隨市場需求回溫將持續改善獲利。股價方面,台勝科同樣經歷了與環球晶、合晶類似的族群式暴衝:從1月低點96.8一路飆升至7月高點523.0(逾5.4倍漲幅),隨後在7月籌碼面危機中重挫至8月低點265,近期反彈至356。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:Q2轉盈確實是真實且正向的營運轉折訊號 → 惟H1整體仍為淨損狀態,尚未累積出足夠支撐現價的獲利基礎 → 現價隱含的P/S倍數(約10倍)遠超一般半導體材料廠合理區間,即使是轉機股的樂觀溢價也難以完全解釋 → 查無任何具時效性的券商目標價可資驗證</h3>
+  <div class="flow">台勝科這次分析最重要的判斷是:Q2由虧轉盈(營業利益由-1.05億轉為+0.95億)是真實且正向的營運轉折訊號,顯示公司體質確實在改善;但這個轉折仍處於相當早期的階段——H1整體EPS仍是負值,獲利基礎遠遠不足以支撐現價356元所隱含的估值水準。以現價回推的市值除以H1營收年化,隱含P/S約達10倍,這對一家仍處虧損邊緣的半導體材料廠而言明顯過高,即使考慮到市場願意為「轉機故事」支付溢價,合理的P/S區間通常也僅在2~4倍左右。搜尋結果中查到的唯一目標價數字(270元)明顯已經過時且遠低於現價,不具參考價值,顯示這檔股票目前完全缺乏具時效性的機構覆蓋。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後)</th><th>事件後(Q2財報後)</th></tr>
+    <tr><td>單季營業利益</td><td>Q1虧損1.05億</td><td class="green">Q2獲利0.95億,轉盈</td></tr>
+    <tr><td>單季EPS</td><td>Q1約-0.17(H1-Q2推算)</td><td class="amber">Q2 0.12,H1累計仍為-0.05</td></tr>
+    <tr><td>單季營收</td><td>Q1 33.09億,YoY+10.8%</td><td class="green">Q2 36.1億,YoY+20.63%,近2年半高點</td></tr>
+    <tr><td>公開券商目標價</td><td>270(單點,已明顯過時)</td><td class="red">查無Q2財報後更新,270元數字已被現價356遠遠超越</td></tr>
+    <tr><td>股價</td><td>查無精確值(Q1財報前)</td><td class="red">356.00,較7月高點523已回檔32%但仍處高檔</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月中</span>股價從1月低點96.8一路飆升至7月高點523.0(逾5.4倍漲幅),與環球晶、合晶同步受惠矽晶圓漲價與AI結構性缺貨題材。</li>
+  <li><span class="date">2026年7月中~8月初</span>股價自7月高點急殺至8月低點265(較高點回檔近49%),與族群同步經歷籌碼面危機。</li>
+  <li><span class="date">2026年8月上旬</span>Q2財報:營業利益由虧轉盈(0.95億),Q2 EPS0.12,惟H1整體仍淨損(EPS-0.05)。</li>
+  <li><span class="date">2026/08/11~14</span>股價隨族群反彈,自265回升至356,累計反彈34.3%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2雖然由虧轉盈,但H1整體仍是淨損狀態,獲利基礎遠不足以支撐現價;②查無7月營收的精確公告數字,僅能以5月數字(12.18億,YoY+24.43%)作為間接參考,資訊揭露的完整度不如環球晶、合晶、中美晶;③唯一查到的券商目標價(270元)明顯已經過時,現階段完全缺乏具時效性的機構覆蓋可供驗證現價的合理性。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2營收36.1億元創近2年半高點,營業利益由虧轉盈,對H2及2027年展望樂觀,預期隨市場需求回溫持續改善獲利。<div class="src">— 公司財報公告,2026/08</div></div>
+    <div class="quote">台塑集團與日本SUMCO合資背景,主攻8吋、12吋半導體級矽晶圓,同受惠矽晶圓漲價與AI結構性缺貨題材。<div class="src">— 產業報導彙整,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">H1整體仍是淨損狀態(EPS-0.05),Q2雖轉盈但獲利規模有限(EPS0.12),不足以支撐現價356元所隱含的估值水準。<div class="src">— 本儀表板觀察,依公司財報數字計算</div></div>
+    <div class="quote">查無7月營收精確公告與任何具時效性的券商目標價,唯一查到的270元目標價已明顯過時且遠低於現價,顯示這檔股票缺乏機構覆蓋的外部驗證。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無Q2財報後具時效性的公開券商目標價。搜尋僅得單一過時數據點「外資上調目標價至270元」(發布日期、券商名稱、EPS假設皆查無明確資訊),且該數字遠低於現價356,顯示已明顯過時不具參考價值。籌碼面評論指出「法人態度偏觀望,籌碼尚未改善」。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3532"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-1,451</span></td><td>5/10</td><td><span class="red">-1,436</span></td></tr><tr><td>投信</td><td><span class="red">-931</span></td><td>3/10</td><td><span class="green">+1,474</span></td></tr><tr><td>自營商</td><td><span class="red">-39</span></td><td>3/10</td><td><span class="red">-78</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-2,419</span></td><td>4/10</td><td><span class="red">-39</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-1,436</span></td><td><span class="green">+1,474</span></td><td><span class="red">-78</span></td><td><span class="red">-39</span></td></tr><tr><td>08/13</td><td><span class="red">-553</span></td><td><span class="green">+175</span></td><td><span class="red">-84</span></td><td><span class="red">-462</span></td></tr><tr><td>08/12</td><td><span class="green">+1,183</span></td><td>+0</td><td><span class="red">-18</span></td><td><span class="green">+1,165</span></td></tr><tr><td>08/11</td><td><span class="green">+483</span></td><td><span class="red">-1,289</span></td><td><span class="green">+113</span></td><td><span class="red">-694</span></td></tr><tr><td>08/10</td><td><span class="red">-1,498</span></td><td><span class="red">-535</span></td><td><span class="red">-84</span></td><td><span class="red">-2,116</span></td></tr><tr><td>08/07</td><td><span class="green">+80</span></td><td>+0</td><td><span class="red">-15</span></td><td><span class="green">+64</span></td></tr><tr><td>08/06</td><td><span class="green">+104</span></td><td><span class="green">+5</span></td><td><span class="red">-66</span></td><td><span class="green">+43</span></td></tr><tr><td>08/05</td><td><span class="green">+266</span></td><td>+0</td><td><span class="red">-51</span></td><td><span class="green">+216</span></td></tr><tr><td>08/04</td><td><span class="red">-25</span></td><td><span class="red">-1</span></td><td><span class="green">+3</span></td><td><span class="red">-23</span></td></tr><tr><td>08/03</td><td><span class="red">-55</span></td><td><span class="red">-760</span></td><td><span class="green">+241</span></td><td><span class="red">-573</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2營收</div><div class="value green">36.1億</div><div class="note">近2年半高點</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value red">-0.05</div><div class="note">Q2轉盈(0.12)但H1整體仍淨損</div></div>
+  <div class="card"><div class="label">Q2營業利益</div><div class="value green">0.95億</div><div class="note">由Q1虧損1.05億轉盈</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約1,380億</div><div class="note">股本38.78億(約3.878億股),以現價356計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">矽晶圓族群四檔中僅次於合晶的低關注度(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">法人籌碼態度</div><div class="value amber">偏觀望</div><div class="note">籌碼面尚未明顯改善</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與台勝科的差異</th></tr>
+  <tr class="hl"><td>3532.TW</td><td>台勝科</td><td>虧損股禁用P/E;P/S約10倍(估算)</td><td>Q2轉盈惟H1整體仍淨損,查無7月營收精確數字</td><td>台塑/SUMCO合資,轉機訊號早期階段,獲利能見度矽晶圓族群四檔中最弱</td></tr>
+  <tr><td>6488.TWO</td><td>環球晶(本站另篇分析)</td><td>自估422~591;FactSet733.5(已過時)</td><td>7月營收YoY+19.59%,Q2獲利含業外評價利益</td><td>全球第三大矽晶圓廠,獲利能見度遠優於台勝科</td></tr>
+  <tr><td>6182.TWO</td><td>合晶(本站另篇分析)</td><td>接近損平禁用P/E;P/S約6.4倍(估算)</td><td>H1接近損平,7月營收創近年新高</td><td>獲利狀況同樣脆弱,惟已轉為接近損平,優於台勝科的仍淨損狀態</td></tr>
+  <tr><td>5483.TWO</td><td>中美晶(本站另篇分析)</td><td>自估176~201(控股公司折價)</td><td>H1 EPS5.02,獲利表現優於台勝科</td><td>環球晶母公司,獲利能見度遠優於台勝科</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:虧損股禁用P/E,P/S對照顯示現價隱含估值極端偏貴。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">台勝科H1仍呈現淨損狀態,依循本站一貫紀律禁用P/E估值。以現價回推市值(約1,380億元)除以H1營收年化(約138億元),隱含P/S約10倍,這對一家仍處虧損邊緣、獲利轉機才剛開始(Q2單季獲利僅0.47億元)的半導體材料廠而言明顯過高。矽晶圓族群四檔股票中,台勝科的獲利能見度是最弱的一環(H1唯一整體仍淨損者),但股價的族群齊漲幅度(全年逾5.4倍)卻與獲利能見度較佳的環球晶、中美晶相當,顯示現價的支撐邏輯主要建立在族群題材而非公司自身的財務實績。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價356.00 vs 中值</th></tr>
+  <tr><td>P/S保守情境(獲利未站穩之折讓)</td><td>轉機初期半導體材料廠合理P/S約2~4x,對應H1年化營收138億</td><td>約71.2~142.4(中值106.8,推演)</td><td class="red">貴 233.3%</td></tr>
+  <tr><td>P/S對照環球晶(規模較大同業,推演)</td><td>套用環球晶自估P/S區間(推演)於台勝科年化營收138億</td><td>約55~85(中值70,推演)</td><td class="red">貴 408.6%</td></tr>
+  <tr><td>P/E法(不適用,H1淨損禁用)</td><td>H1 EPS-0.05,尚無穩定正值可供計算</td><td>不適用</td><td>不適用</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司仍處虧轉盈的早期階段,獲利軌跡尚未穩定,多年期FCF假設完全缺乏可靠基礎。兩種P/S對照方法皆顯示現價明顯偏貴(233~409%),是矽晶圓族群四檔分析中估值扭曲程度最嚴重的案例——Q2轉盈本身是正向訊號,但股價的族群齊漲幅度已經遠遠超前於這個仍屬早期階段的營運轉折。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">族群齊漲帶動追高情緒,過熱警訊明確</div><div class="bar"><div style="width:80%;background:var(--red)"></div></div><div class="note">全年振幅逾5.4倍,8月反彈幅度達34.3%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無具時效性的公開券商目標價</div><div class="note">唯一數字(270)已明顯過時且遠低於現價</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">H1淨損(-0.05)→查無2026E共識</div><div class="note">Q3能否延續Q2的轉盈趨勢是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td colspan="3" style="color:var(--muted)">H1仍淨損,查無正值EPS共識可供P/E法推演,不強行湊數</td><td>查無</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識,公司表示對2027展望樂觀但未量化</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">台勝科目前仍處獲利轉正的早期階段,查無任何機構財測共識可供三年估值路徑推演,依本站紀律不強行湊數。Q2轉盈是重要的正向訊號,但能否在Q3、Q4延續並累積出足夠的全年獲利基礎,是決定這個轉機故事能否兌現的關鍵,現階段查無具體財測,不宜提前為未確認的獲利路徑定價。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 80~600;left% = (價格-80)/520×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">170~200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">260~300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">350~390</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.2%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">440~470</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:53%"><div class="arrow">▲</div><div class="price">356.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>170~200</td><td>Q3轉盈趨勢未能延續,或族群漲價題材降溫,股價回歸P/S保守區間附近</td><td class="red">約 -48%</td></tr>
+  <tr><td class="amber">Base</td><td>260~300</td><td>Q3維持獲利但幅度有限,全年能否轉為淨利仍待觀察</td><td class="red">約 -21%</td></tr>
+  <tr><td class="green">Bull</td><td>350~390</td><td>Q3、Q4轉盈趨勢確認延續,全年由淨損轉為淨利;現價落於此區間內</td><td>約 +4%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>440~470</td><td>獲利結構性改善全面確認且開始有券商發布首次覆蓋報告,重返部分7月高點523空間</td><td class="green">約 +28%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">255~280</td><td>20%</td></tr>
+      <tr><td>第二批</td><td class="green">220~254</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">170~219</td><td>50%(獲利未站穩,倉位應高度保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">280</b>(接近8月低點)= Q3轉盈趨勢未能延續或族群題材降溫,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破358(8月區間高點)+量能確認,且Q3財報驗證轉盈趨勢延續<br>
+    進場區:<b class="green">360~385</b>(估值風險極高,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回350即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(330~370)</div><div class="note">賣出40~60%;H1仍淨損且估值明顯偏貴,應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">440~470</div><div class="note">Stretched區;續抱條件是全年由淨損轉為淨利且獲利結構性改善確認</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:Q2營業利益由Q1虧損1.05億元轉為獲利0.95億元(EPS0.12),為真實且正向的營運轉折訊號;惟H1整體仍呈現淨損(EPS-0.05),獲利基礎仍處相當早期的階段,查無7月營收的精確公告數字。</div>
+<div class="concl">① <b>催化劑</b>:矽晶圓族群漲價與AI結構性缺貨題材帶動股價全年逾5.4倍的暴衝式行情,惟台勝科是族群四檔中唯一H1整體仍淨損者,查無任何具時效性的券商目標價覆蓋,機構關注度明顯偏低。</div>
+<div class="concl">② <b>估值</b>:虧損股禁用P/E估值——以P/S對照,現價隱含約10倍的估值,對照獲利轉機初期公司的合理P/S區間(2~4倍),兩種對照方法皆顯示現價明顯偏貴逾233~409%,是矽晶圓族群分析中估值扭曲程度最嚴重的案例。</div>
+<div class="concl">③ <b>結論</b>:觀望、轉機訊號尚早不足以支撐現價——現價356落於Bull區間下緣,上檔Stretched +28%對下檔Bear -48%,風險報酬明顯不利;新資金不建議追高,已持股者應審慎評估獲利了結,收盤跌破280即無條件出場。下一個驗證點是Q3能否延續Q2的轉盈趨勢,並累積出全年由淨損轉為淨利的具體證據。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q1/Q2財報(公司財報公告,2026/08);7月營收查無精確公告,僅查得5月數字(財經媒體彙整);籌碼面法人態度評論(市場報導彙整,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;7月營收精確數字、任何具時效性的公開券商目標價、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司財報公告、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;P/S估值法為推演性質,信度低於一般P/E法,已於內文明確標註。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

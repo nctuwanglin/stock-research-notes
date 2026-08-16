@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德微 (3675) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>德微 (3675) <span class="badge amber">估值:合理偏貴,三家中最全面受惠但查無目標價</span> <span class="badge amber">結論:中性,基本面最強但估值已反映多數利多</span><span class="autodispo" data-code="3675"></span></h1>
+<div class="sub">台股(TPEx)・分離式功率半導體(二極體/整流器/TVS/ESD保護元件),AI伺服器+Nexperia轉單雙重受惠|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3675">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">217</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3675">現價 <b>267.5</b> → 目標價 <b>245</b><span class="down"> (-8.4%)</span></div>
+  <div class="vbasis">推導依據:查無任何公開券商目標價覆蓋;H1 EPS3.51,惟Q2(2.00)優於Q1(1.51)且7月營收持續加速創新高,全年EPS推演約7.5~8(較H1簡單年化更貼近加速動能),套用AI+Nexperia雙重受惠溢價倍數25~35x得約187.5~280(中值233.75);現價267.5落於此區間上緣</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">267.50</div><div class="note">2026/08/14 收盤;8月區間238~280.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">2.91億</div><div class="note">MoM+3.97%,YoY+29.78%,創單月新高</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">2.00</div><div class="note">H1累計3.51;Q1 EPS1.51</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">40.8%</div><div class="note">季增2.5個百分點,歷史次高</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">132.5~450.0</div><div class="note">1月低、7月高;全年振幅逾3.4倍</div></div>
+  <div class="card"><div class="label">Nexperia+AI雙重受惠度</div><div class="value green">最全面(三檔中)</div><div class="note">TVS/ESD保護元件+緊湊MOSFET直接對應AI電源需求</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼是三家中「最全面受惠」的一檔?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月初</span>股價從1月低點132.5飆升至7月高點450.0(逾3.4倍漲幅),為功率半導體族群本波行情漲幅最劇烈的個股之一。</li>
+  <li><span class="date">2025年10月~2026年</span>安世(Nexperia)事件引發轉單潮,鉅亨網產業比較報導明確評為德微是三家功率半導體標的中「最全面受惠」的一家:TVS/ESD保護元件、緊湊型MOSFET、Low VF GPP(低順向壓降通用整流二極體)三項產品線直接對應AI伺服器電源需求。</li>
+  <li><span class="date">2026/05/28</span>法說會:公司管理層表示受惠AI剛需與OOC(Out-of-China)轉單,毛利率突破40%,展望「隨著高毛利產品逐步放量,將持續優化產品組合與營運效率」。</li>
+  <li><span class="date">2026年8月上旬</span>Q2財報:EPS2.00元(優於Q1的1.51元),H1累計3.51元,毛利率40.8%創歷史次高。</li>
+  <li><span class="date">2026年8月上旬</span>7月營收2.91億元公布,月增3.97%、年增29.78%,創單月營收新高,累計前七月營收17.76億元,年增19.02%。</li>
+  <li><span class="date">2026/08/07</span>外資賣超184張(單日籌碼面訊號),當日本益比46.4倍、股價淨值比4.8倍,顯示市場定價已相當充分。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①查無任何公開券商目標價或FactSet共識調查,是三檔功率半導體標的中唯一完全缺乏機構覆蓋者,儘管基本面數據是三者中最扎實的;②8/7單日本益比已達46.4倍,對一家分離式功率半導體廠而言處於偏高水位,即使成長動能強勁,這個倍數也已相當程度反映樂觀預期;③股價全年振幅逾3.4倍,獲利了結賣壓明顯(市值快照從221.5億跌至以現價估算的約142億,顯示波動劇烈)。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">受惠AI剛需與OOC轉單,毛利率突破40%,隨著高毛利產品逐步放量,公司將持續優化產品組合與營運效率。<div class="src">— 公司法說會,2026/05/28</div></div>
+    <div class="quote">7月營收創單月新高,年增29.78%,今年以來受惠AI應用、車用電子與工控產品需求強勁,累計前七月營收年增19.02%。<div class="src">— 公司自結營收公告,2026/08</div></div>
+    <div class="quote">在Nexperia轉單效應+AI伺服器電源需求+產品組合升級三重因素下,德微被評為三家功率半導體標的中「最全面受惠」的一家。<div class="src">— 鉅亨網產業比較報導,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">8/7單日本益比已達46.4倍、股價淨值比4.8倍,對一家分離式功率半導體廠而言處於偏高水位,顯示市場定價已相當充分反映樂觀預期。<div class="src">— 籌碼面統計,2026/08/07</div></div>
+    <div class="quote">德微是三檔功率半導體標的中唯一查無任何公開券商目標價覆蓋的個股,儘管基本面數據最扎實,估值判斷完全仰賴自估方法,外部驗證基礎薄弱。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價全年振幅逾3.4倍,近期外資單日賣超184張,顯示部分市場參與者已開始獲利了結。<div class="src">— 本儀表板觀察,依籌碼面統計</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無任何公開券商目標價或FactSet共識調查覆蓋,是三檔功率半導體標的中唯一完全缺乏機構覆蓋者。8/7單日籌碼面統計顯示本益比46.4倍、股價淨值比4.8倍,可作為現價相對歷史水位的參考。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3675"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-659</span></td><td>3/10</td><td><span class="green">+136</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-14</span></td><td>5/10</td><td><span class="red">-34</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-671</span></td><td>2/10</td><td><span class="green">+102</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+136</span></td><td>+0</td><td><span class="red">-34</span></td><td><span class="green">+102</span></td></tr><tr><td>08/13</td><td><span class="red">-91</span></td><td>+0</td><td><span class="green">+1</span></td><td><span class="red">-89</span></td></tr><tr><td>08/12</td><td><span class="green">+23</span></td><td>+0</td><td><span class="red">-2</span></td><td><span class="green">+21</span></td></tr><tr><td>08/11</td><td><span class="red">-34</span></td><td>+0</td><td><span class="red">-4</span></td><td><span class="red">-38</span></td></tr><tr><td>08/10</td><td><span class="red">-87</span></td><td>+0</td><td><span class="green">+2</span></td><td><span class="red">-85</span></td></tr><tr><td>08/07</td><td><span class="red">-184</span></td><td>+0</td><td><span class="red">-7</span></td><td><span class="red">-190</span></td></tr><tr><td>08/06</td><td><span class="green">+18</span></td><td>+0</td><td><span class="red">-45</span></td><td><span class="red">-27</span></td></tr><tr><td>08/05</td><td><span class="red">-351</span></td><td>+0</td><td><span class="green">+13</span></td><td><span class="red">-338</span></td></tr><tr><td>08/04</td><td><span class="red">-46</span></td><td>+0</td><td><span class="green">+30</span></td><td><span class="red">-16</span></td></tr><tr><td>08/03</td><td><span class="red">-43</span></td><td>+0</td><td><span class="green">+32</span></td><td><span class="red">-11</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">2.91億</div><div class="note">YoY+29.78%,創單月新高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">3.51</div><div class="note">Q2(2.00)優於Q1(1.51),獲利加速</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">40.8%</div><div class="note">季增2.5個百分點,歷史次高</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約142億</div><div class="note">53,057,923股,以現價267.5計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">與台半同樣未獲主動式資金關注(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">Nexperia+AI雙重受惠度</div><div class="value green">最全面(三檔中)</div><div class="note">TVS/ESD+緊湊MOSFET+Low VF GPP三線並進</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與德微的差異</th></tr>
+  <tr class="hl"><td>3675.TWO</td><td>德微</td><td>自估188~280(推演);查無正式目標價</td><td>7月營收創新高YoY+29.78%,Q2毛利率40.8%史上次高</td><td>基本面三檔中最扎實,惟查無任何機構覆蓋,估值判斷不確定性最高</td></tr>
+  <tr><td>2481.TW</td><td>強茂(本站另篇分析)</td><td>自估95.8~119.75;單一外資目標價110</td><td>6月營收YoY+27.37%,惟尚未創高</td><td>產品組合最全面但傳統產品線拖累動能,營收創高速度落後德微</td></tr>
+  <tr><td>5425.TWO</td><td>台半(本站另篇分析)</td><td>自估60.8~91.2;市場流傳102/120</td><td>H1 EPS1.52,Nexperia轉單受惠度最高(車用)</td><td>車用布局明確,惟AI伺服器直接受惠度不如德微</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理偏貴——基本面三檔中最強,惟現價已相當程度反映這個優勢且缺乏外部驗證。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS3.51為基礎,考量Q2(2.00)已優於Q1(1.51)且7月營收持續加速創新高,採用較貼近加速動能的全年EPS推演(約7.5~8,高於簡單H1年化的7.02),套用反映AI+Nexperia雙重受惠題材的溢價倍數25~35倍,合理價格區間約187.5~280元(中值233.75),現價267.5落於此區間上緣。德微是三檔功率半導體標的中基本面最扎實的一家(毛利率史上次高、營收持續創新高、獲利季增而非放緩),但同時也是唯一查無任何機構覆蓋的個股,加上8/7單日本益比已達46.4倍的偏高水位,現價已相當程度反映這些正面因素,上檔空間相對強茂、台半更為有限。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價267.50 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(保守情境)</td><td>H1 EPS3.51×2=7.02(假設H2與H1持平),倍數25~35x</td><td>175.5~245.7(中值210.6)</td><td class="red">貴 27.0%</td></tr>
+  <tr><td>H1+加速動能×倍數(推演,較貼近實際趨勢)</td><td>全年EPS推演7.5~8(反映Q2優於Q1及7月營收加速),倍數25~35x</td><td>187.5~280(中值233.75)</td><td class="amber">合理 14.4%</td></tr>
+  <tr><td>本益比水位對照(8/7籌碼統計)</td><td>當日本益比46.4倍(單點,對照歷史正常水位20~30倍)</td><td>約151.7~227.6(中值189.7,以正常水位回推,推演)</td><td class="red">貴 41.0%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:功率半導體循環股獲利對終端需求組合敏感,加上查無任何機構覆蓋可供校準長期假設,多年期FCF假設缺乏可靠基礎。三種方法呈現溫和分歧:保守的H1年化法顯示現價貴約27%,納入加速動能的推演顯示現價大致合理(貴14.4%),而以正常本益比水位回推(相對於8/7實際觀察到的46.4倍)則顯示現價貴逾41%。整體而言,現價已相當程度反映德微三檔中基本面最強的優勢,上檔空間有限,不建議在缺乏機構目標價驗證的情況下追高。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">獲利了結賣壓與基本面強勢並存</div><div class="bar"><div style="width:62%;background:var(--amber)"></div></div><div class="note">股價全年振幅逾3.4倍,8/7外資單日賣超184張</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何公開券商目標價覆蓋</div><div class="note">三檔功率半導體標的中唯一完全缺乏機構覆蓋者</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.51(H1)→約7.5~8(2026E推演)</div><div class="note">H2能否延續Q2優於Q1的加速趨勢是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>7.02(H1年化,保守) / 7.5~8(加速動能,推演)</td><td>25~35x</td><td>175.5~280(區間反映假設落差)</td><td class="red">查無精確共識,不強行推演單一數字</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,亦無機構財測可資對照</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS假設區間反映保守與加速動能兩種情境的落差,現價落於這兩種情境對應合理價的上緣附近,顯示上檔空間相對有限;2027年查無機構財測共識,不強行推演。這條路徑的核心啟示是:德微的估值高度取決於H2能否延續Q2優於Q1的加速趨勢,且缺乏機構覆蓋使得任何估值判斷的外部驗證基礎都相對薄弱。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 100~480;left% = (價格-100)/380×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">175~200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">240~270</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">305~335</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">370~395</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:44.7%"><div class="arrow">▲</div><div class="price">267.50</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>175~200</td><td>H2加速趨勢未能延續,或本益比水位向正常區間(20~30x)修正</td><td class="red">約 -30%</td></tr>
+  <tr><td class="amber">Base</td><td>240~270</td><td>Q3維持成長但無驚喜,估值倍數維持現有偏高水位;現價落於此區間內</td><td>約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>305~335</td><td>H2加速趨勢確認延續,毛利率維持40%以上,開始有券商發布首次覆蓋報告</td><td class="green">約 19%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>370~395</td><td>AI+Nexperia雙重受惠全面兌現且估值倍數進一步擴張,重返7月高點450.0附近的部分空間</td><td class="green">約 43%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">240~255</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">218~239</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">175~217</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">217</b>(8月區間低點)= H2加速趨勢未能延續或估值倍數大幅修正,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破280.5(8月區間高點)+量能確認,且Q3財報驗證加速趨勢延續<br>
+    進場區:<b class="green">282~300</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回267即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">305~335</div><div class="note">賣出30~50%;Bull區,循環股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">370~395</div><div class="note">Stretched區;續抱條件是AI+Nexperia雙重受惠全面兌現且開始有正式券商覆蓋</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:Nexperia轉單潮+AI伺服器電源需求雙重驅動,德微被產業比較報導評為三家功率半導體標的中「最全面受惠」的一家(TVS/ESD保護元件、緊湊型MOSFET、Low VF GPP三線並進);7月營收2.91億元創新高(YoY+29.78%),Q2毛利率40.8%創歷史次高。</div>
+<div class="concl">② <b>估值</b>:合理偏貴——保守H1年化法顯示現價貴約27%,納入加速動能的推演顯示現價大致合理(貴14.4%),但以8/7實際觀察到的偏高本益比水位(46.4倍)回推正常區間,則顯示現價貴逾41%;基本面雖是三檔中最強,但缺乏任何機構覆蓋驗證,估值不確定性仍高。</div>
+<div class="concl">③ <b>結論</b>:中性、基本面最強但估值已反映多數利多——現價267.5落於Base區間內,上檔Bull +19%/Stretched +43%對下檔Bear -30%,風險報酬大致平衡但上檔空間相對強茂、台半更為有限;可正常左側分批布局,收盤跌破217即無條件出場。下一個驗證點是H2能否延續Q2優於Q1的加速趨勢,以及是否開始有券商發布首次覆蓋報告。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);Q1/Q2財報與毛利率(公司財報公告,2026/08);法說會內容(公司法說會,2026/05/28);7月營收(公司自結營收公告,2026/08);籌碼面本益比/股價淨值比統計(2026/08/07數據);Nexperia轉單事件與族群比較(鉅亨網產業比較報導,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;任何公開券商目標價、正式FactSet共識調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、公司財報公告、公司法說會、鉅亨網、籌碼面統計。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

@@ -26,8 +26,21 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -41,6 +54,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -63,72 +80,83 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>華通 (2313) <span class="badge amber">估值:分歧(目標價便宜、同業啟碁對照偏貴)</span> <span class="badge amber">結論:分批布局,留意現增稀釋與LEO族群連動風險</span><span class="autodispo" data-code="2313"></span></h1>
-<div class="sub">台股(TWSE)・PCB板廠轉型AI光模塊+低軌衛星雙引擎|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="2313">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>華通 (2313) <span class="badge purple">事件:Q2財報+現增完成+7月營收</span> <span class="badge green">估值:偏低估,現增稀釋疑慮已解除</span> <span class="badge green">結論:偏多,LEO衛星PCB龍頭地位確立</span><span class="autodispo" data-code="2313"></span></h1>
+<div class="sub">台股(TWSE)・全球PCB供應商(HDI產能全球第一),LEO衛星板市占70~80%為SpaceX Starlink核心供應商|事件後估值版(Q2財報+現增完成+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2313">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">130</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2313">現價 <b>215.5</b> → 目標價 <b>210</b><span class="down"> (-2.6%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS 7.7 × 27x;現增稀釋未明故不給溢價</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">185</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2313">現價 <b>215.5</b> → 目標價 <b>260</b><span class="up"> (+20.6%)</span></div>
+  <div class="vbasis">推導依據:8/7分析因86.1億元現金增資稀釋不明而未給估值溢價(目標價僅210);現增已於7/22完成認股、7/27新股掛牌,不確定性解除;FactSet 2026E EPS共識7.68與先前假設7.7幾乎一致,惟FactSet目標價已上修至310,反映市場對現增資金用於擴產(桃園觀音新廠)與LEO衛星PCB龍頭地位的認可,採目標價260</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">208.5</div><div class="note">2026/08/07 收盤 -5.4%;LEO衛星族群連動重挫</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">查無精確發行股數</div><div class="note">7月剛完成86.1億元現金增資,新股7/27上市,總股數尚待確認</div></div>
-  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">1.26</div><div class="note">近四季EPS合計5.67</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約27.1x</div><div class="note">FactSet 2026E EPS共識7.7(現增稀釋效果可能尚未完全反映)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">154~248</div><div class="note">7月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">91.5~305.5</div><div class="note">1月低91.5、5月高305.5(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">215.50</div><div class="note">2026/08/14 收盤;較8/7分析價208.5已上漲+3.4%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">69.55億</div><div class="note">MoM+0.6%,YoY+16.0%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">1.24</div><div class="note">YoY+77.86%,H1累計2.5</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">18.51%</div><div class="note">QoQ+0.53個百分點</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">94.3~298.5</div><div class="note">1月低、5月高(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">LEO衛星PCB市占</div><div class="value green">70~80%</div><div class="note">來源說法略有差異,惟皆為市場領先地位</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲(跌)?</h2>
+<h2>⓪ 事件影響分析 — Q2獲利大增77.86%,現增完成解除稀釋疑慮,7月營收創同期新高</h2>
+<div class="event">
+  <h3>事件摘要:Q2 EPS1.24元(YoY+77.86%),86.1億元現金增資7/22完成認股、7/27新股掛牌,7月營收69.55億元創同期新高</h3>
+  <div class="flow">華通於8/6董事會通過Q2財報:Q2單季合併營收199.9億元(YoY+9.84%),毛利率18.51%(季增0.53個百分點),歸屬母公司淨利14.79億元(YoY+77.86%),EPS1.24元;H1累計EPS2.5元。與此同時,8/7分析報告中明確標註的關鍵不確定性——86.1億元現金增資的稀釋幅度——已經解除:現增於7/22完成新股認購,新股於7/27正式掛牌交易。公司表示增資所得資金將用於在桃園觀音購置土地興建新廠,擴充產能;董事會同步將資本支出guidance上調至520億元。7月營收69.55億元,月增0.6%、年增16.0%,累計1~7月營收464.95億元,年增13.6%,雙雙創同期新高。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:現增完成消除稀釋不確定性 → FactSet 2026E EPS共識(7.68)與8/7分析假設(7.7)幾乎完全吻合,證實獲利假設未被稀釋顯著侵蝕 → FactSet目標價同步上修至310(遠高於8/7保守目標價210)→ LEO衛星PCB龍頭地位(市占70~80%)持續受SpaceX Starlink需求驅動,支撐評價重估空間</h3>
+  <div class="flow">這次重分析最關鍵的變化,是8/7報告中刻意保守處理的現增稀釋疑慮已經完全解除。當時「不給溢價」的謹慎立場,核心原因是現增規模(86.1億元)相對於公司市值不小,若稀釋幅度顯著,將直接侵蝕每股獲利假設。如今現增已完成且FactSet最新2026E EPS共識(7.68元)與8/7報告的假設(7.7元)幾乎完全一致,顯示市場並未因這次現增而大幅下修每股獲利預期——這是一個強烈的正向訊號,代表增資資金的運用(擴產+LEO衛星PCB產能)被市場視為淨值增加而非單純稀釋。FactSet同時將目標價從先前的285~300區間上修至310元,較8/7報告採用的保守目標價210元高出逾4成,反映市場對華通作為LEO衛星PCB龍頭(全球市占70~80%,SpaceX Starlink核心供應商)地位的重新評價。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/7,股價208.5)</th><th>事件後(8/14,Q2財報+現增完成+7月營收後)</th></tr>
+    <tr><td>Q2 EPS</td><td>查無(尚未公布)</td><td class="green">1.24,YoY+77.86%,H1累計2.5</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">69.55億,YoY+16.0%,同期新高</td></tr>
+    <tr><td>現增稀釋不確定性</td><td>未明,故不給估值溢價</td><td class="green">已解除(7/22完成認股,7/27掛牌)</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>7.7(自估假設)</td><td class="green">7.68(FactSet最新,幾乎一致)</td></tr>
+    <tr><td>FactSet目標價</td><td>285~300區間(較早調查)</td><td class="green">310(7位分析師,+3.33%)</td></tr>
+    <tr><td>股價</td><td>208.5</td><td class="green">215.50,累計+3.4%</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼可以由中性轉偏多?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/05/07</span><b class="green">董事會通過現金增資4.2億元</b>:暫定發行3,000~5,000萬股。</li>
-  <li><span class="date">2026/05/29</span><b class="green">法說會:「AI光模塊與低軌衛星雙引擎,2028目標千億營收」</b>:低軌衛星訂單快速延伸至2026年,市場預估2026年衛星業務營收將達185億元(YoY+22%);AI伺服器與資料中心業務預期2026年較去年翻倍成長。</li>
-  <li><span class="date">2026/06/28</span>現金增資基準日,每股發行價205元;7/22收足股款,新股7/27正式上市交易。募資總額達86.1億元,用途為充實營運資金及償還銀行借款。</li>
-  <li><span class="date">2026/07</span>6月營收69.15億元(MoM+2%、YoY+20.96%),優於預期;7月營收69.55億元(YoY+16.01%、MoM+0.58%),前七月累計464.95億元,YoY+13.61%。</li>
-  <li><span class="date">2026/08/07</span><b class="red">股價重挫5.4%,與LEO衛星族群連動</b>:同日低軌衛星指標廠昇達科(3491)法說會後股價重挫8.52%(客戶衛星產品換代拉貨放緩、火箭發射排程延遲兩大風險),市場情緒外溢至整個LEO供應鏈,華通同步承壓。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①剛完成的86.1億元現金增資會稀釋每股盈餘,但目前查得的FactSet EPS估值(7.7元)是否已完全反映稀釋效果不明確,若尚未反映,實際Forward P/E可能較目前計算值更高;②2026年EPS估值本身存在來源分歧:FactSet最新為7.7元,但另有法人報告給出9.25元的較高估值,兩者相差逾20%;③昇達科法說會揭露的「客戶衛星產品換代」「火箭發射延遲」兩大風險是LEO供應鏈的系統性風險,理論上也可能影響華通的衛星業務營收guidance(185億,YoY+22%),不宜將華通視為完全獨立於此風險之外。</li>
+  <li><span class="date">2026年初~5月</span>股價從1月低點94.3一路攀升至5月高點298.5,反映LEO衛星PCB題材與AI基礎設施轉型的樂觀重估。</li>
+  <li><span class="date">2026年5~7月</span>股價自5月高點回落至7月低點約154(TWSE官方資料),隨後於7月區間154~248震盪。</li>
+  <li><span class="date">2026/07/22</span>86.1億元現金增資完成新股認購。</li>
+  <li><span class="date">2026/07/27</span>現增新股正式掛牌交易,稀釋不確定性解除。</li>
+  <li><span class="date">2026/08/06</span>Q2財報:EPS1.24(YoY+77.86%),H1累計2.5,毛利率持續改善;資本支出guidance上調至520億元。</li>
+  <li><span class="date">2026/08中旬</span>7月營收69.55億元公布,YoY+16.0%,累計1~7月464.95億元(YoY+13.6%),雙創同期新高。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①現增雖已完成且未顯著稀釋每股獲利假設,但精確的新股發行數量與每股稀釋百分比查無官方MOPS公告的確切數字,建議後續查證;②CMoney論壇提及「借券賣壓依然偏高」,是技術面/籌碼面需留意的偏空訊號,與基本面轉強形成對比;③LEO衛星PCB市占率在不同來源間有70%與80%的差異,反映這個數字本身可能缺乏統一標準的官方確認,採用時應理解為市場領先地位的概略描述而非精確數字。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">低軌衛星訂單快速延伸至2026年,預估衛星業務營收達185億元(YoY+22%);AI伺服器與資料中心業務2026年可望翻倍成長,2028年目標千億營收。<div class="src">— 華通法說會,2026/05/29</div></div>
-    <div class="quote">7月營收69.55億元續創同期新高,前七月累計464.95億元YoY+13.61%,顯示營運動能持續。<div class="src">— 鉅亨網,2026/08</div></div>
-    <div class="quote">現金增資86.1億元用於充實營運資金及償還銀行借款,有助於支應AI與衛星雙引擎的資本支出需求。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">華通是全球PCB供應商(市占約2~3%,HDI產能全球第一),定位為SpaceX Starlink的核心PCB供應商,衛星相關產品已占營收逾20%。<div class="src">— 產業報導彙整,2026</div></div>
+    <div class="quote">Q2淨利年增77.86%,毛利率持續改善,現增完成且未顯著稀釋每股獲利,資金用於桃園觀音新廠擴產,長期產能布局明確。<div class="src">— 財報彙整,2026/08</div></div>
+    <div class="quote">全球LEO衛星PCB市場規模預估從2025年約9億美元成長至2026年約19.5億美元,華通市占率70~80%,是這個結構性成長市場的最大受益者。<div class="src">— 口袋學堂、豐雲學堂,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">8/6昇達科法說會揭露「客戶衛星產品換代拉貨放緩」「火箭發射排程延遲導致訂單認列不確定」兩大風險,是LEO供應鏈的系統性風險,華通的衛星業務營收guidance同樣可能受影響。<div class="src">— 旺得富理財網,2026/08/07</div></div>
-    <div class="quote">86.1億元現金增資會稀釋每股盈餘,目前FactSet估值(7.7元)是否已完全反映稀釋效果不明確,實際估值可能較樂觀。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">2026年EPS估值來源分歧(FactSet 7.7元 vs 另一法人報告9.25元),顯示市場對華通獲利路徑尚無一致共識。<div class="src">— 本儀表板觀察,綜合鉅亨網、readmo財經</div></div>
+    <div class="quote">CMoney論壇提及借券賣壓依然偏高,顯示部分市場參與者仍對股價續強持保留態度,技術面訊號與基本面轉強形成對比。<div class="src">— CMoney投資網誌,2026/08</div></div>
+    <div class="quote">LEO衛星PCB市占率在不同來源間有70%與80%的差異說法,精確發行新股數與現增稀釋百分比亦查無官方確切數字,部分關鍵資訊仍待進一步查證。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(最新)</td><td class="green">315</td><td>2026E EPS中位7.7(區間6.84~8.18);此前自270上修至285、再至315</td></tr>
-  <tr><td>另一法人報告(來源不同)</td><td colspan="2">2026年營收約239.63億元、EPS約9.25元(較FactSet高出約20%,兩者未交叉驗證)</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">杜金龍等資深分析師稱華通為「30年好股票」,反映長期基本面認可;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(最新)</td><td class="green">310(7位分析師,+3.33%)</td><td>2026E EPS共識7.68(min6.2,max8.23)</td></tr>
+  <tr><td>FactSet共識(較早)</td><td class="amber">285~300(8位分析師)</td><td>反映現增完成前的較保守評價</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -137,69 +165,66 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">69.55億</div><div class="note">YoY+16.01%,MoM+0.58%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">464.95億</div><div class="note">YoY+13.61%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">1.26</div><div class="note">近四季EPS合計5.67</div></div>
-  <div class="card"><div class="label">2026年衛星業務營收guidance</div><div class="value green">185億</div><div class="note">YoY+22%</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">5檔,2.94億</div><div class="note">LEO三檔中主動式資金關注度最低</div></div>
-  <div class="card"><div class="label">現金增資</div><div class="value amber">86.1億元</div><div class="note">每股205元,新股7/27上市,稀釋效果待觀察</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">69.55億</div><div class="note">YoY+16.0%,同期新高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">2.5</div><div class="note">Q1約1.26/Q2 1.24</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">18.51%</div><div class="note">QoQ+0.53個百分點</div></div>
+  <div class="card"><div class="label">資本支出guidance</div><div class="value amber">520億元</div><div class="note">上修,資金部分來自現增所得</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔,約3.12億</div><div class="note">合計1,449,181股(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">LEO衛星PCB業務占比</div><div class="value green">逾20%營收</div><div class="note">2025年衛星板營收逾151億元,2026年展望逾155億元</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>2026動能</th><th>與華通的差異</th></tr>
-  <tr class="hl"><td>2313.TW</td><td>華通</td><td>約27.1x(EPS7.7)</td><td>7月營收YoY+16.01%,現增剛完成</td><td>PCB板廠轉型AI光模塊+低軌衛星,現增稀釋是獨有變數</td></tr>
-  <tr><td>3491.TWO</td><td>昇達科(參考,同為LEO供應鏈)</td><td>估值極度分歧(詳見獨立分析)</td><td>Q2 EPS 4.47低於預期,法說後重挫8.52%</td><td>純RF/微波元件廠,LEO營收占比更高(80%),波動度遠大於華通</td></tr>
-  <tr><td>6285.TW</td><td>啟碁(參考,同為LEO供應鏈)</td><td>約18.75x(EPS12.43)</td><td>6月營收YoY+84.37%</td><td>網通系統整合商,LEO為三大業務線之一而非唯一動能</td></tr>
-  <tr><td>3037.TW</td><td>欣興(參考,ABF載板廠)</td><td>查無直接可比</td><td>AI伺服器載板需求強勁</td><td>PCB同業但聚焦ABF載板而非AI光模塊/衛星板,本站另有獨立分析</td></tr>
-  <tr><td>TTMI</td><td>TTM Technologies(美股,PCB同業)</td><td>查無精確Fwd P/E</td><td>國防/太空PCB需求</td><td>國際PCB廠,在太空/國防應用有部分業務重疊</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與華通的差異</th></tr>
+  <tr class="hl"><td>2313.TW</td><td>華通</td><td>自估260;FactSet目標價310</td><td>7月營收YoY+16.0%,Q2 EPS YoY+77.86%</td><td>LEO衛星PCB龍頭(市占70~80%),現增稀釋疑慮已解除,估值判斷有可信外部錨點</td></tr>
+  <tr><td>6285.TW</td><td>啟碁(本站另篇分析)</td><td>自估261;FactSet近期192~292反覆</td><td>7月營收YoY+2.33%相對溫和</td><td>三引擎分散風險模式,LEO占比僅逾10%</td></tr>
+  <tr><td>3491.TWO</td><td>昇達科(本站另篇分析)</td><td>自估799(保守);FactSet1700(已過時)</td><td>7月營收YoY+82%,惟MoM-10.36%</td><td>純LEO衛星RF元件廠,業務集中度與波動性遠高於華通</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:分歧——目標價法顯示便宜,但與LEO同業啟碁的倍數對照顯示偏貴。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約27.1x高於啟碁的約18.75x,反映市場給予華通「AI光模塊+低軌衛星雙引擎」故事較高的溢價,但華通的LEO業務占比不若昇達科(80%)集中,雙引擎故事本身仍待更多季度驗證。剛完成的86.1億元現金增資是華通獨有的變數——若FactSet的7.7元EPS估值尚未完全反映新股稀釋,目前計算出的Forward P/E可能被低估,實際估值可能更貴。</div>
+  <b>估值判斷:偏低估——現增稀釋疑慮已解除,FactSet目標價大幅上修但現價尚未完全反映。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026E EPS共識7.68元計算,套用27倍本益比(維持8/7報告採用的保守倍數,惟現增稀釋不確定性已消除,理論上可給予比8/7更高的信心)得約207元,現價215.50已略高於此保守錨點,但FactSet自身最新目標價(310)較這個保守自估高出近5成。這個落差不同於昇達科案例(FactSet數字已過時而不可信)——華通的FactSet最新調查是現增完成、Q2財報公布後的最新數字,時效性充分,理應賦予更高的採信度。綜合考量,本站採取介於保守自估與FactSet樂觀目標價之間的目標價260,較8/7報告的210有明顯上修,反映稀釋疑慮解除與LEO衛星PCB龍頭地位帶來的評價修正空間。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價208.5 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識</td><td>中位315(單點,自270一路上修)</td><td>單點315</td><td class="green">便宜 -33.8%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 7.7(可能未完全反映現增稀釋),結構性成長股倍數20~30x</td><td>154~231(中值192.5)</td><td class="red">貴 +8.3%</td></tr>
-  <tr><td>啟碁同業倍數對照</td><td>套用啟碁2026E Fwd P/E約18.75x於華通EPS 7.7(業務性質不同,僅供參考)</td><td>單點約144.4(推演)</td><td class="red">貴 +44.4%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價215.50 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(自估,保守)</td><td>共識EPS7.68,維持8/7報告的保守倍數25~29x(反映現增稀釋疑慮已解除,信心略提升)</td><td>192~222.7(中值207.4)</td><td class="amber">合理 3.9%</td></tr>
+  <tr><td>FactSet最新目標價</td><td>310(單點,現增完成+Q2財報後最新調查,時效性充分)</td><td>310(單點)</td><td class="green">便宜 -30.5%</td></tr>
+  <tr><td>H1年化×倍數(對照情境)</td><td>H1 EPS2.5×2=5.0(假設H2與H1持平,未計入guidance上修),倍數25~29x</td><td>125~145(中值135,推演)</td><td class="red">貴 59.6%(對照情境,凸顯H2成長假設的重要性)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:現金增資剛完成,股數基礎正在變動,多年期FCF每股假設在此時點意義有限。三種方法方向分歧:FactSet目標價顯示便宜,但自身本益比與同業倍數對照皆顯示貴——核心原因是FactSet目標價可能尚未完全消化現增稀釋與LEO族群系統性風險(客戶換代、火箭延遲),而自身/同業倍數法則是用現價與已知EPS直接計算,更即時但也更保守。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司剛完成大規模現增且資本支出guidance同步上修,多年期FCF假設在此時點缺乏穩定基礎。三種方法中,自估的保守P/E法顯示現價大致合理,FactSet最新目標價顯示現價便宜逾3成(且此數字時效性充分應予較高採信度),而簡單的H1年化法(未計入H2加速假設)則顯示現價偏貴——這凸顯了華通全年獲利成長高度仰賴H2的加速動能(資本支出上修後的產能開出貢獻),而非H1的線性外推。綜合三種方法,現價大致合理偏低估,支持偏多的評等。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">LEO族群連動重挫,情緒轉謹慎</div><div class="bar"><div style="width:48%;background:var(--amber)"></div></div><div class="note">8/7受昇達科法說會利空外溢影響同步下跌</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價持續上修但估值來源分歧</div><div class="note">FactSet 315 vs 另一法人9.25元EPS估值(未交叉驗證)</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.26(Q1)→7.7(2026E)</div><div class="note">現增稀釋效果與Q2財報是雙重驗證點</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">基本面轉強但借券賣壓仍偏高</div><div class="bar"><div style="width:62%;background:var(--amber)"></div></div><div class="note">股價自1月低點94.3已上漲逾1.3倍,現階段技術面與基本面訊號略有分歧</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價上修至310</div><div class="note">現增完成+Q2財報後最新調查,時效性充分</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.5(H1)→7.68(2026E共識)</div><div class="note">H2能否加速兌現資本支出上修後的產能貢獻是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>6.84 / 7.7 / 8.18</td><td>20~30x</td><td>154~231(中值192.5)</td><td class="red">約 -8%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年,公司口徑)</td><td style="color:var(--muted)">公司目標千億營收,未提供對應EPS</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年)</td><td>6.2 / 7.68 / 8.23</td><td>25~29x</td><td>155~238.7(中值196.9)</td><td class="red">約 -9%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027年EPS共識查無穩定區間;公司雖提出「2028年千億營收」的長期目標,但未提供對應EPS估算,無法轉換為隱含股價,不強行推演。2026年隱含報酬為負,顯示以自身循環股倍數計算,現價已無明顯低估空間,與FactSet目標價法呈現的「便宜」結論形成對比。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">以自估保守倍數計算,2026年隱含報酬為溫和負值,惟這是刻意採用較保守的倍數假設所致;若採信FactSet最新目標價(310),隱含報酬則明顯轉正。2027年EPS共識查無穩定區間,LEO衛星PCB市場能否持續以結構性速度成長(2025年9億美元→2026年19.5億美元的市場預估)、桃園觀音新廠產能能否如期開出,是決定中長期路徑的關鍵,現階段查無足夠具體的財測共識,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 60~340;left% = (價格-60)/280×92+4 -->
+<!-- 刻度 80~330;left% = (價格-80)/250×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:20.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">120~140</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">180~210</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:61.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">250~280</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">310~330</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:53%"><div class="arrow">▲</div><div class="price">208.5</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:22.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">145~165</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:44.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">195~225</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:66.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">255~280</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">305~320</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:53.8%"><div class="arrow">▲</div><div class="price">215.50</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>120~140</td><td>LEO供應鏈系統性風險(客戶換代、火箭延遲)實質衝擊華通衛星業務,或現增稀釋效果超預期</td><td class="red">約 -38%</td></tr>
-  <tr><td class="amber">Base</td><td>180~210</td><td>AI光模塊與衛星雙引擎維持穩健成長但無驚喜,現增稀釋效果中性;現價落於此區間內</td><td>約 -6%</td></tr>
-  <tr><td class="green">Bull</td><td>250~280</td><td>2026年衛星營收185億guidance兌現,AI伺服器業務翻倍成長驗證,FactSet目標價315下緣接近達陣</td><td class="green">約 +27%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>310~330</td><td>雙引擎故事全面兌現,FactSet目標價315達陣或超越,重返5月高點附近</td><td class="green">約 +53%</td></tr>
+  <tr><td class="red">Bear</td><td>145~165</td><td>桃園觀音新廠產能開出延遲,或LEO衛星PCB需求成長不如市場預期,估值倍數壓縮</td><td class="red">約 -28%</td></tr>
+  <tr><td class="amber">Base</td><td>195~225</td><td>H2維持穩定成長但無驚喜,現增資金運用符合預期無超額效益;現價落於此區間內</td><td>約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>255~280</td><td>LEO衛星PCB訂單持續擴大,FactSet目標價(310)獲得部分驗證,借券賣壓緩解</td><td class="green">約 +24%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>305~320</td><td>FactSet目標價全面兌現且進一步上修,重返並超越5月高點298.5</td><td class="green">約 +45%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +233,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">180~195</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">160~178</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">140~158</td><td>40%(LEO族群系統性風險未解,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">195~205</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">175~194</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">145~174</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">130</b>(明顯低於今年低點區間)= LEO供應鏈系統性風險實質衝擊衛星業務或AI光模塊訂單生變,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">185</b>(接近8月低點)= LEO衛星PCB龍頭地位或現增資金運用效益受質疑,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破223(近期高點)+量能確認,且Q2財報驗證雙引擎成長動能<br>
-    進場區:<b class="green">225~245</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回215即出場</div>
+    觸發條件:收盤突破225(8月區間高點)+量能確認,且借券賣壓緩解訊號出現<br>
+    進場區:<b class="green">226~240</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回215即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">250~280</div><div class="note">賣出30~50%;Bull下緣,LEO題材股高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">310~330</div><div class="note">Stretched區/FactSet目標價315附近;續抱條件是衛星營收guidance持續兌現、現增稀釋效果低於預期</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">255~280</div><div class="note">賣出30~50%;Bull區,轉型題材股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">305~320</div><div class="note">Stretched區;續抱條件是LEO衛星PCB訂單持續擴大、FactSet目標價獲驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:5/29法說會提出「AI光模塊與低軌衛星雙引擎,2028目標千億營收」,7月營收69.55億元(YoY+16.01%)延續成長,但8/7股價重挫5.4%,主因同日低軌衛星指標廠昇達科法說會後重挫8.52%(客戶衛星產品換代、火箭發射延遲兩大風險),市場情緒外溢至整個LEO供應鏈;華通同期完成86.1億元現金增資,新股7/27上市,稀釋效果尚待觀察。</div>
-<div class="concl">② <b>估值</b>:分歧——FactSet目標價(315)顯示便宜逾33%,但自身本益比法與LEO同業啟碁倍數對照皆顯示現價偏貴8~44%;核心原因是FactSet估值可能尚未完全反映現增稀釋與LEO族群系統性風險,兩組方法呈現的分歧本身就是重要訊號。2026年EPS估值本身也存在來源分歧(FactSet 7.7元 vs 另一法人9.25元)。</div>
-<div class="concl">③ <b>結論</b>:分批布局、留意現增稀釋與LEO族群連動風險——現價208.5落於Base區間內,上檔Bull +27%/Stretched +53%對下檔Bear -38%,雙引擎故事本身完整但短期籌碼面(現增+LEO族群系統性利空)風險不宜低估;左側倉位應保守分批,收盤跌破130即LEO供應鏈風險實質衝擊確認,無條件出場。</div>
+<div class="concl">⓪ <b>事件影響</b>:Q2 EPS1.24元(YoY+77.86%,H1累計2.5),8/7報告刻意保留的86.1億元現增稀釋疑慮已於7/22完成認股、7/27新股掛牌後解除;7月營收69.55億元(YoY+16.0%)創同期新高,資本支出guidance同步上修至520億元。</div>
+<div class="concl">① <b>催化劑</b>:LEO衛星PCB龍頭地位(全球市占70~80%,SpaceX Starlink核心供應商)是核心成長敘事;FactSet 2026E EPS共識(7.68)與8/7分析假設(7.7)幾乎一致,證實現增未顯著稀釋每股獲利,是本次分析最重要的正向確認訊號。</div>
+<div class="concl">② <b>估值</b>:偏低估——自估保守P/E法顯示現價大致合理(+3.9%),但FactSet最新目標價(310,現增完成後的最新調查,時效性充分)顯示現價便宜逾3成;兩種方法方向一致指向現價尚未完全反映稀釋疑慮解除後的評價修正空間。</div>
+<div class="concl">③ <b>結論</b>:偏多、LEO衛星PCB龍頭地位確立——現價215.50落於Base區間內,上檔Bull +24%/Stretched +45%對下檔Bear -28%,風險報酬明顯轉為正向;可正常左側分批布局,收盤跌破185即龍頭地位或現增資金效益受質疑,無條件出場。下一個驗證點是H2能否兌現資本支出上修後的產能貢獻。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);現金增資公告(CMoney投資網誌、PTT,2026/05~07);法說會(readmo財經、經濟日報,2026/05/29);6~7月營收(Yahoo股市、鉅亨網,2026/07~08公告);FactSet共識EPS與目標價(LINE TODAY鉅亨速報,追蹤至最新315元/EPS7.7,歷史軌跡270→285→315);另一法人EPS估值(readmo財經,9.25元,未與FactSet交叉驗證);昇達科法說會風險揭露(旺得富理財網,2026/08/07);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;現增後精確發行股數與市值、2027年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney投資網誌、PTT、readmo財經、經濟日報、Yahoo股市、鉅亨網(FactSet速報)、旺得富理財網、今周刊。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確呈現方法間分歧,不應僅採信對多方有利的FactSet目標價。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2財報(公司8/6董事會公告);7月營收(財經媒體彙整,2026/08);現增完成(公司重大訊息公告,2026/07/22認股、7/27掛牌);FactSet共識EPS與目標價(鉅亨網FactSet速報,追蹤軌跡285~300→310);LEO衛星PCB市場規模與市占率(口袋學堂、豐雲學堂彙整,70%與80%兩說法並陳);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確現增新股發行數量與稀釋百分比之官方MOPS數字查無,2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網FactSet速報、口袋學堂、豐雲學堂、CMoney投資網誌、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

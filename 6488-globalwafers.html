@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>環球晶 (6488) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>環球晶 (6488) <span class="badge purple">事件:Q2財報+7月營收</span> <span class="badge red">估值:明顯偏貴,Q2獲利大增含業外評價利益</span> <span class="badge red">結論:觀望,追高風險高於結構性需求題材</span><span class="autodispo" data-code="6488"></span></h1>
+<div class="sub">台股(TPEx)・全球第三大矽晶圓廠,台灣龍頭・12吋產能滿載,AI/HPC結構性缺貨行情|事件後估值版(Q2財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6488">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">850</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6488">現價 <b>1010</b> → 目標價 <b>750</b><span class="down"> (-25.7%)</span></div>
+  <div class="vbasis">推導依據:FactSet 6月底調查(查無8月更新)2026E EPS共識21.12×20~28x矽晶圓龍頭倍數得約422~591;FactSet自身目標價733.5(13位分析師,惟為Q2財報前數字);Q2獲利年增125%主要來自轉投資世創(Siltronic)股權評價利益而非本業改善,獲利品質需打折;現價1010已遠超自估與FactSet區間</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">1,010.00</div><div class="note">2026/08/14 收盤;8月區間849~1,025</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">49.78億</div><div class="note">MoM-11.5%,YoY+19.59%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">7.90</div><div class="note">H1累計11.87(YoY+80%),惟大幅含世創股權評價利益</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">152.14億</div><div class="note">QoQ+8.8%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">403~1,515</div><div class="note">1月低、7月高;全年振幅逾3.7倍</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">10檔,約50.3億</div><div class="note">合計4,981,295股,矽晶圓族群中持有度最高(2026/08/14資料)</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2獲利大增125%惟主要來自業外評價利益,7月營收季節性回落</h2>
+<div class="event">
+  <h3>事件摘要:Q2 EPS7.90元創同期新高,惟稅後淨利年增125%主要受惠轉投資世創(Siltronic)股權評價利益</h3>
+  <div class="flow">環球晶Q2合併營收152.14億元,季增8.8%;EPS7.90元創同期新高,H1累計EPS11.87元,年增80%,H1淨利率19.4%。然而必須明確指出的關鍵獲利品質疑慮:Q2稅後淨利年增125%的主要驅動力,是轉投資德商世創(Siltronic)持股的評價利益,而非本業營運改善——這是一次性/非經常性的業外收益,與本業實際成長速度不能直接劃上等號。與此同時,7月營收49.78億元,月減11.5%、年增19.59%,累計1~7月營收341.77億元,年減4.44%,顯示營收端本身仍處於季節性波動與同期比較的複雜局面。公司在法說會證實H2將啟動漲價計畫,並與美光(Micron)宣布策略合作深化在地供應布局。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:Q2獲利數字亮眼但含業外評價利益 → 剔除一次性因素後本業獲利成長速度需重新評估 → 7月營收月減11.5%顯示短期營收動能並非單向向上 → 股價卻在8月中旬單週急漲逾18%(849→1,025)→ 估值已明顯超前於任何可驗證的本業獲利路徑</h3>
+  <div class="flow">環球晶這次分析最需要拆解的估值陷阱,與先前分析群創(3481)時的邏輯高度相似:表面亮眼的獲利年增125%,很大程度上仰賴轉投資世創的股權評價利益,而非矽晶圓本業的結構性改善。真實的本業指標(7月營收年增19.59%但月減11.5%)顯示需求確實在成長,但增速遠不及股價的漲勢——股價在8月11日至14日間從849元暴衝至1,025元,單週漲幅逾20%,遠遠超過任何可驗證的營收或本業獲利成長速度。若市場僅以Q2 EPS7.90元線性外推全年獲利,而忽略業外評價利益的一次性性質,現價1010元隱含的本益比假設將嚴重高估公司可持續獲利能力。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(Q1財報後)</th><th>事件後(Q2財報+7月營收後)</th></tr>
+    <tr><td>單季EPS</td><td>Q1約3.97(H1-Q2推算)</td><td class="amber">Q2 7.90,H1累計11.87,惟大幅含業外評價利益</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="amber">49.78億,YoY+19.59%但MoM-11.5%</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約15.29~20.33(較早調查)</td><td class="green">21.12(13位分析師,6月底調查,查無8月更新)</td></tr>
+    <tr><td>FactSet目標價</td><td>約565~683.5(較早調查)</td><td class="amber">733.5(6月底調查,查無Q2財報後正式更新)</td></tr>
+    <tr><td>股價</td><td>查無精確值</td><td class="red">1,010.00,較FactSet(6月底)目標價733.5已高出37.7%</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月中</span>股價從1月低點403一路飆升至7月中高點1,515(近3.8倍漲幅),反映AI伺服器/HBM記憶體/CoWoS先進封裝同步拉貨的結構性缺貨題材(SEMI預估2026全球矽晶圓出貨量年增13.1%,幾乎全來自12吋)。</li>
+  <li><span class="date">2026年7月中~8月初</span>股價自7月高點回落,一度重挫至8月低點849(較高點回檔近44%),市場出現「登千金遭關禁閉」的獲利了結賣壓討論。</li>
+  <li><span class="date">2026年8月上旬</span>Q2財報:EPS7.90創同期新高,惟大幅含世創股權評價利益;7月營收49.78億(YoY+19.59%但MoM-11.5%)。</li>
+  <li><span class="date">2026/08/11~14</span><b class="red">股價單週暴漲逾20%</b>:自849反彈至1,025,8/14收1,010。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2淨利年增125%主要來自轉投資世創的股權評價利益,本業獲利改善速度需重新評估,不宜直接以headline EPS線性外推全年獲利;②7月營收月減11.5%顯示短期營收動能並非單向向上,與股價8月中旬的暴漲形成明顯落差;③FactSet最新可查的正式調查(733.5,6月底)本身就早於Q2財報與8月的股價暴漲,現價1010已較這個(本已偏樂觀的)目標價高出近38%,顯示市場定價已遠遠超前於任何可驗證的分析師共識。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">全球12吋矽晶圓月需求約1,100萬片,有效供給不足1,000萬片,AI GPU、HBM記憶體、CoWoS先進封裝同步拉貨,市場稱進入「超級循環」;環球晶12吋產能已接近滿載,H2將啟動漲價計畫。<div class="src">— SEMI、產業報導彙整,2026</div></div>
+    <div class="quote">與美光(Micron)宣布策略合作深化在地供應布局,顯示公司在AI/記憶體供應鏈中的地位持續強化。<div class="src">— 財經媒體彙整,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q2淨利年增125%的主要驅動力是轉投資世創(Siltronic)股權評價利益,而非本業營運改善,這是一次性業外收益,不應與結構性成長混為一談。<div class="src">— 本儀表板觀察,依公司Q2財報揭露</div></div>
+    <div class="quote">7月營收月減11.5%,顯示短期營收動能並非單向向上;股價8月中旬單週暴漲逾20%,已遠遠超過任何可驗證的本業獲利或營收成長速度。<div class="src">— 本儀表板觀察,依TPEx官方股價資料</div></div>
+    <div class="quote">股價「登千金遭關禁閉」的說法反映市場本身也意識到獲利了結賣壓的存在,現價已較FactSet(6月底,Q2財報前)的目標價733.5高出近38%。<div class="src">— 市場報導彙整,2026/08</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(2026/06底,查無8月更新)</td><td class="amber">733.5(13位分析師)</td><td>2026E EPS共識21.12(最高27.19、最低15.34);惟早於Q2財報公布與8月股價暴漲</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet歷史軌跡顯示目標價自500元逐步上修至733.5元,惟查無Q2財報公布後(8月)的正式更新調查;另有一則14位分析師調查給出717元(最高1,142、最低470,發布時間不明確,區間極寬顯示分析師分歧本身就很大)。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="6488"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-1,794</span></td><td>5/10</td><td><span class="green">+1,132</span></td></tr><tr><td>投信</td><td><span class="red">-3,148</span></td><td>3/10</td><td><span class="green">+168</span></td></tr><tr><td>自營商</td><td><span class="red">-995</span></td><td>4/10</td><td><span class="red">-269</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-5,935</span></td><td>4/10</td><td><span class="green">+1,030</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="green">+1,132</span></td><td><span class="green">+168</span></td><td><span class="red">-269</span></td><td><span class="green">+1,030</span></td></tr><tr><td>08/13</td><td><span class="green">+808</span></td><td><span class="red">-13</span></td><td><span class="green">+31</span></td><td><span class="green">+826</span></td></tr><tr><td>08/12</td><td><span class="green">+978</span></td><td><span class="red">-632</span></td><td><span class="green">+142</span></td><td><span class="green">+488</span></td></tr><tr><td>08/11</td><td><span class="green">+589</span></td><td><span class="red">-1,328</span></td><td><span class="green">+6</span></td><td><span class="red">-732</span></td></tr><tr><td>08/10</td><td><span class="red">-803</span></td><td><span class="green">+21</span></td><td><span class="red">-54</span></td><td><span class="red">-836</span></td></tr><tr><td>08/07</td><td><span class="red">-1,365</span></td><td><span class="red">-235</span></td><td><span class="red">-24</span></td><td><span class="red">-1,624</span></td></tr><tr><td>08/06</td><td><span class="green">+1,492</span></td><td><span class="red">-984</span></td><td><span class="green">+63</span></td><td><span class="green">+571</span></td></tr><tr><td>08/05</td><td><span class="red">-2,577</span></td><td><span class="red">-343</span></td><td><span class="red">-667</span></td><td><span class="red">-3,586</span></td></tr><tr><td>08/04</td><td><span class="red">-147</span></td><td><span class="red">-61</span></td><td><span class="red">-73</span></td><td><span class="red">-280</span></td></tr><tr><td>08/03</td><td><span class="red">-1,901</span></td><td><span class="green">+259</span></td><td><span class="red">-150</span></td><td><span class="red">-1,792</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value amber">49.78億</div><div class="note">YoY+19.59%但MoM-11.5%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value amber">11.87</div><div class="note">YoY+80%,惟Q2大幅含業外評價利益</div></div>
+  <div class="card"><div class="label">H1淨利率</div><div class="value green">19.4%</div><div class="note">受業外利益墊高</div></div>
+  <div class="card"><div class="label">市值(估)</div><div class="value">約4,829億</div><div class="note">478,113,725股,以現價1010計</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">10檔,約50.3億</div><div class="note">矽晶圓族群中持有度最高</div></div>
+  <div class="card"><div class="label">與美光策略合作</div><div class="value amber">深化在地供應布局</div><div class="note">具體財務貢獻未量化</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與環球晶的差異</th></tr>
+  <tr class="hl"><td>6488.TWO</td><td>環球晶</td><td>自估422~591;FactSet733.5(已過時)</td><td>7月營收YoY+19.59%,Q2獲利含業外評價利益</td><td>全球第三大矽晶圓廠,台灣龍頭,主動式ETF持有度族群最高</td></tr>
+  <tr><td>3532.TW</td><td>台勝科(本站另篇分析)</td><td>虧損股禁用P/E</td><td>H1仍淨損,Q2轉盈但幅度小</td><td>台塑集團與SUMCO合資,規模較小,獲利能見度不如環球晶</td></tr>
+  <tr><td>6182.TWO</td><td>合晶(本站另篇分析)</td><td>接近損平,P/E法信度低</td><td>H1接近損平,7月營收創近年新高</td><td>規模較小,聚焦6吋/8吋,12吋二林新廠Q4試產</td></tr>
+  <tr><td>5483.TWO</td><td>中美晶(本站另篇分析)</td><td>自估176~201(控股公司折價)</td><td>H1 EPS5.02,獲利表現優於其子公司環球晶以外的同業</td><td>為環球晶母公司,屬控股型態,估值邏輯與直接矽晶圓生產商不同</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:明顯偏貴——Q2獲利品質存疑,現價已遠超自估與FactSet區間。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026E EPS共識21.12元(6月底調查,查無8月更新)套用矽晶圓龍頭股常見的20~28倍本益比計算,合理價約422~591元(中值506.5),現價1010元較此區間中值貴逾99%。即使採信FactSet自身較樂觀的目標價733.5元(同樣是6月底、早於Q2財報與8月股價暴漲的數字),現價仍高出37.7%。更關鍵的是,Q2淨利年增125%的headline數字大幅仰賴轉投資世創的股權評價利益,若剔除這部分一次性業外收益,本業獲利成長速度可能遠不如表面數字亮眼。結構性缺貨題材(AI/HPC驅動的12吋矽晶圓供需失衡)確實真實存在,但現價已經明顯透支這個題材,追高風險極高。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,010.00 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(自估,含業外利益)</td><td>FactSet EPS共識21.12(6月底,查無8月更新),矽晶圓龍頭倍數20~28x</td><td>422.4~591.4(中值506.9)</td><td class="red">貴 99.3%</td></tr>
+  <tr><td>FactSet最新目標價(已過時)</td><td>733.5(13位分析師,惟早於Q2財報+8月股價暴漲)</td><td>733.5(單點,時效性存疑)</td><td class="red">貴 37.7%</td></tr>
+  <tr><td>H1年化×倍數(剔除業外利益推演,更保守)</td><td>假設剔除世創評價利益後本業EPS約8~10(推演,信度低但方向重要),倍數20~28x</td><td>160~280(中值220,推演)</td><td class="red">貴 359.1%(對照情境,凸顯業外利益對估值判斷的扭曲程度)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:矽晶圓循環股獲利波動本質上劇烈,加上本次Q2獲利品質存疑(含業外評價利益),多年期FCF假設缺乏可靠基礎。三種方法一致指向現價明顯偏貴,其中剔除業外利益後的推演情境(信度雖低但方向重要)更凸顯這個估值扭曲的嚴重程度。即使是最寬鬆的方法(FactSet目標價,且該數字本身已過時),現價仍貴逾37%,是本次矽晶圓族群分析中估值風險最高的一檔。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">「登千金遭關禁閉」後再度暴衝,過熱警訊明確</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">8月11~14單週漲幅逾20%,股價年初至今上漲逾2.5倍</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">FactSet目標價已過時且低於現價</div><div class="note">733.5(6月底) vs 現價1010,已明顯脫節</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value amber">11.87(H1,含業外利益)→21.12(2026E共識,已過時)</div><div class="note">Q3財報能否驗證剔除業外利益後的本業獲利改善是關鍵</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>15.34 / 21.12 / 27.19</td><td>20~28x</td><td>306.8~761.3(中值534.1)</td><td class="red">約 -47%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬呈現大幅負值,顯示現價已遠遠超前反映任何合理的獲利假設,即使採用FactSet區間中最樂觀的EPS高標(27.19)搭配上緣倍數(28x)計算,仍低於現價。2027年EPS共識查無穩定區間,漲價計畫與美光策略合作的具體財務貢獻尚待量化,不強行推演。這條路徑的核心啟示是:環球晶現價幾乎完全建立在AI/HPC結構性缺貨題材的想像空間,而非已確認的本業獲利基礎。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 350~1600;left% = (價格-350)/1250×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">550~650</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">780~900</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:64.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,020~1,120</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,250~1,350</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:52.6%"><div class="arrow">▲</div><div class="price">1,010.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>550~650</td><td>市場重新評估Q2獲利品質(剔除業外評價利益),股價回歸自估保守區間附近</td><td class="red">約 -41%</td></tr>
+  <tr><td class="amber">Base</td><td>780~900</td><td>Q3本業獲利無明顯超預期改善,漲價計畫效益尚未完全顯現</td><td class="red">約 -17%</td></tr>
+  <tr><td class="green">Bull</td><td>1,020~1,120</td><td>H2漲價計畫確實驅動本業獲利成長,結構性缺貨題材持續兌現;現價落於此區間下緣</td><td class="green">約 +6%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1,250~1,350</td><td>AI/HPC需求全面超預期,FactSet目標價大幅上修並獲驗證,重返7月高點1,515附近</td><td class="green">約 +29%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">780~850</td><td>25%</td></tr>
+      <tr><td>第二批</td><td class="green">680~779</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">550~679</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">850</b>(8月區間低點)= 8月暴漲行情反轉或Q2獲利品質疑慮擴大,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破1,025(8月區間高點)+量能確認,且Q3財報驗證剔除業外利益後的本業獲利改善<br>
+    進場區:<b class="green">1,030~1,100</b>(估值風險極高,建議極小倉位或不參與)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回1,000即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(950~1,050)</div><div class="note">賣出40~60%;獲利品質存疑,應積極獲利了結而非等待更高減碼點</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,250~1,350</div><div class="note">Stretched區;續抱條件是漲價計畫效益與AI/HPC需求全面兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:Q2 EPS7.90元創同期新高(H1累計11.87,YoY+80%),惟稅後淨利年增125%主要來自轉投資世創(Siltronic)股權評價利益而非本業改善;7月營收49.78億元(YoY+19.59%但MoM-11.5%)顯示短期需求動能並非單向向上。</div>
+<div class="concl">① <b>催化劑</b>:AI/HPC驅動的12吋矽晶圓結構性缺貨(SEMI預估2026全球出貨量年增13.1%)是核心多頭敘事,H2漲價計畫與美光策略合作是具體進展;但股價8月中旬單週暴漲逾20%,遠超任何可驗證的本業獲利或營收成長速度。</div>
+<div class="concl">② <b>估值</b>:明顯偏貴——以FactSet 2026E EPS共識(21.12,惟已過時)套用龍頭股保守倍數計算,現價貴逾99%;即使採信FactSet自身樂觀目標價(733.5,同樣過時),現價仍貴逾37%;剔除業外評價利益後的推演情境更凸顯估值扭曲的嚴重程度。</div>
+<div class="concl">③ <b>結論</b>:觀望、追高風險高於結構性需求題材——現價1010落於Base與Bull區間之間,上檔Bull +6%/Stretched +29%對下檔Bear -41%,風險報酬明顯不利;已持股者應積極分批獲利了結,新資金不建議追高,收盤跌破850即無條件出場。下一個驗證點是Q3財報能否驗證剔除業外利益後的本業獲利改善。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);Q2財報(公司財報公告,2026/08);7月營收(公司自結營收公告,2026/08);FactSet共識EPS與目標價(鉅亨網FactSet速報,追蹤至6月底733.5/21.12,查無8月更新);業外評價利益揭露(公司Q2財報,財經媒體彙整);漲價計畫與美光策略合作(法說會內容,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後正式更新之FactSet調查、精確業外評價利益金額拆分查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、鉅亨網FactSet速報、SEMI產業報告、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確拆解業外評價利益對獲利品質的影響,不應僅採信對多方有利的headline數字。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

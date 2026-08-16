@@ -26,8 +26,21 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -41,6 +54,10 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -63,72 +80,80 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>啟碁 (6285) <span class="badge green">估值:合理偏低(LEO三檔中估值紀律最佳)</span> <span class="badge amber">結論:分批布局,以循環股紀律操作</span><span class="autodispo" data-code="6285"></span></h1>
-<div class="sub">台股(TWSE)・網通/企業/車用三引擎+低軌衛星+800G交換器|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="6285">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>啟碁 (6285) <span class="badge purple">事件:H1財報+7月營收</span> <span class="badge amber">估值:合理,自估與FactSet落差大</span> <span class="badge amber">結論:中性偏多,LEO地面站+800G雙引擎</span><span class="autodispo" data-code="6285"></span></h1>
+<div class="sub">台股(TWSE)・網通轉型太空/AI基礎設施(LEO衛星地面接收站+800G交換器)|事件後估值版(H1財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6285">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">150</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="6285">現價 <b>245</b> → 目標價 <b>265</b><span class="up"> (+8.2%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS 12.43 × 21x(三引擎分散風險)</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性偏多</span><span class="vtag">失效價 <span class="vstop">220</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6285">現價 <b>245</b> → 目標價 <b>275</b><span class="up"> (+12.2%)</span></div>
+  <div class="vbasis">推導依據:2026E EPS共識12.43(7月FactSet調查)×21x(三引擎分散風險,保守倍數)得約261;FactSet自身最新目標價一度達292,惟近期調查數字(198→245→292)出現順序不一致,可信度需打折;綜合自估與FactSet區間,採目標價275</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">233.0</div><div class="note">2026/08/07 收盤 -5.7%;LEO族群連動重挫</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約1,127億</div><div class="note">股本48.37億,已發行483,663,719股</div></div>
-  <div class="card"><div class="label">Q1 2026 EPS</div><div class="value green">2.36</div><div class="note">創近期新高;稅後淨利11.32億,YoY+23.3%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value green">約18.75x</div><div class="note">FactSet 2026E EPS共識12.43(7位分析師),LEO三檔中倍數最低</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">199.5~276.5</div><div class="note">7月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">99.1~336.5</div><div class="note">1月低99.1、5月高336.5(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">245.00</div><div class="note">2026/08/14 收盤;較8/7分析價233.0已上漲+5.2%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">89.1億</div><div class="note">MoM+3.52%,YoY+2.33%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.75</div><div class="note">8/5董事會通過;Q2單季拆分查無精確值</div></div>
+  <div class="card"><div class="label">H1營收</div><div class="value green">685.94億</div><div class="note">毛利91.38億,營業利益34.31億</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">100.0~319.0</div><div class="note">1月低、5月高(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">LEO/太空業務占比</div><div class="value green">逾10%</div><div class="note">2026年展望持續雙位數成長</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲(跌)?</h2>
+<h2>⓪ 事件影響分析 — H1 EPS5.75確認獲利軌道,7月營收溫和成長,LEO地面站+800G雙引擎題材延續</h2>
+<div class="event">
+  <h3>事件摘要:H1財報8/5公布(EPS5.75),7月營收89.1億元(YoY+2.33%),FactSet 2026E EPS共識已上修至12.43元</h3>
+  <div class="flow">啟碁於8/5董事會通過H1財報,上半年營收685.94億元,毛利91.38億元,營業利益34.31億元,稅前淨利34.53億元,歸屬母公司淨利27.62億元,EPS5.75元。7月營收89.1億元,月增3.52%、年增2.33%,成長速度相對溫和(遠低於同期太空族群的昇達科YoY+82%、華通YoY+16%)。FactSet 2026年EPS共識歷經數次上修,從3月的7.94元逐步上調至7月的12.43元(7位分析師調查),反映市場對啟碁「三引擎」(傳統網通+LEO衛星地面接收站+800G高速交換器)轉型故事的認可度持續提升。</div>
+</div>
+<div class="event">
+  <h3>傳導路徑:LEO地面接收站(疑似美系大客戶)+800G交換器題材驅動FactSet共識持續上修 → 惟H1實績年化(11.5)仍低於FactSet最新共識(12.43)→ 7月營收成長溫和顯示題材尚未完全反映在營收數字上 → 估值需區分「已兌現」與「題材溢價」兩部分</h3>
+  <div class="flow">啟碁的轉型故事值得拆解:公司被市場認定為某美系大型LEO衛星客戶的專屬地面接收站供應商(市場普遍解讀指向類Starlink規模的客戶,惟公司未明確證實客戶身分,查無官方直接點名),加上800G高速交換器預計2026年中量產,共同構成「三引擎分散風險」的轉型敘事。H1實績(EPS5.75)年化約11.5元,已相當接近FactSet最新共識12.43元,顯示這個成長路徑本身具備一定的實績支撐。但7月營收年增僅2.33%(遠低於昇達科、華通等純太空題材股的雙位數甚至倍數成長),顯示LEO地面站業務目前佔營收比重仍相對有限(逾10%),尚未達到能大幅拉動整體營收成長率的規模,估值判斷需在「已兌現的獲利軌道」與「800G放量後的題材溢價」之間取得平衡。</div>
+</div>
+<div class="event">
+  <h3>事件前後對照表</h3>
+  <table style="margin-top:0">
+    <tr><th></th><th>事件前(8/7,股價233.0)</th><th>事件後(8/14,H1財報+7月營收後)</th></tr>
+    <tr><td>H1 EPS</td><td>查無(尚未公布)</td><td class="green">5.75(年化約11.5)</td></tr>
+    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="amber">89.1億,YoY+2.33%(相對溫和)</td></tr>
+    <tr><td>FactSet 2026E EPS共識</td><td>約8.56~12.43(逐步上修中)</td><td class="green">12.43(7月調查,7位分析師)</td></tr>
+    <tr><td>FactSet目標價</td><td>約155~198(較早調查)</td><td class="amber">近期調查在245~292間,惟時序不一致</td></tr>
+    <tr><td>股價</td><td>233.0</td><td class="green">245.00,累計+5.2%</td></tr>
+  </table>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/05/07</span>Q1法說會:合併營收291.56億元(YoY+2.8%),毛利率由12.2%躍升至13.8%,稅後淨利11.32億元(YoY+23.3%),EPS 2.36元創近期新高。公司樂觀預估全年營收將突破40億美元,網通、企業、車用三大產品線均將實現雙位數成長;EPS成長主要來自低軌衛星、800G交換器與光通訊等高值化產品放量,Wi-Fi 7產品預計占今年營收比重達20~30%。</li>
-  <li><span class="date">2026年初~5月</span>股價從年初99.1一路飆升至5月高點336.5,反映市場對啟碁「LEO+800G+Wi-Fi 7」多重高值化題材的樂觀情緒。</li>
-  <li><span class="date">2026/06</span><b class="green">6月營收暴衝,YoY+84.37%</b>:合併營收158.7億元,月增逾37%、年增84.37%,主因下半年由800G交換器挹注動能顯著發酵;5月營收121.68億元(YoY+34.82%)已見加速跡象,H1累計營收685.94億元,YoY+22.8%。</li>
-  <li><span class="date">2026/07~08初</span>股價自5月高點回落至7月區間(199.5~276.5),EPS估值持續獲法人上修,FactSet最新調查將2026年EPS共識自12.04上修至12.43元,目標價292元;另有較早的獨立估值曾提及上修至10.10元(與FactSet數字不完全一致)。</li>
-  <li><span class="date">2026/08/07</span><b class="red">股價重挫5.7%,與LEO衛星族群連動</b>:同日低軌衛星指標廠昇達科(3491)法說會後重挫8.52%(客戶衛星產品換代拉貨放緩、火箭發射排程延遲兩大風險),市場情緒外溢至整個LEO供應鏈,啟碁與華通同步承壓。7月營收公告查無,是本次分析的資料缺口。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①啟碁的LEO業務僅是「網通、企業、車用」三大產品線與800G/Wi-Fi 7等多重動能之一,不若昇達科(LEO占比80%)高度集中,理論上應對LEO供應鏈系統性風險(客戶換代、火箭延遲)的曝險度較低,但8/7股價仍同步重挫,顯示市場短線情緒仍將啟碁與LEO族群連動看待;②2026年EPS估值存在來源分歧(FactSet 12.43 vs 另一來源10.10),雖差距不若昇達科或創意等案例懸殊,仍應留意;③6月營收YoY+84.37%的暴衝主要歸功於800G交換器,而非LEO衛星,若僅因LEO族群系統性利空而重挫,可能是市場情緒過度連動而非基本面邏輯。</li>
+  <li><span class="date">2026年初~5月</span>股價從1月低點100.0一路攀升至5月高點319.0,反映LEO地面站+800G轉型題材的重估。</li>
+  <li><span class="date">2026年5~7月</span>股價自5月高點回落至7月低點約204(TWSE官方資料),隨後於7月區間204~267震盪。</li>
+  <li><span class="date">2026/08/05</span>H1財報公布:EPS5.75,營收685.94億創同期表現;FactSet 2026E EPS共識持續上修至12.43元。</li>
+  <li><span class="date">2026/08中旬</span>7月營收89.1億元公布,YoY+2.33%,月增3.52%,成長速度相對溫和。</li>
+  <li><span class="date">2026/08/10~14</span>股價於245~256區間震盪,較8/7的233已上漲5.2%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet近期調查數字(198→245→292)出現時序不一致的情況,顯示這些目標價本身的可信度需要打折,不宜盲目採信最高的292;②7月營收年增僅2.33%,遠低於同族群純太空題材股的雙位數甚至倍數成長,顯示LEO業務目前對整體營收的貢獻仍有限,估值不應完全比照純太空題材股;③公司作為某美系大型LEO客戶的專屬地面站供應商,客戶身分與合約細節查無官方明確證實,存在一定的資訊不對稱風險。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">EPS成長主要來自低軌衛星、800G交換器與光通訊等高值化產品放量,Wi-Fi 7產品今年營收占比可達20~30%,今、明兩年將成市場主流。<div class="src">— 啟碁Q1法說會,2026/05/07</div></div>
-    <div class="quote">6月營收158.7億元(YoY+84.37%)主因下半年由800G交換器挹注動能,顯示多元成長引擎已開始兌現而非僅依賴單一題材。<div class="src">— Yahoo股市,2026/07公告</div></div>
-    <div class="quote">全年營收挑戰40億美元新高,網通、企業、車用三大市場齊頭並進,較昇達科單一依賴LEO的營收結構更具韌性。<div class="src">— 豐雲學堂法說整理</div></div>
+    <div class="quote">啟碁從網通股轉型為AI/太空基礎設施股:LEO衛星地面站設備+800G高速交換器+AI-RAN/O-RAN,三引擎分散單一業務風險。<div class="src">— 產業報導彙整,2026</div></div>
+    <div class="quote">LEO/太空通訊業務佔營收比重已逾10%,預期2026年維持雙位數成長;800G交換器(較高毛利)瞄準2026年中量產。<div class="src">— 財經媒體彙整,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">8/7受昇達科法說會利空外溢影響同步重挫5.7%,即使啟碁的LEO曝險度遠低於昇達科,顯示市場短線情緒仍傾向將整個LEO供應鏈連動看待,個股基本面差異未必能完全免疫。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">2026年EPS估值存在來源分歧(FactSet 12.43元 vs 另一來源10.10元),顯示市場對啟碁獲利路徑的認知並非完全一致。<div class="src">— 鉅亨網FactSet速報、readmo財經彙整</div></div>
-    <div class="quote">7月營收公告查無,現階段對6月YoY+84.37%的暴衝動能能否延續,仍缺乏最新數據驗證。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet近期目標價數字(198→245→292)出現時序不一致的情況,顯示這些數字的可信度需要打折看待,不宜直接採信最高值。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
+    <div class="quote">7月營收年增僅2.33%,顯示LEO地面站業務目前對整體營收的貢獻仍有限,轉型題材的具體財務兌現速度仍待觀察。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(7位分析師,最新)</td><td class="green">292</td><td>2026E EPS中位上修至12.43(區間11.01~12.96);此前自198上修</td></tr>
-  <tr><td>另一獨立估值來源</td><td colspan="2">2026年EPS上修至10.10元(與FactSet差距約19%,未交叉驗證)</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/07)</td><td class="green">292(單次調查)</td><td>2026E EPS共識12.43,7位分析師;惟與其他時點數字(198、245)順序不一致,信度需打折</td></tr>
+  <tr><td>FactSet共識(較早,2026/05)</td><td class="amber">198(+4.76%)</td><td>2026E EPS約8.56~9區間</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet近期多次調查的目標價與EPS數字時序關係不明確,本站採較保守的自估法(12.43×21x=261)為主要依據,FactSet區間僅供參考;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -137,69 +162,66 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">6月營收</div><div class="value green">158.7億</div><div class="note">MoM+37%+,YoY+84.37%;7月營收查無</div></div>
-  <div class="card"><div class="label">H1累計營收</div><div class="value green">685.94億</div><div class="note">YoY+22.8%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">2.36</div><div class="note">創近期新高</div></div>
-  <div class="card"><div class="label">Q1毛利率</div><div class="value green">13.8%</div><div class="note">YoY+1.6個百分點</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">4檔,2.57億</div><div class="note">LEO三檔中規模與華通相近,遠低於昇達科</div></div>
-  <div class="card"><div class="label">2026年全年營收guidance</div><div class="value green">挑戰40億美元</div><div class="note">網通/企業/車用三大市場均雙位數成長</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">89.1億</div><div class="note">YoY+2.33%,相對溫和</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.75</div><div class="note">年化約11.5,接近FactSet共識12.43</div></div>
+  <div class="card"><div class="label">H1毛利率</div><div class="value amber">約13.3%</div><div class="note">毛利91.38億/營收685.94億</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔,約3.68億</div><div class="note">合計1,501張(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">LEO/太空業務占比</div><div class="value green">逾10%</div><div class="note">預期2026年維持雙位數成長</div></div>
+  <div class="card"><div class="label">800G交換器</div><div class="value amber">2026年中量產目標</div><div class="note">較高毛利,尚未大規模貢獻</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與啟碁的差異</th></tr>
-  <tr class="hl"><td>6285.TW</td><td>啟碁</td><td>約18.75x(EPS12.43)</td><td>6月營收YoY+84.37%</td><td>網通/企業/車用三引擎+LEO+800G多元佈局,LEO三檔中估值倍數最低</td></tr>
-  <tr><td>2313.TW</td><td>華通(參考,同為LEO供應鏈)</td><td>約27.1x(EPS7.7)</td><td>7月營收YoY+16.01%</td><td>PCB板廠轉型雙引擎,估值倍數高於啟碁</td></tr>
-  <tr><td>3491.TWO</td><td>昇達科(參考,同為LEO供應鏈)</td><td>估值極度分歧(詳見獨立分析)</td><td>Q2 EPS不如預期,重挫8.52%</td><td>純RF元件廠,LEO占比80%,波動度遠大於啟碁</td></tr>
-  <tr><td>2345.TW</td><td>智邦(參考,網通同業)</td><td>約26.6x(EPS83.21,本站另篇分析)</td><td>7月營收YoY+71.69%</td><td>資料中心交換器龍頭,與啟碁部分產品線(800G)重疊但客群不同</td></tr>
-  <tr><td>ARLO</td><td>Arlo Technologies(美股,參考)</td><td>查無精確Fwd P/E</td><td>網通/物聯網終端設備</td><td>國際網通終端設備商,部分產品線與啟碁客戶群重疊</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與啟碁的差異</th></tr>
+  <tr class="hl"><td>6285.TW</td><td>啟碁</td><td>自估261(12.43×21x);FactSet近期192~292反覆</td><td>7月營收YoY+2.33%相對溫和,H1 EPS5.75確認獲利軌道</td><td>三引擎分散風險模式,LEO地面站占比逾10%但尚未主導營收成長</td></tr>
+  <tr><td>3491.TWO</td><td>昇達科(本站另篇分析)</td><td>虧損自估900,查無FactSet近期更新</td><td>7月營收YoY+82%,惟MoM-10.36%;H1EPS8.15</td><td>純LEO衛星RF元件廠,業務集中度遠高於啟碁,波動性也遠大於啟碁</td></tr>
+  <tr><td>2313.TW</td><td>華通(本站另篇分析)</td><td>自估260;FactSet目標價310</td><td>7月營收YoY+16.0%,H1 EPS2.5</td><td>LEO衛星PCB供應商,市占率70~80%,現增稀釋疑慮已解除</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理偏低——LEO三檔中估值紀律最佳,多元業務結構提供較高安全邊際。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約18.75x是LEO供應鏈三檔(華通27.1x、昇達科76~95x)中最低,反映啟碁的網通/企業/車用三引擎+LEO+800G多元佈局降低了對單一題材的依賴度,理論上應享有比純題材股更穩健的評價。FactSet目標價292元(較現價有約25%空間)搭配相對保守的估值倍數,顯示現價尚未過度反映樂觀預期。核心風險是8/7股價仍與LEO族群系統性利空連動重挫,顯示短線籌碼面尚未完全與昇達科的個別風險脫鉤,但這更可能是情緒性錯殺而非基本面邏輯。</div>
+  <b>估值判斷:合理——H1實績支撐既有轉型故事,惟FactSet近期數字信度存疑,不宜追高。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026E EPS共識12.43元、搭配三引擎分散風險模式應有的保守本益比21倍計算,合理價約261元,現價245元大致合理甚至略顯保守。H1實績年化(約11.5)已相當接近這個共識數字,顯示公司獲利軌道具備一定可信度。但FactSet近期多次調查的目標價數字(198、245、292)時序關係不明確,不宜直接採信最高的292元作為近期可實現的空間。整體而言,啟碁提供的是「網通本業+LEO/800G成長題材」的混合曝險,波動性明顯低於昇達科等純太空題材股,適合作為太空主題內相對穩健的配置。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價233.0 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識</td><td>7位分析師,中位292(區間應更窄,單點呈現)</td><td>單點292</td><td class="green">便宜 -20.2%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 12.43(區間11.01~12.96),結構性成長股倍數18~24x</td><td>223.6~310.6(中值267.1)</td><td class="green">便宜 -12.8%</td></tr>
-  <tr><td>華通同業倍數對照</td><td>套用華通2026E Fwd P/E約27.1x於啟碁EPS 12.43(業務性質部分重疊,可信度中等)</td><td>單點約336.9(推演)</td><td class="green">便宜 -30.8%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價245.00 vs 中值</th></tr>
+  <tr><td>2026E P/E×EPS(自估,保守)</td><td>共識EPS12.43,三引擎分散風險保守倍數18~24x</td><td>223.7~298.3(中值261)</td><td class="amber">合理 -6.1%</td></tr>
+  <tr><td>H1年化×倍數(較保守)</td><td>H1 EPS5.75×2=11.5(假設H2與H1持平),倍數18~24x</td><td>207~276(中值241.5)</td><td class="amber">合理 1.4%</td></tr>
+  <tr><td>FactSet最新目標價(信度存疑)</td><td>292(單次調查,惟時序不一致)</td><td>292(單點,低信度)</td><td class="green">便宜 -16.1%(信度需打折)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:LEO供應鏈系統性風險(客戶換代、火箭延遲)剛於8/6~8/7發酵,多年期FCF假設在此時點仍應謹慎。三種方法方向一致顯示現價便宜13~31%,是本次LEO供應鏈三檔中唯一呈現方法一致收斂的一檔,對照昇達科(三法一致顯示嚴重偏貴)與華通(三法分歧),啟碁的估值訊號最為清晰健康。惟仍需留意:若LEO供應鏈系統性風險擴大衝擊啟碁的衛星業務貢獻度,現有EPS共識可能需要下修,便宜的結論屆時需重新檢視。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:800G交換器量產時程與LEO客戶合約細節皆存在不確定性,多年期FCF假設信度不足。自估的兩種方法(P/E法與H1年化法)高度一致,皆顯示現價大致合理(±6%內),是本次分析範圍內方法間分歧最小的案例之一;FactSet最新目標價雖顯示更大空間,但因時序矛盾而信度存疑,不作為主要依據。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">LEO族群連動重挫,情緒轉謹慎</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">8/7受昇達科法說會利空外溢影響同步下跌,但啟碁本身基本面未見對應利空</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">持續上修,LEO三檔中最穩健</div><div class="note">目標價自198上修至292,EPS估值分歧幅度小於昇達科、創意等案例</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.36(Q1)→12.43(2026E)</div><div class="note">7月營收查無,是能否延續6月YoY+84.37%動能的關鍵驗證點</div></div>
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">上升三角形態,略偏多但未過熱</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">CMoney技術面熱度分數66.7,尚未達到過熱區間</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet近期數字時序不一致</div><div class="note">198→245→292反覆,信度需打折</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">5.75(H1)→12.43(2026E共識)</div><div class="note">800G量產與LEO客戶合約擴大是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>11.01 / 12.43 / 12.96</td><td>18~24x</td><td>223.6~310.6(中值267.1)</td><td class="green">約 +15%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>共識EPS(參考)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>12.43(FactSet 7月調查,單點)</td><td>18~24x</td><td>223.7~298.3(中值261)</td><td class="green">約 +6.5%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正(+15%),是LEO供應鏈三檔中唯一維持正報酬且方法一致的一檔;2027、2028年因分析師覆蓋不足查無共識,不強行推演,反映啟碁雖是三檔中估值紀律最佳者,中長期能見度仍受限於整體LEO供應鏈題材的成熟度。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬溫和為正,惟建立在單次FactSet調查的EPS數字上,考量近期目標價數字本身有時序矛盾,實際確定性應打折看待。2027年EPS共識查無穩定區間,800G量產與LEO客戶合約能否持續擴大是決定中長期獲利路徑的關鍵,現階段查無足夠具體的財測共識,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 80~380;left% = (價格-80)/300×92+4 -->
+<!-- 刻度 90~340;left% = (價格-90)/250×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">140~160</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:39.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">210~240</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:61.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">280~310</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">340~360</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:51%"><div class="arrow">▲</div><div class="price">233.0</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">150~175</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">220~250</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">280~305</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">325~340</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:61.7%"><div class="arrow">▲</div><div class="price">245.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>140~160</td><td>LEO供應鏈系統性風險擴大實質衝擊啟碁衛星業務貢獻度,或800G/Wi-Fi 7動能不如預期</td><td class="red">約 -36%</td></tr>
-  <tr><td class="amber">Base</td><td>210~240</td><td>三引擎業務維持穩健成長但無驚喜,LEO族群情緒逐步降溫;現價落於此區間內</td><td>約 -3%</td></tr>
-  <tr><td class="green">Bull</td><td>280~310</td><td>7~8月營收驗證800G/Wi-Fi 7動能延續,FactSet目標價292達陣或接近</td><td class="green">約 +27%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>340~360</td><td>三引擎與LEO題材全面兌現,重返5月高點附近</td><td class="green">約 +50%</td></tr>
+  <tr><td class="red">Bear</td><td>150~175</td><td>800G量產延遲或LEO客戶合約未如預期擴大,市場重估三引擎故事的可信度,估值倍數壓縮</td><td class="red">約 -34%</td></tr>
+  <tr><td class="amber">Base</td><td>220~250</td><td>H2營收成長維持溫和步調,獲利軌道延續但無驚喜;現價落於此區間內</td><td>約 -4%</td></tr>
+  <tr><td class="green">Bull</td><td>280~305</td><td>800G如期2026年中量產且開始貢獻營收,LEO客戶合約擴大確認</td><td class="green">約 +19%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>325~340</td><td>三引擎全面兌現且FactSet樂觀目標價(292)獲得驗證並進一步上修,重返並超越5月高點319</td><td class="green">約 +36%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +230,36 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">210~222</td><td>35%</td></tr>
-      <tr><td>第二批</td><td class="green">185~208</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">160~183</td><td>35%</td></tr>
+      <tr><td>第一批</td><td class="green">225~238</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">205~224</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">175~204</td><td>40%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">150</b>(明顯低於今年低點區間)= LEO供應鏈系統性風險實質衝擊或三引擎成長動能生變,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">220</b>(8月區間低點)= 轉型題材信任動搖或800G量產時程明顯落後,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破264(近期高點)+量能確認,且7月營收公布驗證800G/Wi-Fi 7動能延續<br>
-    進場區:<b class="green">265~280</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回255即出場</div>
+    觸發條件:收盤突破260(8月區間高點)+量能確認,且800G量產或LEO合約有具體進展公告<br>
+    進場區:<b class="green">261~275</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回250即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">280~310</div><div class="note">賣出25~40%;Bull下緣/FactSet目標價292附近,高檔應分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">340~360</div><div class="note">Stretched區/重返5月高點附近;續抱條件是三引擎營收guidance持續兌現、LEO系統性風險未實質擴大</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">280~305</div><div class="note">賣出30~50%;Bull區,轉型題材股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">325~340</div><div class="note">Stretched區;續抱條件是800G與LEO雙引擎持續兌現、FactSet樂觀目標價獲驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:6月營收158.7億元(YoY+84.37%)主要受惠800G交換器挹奏動能,Q1 EPS 2.36元創近期新高,公司樂觀預估全年營收挑戰40億美元;但8/7股價重挫5.7%,主因同日低軌衛星指標廠昇達科法說會後重挫8.52%(客戶衛星產品換代、火箭發射延遲兩大風險),市場情緒外溢至整個LEO供應鏈,即使啟碁的LEO曝險度遠低於昇達科,仍未能倖免於系統性連動賣壓。</div>
-<div class="concl">② <b>估值</b>:合理偏低——Forward P/E約18.75x是LEO供應鏈三檔中最低,FactSet目標價、自身本益比、同業華通倍數對照三種方法方向一致顯示現價便宜13~31%,是三檔中唯一呈現估值訊號收斂的一檔,對照昇達科(嚴重偏貴)與華通(方法分歧),啟碁的定價紀律最為健康;網通/企業/車用三引擎多元佈局也降低了對單一LEO題材的依賴度。</div>
-<div class="concl">③ <b>結論</b>:分批布局、以循環股紀律操作——現價233.0落於Base區間內,上檔Bull +27%/Stretched +50%對下檔Bear -36%,是LEO供應鏈三檔中風險報酬比最佳的一檔;左側倉位可正常分批,收盤跌破150即LEO供應鏈系統性風險實質衝擊或三引擎動能生變,無條件出場。下一個驗證點是7月營收公布,以及LEO族群系統性利空是否持續外溢。</div>
+<div class="concl">⓪ <b>事件影響</b>:H1財報EPS5.75元(8/5公布),年化約11.5已接近FactSet共識12.43;7月營收89.1億元(YoY+2.33%)成長相對溫和,顯示LEO地面站業務目前對整體營收的貢獻仍有限,轉型題材尚未完全反映在營收數字上。</div>
+<div class="concl">① <b>催化劑</b>:LEO衛星地面接收站(疑似美系大型LEO客戶)+800G高速交換器是核心轉型敘事,FactSet 2026E EPS共識持續上修至12.43;惟近期FactSet目標價數字(198→245→292)出現時序不一致,信度需打折看待。</div>
+<div class="concl">② <b>估值</b>:合理——自估的P/E法與H1年化法高度一致,皆顯示現價大致合理(±6%內),是本批分析中方法間分歧最小的案例;FactSet最新目標價(292)雖顯示更大空間,但因時序矛盾信度存疑,不宜直接採信。</div>
+<div class="concl">③ <b>結論</b>:中性偏多、LEO地面站+800G雙引擎——現價245落於Base區間上緣,上檔Bull +19%/Stretched +36%對下檔Bear -34%,風險報酬中性偏正向;可正常左側分批布局,收盤跌破220即轉型題材信任動搖,無條件出場。下一個驗證點是800G能否如期2026年中量產、LEO客戶合約能否具體擴大。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TWSE官方STOCK_DAY);股本/發行股數Yahoo股市;Q1法說(豐雲學堂,2026/05/07);6月營收(Yahoo股市,2026/07公告,7月營收查無);FactSet共識EPS與目標價(鉅亨網速報,追蹤至最新292元/EPS12.43,此前自198上修;另有讀mo財經獨立估值10.10元未交叉驗證);昇達科法說會風險揭露外溢效應(旺得富理財網,2026/08/07);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;7月營收、2027年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、Yahoo股市、豐雲學堂、鉅亨網(FactSet速報)、readmo財經、旺得富理財網。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;三種估值方法方向一致收斂,但8/7的LEO族群連動重挫顯示短線籌碼面尚未完全與個股基本面脫鉤,不宜忽視此系統性風險。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);H1財報(公司8/5董事會公告);7月營收(財經媒體彙整,2026/08);FactSet共識EPS與目標價(鉅亨網FactSet速報,追蹤軌跡7.94/130→8.56/155→198→12.43/245~292,時序關係不明確);LEO客戶身分與合約細節(市場推測,公司未正式證實);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識、Q2單季拆分EPS、LEO客戶正式身分查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網FactSet速報、CMoney投資網誌、財經媒體彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;FactSet近期數字的時序矛盾已於內文明確標註,不應僅採信對多方有利的最高數字。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

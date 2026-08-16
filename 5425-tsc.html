@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>台半 (5425) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>台半 (5425) <span class="badge amber">估值:合理,Nexperia轉單受惠度最高</span> <span class="badge amber">結論:中性偏多,車用布局明確</span><span class="autodispo" data-code="5425"></span></h1>
+<div class="sub">台股(TPEx)・功率半導體(二極體/整流器/MOSFET/IGBT),車用MOSFET布局明確|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="5425">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性偏多</span><span class="vtag">失效價 <span class="vstop">71</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="5425">現價 <b>85.5</b> → 目標價 <b>90</b><span class="up"> (+5.3%)</span></div>
+  <div class="vbasis">推導依據:H1 EPS1.52年化3.04,套用功率半導體車用布局溢價倍數20~30x得約60.8~91.2(中值76);市場另有單一券商目標價102(EPS假設約2.68)、120等數字;公司被評為Nexperia轉單效益受惠最直接的一家,現價落於自估區間與樂觀目標價之間</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">85.50</div><div class="note">2026/08/14 收盤;8月區間80.4~89.7</div></div>
+  <div class="card"><div class="label">6月營收</div><div class="value green">16.7億</div><div class="note">YoY+9.46%;7月精確數字查無</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">1.52</div><div class="note">Q1約0.70/Q2約0.82(推算)</div></div>
+  <div class="card"><div class="label">H1歸屬母公司淨利</div><div class="value green">37.25億</div><div class="note">8/7董事會通過Q2財報</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">50.8~144.0</div><div class="note">1月低、7月高;全年振幅逾2.8倍</div></div>
+  <div class="card"><div class="label">Nexperia轉單定位</div><div class="value green">受惠最直接</div><div class="note">車用產品布局明確,為歐系車廠去中化天然替代選擇</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼是Nexperia轉單受惠最直接的一家?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~7月初</span>股價從1月低點50.8飆升至7月高點144.0(近2.8倍漲幅),與強茂、德微同步受惠功率半導體族群重估。</li>
+  <li><span class="date">2025年10月~2026年</span>安世(Nexperia)事件引發歐美車廠去中化轉單潮,台半因車用MOSFET布局明確(與UMC合作開發中壓MOSFET,40V已於2021 Q4量產、60V於2022量產,80V/100V開發中),被鉅亨網產業比較報導評為「Nexperia轉單效益受惠最直接的一家」。</li>
+  <li><span class="date">2026年5月底</span>外資單日買超7,260張,帶動股價自4月底62.8元走高至5月28日114.5元。</li>
+  <li><span class="date">2026年6月</span>單月營收16.7億元,年增9.46%;產業比較報導指出台半當月營收已創新高(與德微並列,強茂尚未創高)。</li>
+  <li><span class="date">2026/08/07</span>董事會通過Q2財報:H1累計EPS1.52元,H1累計歸屬母公司業主淨利37.25億元。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①市場流傳的目標價數字(102、120)與另一則「全年EPS約14.07」的說法明顯不一致(14.07遠高於H1實績1.52的合理年化推估),後者信度極低不應採用;②公司與Fairchild/ON Semi的技術授權歷史查無具體佐證資料,若原先市場認知有此淵源,建議進一步查證;③已切入CATL電池供應鏈與Foxconn MIH電動車聯盟,顯示車用布局的廣度,惟具體訂單金額與貢獻時程查無精確數字。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">台半的優勢在於車用產品布局較明確,是歐系車廠去中國化的天然替代選擇,被評為Nexperia轉單效益受惠最直接的一家。<div class="src">— 鉅亨網產業比較報導,2026</div></div>
+    <div class="quote">與UMC合作開發中壓MOSFET,40V、60V已量產,80V/100V開發中;已切入CATL電池供應鏈與Foxconn MIH電動車聯盟,車用布局廣度領先同業。<div class="src">— 產業報導彙整,2026</div></div>
+    <div class="quote">外資5月底單日買超7,260張,單月漲幅逾26%,宏遠證券看多評等。<div class="src">— CMoney投資網誌,2026/05~08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">市場流傳「全年EPS約14.07」的說法與H1實績1.52明顯不一致,可能是誤植或不同計算基礎,不應直接採信;精確目標價來源與日期同樣查無充分佐證。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">CATL電池供應鏈與Foxconn MIH聯盟的具體訂單金額與貢獻時程查無精確數字,現階段仍屬定性布局優勢而非已量化的財務貢獻。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>市場報告(來源不明確)</td><td class="amber">102(EPS假設約2.68)</td><td>單一數據點,券商名稱與發布日期查無</td></tr>
+  <tr><td>另一券商目標價(來源不明確)</td><td class="amber">120</td><td>單一數據點,依據不明</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">另有「全年EPS約14.07」的說法與已知H1實績(1.52)明顯矛盾,不採用為主要依據;查無正式FactSet共識調查。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="5425"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-3,609</span></td><td>3/10</td><td><span class="red">-268</span></td></tr><tr><td>投信</td><td><span class="green">+300</span></td><td>1/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-250</span></td><td>6/10</td><td><span class="red">-287</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-3,559</span></td><td>3/10</td><td><span class="red">-555</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/14</td><td><span class="red">-268</span></td><td>+0</td><td><span class="red">-287</span></td><td><span class="red">-555</span></td></tr><tr><td>08/13</td><td><span class="red">-1,207</span></td><td>+0</td><td><span class="green">+13</span></td><td><span class="red">-1,194</span></td></tr><tr><td>08/12</td><td><span class="green">+851</span></td><td>+0</td><td><span class="green">+115</span></td><td><span class="green">+966</span></td></tr><tr><td>08/11</td><td><span class="green">+254</span></td><td>+0</td><td><span class="red">-80</span></td><td><span class="green">+174</span></td></tr><tr><td>08/10</td><td><span class="green">+444</span></td><td>+0</td><td><span class="green">+31</span></td><td><span class="green">+474</span></td></tr><tr><td>08/07</td><td><span class="red">-423</span></td><td>+0</td><td><span class="red">-117</span></td><td><span class="red">-539</span></td></tr><tr><td>08/06</td><td><span class="red">-83</span></td><td>+0</td><td><span class="green">+75</span></td><td><span class="red">-8</span></td></tr><tr><td>08/05</td><td><span class="red">-1,379</span></td><td>+0</td><td><span class="red">-287</span></td><td><span class="red">-1,666</span></td></tr><tr><td>08/04</td><td><span class="red">-1,018</span></td><td><span class="green">+300</span></td><td><span class="green">+127</span></td><td><span class="red">-591</span></td></tr><tr><td>08/03</td><td><span class="red">-780</span></td><td>+0</td><td><span class="green">+160</span></td><td><span class="red">-620</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/03~08/14(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">6月營收</div><div class="value green">16.7億</div><div class="note">YoY+9.46%;創當月新高</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">1.52</div><div class="note">Q1約0.70/Q2約0.82</div></div>
+  <div class="card"><div class="label">車用MOSFET布局</div><div class="value green">40V/60V已量產</div><div class="note">80V/100V開發中,與UMC合作</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">與德微同樣未獲主動式資金關注(2026/08/14資料)</div></div>
+  <div class="card"><div class="label">供應鏈布局</div><div class="value amber">CATL、Foxconn MIH</div><div class="note">具體訂單金額查無精確數字</div></div>
+  <div class="card"><div class="label">Nexperia轉單受惠度</div><div class="value green">最高(三檔中)</div><div class="note">車用產品定位清晰</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與台半的差異</th></tr>
+  <tr class="hl"><td>5425.TWO</td><td>台半</td><td>自估60.8~91.2;市場流傳102/120</td><td>H1 EPS1.52,6月營收創新高</td><td>車用MOSFET布局明確,Nexperia轉單受惠度三檔中最高</td></tr>
+  <tr><td>2481.TW</td><td>強茂(本站另篇分析)</td><td>自估95.8~119.75;單一外資目標價110</td><td>6月營收YoY+27.37%,惟尚未創高</td><td>產品組合最全面,惟傳統產品線拖累整體營收動能</td></tr>
+  <tr><td>3675.TWO</td><td>德微(本站另篇分析)</td><td>自估188~280(推演);查無正式目標價</td><td>7月營收創新高YoY+29.78%,Q2毛利率40.8%史上次高</td><td>TVS/ESD保護元件+AI電源需求直接受惠,三家中最全面受惠者</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——Nexperia轉單受惠度最高的定位支撐現價,惟目標價數字信度普遍不高。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS1.52年化(3.04)套用功率半導體車用布局溢價倍數20~30x計算,合理價區間約60.8~91.2元(中值76),現價85.50大致落於此區間內偏上緣。市場流傳的目標價數字(102、120)雖顯示更大空間,但來源與日期皆查無充分佐證,信度需打折。台半在三檔功率半導體標的中,被產業比較報導明確評為「Nexperia轉單效益受惠最直接的一家」,車用MOSFET布局(40V/60V已量產,80V/100V開發中)提供相對清晰的中長期成長路徑,加上5月底外資單日大幅買超的籌碼面訊號,整體評價傾向中性偏多。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價85.50 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估,車用布局溢價)</td><td>H1 EPS1.52×2=3.04,倍數20~30x</td><td>60.8~91.2(中值76)</td><td class="amber">合理 12.5%</td></tr>
+  <tr><td>市場流傳目標價(較保守者)</td><td>102(單點,EPS假設約2.68,來源不明確)</td><td>102(單點,低信度)</td><td class="green">便宜 -16.2%</td></tr>
+  <tr><td>市場流傳目標價(較樂觀者)</td><td>120(單點,依據不明,信度更低)</td><td>120(單點,低信度)</td><td class="green">便宜 -28.8%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:功率半導體循環股獲利對終端需求組合敏感,加上車用MOSFET高階產品(80V/100V)開發時程尚未確定,多年期FCF假設缺乏可靠基礎。自估的H1年化法顯示現價大致合理(略高於中值),而兩則市場流傳的目標價則顯示現價便宜,惟這些數字的來源與依據皆查無充分佐證,信度應打折看待。整體而言,現價落於「保守自估」與「低信度樂觀目標價」之間,估值判斷應以自估的H1年化法為主要依據,結論是大致合理。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">外資買超帶動,惟近期漲幅已大</div><div class="bar"><div style="width:60%;background:var(--amber)"></div></div><div class="note">5月底單日外資買超7,260張,單月漲幅逾26%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價數字來源普遍不明確</div><div class="note">102、120兩則數字皆缺乏充分佐證,信度需打折</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.52(H1)→查無正式2026E共識</div><div class="note">80V/100V車用MOSFET開發進度與Nexperia轉單訂單能否持續擴大是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>3.04(H1年化,推演)</td><td>20~30x</td><td>60.8~91.2(中值76)</td><td class="red">約 -11%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和負值,反映現價已大致貼近自估合理區間上緣,惟這是基於H1簡單年化的保守假設,若H2隨Nexperia轉單訂單持續擴大而加速,實際全年EPS可能優於這個保守推演。2027年EPS共識查無穩定區間,80V/100V車用MOSFET的開發時程與量產貢獻,是決定中長期獲利路徑的關鍵,現階段查無具體財測,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~160;left% = (價格-40)/120×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">60~68</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">78~90</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">100~112</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">128~138</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.9%"><div class="arrow">▲</div><div class="price">85.50</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>60~68</td><td>Nexperia轉單訂單不如預期或車用MOSFET開發進度延遲,估值回歸自估保守區間下緣</td><td class="red">約 -25%</td></tr>
+  <tr><td class="amber">Base</td><td>78~90</td><td>Q3維持穩定成長但無驚喜,80V/100V開發進度符合預期;現價落於此區間內</td><td>約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>100~112</td><td>Nexperia轉單訂單持續擴大,CATL/Foxconn MIH供應鏈開始具體貢獻營收</td><td class="green">約 24%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>128~138</td><td>車用MOSFET全系列布局兌現且訂單能見度大幅擴大,重返7月高點144.0附近</td><td class="green">約 56%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">78~82</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">71~77</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">60~70</td><td>35%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">71</b>(8月區間低點)= Nexperia轉單效益或車用布局優勢受質疑,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破89.7(8月區間高點)+量能確認,且7月或8月營收持續創新高<br>
+    進場區:<b class="green">90~96</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回85即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">100~112</div><div class="note">賣出30~50%;Bull區,循環股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">128~138</div><div class="note">Stretched區;續抱條件是Nexperia轉單訂單持續擴大且車用布局全面兌現</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:Nexperia(安世)轉單潮是核心多頭敘事,台半因車用MOSFET布局明確(40V/60V已量產,80V/100V開發中)被評為受惠最直接的一家;6月營收16.7億元創新高,H1 EPS1.52,已切入CATL電池供應鏈與Foxconn MIH聯盟。</div>
+<div class="concl">② <b>估值</b>:合理——自估H1年化法顯示現價大致合理(略高於中值12.5%);市場流傳的兩則目標價(102、120)雖顯示更大空間,惟來源與依據皆查無充分佐證,信度需打折,不應直接採信為現階段可實現的目標。</div>
+<div class="concl">③ <b>結論</b>:中性偏多、車用布局明確——現價85.50落於Base區間內,上檔Bull +24%/Stretched +56%對下檔Bear -25%,風險報酬偏正向;可正常左側分批布局,收盤跌破71即Nexperia轉單效益或車用布局優勢受質疑,無條件出場。下一個驗證點是80V/100V車用MOSFET開發進度與Nexperia轉單訂單能否持續擴大。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);H1財報(公司8/7董事會公告);6月營收(財經媒體彙整,2026);車用MOSFET布局與供應鏈(產業報導彙整,2026);Nexperia轉單事件與族群比較(鉅亨網,2026);外資買超籌碼消息(CMoney投資網誌,2026/05);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,查無持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;7月營收精確數字、正式FactSet共識調查、Fairchild/ON Semi技術授權歷史佐證查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料、公司財報公告、鉅亨網、CMoney投資網誌、產業報導彙整。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

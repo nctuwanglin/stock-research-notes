@@ -405,42 +405,45 @@
     "name": "華通",
     "market": "twse",
     "file": "2313-unitech.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 208.5,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 215.5,
     "tags": [
-      "網通"
+      "網通",
+      "太空"
     ],
-    "target": 210,
-    "stop": 130,
-    "basis": "2026E EPS 7.7 × 27x;現增稀釋未明故不給溢價",
-    "rating": "hold"
+    "target": 260,
+    "stop": 185,
+    "basis": "86.1億現增7/22完成認股稀釋疑慮解除;FactSet EPS共識7.68與先前假設7.7一致,FactSet目標價上修至310,LEO衛星PCB市占70~80%",
+    "rating": "buy"
   },
   "3491": {
     "name": "昇達科",
     "market": "tpex",
     "file": "3491-gsat.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 1235.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1375.0,
     "tags": [
-      "網通"
+      "網通",
+      "太空"
     ],
-    "target": 800,
-    "stop": 620,
-    "basis": "H1年化EPS 16.3 × 49x(已給極寬容倍數仍低於現價)",
+    "target": 900,
+    "stop": 950,
+    "basis": "H1年化EPS16.3×已屬寬容的49x得約799;巨頻科技併購案(51%股權)獲利貢獻未量化不納入錨點;FactSet4月目標價1700已過時",
     "rating": "avoid"
   },
   "6285": {
     "name": "啟碁",
     "market": "twse",
     "file": "6285-wnc.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 233.0,
+    "analysis_date": "2026-08-14",
+    "analysis_price": 245.0,
     "tags": [
-      "網通"
+      "網通",
+      "太空"
     ],
-    "target": 265,
-    "stop": 150,
-    "basis": "2026E EPS 12.43 × 21x(三引擎分散風險)",
+    "target": 275,
+    "stop": 220,
+    "basis": "2026E EPS共識12.43(7月調查)×21x得約261;FactSet近期目標價198~292時序不一致信度需打折,綜合採275",
     "rating": "hold"
   },
   "2354": {
@@ -686,6 +689,104 @@
     "target": 62,
     "stop": 54,
     "basis": "查無穩定券商目標價;H1EPS3.65族群最佳,惟Q2較Q1放緩74.6%;保守推演全年EPS約5.1×10~14x得約51~72,現價落於區間下段",
+    "rating": "hold"
+  },
+  "6488": {
+    "name": "環球晶",
+    "market": "tpex",
+    "file": "6488-globalwafers.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 1010.0,
+    "tags": [
+      "矽晶圓"
+    ],
+    "target": 750,
+    "stop": 850,
+    "basis": "Q2淨利YoY+125%主要來自世創(Siltronic)股權評價利益而非本業改善;FactSet2026E EPS21.12(6月底,已過時)×20~28x得約422~591,現價遠超此區間",
+    "rating": "avoid"
+  },
+  "6182": {
+    "name": "合晶",
+    "market": "tpex",
+    "file": "6182-waferworks.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 111.5,
+    "tags": [
+      "矽晶圓"
+    ],
+    "target": 45,
+    "stop": 88,
+    "basis": "H1接近損平(Q1 EPS0.00,6月單月EPS僅0.01),虧損股/損平股禁用P/E;P/S對照矽晶圓同業顯示現價隱含約6.4倍明顯偏高,查無任何券商目標價覆蓋",
+    "rating": "avoid"
+  },
+  "3532": {
+    "name": "台勝科",
+    "market": "twse",
+    "file": "3532-formosasumco.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 356.0,
+    "tags": [
+      "矽晶圓"
+    ],
+    "target": 110,
+    "stop": 280,
+    "basis": "Q2營業利益由Q1虧損轉盈惟H1整體仍淨損(EPS-0.05),虧損股禁用P/E;P/S對照顯示現價隱含約10倍明顯偏貴,唯一目標價(270)已明顯過時",
+    "rating": "avoid"
+  },
+  "5483": {
+    "name": "中美晶",
+    "market": "tpex",
+    "file": "5483-sas.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 188.0,
+    "tags": [
+      "矽晶圓"
+    ],
+    "target": 185,
+    "stop": 165,
+    "basis": "H1 EPS5.02年化控股折價倍數15~20x得約150.6~200.8;董事長7/16法說會自評每股價值約185元,與自估區間高度收斂",
+    "rating": "hold"
+  },
+  "2481": {
+    "name": "強茂",
+    "market": "twse",
+    "file": "2481-panjit.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 138.0,
+    "tags": [
+      "功率半導體"
+    ],
+    "target": 130,
+    "stop": 116,
+    "basis": "市場預期2026全年EPS約4.79×20~25x得約95.8~119.75;AI伺服器占比7%→11%但傳統產品線拖累,營收動能落後同族群德微/台半",
+    "rating": "hold"
+  },
+  "5425": {
+    "name": "台半",
+    "market": "tpex",
+    "file": "5425-tsc.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 85.5,
+    "tags": [
+      "功率半導體"
+    ],
+    "target": 90,
+    "stop": 71,
+    "basis": "H1 EPS1.52年化3.04×車用布局溢價20~30x得約60.8~91.2;被評為Nexperia轉單效益受惠最直接的一家,車用MOSFET布局明確",
+    "rating": "hold"
+  },
+  "3675": {
+    "name": "德微",
+    "market": "tpex",
+    "file": "3675-eris.html",
+    "analysis_date": "2026-08-14",
+    "analysis_price": 267.5,
+    "tags": [
+      "功率半導體"
+    ],
+    "target": 245,
+    "stop": 217,
+    "basis": "三檔功率半導體中「最全面受惠」Nexperia轉單+AI伺服器需求;Q2毛利率40.8%史上次高,惟查無任何券商目標價覆蓋,8/7本益比已達46.4倍",
     "rating": "hold"
   }
 }
