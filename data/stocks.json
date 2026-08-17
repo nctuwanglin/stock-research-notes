@@ -287,14 +287,14 @@
     "name": "聯電",
     "market": "twse",
     "file": "2303-umc.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 116.0,
+    "analysis_date": "2026-08-17",
+    "analysis_price": 121.0,
     "tags": [
       "晶圓代工"
     ],
-    "target": 105,
-    "stop": 85,
-    "basis": "2026E EPS 4.93 × 21x(無先進製程不給台積電倍數)",
+    "target": 108,
+    "stop": 100,
+    "basis": "H1核心(排除Q2約302億業外一次性投資/股息收益)EPS估算約2.26,若H2延續核心動能全年約4.84×21~24x得約102~116;FactSet headline共識4.93/目標價120與H1 headline實際4.68交叉比對存在邏輯落差,信度存疑,採目標價108",
     "rating": "hold"
   },
   "2610": {
@@ -531,15 +531,15 @@
     "name": "世界先進",
     "market": "tpex",
     "file": "5347-vis.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 143.5,
+    "analysis_date": "2026-08-17",
+    "analysis_price": 160.5,
     "tags": [
       "晶圓代工"
     ],
-    "target": 135,
-    "stop": 95,
-    "basis": "2026E EPS 4.92 × 27x;7月營收月減21%扣分",
-    "rating": "hold"
+    "target": 180,
+    "stop": 135,
+    "basis": "券商上修2026E EPS至6.26×24~27x得約150.2~169;與券商自身目標價196(單一分析師,信度中等)存在落差,綜合自估與樂觀情境採目標價180",
+    "rating": "buy"
   },
   "6770": {
     "name": "力積電",

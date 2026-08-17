@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,6 +27,7 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
@@ -41,6 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -81,54 +84,64 @@
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>世界先進 (5347) <span class="badge amber">估值:分歧(目標價便宜、同業聯電對照偏貴)</span> <span class="badge amber">結論:分批布局,留意7月營收月減警訊</span><span class="autodispo" data-code="5347"></span></h1>
-<div class="sub">上櫃(TPEx)・特殊製程晶圓代工(電源管理IC/類比)+8吋細線寬滿載|現況估值版|股價截至 2026/08/07 收盤,製表 2026/08/08|<span class="dispostat" data-code="5347">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+<h1>世界先進 (5347) <span class="badge purple">事件:Q2財報15季新高+Q3展望強勁</span> <span class="badge green">估值:合理偏低,獲利品質純淨</span> <span class="badge green">結論:偏多,成熟製程漲價循環+AI營收翻倍</span><span class="autodispo" data-code="5347"></span></h1>
+<div class="sub">台股(TPEx上櫃)・晶圓代工(成熟製程,8吋/12吋,新加坡12吋新廠建置中),重分析更新(事件後估值版)|股價截至 2026/08/14 收盤,製表 2026/08/17|<span class="dispostat" data-code="5347">未列入處置股/注意股名單(對照處置股儀表板 2026/08/13 資料)</span></div>
+
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">95</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="5347">現價 <b>160.5</b> → 目標價 <b>135</b><span class="down"> (-15.9%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS 4.92 × 27x;7月營收月減21%扣分</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">135</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="5347">現價 <b>160.5</b> → 目標價 <b>180</b><span class="up"> (+12.1%)</span></div>
+  <div class="vbasis">推導依據:券商上修2026E EPS至6.26,套用24~27x得約150.2~169(中值159.6);與券商自身目標價196(單一分析師來源,隱含約31.3x,信度中等)存在落差;綜合自估與券商樂觀情境,採目標價180</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">143.5</div><div class="note">2026/08/07 收盤 -5.3%;自今年高點223回檔約35.7%</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約2,697億</div><div class="note">資本額187.95億,發行股數約18.80億股</div></div>
-  <div class="card"><div class="label">Q2 2026 EPS</div><div class="value green">1.56</div><div class="note">季增32.2%,年增41.8%;毛利率32.3%優於guidance上緣</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約29.2x</div><div class="note">FactSet 2026E EPS共識4.92(另有券商估6.26)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">131~223</div><div class="note">7月區間;現價落於區間中下段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">91.5~223</div><div class="note">1月低91.5、6~7月高223(TPEx官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">160.50</div><div class="note">2026/08/14收盤;8月區間143.5~163.0</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">47.06億</div><div class="note">MoM-21.26%,YoY+30.25%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">2.84</div><div class="note">Q1 1.18(季增27%),Q2約1.56~1.66(來源略有差異)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">314.82億</div><div class="note">YoY+15.48%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">92.3~220.0</div><div class="note">全年振幅約138%,晶圓代工族群中波動同樣劇烈</div></div>
+  <div class="card"><div class="label">Q2單季淨利</div><div class="value green">約29.75~30.5億</div><div class="note">創15季新高,獲利品質純淨無明顯一次性項目</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲(跌)?</h2>
+<h2>⓪ 事件影響分析 — 8/4法說會的Q3展望為何被市場視為強勁催化劑?</h2>
+<h3>事件摘要:8/4法說會公布Q2單季淨利創15季新高(EPS約1.56~1.66元),H1累計EPS 2.84元;Q3展望產能利用率上看9成、Q4更好,全年AI相關營收預期翻倍成長</h3>
+<div class="flow">世界先進於8/4召開線上法人說明會,公布2026年第二季財報:單季合併營收142.44億元,季增13.6%、年增21.7%,為單季次高表現,略優於法人預期;單季淨利提升至約29.75億元,創15季以來新高,每股盈餘約1.56元(另有來源以H1累計2.84元反推Q2約1.66元,兩者存在約0.1元的統計口徑差異,本站並列呈現不強行擇一)。累計上半年合併營收267.76億元,年增13.2%;歸屬母公司業主淨利52.2億元,年增17.1%;累計EPS 2.84元。展望第三季,公司預估出貨量季增1~3%,產品平均售價季增2~4%,以新台幣兌美元平均匯率32為假設,毛利率預期介於32.5~34.5%;第三季整體產能利用率將提升至9成,且管理層表示第四季有機會更好。對於新加坡12吋新廠第一期進度,公司重申可望提前於2028年完成產能建置,且第一期全數產能已被客戶包下、有合約支撐。公司同時預期今年AI相關營收將翻倍成長。</div>
+<h3>傳導路徑:Q2獲利創15季新高且獲利品質純淨(無明顯一次性項目干擾)→ Q3~Q4產能利用率與訂單能見度雙雙轉強 → 券商大幅上修2026年EPS估值至6.26元、目標價196元 → 惟這是單一分析師來源,樣本信度中等,本站以更保守的自估法交叉驗證後認為現價合理偏低但尚未到達196元的樂觀情境</h3>
+<div class="flow">與同期分析的聯電(2303)形成鮮明對比,世界先進本次Q2財報的獲利品質相對純淨——沒有大額業外一次性投資或股息收益的干擾,H1累計EPS2.84元可視為對本業成長速度的忠實反映。這使得公司在8/4法說會釋出的Q3~Q4正向展望(產能利用率9成、Q4更好、AI營收翻倍)更具參考價值,不像聯電同期的Q3展望需要在「核心/業外」拆分後才能準確評估。市場對此反應正面,部分券商已將2026年EPS估值大幅上修至6.26元、目標價196元;以本站自行交叉驗證的方式計算(H1實績2.84+Q3~Q4合理估算約3.4~3.6),全年EPS落在約6.2~6.4元的區間與此券商估值大致吻合,顯示這次上修有其數字基礎,但仍需留意這是單一分析師的估值(而非多方分析師共識調查),樣本代表性有限,196元的目標價對應隱含本益比約31.3倍,對成熟製程晶圓代工廠而言已屬於偏樂觀情境,本站在目標價設定上採取比196元更保守的立場。</div>
+
+<div class="grid cards6" style="margin:10px 0 6px">
+  <div class="card"><div class="label">Q2單季淨利</div><div class="value green">約29.75億</div><div class="note">創15季新高</div></div>
+  <div class="card"><div class="label">Q3產能利用率展望</div><div class="value green">上看9成</div><div class="note">Q4管理層表示「更好」</div></div>
+  <div class="card"><div class="label">2026E EPS(券商上修)</div><div class="value green">6.26</div><div class="note">單一分析師來源,較8/7分析時的4.92明顯上修</div></div>
+  <div class="card"><div class="label">全年AI營收展望</div><div class="value green">翻倍成長</div><div class="note">管理層guidance,2026全年</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼7月營收月減逾兩成,股價卻續強?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/05/05</span>Q1法說會:Q1營收125.32億元,毛利率由27.5%回升至29.3%,EPS 1.18元(季增27%);Q2展望晶圓出貨量季增11~13%、ASP季增2~4%、毛利率guidance上看31~33%;新加坡12吋廠訂單已全數售罄,8吋細線寬產能滿載,台灣五廠年底前擴至3萬片。</li>
-  <li><span class="date">2026/05/15</span><b class="amber">台積電宣布出售8.1%持股</b>:台積電公告出售世界先進1.52億股(占已發行股本8.1%),持股比自27.1%降至約19%,套現逾200億元,仍為最大股東。公司強調不影響雙方合作關係(矽中介層代工、GaN製程授權)。股價當日逆勢小漲0.86%收176.5,顯示市場並未將此解讀為負面訊號。</li>
-  <li><span class="date">2026/06~07</span>股價衝上今年高點223(6~7月),反映市場對成熟/特殊製程漲價循環與AI電源管理IC需求的樂觀情緒。</li>
-  <li><span class="date">2026/07月底~08初</span><b class="green">Q2財報:實際表現優於原始guidance</b>:Q2 EPS 1.56元,季增32.2%、年增41.8%,毛利率32.3%(優於guidance上緣33%的中段);Q3毛利率guidance上看34.5%,AI電源管理需求持續強勁,Q4產能利用率可望再升。</li>
-  <li><span class="date">2026/08/07</span><b class="red">7月營收月減逾2成,股價同步重挫</b>:7月營收47.06億元,年增30.25%,但月減21.26%,前七月累計314.82億元,YoY+15.48%。股價收143.5(-5.3%),自今年高點已回檔約35.7%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收月減21.26%是本次分析四檔晶圓代工中最明顯的單月衰退訊號,雖然YoY仍達30.25%,但月減幅度值得留意是否為Q3展望轉弱的前兆,或僅是Q2出貨基期偏高後的正常回落;②目前2026E EPS估值本身存在資料落差——FactSet官方調查中位數僅4.92元(對應目標價138),但另有券商喊出6.26元、目標價196元,兩者EPS差距逾27%,反映法人間對獲利軌跡的認知並不一致;③台積電持股從27.1%降至19%雖不影響策略合作,但長期而言少了大股東的隱性背書,籌碼結構已與過去不同。</li>
+  <li><span class="date">2026年初~6月</span>股價從年初低點92.3元一路走高至6月高點220.0元,漲幅逾138%,反映市場對成熟製程漲價循環與AI驅動需求的高度樂觀;7月起隨記憶體/晶圓代工族群系統性回檔而修正。</li>
+  <li><span class="date">2026/05/05</span>Q1法說會:EPS1.18元季增27%,展望Q2晶圓出貨量季增11~13%、產品均價季增2~4%,毛利率指引上看31~33%,新加坡12吋廠產能已全數售罄。</li>
+  <li><span class="date">2026/08/04</span>Q2法說會:單季淨利創15季新高(約29.75億元),H1累計EPS2.84元;Q3展望出貨季增1~3%、均價季增2~4%、毛利率32.5~34.5%,產能利用率上看9成、Q4更好;管理層表示2027年漲價無可避免,幅度不會低於今年。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收47.06億元(依MOPS官方公告),月減21.26%、年增30.25%;累計1~7月營收314.82億元,年增15.48%。7月單月MoM下滑幅度較大,但YoY仍維持逾3成的強勁成長,顯示這更可能是季度出貨節奏的正常波動而非需求轉弱。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收月減21.26%的降幅不小,雖YoY仍強勁成長,但需持續觀察8月營收能否確認這僅是短期出貨節奏波動而非動能轉弱的訊號;②券商上修至196元目標價、EPS6.26的估值來自單一分析師,並非多方分析師共識調查,樣本代表性相對有限;③H1的Q2單季EPS在不同來源間存在約0.1元(1.56 vs 1.66)的統計口徑差異,反映即使是獲利品質相對純淨的個股,精確數字仍存在一定程度的資訊落差。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">Q2毛利率32.3%已優於原始guidance,Q3毛利率上看34.5%,AI伺服器電源管理需求持續強勁,Q4產能利用率可望再升。<div class="src">— 風傳媒,2026/08</div></div>
-    <div class="quote">8吋細線寬產能滿載,新加坡12吋廠訂單全數售罄,台灣五廠年底前擴至3萬片,是本波成熟/特殊製程漲價循環中產能最緊俏的一檔。<div class="src">— vocus、豐雲學堂法說整理</div></div>
-    <div class="quote">台積電出售8.1%持股當日股價逆勢上漲,顯示市場並未將此解讀為基本面利空,策略合作關係(矽中介層、GaN授權)維持不變。<div class="src">— 信傳媒,2026/05</div></div>
+    <div class="quote">Q2單季淨利創15季新高,Q3產能利用率上看9成、Q4更好,新加坡12吋新廠第一期已全數被客戶包下,全年AI相關營收預期翻倍成長,成熟製程漲價循環結構性延續。<div class="src">— 世界先進Q2法說會,2026/08/04</div></div>
+    <div class="quote">券商將2026年EPS估值大幅上修至6.26元,目標價拉高到196元,認為公司已進入獲利加速期。<div class="src">— CMoney投資網誌,陳柏宇,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">7月營收月減21.26%是四檔晶圓代工中最明顯的單月衰退訊號,需留意是否為Q3展望轉弱的前兆。<div class="src">— 本儀表板觀察,依TWSE/TPEx官方營收公告計算</div></div>
-    <div class="quote">2026E EPS估值本身存在資料落差(FactSet官方4.92元 vs 券商樂觀估6.26元,相差逾27%),顯示法人對世界先進獲利軌跡的認知尚未收斂。<div class="src">— 鉅亨網FactSet速報、CMoney投資網誌</div></div>
-    <div class="quote">股價自6~7月高點223已回檔逾35%,即使Q2財報優於guidance仍未能止穩,顯示市場情緒已明顯降溫。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">7月營收月減21.26%,降幅在晶圓代工族群中不算小,雖YoY仍強勁,但短期出貨節奏的波動仍需8月數字進一步確認方向。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">196元目標價與EPS6.26的估值來自單一分析師,並非廣泛的分析師共識調查,196元對應隱含本益比逾31倍,對成熟製程晶圓代工廠而言偏樂觀,追高前應留意樣本代表性有限的風險。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(官方調查)</td><td class="green">138</td><td>2026E EPS中位4.92(區間4.33~5.85)</td></tr>
-  <tr><td>券商樂觀估值(單一來源)</td><td class="green">196</td><td>2026E EPS估6.26,較FactSet官方數字高出約27%</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">兩組估值來源差距顯著,反映法人對世界先進2026年獲利軌跡尚無一致看法;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>券商(單一分析師來源,2026)</td><td class="green">196</td><td>2026E EPS估值6.26元,隱含本益比約31.3倍</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">查無正式多方分析師共識調查(如FactSet)之公開資料,此目標價與EPS估值僅代表單一分析師觀點,信度中等,本站於估值方法交叉檢核表另以自估法作為主要錨點。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -137,69 +150,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value red">47.06億</div><div class="note">YoY+30.25%,但MoM-21.26%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">314.82億</div><div class="note">YoY+15.48%</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">1.56</div><div class="note">季增32.2%,年增41.8%</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">32.3%</div><div class="note">優於guidance(31~33%)上緣</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">8檔,4.0億</div><div class="note">合計2,778張,四檔中規模第三</div></div>
-  <div class="card"><div class="label">台積電持股比</div><div class="value amber">約19%</div><div class="note">5/15自27.1%出售8.1%後,仍為最大股東</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">47.06億</div><div class="note">MoM-21.26%,YoY+30.25%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">2.84</div><div class="note">獲利品質純淨,無明顯一次性項目</div></div>
+  <div class="card"><div class="label">Q3毛利率展望</div><div class="value green">32.5~34.5%</div><div class="note">以匯率32為假設</div></div>
+  <div class="card"><div class="label">新加坡12吋廠</div><div class="value green">第一期全數售罄</div><div class="note">可望提前2028年完成</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">8檔持有,合計4.40億元</div><div class="note">2026/08/14資料</div></div>
+  <div class="card"><div class="label">2027年展望</div><div class="value green">漲價無可避免</div><div class="note">管理層guidance,幅度不低於今年</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>2026動能</th><th>與世界先進的差異</th></tr>
-  <tr class="hl"><td>5347.TWO</td><td>世界先進</td><td>約29.2x(EPS4.92)</td><td>Q2 EPS季增32.2%,7月營收月減21.26%</td><td>特殊製程/電源管理IC利基廠,四檔中估值倍數最高</td></tr>
-  <tr><td>2303.TW</td><td>聯電</td><td>約23.5x(EPS4.93)</td><td>7月營收YoY+18.98%,45個月新高</td><td>成熟製程規模更大,無電源管理IC利基定位</td></tr>
-  <tr><td>2330.TW</td><td>台積電</td><td>約23~24x(EPS99.7~106.15)</td><td>2nm放量</td><td>先進製程龍頭,業務性質與世界先進差異最大</td></tr>
-  <tr><td>6770.TW</td><td>力積電</td><td>查無穩定Fwd P/E</td><td>記憶體代工急單漲價</td><td>記憶體代工為主,與世界先進的類比/電源管理定位不同</td></tr>
-  <tr><td>DIOD</td><td>Diodes Inc(美股,參考)</td><td>查無精確Fwd P/E</td><td>類比/電源管理IC同業</td><td>國際類比IC廠,部分產品線與世界先進客戶重疊</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與世界先進的差異</th></tr>
+  <tr class="hl"><td>5347.TWO</td><td>世界先進</td><td>自估約150.2~169;券商196(單一分析師)</td><td>Q2淨利創15季新高,Q3展望強勁,獲利品質純淨</td><td>成熟製程廠,獲利品質相對聯電更純淨,無業外收益干擾</td></tr>
+  <tr><td>2303.TW</td><td>聯電(本站另篇分析)</td><td>核心EPS估算法約102~116;FactSet headline 120(信度存疑)</td><td>7月營收創45個月新高,惟Q2 EPS含大額業外一次性收益</td><td>headline獲利數字受業外收益干擾,需拆分核心與一次性項目</td></tr>
+  <tr><td>2330.TW</td><td>台積電(本站另篇分析)</td><td>查無本次分析中的最新估值</td><td>先進製程主導</td><td>規模與製程領先地位遠超世界先進,估值基礎不宜直接類比</td></tr>
+  <tr><td>6770.TW</td><td>力積電(本站另篇分析)</td><td>查無本次分析中的最新估值</td><td>記憶體代工與晶圓代工並行</td><td>業務組合與世界先進不同</td></tr>
+  <tr><td>8299.TW</td><td>群聯(本站另篇分析)</td><td>查無本次分析中的最新估值</td><td>NAND控制晶片設計,非晶圓代工</td><td>業務性質不同,僅供半導體週期參考</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:分歧——FactSet目標價顯示便宜,但套用聯電倍數對照顯示偏貴。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">世界先進Forward P/E約29.2x是四檔晶圓代工中最高,較聯電(23.5x)、台積電(23~24x)都有明顯溢價,反映市場給予其特殊製程/電源管理IC利基定位較高的評價。FactSet目標價138元距現價有約-4%(以官方EPS4.92計算實為+2.4%,詳見估值方法交叉檢核)空間,但若採用估值更保守的聯電倍數對照,現價已明顯偏貴。7月營收月減21.26%的警訊,加上目前的估值溢價,使世界先進成為四檔晶圓代工中安全邊際最薄的一檔。</div>
+  <b>估值判斷:合理偏低——獲利品質純淨,自估區間與券商樂觀估值存在落差但方向一致偏正向。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以券商上修後的2026年EPS估值6.26元套用成熟製程晶圓代工廠常見的24~27倍本益比計算,合理價區間約150.2~169元(中值159.6),現價160.50大致落於此區間中段,顯示現價相對合理。券商自身給出的196元目標價(隱含約31.3倍本益比)則明顯更樂觀,但這是單一分析師來源而非廣泛共識,本站對此保持適度保留。世界先進本次法說會的獲利品質相對聯電更為純淨(無明顯業外一次性項目干擾H1的2.84元EPS),加上Q3~Q4產能利用率持續轉強、新加坡12吋新廠已全數售罄、全年AI相關營收預期翻倍成長,基本面故事的內部一致性優於同期分析的聯電。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價143.5 vs 中值</th></tr>
-  <tr><td>目標價(FactSet+券商樂觀估並列)</td><td>FactSet官方138 vs 券商樂觀196,中值167</td><td>138~196(中值167)</td><td class="green">便宜 -14.1%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 4.92,特殊製程利基廠倍數25~32x</td><td>123~157.4(中值140.2)</td><td class="amber">合理 +2.4%</td></tr>
-  <tr><td>聯電同業倍數對照</td><td>套用聯電2026E Fwd P/E約23.5x於世界先進EPS 4.92</td><td>單點約115.6(推演)</td><td class="red">貴 +24.1%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價160.50 vs 中值</th></tr>
+  <tr><td>券商EPS估值×倍數(自估區間)</td><td>2026E EPS6.26(單一分析師),成熟製程晶圓代工廠倍數24~27x</td><td>150.2~169(中值159.6)</td><td class="amber">合理 +0.6%</td></tr>
+  <tr><td>券商目標價(單點,信度中等)</td><td>196(單點,隱含約31.3倍本益比)</td><td>196(單點)</td><td class="green">便宜 -18.1%</td></tr>
+  <tr><td>H1年化×倍數(自估,保守情境)</td><td>H1 EPS2.84×2=5.68(假設H2與H1持平,較保守未計入Q3~Q4加速guidance),倍數24~27x</td><td>136.3~153.4(中值144.9)</td><td class="red">貴 +10.8%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:7月營收才剛出現月減21.26%的警訊,多年期FCF穩定假設意義有限。三種方法呈現由便宜到貴的完整光譜:混合目標價法顯示便宜,自身本益比法顯示合理,但套用估值更保守的同業聯電倍數則顯示貴逾24%——這反映世界先進目前享有的估值溢價(29.2x vs 聯電23.5x)是否合理,是決定「便宜」或「貴」的關鍵分歧點,而7月營收的月減警訊尚未被市場完全消化。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:新加坡12吋新廠仍在建置中,資本支出強度高,且2027年漲價幅度、AI營收貢獻的具體量化查無官方精確數字,多年期FCF假設信度不足。三種方法中,券商EPS估值套用保守倍數(合理,+0.6%)與券商自身樂觀目標價(便宜,-18.1%)方向一致偏正向;僅H1簡單年化法(未計入Q3~Q4加速guidance的保守情境)顯示現價偏貴,但這個方法明顯低估了管理層釋出的Q3~Q4正向guidance,不宜作為主要判斷依據。綜合而言,現價合理且具備因Q3~Q4動能加速而進一步上修的空間。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">Q2優於預期但7月營收降溫</div><div class="bar"><div style="width:48%;background:var(--amber)"></div></div><div class="note">股價自高點回檔逾35%,7月營收月減21.26%引發疑慮</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">估值來源分歧(138 vs 196)</div><div class="note">FactSet官方與券商樂觀估差距逾27%</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">1.18(Q1)→1.56(Q2)→4.92(2026E)</div><div class="note">H1累計2.74,Q3毛利率guidance(34.5%)是驗證關鍵</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">法說後續強,自8月低點反彈</div><div class="bar"><div style="width:68%;background:var(--green)"></div></div><div class="note">8月區間143.5~163.0,近期股價逐步走高</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">券商目標價196(單一來源)</div><div class="note">2026E EPS估值6.26,較8/7分析時明顯上修</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.84(H1)→約6.2~6.4(2026E自估)</div><div class="note">8月營收能否確認7月月減僅為短期節奏波動是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年,FactSet)</td><td>4.33 / 4.92 / 5.85</td><td>25~32x</td><td>123~157.4(中值140.2)</td><td>約 -2%</td></tr>
-  <tr><td>2026(券商樂觀估,對照)</td><td>6.26</td><td>25~32x</td><td>157~200(中值178,推演)</td><td class="green">約 +24%(對照情境)</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年)</td><td>6.26(券商估值) / 約6.2~6.4(本站交叉驗證)</td><td>24~27x</td><td>150.2~172.8(中值161.5)</td><td class="green">約 1%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟管理層表示2027年漲價無可避免、幅度不低於今年</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">本表刻意並列FactSet官方與券商樂觀估兩種2026年EPS情境,呈現世界先進估值路徑的核心矛盾:若採官方保守估計,現價已無明顯空間;若採樂觀估計,則仍有約24%空間。2027年因分析師覆蓋不足查無共識,不強行推演,這也反映世界先進的中長期能見度是四檔晶圓代工中相對較低的一檔。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,顯示現價大致已合理反映本次法說會釋出的正向資訊。2027年EPS共識查無穩定區間,惟管理層明確guidance漲價循環將延續至2027年且幅度不低於今年,提供中期獲利成長的方向性支撐,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 70~260;left% = (價格-70)/190×92+4 -->
+<!-- 刻度 95~280;left% = (價格-95)/185×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">95~110</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">130~150</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:61.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">165~185</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">210~225</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:39.6%"><div class="arrow">▲</div><div class="price">143.5</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">115~128</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:42.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">148~168</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">185~200</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">228~245</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:36.8%"><div class="arrow">▲</div><div class="price">160.50</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>95~110</td><td>7月營收月減趨勢延續確認Q3展望轉弱,或漲價循環提前結束,2026E EPS低值×25~27x</td><td class="red">約 -29%</td></tr>
-  <tr><td class="amber">Base</td><td>130~150</td><td>Q3毛利率如guidance達34.5%但營收動能持平,7月的月減屬短期波動;現價落於此區間內</td><td>約 -2%</td></tr>
-  <tr><td class="green">Bull</td><td>165~185</td><td>Q4產能利用率如預期再升,券商樂觀EPS估值(6.26)獲部分驗證,FactSet目標價138上緣或超越</td><td class="green">約 +22%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>210~225</td><td>AI電源管理需求全面兌現,重返今年高點223附近,券商樂觀目標價196接近達陣</td><td class="green">約 +51%</td></tr>
+  <tr><td class="red">Bear</td><td>115~128</td><td>8月營收確認7月的月減趨勢延續,Q3產能利用率guidance不如預期或漲價循環中斷</td><td class="red">約 -24%</td></tr>
+  <tr><td class="amber">Base</td><td>148~168</td><td>Q3財報符合guidance(利用率9成、毛利率32.5~34.5%),現價落於此區間內</td><td>約 -1%</td></tr>
+  <tr><td class="green">Bull</td><td>185~200</td><td>Q4如管理層所言「更好」,AI相關營收翻倍guidance兌現,重返並超越6月高點附近</td><td class="green">約 20%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>228~245</td><td>2027年漲價循環提前反映,新加坡12吋新廠訂單能見度延伸至2028年後,評價重估</td><td class="green">約 47%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +220,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">130~138</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">115~128</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">98~112</td><td>45%(7月營收月減警訊未解,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">148~155</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">138~147</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">128~137</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">95</b>(明顯低於今年低點區間)= 漲價循環邏輯失效或月減趨勢確認轉弱,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">135</b>(明顯低於8月區間下緣)= Q3產能利用率guidance不如預期或漲價循環中斷確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破168(7月高點)+量能確認,且8月營收公布重新轉正成長<br>
-    進場區:<b class="green">168~180</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回160即出場</div>
+    觸發條件:收盤突破163(8月區間高點)+量能確認,且8月營收公告確認出貨節奏回穩<br>
+    進場區:<b class="green">164~175</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回158即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">165~185</div><div class="note">賣出30~50%;Bull下緣,利基型晶圓代工高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">210~225</div><div class="note">Stretched區/重返今年高點附近;續抱條件是Q3毛利率如期達34.5%、8月營收止穩</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">185~200</div><div class="note">賣出30~50%;Bull區,晶圓代工循環股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">228~245</div><div class="note">Stretched區;續抱條件是2027年漲價循環與新加坡新廠訂單能見度持續兌現</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:Q2 EPS 1.56元(季增32.2%)、毛利率32.3%優於guidance上緣,Q3毛利率上看34.5%;但7月營收月減21.26%(YoY仍+30.25%),是四檔晶圓代工中最明顯的單月衰退訊號,股價當日重挫5.3%,自今年高點223已回檔約35.7%,5/15台積電出售8.1%持股(套現逾200億)當日股價反而逆勢上漲,顯示市場並未視為利空。</div>
-<div class="concl">② <b>估值</b>:分歧——目前2026E EPS估值本身存在資料落差(FactSet官方4.92元vs券商樂觀估6.26元,相差逾27%),混合目標價法顯示便宜、自身本益比法顯示合理,但套用估值更保守的同業聯電倍數對照則顯示貴逾24%;Forward P/E約29.2x是四檔晶圓代工中最高,安全邊際最薄。</div>
-<div class="concl">③ <b>結論</b>:分批布局、留意7月營收月減警訊——現價143.5落於Base區間內,上檔Bull +22%/Stretched +51%對下檔Bear -29%,7月營收的月減趨勢是否延續是能否維持目前估值溢價的關鍵;左側倉位應較其他三檔更保守,收盤跌破95即漲價循環邏輯失效,無條件出場。下一個驗證點是8月營收能否止穩轉正。</div>
+<div class="concl">⓪ <b>事件影響</b>:8/4法說會Q2單季淨利創15季新高(約29.75億元),H1累計EPS2.84元,獲利品質相對純淨無明顯一次性項目干擾;Q3展望出貨季增1~3%、毛利率32.5~34.5%、產能利用率上看9成,Q4管理層表示「更好」,全年AI相關營收預期翻倍成長,新加坡12吋新廠第一期已全數售罄並可望提前2028年完工。</div>
+<div class="concl">② <b>估值</b>:合理偏低——券商EPS估值(6.26)套用保守倍數顯示現價大致合理(+0.6%),券商自身樂觀目標價(196)顯示現價便宜18.1%,惟此目標價來自單一分析師而非廣泛共識,信度中等;僅未計入Q3~Q4加速guidance的保守年化法顯示現價偏貴,不宜作為主要判斷依據。</div>
+<div class="concl">③ <b>結論</b>:偏多、成熟製程漲價循環+AI營收翻倍——現價160.50落於Base區間內,上檔Bull +20%/Stretched +47%對下檔Bear -24%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破135即無條件出場。下一個驗證點是8月營收能否確認7月月減僅為短期出貨節奏波動,以及Q3財報能否兌現產能利用率9成的guidance。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/07收盤(TPEx官方afterTrading/tradingStock,世界先進為上櫃股);資本額/發行股數綜合鉅亨網與台積電出售持股公告推算(約18.80億股);Q1/Q2法說(vocus、豐雲學堂、CMoney投資網誌、風傳媒,2026/05、2026/08);台積電出售持股(信傳媒、鉅亨網、ETtoday財經雲、自由財經,2026/05/15公告);7月營收(鉅亨網,2026/08公告);FactSet共識EPS與目標價(LINE TODAY鉅亨速報,追蹤至最新4.92元/目標價138元,另有券商樂觀估6.26元/196元,CMoney投資網誌);主動式ETF持有度(本機active-etf資料庫,2026/08/07更新);處置/注意股狀態(本機twse-disposition,2026/08/07更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識、精確TTM本益比(僅單一來源8/6資料37.83倍)查無多方對照,未強行湊數。<br>
-主要來源:TPEx官方開放資料(afterTrading/tradingStock)、vocus、豐雲學堂、CMoney投資網誌、風傳媒、信傳媒、鉅亨網(FactSet速報)、ETtoday財經雲、自由財經。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確呈現方法間分歧與EPS資料落差,不應僅採信對多方有利的單一數字。<br>
+資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方tradingStock);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q1/Q2法說會(豐雲學堂、經濟日報、鉅亨網,2026/05/05與2026/08/04);券商目標價與EPS估值(CMoney投資網誌陳柏宇,單一分析師來源,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式多方分析師共識調查(如FactSet)、Q2單季EPS精確數字(來源間存在約0.1元差異)、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料(tradingStock)、公司MOPS公開資訊觀測站(官方月營收原始數據)、豐雲學堂、經濟日報、鉅亨網、CMoney投資網誌。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
