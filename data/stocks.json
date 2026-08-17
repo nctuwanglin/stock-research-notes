@@ -158,29 +158,29 @@
     "name": "美光 Micron",
     "market": "us",
     "file": "MU-micron.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 854.24,
+    "analysis_date": "2026-08-17",
+    "analysis_price": 971.66,
     "tags": [
       "記憶體"
     ],
-    "target": 1200,
-    "stop": 600,
-    "basis": "FY27E EPS $155.56 × 8x(記憶體循環保守倍數)",
+    "target": 1300,
+    "stop": 750,
+    "basis": "FY27E EPS共識$155.56×8x得約$1244;Forward P/E(6.76x)反推隱含遠期EPS約$143.7,方向一致但較保守;綜合自估與Citi下修目標價$1150,採目標價1300",
     "rating": "buy"
   },
   "SNDK": {
     "name": "SanDisk",
     "market": "us",
     "file": "SNDK-sandisk.html",
-    "analysis_date": "2026-08-07",
-    "analysis_price": 1212.21,
+    "analysis_date": "2026-08-17",
+    "analysis_price": 1641.11,
     "tags": [
       "記憶體"
     ],
-    "target": 1350,
-    "stop": 780,
-    "basis": "FY27E EPS 約190 × 7x(財測失準信任折價)",
-    "rating": "hold"
+    "target": 1750,
+    "stop": 1150,
+    "basis": "事件後(Q4財報創高+投資人日長期財測)上修評等;Forward P/E(7.64x)反推隱含遠期EPS約$214.8×7~9x得約$1504~1933;Wells Fargo$1550/RBC$1600(投資人日後上修,惟評等仍中性),採目標價1750",
+    "rating": "buy"
   },
   "2337": {
     "name": "旺宏",
@@ -1096,5 +1096,19 @@
     "stop": 460,
     "basis": "H1 EPS13.26年化26.52與券商2026E EPS估值23.62相近;券商目標價6/26自450上修至650(廠務族群中信度最高之目標價)",
     "rating": "hold"
+  },
+  "SKHY": {
+    "name": "SK海力士 SK Hynix",
+    "market": "us",
+    "file": "SKHY-skhynix.html",
+    "analysis_date": "2026-08-17",
+    "analysis_price": 166.33,
+    "tags": [
+      "記憶體"
+    ],
+    "target": 225,
+    "stop": 140,
+    "basis": "Forward P/E(3.98x)反推隱含遠期EPS約$41.8×5~7x得約$209~293,與13位分析師均值目標價$245.21高度吻合;對均值略打折反映ADR上市未滿6週且Q2營收曾不如預期的執行風險,採目標價225",
+    "rating": "buy"
   }
 }

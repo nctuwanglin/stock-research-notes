@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK海力士 SK Hynix (SKHY) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>SK海力士 SK Hynix (SKHY) <span class="badge purple">事件:Q2財報(HBM4認列遞延)+Nvidia/SK集團5000億美元合作</span> <span class="badge green">估值:便宜,Forward P/E僅約4x</span> <span class="badge green">結論:偏多,惟為新掛牌ADR波動度極高</span></h1>
+<div class="sub">美股(NASDAQ,ADR)・DRAM+HBM記憶體大廠(全球HBM市佔第一),2026/07/10剛以ADR形式掛牌Nasdaq|事件後估值版(首次分析)|股價截至 2026/08/14 收盤,製表 2026/08/17(美東時間)</div>
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">$140</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="SKHY">現價 <b>$166.33</b> → 目標價 <b>$225</b><span class="up"> (+35.3%)</span></div>
+  <div class="vbasis">推導依據:現價依Forward P/E(3.98x)反推隱含遠期EPS約$41.8,套用HBM龍頭保守倍數5~7x得約$209~$293(中值$251),與13位分析師均值目標價$245.21高度吻合;採目標價225(對均值略打折,反映ADR上市未滿6週且Q2營收曾不如預期的執行風險)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$166.33</div><div class="note">2026/08/14收盤(+0.40%)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約$848.2B</div><div class="note">全球HBM市佔第一,DRAM市佔全球第二</div></div>
+  <div class="card"><div class="label">TTM EPS</div><div class="value green">$20.52</div><div class="note">P/E約8.10x</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value green">約3.98x</div><div class="note">隱含遠期EPS約$41.8,記憶體三雄中估值最低</div></div>
+  <div class="card"><div class="label">ADR上市以來區間</div><div class="value">$124.80~$194.80</div><div class="note">非完整52週區間——2026/07/10才以ADR形式掛牌Nasdaq,交易史僅約5週</div></div>
+  <div class="card"><div class="label">Q2 2026營運利益率</div><div class="value green">76%</div><div class="note">創歷史紀錄,惟營收/利益雙雙略低於市場預期</div></div>
+</div>
+
+<h2>⓪ 事件影響分析 — Q2財報「創紀錄卻不如預期」與Nvidia合作案代表什麼?</h2>
+<h3>事件摘要:7/28公布Q2 2026財報,營收₩79.32兆(QoQ+51%,YoY+257%)創紀錄但低於市場預期約₩84兆;7月底Nvidia與SK集團宣布逾5000億美元長期AI供應合作</h3>
+<div class="flow">SK海力士於7/28公布2026年第二季財報:合併營收₩79.32兆韓元,季增51%、年增257%,創歷史新高;營業利益季增557%(年增)至₩60.54兆,營業利益率達76%創紀錄。但這組「創紀錄」的數字仍低於市場原先預期的營收約₩84兆、營業利益約₩64兆,主因部分HBM4出貨與營收認列時程延後至下一季。DRAM方面,在供給能力有限的情況下,公司聚焦HBM3E與AI伺服器DRAM產品出貨,位元出貨量高個位數百分比成長,DRAM平均售價(ASP)季增約30%,NAND ASP季增中段50%百分比,企業級SSD營收季增達倍數成長。公司於本季開始量產HBM4,並與約10家客戶簽署長期供應協議以鎖定中期能見度。展望第三季,公司guidance DRAM出貨量季增10%、NAND低個位數百分比成長,2026全年資本支出預期達韓元40兆末段區間的高檔水準。7月底,Nvidia與SK集團(SK海力士母集團)宣布一項長期AI供應合作,總值逾5000億美元,鎖定SK海力士作為Nvidia多世代GPU的HBM供應夥伴之一。</div>
+<h3>傳導路徑:HBM4認列遞延使Q2數字「創紀錄卻不如預期」→ 股價7月一度重挫35% → Nvidia/SK集團5000億美元合作與Amazon樂觀AI需求展望帶動股價反彈30% → 現價已從7月低點顯著修復但仍低於8月中旬區間高點</h3>
+<div class="flow">SK海力士股價在7月經歷劇烈波動:一度因記憶體族群系統性賣壓(SK海力士自身財測疲弱的傳言曾是本輪記憶體股全面重挫的觸發點之一)與循環性疑慮下跌約35%,隨後因Amazon對AI需求展望轉趨樂觀(展望期至2028年)而反彈約30%。這種波動模式凸顯了SK海力士作為新掛牌ADR(2026/07/10才以ADR形式在Nasdaq掛牌,交易歷史僅約5週)的特殊風險——一方面缺乏足夠長的交易區間可供技術面判斷支撐壓力,另一方面市場對「HBM4認列遞延是短期會計時點問題、還是需求疑慮的前兆」尚無定論。Nvidia與SK集團的5000億美元長期合作案是本次事件中最具結構性意義的發展,直接鎖定SK海力士在未來多世代Nvidia GPU中的HBM供應地位,大幅降低長期營收能見度的不確定性,是分析師維持13位買進、0位賣出Strong Buy共識評等的核心支撐。</div>
+
+<div class="grid cards6" style="margin:10px 0 6px">
+  <div class="card"><div class="label">Q2營收(實際)</div><div class="value amber">₩79.32兆</div><div class="note">QoQ+51%,惟低於市場預期約₩84兆</div></div>
+  <div class="card"><div class="label">Q2營業利益率(實際)</div><div class="value green">76%創紀錄</div><div class="note">惟營業利益絕對值仍低於預期約₩64兆</div></div>
+  <div class="card"><div class="label">7月股價波動</div><div class="value red">一度-35%後反彈+30%</div><div class="note">記憶體族群賣壓+Amazon樂觀展望帶動反彈</div></div>
+  <div class="card"><div class="label">Nvidia/SK集團合作</div><div class="value green">逾5000億美元</div><div class="note">7月底宣布,長期鎖定多世代GPU HBM供應</div></div>
+</div>
+
+<h2>① 催化劑分析 — HBM4量產與Nvidia合作是否足以支撐現價?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/10</span>SK海力士以ADR形式正式在Nasdaq掛牌,股票代號SKHY,是本站首次涵蓋這檔標的。</li>
+  <li><span class="date">2026年7月中下旬</span><b class="red">記憶體族群系統性重挫</b>:市場傳言SK海力士財測疲弱,觸發包含美光、SanDisk在內的記憶體股全面重挫,SKHY股價一度下跌約35%。</li>
+  <li><span class="date">2026/07下旬</span><b class="green">Nvidia與SK集團宣布逾5000億美元長期AI供應合作</b>,鎖定SK海力士作為Nvidia多世代GPU的HBM供應夥伴之一,是結構性利多。</li>
+  <li><span class="date">2026/07/28</span>公布Q2 2026財報:營收₩79.32兆創新高(QoQ+51%、YoY+257%),營業利益率76%創紀錄,惟營收與營業利益絕對值均不如市場預期,主因HBM4部分出貨與營收認列時程遞延至下一季;本季內開始HBM4量產,並與約10家客戶簽署長期供應協議。</li>
+  <li><span class="date">2026年7月底~8月初</span><b class="green">Amazon樂觀AI需求展望帶動反彈</b>:Amazon對AI基礎設施需求展望延伸至2028年的正面說法,帶動SKHY自低點反彈約30%。</li>
+  <li><span class="date">2026/08/14</span>股價收$166.33,較52週(自ADR掛牌以來)區間高點$194.80仍有約14.6%差距。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①SKHY作為2026/07/10才掛牌的新ADR,現有的「52週區間」實際僅涵蓋約5週交易史,不具備傳統技術面分析所需的長期價格基礎,現階段的支撐壓力判斷信度較低;②Q2財報雖創紀錄但不如預期,HBM4認列遞延的具體原因(產能爬坡、客戶驗證時程、或需求端調整)查無官方詳細說明,存在被過度樂觀解讀為「單純會計時點問題」的風險;③Nvidia/SK集團5000億美元合作案的具體年度金額拆分、SK海力士在其中的確切分潤比例查無公開細節,現階段僅能視為方向性的長期利多。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">SK海力士供應全球逾半數的HBM記憶體,是Nvidia AI加速器HBM4的核心供應商,股價本益比仍遠低於明年獲利預期的4倍,估值極具吸引力。<div class="src">— The Motley Fool,2026/08/06</div></div>
+    <div class="quote">Nvidia與SK集團的長期AI供應合作(逾5000億美元)大幅提升SK海力士的中期營收能見度,加上已與約10家客戶簽署HBM4長期供應協議,結構性成長路徑清晰。<div class="src">— SK海力士Q2 2026法說會,2026/07/28</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">Q2營收與營業利益雙雙不如市場預期,即使創歷史新高也顯示HBM4的出貨與認列節奏可能比市場先前預期的更慢,循環性疑慮並未完全解除。<div class="src">— TradingKey,2026/08</div></div>
+    <div class="quote">作為僅掛牌約5週的新ADR,SKHY缺乏足夠的交易歷史供技術面判斷,7月一個月內先跌35%後漲30%的劇烈波動顯示這檔標的的價格發現機制仍不成熟,追高或抄底都伴隨較高的不確定性。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>13位分析師共識(2026/08)</td><td class="green">均值$245.21(高$355/低$152)</td><td>13位買進、0位賣出、1位持有,整體評等Strong Buy</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">分析師覆蓋數量(13位)明顯少於美光(29位)與SanDisk(23位),反映ADR掛牌時間短、機構覆蓋仍在建立中;目標價區間$152~$355,低標仍高於現價,顯示即使最保守的分析師也認為現價具吸引力,惟樣本數較小、信度需隨時間累積更多覆蓋後驗證。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">Q2營收</div><div class="value amber">₩79.32兆</div><div class="note">創新高但不如預期</div></div>
+  <div class="card"><div class="label">Q2營業利益率</div><div class="value green">76%</div><div class="note">創歷史紀錄</div></div>
+  <div class="card"><div class="label">DRAM ASP(QoQ)</div><div class="value green">+約30%</div><div class="note">供給有限帶動漲價</div></div>
+  <div class="card"><div class="label">NAND ASP(QoQ)</div><div class="value green">+中段50%</div><div class="note">企業級SSD營收倍數成長</div></div>
+  <div class="card"><div class="label">HBM4進度</div><div class="value green">本季開始量產</div><div class="note">已與約10家客戶簽署長期供應協議</div></div>
+  <div class="card"><div class="label">分析師評等</div><div class="value green">Strong Buy</div><div class="note">13買進/1持有/0賣出</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>近期動能</th><th>與SK海力士的差異</th></tr>
+  <tr class="hl"><td>SKHY</td><td>SK海力士</td><td>Fwd P/E約3.98x</td><td>Q2創紀錄但不如預期,惟獲Nvidia/SK集團合作案支撐</td><td>全球HBM市佔第一,估值倍數為記憶體三雄中最低</td></tr>
+  <tr><td>MU</td><td>美光(本站另篇分析)</td><td>Fwd P/E約6.76x</td><td>股價一週反彈近14%,UBS目標價上修至$1,625</td><td>DRAM+NAND+HBM綜合大廠,產品線較均衡</td></tr>
+  <tr><td>SNDK</td><td>SanDisk(本站另篇分析)</td><td>Fwd P/E約7.64x</td><td>Q4財報創高+投資人日長期財測,股價單週大漲</td><td>純NAND/SSD廠,無HBM業務,消費端曝險較高</td></tr>
+  <tr><td>005930.KS</td><td>三星電子(韓股)</td><td>查無精確Fwd P/E</td><td>DRAM/NAND/HBM全品項覆蓋</td><td>規模遠大於SK海力士,綜合半導體巨頭</td></tr>
+  <tr><td>NVDA</td><td>Nvidia(美股,下游客戶)</td><td>查無精確Fwd P/E(非同業對照)</td><td>與SK集團宣布逾5000億美元長期AI供應合作</td><td>SK海力士的核心下游客戶而非競爭對手,合作深度是重要催化劑</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:便宜——Forward P/E僅約4倍,是記憶體三雄中估值最低者,與HBM龍頭地位不相稱。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">SK海力士Forward P/E約3.98x,明顯低於美光(6.76x)與SanDisk(7.64x),但公司是全球HBM市佔第一、Nvidia多世代GPU的核心HBM供應夥伴,理論上應享有同業中最高而非最低的評價倍數。以隱含遠期EPS($41.8)套用HBM龍頭保守倍數5~7x計算,合理價區間約$209~$293(中值$251),與13位分析師均值目標價$245.21高度吻合,交叉驗證基礎相對紮實。這個估值折價可能反映的是:①ADR掛牌時間短、機構覆蓋仍在建立;②Q2財報「創紀錄卻不如預期」帶來的短期信心缺口;③以美元計價的ADR相對韓元計價母股存在匯率與流動性折價。若這些因素隨時間淡化,估值倍數有機會向美光、SanDisk的水準收斂。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價$166.33 vs 中值</th></tr>
+  <tr><td>分析師目標價共識</td><td>13位分析師,均值$245.21(高$355/低$152)</td><td>單點$245.21</td><td class="green">便宜 -32.2%</td></tr>
+  <tr><td>Forward P/E反推×HBM龍頭保守倍數</td><td>隱含遠期EPS$41.8,倍數5~7x</td><td>$209~$293(中值$251)</td><td class="green">便宜 -33.7%</td></tr>
+  <tr><td>同業(美光)倍數對照</td><td>套用美光Fwd P/E 6.76x於SK海力士隱含遠期EPS$41.8</td><td>單點約$282.6</td><td class="green">便宜 -41.1%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:HBM4認列時程本身就具高度不確定性(Q2已出現遞延),加上韓元計價母股與美元ADR之間的匯率因素會扭曲多年期現金流折現的準確性,不做勉強推演。三種方法方向高度一致,均顯示現價低於中值32~41%,是記憶體三雄中估值訊號最一致偏便宜的一檔;但需強調這個便宜建立在「HBM4遞延是短期問題」與「ADR估值折價會隨時間收斂」兩個尚未驗證的假設之上,加上僅約5週的交易史使波動風險遠高於美光、SanDisk,不宜將便宜程度直接等同於安全邊際。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">股價波動</div><div class="value red">極高(月內-35%後+30%)</div><div class="bar"><div style="width:88%;background:var(--red)"></div></div><div class="note">新掛牌ADR缺乏長期交易史,價格發現機制尚未成熟</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">Strong Buy,均值$245.21</div><div class="note">13位分析師覆蓋,樣本數少於美光/SanDisk</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">$20.52(TTM)→約$41.8(隱含遠期)</div><div class="note">Q3 DRAM出貨guidance(QoQ+10%)能否兌現是下一個驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年度)</td><td>隱含遠期EPS約$41.8</td><td>5~7x</td><td>$209~$293(中值$251)</td><td class="green">約 +51%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定逐年共識,惟Nvidia/SK集團5000億美元長約提供多年期營收能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為三檔記憶體股中最高者,反映估值折價幅度也最大;惟這個推演的信度受限於僅約5週的ADR交易史與HBM4認列時程的不確定性,實際波動可能遠大於推演區間所暗示的線性報酬。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 90~340;left% = (價格-90)/250×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">$120~$140</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">$160~$185</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:60.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">$210~$235</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">$290~$320</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:32.1%"><div class="arrow">▲</div><div class="price">$166.33</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>$120~$140</td><td>HBM4認列遞延證實為需求疑慮而非單純時點問題,Q3 guidance(DRAM出貨QoQ+10%)不如預期</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>$160~$185</td><td>Q3財報確認HBM4遞延屬短期時點問題,出貨guidance如期兌現;現價落於此區間內</td><td>約 4%</td></tr>
+  <tr><td class="green">Bull</td><td>$210~$235</td><td>Nvidia/SK集團長約開始具體挹注營收,分析師均值目標價$245.21附近達陣</td><td class="green">約 34%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$290~$320</td><td>ADR估值折價向美光/SanDisk收斂,HBM供給緊張延續至2027年後帶動評價重估</td><td class="green">約 83%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$155~$163</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$145~$154</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">$130~$144</td><td>35%(新掛牌ADR波動大,倉位應保守)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$140</b>(明顯低於7月低點區間附近)= HBM4遞延證實為需求疑慮或Q3 guidance大幅不如預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破$171.58(近期高點)+量能確認,且Q3財報確認出貨guidance兌現<br>
+    進場區:<b class="green">$172~$188</b><br>
+    移動停利:跌破20日線或高點回檔18%(新掛牌ADR波動極大,停利幅度需放寬)<br>
+    假突破失效:觸發後3日內跌回$163即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$210~$235</div><div class="note">賣出30~50%;Bull區/分析師均值目標價達陣,循環股高檔應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$290~$320</div><div class="note">Stretched區;續抱條件是ADR估值折價持續向美光/SanDisk收斂、Nvidia/SK集團長約具體挹注營收</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:7/28 Q2財報營收₩79.32兆創新高但不如市場預期約₩84兆(HBM4部分出貨認列遞延),股價一度重挫35%後因Nvidia與SK集團逾5000億美元長期AI合作案及Amazon樂觀AI需求展望反彈約30%,波動度顯著高於美光、SanDisk,反映其僅約5週的ADR交易史。</div>
+<div class="concl">② <b>估值</b>:便宜——分析師目標價共識、Forward P/E反推、同業(美光)倍數對照三種方法方向高度一致,現價低於中值32~41%,是記憶體三雄中估值訊號最一致偏便宜的一檔,Forward P/E僅約4倍與其HBM市佔全球第一的地位明顯不相稱,惟便宜程度部分反映ADR掛牌時間短、機構覆蓋仍在建立的折價因素。</div>
+<div class="concl">③ <b>結論</b>:偏多、惟為新掛牌ADR波動度極高——現價$166.33落於Base區間內,上檔Bull +34%/Stretched +83%對下檔Bear -22%,風險報酬比具吸引力但波動風險遠高於美光、SanDisk;建議以保守倉位左側分批布局,收盤跌破$140即HBM4遞延疑慮確認或Q3 guidance大幅不如預期,無條件出場。下一個驗證點是Q3財報能否兌現DRAM出貨guidance(QoQ+10%)。</div>
+
+<footer>
+資料時間:股價/交易區間/TTM財務指標(2026/08/14收盤,美東時間,stockanalysis.com;因ADR僅於2026/07/10掛牌,現有區間非完整52週歷史);Q2 2026財報(SK海力士官方Newsroom、法說會逐字稿,2026/07/28);Nvidia/SK集團合作案(財經媒體彙整,2026/07下旬);7月股價波動與Amazon展望帶動反彈(TradingKey、The Motley Fool,2026/07~08);13位分析師共識(chartmill.com、stockanalysis.com彙整,2026/08)。HBM4認列遞延具體官方原因說明、Nvidia/SK集團合作案年度金額拆分與SK海力士分潤比例查無公開細節,未強行湊數。<br>
+主要來源:SK hynix Newsroom、stockanalysis.com、TradingKey、The Motley Fool、Investing.com、Google Finance、chartmill.com。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

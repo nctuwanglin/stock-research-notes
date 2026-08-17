@@ -71,14 +71,14 @@
   "MU": {
    "close": 971.6599731445312,
    "date": "20260814",
-   "analysis_price": 854.24,
-   "analysis_date": "2026-08-07"
+   "analysis_price": 971.66,
+   "analysis_date": "2026-08-17"
   },
   "SNDK": {
    "close": 1641.1099853515625,
    "date": "20260814",
-   "analysis_price": 1212.21,
-   "analysis_date": "2026-08-07"
+   "analysis_price": 1641.11,
+   "analysis_date": "2026-08-17"
   },
   "2337": {
    "close": 137.0,
@@ -463,6 +463,12 @@
    "date": "20260814",
    "analysis_price": 510.0,
    "analysis_date": "2026-08-14"
+  },
+  "SKHY": {
+   "close": 166.3300018310547,
+   "date": "20260814",
+   "analysis_price": 166.33,
+   "analysis_date": "2026-08-17"
   }
  }
 }
