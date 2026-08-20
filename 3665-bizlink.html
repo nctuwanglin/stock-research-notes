@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,84 +66,86 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>貿聯-KY (3665) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾五成)</span> <span class="badge green">結論:分批布局,HPC客戶出貨動能加速</span><span class="autodispo" data-code="3665"></span></h1>
-<div class="sub">台股(TWSE)・連接器/線束,高效能運算(HPC)+資料中心線纜組件|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3665">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
+<h1>貿聯-KY (3665) <span class="badge purple">事件:美股光通訊噴發+7月營收創新高</span> <span class="badge green">估值:便宜,自估區間顯示現價低於中值</span> <span class="badge green">結論:偏多,AEC與CPO交換器線束雙引擎驗證加速</span><span class="autodispo" data-code="3665"></span></h1>
+<div class="sub">台股(TWSE)・連接器與線束隱形冠軍,AI伺服器AEC主動式電纜+CPO交換器線束核心供應商,重分析更新(事件後估值版)|股價截至 2026/08/20 收盤,製表 2026/08/21|<span class="dispostat" data-code="3665">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1820</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3665">現價 <b>2250</b> → 目標價 <b>3300</b><span class="up"> (+46.7%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價3300(2026E EPS共識64.8,17位分析師);與8/5分析目標價2400相比大幅上修,反映7月營收年增59.6%創歷史新高與HPC客戶出貨動能加速</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1800</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3665">現價 <b>2250</b> → 目標價 <b>2650</b><span class="up"> (+17.8%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識64.8元(2026/06調查,17位分析師,中位數)套用35~45x(AEC/連接器成長股常見倍數)得約2268~2916(中值2592);官股金控投顧8月最新報告目標價3100(強力買進),與自估中值有落差但方向一致偏樂觀,採目標價2650</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">2,200</div><div class="note">2026/08/14 收盤 -0.23%;8月區間高點2,555</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">96.30億</div><div class="note">創歷史新高,YoY+59.6%,MoM+13.1%</div></div>
-  <div class="card"><div class="label">Q2營收</div><div class="value green">232億</div><div class="note">QoQ+11.42%,YoY+37.28%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約34.0x</div><div class="note">FactSet共識EPS64.8(17位分析師,59.15~71.7)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">2,060~2,555</div><div class="note">7~8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,245~3,010</div><div class="note">2月低1,245、5月高3,010(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">2250.00</div><div class="note">2026/08/20收盤;8月區間2095~2370</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">96.30億</div><div class="note">創歷史新高,MoM+13.06%,YoY+59.59%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">11.66</div><div class="note">季減16.84%,近四季EPS49.55</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">537.41億</div><div class="note">YoY+37.93%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1255~2940</div><div class="note">全年振幅逾1.3倍,7/20低點1685後強勢反彈</div></div>
+  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value amber">64.8</div><div class="note">2026/06調查,17位分析師,60~65元區間為多家法人共同看法</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7月營收創歷史新高,HPC動能持續加速</h2>
-<div class="event">
-  <h3>事件摘要:7月營收96.30億創歷史新高,年增59.6%,毛利率28.77%</h3>
-  <div class="flow">貿聯-KY 8/5公告7月營收96.30億元,較6月成長13.1%、較去年同期成長59.6%,創歷史新高,累計前7月營收537.41億元,YoY+37.9%。稍早公布Q2財報:營收232億元(季增11.42%、年增37.28%),上半年累計營收441億元,YoY+33%;毛利率28.77%。大摩同步將目標價自2,150元大幅上調至3,665元,調幅高達70%,維持「優於大盤」評級,看好切入CPO效益將自2027年發酵。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:高效能運算客戶強勁出貨 → 營收連續創高 → 大摩大幅上修目標價 → FactSet共識同步跟進但仍相對保守</h3>
-  <div class="flow">貿聯-KY的核心成長動能來自高效能運算(HPC)客戶的線纜組件出貨,7月營收年增59.6%驗證動能持續加速而非單月脈衝。大摩將目標價自2,150元一口氣調升至3,665元(+70%),是本次分析範圍內幅度最大的單一機構上修案例,理由是看好貿聯切入CPO效益將於2027年發酵——這與FactSet 17位分析師共識目標價3,300元方向一致但幅度更保守,顯示雖然個別機構對CPO題材給予激進評價,但主流分析師社群的認可程度相對溫和,仍是可信的多頭訊號而非單一機構的極端樂觀。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/5分析,依Q1與6月資料)</th><th>事件後(Q2財報+7月營收後)</th></tr>
-    <tr><td>Q2營收</td><td>查無(尚未公布)</td><td class="green">232億,QoQ+11.42%,YoY+37.28%</td></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">96.30億,YoY+59.6%,歷史新高</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>約66.37(調查中)</td><td class="amber">64.8(下修,惟仍反映強勁成長)</td></tr>
-    <tr><td>FactSet共識目標價</td><td>約3,230(調查中)</td><td class="green">3,300(上修)</td></tr>
-    <tr><td>大摩目標價</td><td>2,150</td><td class="green">3,665(大幅上修+70%)</td></tr>
-    <tr><td>本站目標價/評等</td><td>2,400/中性</td><td class="green">3,300/偏多(大幅上修並轉為偏多)</td></tr>
-  </table>
+<h2>⓪ 事件影響分析 — 美股光通訊噴發如何驗證貿聯的雙引擎成長故事?</h2>
+<h3>事件摘要:8月以來美股光通訊三雄同步噴發,貿聯作為Credo獨家AEC供應商與CPO交換器線束供應商同步受惠;7月合併營收96.3億元創歷史新高,官股金控旗下投顧8月最新報告調升評等至「強力買進」</h3>
+<div class="flow">美股光通訊族群自8月以來持續噴發:8/4~8/14 Coherent、Lumentum、AAOI等公司股價多次單日大漲逾10%,8/12 Lumentum FQ4財報營收年增109%驗證AI資料中心光通訊供需缺口。貿聯-KY作為AI伺服器與資料中心解決方案的核心連接器/線束供應商,同時扮演兩個角色:作為Credo的獨家AEC(主動式電纜)供應商,隨機櫃內傳輸速度提升(800G放量、Nvidia下一代平台上市),AEC需求同步大增;同時CPO交換器線束進度略優於市場預期,已送樣客戶認證。這波美股噴發驗證了貿聯雙引擎(AEC+CPO線束)成長故事的實質性,7月合併營收96.3億元創歷史新高,月增13.06%、年增59.59%,累計1~7月營收537.41億元,年增37.93%。官股金控旗下投顧最新報告將投資評等調升至「強力買進」,目標價3100元,看好貿聯受惠於800G AEC開始放量、Nvidia下一代平台即將上市,以及大型併購案(8.5億美元收購新加坡資料中心廠)效益逐步發酵。</div>
+<h3>傳導路徑:美股光通訊財報驗證AI資料中心供需缺口 → Credo等下游客戶對AEC需求持續升溫 → 貿聯7月營收創歷史新高,實質驗證這個傳導邏輯 → 股價自7月低點1685元強勢反彈,現階段仍低於FactSet共識EPS對應的自估區間中值</h3>
+<div class="flow">貿聯股價今年經歷了顯著的波動:7月20日低見1685元後強勢反彈,7月23日重返2300元大關,顯示市場情緒本身就存在相當程度的起伏。與同批分析的大立光、聯亞等個股相比,貿聯這次的股價反應相對「溫和」——8月以來股價自Aug低點2095上漲至現價2250,漲幅約7.4%,遠不如光聖、聯亞等個股的爆發力道。這個相對溫和的反應,搭配7月營收創歷史新高、累計YoY+37.93%的紮實數字,反而讓貿聯現階段的估值訊號在本次批次中相對乾淨:FactSet 2026年EPS共識64.8元(17位分析師調查,2026/06)套用AEC/連接器成長股常見的35~45倍本益比,合理價區間約2268~2916元(中值2592),現價2250.00落於此區間下緣附近,顯示追價的安全邊際仍然存在,不像大立光、聯亞已明顯超前於自估區間。</div>
+
+<div class="grid cards6" style="margin:10px 0 6px">
+  <div class="card"><div class="label">7月營收</div><div class="value green">96.30億</div><div class="note">歷史新高,YoY+59.59%</div></div>
+  <div class="card"><div class="label">累計1~7月YoY</div><div class="value green">+37.93%</div><div class="note">537.41億元</div></div>
+  <div class="card"><div class="label">官股投顧8月評等</div><div class="value green">強力買進</div><div class="note">目標價3100(上修)</div></div>
+  <div class="card"><div class="label">Credo獨家AEC供應商</div><div class="value green">800G放量在即</div><div class="note">Nvidia下一代平台即將上市</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — AEC與CPO交換器線束雙引擎如何驅動營收創高?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~5月</span>股價從2月低點1,245一路飆升至5月高點3,010,反映市場對HPC/AI伺服器線纜組件需求的樂觀情緒。</li>
-  <li><span class="date">2026年6~7月</span>股價自5月高點3,010回落至7月低點1,685(跌幅逾44%),疊加台股7月系統性回檔。</li>
-  <li><span class="date">2026/04/23</span>大摩首度將目標價由2,150大幅調升至3,665,調幅70%,看好切入CPO效益自2027年發酵——此為早期訊號,惟當時股價尚未完全反映。</li>
-  <li><span class="date">2026/08/初</span>Q2財報公布:營收232億(QoQ+11.42%,YoY+37.28%),上半年累計441億(YoY+33%),毛利率28.77%。</li>
-  <li><span class="date">2026/08/05</span><b class="green">7月營收96.30億元創歷史新高,YoY+59.6%</b>,前7月累計537.41億(YoY+37.9%),驗證HPC客戶動能持續加速。</li>
-  <li><span class="date">2026/08/10~14</span>股價高檔震盪(2,190→2,200→2,155→2,205→2,200),8月區間相對穩定於2,060~2,555。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet 2026E EPS共識自66.37下修至64.8,顯示即使營收持續創高,獲利成長速度並未完全跟上營收成長速度,毛利率28.77%的變化趨勢需持續追蹤;②大摩的3,665元目標價是本次分析中幅度最大的單一機構上修,雖然方向與FactSet共識一致,但激進程度應與更保守的共識數字(3,300)交叉參照,不宜單獨採信最樂觀的數字;③股價自5月高點3,010至今仍有相當距離,顯示市場對「便宜」的認可程度尚未完全反映在股價上,可能與整體電子代工/連接器族群的系統性回檔情緒有關,而非貿聯基本面本身出現問題。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾1.3倍(1255~2940),7月20日一度低見1685元,7月23日強勢反彈重返2300元大關,反映市場情緒本身的起伏。</li>
+  <li><span class="date">2026年COMPUTEX</span>公司表示光通產品需求強勁,光纖下半年將擴產數倍;CPO交換器線束布局進度略優於市場預期,已送樣客戶認證。</li>
+  <li><span class="date">2026年上半年</span>累計營收年增33%,Q1 EPS11.66元(季減16.84%,反映淡季效應),近四季EPS49.55元。</li>
+  <li><span class="date">2026/07月間</span>完成8.5億美元收購新加坡資料中心廠的併購案,擴大資料中心解決方案業務版圖。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收96.3億元(依MOPS官方公告查無,經公司公告與財經媒體交叉確認),月增13.06%、年增59.59%,創歷史新高;累計1~7月營收537.41億元,年增37.93%。</li>
+  <li><span class="date">2026年8月中旬</span>官股金控旗下投顧將評等調升至「強力買進」,目標價3100元,看好800G AEC放量、Nvidia下一代平台上市與併購效益發酵。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q1 EPS季減16.84%,顯示公司獲利存在季節性波動,不宜僅憑單季數字線性外推全年動能;②FactSet 2026年EPS共識(64.8元,2026/06調查)已有2個月未見更新,期間7月營收創歷史新高的訊息尚未反映在共識數字中,實際共識可能已上修但查無最新調查;③8.5億美元的新加坡資料中心廠併購案對獲利的實質貢獻與整合進度,查無公開的具體財務拆分。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收96.30億元創歷史新高,年增59.6%,表現亮眼呈現雙成長,驗證高效能運算客戶出貨動能持續加速。<div class="src">— CMoney財經筆記、TechNews科技新報,2026/08/05</div></div>
-    <div class="quote">大摩將目標價由2,150元大幅上調至3,665元,調幅高達70%,維持「優於大盤」評級,看好切入CPO效益將自2027年發酵。<div class="src">— 旺得富理財網,2026/04/23</div></div>
-    <div class="quote">Q2營收季增11.42%、年增37.28%,上半年營收年增33%,連接器/線束業務受惠HPC與資料中心需求持續放量。<div class="src">— MoneyDJ理財網</div></div>
+    <div class="quote">7月合併營收96.3億元創歷史新高,月增13.06%、年增59.59%,累計1~7月營收年增37.93%,AEC與CPO交換器線束雙引擎動能持續驗證。<div class="src">— TechNews科技新報,2026/08/05</div></div>
+    <div class="quote">官股金控旗下投顧將評等調升至「強力買進」,目標價3100元,看好800G AEC開始放量、Nvidia下一代平台即將上市,以及大型併購案效益逐步發酵。<div class="src">— 旺得富理財網,2026/07/23</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">FactSet 2026E EPS共識自66.37下修至64.8,顯示即使營收持續創高,獲利成長速度未必完全跟上營收成長速度,毛利率變化趨勢需持續追蹤。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
-    <div class="quote">大摩3,665元的目標價是單一機構的激進上修,應與FactSet 17位分析師共識(3,300)交叉參照,不宜單獨採信最樂觀的數字作為決策依據。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">股價自5月高點3,010至今仍有相當距離,即使7月營收創新高也僅部分收復,顯示市場信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">Q1 EPS季減16.84%顯示獲利存在季節性波動,加上FactSet EPS共識(64.8元)已有2個月未更新,實際上修幅度尚待更新版調查驗證,不宜過度線性外推。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">8.5億美元的新加坡資料中心廠併購案對獲利的實質貢獻與整合進度查無公開拆分,現階段的樂觀情緒有部分建立在尚未量化的併購綜效想像上。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>大摩(最高,單一機構)</td><td class="green">3,665</td><td>自2,150大幅上調+70%,看好CPO效益2027年發酵</td></tr>
-  <tr class="hl"><td>FactSet共識(17位分析師,較新)</td><td class="green">3,300</td><td>2026E EPS中位數64.8(59.15~71.7)</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">另一較早調查顯示EPS中位66.37、目標價3,230,方向與最新調查一致;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(2026/06,17位分析師)</td><td class="amber">3300(較早調查)</td><td>2026E EPS共識中位數64.8元(範圍59.15~71.7),多家法人預估60~65元區間</td></tr>
+  <tr><td>官股金控投顧(2026/07/23)</td><td class="green">3100</td><td>評等調升至「強力買進」,看好800G AEC放量與併購效益發酵</td></tr>
+  <tr><td>摩根士丹利(2026/04,已逾3個月)</td><td class="amber">3665(信度存疑)</td><td>自2150大幅上調,惟發布時間已逾3個月,期間股價已歷經7月低點1685的大幅回檔,信度需打折</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet與官股投顧目標價(3100~3300)方向一致且時間相對接近,可作為主要參考;摩根士丹利4月的3665元因發布時間較早、期間股價經歷大幅波動,信度較低。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -165,69 +154,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">96.30億</div><div class="note">MoM+13.1%,YoY+59.6%,歷史新高</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">537.41億</div><div class="note">YoY+37.9%</div></div>
-  <div class="card"><div class="label">Q2營收</div><div class="value green">232億</div><div class="note">QoQ+11.42%,YoY+37.28%</div></div>
-  <div class="card"><div class="label">毛利率</div><div class="value amber">28.77%</div><div class="note">連接器/線束業務常態區間</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">17檔,約198.2億</div><div class="note">四檔中規模最大、最受主動式資金青睞(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value green">64.8</div><div class="note">17位分析師,59.15~71.7</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">96.30億</div><div class="note">歷史新高,YoY+59.59%</div></div>
+  <div class="card"><div class="label">累計YoY</div><div class="value green">+37.93%</div><div class="note">537.41億元</div></div>
+  <div class="card"><div class="label">Credo獨家AEC供應商</div><div class="value green">800G放量在即</div><div class="note">Nvidia下一代平台即將上市</div></div>
+  <div class="card"><div class="label">CPO交換器線束</div><div class="value green">進度略優於預期</div><div class="note">已送樣客戶認證</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">18檔持有,合計198.89億元</div><div class="note">2026/08/14資料,本次批次中持有度最高</div></div>
+  <div class="card"><div class="label">併購案</div><div class="value amber">8.5億美元(新加坡)</div><div class="note">獲利貢獻與整合進度查無公開拆分</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>7月營收動能</th><th>與貿聯-KY的差異</th></tr>
-  <tr class="hl"><td>3665.TW</td><td>貿聯-KY</td><td>約34.0x(EPS64.8)</td><td>YoY+59.6%,歷史新高</td><td>連接器/線束,HPC客戶出貨動能加速,四檔中主動式ETF持有度最高</td></tr>
-  <tr><td>3008.TW</td><td>大立光(本站另篇分析)</td><td>約24.6x(EPS187.55)</td><td>7月MoM+31.38%</td><td>光學鏡頭本業+CPO長期選擇權,業務性質完全不同</td></tr>
-  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>約33.5x(推演,信度中等)</td><td>7月YoY+49.25%</td><td>光被動元件/CPO模組,估值倍數與貿聯相近</td></tr>
-  <tr><td>3081.TWO</td><td>聯亞(本站另篇分析)</td><td>極高(現價已計入多年成長路徑)</td><td>7月YoY+176.54%</td><td>光通訊磊晶片上游,業務性質差異大,僅作估值倍數對照</td></tr>
-  <tr><td>—</td><td>連接器/線束族群整體(參考)</td><td>查無精確同業P/E</td><td>—</td><td>貿聯是四檔中唯一FactSet共識與大摩兩個獨立機構方向一致看多的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與貿聯的差異</th></tr>
+  <tr class="hl"><td>3665.TW</td><td>貿聯-KY</td><td>自估2268~2916;FactSet/官股投顧3100~3300</td><td>7月營收96.3億創歷史新高YoY+59.59%</td><td>AEC與CPO交換器線束雙引擎,主動式ETF持有度本次批次最高</td></tr>
+  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>自估1742~2129</td><td>7月營收創新高YoY+49.3%</td><td>數據中心光被動元件,股價波動度遠高於貿聯</td></tr>
+  <tr><td>3081.TWO</td><td>聯亞(本站另篇分析)</td><td>六券商中值3569.2,本站8折2855</td><td>Q2 EPS4.62(QoQ+34%),近一個月漲幅逾71.6%</td><td>矽光子雷射光源,波動度與短線情緒風險遠高於貿聯</td></tr>
+  <tr><td>3008.TW</td><td>大立光(本站另篇分析)</td><td>自估4142.5~4970;花旗6125(近1週,信度存疑)</td><td>CPO首張量產導向訂單落地,惟8月漲幅已逾39%</td><td>光學鏡頭龍頭,短線漲幅已超前於自估區間</td></tr>
+  <tr><td>2345.TW</td><td>智邦(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS14元創紀錄,惟股價近期拉回</td><td>交換器系統廠,是貿聯CPO線束的潛在下游客戶</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——FactSet共識與大摩兩個獨立機構的目標價方向一致,7月營收創歷史新高驗證HPC動能。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約34.0x(以FactSet共識EPS64.8計)在四檔光通訊/連接器股中屬中段,與光聖相近。與同業相比,貿聯-KY是四檔中唯一同時獲得FactSet多分析師共識(3,300)與大摩單一機構(3,665)方向一致看多的一檔,且7月營收年增59.6%創歷史新高,是實質數字驗證而非單純題材炒作。核心風險是FactSet EPS共識自66.37小幅下修至64.8,顯示獲利成長速度略慢於營收成長速度,毛利率變化趨勢仍需持續追蹤。</div>
+  <b>估值判斷:便宜——自估區間與機構共識方向一致,是本次批次中股價反應相對「溫和」而基本面數字最紮實的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026年EPS共識64.8元套用AEC/連接器成長股常見的35~45倍本益比計算,合理價區間約2268~2916元(中值2592),現價2250.00落於此區間下緣附近略低。官股金控投顧8月最新報告給予3100元目標價(強力買進),與FactSet共識方向一致但略高。相較於本次批次中大立光、聯亞已明顯超前於自估區間的情況,貿聯的股價漲幅(8月以來約+7.4%)相對溫和,而7月營收創歷史新高、累計YoY+37.93%的數字紮實,是本次光通訊供應鏈批次中「基本面與估值最一致」的一檔。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2,200 vs 中值</th></tr>
-  <tr><td>FactSet共識目標價</td><td>17位分析師,目標價區間59.15~71.7對應的估值分佈,單點3,300</td><td>3,300(單點)</td><td class="green">便宜 33.3%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>EPS64.8,HPC/連接器成長股常態倍數30~40x</td><td>1,944~2,592(中值2,268)</td><td class="amber">合理(接近中值)</td></tr>
-  <tr><td>大摩目標價(單一機構,信度中等)</td><td>目標價3,665,看好CPO效益2027年發酵</td><td>3,665(單點)</td><td class="green">便宜 40.0%(單一機構激進上修,應打折看待)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2250.00 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS64.8(2026/06,17位分析師),倍數35~45x</td><td>2268~2916(中值2592)</td><td class="amber">合理 -13.2%</td></tr>
+  <tr><td>官股投顧目標價(2026/07,較近期)</td><td>3100(單點),看好800G AEC放量與併購效益</td><td>3100(單點)</td><td class="green">便宜 -27.4%</td></tr>
+  <tr><td>近四季EPS×倍數(對照,較保守)</td><td>近四季EPS49.55(已實現),倍數35~45x</td><td>1734.25~2229.75(中值1982)</td><td class="red">貴 13.5%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:CPO效益預期於2027年才發酵,現階段近兩年FCF假設缺乏足夠的量產數據校準。三種方法方向一致顯示便宜或合理,其中自身本益比法(接近合理中值)信度最高,FactSet共識目標價(便宜33%)與大摩目標價(便宜40%)則反映市場對HPC與CPO題材的樂觀預期——與其他三檔光通訊股不同,貿聯-KY的估值訊號相對一致且有Q2財報與7月營收的實質數字支撐,是本次批次中信心度較高的一檔。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:8.5億美元併購案的整合進度與獲利貢獻查無公開拆分,加上AEC/CPO業務受下游客戶(Credo、Nvidia平台世代交替)資本支出週期影響大,多年期FCF假設信度不足。三種方法中,前瞻共識EPS法(合理,-13.2%)與官股投顧目標價(便宜,-27.4%)方向一致偏樂觀,僅已實現的近四季EPS對照法(較保守,未計入7月營收創高後的加速動能)顯示現價偏貴。整體而言三法交集指向現價大致合理偏低估,是本次批次中分歧程度最小的一檔。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">7月營收後穩健,尚未過熱</div><div class="bar"><div style="width:58%;background:var(--green)"></div></div><div class="note">8月區間相對穩定於2,060~2,555,未見單日爆量異常</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet與大摩方向一致看多</div><div class="note">目標價3,300~3,665</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">Q2營收232億→2026E EPS 64.8</div><div class="note">Q3能否延續7月營收動能是下一驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">7月低點後穩健反彈,波動相對溫和</div><div class="bar"><div style="width:58%;background:var(--green)"></div></div><div class="note">8月區間2095~2370,較光聖、聯亞等同批標的波動小</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet/官股投顧3100~3300</div><div class="note">方向一致,惟FactSet調查已2個月未更新</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">49.55(近四季)→64.8(2026E共識)</div><div class="note">更新版FactSet調查與Q3財報是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>64.8(FactSet共識,59.15~71.7)</td><td>30~40x</td><td>1,944~2,868(中值2,406)</td><td class="green">約 +9%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無明確共識(大摩僅表態CPO效益2027年發酵,無對應EPS數字)</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>64.8(FactSet共識,2026/06)</td><td>35~45x</td><td>2268~2916(中值2592)</td><td class="green">約 15%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟800G AEC放量與併購效益提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027、2028年因分析師覆蓋未給出明確EPS數字(僅有CPO效益發酵的定性guidance),查無共識,不強行推演。這條路徑的核心啟示是:貿聯-KY短期(2026年)估值訊號相對可信且顯示溫和便宜,長期路徑則高度依賴CPO效益能否於2027年如期發酵。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為明顯正值,反映現價相對於FactSet共識EPS仍有一定安全邊際。2027年EPS共識查無穩定區間,惟800G AEC放量與Nvidia下一代平台上市提供中期成長能見度,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 1000~3800;left% = (價格-1000)/2800×92+4 -->
+<!-- 刻度 1300~3600;left% = (價格-1300)/2300×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:15.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,550~1,750</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:40.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,100~2,400</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:65.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,650~2,950</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,300~3,665</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:43.4%"><div class="arrow">▲</div><div class="price">2,200</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">1700~1900</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">2200~2450</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">2700~2950</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3300~3550</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:42%"><div class="arrow">▲</div><div class="price">2250.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>1,550~1,750</td><td>HPC客戶出貨動能放緩或毛利率持續下修,倍數回落至25x附近</td><td class="red">約 -25%</td></tr>
-  <tr><td class="amber">Base</td><td>2,100~2,400</td><td>Q3動能延續但無驚喜,FactSet共識目標價緩步達陣;現價落於此區間內</td><td class="green">約 +2%</td></tr>
-  <tr><td class="green">Bull</td><td>2,650~2,950</td><td>Q3法說會驗證HPC動能持續加速,FactSet共識目標價3,300達陣</td><td class="green">約 +27%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>3,300~3,665</td><td>大摩最高目標價完全兌現,CPO效益提前於2027年前開始發酵</td><td class="green">約 +58%</td></tr>
+  <tr><td class="red">Bear</td><td>1700~1900</td><td>800G AEC放量不如預期,或併購案整合成本侵蝕獲利,重回7月低點附近</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>2200~2450</td><td>維持目前營收成長節奏,FactSet共識EPS隨後續調查逐步驗證;現價落於此區間內</td><td>約 3%</td></tr>
+  <tr><td class="green">Bull</td><td>2700~2950</td><td>官股投顧目標價區域達陣,Nvidia下一代平台放量帶動AEC需求超預期</td><td class="green">約 26%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3300~3550</td><td>重返並超越今年高點2940,CPO交換器線束認證通過並開始放量出貨</td><td class="green">約 52%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -236,36 +224,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">2,050~2,150</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">1,900~2,040</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">1,750~1,890</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">2100~2200</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">1950~2090</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">1800~1940</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,820</b>(接近今年2月低點區間上緣)= HPC客戶出貨動能轉差或毛利率結構性惡化,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1800</b>(明顯低於7月低點1685加計緩衝)= AEC/CPO需求動能反轉確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破2,555(8月區間高點)+量能確認,且Q3營收驗證HPC動能延續<br>
-    進場區:<b class="green">2,580~2,700</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回2,500即出場</div>
+    觸發條件:收盤突破2370(8月區間高點)+量能確認,且8月營收公告確認動能延續<br>
+    進場區:<b class="green">2380~2550</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回2320即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,650~2,950</div><div class="note">賣出30~50%;Bull下緣,FactSet共識目標達陣</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,300~3,665</div><div class="note">Stretched區;續抱條件是CPO效益提前發酵且HPC客戶持續擴增</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2700~2950</div><div class="note">賣出30~50%;Bull區,官股投顧目標價區域,連接器族群高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3300~3550</div><div class="note">Stretched區;續抱條件是CPO交換器線束認證通過且開始放量出貨</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:8/5公告7月營收96.30億元創歷史新高,年增59.6%;Q2財報營收232億元(QoQ+11.42%,YoY+37.28%)、毛利率28.77%,驗證HPC客戶出貨動能持續加速;大摩同步將目標價自2,150元大幅上調至3,665元(+70%),看好CPO效益2027年發酵。</div>
-<div class="concl">① <b>催化劑</b>:高效能運算客戶線纜組件出貨帶動營收連續創高,7月動能驗證非單月脈衝;但股價自5月高點3,010至今仍有相當距離,顯示市場信心修復仍需時間,FactSet EPS共識自66.37小幅下修至64.8,獲利成長速度略慢於營收。</div>
-<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價3,300較現價高逾三成,自身本益比法也顯示接近合理,是四檔光通訊/連接器股中估值訊號最一致、信心度最高的一檔;大摩3,665元的激進目標價應與更保守的共識數字交叉參照,不宜單獨採信。</div>
-<div class="concl">③ <b>結論</b>:分批布局、HPC客戶出貨動能加速——現價2,200落於Base區間內,上檔Bull +27%/Stretched +58%對下檔Bear -25%,本站目標價自8/5分析的2400大幅上修至3300,風險報酬比在本批次中最為吸引;左側倉位可正常分批,收盤跌破1,820即HPC動能轉差,無條件出場。下一個驗證點是Q3營收能否延續7月的歷史新高動能。</div>
+<div class="concl">⓪ <b>事件影響</b>:美股光通訊噴發驗證AI資料中心供需缺口,貿聯作為Credo獨家AEC供應商與CPO交換器線束供應商同步受惠;7月合併營收96.3億元創歷史新高(YoY+59.59%),官股金控投顧8月最新報告調升評等至「強力買進」,目標價3100元。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet EPS共識法(合理,-13.2%)與官股投顧目標價(便宜,-27.4%)方向一致偏樂觀,僅較保守的近四季EPS對照法顯示偏貴,三法分歧程度是本次批次中最小者,是「基本面與估值最一致」的一檔。</div>
+<div class="concl">③ <b>結論</b>:偏多、AEC與CPO交換器線束雙引擎驗證加速——現價2250.00落於Base區間內,上檔Bull +26%/Stretched +52%對下檔Bear -20%,風險報酬明顯偏正向,且股價波動度遠低於同批的光聖、聯亞、大立光;可正常左側分批布局,收盤跌破1800即無條件出場。下一個驗證點是更新版FactSet EPS調查與Q3財報能否確認營收動能延續。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2財報與7月營收(CMoney財經筆記、TechNews科技新報、MoneyDJ理財網,2026/08/05公告);大摩目標價上修(旺得富理財網,2026/04/23);FactSet共識EPS/目標價(鉅亨網FactSet速報,追蹤至8月最新64.8/3,300);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確發行股數、市值、2027/2028年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney財經筆記、TechNews科技新報、MoneyDJ理財網、旺得富理財網、鉅亨網。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;大摩目標價已明確標註為單一機構激進上修,應與FactSet共識交叉參照。<br>
+資料時間:股價/近30天與今年區間 2026/08/20收盤(TWSE官方STOCK_DAY);7月營收(公司公告,經TechNews科技新報等財經媒體交叉確認,2026/08/05;MOPS官方月營收表因外國發行人適用不同申報格式,直接查詢未取得對應列,採官方公告數字);目標價(FactSet 2026/06調查、官股金控投顧2026/07、摩根士丹利2026/04,經財經媒體彙整);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/20更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;8.5億美元併購案獲利貢獻拆分、更新版FactSet EPS調查、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、TechNews科技新報、旺得富理財網、鉅亨網、statementdog財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

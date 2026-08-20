@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,81 +66,72 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>智邦 (2345) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾五成)</span> <span class="badge green">結論:分批布局,800G/1.6T交換器出貨暢旺</span><span class="autodispo" data-code="2345"></span></h1>
-<div class="sub">台股(TWSE)・網通交換器,AI資料中心800G/1.6T+OCS光路交換機|事件後估值版(7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2345">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
+<h1>智邦 (2345) <span class="badge amber">估值:便宜,惟股價近期拉回反映短線獲利了結</span> <span class="badge green">結論:偏多,Q2 EPS創紀錄且外資目標價同步上修</span><span class="autodispo" data-code="2345"></span></h1>
+<div class="sub">台股(TWSE)・網通交換器系統廠,400G/800G/1.6T世代轉換+CPO整合,重分析更新(現況估值版)|股價截至 2026/08/20 收盤,製表 2026/08/21|<span class="dispostat" data-code="2345">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
 
 <div class="verdictbox">
   <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1840</span>(收盤跌破即出場)</span></div>
   <div class="verdict" data-code="2345">現價 <b>2105</b> → 目標價 <b>3500</b><span class="up"> (+66.3%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價3500(2026E EPS共識83.21,10位分析師);與8/7分析目標價2600相比大幅上修,反映7月營收394.73億(YoY+71.69%)創歷史次高驗證800G/1.6T交換器出貨動能延續</div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識80.73元套用43~46x(隱含於美系券商目標價3500~3700的區間)得約3471.4~3713.6(中值3592.5);美系券商近期上修至3700元與FactSet 3500方向一致,採目標價3500</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">2,300</div><div class="note">2026/08/14 收盤 +1.32%;8/6財報後曾重挫8.09%</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">394.73億</div><div class="note">歷史次高,MoM-0.2%,YoY+71.69%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">2,051.31億</div><div class="note">YoY+62.36%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約27.6x</div><div class="note">FactSet共識EPS83.21(10位分析師,67.29~89.99)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">1,840~2,825</div><div class="note">7~8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,090~2,825</div><div class="note">2月低1,090、7月高2,825(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">2105.00</div><div class="note">2026/08/20收盤;8月區間2105~2410,近3日自2300拉回8.5%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">394.73億</div><div class="note">MoM-0.20%,YoY+71.7%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">14</div><div class="note">創單季紀錄,震撼業界</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">2051.31億</div><div class="note">YoY+62.35%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1115~2750</div><div class="note">全年振幅逾1.4倍,8月中旬起自高點拉回</div></div>
+  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value green">80.73</div><div class="note">美系券商同步上修目標價至3700</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7月營收維持歷史次高,驗證財報重挫後基本面未轉弱</h2>
-<div class="event">
-  <h3>事件摘要:7月營收394.73億元月減0.2%仍創歷史次高,前七月累計年增62.36%</h3>
-  <div class="flow">智邦8月公告7月營收394.73億元,較6月的395.55億元僅月減0.2%,仍創歷史次高;較去年同期大幅增加71.69%。前七月累計合併營收2,051.31億元,年增約62.36%。營收維持高檔的動能來自800G交換器出貨暢旺、1.6T交換器持續放大出貨,加上OCS光路交換機(Optical Circuit Switch)搭配交換器、整機櫃小量出貨的加持。這是繼8/6 Q2財報EPS19.78創單季新高、股價卻隔日重挫8.09%之後,首個驗證基本面是否真的因財報中的隱憂(技術面轉弱)而轉差的月度數字,結果正面——營收僅月減0.2%且維持歷史次高,顯示財報後的股價重挫更多是市場情緒與獲利了結,而非基本面惡化。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:800G/1.6T交換器+OCS光路交換機三線並進 → 7月營收維持歷史次高 → 財報後股價重挫的情緒面疑慮部分化解 → FactSet共識同步大幅上修</h3>
-  <div class="flow">智邦8/6財報EPS19.78元創單季新高、H1 EPS 34.7元創同期新高,但股價隔日重挫8.09%,是2026年內第二次「財報創高、股價卻重挫」的案例,反映技術面轉弱與市場對「利多是否已充分反映」的疑慮。7月營收的正面驗證(僅月減0.2%,維持歷史次高)有助於部分化解這個疑慮——若基本面真的轉弱,營收應該會出現更明顯的下滑,而非僅微幅月減。FactSet共識在此期間同步大幅上修(EPS 66.46→82.63→83.21,目標價2050→3500),顯示法人對智邦AI資料中心交換器業務的長期成長動能持續加碼信心。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析,依8/6財報資料)</th><th>事件後(7月營收公布後)</th></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">394.73億,MoM-0.2%,YoY+71.69%,歷史次高</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>約80.73(7月初調查)</td><td class="green">83.21(8月調查,持續上修)</td></tr>
-    <tr><td>FactSet共識目標價</td><td>3,500(7月調查)</td><td class="amber">3,500(維持不變)</td></tr>
-    <tr><td>股價</td><td>2,215(8/7,財報後重挫)</td><td class="amber">2,300(8/14),小幅回升但仍距7月高點2,825有距離</td></tr>
-    <tr><td>本站目標價/評等</td><td>2600/偏多</td><td class="green">3500/偏多(大幅上修,評等不變)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼跌(財報創高卻重挫)、又為什麼回升?</h2>
+<h2>① 催化劑分析 — Q2獲利創紀錄,為什麼股價近3日反而拉回8.5%?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~7月</span>股價從2月低點1,090飆升至7月高點2,825,反映AI資料中心交換器需求的持續樂觀重估。</li>
-  <li><span class="date">2026/08/06</span><b class="amber">Q2財報:EPS19.78元創單季新高,H1 EPS34.7元創同期新高</b>,但股價隔日重挫8.09%,是2026年內第二次「財報創高、股價卻重挫」的案例,技術面轉弱訊號明顯。</li>
-  <li><span class="date">2026/08/07~11</span>股價持續下探,自2,395一路跌至2,075低點,籌碼結構在財報後轉趨脆弱。</li>
-  <li><span class="date">2026/08月中旬</span><b class="green">7月營收394.73億元月減僅0.2%,仍創歷史次高</b>,前七月累計年增62.36%,初步驗證基本面未如股價走勢般轉弱。</li>
-  <li><span class="date">2026/08/12~14</span>股價自低點回升(2,215→2,270→2,300),8/14單日上漲1.32%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet共識目標價自7月的3,500元起已維持不變(僅EPS估值微幅上修),顯示法人共識本身在近期已趨於穩定,不再持續大幅上修;②股價自7月高點2,825至今仍有相當距離,顯示市場信心修復需要更多季度數字驗證,不宜認為7月營收單一數字就能完全化解財報後的技術面疑慮;③外資目標價曾一度喊到3,000~3,500元區間但FactSet近月未再進一步上修,若後續Q3數字不如預期,估值有回檔風險。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾1.4倍(1115~2750),AI資料中心網路頻寬升級與400G/800G/1.6T交換器世代轉換帶動全年強勢表現。</li>
+  <li><span class="date">2026年1~5月</span>累計營收年增60.01%,顯示AI與資料中心需求持續強勁。</li>
+  <li><span class="date">2026/08/06</span>董事會提報Q2財報:公布Q2單季EPS達14元,創公司歷史紀錄,震撼業界;上半年營收與獲利同步大幅成長。</li>
+  <li><span class="date">2026/08/06後</span>Q2財報公布後,美系外資齊看好H2成長加速,調升目標價至3700元;股價法說前後一度出現大幅波動(公司過去曾有財報後獲利飆歷史次高卻吞跌停、隔日反彈9%逼近新天價的先例)。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收394.73億元(依MOPS官方公告),月減0.20%、年增71.7%;累計1~7月營收2051.31億元,年增62.35%,公司註記「客戶需求增加」。</li>
+  <li><span class="date">2026年8月中旬~20日</span>股價自約2300元回落至2105元(3日跌幅約8.5%),與美股光通訊噴發、Q2獲利創紀錄、外資目標價同步上修的正向消息形成表面上的背離;經查證未發現公司層面的具體利空,較可能反映的是先前已大幅上漲後的短線獲利了結與族群輪動。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①近3日股價拉回8.5%,查無具體的公司層面利空消息,技術面顯示股價跌破多條支撐,可能反映純粹的短線籌碼與情緒因素而非基本面轉弱;②7月營收月減0.20%(儘管年增71.7%仍強勁),是連續高速成長後首次出現月度持平,需觀察8月數字是否為單月雜訊;③FactSet EPS共識(80.73元)與美系券商目標價(3700元)隱含本益比約45.8倍,對網通交換器廠而言已屬偏高倍數,若成長動能出現任何放緩訊號,評價修正的幅度可能較大。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收394.73億元月減僅0.2%仍創歷史次高,800G交換器出貨暢旺、1.6T交換器持續放大出貨,OCS光路交換機整機櫃小量出貨加持。<div class="src">— Yahoo新聞,2026/08</div></div>
-    <div class="quote">Q2財報EPS19.78元創單季新高,H1 EPS34.7元創同期新高,AI資料中心交換器需求動能未見轉弱。<div class="src">— 8/6財報公告整理</div></div>
-    <div class="quote">FactSet EPS共識在數月內大幅上修(66.46→83.21),目標價自2050跳升至3500並維持,反映法人對智邦長期成長動能的高度認可。<div class="src">— 鉅亨網FactSet速報</div></div>
+    <div class="quote">Q2單季EPS達14元創公司歷史紀錄,震撼業界;美系外資齊看好H2成長加速,調升目標價至3700元,AI加速卡與交換器系統需求持續超預期。<div class="src">— Yahoo股市,2026/08</div></div>
+    <div class="quote">7月累計營收年增62.35%,AI資料中心網路頻寬升級與400G/800G/1.6T世代轉換動能延續,公司明確註記客戶需求增加。<div class="src">— 公司MOPS公告,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">財報創高、股價卻重挫8.09%,是2026年內第二次「財報創高股價卻重挫」的案例,技術面轉弱與市場對利多是否已充分反映的疑慮不容忽視。<div class="src">— 本儀表板觀察,綜合8/6~8/7財報後股價走勢</div></div>
-    <div class="quote">FactSet共識目標價自7月的3500元起已維持不變,顯示法人共識本身在近期已趨於穩定,不再持續大幅上修的動能可能減弱。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">股價自7月高點2,825至今仍有相當距離,即使7月營收正面驗證也僅部分收復失地,顯示市場信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價近3日自2300回落至2105,跌幅約8.5%,技術面顯示已跌破多條重要支撐;儘管查無具體公司層面利空,這個與正向消息面背離的走勢仍值得留意是否反映機構調節或族群資金輪動。<div class="src">— 本儀表板觀察,綜合FinLab技術面分析</div></div>
+    <div class="quote">7月營收月減0.20%,是連續高速成長後首次出現月度持平的訊號,雖然YoY仍強勁,仍需8月數字進一步確認是否為單月雜訊。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(10位分析師,較新)</td><td class="green">3,500</td><td>2026E EPS中位83.21(67.29~89.99),自82.63上修</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">FactSet目標價自7月的3500元起已維持穩定,近月未見進一步上修;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(近期)</td><td class="green">3500</td><td>2026E EPS共識上修至80.73元</td></tr>
+  <tr><td>美系券商(Q2財報後,2026/08)</td><td class="green">3700</td><td>Q2 EPS14元創紀錄後,看好H2成長加速</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet共識與美系券商目標價方向一致(3500~3700),均為Q2財報公布後的近期數字,信度相對較高。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -162,69 +140,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">394.73億</div><div class="note">MoM-0.2%,YoY+71.69%,歷史次高</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">2,051.31億</div><div class="note">YoY+62.36%</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">19.78</div><div class="note">創單季新高;H1累計34.7</div></div>
-  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value green">83.21</div><div class="note">10位分析師,67.29~89.99</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">22檔,約342.3億</div><div class="note">四檔中規模最大、最受青睞(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">產品線動能</div><div class="value green">800G/1.6T/OCS三線並進</div><div class="note">AI資料中心交換器全產品線出貨</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">394.73億</div><div class="note">YoY+71.7%,MoM-0.20%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">14</div><div class="note">創單季紀錄</div></div>
+  <div class="card"><div class="label">累計YoY</div><div class="value green">+62.35%</div><div class="note">2051.31億元</div></div>
+  <div class="card"><div class="label">主要成長驅動</div><div class="value">400G/800G/1.6T</div><div class="note">交換器世代轉換+CPO整合</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">21檔持有,合計318.31億元</div><div class="note">2026/08/14資料,本次批次中持有度最高</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">80.73</div><div class="note">美系券商同步上修目標價</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與智邦的差異</th></tr>
-  <tr class="hl"><td>2345.TW</td><td>智邦</td><td>約27.6x(EPS83.21)</td><td>7月YoY+71.69%,歷史次高</td><td>網通交換器,AI資料中心800G/1.6T全產品線出貨,四檔中主動式ETF持有度最高</td></tr>
-  <tr><td>3661.TW</td><td>世芯-KY(本站另篇分析)</td><td>約31.2x(EPS135)</td><td>7月YoY+181%創新高</td><td>ASIC設計服務,受惠北美客戶3奈米AI加速器放量</td></tr>
-  <tr><td>3443.TW</td><td>創意(本站另篇分析)</td><td>估值分歧,股價已超越多數機構目標</td><td>拿下Google次世代晶片專案</td><td>ASIC設計服務,估值倍數四檔中最高</td></tr>
-  <tr><td>6770.TW</td><td>力積電(本站另篇分析)</td><td>約9.1x(EPS8.61)</td><td>近3年首次配息+CEO異動</td><td>晶圓代工,業務性質與網通/ASIC完全不同</td></tr>
-  <tr><td>—</td><td>網通/資料中心交換器族群(參考)</td><td>普遍中高本益比</td><td>普遍受惠AI資料中心建置</td><td>智邦是四檔中唯一出現「財報創高股價卻重挫」案例的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與智邦的差異</th></tr>
+  <tr class="hl"><td>2345.TW</td><td>智邦</td><td>自估3471.4~3713.6;FactSet/美系券商3500~3700</td><td>Q2 EPS14創紀錄,惟股價近3日拉回8.5%</td><td>交換器系統廠,是光通訊元件供應鏈的下游客戶,獲利與股價走勢短線出現背離</td></tr>
+  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>自估1742~2129</td><td>7月營收創新高YoY+49.3%</td><td>上游光被動元件供應商,催化劑與股價走勢吻合度更高</td></tr>
+  <tr><td>3081.TWO</td><td>聯亞(本站另篇分析)</td><td>六券商中值3569.2,本站8折2855</td><td>Q2 EPS4.62(QoQ+34%),近一個月漲幅逾71.6%</td><td>矽光子雷射光源,波動度遠高於智邦</td></tr>
+  <tr><td>3008.TW</td><td>大立光(本站另篇分析)</td><td>自估4142.5~4970;花旗6125(近1週,信度存疑)</td><td>CPO首張量產導向訂單落地,惟8月漲幅已逾39%</td><td>光學鏡頭龍頭,短線漲幅已超前於自估區間</td></tr>
+  <tr><td>3665.TW</td><td>貿聯-KY(本站另篇分析)</td><td>自估2268~2916</td><td>7月營收96.3億創新高YoY+59.59%</td><td>連接器線束供應商,股價波動相對溫和</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——FactSet共識目標價較現價高逾五成,7月營收驗證財報後重挫非基本面轉弱。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約27.6x(以FactSet共識EPS83.21計)在四檔中屬中段。核心觀察是智邦是本次分析範圍內唯一出現「財報創高、股價卻重挫」的一檔,7月營收月減僅0.2%仍創歷史次高的正面驗證,有助於區分「基本面轉弱」與「情緒面獲利了結」兩種可能——目前證據較支持後者。FactSet目標價3500元較現價高逾五成,但近月已趨於穩定不再持續上修,顯示法人共識本身已進入觀察期,等待Q3數字進一步驗證。</div>
+  <b>估值判斷:便宜——FactSet共識與美系券商目標價方向一致,近期股價拉回擴大了安全邊際。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026年EPS共識80.73元反推美系券商目標價(3500~3700)隱含的43~46倍本益比計算,合理價區間約3471.4~3713.6元(中值3592.5),現價2105.00明顯低於此區間下緣。智邦是本次批次五檔中,Q2實際獲利數字(EPS14元創紀錄)與外資估值上修方向最一致的一檔,近3日股價拉回8.5%在查無具體公司利空的情況下,反而進一步擴大了估值安全邊際。惟需提醒,FactSet與美系券商的目標價隱含本益比已達43~46倍,對網通交換器廠而言屬偏高倍數,現階段的便宜判斷建立在這個高本益比假設能延續的前提上。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2,300 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS83.21,網通交換器龍頭常態倍數25~32x</td><td>2,080~2,663(中值2,371.5)</td><td class="amber">合理(接近中值)</td></tr>
-  <tr><td>FactSet共識目標價</td><td>10位分析師,目標價3,500(單點)</td><td>3,500(單點)</td><td class="green">便宜 34.3%</td></tr>
-  <tr><td>H1實績年化對照(推演)</td><td>H1 EPS34.7×2=69.4(假設H2持平,較FactSet83.21保守),倍數25~32x</td><td>1,735~2,221(中值1,978,推演)</td><td class="red">貴 16.3%(對照情境,反映H2能否延續加速的敏感度)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2105.00 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識反推倍數(自估)</td><td>2026E EPS80.73,倍數43~46x(美系券商目標價隱含)</td><td>3471.4~3713.6(中值3592.5)</td><td class="green">便宜 -41.4%</td></tr>
+  <tr><td>美系券商目標價(2026/08,Q2財報後)</td><td>3700(單點),看好H2成長加速</td><td>3700(單點)</td><td class="green">便宜 -43.1%</td></tr>
+  <tr><td>FactSet目標價共識</td><td>3500(單點)</td><td>3500(單點)</td><td class="green">便宜 -39.9%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:AI資料中心交換器需求的長期成長軌跡高度依賴超大規模雲端業者的資本支出週期,近三年FCF假設信度過低。三種方法呈現分歧:自身本益比法顯示接近合理,FactSet共識顯示明顯便宜,但保守的H1年化對照則顯示偏貴——這種敏感度顯示智邦現階段的估值合理性高度依賴H2能否延續甚至加速動能,不是單純線性外推H1的成長速度就能確定的。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:交換器系統廠獲利對單一/少數大型雲端客戶的資本支出週期高度敏感,加上400G/800G/1.6T世代轉換的滲透率假設不確定性大,多年期FCF假設信度不足。三種方法方向完全一致,均顯示現價低於中值39~43%,是本次光通訊供應鏈批次中估值訊號最一致偏便宜的一檔;分歧的來源不在於估值方法本身,而在於近3日股價拉回是否代表市場對Q2 EPS創紀錄的可持續性存有疑慮,現階段查無具體利空支持這個疑慮,傾向解讀為短線籌碼因素。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報重挫後逐步修復</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">股價自8/11低點2,075回升至2,300,仍距7月高點2,825有距離</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價高於現價逾五成</div><div class="note">3,500,10位分析師,近月趨穩</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">34.7(H1實績)→83.21(2026E共識)</div><div class="note">Q3能否延續7月動能與財報後技術面能否修復是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">近3日拉回8.5%,與正向消息面背離</div><div class="bar"><div style="width:44%;background:var(--amber)"></div></div><div class="note">8月區間2105~2410,技術面顯示跌破多條支撐</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet/美系券商3500~3700</div><div class="note">Q2財報後同步上修,方向一致</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">14(Q2單季)→80.73(2026E共識)</div><div class="note">8月營收與Q3財報能否確認成長動能延續是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>67.29/83.21/89.99(FactSet共識)</td><td>25~32x</td><td>2,080~2,663(中值2,371.5)</td><td class="green">約 +3%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有OCS光路交換機整機櫃出貨的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>80.73(FactSet共識)</td><td>43~46x</td><td>3471.4~3713.6(中值3592.5)</td><td class="green">約 71%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟400G/800G/1.6T世代轉換與CPO整合提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027、2028年因分析師覆蓋缺乏明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:智邦短期(2026年)的估值訊號相對可信且顯示溫和便宜,但財報後的技術面疑慮尚未完全化解,追價前應等待Q3數字進一步確認。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為本次批次中最高者,反映近3日的股價拉回與FactSet/美系券商共識目標價之間存在明顯落差。惟這個高隱含報酬的前提是43~46倍本益比能夠延續,若市場對網通股的評價倍數出現系統性收斂,實際報酬可能不如表面數字樂觀。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 1400~3600;left% = (價格-1400)/2200×92+4 -->
+<!-- 刻度 1500~4200;left% = (價格-1500)/2700×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:16.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,700~1,900</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:40.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,150~2,450</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:64.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,700~2,950</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,350~3,500</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:41.6%"><div class="arrow">▲</div><div class="price">2,300</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">1850~2050</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">2350~2600</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">2900~3150</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3500~3700</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:24.5%"><div class="arrow">▲</div><div class="price">2105.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>1,700~1,900</td><td>Q3營收轉弱驗證財報後的技術面疑慮,倍數回落至20~23x附近</td><td class="red">約 -22%</td></tr>
-  <tr><td class="amber">Base</td><td>2,150~2,450</td><td>Q3動能延續但無驚喜,自身本益比法區間內震盪;現價落於此區間內</td><td class="green">約 +0%</td></tr>
-  <tr><td class="green">Bull</td><td>2,700~2,950</td><td>財報後技術面完全修復,重返並接近7月高點2,825</td><td class="green">約 +23%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>3,350~3,500</td><td>FactSet共識目標價3,500完全兌現,OCS光路交換機放量超預期</td><td class="green">約 +48%</td></tr>
+  <tr><td class="red">Bear</td><td>1850~2050</td><td>近期拉回證實反映實質需求轉弱,或8月營收增速較7月明顯放緩</td><td class="red">約 -7%</td></tr>
+  <tr><td class="amber">Base</td><td>2350~2600</td><td>拉回屬短線籌碼因素,Q3財報確認成長動能延續;現價落於此區間下緣以下</td><td>約 18%</td></tr>
+  <tr><td class="green">Bull</td><td>2900~3150</td><td>400G/800G/1.6T世代轉換加速,CPO整合開始具體貢獻營收</td><td class="green">約 44%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3500~3700</td><td>FactSet/美系券商目標價區域達陣,AI資料中心網通升級週期延續超預期</td><td class="green">約 71%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -233,36 +210,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">2,050~2,200</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">1,940~2,040</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">1,840~1,930</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">2000~2080</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">1920~1990</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">1840~1910</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,840</b>(接近7月低點)= AI資料中心交換器需求轉弱或財報疑慮實質化,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1840</b>(明顯低於今年振幅正常波動範圍)= 近期拉回證實反映實質需求轉弱確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破2,385(8月區間高點)+量能確認,且8月營收驗證動能延續<br>
-    進場區:<b class="green">2,400~2,500</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回2,320即出場</div>
+    觸發條件:收盤突破2410(8月區間高點)+量能確認,且8月營收公告確認拉回僅為短線因素<br>
+    進場區:<b class="green">2420~2600</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回2350即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,700~2,950</div><div class="note">賣出30~50%;Bull區,重返7月高點附近應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,350~3,500</div><div class="note">Stretched區/FactSet共識目標達陣;續抱條件是Q3財報驗證技術面完全修復</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2900~3150</div><div class="note">賣出30~50%;Bull區,網通股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3500~3700</div><div class="note">Stretched區,FactSet/美系券商目標價區域;續抱條件是AI資料中心網通升級週期延續且CPO整合具體貢獻營收</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:7月營收394.73億元月減僅0.2%仍創歷史次高,前七月累計年增62.36%,驗證8/6財報後股價重挫8.09%更多是情緒面獲利了結而非基本面轉弱;FactSet共識目標價維持3,500元,惟近月已趨穩不再持續大幅上修。</div>
-<div class="concl">① <b>催化劑</b>:800G/1.6T交換器出貨暢旺加上OCS光路交換機整機櫃小量出貨,是驅動營收維持歷史次高的三線並進動能;但股價自7月高點2,825至今仍有相當距離,財報後的技術面疑慮尚未完全化解。</div>
-<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價3,500較現價高逾五成,自身本益比法顯示現價接近合理;若保守假設H2動能不如H1加速,估值訊號會轉為偏貴,顯示便宜程度的信心度仍需Q3數字進一步驗證。</div>
-<div class="concl">③ <b>結論</b>:分批布局、800G/1.6T交換器出貨暢旺——現價2,300落於Base區間內,上檔Bull +23%/Stretched +48%對下檔Bear -22%,本站目標價自8/7分析的2600大幅上修至3500;左側倉位可正常分批,收盤跌破1,840即AI資料中心交換器需求轉弱,無條件出場。下一個驗證點是Q3財報能否驗證財報後技術面疑慮完全化解。</div>
+<div class="concl">① <b>催化劑</b>:Q2單季EPS達14元創公司歷史紀錄,累計1~7月營收年增62.35%,美系外資與FactSet同步上修目標價至3500~3700元;惟股價近3日自2300回落至2105(跌幅約8.5%),查無具體公司層面利空,較可能反映短線獲利了結而非基本面轉弱。</div>
+<div class="concl">② <b>估值</b>:便宜——三種方法(自估反推倍數、美系券商目標價、FactSet共識)方向完全一致,現價低於中值39~43%,是本次光通訊供應鏈批次中估值訊號最一致偏便宜的一檔,近期拉回進一步擴大了安全邊際。</div>
+<div class="concl">③ <b>結論</b>:偏多、Q2 EPS創紀錄且外資目標價同步上修——現價2105.00落於Bear與Base區間之間,上檔Bull +44%/Stretched +71%對下檔Bear -7%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破1840即無條件出場。下一個驗證點是8月營收與Q3財報能否確認近期拉回僅為短線籌碼因素。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2財報(2026/08/06公告);7月營收(Yahoo新聞、鉅亨網,2026/08公告);FactSet共識EPS/目標價(鉅亨網FactSet速報,追蹤至8月最新83.21/3,500);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確發行股數、2027/2028年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、Yahoo新聞、鉅亨網。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔是本次分析範圍內唯一出現「財報創高股價卻重挫」的案例,已於報告中明確揭露這個技術面疑慮。<br>
+資料時間:股價/近30天與今年區間 2026/08/20收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q2財報與獲利創紀錄(Yahoo股市,2026/08/06董事會提報);目標價(FactSet共識、美系券商,經Yahoo股市/鉅亨網彙整,2026/08);近期股價拉回之技術面觀察(FinLab量化訊號);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/20更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;近3日股價拉回的具體原因(查無公司層面利空,本站判讀為短線籌碼因素,惟不排除有未公開資訊)、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、Yahoo股市、鉅亨網、FinLab、豐雲學堂。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -29,18 +30,6 @@
   .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -54,6 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -76,61 +66,72 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>光寶科 (2301) <span class="badge amber">估值:合理,惟BBU僅為公司總營收約一成的分部業務</span> <span class="badge amber">結論:中性,以公司整體AI/雲端動能而非純BBU題材評價</span><span class="autodispo" data-code="2301"></span></h1>
-<div class="sub">台股(TWSE)・大型多角化電子零組件廠,伺服器電源全球市占第二,BBU僅為雲端/物聯網部門下的一項產品線|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2301">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
+<h1>光寶科 (2301) <span class="badge amber">估值:合理,電源與光通訊雙引擎已反映於現價</span> <span class="badge amber">結論:中性,基本面穩健但上檔空間有限</span><span class="autodispo" data-code="2301"></span></h1>
+<div class="sub">台股(TWSE)・電源供應器龍頭跨足雲端/AI,策略投資新加坡光通訊元件廠Denselight布局CPO,重分析更新(現況估值版)|股價截至 2026/08/20 收盤,製表 2026/08/21|<span class="dispostat" data-code="2301">未列入處置股/注意股名單(對照處置股儀表板 2026/08/20 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">224</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2301">現價 <b>267</b> → 目標價 <b>245</b><span class="down"> (-8.2%)</span></div>
-  <div class="vbasis">推導依據:法人預估2026全年EPS9.1(YoY+36%)×多角化企業合理倍數20~25x得約182~227.5(中值204.75);外資分歧極大,美系外資目標價170(持股續抱)vs另一投顧300(買進);採較貼近自估與較保守外資的245為目標價,反映BBU僅占公司總營收約一成、不宜完全比照純BBU股給予成長溢價</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">230</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2301">現價 <b>267</b> → 目標價 <b>260</b><span class="down"> (-2.6%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識8.8元(最高11.79/最低8.01)套用28~32x(電源+雲端多元組合股常見倍數)得約246.4~281.6(中值264);7家券商較早報告目標價區間212~240,已較FactSet新估值明顯偏低,採目標價260</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">267.00</div><div class="note">2026/08/14 收盤;8月區間229.5~271.5</div></div>
-  <div class="card"><div class="label">7月營收(公司整體)</div><div class="value green">190.06億</div><div class="note">YoY+37.61%,近八年單月新高</div></div>
-  <div class="card"><div class="label">Q2 EPS(公司整體)</div><div class="value green">3.14</div><div class="note">創歷史新高,季增89%,年增128%;H1累計4.8</div></div>
-  <div class="card"><div class="label">雲端/物聯網部門營收占比</div><div class="value amber">約55%</div><div class="note">Q2占比;BBU僅為此部門下產品線之一</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">140.5~271.5</div><div class="note">3月低、8月高;全年振幅約93%</div></div>
-  <div class="card"><div class="label">BBU占雲端部門營收</div><div class="value amber">近2成</div><div class="note">推算約占公司總營收一成左右,規劃產能60萬→90萬套</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">267.00</div><div class="note">2026/08/20收盤;8月區間229.5~273.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">190.06億</div><div class="note">MoM+1.87%,YoY+37.6%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">4.8</div><div class="note">YoY+66%,Q2單季3.14創歷史新高</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">1151.18億</div><div class="note">YoY+26.98%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">140.5~273.5</div><div class="note">全年振幅約95%,8月10日盤中攻漲停創新高</div></div>
+  <div class="card"><div class="label">CPO/光通訊布局</div><div class="value amber">投資Denselight取得21%股權</div><div class="note">磷化銦磊晶與晶片製造技術,鎖定1.6T/3.2T光引擎</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?(公司整體AI/雲端動能,非純BBU題材)</h2>
+<h2>① 催化劑分析 — 電源與雲端雙引擎為什麼帶動股價連三根漲停?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~3月</span>股價於140.5~193.5區間低檔盤整。</li>
-  <li><span class="date">2026年5~6月</span>股價自3月低點140.5攀升至6月高點250,AI伺服器電源與BBU題材帶動雲端/物聯網部門營收占比突破5成。</li>
-  <li><span class="date">2026年7月</span>股價回落至7月低點185(7/29)。</li>
-  <li><span class="date">2026年8月上旬</span>7月營收(公司整體)190.06億元公布,年增37.61%,創近八年單月新高;雲端及物聯網部門7月營收占比達59%,年增近8成。</li>
-  <li><span class="date">2026年8月上旬</span>Q2財報(公司整體):營收527億元,季增21%、年增30%;毛利率27.2%創高,稅後淨利71億元,年增126%,EPS3.14元創歷史新高;董事會核准配發現金股利2.5元;資本支出上修至180億元,高雄二期廠(Q3)與越南廣寧廠(Q4)陸續投產。</li>
-  <li><span class="date">2026年8月</span>股價衝上今年高點271.5(8/10),隨後小幅回落至267。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①光寶科是本次BBU分析範圍內唯一的大型多角化企業,BBU僅為雲端/物聯網部門下的一項產品線(該部門營收占公司總營收約55%,BBU又僅占該部門營收近2成,推算BBU占公司總營收約一成左右),市場敘事若將公司整體AI/雲端成長直接等同於「BBU概念股」邏輯,容易高估BBU本身對公司股價的驅動力度;②800V HVDC Power Rack預計2026年8月送樣測試,若順利11月小量生產,2027年Q1才會明顯放量,現階段仍屬早期階段;③美系外資(目標價170,持股續抱)與另一投顧機構(目標價300,買進)的評等分歧極大,顯示市場對這波成長能否持續存在不小的意見分歧。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅約95%(140.5~273.5),8月以來動能明顯轉強,8/10盤中攻漲停創股價新高。</li>
+  <li><span class="date">2026年Q1</span>雲端業務營收年飆逾七成,EPS1.66元創五年同期新高;六月參加COMPUTEX,聚焦AI、雲端與高效電源關鍵技術。</li>
+  <li><span class="date">2026/07/31</span>Q2法說會:Q2營收527億元(季增21%、年增30%),毛利率提升至27.2%,營業利益率達15.6%,單季EPS3.14元創歷史新高;累計上半年EPS4.8元,年增66%。雲端及物聯網部門為主要成長引擎,Q2營收佔比達55%,其中雲端運算業務年成長超過七成;公司預期2026全年AI相關產品營收佔比將超過30%,雲端運算全年營收年增70%以上目標不變。</li>
+  <li><span class="date">2026年上半年</span>策略投資新加坡光通訊元件公司Denselight,取得21%股權,結合其磷化銦(InP)磊晶與晶片製造技術,與光寶既有的先進封裝及系統整合能力,目標鎖定1.6T/3.2T光引擎、光模組及CPO(共同封裝光學)等高階應用。</li>
+  <li><span class="date">2026年上半年</span>上修2026年資本支出至新台幣180億元,高雄二期廠與越南廣寧廠預計分別於Q3、Q4投入量產,目標至2027年非中國區產能佔比提升至70%。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收190.06億元(依MOPS官方公告),月增1.87%、年增37.6%,累計1~7月營收1151.18億元,年增26.98%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①股價自8月初已連三根漲停,自今年低點140.5至現價267已上漲逾90%,現階段追價的安全邊際明顯薄弱;②Denselight投資僅取得21%股權(非多數控制),CPO/光引擎業務對2026、2027年營收的實質貢獻時程與規模查無公開量化數字,現階段仍屬題材性質居多;③FactSet 2026年EPS共識(8.8元)區間跨度大(8.01~11.79元),分析師間對獲利成長速度的認知差異不小。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">Q2稅後淨利71億元,年增126%,EPS3.14元創歷史新高;雲端及物聯網部門營收占比已突破5成,AI、雲端運算及高階伺服器出貨暢旺帶動該部門營收年增近8成。<div class="src">— 公司財報公告,2026/08</div></div>
-    <div class="quote">全球伺服器電源供應商市占第二(僅次台達電),為全球首家將電源供應器與BBU模組整合供應的廠商;2026年BBU規劃產能由60萬套提高至90萬套。<div class="src">— 產業報導彙整,2026</div></div>
-    <div class="quote">另一投顧機構將12個月目標價由246元大幅上調至300元,維持買進評等;法人預估2026年全年營收2,176億元(年增31%)、EPS9.1元(年增36%)。<div class="src">— 投顧報告彙整,2026</div></div>
+    <div class="quote">電源及光通訊雙引擎發威,Q2 EPS3.14元創歷史新高,法說會後股價罕見不摔反大漲;雲端運算全年營收年增70%以上目標不變,AI相關產品營收佔比預期超過30%。<div class="src">— 口袋學堂,富果直送法說會備忘錄,2026/07/31</div></div>
+    <div class="quote">策略投資新加坡光通訊元件廠Denselight,結合InP磊晶技術與既有先進封裝能力,鎖定1.6T/3.2T光引擎與CPO高階應用,是電源龍頭跨足光通訊供應鏈的關鍵布局。<div class="src">— 財經媒體彙整,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">BBU業務僅是雲端/物聯網部門內的一項產品線,該部門營收占公司總營收約55%,BBU又僅占該部門營收近2成,推算BBU占公司總營收比重約一成左右,遠低於AES-KY、順達等純度更高的同業,不應將公司整體AI/雲端成長直接等同於「BBU概念股」的成長邏輯。<div class="src">— 本儀表板觀察,依公司分部營收占比推算</div></div>
-    <div class="quote">美系外資僅將目標價由150上調至170、評等維持「持股續抱」而非積極買進,與另一投顧機構300元目標價的樂觀評等形成鮮明對比,顯示外資圈本身對後續成長性存在分歧。<div class="src">— 本儀表板觀察,依外資報告比對</div></div>
+    <div class="quote">股價自今年低點已上漲逾90%,連三根漲停後追價風險升高;Denselight僅取得21%股權,CPO/光引擎業務對近期營收的實質貢獻查無公開量化數字,現階段題材成分仍高於已確認財務貢獻。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet 2026年EPS共識區間跨度大(8.01~11.79元),分析師間對成長速度看法分歧不小,不宜僅採信樂觀端的估值。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>美系外資(2026)</td><td class="amber">170(上調自150,評等:持股續抱)</td><td>2026-2027年估年成長29%、25%</td></tr>
-  <tr><td>另一投顧機構(2026)</td><td class="green">300(上調自246,評等:買進)</td><td>依據不明確,較樂觀</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">法人預估2026年全年營收2,176億元(YoY+31%)、EPS9.1元(YoY+36%)。兩家機構目標價差異達76%,反映對公司整體成長性的看法分歧不小。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(較新調查)</td><td class="green">250</td><td>2026E EPS共識上修至8.8元(範圍8.01~11.79)</td></tr>
+  <tr><td>7家券商(較早報告)</td><td class="amber">212~240</td><td>Q1法說會後給出,一致看多評等,惟基準EPS較FactSet新估值保守</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet新估值(250)已較7家券商較早報告的區間(212~240)上修,反映Q2財報公布後市場對雲端/AI業務成長速度的認知提升。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -139,67 +140,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收(公司整體)</div><div class="value green">190.06億</div><div class="note">YoY+37.61%,近八年新高</div></div>
-  <div class="card"><div class="label">Q2 EPS(公司整體)</div><div class="value green">3.14</div><div class="note">創新高,YoY+128%</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">27.2%</div><div class="note">創高</div></div>
-  <div class="card"><div class="label">資本支出(上修)</div><div class="value amber">180億</div><div class="note">高雄二期廠Q3、越南廣寧廠Q4投產</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約0.6億</div><div class="note">合計224,000股,BBU族群中占比最小(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">800V HVDC Power Rack</div><div class="value amber">2026/08送樣測試</div><div class="note">2027年Q1才會明顯放量</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">190.06億</div><div class="note">YoY+37.6%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">4.8</div><div class="note">YoY+66%,Q2創歷史新高</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">27.2%</div><div class="note">營業利益率15.6%</div></div>
+  <div class="card"><div class="label">雲端業務Q2佔比</div><div class="value green">55%</div><div class="note">雲端運算年成長逾七成</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔持有,合計11.76億元</div><div class="note">2026/08/14資料,本次批次中屬中低水位</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">上修至180億</div><div class="note">高雄二期/越南廣寧廠Q3/Q4量產</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與光寶科的差異</th></tr>
-  <tr class="hl"><td>2301.TW</td><td>光寶科</td><td>自估182~227.5(公司整體);外資分歧170/300</td><td>公司整體Q2 EPS3.14創新高YoY+128%</td><td>大型多角化企業,BBU僅占公司總營收約一成,不宜完全比照純BBU股評價</td></tr>
-  <tr><td>6781.TW</td><td>AES-KY(本站另篇分析)</td><td>MS目標價1285(中立);另一外資1680(買進)</td><td>7月營收連續創高YoY+28.24%</td><td>BBU族群純度最高,單一業務曝險程度遠高於光寶科</td></tr>
-  <tr><td>3211.TWO</td><td>順達(本站另篇分析)</td><td>自估325~455;外資目標價分歧550/800</td><td>Q2 EPS1.35不如預期</td><td>BBU為轉型中的成長引擎,業務純度介於光寶科與AES-KY之間</td></tr>
-  <tr><td>4931.TWO</td><td>新盛力(本站另篇分析)</td><td>自估189.6~265.4(推演);查無正式目標價</td><td>7月營收創15年新高YoY+159.52%,惟目前處置中</td><td>BBU占比近5成,業務純度高於光寶科,惟規模最小</td></tr>
+  <tr class="hl"><td>2301.TW</td><td>光寶科</td><td>自估246.4~281.6;FactSet250</td><td>Q2 EPS3.14創歷史新高,股價連三根漲停後已上漲逾90%</td><td>電源供應器龍頭跨足雲端/CPO,業務組合最多元</td></tr>
+  <tr><td>6442.TW</td><td>光聖(本站另篇分析)</td><td>自估1742~2129</td><td>7月營收創新高YoY+49.3%</td><td>純光被動元件供應商,催化劑集中度更高</td></tr>
+  <tr><td>3081.TWO</td><td>聯亞(本站另篇分析)</td><td>六券商中值3569.2,本站8折2855</td><td>Q2 EPS4.62(QoQ+34%),近一個月漲幅逾71.6%</td><td>矽光子雷射光源,波動度遠高於光寶科</td></tr>
+  <tr><td>3008.TW</td><td>大立光(本站另篇分析)</td><td>自估4142.5~4970;花旗6125(近1週,信度存疑)</td><td>CPO首張量產導向訂單落地,惟8月漲幅已逾39%</td><td>光學鏡頭龍頭,短線漲幅已超前於自估區間</td></tr>
+  <tr><td>3665.TW</td><td>貿聯-KY(本站另篇分析)</td><td>自估2268~2916</td><td>7月營收96.3億創新高YoY+59.59%</td><td>連接器線束供應商,估值訊號本次批次最一致偏便宜</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:大致合理——公司整體AI/雲端動能扎實,惟不應以純BBU股的成長溢價邏輯評價。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以法人預估的2026全年EPS(9.1)套用大型多角化企業合理的20~25倍本益比(低於純BBU股的成長溢價倍數,反映光寶科業務組合更分散、單一題材曝險較低但成長彈性也相對有限),合理價區間約182~227.5元(中值204.75),現價267較此區間中值高出約30%。核心提醒是:光寶科的股價上漲主要反映公司整體AI伺服器電源與雲端/物聯網部門的全面成長(該部門營收占比已突破5成),而非單純的BBU題材——BBU僅占公司總營收約一成,若市場過度將光寶科的股價表現簡化為「BBU概念股」邏輯,可能高估這個單一產品線對公司整體評價的驅動力度。兩家外資目標價(170 vs 300)的巨大分歧也反映市場本身對這個問題的看法並不一致。</div>
+  <b>估值判斷:合理——電源與雲端雙引擎的獲利成長已相當程度反映在股價,CPO/光通訊布局仍屬早期題材。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026年EPS共識8.8元套用電源+雲端多元組合股常見的28~32倍本益比計算,合理價區間約246.4~281.6元(中值264),現價267.00大致落於此區間中段。7家券商較早給出的212~240元目標價已明顯低於FactSet新估值,顯示Q2財報公布後市場已上修對雲端/AI業務的獲利預期。整體而言,光寶科的電源本業與雲端業務成長動能紮實,惟股價自今年低點已上漲逾90%且連三根漲停,現價已相當程度反映這個正向趨勢,Denselight投資帶來的CPO/光通訊題材對近期營收的實質貢獻仍待驗證,現階段追價的空間相對有限。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
   <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價267.00 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(法人預估,自估)</td><td>EPS9.1,多角化企業合理倍數20~25x</td><td>182~227.5(中值204.75)</td><td class="red">貴 30.4%</td></tr>
-  <tr><td>美系外資目標價(較保守,持股續抱)</td><td>170(單點,評等審慎)</td><td>170(單點)</td><td class="red">貴 57.1%</td></tr>
-  <tr><td>另一投顧目標價(較樂觀,買進)</td><td>300(單點,依據不明確)</td><td>300(單點)</td><td class="green">便宜 -11.0%</td></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS8.8(範圍8.01~11.79),倍數28~32x</td><td>246.4~281.6(中值264)</td><td class="amber">合理 +1.1%</td></tr>
+  <tr><td>H1年化×倍數(對照,保守情境)</td><td>H1 EPS4.8×2=9.6(假設H2與H1持平),倍數28~32x</td><td>268.8~307.2(中值288)</td><td class="amber">合理 -7.3%</td></tr>
+  <tr><td>7家券商目標價(較早,已偏保守)</td><td>212~240(單點區間),Q1法說會後給出</td><td>212~240(中值226)</td><td class="red">貴 18.1%(惟基準已較FactSet新估值明顯過時)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司為多角化企業,各事業部成長速度差異大且BBU等新興業務仍處早期放量階段,多年期FCF假設信度不足。三種方法呈現明顯分歧:自估P/E法與較保守的美系外資目標價皆顯示現價貴逾30~57%,僅有較樂觀的投顧目標價(300,依據不明確)顯示現價便宜。整體而言,現價已相當程度反映Q2財報大幅超預期的利多,加上BBU僅是公司眾多成長引擎之一而非唯一驅動力,現階段的估值判斷應以較保守的方法為主要依據,傾向大致合理偏貴。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:CPO/光通訊業務仍處早期投資階段,加上180億元資本支出對未來現金流的稀釋效果與回收時程查無精確數字,多年期FCF假設信度不足。三種方法中,FactSet EPS共識法與H1年化法方向一致顯示現價大致合理(±1.1%~-7.3%),僅較早的7家券商目標價顯示偏貴,但該基準已較Q2財報後上修的FactSet估值明顯過時,不宜作為主要依據。整體而言現價已相當程度反映電源與雲端雙引擎的獲利成長,上檔空間相對有限。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">Q2財報後股價罕見不跌反漲,惟關鍵價位技術面分歧</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">股市爆料同學會討論254元、248元等技術關鍵價位是否跌破;融資餘額續增為風險點</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value red">兩家機構目標價分歧達76%(170 vs 300)</div><div class="note">美系外資審慎(持股續抱),另一投顧樂觀(買進)</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">4.8(H1)→9.1(2026E法人預估)</div><div class="note">BBU占比能否持續提升、800V Power Rack放量時程是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value red">8月連三根漲停,情緒高度樂觀</div><div class="bar"><div style="width:72%;background:var(--red)"></div></div><div class="note">8月區間229.5~273.5,自今年低點已上漲逾90%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet新估值250,7家券商較早212~240</div><div class="note">新舊估值間存在明顯落差,反映Q2財報後上修</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">4.8(H1)→9.6(H1年化)/8.8(FactSet共識)</div><div class="note">Q3財報能否確認雲端業務動能延續是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>9.1(法人預估,單點)</td><td>20~25x</td><td>182~227.5(中值204.75)</td><td class="red">約 -23%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>8.8(FactSet共識) / 9.6(H1年化)</td><td>28~32x</td><td>246.4~307.2(中值276.8)</td><td class="green">約 4%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟高雄二期廠與越南廣寧廠Q3/Q4量產提供中期產能能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為負值,反映以多角化企業合理倍數計算,現價已提前反映部分樂觀預期。2027年EPS共識查無穩定區間,800V HVDC Power Rack能否如期於2027年Q1明顯放量、BBU產能(60萬→90萬套)擴增後的實際貢獻,是決定中長期路徑的關鍵,現階段查無足夠具體的財測,不強行推演。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為溫和正值,顯示現價大致已反映目前可得的獲利成長資訊,安全邊際有限。2027年EPS共識查無穩定區間,惟高雄二期廠與越南廣寧廠的量產進度提供中期產能擴張的能見度,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 130~330;left% = (價格-130)/200×92+4 -->
+<!-- 刻度 155~365;left% = (價格-155)/210×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:22.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">195~215</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:44.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">240~260</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:66.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">280~300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">320~335</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:67.2%"><div class="arrow">▲</div><div class="price">267.00</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">195~215</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:42%"><div class="lbl">Base(6~12月)</div><div class="price amber">250~275</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">305~330</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">360~380</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:53%"><div class="arrow">▲</div><div class="price">267.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>195~215</td><td>雲端/物聯網部門成長放緩,市場重新評估BBU題材對公司整體的實質貢獻程度,估值倍數壓縮</td><td class="red">約 -23%</td></tr>
-  <tr><td class="amber">Base</td><td>240~260</td><td>Q3維持公司整體成長但增速略緩,BBU占比穩定但無驚喜;現價落於此區間上緣附近</td><td class="red">約 -7%</td></tr>
-  <tr><td class="green">Bull</td><td>280~300</td><td>雲端/物聯網部門持續強勢成長,800V Power Rack送樣測試順利,另一投顧目標價(300)獲驗證</td><td class="green">約 8%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>320~335</td><td>AI伺服器電源與BBU業務全面兌現且評價重估至純題材股水準,重返並超越8月高點271.5</td><td class="green">約 22%</td></tr>
+  <tr><td class="red">Bear</td><td>195~215</td><td>雲端業務成長增速較Q2明顯放緩,或CPO/光通訊題材熱度消退</td><td class="red">約 -23%</td></tr>
+  <tr><td class="amber">Base</td><td>250~275</td><td>Q3財報維持目前成長節奏但無驚喜,現價落於此區間內</td><td>約 -2%</td></tr>
+  <tr><td class="green">Bull</td><td>305~330</td><td>雲端運算全年年增70%以上目標超預期達成,AI相關產品營收佔比優於guidance</td><td class="green">約 19%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>360~380</td><td>Denselight投資帶來的CPO業務開始具體貢獻營收,評價重估</td><td class="green">約 39%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +210,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">240~250</td><td>35%</td></tr>
-      <tr><td>第二批</td><td class="green">220~239</td><td>35%</td></tr>
-      <tr><td>第三批</td><td class="green">195~219</td><td>30%</td></tr>
+      <tr><td>第一批</td><td class="green">245~255</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">230~244</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">210~229</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">224</b>(8月區間低點附近)= 雲端/物聯網部門成長動能明顯放緩或市場重新評估BBU題材貢獻,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">230</b>(明顯低於8月區間下緣)= 雲端業務動能明顯轉弱或CPO題材熱度消退確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破271.5(8月區間高點)+量能確認,且Q3財報驗證雲端/物聯網部門成長延續<br>
-    進場區:<b class="green">273~288</b><br>
-    移動停利:跌破10日線或高點回檔12%<br>
+    觸發條件:收盤突破273.5(8月區間高點,今年新高)+量能確認,且Q3財報確認雲端業務動能延續<br>
+    進場區:<b class="green">275~295</b><br>
+    移動停利:跌破10日線或高點回檔13%<br>
     假突破失效:觸發後2日內跌回265即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">280~300</div><div class="note">賣出30~50%;Bull區,較樂觀投顧目標價(300)附近應分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">320~335</div><div class="note">Stretched區;續抱條件是AI伺服器電源與BBU業務全面兌現且評價重估至純題材股水準</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">305~330</div><div class="note">賣出30~50%;Bull區,電源/雲端族群高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">360~380</div><div class="note">Stretched區;續抱條件是CPO業務開始具體貢獻營收且雲端動能持續超預期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:公司整體Q2 EPS3.14元創歷史新高(YoY+128%),7月營收190.06億元創近八年單月新高,雲端及物聯網部門營收占比已突破5成;惟BBU僅是這個部門下的一項產品線(占部門營收近2成,推算約占公司總營收一成),不應將公司整體AI/雲端成長直接等同於純BBU題材的成長邏輯。</div>
-<div class="concl">② <b>估值</b>:大致合理偏貴——法人預估2026全年EPS9.1×多角化企業合理倍數計算,現價貴約30%;美系外資較保守的目標價(170,持股續抱)顯示現價貴逾57%,僅較樂觀的投顧目標價(300,依據不明確)顯示現價便宜,兩家機構分歧達76%反映市場對這波成長能否持續看法不一。</div>
-<div class="concl">③ <b>結論</b>:中性、以公司整體AI/雲端動能而非純BBU題材評價——現價267落於Base區間上緣附近,上檔Bull +8%/Stretched +22%對下檔Bear -23%,風險報酬中性偏保守;可正常左側分批布局,收盤跌破224即無條件出場。下一個驗證點是800V HVDC Power Rack送樣測試進度與雲端/物聯網部門成長動能能否延續。</div>
+<div class="concl">① <b>催化劑</b>:Q2財報EPS3.14元創歷史新高,雲端運算業務年成長逾七成、Q2營收佔比達55%;策略投資新加坡光通訊元件廠Denselight取得21%股權,布局1.6T/3.2T光引擎與CPO高階應用;股價自8月初已連三根漲停,自今年低點已上漲逾90%。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet EPS共識法與H1年化法方向一致顯示現價大致合理(±1.1%~-7.3%),僅較早的7家券商目標價(已較新估值明顯過時)顯示偏貴,現價已相當程度反映電源與雲端雙引擎的獲利成長。</div>
+<div class="concl">③ <b>結論</b>:中性、基本面穩健但上檔空間有限——現價267.00落於Base區間內,上檔Bull +19%/Stretched +39%對下檔Bear -23%,風險報酬中性偏謹慎;不建議現階段追價,可等待回檔至左側批次價位再分批布局,收盤跌破230即無條件出場。下一個驗證點是Q3財報能否確認雲端業務動能延續,以及Denselight投資對CPO業務的實質營收貢獻時程。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收與Q2財報(公司財報公告,2026/08);雲端/物聯網部門與BBU占比拆分(產業報導彙整,2026);美系外資與投顧目標價(市場報導彙整,2026,依據與券商名稱部分不明確);800V HVDC Power Rack時程(產業報導彙整,2026);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確BBU營收金額拆分、2027年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、公司財報公告、市場報導彙整、股市爆料同學會討論彙整。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測;BBU業務占公司總營收比重為推算值(基於分部占比逐層相乘),已於內文明確標註計算邏輯。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+資料時間:股價/近30天與今年區間 2026/08/20收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q2法說會(富果直送法說會備忘錄,2026/07/31;口袋學堂);Denselight投資與資本支出上修(財經媒體彙整,2026);目標價(FactSet新估值、7家券商較早報告,經今周刊、readmo等財經媒體彙整);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/20更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Denselight投資對CPO業務具體營收貢獻時程與規模、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、富果直送、口袋學堂、今周刊、readmo。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

@@ -1,5 +1,5 @@
 {
- "updated": "2026-08-20",
+ "updated": "2026-08-21",
  "errors": [],
  "prices": {
   "1519": {
@@ -173,8 +173,8 @@
   "3008": {
    "close": 5515.0,
    "date": "20260820",
-   "analysis_price": 4610.0,
-   "analysis_date": "2026-08-14"
+   "analysis_price": 5515.0,
+   "analysis_date": "2026-08-21"
   },
   "2327": {
    "close": 562.0,
@@ -197,20 +197,20 @@
   "3081": {
    "close": 2780.0,
    "date": "20260820",
-   "analysis_price": 2540.0,
-   "analysis_date": "2026-08-14"
+   "analysis_price": 2780.0,
+   "analysis_date": "2026-08-21"
   },
   "6442": {
    "close": 1555.0,
    "date": "20260820",
-   "analysis_price": 1560.0,
-   "analysis_date": "2026-08-14"
+   "analysis_price": 1555.0,
+   "analysis_date": "2026-08-21"
   },
   "3665": {
    "close": 2250.0,
    "date": "20260820",
-   "analysis_price": 2200.0,
-   "analysis_date": "2026-08-14"
+   "analysis_price": 2250.0,
+   "analysis_date": "2026-08-21"
   },
   "3711": {
    "close": 590.0,
@@ -221,8 +221,8 @@
   "2345": {
    "close": 2105.0,
    "date": "20260820",
-   "analysis_price": 2300.0,
-   "analysis_date": "2026-08-14"
+   "analysis_price": 2105.0,
+   "analysis_date": "2026-08-21"
   },
   "5347": {
    "close": 153.5,
@@ -432,7 +432,7 @@
    "close": 267.0,
    "date": "20260820",
    "analysis_price": 267.0,
-   "analysis_date": "2026-08-14"
+   "analysis_date": "2026-08-21"
   },
   "2404": {
    "close": 1075.0,
