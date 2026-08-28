@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,6 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -75,135 +66,141 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>力成 (6239) <span class="badge green">估值:便宜(多家券商目標價高於現價)</span> <span class="badge green">結論:分批布局,雙引擎成長動能延續</span><span class="autodispo" data-code="6239"></span></h1>
-<div class="sub">台股(TWSE)・記憶體封測+先進封裝後段委外(雙成長主線)|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/14|<span class="dispostat" data-code="6239">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>力成 (6239) <span class="badge green">估值:便宜,自估與FactSet共識高度吻合</span> <span class="badge green">結論:偏多,FOPLP+CPO第二成長曲線持續驗證</span><span class="autodispo" data-code="6239"></span></h1>
+<div class="sub">台股(TWSE)・記憶體封測+FOPLP先進封裝,攜手超微與博通切入CPO,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/28|<span class="dispostat" data-code="6239">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">175</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="6239">現價 <b>277</b> → 目標價 <b>345</b><span class="up"> (+24.5%)</span></div>
-  <div class="vbasis">推導依據:2026E EPS約12.06(7月法人估值) × 26x(記憶體封測+先進封裝雙引擎溢價);較8/7分析目標價295上修,反映7月營收確認雙引擎動能加速</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">240</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6239">現價 <b>287</b> → 目標價 <b>335</b><span class="up"> (+16.7%)</span></div>
+  <div class="vbasis">推導依據:H1年化EPS11(保守情境)套用28~32x得約308~352(中值330);FactSet共識(11位分析師,8月最新)目標價335,與自估中值高度吻合,採目標價335</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">278</div><div class="note">2026/08/14 收盤 -1.8%;8/10公布7月營收後高點296</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">82.70億</div><div class="note">YoY+29.4%,MoM+8.5%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">527.00億</div><div class="note">YoY+31.9%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約23.1x</div><div class="note">依7月法人估值EPS12.06計</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">210~296</div><div class="note">8月區間;現價落於區間中上段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">173.5~387</div><div class="note">1月低173.5、5月高387(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">287.00</div><div class="note">2026/08/28收盤;8月區間238.5~288.5</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">82.70億</div><div class="note">MoM+8.48%,YoY+29.37%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.5</div><div class="note">YoY+91%,Q2單季約3(創近四年新高)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">527.00億</div><div class="note">YoY+31.92%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">183.5~379</div><div class="note">全年振幅逾1倍</div></div>
+  <div class="card"><div class="label">FOPLP+CPO布局</div><div class="value green">攜手超微與博通</div><div class="note">新加坡合資公司,年底目標小量出貨光引擎</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — FOPLP與CPO布局如何驅動獲利創四年新高?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/04/28</span>法說會:同時卡到記憶體封測需求升溫、AI帶動高階封裝測試升級兩條成長主線;先進製程逐季放量,先進封裝後段部分委外,記憶體封測產能維持滿載。</li>
-  <li><span class="date">2026年初~5月</span>股價從年初173.5一路飆升至5月高點387,反映市場對雙引擎成長故事的樂觀情緒;隨後回落整理。</li>
-  <li><span class="date">2026/07月</span>市場對力成2026年EPS估值持續上修,自年初約8.08元上修至7月的12.06元,2027年預估更上看19.38元;若以7/1收盤價335.5元計,今年預估本益比約27.8倍,但明年預估本益比已降至17.31倍。</li>
-  <li><span class="date">2026/08/07</span>法人火速上調預估,2026年EPS可望達10.9~12.06元。</li>
-  <li><span class="date">2026/08/10</span><b class="green">7月營收82.70億元,月增8.5%,年增29.4%</b>:延續強勁動能,前七月累計527.00億元,年增31.9%,股價當日跳漲9.9%至288.5。</li>
-  <li><span class="date">2026/08/11~14</span>股價高檔震盪(282.5→281.5→283→278),8/14小幅拉回。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①券商對力成2026、2027年EPS的估值分歧仍大(2027年估值9.38元~24.76元不等,差距逾2.6倍),反映記憶體封測與先進封裝委外業務的長期成長能見度仍不完全一致;②股價自5月高點387已顯著回檔至現價278左右,即使7月營收創高也僅部分收復失土,顯示市場對雙引擎故事的信心尚未完全恢復至5月高點水準;③記憶體封測業務的週期性風險不宜忽視,若記憶體報價循環轉折,力成的雙引擎優勢可能轉為雙重曝險。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾1倍(183.5~379),隨記憶體封測需求回溫與FOPLP先進封裝題材同步走高。</li>
+  <li><span class="date">2026年第1季</span>EPS2.5元,季減1%但年增58%,反映需求回溫的初期階段。</li>
+  <li><span class="date">2026/07/28</span>法說會:董事長蔡篤恭表示與超微(AMD)的FOPLP合作案依原定計畫推進,有信心在2027年中前如期量產;執行長謝永達表示Q2營收顯著季增,看好Q3再向上,Q3、Q4逐季成長、全年超越2022高峰;FOPLP良率超預期,將與博通於新加坡成立合資公司,共同開發FOPLP重布線層技術並延伸至CPO領域,預計今年底開始小量生產光引擎。</li>
+  <li><span class="date">2026年上半年</span>累計營收444億元,年增32%,稅後淨利52億元,年增91%,H1 EPS5.5元;Q2單季EPS約3元,營收與毛利率均創下近四年新高。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收82.70億元(依MOPS官方公告),月增8.48%、年增29.37%;累計1~7月營收527.00億元,年增31.92%。</li>
+  <li><span class="date">2026年8月</span>FactSet最新調查(11位分析師)目標價中位數自310元上修至335元(升幅8.06%)。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①FOPLP與CPO業務的商業化時程仍在2027年中前後,年底的小量出貨僅是初期驗證,對近期營收貢獻有限,不宜過度提前反映;②2026年EPS估值在不同來源間存在顯著差異(9.23~13.71元),分析師間對成長速度的認知差異較大;③公司提及「全年超越2022高峰」的guidance,需留意2022年為記憶體循環相對高點的基期比較意涵。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">同時卡到記憶體封測需求升溫與AI帶動的高階封裝、測試升級兩條成長主線,是封測族群中少數具備雙引擎優勢的一檔。<div class="src">— 力成法說會,2026/04/28</div></div>
-    <div class="quote">7月營收82.70億元、年增29.4%,前七月累計年增31.9%,證明雙引擎動能持續加速兌現。<div class="src">— TechNews科技新報,2026/08/10</div></div>
-    <div class="quote">多家券商目標價集中在300~400元區間,中國信託給出400元,反映法人對記憶體封測+先進封裝委外雙成長曲線的高度認可。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">Q2營收顯著季增,看好Q3再向上,Q3、Q4逐季成長、全年超越2022高峰;FOPLP良率超預期,與博通新加坡合資延伸至CPO領域,預計年底小量生產光引擎。<div class="src">— 力成法說會,2026/07/28;鉅亨網</div></div>
+    <div class="quote">FactSet最新調查11位分析師,目標價中位數上修至335元(升幅8.06%),記憶體封測需求回溫與AI伺服器新型終端需求提升FOPLP滲透率是主要驅動因素。<div class="src">— 鉅亨速報FactSet調查,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">2027年EPS估值分歧極大(9.38元~24.76元不等),反映市場對力成長期成長能見度尚無一致共識,不宜過度採信單一樂觀數字。<div class="src">— 本儀表板觀察,綜合readmo財經彙整</div></div>
-    <div class="quote">股價自5月高點387已回檔逾28%,即使7月營收創高也僅部分收復,顯示市場信心尚未完全恢復。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">記憶體封測業務具週期性,若記憶體報價循環轉折,雙引擎優勢可能轉為雙重曝險而非雙重保障。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FOPLP與CPO業務的實質商業化時程仍在2027年中前後,年底的小量出貨僅是初期驗證,現階段不宜將這個長期題材直接套用到近期估值。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">2026年EPS估值在不同來源間差異達50%以上(9.23~13.71元),顯示市場對力成成長速度的看法遠未達成共識,追價時應留意這個不確定性。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>中國信託綜合證券(最高)</td><td class="green">400</td><td>2026年EPS估值上修至12.06元</td></tr>
-  <tr><td>第一金證券</td><td class="green">355</td><td></td></tr>
-  <tr><td>永豐金證券</td><td class="green">310</td><td></td></tr>
-  <tr><td>元大投顧</td><td class="green">290</td><td></td></tr>
-  <tr><td>群益證券(較保守,中立評等)</td><td class="amber">314</td><td>估2027年EPS 24.76元(市場最樂觀估值)</td></tr>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,11位分析師)</td><td class="green">335</td><td>中位數自310上修,升幅8.06%,反映記憶體封測需求回溫與FOPLP滲透率提升</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">2026年EPS估值來源間差異較大(9.23~13.71元不等,亦有機構預估上看10元以上),本站不採信單一極端數字,改以H1年化法與FactSet目標價交叉驗證。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
-<div class="instflow" data-code="6239"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-13,623</span></td><td>3/10</td><td><span class="red">-12,845</span></td></tr><tr><td>投信</td><td><span class="red">-3,586</span></td><td>1/10</td><td><span class="red">-475</span></td></tr><tr><td>自營商</td><td><span class="red">-482</span></td><td>5/10</td><td><span class="red">-965</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-17,688</span></td><td>2/10</td><td><span class="red">-14,285</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/27</td><td><span class="red">-12,845</span></td><td><span class="red">-475</span></td><td><span class="red">-965</span></td><td><span class="red">-14,285</span></td></tr><tr><td>08/26</td><td><span class="green">+2,921</span></td><td><span class="red">-12</span></td><td><span class="green">+743</span></td><td><span class="green">+3,652</span></td></tr><tr><td>08/25</td><td><span class="red">-817</span></td><td><span class="red">-83</span></td><td><span class="green">+156</span></td><td><span class="red">-743</span></td></tr><tr><td>08/24</td><td><span class="green">+256</span></td><td><span class="red">-12</span></td><td><span class="green">+227</span></td><td><span class="green">+471</span></td></tr><tr><td>08/21</td><td><span class="red">-725</span></td><td><span class="red">-20</span></td><td><span class="green">+43</span></td><td><span class="red">-703</span></td></tr><tr><td>08/20</td><td><span class="red">-211</span></td><td><span class="green">+205</span></td><td><span class="red">-52</span></td><td><span class="red">-57</span></td></tr><tr><td>08/19</td><td><span class="green">+1,907</span></td><td><span class="red">-2,339</span></td><td><span class="red">-254</span></td><td><span class="red">-685</span></td></tr><tr><td>08/18</td><td><span class="red">-1,645</span></td><td><span class="red">-36</span></td><td><span class="red">-748</span></td><td><span class="red">-2,428</span></td></tr><tr><td>08/17</td><td><span class="red">-1,080</span></td><td><span class="red">-324</span></td><td><span class="green">+517</span></td><td><span class="red">-887</span></td></tr><tr><td>08/14</td><td><span class="red">-1,384</span></td><td><span class="red">-490</span></td><td><span class="red">-149</span></td><td><span class="red">-2,023</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/14~08/27(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<div class="instflow" data-code="6239"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-3,449</span></td><td>4/10</td><td><span class="green">+8,790</span></td></tr><tr><td>投信</td><td><span class="red">-3,100</span></td><td>1/10</td><td><span class="red">-4</span></td></tr><tr><td>自營商</td><td><span class="green">+413</span></td><td>6/10</td><td><span class="green">+746</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-6,133</span></td><td>3/10</td><td><span class="green">+9,532</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/28</td><td><span class="green">+8,790</span></td><td><span class="red">-4</span></td><td><span class="green">+746</span></td><td><span class="green">+9,532</span></td></tr><tr><td>08/27</td><td><span class="red">-12,845</span></td><td><span class="red">-475</span></td><td><span class="red">-965</span></td><td><span class="red">-14,285</span></td></tr><tr><td>08/26</td><td><span class="green">+2,921</span></td><td><span class="red">-12</span></td><td><span class="green">+743</span></td><td><span class="green">+3,652</span></td></tr><tr><td>08/25</td><td><span class="red">-817</span></td><td><span class="red">-83</span></td><td><span class="green">+156</span></td><td><span class="red">-743</span></td></tr><tr><td>08/24</td><td><span class="green">+256</span></td><td><span class="red">-12</span></td><td><span class="green">+227</span></td><td><span class="green">+471</span></td></tr><tr><td>08/21</td><td><span class="red">-725</span></td><td><span class="red">-20</span></td><td><span class="green">+43</span></td><td><span class="red">-703</span></td></tr><tr><td>08/20</td><td><span class="red">-211</span></td><td><span class="green">+205</span></td><td><span class="red">-52</span></td><td><span class="red">-57</span></td></tr><tr><td>08/19</td><td><span class="green">+1,907</span></td><td><span class="red">-2,339</span></td><td><span class="red">-254</span></td><td><span class="red">-685</span></td></tr><tr><td>08/18</td><td><span class="red">-1,645</span></td><td><span class="red">-36</span></td><td><span class="red">-748</span></td><td><span class="red">-2,428</span></td></tr><tr><td>08/17</td><td><span class="red">-1,080</span></td><td><span class="red">-324</span></td><td><span class="green">+517</span></td><td><span class="red">-887</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/17~08/28(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
 <!--/instflow-->
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">82.70億</div><div class="note">MoM+8.5%,YoY+29.4%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">527.00億</div><div class="note">YoY+31.9%</div></div>
-  <div class="card"><div class="label">2026E EPS(法人估值)</div><div class="value green">12.06</div><div class="note">自年初8.08元大幅上修</div></div>
-  <div class="card"><div class="label">2027E EPS(估值分歧)</div><div class="value amber">19.38~24.76</div><div class="note">不同券商估值差距逾2.6倍</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">6檔,約21.3億</div><div class="note">封測四檔中規模較小(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">TSV量產時程</div><div class="value amber">Q4 2026</div><div class="note">第二成長曲線的關鍵驗證點,尚未認列</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">82.70億</div><div class="note">YoY+29.37%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">5.5</div><div class="note">YoY+91%</div></div>
+  <div class="card"><div class="label">Q2營收/毛利率</div><div class="value green">創近四年新高</div><div class="note">Q2單季EPS約3元</div></div>
+  <div class="card"><div class="label">FOPLP量產時程</div><div class="value amber">2027年中前</div><div class="note">攜手超微,依原定計畫推進</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">查無最新資料</div><div class="note">本機active-etf資料庫未涵蓋此代號</div></div>
+  <div class="card"><div class="label">CPO布局</div><div class="value green">與博通新加坡合資</div><div class="note">年底目標小量出貨光引擎</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與力成的差異</th></tr>
-  <tr class="hl"><td>6239.TW</td><td>力成</td><td>約23.1x(EPS12.06)</td><td>YoY+29.4%,MoM+8.5%</td><td>記憶體封測+先進封裝後段委外雙引擎,規模居中</td></tr>
-  <tr><td>3711.TW</td><td>日月光投控(本站另篇分析)</td><td>約39.2x(EPS15.71)</td><td>YoY+43.15%,單月新高</td><td>封測絕對龍頭,規模與估值倍數皆遠高於力成</td></tr>
-  <tr><td>2449.TW</td><td>京元電子(本站另篇分析)</td><td>約25.3x(EPS9.77)</td><td>YoY+36.75%,創單月新高</td><td>純測試專業廠,不涉封裝,AI測試訂單能見度高</td></tr>
-  <tr><td>8150.TW</td><td>南茂(本站另篇分析)</td><td>約22.8x(EPS4.03)</td><td>YoY+43.6%</td><td>記憶體+驅動IC封測,估值倍數與力成相近</td></tr>
-  <tr><td>AMKR</td><td>Amkor Technology(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際封測同業</td><td>國際OSAT大廠,可作長期評價參照</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與力成的差異</th></tr>
+  <tr class="hl"><td>6239.TW</td><td>力成</td><td>自估308~352;FactSet335(11位分析師,8月)</td><td>H1 EPS5.5(YoY+91%),FOPLP+CPO第二成長曲線布局中</td><td>記憶體封測+FOPLP先進封裝並重,自估與共識高度吻合</td></tr>
+  <tr><td>3711.TW</td><td>日月光投控(本站另篇分析)</td><td>自估509.1~678.8;FactSet700(21位分析師,8月)</td><td>Q2 EPS創同期新高,7月營收創歷史新高YoY+43.15%</td><td>封測代工龍頭,規模遠大於力成,先進封裝布局更完整</td></tr>
+  <tr><td>2449.TW</td><td>京元電子(本站另篇分析)</td><td>自估區間見另篇</td><td>H1 EPS3.91,Q2 EPS2.04創同期新高</td><td>專注測試服務(不含封裝),與力成業務重疊度低</td></tr>
+  <tr><td>8150.TW</td><td>南茂(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS1.28(QoQ+76.6%),資本支出占比上修至25%+</td><td>記憶體封測為主,規模遠小於力成</td></tr>
+  <tr><td>6770.TW</td><td>力積電(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>記憶體代工與封測並行</td><td>業務組合與力成不同</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——多家券商目標價明顯高於現價,7月營收確認雙引擎動能加速。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約23.1x(以7月法人估值EPS12.06計)在封測四檔中屬中段,低於日月光(39.2x),與京元電子(25.3x)、南茂(22.8x)相近。多家券商目標價(290~400元)普遍高於現價278元,中國信託最高喊到400元。核心風險在於2027年EPS估值分歧仍大(19.38~24.76元),顯示市場對力成雙引擎能否延續高速成長的長期能見度尚未完全一致,現階段的「便宜」判斷應理解為短期修復空間,而非確定性的長期低估。</div>
+  <b>估值判斷:便宜——自估法與FactSet共識目標價高度吻合,是本次批次中估值訊號最一致的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS5.5元年化(11,保守情境假設H2與H1持平)套用記憶體封測+先進封裝溢價常見的28~32倍本益比計算,合理價區間約308~352元(中值330),現價287.00落於此區間下緣以下。FactSet最新調查(11位分析師)目標價335元與此自估中值高度吻合,交叉驗證基礎相對紮實。力成的FOPLP攜手超微、CPO攜手博通兩項布局均已進入實質合作階段(非僅止於規劃),年底小量出貨光引擎雖對近期營收貢獻有限,但作為中期第二成長曲線的驗證點,提供了比同批次部分個股更具體的時程指引。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價278 vs 中值</th></tr>
-  <tr><td>券商目標價共識</td><td>5家券商,區間290~400(中值345)</td><td>290~400(中值345)</td><td class="green">便宜 -19.4%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 12.06,記憶體封測+先進封裝雙引擎倍數22~28x</td><td>265~338(中值301.5)</td><td class="green">便宜 -7.8%</td></tr>
-  <tr><td>2027E P/E×EPS(推演,低信度)</td><td>共識EPS區間19.38~24.76(差距逾2.6倍),同倍數22~28x</td><td>426~693(中值559.5,信度低)</td><td class="green">便宜 -50.3%(區間過寬,不宜單獨採信)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價287.00 vs 中值</th></tr>
+  <tr><td>H1年化×倍數(自估,保守情境)</td><td>H1 EPS5.5×2=11(假設H2與H1持平),倍數28~32x</td><td>308~352(中值330)</td><td class="green">便宜 -13.0%</td></tr>
+  <tr><td>FactSet目標價共識(11位分析師,8月)</td><td>335(單點),中位數自310上修</td><td>335(單點)</td><td class="green">便宜 -14.3%</td></tr>
+  <tr><td>2026E EPS區間法(對照,分歧較大)</td><td>EPS9.23~13.71(不同來源),倍數28~32x</td><td>258.4~438.7(中值348.6,區間極寬)</td><td class="amber">合理(區間極寬,參考價值有限)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:2027年EPS估值本身存在逾2.6倍的分歧,強行套用多年期FCF假設會製造虛假精確度。三種方法方向一致顯示便宜,但信度不同:券商目標價共識與自身2026E本益比法(便宜8~19%)較為可信,2027E方法因估值分歧過大應大幅打折看待。整體而言,力成是封測四檔中估值訊號較為一致偏便宜的一檔,但TSV量產(Q4)與先進封裝委外規模能否如期擴大仍是關鍵驗證點。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:FOPLP/CPO業務的商業化時程與獲利貢獻規模高度不確定,多年期FCF假設信度不足。三種方法中,H1年化法與FactSet目標價共識方向高度一致,均顯示現價便宜13~14%,是本次OSAT封測批次中估值訊號最一致的一檔;第三種方法(2026E EPS區間法)因不同來源估值差異過大(9.23~13.71元),參考價值有限,僅供對照不作為主要依據。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">7月營收公布後追價熱絡</div><div class="bar"><div style="width:66%;background:var(--green)"></div></div><div class="note">8/10單日+9.9%,但股價仍距5月高點387有相當距離</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">多家券商目標價高於現價</div><div class="note">290~400元區間,2027年EPS估值分歧仍大</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收確認→2026E EPS 12.06</div><div class="note">TSV Q4量產與Q3法說會是下一個驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">法說會後穩健走高</div><div class="bar"><div style="width:64%;background:var(--green)"></div></div><div class="note">8月區間238.5~288.5,全年振幅逾1倍</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價335(11位分析師)</div><div class="note">8月最新上修,升幅8.06%</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">5.5(H1)→11(H1年化)</div><div class="note">Q3財報能否兌現「逐季成長、全年超越2022高峰」是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>12.06(單點,7月法人估值)</td><td>22~28x</td><td>265~338(中值301.5)</td><td class="green">約 +8%</td></tr>
-  <tr><td>2027(+1年,信度低)</td><td>19.38~24.76(差距逾2.6倍)</td><td>22~28x</td><td>426~693(中值559.5,推演)</td><td class="green">約 +42%/年(區間極寬,僅供參考)</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年)</td><td>11(H1年化,保守)</td><td>28~32x</td><td>308~352(中值330)</td><td class="green">約 15%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟FOPLP量產時程(2027年中前)提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027年EPS估值本身分歧逾2.6倍,隱含年化報酬雖顯示可觀,但信度遠低於2026年數字,不宜作為投資決策的主要依據;2028年因分析師覆蓋不足查無共識,不強行推演。這條路徑的核心啟示是:力成短期(2026年)的估值訊號相對可信且顯示溫和便宜,但長期路徑高度依賴TSV量產與先進封裝委外規模能否兌現最樂觀的成長假設。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為明顯正值,反映現價相對於保守的H1年化法仍有一定安全邊際。2027年EPS共識查無穩定區間,惟FOPLP量產時程(2027年中前)與CPO光引擎年底小量出貨提供中期成長路徑的具體時間指引,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 150~450;left% = (價格-150)/300×92+4 -->
+<!-- 刻度 160~460;left% = (價格-160)/300×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19%"><div class="lbl">Bear(3~6月)</div><div class="price red">195~220</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">255~295</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:60.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">330~365</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:86.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">410~440</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:43.1%"><div class="arrow">▲</div><div class="price">278</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">210~235</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">275~305</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">340~370</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">410~435</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:43%"><div class="arrow">▲</div><div class="price">287.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>195~220</td><td>記憶體報價循環轉折或TSV量產延期,2026E EPS降至保守估值×22~24x</td><td class="red">約 -25%</td></tr>
-  <tr><td class="amber">Base</td><td>255~295</td><td>雙引擎動能延續但無驚喜,券商目標價緩慢跟進;現價落於此區間內</td><td>約 -1%</td></tr>
-  <tr><td class="green">Bull</td><td>330~365</td><td>TSV如期Q4量產、先進封裝委外規模擴大,中國信託目標價400下緣接近達陣</td><td class="green">約 +25%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>410~440</td><td>雙引擎故事全面兌現,2027年EPS上看樂觀端24.76元獲驗證,重返並超越今年高點387</td><td class="green">約 +53%</td></tr>
+  <tr><td class="red">Bear</td><td>210~235</td><td>Q3財報不如逐季成長guidance,或FOPLP量產時程延遲</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>275~305</td><td>Q3財報符合guidance但無驚喜,現價落於此區間內</td><td>約 1%</td></tr>
+  <tr><td class="green">Bull</td><td>340~370</td><td>Q3、Q4逐季成長兌現且全年超越2022高峰,FactSet目標價335達陣並持續上修</td><td class="green">約 24%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>410~435</td><td>FOPLP/CPO年底小量出貨進度優於預期,重返並超越今年高點379</td><td class="green">約 47%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -212,35 +209,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">255~268</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">230~250</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">205~225</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">265~278</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">250~264</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">240~249</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">175</b>(接近今年低點)= 記憶體報價循環轉折或TSV量產確認延期,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">240</b>(接近8月區間下緣)= Q3財報不如逐季成長guidance或FOPLP時程明顯延遲確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破296(近期高點)+量能確認,且Q3法說會驗證TSV量產進度符合預期<br>
-    進場區:<b class="green">298~315</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回290即出場</div>
+    觸發條件:收盤突破288.5(8月區間高點)+量能確認,且Q3財報確認逐季成長guidance兌現<br>
+    進場區:<b class="green">290~315</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回283即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">330~365</div><div class="note">賣出30~50%;Bull下緣/多家券商目標價達陣,高檔應紀律分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">410~440</div><div class="note">Stretched區/重返並超越今年高點;續抱條件是TSV放量與先進封裝委外規模同步擴大</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">340~370</div><div class="note">賣出30~50%;Bull區/FactSet目標價335已達陣,OSAT封測股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">410~435</div><div class="note">Stretched區;續抱條件是FOPLP/CPO年底小量出貨進度優於預期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:7月營收82.70億元(YoY+29.4%、MoM+8.5%),前七月累計527.00億元(YoY+31.9%),驗證記憶體封測需求升溫與AI帶動先進封裝委外雙引擎動能持續加速,股價8/10公布當日跳漲9.9%;但股價自5月高點387仍有相當距離,顯示市場信心尚未完全恢復。</div>
-<div class="concl">② <b>估值</b>:便宜——多家券商目標價(290~400元)普遍高於現價278元,自身2026E本益比法也顯示便宜約8%;力成是封測四檔中估值訊號較一致偏便宜的一檔,但2027年EPS估值分歧達逾2.6倍(19.38~24.76元),反映市場對雙引擎能否延續高速成長的長期能見度尚未一致,「便宜」判斷應理解為短期修復空間而非確定性的長期低估。</div>
-<div class="concl">③ <b>結論</b>:分批布局、雙引擎成長動能延續——現價278落於Base區間內,上檔Bull +25%/Stretched +53%對下檔Bear -25%,本站目標價自8/7分析的295上修,風險報酬比在封測四檔中相對吸引;左側倉位可正常分批,收盤跌破175即記憶體報價轉折或TSV延期確認,無條件出場。下一個驗證點是TSV量產進度與Q3法說會。</div>
+<div class="concl">① <b>催化劑</b>:7/28法說會確認FOPLP攜手超微依原定計畫推進(2027年中前量產)、與博通合資延伸至CPO領域(年底目標小量出貨光引擎);Q2單季EPS約3元創近四年新高,H1累計EPS5.5元(YoY+91%);7月營收82.70億元(YoY+29.37%)延續強勢動能。</div>
+<div class="concl">② <b>估值</b>:便宜——H1年化法(中值330)與FactSet目標價共識(335,11位分析師)高度吻合,均顯示現價便宜13~14%,是本次OSAT封測批次中估值訊號最一致的一檔;僅來源分歧較大的2026E EPS區間法因參考價值有限不作為主要依據。</div>
+<div class="concl">③ <b>結論</b>:偏多、FOPLP+CPO第二成長曲線持續驗證——現價287.00落於Base區間內,上檔Bull +24%/Stretched +47%對下檔Bear -22%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破240即無條件出場。下一個驗證點是Q3財報能否兌現「逐季成長、全年超越2022高峰」的guidance。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);法說會(富果直送,2026/04/28);7月營收(TechNews科技新報、經濟日報,2026/08/10公告);EPS估值與券商目標價(readmo財經、CMoney投資網誌,追蹤至7月最新12.06元/2027年估值分歧19.38~24.76元);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2028年EPS共識、精確發行股數、TSV量產確切收入貢獻查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、富果直送法說會備忘錄、TechNews科技新報、經濟日報、readmo財經、CMoney投資網誌。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;2027E估值方法已明確標註低信度,不應單獨作為投資判斷依據。<br>
+資料時間:股價/近30天與今年區間 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);7/28法說會(鉅亨網、富果直送法說會備忘錄);FactSet目標價共識(鉅亨速報,2026/08);主動式ETF持有度(本機active-etf資料庫未涵蓋此代號,查無);處置/注意股狀態(本機twse-disposition,2026/08/27更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FOPLP/CPO業務具體獲利貢獻規模、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、鉅亨網、富果直送。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

@@ -229,15 +229,15 @@
     "name": "力成",
     "market": "twse",
     "file": "6239-powertech.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 278.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 287.0,
     "tags": [
       "封測",
       "記憶體"
     ],
-    "target": 345,
-    "stop": 175,
-    "basis": "券商目標價共識5家(290~400,中值345);較8/7分析目標價295上修,反映7月營收確認雙引擎動能加速",
+    "target": 335,
+    "stop": 240,
+    "basis": "H1年化EPS11(保守情境)套用28~32x得約308~352(中值330);FactSet共識(11位分析師,8月)目標價335,與自估中值高度吻合,採目標價335",
     "rating": "buy"
   },
   "3324": {
@@ -272,15 +272,15 @@
     "name": "南茂",
     "market": "twse",
     "file": "8150-chipmos.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 91.9,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 90.5,
     "tags": [
       "封測",
       "記憶體"
     ],
     "target": 90,
-    "stop": 65,
-    "basis": "2026E EPS約4.5(推演:H1實績2.00+H2保守外推) × 20x(OSAT封測服務業);較8/7分析目標價78上修,反映Q2財報與7月營收確認動能加速,惟資本支出大幅上修帶來短期FCF壓力",
+    "stop": 78,
+    "basis": "H1年化EPS4.01(保守情境)套用20~25x得約80.2~100.25(中值90.2);查無8/11法說會後具體券商目標價更新,採目標價90",
     "rating": "hold"
   },
   "2303": {
@@ -502,16 +502,16 @@
     "name": "日月光投控",
     "market": "twse",
     "file": "3711-ase.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 616.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 621.0,
     "tags": [
       "封測",
       "先進封裝"
     ],
-    "target": 597,
-    "stop": 380,
-    "basis": "FactSet 2026E EPS共識15.71 × 30x(先進封裝倍增題材溢價,高於傳統ATM倍數);與8/6分析目標價650一致,7月營收beat未改變估值假設|【目標價校準 2026/08/17】650→597:2026E P/E×EPS區間(471~597)上緣,與FactSet 21位分析師共識472同屬高信度",
-    "rating": "hold"
+    "target": 700,
+    "stop": 585,
+    "basis": "FactSet 2026E EPS共識16.97元(21位分析師,8月)套用30~40x得約509.1~678.8(中值593.95);FactSet目標價連續數週上修(600→650→700),21位分析師方向一致,採目標價700",
+    "rating": "buy"
   },
   "2345": {
     "name": "智邦",
@@ -619,15 +619,15 @@
     "name": "京元電子",
     "market": "twse",
     "file": "2449-kyec.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 247.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 270.0,
     "tags": [
       "封測"
     ],
-    "target": 284,
-    "stop": 175,
-    "basis": "2026E EPS約10.5(推演,反映7月動能加速,高於FactSet 5月估值9.77) × 27x(測試專業廠+AI訂單能見度溢價)",
-    "rating": "hold"
+    "target": 320,
+    "stop": 232,
+    "basis": "FactSet 2026E EPS共識9.09元(13位分析師,7月底)套用30~35x得約272.7~318.15(中值295.4);FactSet目標價(15位分析師,8/8)348元較自估中值更高,兩者交叉驗證後採目標價320;評等由中性上修為偏多(Q2實績確認前次基準已過時)",
+    "rating": "buy"
   },
   "2382": {
     "name": "廣達",

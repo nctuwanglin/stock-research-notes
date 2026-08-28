@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,6 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -75,131 +66,153 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>日月光投控 (3711) <span class="badge amber">估值:合理(法人共識偏保守vs個別樂觀目標)</span> <span class="badge amber">結論:分批布局,先進封裝動能延續</span><span class="autodispo" data-code="3711"></span></h1>
-<div class="sub">台股(TWSE)・封測龍頭(ATM封測+EMS電子代工)+先進封裝倍增動能|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/14|<span class="dispostat" data-code="3711">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>日月光投控 (3711) <span class="badge purple">事件:Q2財報創高+資本支出二度上修+FactSet目標價連週上調</span> <span class="badge green">估值:便宜,FactSet共識與自估區間方向一致</span> <span class="badge green">結論:偏多,先進封裝動能全面加速</span><span class="autodispo" data-code="3711"></span></h1>
+<div class="sub">台股(TWSE)・封測代工(OSAT)龍頭,先進封裝(2.5D/3D/CoWoS)+傳統ATM雙引擎,重分析更新(事件後估值版)|股價截至 2026/08/28 收盤,製表 2026/08/28|<span class="dispostat" data-code="3711">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">380</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3711">現價 <b>605</b> → 目標價 <b>597</b><span class="down"> (-1.3%)</span></div>
-  <div class="vbasis">推導依據:FactSet 2026E EPS共識15.71 × 30x(先進封裝倍增題材溢價,高於傳統ATM倍數);7月營收beat未改變估值假設;採目標價597。【2026/08/17目標價校準】原650元高於兩種高信度方法(FactSet 21位分析師共識472、自身2026E P/E×EPS區間471~597)的上緣,該溢價僅由本站標註「信度中等、不採信為主要方法」的個別樂觀目標630支撐,現回收至區間上緣</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">585</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3711">現價 <b>621</b> → 目標價 <b>700</b><span class="up"> (+12.7%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識16.97元(21位分析師,8月最新)套用30~40x(先進封裝溢價倍數擴張)得約509.1~678.8(中值593.95);FactSet目標價本身連續數週上修(600→650→700),21位分析師方向一致,採目標價700</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">616</div><div class="note">2026/08/14 收盤 -1.6%;8/10公布7月營收後高點641</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">737.84億</div><div class="note">YoY+43.15%,單月新高</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約39.2x</div><div class="note">FactSet 2026E EPS共識15.71(21位分析師)</div></div>
-  <div class="card"><div class="label">先進封裝2026年成長guidance</div><div class="value green">倍增至32億美元</div><div class="note">YoY+70%(5月法說會口徑)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">573~641</div><div class="note">8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">250~729</div><div class="note">1月低250、7月高729(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">621.00</div><div class="note">2026/08/28收盤;8月區間585~630</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">737.84億</div><div class="note">MoM+12.16%,YoY+43.15%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">8.03</div><div class="note">Q1 3.23,Q2 4.80(創同期新高)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">4385.09億</div><div class="note">YoY+25.12%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">258~727</div><div class="note">全年振幅逾1.8倍</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">上修至105億美元</div><div class="note">較先前85億美元再加碼20億美元</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>⓪ 事件影響分析 — Q2財報與資本支出二度上修,為什麼FactSet目標價連週調升?</h2>
+<h3>事件摘要:7/30法說會公布Q2 EPS4.80元(優於Q1的3.23元),H1累計EPS8.03元創同期新高;資本支出再上修至105億美元(較先前85億美元加碼20億美元);FactSet目標價自7月中旬以來連續數週上修(600→650→700)</h3>
+<div class="flow">日月光投控於7/30召開2026年第二季法人說明會,公布合併營收年增27%,每股盈餘(EPS)達4.80元,優於首季的3.23元,上半年累計EPS達8.03元創同期新高。公司再度上修全年資本支出至105億美元,較先前85億美元的規劃再加碼20億美元,設備與廠房各增加10億美元——這是繼今年稍早一次上修之後的第二次加碼,反映管理層對先進封裝(2.5D/3D/CoWoS等)與傳統ATM雙引擎需求能見度的高度信心。展望第三季,公司預期投控合併營收將季增二成以上,獲利能力可望續創新高。財經媒體以「資本支出及展望超標」形容這場法說會,法人隨即調升獲利預估值及目標價。</div>
+<h3>傳導路徑:Q2獲利與guidance雙雙超預期 → 資本支出二度上修驗證管理層對需求能見度的信心 → FactSet EPS共識與目標價連續數週上調(21位分析師方向一致)→ 7月營收創新高(YoY+43.15%)進一步驗證這個傳導邏輯的實質性,不是單純情緒面推升</h3>
+<div class="flow">與同批次分析的其他OSAT廠相比,日月光投控這次的重估具有較高的信度基礎:FactSet目標價的調升不是單一數字跳動,而是過去數週內連續多次上修(從約355元的EPS14.85基準,經600元、650元,最新已來到700元),21位分析師的樣本數也遠高於一般個股,顯示這是廣泛機構共識逐步消化Q2實績與guidance後的漸進式重估,而非單一分析師的樂觀猜測。7月營收737.84億元創歷史新高(月增12.16%、年增43.15%),累計1~7月營收4385.09億元(年增25.12%),進一步驗證Q2法說會釋出的樂觀展望正在被實際數字兌現。現價621.00相對於FactSet最新目標價700元仍有約12.7%空間,相對於本站自估區間(509.1~678.8,中值593.95)則已略高於中值,顯示這波重估雖然紮實,但短線漲幅也已相當程度反映在股價中。</div>
+
+<div class="grid cards6" style="margin:10px 0 6px">
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">4.80</div><div class="note">優於Q1的3.23,創同期新高</div></div>
+  <div class="card"><div class="label">資本支出(二度上修)</div><div class="value amber">105億美元</div><div class="note">較先前85億美元加碼20億</div></div>
+  <div class="card"><div class="label">FactSet目標價軌跡</div><div class="value green">600→650→700</div><div class="note">過去數週連續上修,21位分析師</div></div>
+  <div class="card"><div class="label">Q3 guidance</div><div class="value green">營收季增二成以上</div><div class="note">獲利能力可望續創新高</div></div>
+</div>
+
+<h2>① 催化劑分析 — 先進封裝與傳統ATM雙引擎如何驅動股價創高?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年5月</span>法說會:先進封裝業務爆發,年增70%,2026年營收目標倍增至32億美元;外資齊聲喊買,目標價一度上看660元。</li>
-  <li><span class="date">2026年初~7月</span>股價從年初約250附近一路飆升至7月高點729,反映市場對AI驅動先進封裝需求的高度樂觀情緒。</li>
-  <li><span class="date">2026/08/10</span><b class="green">7月營收737.84億元創單月新高,YoY+43.15%</b>:延續強勁動能,驗證先進封裝倍增題材持續兌現;股價當日跳漲至630(+7.7%)。</li>
-  <li><span class="date">2026/08/11~14</span>股價高檔震盪(629→621→626→616),8/14小幅拉回。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet 21位分析師共識目標價僅472元,較現價616低約23%,反映主流分析師社群對股價漲幅的認可程度低於少數個別外資的樂觀目標(歐系660、美系600+);②Forward P/E約39.2x對一家封測龍頭而言已不算便宜,先進封裝倍增題材若未能持續兌現,估值倍數面臨壓縮風險;③先進封裝業務雖成長迅速,但目前佔公司總營收比重仍相對有限,傳統ATM封測本業的成長速度遠不如先進封裝,不宜將整體公司估值直接套用先進封裝的高成長倍數。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾1.8倍(258~727),隨AI先進封裝需求熱度與財報表現持續走高。</li>
+  <li><span class="date">2026年第1季</span>EPS3.23元,已展現先進封裝與傳統ATM雙引擎的成長動能。</li>
+  <li><span class="date">2026/07/30</span>Q2法說會:EPS4.80元創同期新高,H1累計8.03元;資本支出二度上修至105億美元;Q3展望營收季增二成以上,獲利能力可望續創新高。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收737.84億元(依MOPS官方公告),月增12.16%、年增43.15%,創歷史新高;累計1~7月營收4385.09億元,年增25.12%。</li>
+  <li><span class="date">2026年8月</span>FactSet最新調查(21位分析師)2026年EPS共識上修至16.97元,目標價連續數週調升至700元。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①FactSet目標價700元隱含本益比約41.2倍(700/16.97),已明顯高於本站自估的30~40倍區間上緣,顯示市場願意給予的評價溢價正在擴大,若後續財報動能稍有不如預期,評價修正的空間可能較大;②資本支出連續兩度上修至105億美元,雖反映管理層信心,但短期內折舊費用增加對毛利率的稀釋效果需持續觀察;③現價621.00已較本站自估區間中值(593.95)略高,短線的安全邊際不若FactSet目標價700元所暗示的12.7%空間那麼寬裕。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">先進封裝業務年增70%,2026年營收目標倍增至32億美元,是AI伺服器封測需求爆發的直接受惠者。<div class="src">— 豐雲學堂法說整理,2026/05</div></div>
-    <div class="quote">7月營收737.84億元創單月新高,年增43.15%,證明先進封裝倍增題材持續兌現而非空話。<div class="src">— 鉅亨網,2026/08/10</div></div>
-    <div class="quote">外資齊聲喊買,目標價最高上看660元,反映法人對先進封裝與資本支出效益持續發酵的信心。<div class="src">— ETtoday財經雲</div></div>
+    <div class="quote">Q2 EPS4.80元創同期新高,資本支出二度上修至105億美元,Q3展望營收季增二成以上,獲利能力可望續創新高,先進封裝與傳統ATM雙引擎需求能見度俱佳。<div class="src">— 豐雲學堂、經濟日報,2026/07/30~08</div></div>
+    <div class="quote">FactSet最新調查21位分析師,2026年EPS共識上修至16.97元,目標價連續數週調升至700元,機構共識方向高度一致。<div class="src">— 鉅亨速報FactSet調查,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">FactSet 21位分析師共識目標價僅472元,較現價低約23%,顯示主流分析師社群對股價漲幅的認可程度不如個別樂觀報告。<div class="src">— 鉅亨網FactSet速報</div></div>
-    <div class="quote">Forward P/E約39.2x已不算便宜,先進封裝目前佔營收比重仍有限,不宜將整體公司估值套用先進封裝的高成長倍數。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">傳統ATM封測本業成長速度遠不如先進封裝,兩條業務線的成長差異可能被市場過度簡化為單一敘事。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet目標價700元隱含本益比已達約41.2倍,明顯高於自估的30~40倍區間上緣,若市場評價溢價開始收斂,現價的下檔風險不容忽視。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">資本支出連續兩度上修至105億美元,短期內折舊費用增加對毛利率的稀釋效果需持續觀察,不宜僅憑guidance樂觀就忽略成本面壓力。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(21位分析師,最新)</td><td class="amber">472</td><td>2026E EPS中位上修至15.71(區間12.11~18.35)</td></tr>
-  <tr><td>歐系外資(個別,最樂觀)</td><td class="green">660</td><td>看好先進封裝與資本支出效益持續發酵</td></tr>
-  <tr><td>美系外資(個別)</td><td class="green">600+</td><td>上修毛利率與獲利預估</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,21位分析師)</td><td class="green">700</td><td>2026E EPS共識上修至16.97元(範圍15.67~18.36);目標價過去數週自600、650連續上修</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet目標價軌跡呈現明確的連續上修趨勢(非單一數字跳動),21位分析師樣本數充足,信度相對較高。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
-<div class="instflow" data-code="3711"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+22,500</span></td><td>10/10</td><td><span class="green">+1,807</span></td></tr><tr><td>投信</td><td><span class="red">-24,457</span></td><td>1/10</td><td><span class="red">-1,309</span></td></tr><tr><td>自營商</td><td><span class="green">+378</span></td><td>5/10</td><td><span class="red">-130</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-1,579</span></td><td>5/10</td><td><span class="green">+369</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/27</td><td><span class="green">+1,807</span></td><td><span class="red">-1,309</span></td><td><span class="red">-130</span></td><td><span class="green">+369</span></td></tr><tr><td>08/26</td><td><span class="green">+940</span></td><td><span class="red">-802</span></td><td><span class="green">+247</span></td><td><span class="green">+385</span></td></tr><tr><td>08/25</td><td><span class="green">+343</span></td><td><span class="red">-1,492</span></td><td><span class="green">+57</span></td><td><span class="red">-1,092</span></td></tr><tr><td>08/24</td><td><span class="green">+564</span></td><td><span class="green">+1,011</span></td><td><span class="red">-143</span></td><td><span class="green">+1,432</span></td></tr><tr><td>08/21</td><td><span class="green">+2,416</span></td><td><span class="red">-1,244</span></td><td><span class="green">+132</span></td><td><span class="green">+1,303</span></td></tr><tr><td>08/20</td><td><span class="green">+1,071</span></td><td><span class="red">-3,960</span></td><td><span class="green">+287</span></td><td><span class="red">-2,603</span></td></tr><tr><td>08/19</td><td><span class="green">+2,324</span></td><td><span class="red">-3,324</span></td><td><span class="red">-128</span></td><td><span class="red">-1,128</span></td></tr><tr><td>08/18</td><td><span class="green">+363</span></td><td><span class="red">-3,877</span></td><td><span class="red">-220</span></td><td><span class="red">-3,734</span></td></tr><tr><td>08/17</td><td><span class="green">+9,654</span></td><td><span class="red">-5,690</span></td><td><span class="green">+300</span></td><td><span class="green">+4,265</span></td></tr><tr><td>08/14</td><td><span class="green">+3,018</span></td><td><span class="red">-3,770</span></td><td><span class="red">-24</span></td><td><span class="red">-776</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/14~08/27(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<div class="instflow" data-code="3711"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+18,915</span></td><td>9/10</td><td><span class="red">-567</span></td></tr><tr><td>投信</td><td><span class="red">-20,625</span></td><td>2/10</td><td><span class="green">+62</span></td></tr><tr><td>自營商</td><td><span class="green">+1,348</span></td><td>6/10</td><td><span class="green">+946</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-363</span></td><td>6/10</td><td><span class="green">+440</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/28</td><td><span class="red">-567</span></td><td><span class="green">+62</span></td><td><span class="green">+946</span></td><td><span class="green">+440</span></td></tr><tr><td>08/27</td><td><span class="green">+1,807</span></td><td><span class="red">-1,309</span></td><td><span class="red">-130</span></td><td><span class="green">+369</span></td></tr><tr><td>08/26</td><td><span class="green">+940</span></td><td><span class="red">-802</span></td><td><span class="green">+247</span></td><td><span class="green">+385</span></td></tr><tr><td>08/25</td><td><span class="green">+343</span></td><td><span class="red">-1,492</span></td><td><span class="green">+57</span></td><td><span class="red">-1,092</span></td></tr><tr><td>08/24</td><td><span class="green">+564</span></td><td><span class="green">+1,011</span></td><td><span class="red">-143</span></td><td><span class="green">+1,432</span></td></tr><tr><td>08/21</td><td><span class="green">+2,416</span></td><td><span class="red">-1,244</span></td><td><span class="green">+132</span></td><td><span class="green">+1,303</span></td></tr><tr><td>08/20</td><td><span class="green">+1,071</span></td><td><span class="red">-3,960</span></td><td><span class="green">+287</span></td><td><span class="red">-2,603</span></td></tr><tr><td>08/19</td><td><span class="green">+2,324</span></td><td><span class="red">-3,324</span></td><td><span class="red">-128</span></td><td><span class="red">-1,128</span></td></tr><tr><td>08/18</td><td><span class="green">+363</span></td><td><span class="red">-3,877</span></td><td><span class="red">-220</span></td><td><span class="red">-3,734</span></td></tr><tr><td>08/17</td><td><span class="green">+9,654</span></td><td><span class="red">-5,690</span></td><td><span class="green">+300</span></td><td><span class="green">+4,265</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/17~08/28(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
 <!--/instflow-->
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">737.84億</div><div class="note">YoY+43.15%,單月新高</div></div>
-  <div class="card"><div class="label">先進封裝2026年目標</div><div class="value green">32億美元</div><div class="note">YoY+70%</div></div>
-  <div class="card"><div class="label">FactSet 2026E EPS</div><div class="value green">15.71</div><div class="note">21位分析師,區間12.11~18.35</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">20檔,約234億</div><div class="note">封測四檔中最高(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">業務組合</div><div class="value">ATM封測+EMS</div><div class="note">先進封裝為新成長曲線,佔比持續提升</div></div>
-  <div class="card"><div class="label">分析師評等</div><div class="value green">全數維持買進</div><div class="note">外資研報一致偏多</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">737.84億</div><div class="note">創歷史新高,YoY+43.15%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">8.03</div><div class="note">創同期新高</div></div>
+  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">105億美元</div><div class="note">二度上修,較先前85億加碼20億</div></div>
+  <div class="card"><div class="label">Q3 guidance</div><div class="value green">營收季增20%+</div><div class="note">獲利能力可望續創新高</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">查無最新資料</div><div class="note">本機active-etf資料庫未涵蓋此代號</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">16.97</div><div class="note">21位分析師,較先前16.84上修</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與日月光的差異</th></tr>
-  <tr class="hl"><td>3711.TW</td><td>日月光投控</td><td>約39.2x(EPS15.71)</td><td>YoY+43.15%,單月新高</td><td>封測絕對龍頭,先進封裝+ATM+EMS三引擎,規模最大</td></tr>
-  <tr><td>6239.TW</td><td>力成(本站另篇分析)</td><td>約23.1x(現價278/EPS12.06)</td><td>YoY+29.4%,MoM+8.5%</td><td>記憶體封測+先進封裝後段委外,規模較小但成長速度不遜色</td></tr>
-  <tr><td>2449.TW</td><td>京元電子(本站另篇分析)</td><td>約25.3x(現價247/EPS9.77)</td><td>YoY+36.75%,創單月新高</td><td>測試專業廠(非封裝),AI測試訂單能見度高</td></tr>
-  <tr><td>8150.TW</td><td>南茂(本站另篇分析)</td><td>約22.8x(現價91.9/EPS4.03)</td><td>YoY+43.6%</td><td>記憶體+驅動IC封測,規模遠小於日月光</td></tr>
-  <tr><td>AMKR</td><td>Amkor Technology(美股,參考)</td><td>查無精確Fwd P/E</td><td>國際封測同業</td><td>國際OSAT第二大廠,規模與日月光相近,可作長期評價參照</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與日月光投控的差異</th></tr>
+  <tr class="hl"><td>3711.TW</td><td>日月光投控</td><td>自估509.1~678.8;FactSet700(21位分析師,8月)</td><td>Q2 EPS創同期新高,7月營收創歷史新高YoY+43.15%</td><td>封測代工(OSAT)龍頭,規模最大且先進封裝布局最完整</td></tr>
+  <tr><td>6239.TW</td><td>力成(本站另篇分析)</td><td>自估308~352</td><td>H1 EPS5.5(YoY+91%),FOPLP攜手超微與博通</td><td>記憶體封測與FOPLP先進封裝並重,規模較小</td></tr>
+  <tr><td>2449.TW</td><td>京元電子(本站另篇分析)</td><td>自估區間見另篇</td><td>H1 EPS3.91,Q2 EPS2.04創同期新高</td><td>專注測試服務(不含封裝),客戶集中度與日月光不同</td></tr>
+  <tr><td>8150.TW</td><td>南茂(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS1.28(QoQ+76.6%),資本支出占比上修至25%+</td><td>記憶體封測為主,規模遠小於日月光</td></tr>
+  <tr><td>6770.TW</td><td>力積電(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>記憶體代工與封測並行</td><td>業務組合與日月光不同,較多曝險於記憶體代工景氣循環</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——法人共識偏保守,個別樂觀目標偏激進,現價落在兩者之間。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約39.2x(以FactSet 2026E EPS 15.71計)是封測四檔中最高,反映市場給予先進封裝倍增題材的溢價;但FactSet共識目標價(472)較現價低23%,顯示廣泛分析師社群尚未完全跟上少數個別外資(660、600+)的樂觀程度。7月營收創高證明營運動能扎實,但先進封裝佔營收比重仍有限,不宜將整體估值完全套用其高成長倍數。</div>
+  <b>估值判斷:便宜——FactSet共識與自估區間方向一致,惟現價已略高於自估中值。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026年EPS共識16.97元套用30~40倍本益比計算(反映先進封裝溢價倍數擴張),合理價區間約509.1~678.8元(中值593.95),現價621.00已略高於此區間中值。FactSet目標價700元(21位分析師,連續數週上修)較現價仍有約12.7%空間,是本次批次中機構共識信度最高的一檔——樣本數大、更新頻率高、方向一致。整體而言,日月光投控的Q2實績與guidance雙雙驗證了先進封裝與傳統ATM雙引擎的成長動能,現價雖已反映部分樂觀情境,但相對於FactSet的最新共識仍具備一定的上行空間。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價616 vs 中值</th></tr>
-  <tr><td>FactSet目標價共識(21位分析師)</td><td>中位472(單點)</td><td>單點472</td><td class="red">貴 +30.5%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>共識EPS 15.71,封測龍頭倍數30~38x(反映先進封裝溢價)</td><td>471~597(中值534)</td><td class="red">貴 +15.4%</td></tr>
-  <tr><td>個別樂觀目標(對照,不採信為主要方法)</td><td>歐系660/美系600+,平均630</td><td>單點630(信度中等)</td><td class="green">便宜 -2.2%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價621.00 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS16.97,倍數30~40x</td><td>509.1~678.8(中值593.95)</td><td class="amber">合理 +4.6%</td></tr>
+  <tr><td>FactSet目標價共識(21位分析師,8月)</td><td>700(單點),連續數週上修</td><td>700(單點)</td><td class="green">便宜 -11.3%</td></tr>
+  <tr><td>H1年化×倍數(對照,保守情境)</td><td>H1 EPS8.03×2=16.06(假設H2與H1持平),倍數30~40x</td><td>481.8~642.4(中值562.1)</td><td class="red">貴 10.5%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:先進封裝業務正快速擴張,佔營收比重逐季變化,多年期FCF假設在此時點意義有限。三種方法呈現分歧:FactSet廣泛共識與自身本益比法皆顯示現價偏貴15~31%,唯有採信少數個別外資的樂觀目標才顯示接近合理。與日月光同為封測族群的南茂、京元電子、力成相比,日月光目前的估值倍數是四檔中最高,反映市場已給予其龍頭地位與先進封裝題材相當程度的溢價。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:資本支出連續兩度大幅上修(105億美元),EPS-as-FCF未扣資本支出會產生嚴重樂觀偏誤,多年期FCF假設信度不足。三種方法中,FactSet EPS共識法顯示現價大致合理(+4.6%),FactSet目標價共識則顯示便宜(-11.3%),兩者方向一致偏樂觀;僅較保守的H1年化法(未計入Q3guidance的季增20%+)顯示現價偏貴,但這個方法明顯低估了公司釋出的正向guidance,不宜作為主要判斷依據。整體而言現價大致合理,FactSet最新共識提供進一步上行空間。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">外資全面看多,追價熱絡</div><div class="bar"><div style="width:68%;background:var(--green)"></div></div><div class="note">7月營收公布後股價跳漲7.7%,外資研報一致維持買進</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">共識目標價落後於股價漲幅</div><div class="note">FactSet 472 vs個別樂觀600~660,現價616已接近甚至超越共識</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收確認→FactSet EPS 15.71(2026E)</div><div class="note">Q3法說會與先進封裝佔比進展是下一個驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">Q2財報後穩健走高</div><div class="bar"><div style="width:68%;background:var(--green)"></div></div><div class="note">8月區間585~630,全年振幅逾1.8倍</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價700(21位分析師)</div><div class="note">過去數週連續上修,方向高度一致</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">8.03(H1)→16.06(H1年化)/16.97(FactSet共識)</div><div class="note">Q3財報能否兌現季增20%+guidance是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>12.11 / 15.71 / 18.35</td><td>30~38x</td><td>471~597(中值534)</td><td class="red">約 -13%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>16.97(FactSet共識)</td><td>30~40x</td><td>509.1~678.8(中值593.95)</td><td class="amber">約 -4%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟105億美元資本支出提供中期產能擴張能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為負,反映現價已超越FactSet廣泛共識所隱含的合理區間;2027、2028年因分析師覆蓋的多年期EPS共識查無,不強行推演。這條路徑顯示現階段買進日月光,某種程度是押注先進封裝題材延續帶動法人共識持續上修,而非基於已知共識數字的低估機會。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬以自估保守倍數計算為小幅負值,惟FactSet最新目標價700元(21位分析師,連續上修)顯示的隱含報酬則為正值(+12.7%),兩者的差異反映市場願意給予的評價溢價正在擴大。2027年EPS共識查無穩定區間,現階段查無具體財測數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 350~800;left% = (價格-350)/450×92+4 -->
+<!-- 刻度 350~950;left% = (價格-350)/600×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">420~460</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">560~620</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:60.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">700~750</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:86.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">870~920</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:58.2%"><div class="arrow">▲</div><div class="price">616</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">460~510</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">590~650</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">720~780</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">880~930</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:49.2%"><div class="arrow">▲</div><div class="price">621.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>420~460</td><td>先進封裝倍增題材不如預期或AI伺服器資本支出放緩,股價向FactSet共識(472)以下修正</td><td class="red">約 -29%</td></tr>
-  <tr><td class="amber">Base</td><td>560~620</td><td>先進封裝動能延續但無驚喜,法人共識緩慢跟進上修;現價落於此區間內</td><td>約 -4%</td></tr>
-  <tr><td class="green">Bull</td><td>700~750</td><td>Q3先進封裝佔比進一步提升,個別外資樂觀目標(600~660)全數獲驗證並延伸</td><td class="green">約 +18%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>870~920</td><td>先進封裝需求延續高速成長,重返並大幅超越今年高點729</td><td class="green">約 +45%</td></tr>
+  <tr><td class="red">Bear</td><td>460~510</td><td>Q3財報不如季增20%+guidance,或資本支出擴大侵蝕毛利率超出預期</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>590~650</td><td>Q3財報符合guidance但無驚喜,現價落於此區間內</td><td>約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>720~780</td><td>Q3財報優於guidance,FactSet目標價700達陣並持續上修</td><td class="green">約 21%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>880~930</td><td>先進封裝需求全面超預期,重返並超越今年高點727</td><td class="green">約 46%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -208,35 +221,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">560~590</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">510~550</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">460~500</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">600~615</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">570~595</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">540~565</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">380</b>(明顯低於今年低點區間)= 先進封裝倍增題材確認失效或AI伺服器需求實質放緩,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">585</b>(接近8月區間下緣)= Q3財報大幅不如guidance或資本支出侵蝕毛利率超出預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破641(近期高點)+量能確認,且FactSet共識目標價跟進上修至500以上<br>
-    進場區:<b class="green">645~680</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回620即出場</div>
+    觸發條件:收盤突破630(8月區間高點)+量能確認,且Q3財報確認季增20%+guidance兌現<br>
+    進場區:<b class="green">635~680</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回615即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">700~750</div><div class="note">賣出30~50%;Bull下緣/個別外資樂觀目標達陣,高檔應紀律分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">870~920</div><div class="note">Stretched區/重返並超越今年高點;續抱條件是先進封裝佔比持續提升、FactSet共識同步大幅上修</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">720~780</div><div class="note">賣出30~50%;Bull區/FactSet目標價700達陣,先進封裝股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">880~930</div><div class="note">Stretched區;續抱條件是先進封裝需求持續超預期且FactSet共識持續上修</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:7月營收737.84億元創單月歷史新高(YoY+43.15%),驗證5月法說會提出的先進封裝2026年營收倍增至32億美元(YoY+70%)的題材持續兌現,股價8/10公布當日跳漲7.7%至630;但先進封裝業務佔公司總營收比重仍有限,傳統ATM封測本業成長速度遠不如先進封裝,兩者不宜混為單一敘事。</div>
-<div class="concl">② <b>估值</b>:合理——FactSet 21位分析師共識目標價(472)較現價低23%,顯示廣泛分析師社群對股價漲幅的認可程度低於少數個別外資的樂觀目標(歐系660、美系600+),Forward P/E約39.2x是封測四檔中最高,已反映相當程度的先進封裝溢價;採信共識則現價偏貴,採信個別樂觀目標則接近合理,兩派觀點分歧明顯。</div>
-<div class="concl">③ <b>結論</b>:分批布局、先進封裝動能延續——現價616落於Base區間內,上檔Bull +18%/Stretched +45%對下檔Bear -29%,本站目標價經8/17校準後為597(回收至高信度方法區間上緣,原650係由信度中等的個別樂觀目標630支撐),較現價低3.1%,風險報酬比偏保守;左側倉位可正常分批,收盤跌破380即先進封裝題材確認失效,無條件出場。下一個驗證點是Q3法說會與FactSet共識是否跟進上修目標價。</div>
+<div class="concl">⓪ <b>事件影響</b>:7/30法說會Q2 EPS4.80元創同期新高,H1累計8.03元;資本支出二度上修至105億美元(較先前85億加碼20億),Q3展望營收季增20%+;FactSet目標價過去數週連續上修(600→650→700),21位分析師方向一致,7月營收737.84億元創歷史新高進一步驗證這個傳導邏輯。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet EPS共識法顯示現價大致合理(+4.6%),FactSet目標價共識(700,21位分析師)顯示便宜逾11%,兩者方向一致偏樂觀;僅較保守的H1年化法顯示偏貴,惟該法未計入正向Q3guidance,不宜作為主要判斷依據。</div>
+<div class="concl">③ <b>結論</b>:偏多、先進封裝動能全面加速——現價621.00落於Base區間內,上檔Bull +21%/Stretched +46%對下檔Bear -22%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破585即無條件出場。下一個驗證點是Q3財報能否兌現季增20%+的guidance。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);7月營收(鉅亨網,2026/08/10公告);5月法說會先進封裝目標(豐雲學堂,2026/05);FactSet共識EPS與目標價(鉅亨網速報,追蹤至最新15.71元/472元);個別外資樂觀目標(ETtoday財經雲、旺得富理財網);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027、2028年EPS共識、先進封裝業務精確營收佔比查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網(FactSet速報)、豐雲學堂、ETtoday財經雲、旺得富理財網、Win投資、HiStock嗨投資理財社群。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;估值方法交叉檢核表已明確呈現FactSet共識與個別樂觀目標的分歧,不應僅採信對多方有利的單一數字。<br>
+資料時間:股價/近30天與今年區間 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q2法說會(豐雲學堂、經濟日報,2026/07/30);FactSet目標價與EPS共識(鉅亨速報,經TradingView/財經媒體彙整,2026/08,追蹤軌跡355→600→650→700);主動式ETF持有度(本機active-etf資料庫未涵蓋此代號,查無);處置/注意股狀態(本機twse-disposition,2026/08/27更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;資本支出對毛利率的具體稀釋幅度、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、豐雲學堂、經濟日報、鉅亨網、TradingView。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
