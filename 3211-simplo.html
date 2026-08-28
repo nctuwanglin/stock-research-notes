@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -29,18 +30,6 @@
   .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -54,6 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -76,62 +66,72 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>順達 (3211) <span class="badge amber">估值:合理,惟外資目標價分歧極大</span> <span class="badge amber">結論:中性,Q2財報失色但H2guidance轉強</span><span class="autodispo" data-code="3211"></span></h1>
-<div class="sub">台股(TPEx)・鋰電池模組廠,轉型聚焦資料中心BBU電力備援系統|現況估值版|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3211">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>順達 (3211) <span class="badge purple">事件:Q2財報季減後7/29法說釋出H2轉強guidance</span> <span class="badge amber">估值:合理,自估區間與現價大致吻合</span> <span class="badge amber">結論:中性,靜待8kW/12kW新品Q4放量驗證</span><span class="autodispo" data-code="3211"></span></h1>
+<div class="sub">台股(TPEx上櫃)・NB電池模組廠轉型AI伺服器BBU/VPU,Non-IT營收占比目標突破五成,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/28|<span class="dispostat" data-code="3211">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">309</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3211">現價 <b>400</b> → 目標價 <b>450</b><span class="up"> (+12.5%)</span></div>
-  <div class="vbasis">推導依據:法人預估2026年EPS約13(12.85~13.21間,來源不一致)×BBU成長股倍數25~35x得約325~455(中值390);市場流傳目標價出現550與800兩種懸殊說法,信度存疑;Q2財報實際表現不如預期(EPS1.35,獲利季減33.75%),採較保守的目標價450</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">340</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3211">現價 <b>400</b> → 目標價 <b>410</b><span class="up"> (+2.5%)</span></div>
+  <div class="vbasis">推導依據:法人預估2026年EPS約12.1~13.21元(來源不一,取中值12.66)套用28~32x得約354.5~405.1(中值379.8);與法人目標價400方向一致,採目標價410</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">391.00</div><div class="note">2026/08/14 收盤;8月區間309~412</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value red">查無精確數字</div><div class="note">僅查得6月12.68億(YoY+20.63%)</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value red">1.35</div><div class="note">不如預期,稅後淨利季減33.75%</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value amber">3.40</div><div class="note">YoY-72.78%(去年同期含業外收益,基期效應)</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">277~469</div><div class="note">1月低、5月高;全年振幅約69%</div></div>
-  <div class="card"><div class="label">法人EPS預估(2026)</div><div class="value amber">約12.85~13.21</div><div class="note">來源不一致,以中值13估算</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">400.00</div><div class="note">2026/08/28收盤;8月區間309~412</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">12.29億</div><div class="note">MoM-3.10%,YoY+20.89%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">2.05</div><div class="note">季減18.04%,近四季EPS9.92</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">80.65億</div><div class="note">YoY+21.66%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">277~469</div><div class="note">全年振幅逾69%</div></div>
+  <div class="card"><div class="label">全年AI Server VPU營收</div><div class="value green">推估70~80億</div><div class="note">Non-IT營收占比目標突破50%</div></div>
 </div>
 
-<h2>① 催化劑分析 — 為什麼Q2財報失色但股價仍具支撐?</h2>
+<h2>① 催化劑分析 — 7/29法說會為何強調「毛利率重回正軌」?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~5月</span>股價從1月低點277攀升至5月高點469,反映BBU轉型題材帶動的評價重估。</li>
-  <li><span class="date">2026年6月</span>單月營收12.68億元,年增20.63%;H1累計營收68.36億元,年增21.8%。</li>
-  <li><span class="date">2026年7月中</span>股價自高點回落至7月低點285.5(7/30),重挫近39%。</li>
-  <li><span class="date">2026/07/20</span>時報資訊報導「Q2財報失色股價疲弱,但外資仍挺800元目標價」,顯示部分外資即使在財報不如預期後仍維持高度樂觀。</li>
-  <li><span class="date">2026/07/29</span>法說會:公司表示BBU需求強勁,下半年營收估雙位數成長,董事長鍾聰明指出BBU將成主要成長引擎,非IT營收占比有望突破5成;與台達電等電源大廠合作開發400VDC/800VDC BBU,最快2027年量產。</li>
-  <li><span class="date">2026年8月上旬</span>Q2財報:稅後淨利2.07億元,季減33.75%,EPS1.35元;H1累計EPS3.4元,年減72.78%(主因去年同期含業外收益,基期效應)。公司表示H2營運將明顯優於H1,估Q3起回升。</li>
-  <li><span class="date">2026/08/03~12</span>股價自8月低點309反彈至412(8/12),累計反彈逾33%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①查無7月營收的精確公告數字,資訊揭露完整度不如同族群的新盛力、AES-KY;②市場流傳的目標價數字存在550與800兩種懸殊說法(相差逾45%),信度需高度存疑,不應直接採信任一數字;③Q2財報獲利季減33.75%,H1 EPS年減72.78%(雖主因去年基期效應),顯示公司自身表述的「H2明顯優於H1」的guidance目前仍屬未驗證的前瞻性說法。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾69%(277~469),隨BBU/VPU轉型題材與財報表現同步劇烈波動。</li>
+  <li><span class="date">2026年第1季</span>EPS2.05元,季減18.04%,近四季EPS9.92元,顯示轉型初期的獲利波動性。</li>
+  <li><span class="date">2026年第2季</span>EPS表現不如市場預期(季減約34%),反映高單價8kW/12kW新品尚未放量前的過渡期毛利率壓力。</li>
+  <li><span class="date">2026/07/29</span>法說會:管理層明確表示BBU需求強勁,下半年營收將呈雙位數成長,毛利率重回正軌;高單價8kW與12kW VPU產品確認於Q4量產出貨,帶動平均銷售單價(ASP)提升;全年Non-IT營收占比預計突破50%,為公司關鍵轉型里程碑;全年AI Server VPU營收推估可達70億至80億元。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收12.29億元(依MOPS官方公告),月減3.10%、年增20.89%;累計1~7月營收80.65億元,年增21.66%。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收月減3.10%,是Q2財報不如預期後首個月度數字,尚未看到法說會宣稱的「H2雙位數成長」開始兌現,8月數字是更關鍵的驗證點;②2026年EPS估值在不同來源間存在顯著差異(12.1~13.21元),對應目標價也從400到550甚至800元不等,分歧程度大;③高單價8kW/12kW新品要到Q4才量產出貨,現階段的樂觀guidance仍需要2~3個月才能被財報數字驗證。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">董事長鍾聰明指出BBU將成主要成長引擎,估2026年整體營收雙位數成長,非IT營收占比有機會突破5成;與台達電等電源大廠合作開發400VDC/800VDC BBU,已成功打入伺服器關鍵領導供應鏈。<div class="src">— 公司法說會,2026/07/29</div></div>
-    <div class="quote">外資即使在Q2財報失色、股價疲弱後仍維持800元目標價,顯示對BBU中長期成長故事的信心未變。<div class="src">— 時報資訊,2026/07/20</div></div>
+    <div class="quote">BBU需求強勁,下半年營收雙位數成長,毛利率重回正軌;高單價8kW與12kW VPU產品確認Q4量產出貨,全年AI Server VPU營收推估70~80億元,Non-IT營收占比將突破50%成為關鍵轉型里程碑。<div class="src">— 順達7/29法說會,經vocus彙整</div></div>
+    <div class="quote">法人預估2026、2027年EPS各為12.1元、18.8元,目標價上看400元;另有更樂觀評估上調至550元。<div class="src">— 旺得富理財網、FTNN新聞網,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2財報稅後淨利季減33.75%,EPS1.35元不如預期;H1 EPS年減72.78%(雖主因去年基期效應),顯示公司自身表述的「H2明顯優於H1」的guidance目前仍屬未驗證的前瞻性說法。<div class="src">— 本儀表板觀察,依公司財報數字計算</div></div>
-    <div class="quote">市場流傳的目標價數字存在550與800兩種懸殊說法(相差逾45%),法人EPS預估也在12.85與13.21間不一致,顯示這檔股票的機構覆蓋品質參差不齊,信度需打折看待。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">外資「連九賣」壓力與土地資產開發規劃的長期不確定性,是籌碼面需留意的風險。<div class="src">— 股市爆料同學會討論彙整,2026</div></div>
+    <div class="quote">7月營收月減3.10%,是Q2財報不如預期後的首個月度數字,尚未看到法說會宣稱的H2雙位數成長開始兌現,追價前應等待8月數字進一步確認方向。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">2026年EPS估值不同來源差異達9%以上(12.1~13.21元),對應目標價從400到550甚至800元不等,顯示市場對這個轉型故事的兌現速度與幅度尚無共識。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>市場報導(2026/07)</td><td class="amber">550(上修,惟券商名稱與依據不明確)</td><td>法人EPS預估2026年約12.85~13.21元</td></tr>
-  <tr><td>外資(2026/07/20,時報資訊)</td><td class="green">800(維持,Q2財報前後皆未調整)</td><td>券商名稱不明確,BBU成長題材支撐</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">兩則目標價數字差異達45%,信度存疑,查無正式FactSet多分析師共識調查可資對照。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>法人預估(較保守,多家)</td><td class="amber">400</td><td>2026E EPS12.1元、2027E EPS18.8元</td></tr>
+  <tr><td>法人預估(較樂觀,個別)</td><td class="green">550</td><td>2026E EPS13.21元,今年EPS估達13.21元</td></tr>
+  <tr><td>市場流傳(信度存疑)</td><td class="amber">800(單點,信度低)</td><td>來源與計算基礎不明確,不採為主要依據</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目標價區間400~550(排除信度存疑的800元說法),對應EPS估值12.1~13.21元,分歧程度中等;本站採較保守的400區間為主要參考。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -140,67 +140,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">6月營收(對照)</div><div class="value green">12.68億</div><div class="note">YoY+20.63%;7月精確數字查無</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value red">1.35</div><div class="note">季減33.75%,不如預期</div></div>
-  <div class="card"><div class="label">H1營收</div><div class="value green">68.36億</div><div class="note">YoY+21.8%</div></div>
-  <div class="card"><div class="label">市值(估)</div><div class="value">約604億</div><div class="note">股本約15.44億(約1.544億股),以現價391計</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">4檔,約10.75億</div><div class="note">合計2,748,379股,BBU族群中持有度最高(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">400V/800V BBU合作</div><div class="value amber">與台達電等合作開發</div><div class="note">最快2027年量產,尚未貢獻現階段營收</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">12.29億</div><div class="note">MoM-3.10%,YoY+20.89%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">2.05</div><div class="note">季減18.04%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value red">不如預期</div><div class="note">季減約34%(過渡期毛利率壓力)</div></div>
+  <div class="card"><div class="label">Q4新品量產</div><div class="value green">8kW/12kW VPU</div><div class="note">帶動ASP提升,毛利率H2重回正軌guidance</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">查無最新資料</div><div class="note">本機active-etf資料庫未涵蓋此代號</div></div>
+  <div class="card"><div class="label">全年AI Server VPU營收</div><div class="value green">推估70~80億</div><div class="note">Non-IT營收占比目標突破50%</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與順達的差異</th></tr>
-  <tr class="hl"><td>3211.TWO</td><td>順達</td><td>自估325~455;外資目標價分歧550/800</td><td>Q2 EPS1.35不如預期,惟7月營收查無精確數字</td><td>BBU為轉型中的成長引擎,惟Q2財報表現不如同族群的AES-KY、新盛力</td></tr>
-  <tr><td>6781.TW</td><td>AES-KY(本站另篇分析)</td><td>MS目標價1285(中立);另一外資1680(買進)</td><td>7月營收連續創高YoY+28.24%</td><td>BBU族群純度最高,Q1 EPS已達10.64,獲利能見度優於順達</td></tr>
-  <tr><td>4931.TWO</td><td>新盛力(本站另篇分析)</td><td>自估189.6~265.4(推演);查無正式目標價</td><td>7月營收創15年新高YoY+159.52%,惟目前處置中</td><td>BBU占比近5成成長最快,惟規模最小且現正處置</td></tr>
-  <tr><td>2301.TW</td><td>光寶科(本站另篇分析)</td><td>自估204.75(公司整體);外資分歧170/300</td><td>公司整體Q2 EPS3.14創新高YoY+128%</td><td>大型多角化企業,BBU僅占公司總營收約一成</td></tr>
+  <tr class="hl"><td>3211.TWO</td><td>順達</td><td>自估354.5~405.1;法人目標價400~550</td><td>7月營收MoM-3.10%,惟7/29法說確認H2毛利率轉強guidance</td><td>NB電池模組轉型BBU/VPU,轉型過渡期波動最明顯</td></tr>
+  <tr><td>6781.TW</td><td>AES-KY(本站另篇分析)</td><td>自估1082~1211.8;摩根士丹利1285(中立)</td><td>Q2 EPS挑戰11元,惟毛利率降至35%以下</td><td>中大型工業備用電池模組,規模更大但同樣面臨毛利率壓力</td></tr>
+  <tr><td>4931.TWO</td><td>新盛力(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS2.21(QoQ+49%,YoY+502%),H1已超越2025全年</td><td>BMS技術核心,成長速度遠快於順達</td></tr>
+  <tr><td>2308.TW</td><td>台達電(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>電源供應器龍頭跨足BBU/UPS</td><td>規模遠大於順達,BBU僅為多元業務組合之一</td></tr>
+  <tr><td>3017.TW</td><td>奇鋐(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>散熱模組廠,與BBU題材間接相關</td><td>業務性質不同,僅供AI資料中心週期參考</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——法人EPS預估支撐現價,惟Q2財報實際表現不如預期,外資目標價分歧極大。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以法人預估的2026年EPS(約13元,中值)套用BBU成長股倍數25~35倍計算,合理價區間約325~455元(中值390),現價391幾乎精準落在這個區間的中值。但這個估值判斷的可信度需要打折看待:市場流傳的目標價數字本身就存在550與800兩種懸殊說法,法人EPS預估也在12.85~13.21間不一致,顯示這檔股票的機構覆蓋品質參差不齊。更關鍵的是,Q2財報實際表現(EPS1.35,季減33.75%)不如預期,公司「H2明顯優於H1」的guidance目前仍屬未驗證的前瞻性說法,現階段的估值合理性高度仰賴這個guidance能否在Q3兌現。</div>
+  <b>估值判斷:合理——自估區間與法人目標價方向一致,惟Q2財報不如預期與7月營收月減需要8月數字進一步驗證。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以法人預估2026年EPS約12.1~13.21元(取中值12.66)套用28~32倍本益比計算,合理價區間約354.5~405.1元(中值379.8),現價400.00大致落於此區間中段。法人目標價(400~550區間,排除信度存疑的800元說法)方向與自估法一致。順達這次的重估建立在7/29法說會釋出的正向H2 guidance之上(BBU需求強勁、毛利率重回正軌、高單價新品Q4量產),但Q2財報本身已不如預期(季減約34%),7月營收也月減3.10%,尚未看到guidance開始兌現的具體數字,現階段建議中性看待,靜待8月營收與Q4新品放量的驗證。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價391.00 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(法人預估,自估)</td><td>EPS約13(12.85~13.21中值),BBU成長股倍數25~35x</td><td>325~455(中值390)</td><td class="amber">合理 0.3%</td></tr>
-  <tr><td>市場流傳目標價(較保守者)</td><td>550(單點,依據不明確)</td><td>550(單點,低信度)</td><td class="green">便宜 -28.9%</td></tr>
-  <tr><td>市場流傳目標價(較樂觀者)</td><td>800(單點,依據不明確)</td><td>800(單點,更低信度)</td><td class="green">便宜 -51.1%</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價400.00 vs 中值</th></tr>
+  <tr><td>2026E EPS共識×倍數(自估)</td><td>EPS12.1~13.21(取中值12.66),倍數28~32x</td><td>354.5~405.1(中值379.8)</td><td class="amber">合理 +5.3%</td></tr>
+  <tr><td>法人目標價(較保守)</td><td>400(單點),基於2026E EPS12.1</td><td>400(單點)</td><td class="amber">合理 0.0%</td></tr>
+  <tr><td>法人目標價(較樂觀)</td><td>550(單點),基於2026E EPS13.21</td><td>550(單點)</td><td class="green">便宜 -27.3%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司Q2財報表現不如預期且BBU轉型仍在早期階段,多年期FCF假設缺乏可靠基礎。自估的P/E法(基於法人EPS預估)顯示現價幾乎精準合理,而兩則市場流傳的目標價(550、800)雖顯示更大空間,但這些數字本身的信度存疑(依據與券商名稱皆不明確),不應直接採信。考量Q2財報實際表現不如預期,本站以較保守的自估法作為主要依據,現價大致合理。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:高單價8kW/12kW新品要到Q4才量產出貨,對未來現金流的具體貢獻時程與規模查無精確數字,多年期FCF假設信度不足。三種方法中,自估法與較保守的法人目標價高度一致(現價幾乎精準合理),僅較樂觀的法人目標價(550)顯示現價便宜逾27%,惟該數字的計算基礎相對模糊。本站傾向以較保守的估值錨點為主,反映Q2財報不如預期後市場對這個轉型故事兌現速度的謹慎態度。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報失色後股價反彈,情緒轉趨中性</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">7月重挫近39%後8月反彈逾33%,波動劇烈</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value red">目標價數字分歧達45%,信度存疑</div><div class="note">550 vs 800,依據與券商名稱皆不明確</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.4(H1)→約13(2026E法人預估)</div><div class="note">Q3能否驗證公司「H2明顯優於H1」的guidance是關鍵</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">8月區間震盪,情緒中性</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">8月區間309~412,全年振幅逾69%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價400~550,分歧中等</div><div class="note">2026E EPS估值12.1~13.21不同來源略有差異</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.05(Q1)→12.1~13.21(2026E共識)</div><div class="note">8月營收與Q4新品放量進度是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>EPS假設(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>12.85 / 13.03 / 13.21</td><td>25~35x</td><td>321.25~462.35(中值391.8)</td><td class="amber">約 0.2%</td></tr>
-  <tr><td>2027(+1年)</td><td>19.8 / 21.44 / 23.07</td><td>20~28x</td><td>396~645.96(中值521,倍數區間反映成長股倍數壓縮風險)</td><td class="green">約 15%(以中值估算,惟法人數字來源不一致)</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>12.1~13.21(法人共識,取中值12.66)</td><td>28~32x</td><td>354.5~405.1(中值379.8)</td><td class="amber">約 -5%</td></tr>
+  <tr><td>2027(+1年)</td><td>18.8~23.07(法人共識,取中值20.94)</td><td>28~32x</td><td>526.3~670.1(中值598.2)</td><td class="green">約 22%/年</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬幾乎為零,反映現價已大致貼近法人預估的合理中值;2027年EPS預估同樣存在19.8與23.07兩種來源不一致的數字,以中值估算顯示中期仍有一定空間,但這個數字的信度本身就需要打折。這條路徑最重要的啟示是:順達的估值合理性高度取決於Q3財報能否驗證公司自身宣稱的H2復甦guidance,而非僅憑法人預估的EPS數字。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為小幅負值,反映Q2財報不如預期後現價已相當程度反映今年的保守情境;2027年隱含年化報酬則明顯轉正,顯示市場對明年高單價新品全年放量後的獲利爆發抱持較高期待。這個時間結構(今年持平、明年跳升)是順達估值的核心特徵,投資決策應清楚意識到現階段是為明年的成長故事付費,而非今年已兌現的成果。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 250~600;left% = (價格-250)/350×92+4 -->
+<!-- 刻度 240~570;left% = (價格-240)/330×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:20.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">310~340</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:42.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">370~410</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">440~470</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">510~540</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:46.5%"><div class="arrow">▲</div><div class="price">391.00</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">300~330</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">360~400</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">430~470</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">510~550</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:48.5%"><div class="arrow">▲</div><div class="price">400.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>310~340</td><td>Q3未能驗證H2復甦guidance,獲利成長持續放緩,估值回歸保守區間</td><td class="red">約 -17%</td></tr>
-  <tr><td class="amber">Base</td><td>370~410</td><td>Q3維持穩定但無明顯驚喜,現價落於此區間內</td><td>約 0%</td></tr>
-  <tr><td class="green">Bull</td><td>440~470</td><td>Q3財報驗證H2復甦,BBU營收占比持續提升,400V/800V合作案有具體進展</td><td class="green">約 16%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>510~540</td><td>BBU成長引擎全面兌現且市場流傳的較保守目標價(550)獲驗證,重返5月高點469附近</td><td class="green">約 34%</td></tr>
+  <tr><td class="red">Bear</td><td>300~330</td><td>8月營收延續7月月減趨勢,或Q4新品量產時程延遲,H2guidance未能兌現</td><td class="red">約 -21%</td></tr>
+  <tr><td class="amber">Base</td><td>360~400</td><td>H2營收逐步轉強但增速溫和,毛利率緩步回升,現價落於此區間上緣</td><td>約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>430~470</td><td>Q4新品如期量產且毛利率明確重回正軌,法人目標價400~550區間中段達陣</td><td class="green">約 12%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>510~550</td><td>全年AI Server VPU營收優於70~80億guidance上緣,Non-IT占比顯著超越50%</td><td class="green">約 33%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -209,35 +210,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">365~385</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">335~364</td><td>35%</td></tr>
-      <tr><td>第三批</td><td class="green">310~334</td><td>35%</td></tr>
+      <tr><td>第一批</td><td class="green">370~385</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">350~369</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">330~349</td><td>35%(Q4新品放量前信度未完全驗證,倉位應保守)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">309</b>(8月區間低點)= H2復甦guidance未能兌現或BBU題材信任動搖,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">340</b>(明顯低於8月區間下緣)= H2guidance確認未能兌現或Q4新品量產時程延遲確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破412(8月區間高點)+量能確認,且Q3財報驗證H2復甦guidance<br>
-    進場區:<b class="green">415~440</b><br>
-    移動停利:跌破10日線或高點回檔12%<br>
-    假突破失效:觸發後2日內跌回400即出場</div>
+    觸發條件:收盤突破412(8月區間高點)+量能確認,且8月營收公告確認H2雙位數成長開始兌現<br>
+    進場區:<b class="green">415~445</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回405即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">440~470</div><div class="note">賣出30~50%;Bull區,BBU題材股高檔應分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">510~540</div><div class="note">Stretched區;續抱條件是Q3財報全面驗證H2復甦且400V/800V合作案具體貢獻</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">430~470</div><div class="note">賣出30~50%;Bull區,BBU/VPU股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">510~550</div><div class="note">Stretched區;續抱條件是全年AI Server VPU營收優於guidance上緣</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>催化劑</b>:BBU(資料中心電力備援系統)是公司宣稱的主要成長引擎,與台達電等電源大廠合作開發400VDC/800VDC BBU(2027年量產);惟Q2財報表現不如預期(EPS1.35,季減33.75%),公司自身表述「H2明顯優於H1」的guidance目前仍屬未驗證。</div>
-<div class="concl">② <b>估值</b>:合理——自估基於法人EPS預估(約13)的P/E法顯示現價幾乎精準合理,但市場流傳的目標價數字存在550與800兩種懸殊說法(信度存疑),法人EPS預估本身也有12.85與13.21兩種不一致版本,顯示這檔股票的機構覆蓋品質參差不齊。</div>
-<div class="concl">③ <b>結論</b>:中性、Q2財報失色但H2guidance轉強——現價391落於Base區間內,上檔Bull +16%/Stretched +34%對下檔Bear -17%,風險報酬大致平衡;可正常左側分批布局,收盤跌破309即H2復甦guidance未能兌現,無條件出場。下一個驗證點是Q3財報能否具體驗證公司自身宣稱的H2復甦力道。</div>
+<div class="concl">① <b>催化劑</b>:7/29法說會釋出正向H2 guidance——BBU需求強勁、下半年營收雙位數成長、毛利率重回正軌,高單價8kW/12kW VPU產品確認Q4量產出貨,全年AI Server VPU營收推估70~80億元,Non-IT營收占比目標突破50%;惟Q2財報本身不如預期(季減約34%),7月營收月減3.10%,guidance尚待數字驗證。</div>
+<div class="concl">② <b>估值</b>:合理——自估法與較保守的法人目標價(400)高度一致(現價幾乎精準合理),僅較樂觀的法人目標價(550)顯示現價便宜逾27%但計算基礎較模糊;三年估值路徑呈現「今年持平、明年跳升」的時間結構,現階段投資是為明年的成長故事付費。</div>
+<div class="concl">③ <b>結論</b>:中性、靜待8kW/12kW新品Q4放量驗證——現價400.00落於Base區間上緣,上檔Bull +12%/Stretched +33%對下檔Bear -21%,風險報酬中性偏謹慎;可等待8月營收確認H2guidance開始兌現後再評估加碼,收盤跌破340即無條件出場。下一個驗證點是8月營收能否轉強,以及Q4新品量產時程是否如期。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方開放資料);6月營收(財經媒體彙整,2026);Q2財報(公司財報公告,2026/08);法說會內容(公司法說會,2026/07/29);市場流傳目標價與法人EPS預估(市場報導彙整,2026/07,來源與依據不完全明確);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;7月營收精確數字、正式FactSet共識調查、精確股本發行股數之官方最新數字查無,未強行湊數。<br>
-主要來源:TPEx官方開放資料、公司財報與法說會公告、時報資訊、股市爆料同學會討論彙整、市場報導彙整。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測;目標價與EPS預估的來源矛盾已於內文明確標註,不做選擇性採信。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+資料時間:股價/近30天與今年區間 2026/08/28收盤(TPEx官方tradingStock);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);Q1/Q2財報(財報狗,2026);7/29法說會(vocus彙整);目標價(旺得富理財網、FTNN新聞網,經財經媒體彙整,2026);主動式ETF持有度(本機active-etf資料庫未涵蓋此代號,查無);處置/注意股狀態(本機twse-disposition,2026/08/27更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2精確EPS數字、2027年EPS共識(僅取用媒體引述的單點區間,精確多分析師調查查無)未強行湊數。<br>
+主要來源:TPEx官方開放資料(tradingStock)、公司MOPS公開資訊觀測站(官方月營收原始數據)、財報狗、vocus、旺得富理財網、FTNN新聞網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

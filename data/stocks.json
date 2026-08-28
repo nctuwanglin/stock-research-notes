@@ -975,43 +975,43 @@
     "name": "AES-KY",
     "market": "twse",
     "file": "6781-aes.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 1120.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 1130.0,
     "tags": [
       "BBU"
     ],
-    "target": 1250,
+    "target": 1180,
     "stop": 964,
-    "basis": "摩根士丹利(8/7)目標價1285但評等中立;另一外資1680(買進),兩者分歧極大;BBU族群純度最高,惟LEV業務疲弱",
+    "basis": "H1 EPS約21.64年化43.28(保守情境)套用25~28x(反映Q2毛利率降至35%以下的競爭壓力)得約1082~1211.8(中值1146.9);摩根士丹利(8/7)目標價1285與自估中值方向一致,採目標價1180",
     "rating": "hold"
   },
   "3211": {
     "name": "順達",
     "market": "tpex",
     "file": "3211-simplo.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 391.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 400.0,
     "tags": [
       "BBU"
     ],
-    "target": 450,
-    "stop": 309,
-    "basis": "法人預估2026EPS約13×BBU成長股倍數25~35x得約325~455;Q2財報不如預期(EPS1.35季減33.75%),市場流傳目標價550/800分歧極大",
+    "target": 410,
+    "stop": 340,
+    "basis": "法人預估2026年EPS約12.1~13.21元(取中值12.66)套用28~32x得約354.5~405.1(中值379.8);與法人目標價400方向一致,採目標價410",
     "rating": "hold"
   },
   "4931": {
     "name": "新盛力",
     "market": "tpex",
     "file": "4931-stl.html",
-    "analysis_date": "2026-08-14",
-    "analysis_price": 263.0,
+    "analysis_date": "2026-08-28",
+    "analysis_price": 272.5,
     "tags": [
       "BBU"
     ],
-    "target": 230,
+    "target": 253,
     "stop": 220,
-    "basis": "現正處置中(2分撮合,至8/21,因5日累計漲幅34.17%);7月營收創15年新高YoY+159.52%,惟查無任何具名券商目標價,估值高度仰賴公司guidance",
-    "rating": "avoid"
+    "basis": "H1 EPS3.69,若H2延續強勁動能全年推演約9.5~10(中值9.75)套用24~28x得約234~273(中值253.5);現價已接近此區間上緣,採目標價253;評等由觀望上修為中性(Q2實績驗證前次guidance推演,惟現價已提前反映)",
+    "rating": "hold"
   },
   "2301": {
     "name": "光寶科",
