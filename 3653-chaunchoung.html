@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健策 (3653) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .warncard{background:rgba(231,76,60,.10);border:1px solid var(--red);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .warncard b{color:#ff8a80;}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>健策 (3653) <span class="badge red">估值:偏貴,現價已超越可得分析師目標價區間</span> <span class="badge red">結論:觀望,Q3起認列一次性費用,獲利品質存在明確警訊</span><span class="autodispo" data-code="3653"></span></h1>
+<div class="sub">台股(TWSE)・均熱片(VC)核心供應商,首次登記分析|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="3653">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">4200</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3653">現價 <b>5785</b> → 目標價 <b>4600</b><span class="down"> (-20.5%)</span></div>
+  <div class="vbasis">推導依據:現價5785已超越元大投顧最保守版本的FactSet估值(EPS63.38×倍數,約4575)與較舊版FactSet估值(約5000),甚至逼近元大投顧自身最樂觀目標價(5757,EPS68.24);且上述所有分析師估值均尚未反映公司新揭露、自2026Q3起認列的10.53億元一次性費用(約當EPS衝擊7.18元),扣除此一次性費用後合理價將進一步下修,故採較保守目標價4600(對現有機構估值區間4575~5000的中值再打折反映充電衝擊)</div>
+</div>
+
+<div class="warncard">
+  <b>⚠ 關鍵風險揭露</b>:公司近期揭露一筆總額10.53億元的一次性費用,約當EPS衝擊達7.18元,將自2026年第3季起開始認列。本次分析所蒐集到的多數分析師目標價與EPS預估(FactSet兩個版本、元大投顧)發布時點均早於或未明確反映此筆費用的完整衝擊,意味著市場上可見的目標價可能存在系統性高估。同時,已有券商研究報告在標題明確提出質疑:「26Q3毛利率撐得起這波漲幅嗎?」,顯示市場自身也開始對股價與獲利品質的落差感到不安。
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">5785.00</div><div class="note">2026/08/28收盤;8月區間3770~5785(單月+53%)</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">32.13億</div><div class="note">MoM+21.25%,YoY約91.0%(自算,官方註記≥50%)</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.33</div><div class="note">YoY+45%;Q2單季15.8(QoQ+66%,YoY+101%)</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">157.93億</div><div class="note">YoY+35.95%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">2330~5785</div><div class="note">YTD漲幅逾148%</div></div>
+  <div class="card"><div class="label">Q3起一次性費用</div><div class="value red">10.53億(EPS衝擊7.18)</div><div class="note">尚未反映於多數現有機構估值</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼現價已經逼近甚至超越分析師目標價?</h2>
+<ul class="timeline">
+  <li><span class="date">2026年初~8月</span>股價自YTD低點2330持續走高至現價5785,漲幅逾148%;8月單月自3770飆升至5785,單月漲幅逾53%,是本次散熱概念股批次中漲勢最凌厲的一檔。</li>
+  <li><span class="date">2026年Q2財報</span>單季EPS達15.8元,季增66%、年增101%,創同期新高;上半年累計EPS達25.33元,年增45%。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收32.13億元(依MOPS官方公告),月增21.25%;官方註記「本月較去年同期增加百分比達50%以上」,經本站以原始欄位自算,實際年增約91.0%(官方為門檻式寬鬆用語,非精確數字,故採自算值);累計1~7月營收157.93億元,年增35.95%。</li>
+  <li><span class="date">近期(2026年8月)</span>分析師估值出現明顯版本分歧:FactSet較舊版本給予EPS54.92元、目標價約5000元;FactSet較新版本給予EPS63.38元、目標價約4575元(EPS估上修但目標價反而下修,已透露倍數假設收斂的訊號);元大投顧給予EPS68.24元、目標價5757元(本次可得資料中最樂觀的單一數字)。</li>
+  <li><span class="date">關鍵揭露</span>公司近期揭露一筆10.53億元的一次性費用,約當EPS衝擊7.18元,將自2026年第3季起開始認列——這筆費用揭露的時點,與上述多數分析師估值的發布時點相近或更早,故有理由懷疑這些估值尚未完整反映此筆費用的衝擊。</li>
+  <li><span class="date">市場警訊</span>已有券商研究報告以「26Q3毛利率撐得起這波漲幅嗎?」為題,明確對股價與獲利品質的落差提出質疑,顯示這不僅是本站的觀察,市場本身也已浮現雜音。</li>
+  <li><span class="date">綜合判斷</span>現價5785.00已經超越FactSet較新版本目標價(4575)與較舊版本目標價(5000),且逼近元大投顧最樂觀目標價(5757)——而這還是在未完整反映一次性費用衝擊的估值基礎上。是本次散熱概念股批次中估值與現價落差最令人擔憂的一檔。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Q2單季EPS15.8元,季增66%、年增101%,創同期新高;7月營收月增21.25%,官方註記年增達50%以上,均熱片(VC)需求隨AI伺服器散熱升級持續放量。<div class="src">— 公司Q2財報、MOPS官方營收公告,2026/08</div></div>
+    <div class="quote">元大投顧給予EPS68.24元、目標價5757元,反映對均熱片龍頭地位與AI伺服器散熱需求延續性的高度信心。<div class="src">— 元大投顧,2026/08</div></div>
+  </div>
+  <div>
+    <h2>空方觀點(本站重點提示)</h2>
+    <div class="quote">已有券商研究報告以「26Q3毛利率撐得起這波漲幅嗎?」為題,明確質疑股價漲幅是否有獲利品質支撐。<div class="src">— 券商研究報告,2026/08</div></div>
+    <div class="quote">公司揭露自2026Q3起將認列10.53億元一次性費用(約當EPS衝擊7.18元),而現有可得的分析師目標價(4575~5757)多數發布時點與此揭露相近,恐尚未完整反映衝擊;現價5785.00已超越保守與中性版本估值,僅略低於最樂觀版本,安全邊際極薄。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr><td>FactSet(較舊版本)</td><td class="amber">約5000</td><td>2026E EPS54.92元</td></tr>
+  <tr class="hl"><td>FactSet(較新版本,2026/08)</td><td class="amber">約4575</td><td>2026E EPS63.38元(EPS上修但目標價下修,倍數假設收斂)</td></tr>
+  <tr><td>元大投顧(2026/08)</td><td class="amber">5757</td><td>2026E EPS68.24元,本次可得資料中最樂觀數字</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三個目標價彼此並不收斂(4575~5757,價差近26%),且均未明確納入Q3起10.53億元一次性費用的衝擊,信度低於本次批次中的雙鴻。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3653"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+1,426</span></td><td>6/10</td><td><span class="red">-27</span></td></tr><tr><td>投信</td><td><span class="green">+837</span></td><td>6/10</td><td><span class="green">+49</span></td></tr><tr><td>自營商</td><td><span class="red">-34</span></td><td>5/10</td><td><span class="green">+21</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+2,226</span></td><td>8/10</td><td><span class="green">+43</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>08/28</td><td><span class="red">-27</span></td><td><span class="green">+49</span></td><td><span class="green">+21</span></td><td><span class="green">+43</span></td></tr><tr><td>08/27</td><td><span class="green">+238</span></td><td><span class="red">-66</span></td><td><span class="red">-24</span></td><td><span class="green">+147</span></td></tr><tr><td>08/26</td><td><span class="red">-310</span></td><td><span class="green">+46</span></td><td><span class="green">+24</span></td><td><span class="red">-240</span></td></tr><tr><td>08/25</td><td><span class="green">+219</span></td><td><span class="red">-48</span></td><td><span class="red">-2</span></td><td><span class="green">+169</span></td></tr><tr><td>08/24</td><td><span class="green">+557</span></td><td><span class="red">-5</span></td><td><span class="green">+4</span></td><td><span class="green">+555</span></td></tr><tr><td>08/21</td><td><span class="green">+5</span></td><td><span class="green">+103</span></td><td><span class="red">-10</span></td><td><span class="green">+99</span></td></tr><tr><td>08/20</td><td><span class="red">-111</span></td><td><span class="green">+243</span></td><td><span class="green">+5</span></td><td><span class="green">+136</span></td></tr><tr><td>08/19</td><td><span class="green">+25</span></td><td><span class="green">+271</span></td><td><span class="red">-18</span></td><td><span class="green">+278</span></td></tr><tr><td>08/18</td><td><span class="green">+923</span></td><td><span class="green">+306</span></td><td><span class="red">-122</span></td><td><span class="green">+1,107</span></td></tr><tr><td>08/17</td><td><span class="red">-93</span></td><td><span class="red">-62</span></td><td><span class="green">+88</span></td><td><span class="red">-68</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/17~08/28(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">32.13億</div><div class="note">YoY約91.0%(自算)</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.33</div><div class="note">YoY+45%</div></div>
+  <div class="card"><div class="label">Q2單季EPS</div><div class="value green">15.8</div><div class="note">QoQ+66%,YoY+101%</div></div>
+  <div class="card"><div class="label">現價本益比(TTM近似)</div><div class="value red">高於同業區間</div><div class="note">現價5785÷H1年化EPS(約50.66)≈114x,遠高於元大目標價隱含的68.24×85x≈5757</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">查無最新資料</div><div class="note">本機active-etf資料庫未涵蓋此代號</div></div>
+  <div class="card"><div class="label">2026E EPS(未計一次性費用)</div><div class="value">54.92~68.24</div><div class="note">扣除7.18元衝擊後約47.74~61.06</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與健策的差異</th></tr>
+  <tr class="hl"><td>3653.TW</td><td>健策</td><td>FactSet4575~5000;元大5757</td><td>Q2 EPS15.8創同期新高,惟Q3起認列一次性費用</td><td>均熱片核心供應商,是本次批次中唯一面臨明確獲利品質警訊的個股</td></tr>
+  <tr><td>3324.TWO</td><td>雙鴻(本站另篇分析)</td><td>自估1433.5~1720.2;FactSet1425</td><td>7月營收YoY+116.7%,液冷市占持續攀升</td><td>目標價收斂度優於健策,且現價仍有明顯落差,無類似一次性費用警訊</td></tr>
+  <tr><td>3017.TW</td><td>奇鋐(本站另篇分析)</td><td>自估2812.5~3281.25;FactSet3140</td><td>Q2 EPS24.37(YoY+136.6%),伺服器占比升至66.1%</td><td>散熱模組廠規模最大,估值同樣偏貴但無一次性費用干擾</td></tr>
+  <tr><td>2354.TW</td><td>鴻準(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS0.63(QoQ+34%),累計營收仍年減11.24%</td><td>散熱僅為多元業務組合之一,估值基礎與健策的單一業務高倍數性質不同</td></tr>
+  <tr><td>3037.TW</td><td>欣興(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>載板廠,與健策同屬先進封裝供應鏈</td><td>業務性質與均熱片不同,僅供產業鏈參照</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:偏貴——現價已超越多數機構目標價,且尚未反映Q3起一次性費用衝擊,是本次批次中風險最高的個股。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">現有機構目標價區間(4575~5757)本身就不夠收斂,而現價5785.00已經超越區間內兩個版本(4575、5000),僅略高於最樂觀的元大投顧數字(5757)。更關鍵的是,這些目標價多數未能完整反映公司新揭露、自Q3起認列的10.53億元一次性費用(約當EPS衝擊7.18元)——若將此衝擊扣入2026年EPS估算,合理價區間應進一步下修。加上8月單月漲幅已達53%,以及券商報告已公開質疑「26Q3毛利率撐得起這波漲幅嗎」,現階段追高的風險報酬並不划算。這個評等針對的是目前的價格與尚待驗證的獲利品質,均熱片(VC)作為AI伺服器散熱核心零組件的長期成長邏輯本身並未改變。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價5785.00 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(較舊版本)</td><td>2026E EPS54.92,隱含目標價約5000</td><td>約5000(單點)</td><td class="red">貴 15.7%</td></tr>
+  <tr><td>FactSet EPS共識×倍數(較新版本,2026/08)</td><td>2026E EPS63.38,隱含目標價約4575</td><td>約4575(單點)</td><td class="red">貴 26.5%</td></tr>
+  <tr><td>元大投顧目標價(2026/08)</td><td>2026E EPS68.24,目標價5757(單點)</td><td>5757(單點)</td><td class="red">貴 0.5%</td></tr>
+  <tr><td>扣除一次性費用後之推演(低信度)</td><td>2026E EPS扣減7.18元衝擊後約47.74~61.06,套用同倍數區間(推演)</td><td>約3980~4790(推演,中值4385)</td><td class="red">貴 31.9%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司近期揭露的一次性費用性質尚未完全明朗(是否影響後續年度現金流查無明確揭露),多年期FCF假設在此時間點信度不足。四種方法中,前三種均基於現有分析師發布的EPS估值,但均未明確排除一次性費用的完整衝擊,故信度已打折扣;第四種為本站以扣除一次性費用後的粗略推演,信度更低,僅供參考,不作為主要錨點。即便如此,四種方法方向完全一致,全數顯示現價偏貴,且貴的幅度(0.5%~31.9%)遠高於本次批次其他個股,是本批次中估值風險最集中的一檔。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">股價動能</div><div class="value red">8月單月+53%,情緒極度亢奮</div><div class="bar"><div style="width:95%;background:var(--red)"></div></div><div class="note">YTD自2330漲至5785,漲幅逾148%</div></div>
+  <div class="card"><div class="label">分析師目標價</div><div class="value red">4575~5757,現價已超越多數版本</div><div class="note">且均未完整反映一次性費用衝擊</div></div>
+  <div class="card"><div class="label">獲利品質疑慮</div><div class="value red">Q3起認列10.53億一次性費用</div><div class="note">券商已公開質疑「毛利率撐得起這波漲幅嗎」</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,未計一次性費用)</td><td>54.92~68.24(FactSet/元大)</td><td>75~85x</td><td>4119~5800(中值4960)</td><td class="red">約 -14%</td></tr>
+  <tr><td>2026(今年,扣除一次性費用後,推演)</td><td>47.74~61.06(推演)</td><td>75~85x</td><td>3580~5190(中值4385,推演)</td><td class="red">約 -24%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,一次性費用是否延續至2027亦查無明確揭露</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">兩種情境下的隱含年化報酬均為負值,且扣除一次性費用後的推演情境負值更深(約-24%),是本次散熱概念股批次中最不利的個股。2027年EPS共識與一次性費用是否延續均查無公開資料,不強行推演;這也是為何本站將此次評等定為觀望而非明確看空——不確定性本身就是應該迴避追價的理由。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 3200~7200;left% = (價格-3200)/4000×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">3800~4200</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:39.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">4400~4800</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">5000~5500</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:83%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">5800~6300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:63.5%"><div class="arrow">▲</div><div class="price">5785.00</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>3800~4200</td><td>Q3財報確認一次性費用完整衝擊毛利率,市場重新定價至扣費後的推演區間下緣</td><td class="red">約 -31%</td></tr>
+  <tr><td class="amber">Base</td><td>4400~4800</td><td>Q3財報符合預期但確認一次性費用衝擊,股價回落至FactSet較保守版本目標價附近</td><td class="red">約 -20%</td></tr>
+  <tr><td class="green">Bull</td><td>5000~5500</td><td>一次性費用衝擊小於市場擔憂,均熱片需求延續強勁,股價重返元大投顧樂觀情境</td><td class="red">約 -9%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>5800~6300</td><td>AI伺服器散熱需求超預期,一次性費用完全被業績成長掩蓋,股價創新高</td><td>約 4%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期(現階段不建議進場,待Q3財報驗證)</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">4400~4600</td><td>25%(需Q3財報確認一次性費用衝擊幅度後再考慮)</td></tr>
+      <tr><td>第二批</td><td class="green">4000~4300</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">3800~3990</td><td>40%(接近扣除費用後推演區間下緣)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">4200</b>(低於8月區間主要支撐)= Q3財報確認獲利品質惡化超乎預期,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段(現階段不建議,待一次性費用衝擊明朗)</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:Q3財報公布後,毛利率與EPS均優於市場對一次性費用衝擊的預期,且收盤突破5785(今年高點)+量能確認<br>
+    進場區:<b class="green">5800~6100</b>(僅在費用衝擊確認小於預期後才考慮,倉位應保守)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回5650即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">5000~5500</div><div class="note">賣出30~50%;Bull區,一次性費用不確定性尚未完全解除前應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">5800~6300</div><div class="note">Stretched區;續抱條件是Q3財報明確證實費用衝擊遠小於市場擔憂</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:Q2單季EPS15.8元(QoQ+66%,YoY+101%)、7月營收32.13億元(YoY約91.0%,自算)延續強勁動能,推升股價8月單月大漲逾53%;但公司同期揭露自Q3起將認列10.53億元一次性費用(約當EPS衝擊7.18元),市場尚未完整消化此警訊,已有券商報告公開質疑「26Q3毛利率撐得起這波漲幅嗎」。</div>
+<div class="concl">② <b>估值</b>:偏貴——現有機構目標價(4575~5757)本身不夠收斂,且均未完整反映一次性費用衝擊,四種估值方法(含扣除費用後的推演)全數顯示現價偏貴,貴的幅度0.5%~31.9%遠高於本次散熱概念股批次的其他個股,是本批次估值風險最集中的一檔。</div>
+<div class="concl">③ <b>結論</b>:觀望、Q3起認列一次性費用,獲利品質存在明確警訊——這個評等針對的是目前的價格與尚待驗證的獲利品質,均熱片(VC)作為AI伺服器散熱核心零組件的長期成長邏輯本身並未改變。現階段不建議進場,靜待Q3財報確認一次性費用的實際衝擊幅度,收盤跌破4200即為明確的風險確認訊號。下一個關鍵驗證點是Q3財報(預計2026年11月前後公布)。</div>
+
+<footer>
+資料時間:股價/近30天與今年區間 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認,YoY為本站以原始欄位自算,與官方≥50%門檻式註記不衝突);Q2財報(公司公告,2026/08);一次性費用揭露、目標價與EPS共識(FactSet兩版本、元大投顧,2026/08);主動式ETF持有度(本機active-etf資料庫未涵蓋此代號,查無);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;一次性費用是否延續至2027年查無公開揭露,不強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司財報公告、FactSet、元大投顧研究報告。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。本次為健策首次登記分析。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

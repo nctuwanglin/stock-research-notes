@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,78 +66,72 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>雙鴻 (3324) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾三成)</span> <span class="badge green">結論:分批布局,GB系列加單驗證水冷動能</span><span class="autodispo" data-code="3324"></span></h1>
-<div class="sub">台股(TPEx)・AI伺服器水冷散熱,DIMM水冷板/CDU|事件後估值版(7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3324">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>雙鴻 (3324) <span class="badge green">估值:便宜,FactSet共識與現價仍有明顯落差</span> <span class="badge green">結論:偏多,液冷市占持續攀升驗證評價重估</span><span class="autodispo" data-code="3324"></span></h1>
+<div class="sub">台股(TPEx上櫃)・AI伺服器液冷散熱系統龍頭,GB300+Vera Rubin+雙CSP ASIC液冷需求,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="3324">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">810</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3324">現價 <b>1140</b> → 目標價 <b>1400</b><span class="up"> (+22.8%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價1400(16家法人共識,2026E EPS中位57.97,50.3~62.6);與8/5分析目標價1050相比大幅上修,反映7月營收37.65億(YoY+116.70%)驗證GB系列加單動能</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">944</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3324">現價 <b>1140</b> → 目標價 <b>1425</b><span class="up"> (+25.0%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識57.34元(15位分析師,最新調查)套用25~30x得約1433.5~1720.2(中值1576.85);FactSet目標價1425與自估區間下緣接近,採目標價1425</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">1,010</div><div class="note">2026/08/14 收盤 -2.42%;8月區間高點1,080</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">37.65億</div><div class="note">MoM+38.5%,YoY+116.70%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.61</div><div class="note">季增25.31%,YoY+122.79%;Q2財報已公布惟精確單季EPS查無</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約17.4x</div><div class="note">FactSet共識EPS57.97(16家法人,50.3~62.6)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">810~1,080</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">810~1,305</div><div class="note">7月低810、4月高1,305(TPEx官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">1140.00</div><div class="note">2026/08/28收盤;8月區間944~1140</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">37.65億</div><div class="note">MoM+38.53%,YoY+116.7%</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">210.14億</div><div class="note">YoY+83.28%,官方MOPS註記「AI伺服器液冷散熱系統市佔率持續攀升」</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">820~1280</div><div class="note">全年振幅逾56%</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">57.34</div><div class="note">15位分析師,範圍50.3~62.6</div></div>
+  <div class="card"><div class="label">液冷業務展望</div><div class="value green">水冷占比目標70%</div><div class="note">ASIC營收占比目標40%,全年營收估年增60~70%</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7月營收暴增,GB系列加單驗證水冷動能</h2>
-<div class="event">
-  <h3>事件摘要:7月營收37.65億創高,月增38.5%、年增116.70%,重回千元股</h3>
-  <div class="flow">雙鴻8月公告7月營收37.65億元,較6月的27.18億元大幅成長38.5%,較去年同期成長116.70%。市場解讀為輝達GB系列產品加單所致,消息一出股價一度漲停重回千金股(千元以上)行列。公司7月30日董事會通過Q2財務報告,法說會釋出毛利率逼近30%的成績單,較Q1的29.66%持平略升,驗證水冷散熱產品組合持續改善獲利品質;惟公開資料目前僅有定性描述,精確Q2單季EPS數字查無。3月法說會管理層預期2026年水冷散熱營收占比將挑戰55%,搭配NVIDIA Rubin平台推進、DIMM水冷板與CDU出貨、泰國廠擴產進度,7月營收的爆發式成長是這個路徑圖上最新且最具體的驗證點。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/5分析,依Q1資料)</th><th>事件後(7月營收公布後)</th></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">37.65億,YoY+116.70%,MoM+38.5%</td></tr>
-    <tr><td>股價</td><td>944(8/4)</td><td class="green">1,010(8/14),一度漲停重回千元股</td></tr>
-    <tr><td>Q2毛利率</td><td>查無(Q1為29.66%)</td><td class="green">逼近30%,較Q1持平略升</td></tr>
-    <tr><td>FactSet共識目標價</td><td>查無明確共識引用</td><td class="green">1,400(16家法人共識)</td></tr>
-    <tr><td>本站目標價/評等</td><td>1050/中性</td><td class="green">1400/偏多(大幅上修並轉為偏多)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼液冷市占持續攀升是評價重估的核心?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/03/12</span>法說會:預期2026年水冷散熱營收占比挑戰55%,受惠NVIDIA Rubin平台推進,DIMM水冷板/CDU出貨與泰國廠擴產是核心成長引擎。</li>
-  <li><span class="date">2026年初~4月</span>股價從年初低點897飆升至4月高點1,305,反映水冷散熱題材的樂觀情緒。</li>
-  <li><span class="date">2026年5~7月</span>股價自4月高點1,305回落至7月低點810(跌幅逾38%),疊加台股系統性回檔。</li>
-  <li><span class="date">2026/07/30</span>董事會通過Q2財務報告,法說會釋出毛利率逼近30%的成績單。</li>
-  <li><span class="date">2026年8月</span><b class="green">7月營收37.65億元創高,月增38.5%、年增116.70%</b>,市場解讀為輝達GB系列產品加單所致,股價一度漲停重回千元股。</li>
-  <li><span class="date">2026/08/10~14</span>股價高檔震盪(1,010→1,045→1,050→1,035→1,010),8/14收1,010(-2.42%)。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①精確Q2單季EPS數字查無,現階段的樂觀評價主要建立在7月營收與定性的「毛利率逼近30%」描述上,尚缺完整財報數字交叉驗證;②FactSet目標價區間本身就有50.3~62.6的EPS估值分歧(對應目標價中位1400),顯示16家法人對雙鴻的獲利路徑看法尚未完全收斂;③股價自4月高點1,305已回檔逾38%,即使7月營收創高也僅部分收復,顯示市場對水冷散熱題材的信心修復仍需更多財報數字驗證。</li>
+  <li><span class="date">2026年初~8月</span>股價全年振幅逾56%(820~1280),隨AI伺服器液冷散熱系統市占攀升與財報表現同步走高。</li>
+  <li><span class="date">2025年</span>AI水冷業務爆發,全年EPS衝上28.26元創新高,惟股價一度重挫跌停失守千元大關,顯示市場對液冷轉型故事的評價路徑並非一路平順。</li>
+  <li><span class="date">2026年上半年</span>公司展望持續看好2026年成長動能,GB300平台預計至少可支撐至第2季,後續將受惠於Vera Rubin新平台轉換需求,以及兩家CSP客戶的ASIC晶片液冷需求。</li>
+  <li><span class="date">2026年上半年(媒體報導)</span>公司看好水冷需求與泰國新產能,水冷營收比重目標上看70%,ASIC產品營收比重有望達4成,法人估全年營收可成長6至7成。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收37.65億元(依MOPS官方公告),月增38.53%、年增116.7%;累計1~7月營收210.14億元,年增83.28%,公司官方明確註記「成長動能來自AI伺服器液冷散熱系統市占率持續攀升」。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①2025年的先例顯示,即使AI水冷業務爆發式成長,股價仍可能因評價過高或市場情緒轉向而重挫跌停,液冷題材股的波動性不容低估;②GB300平台的支撐力道「預計至少可支撐至第2季」,意味著後續成長動能高度依賴Vera Rubin新平台與CSP ASIC液冷需求能否如期銜接,若平台轉換出現延遲空窗期,營收動能可能出現階段性放緩;③FactSet 2026年EPS估值(50.3~62.6元)與市場更樂觀的推估(挑戰100元大關)差距懸殊,反映機構與市場情緒對這個成長速度的認知落差仍大。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收37.65億元、年增116.70%,GB系列產品加單使營收創高,股價漲停重回千金股行列。<div class="src">— nStock、MoneyDJ理財網,2026/08</div></div>
-    <div class="quote">法說會繳出驚人成績單,毛利率已經逼近30%,水冷散熱產品組合持續改善獲利品質。<div class="src">— YouTube財經頻道整理</div></div>
-    <div class="quote">2026年水冷散熱營收占比挑戰55%,NVIDIA Rubin平台推進、DIMM水冷板與CDU出貨、泰國廠擴產是三大成長引擎。<div class="src">— 富果直送,2026/03/12法說會整理</div></div>
+    <div class="quote">成長動能來自AI伺服器液冷散熱系統市占率持續攀升,7月營收年增116.7%創單月表現;GB300平台支撐力道延伸至Vera Rubin新平台與兩家CSP客戶的ASIC晶片液冷需求。<div class="src">— 公司MOPS公告,2026/08;股市爆料同學會彙整</div></div>
+    <div class="quote">水冷營收比重目標上看70%,ASIC產品營收比重有望達4成,搭配泰國新產能布局,法人估全年營收可成長6至7成。<div class="src">— 財經媒體彙整,2026</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">精確Q2單季EPS數字查無,現階段的樂觀評價主要建立在7月營收與定性描述上,完整財報數字尚待進一步交叉驗證。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">FactSet 16家法人共識的EPS估值區間本身就有50.3~62.6的分歧,顯示法人對雙鴻獲利路徑的看法尚未完全收斂。<div class="src">— Threads財經彙整</div></div>
-    <div class="quote">股價自4月高點1,305已回檔逾38%,即使7月營收創高也僅部分收復,信心修復仍需時間。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">2025年的先例顯示,即使AI水冷業務爆發式成長,股價仍可能因評價過高而重挫跌停,液冷題材股的波動性遠高於一般認知,追高風險不容忽視。<div class="src">— 財報狗,2025年新聞回顧</div></div>
+    <div class="quote">GB300平台的支撐力道僅明確表示「至少可支撐至第2季」,後續平台轉換銜接的時程與規模仍存在不確定性,現階段的樂觀情境有部分建立在尚未完全確認的未來訂單之上。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
   <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(16家法人)</td><td class="green">1,400</td><td>2026E EPS中位57.97(50.3~62.6)</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">查無Q2財報後正式更新之FactSet調查與個別券商目標價;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(最新調查,15位分析師)</td><td class="green">1425</td><td>2026E EPS共識中位數57.34元(範圍50.3~62.6)</td></tr>
+  <tr><td>個別分析師(長期公允價值)</td><td class="green">1450</td><td>長期公允價值評估,與FactSet共識接近</td></tr>
+  <tr><td>個別分析師(短期戰術目標)</td><td class="amber">1340</td><td>對應23倍Forward PE的短期戰術性目標</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三個目標價數字(1340~1450)彼此相對接近,收斂程度優於本次散熱概念股批次的其他個股,顯示機構對雙鴻液冷轉型故事的評價相對一致。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -159,69 +140,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">37.65億</div><div class="note">MoM+38.5%,YoY+116.70%</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value green">12.61</div><div class="note">季增25.31%,YoY+122.79%</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">逼近30%</div><div class="note">較Q1的29.66%持平略升(定性描述)</div></div>
-  <div class="card"><div class="label">2025年全年EPS</div><div class="value">28.26</div><div class="note">基期參考,YoY+35.9%(獲利)</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">與奇鋐、富世達相比明顯冷落(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">水冷散熱營收占比guidance</div><div class="value amber">2026年挑戰55%</div><div class="note">3月法說會管理層目標</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">37.65億</div><div class="note">創單月表現,YoY+116.7%</div></div>
+  <div class="card"><div class="label">累計YoY</div><div class="value green">+83.28%</div><div class="note">210.14億元</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">57.34</div><div class="note">15位分析師</div></div>
+  <div class="card"><div class="label">水冷營收占比目標</div><div class="value green">70%</div><div class="note">ASIC營收占比目標40%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">查無最新資料</div><div class="note">本機active-etf資料庫未涵蓋此代號</div></div>
+  <div class="card"><div class="label">Vera Rubin+CSP ASIC</div><div class="value green">GB300後續銜接題材</div><div class="note">兩家CSP客戶ASIC晶片液冷需求</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與雙鴻的差異</th></tr>
-  <tr class="hl"><td>3324.TWO</td><td>雙鴻</td><td>約17.4x(EPS57.97)</td><td>YoY+116.70%,四檔中成長最快</td><td>AI伺服器水冷散熱,DIMM水冷板/CDU專攻,未被主動式ETF持有</td></tr>
-  <tr><td>3017.TW</td><td>奇鋐(本站另篇分析)</td><td>約33.5x(EPS93.75)</td><td>YoY+57.39%創新高</td><td>散熱模組龍頭,規模遠大於雙鴻,主動式ETF持有度最高</td></tr>
-  <tr><td>6805.TW</td><td>富世達(本站另篇分析)</td><td>約27.1x(EPS66.52)</td><td>YoY+17.07%,Q2因摺疊機出貨不如預期QoQ下滑</td><td>水冷快接頭+滑軌雙引擎,伺服器占比已破五成</td></tr>
-  <tr><td>2421.TW</td><td>建准(參考,散熱風扇)</td><td>查無最新精確數字</td><td>查無最新</td><td>散熱風扇為主,與雙鴻的水冷板/CDU定位不同</td></tr>
-  <tr><td>—</td><td>散熱族群整體(參考)</td><td>普遍中高本益比</td><td>普遍受惠AI伺服器水冷滲透率提升</td><td>雙鴻是三檔散熱股中Forward P/E最低、7月營收年增最快的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與雙鴻的差異</th></tr>
+  <tr class="hl"><td>3324.TWO</td><td>雙鴻</td><td>自估1433.5~1720.2;FactSet1425</td><td>7月營收YoY+116.7%,官方確認液冷市占持續攀升</td><td>液冷散熱系統龍頭,本次批次中機構目標價收斂程度最高</td></tr>
+  <tr><td>3017.TW</td><td>奇鋐(本站另篇分析)</td><td>自估區間見另篇;FactSet3140(19位分析師)</td><td>Q2 EPS24.37(YoY+136.6%),伺服器營收占比升至66.1%</td><td>散熱模組廠規模更大,惟現價已高於多數目標價區間</td></tr>
+  <tr><td>3653.TW</td><td>健策(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS15.8創同期新高,惟Q3起將認列一次性費用</td><td>均熱片核心供應商,首次分析,面臨明確的短期獲利品質警訊</td></tr>
+  <tr><td>2354.TW</td><td>鴻準(本站另篇分析)</td><td>自估區間見另篇</td><td>Q2 EPS0.63(QoQ+34%),累計營收仍年減11.24%</td><td>散熱僅為多元業務組合之一,轉型故事仍待累計數字轉正驗證</td></tr>
+  <tr><td>2308.TW</td><td>台達電(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>電源與散熱系統整合廠</td><td>規模遠大於雙鴻,散熱僅為多元業務之一</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——Forward P/E在三檔散熱股中最低,7月營收年增速度最快,但精確Q2財報數字仍待補齊。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約17.4x(以FactSet共識EPS57.97計)明顯低於奇鋐(33.5x)與富世達(27.1x),顯示市場對雙鴻的評價倍數仍相對保守,可能與其規模較小、未被任何主動式ETF持有(反映主動式資金目前對雙鴻的關注度較低)有關。7月營收年增116.70%是三檔中最快,GB系列加單題材具體可信。核心風險是精確Q2單季EPS數字查無,現階段的「便宜」判斷部分建立在定性描述(毛利率逼近30%)之上,完整驗證仍需等待正式財報數字。</div>
+  <b>估值判斷:便宜——FactSet共識與現價仍有明顯落差,是本次散熱概念股批次中機構目標價收斂程度最高的一檔。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FactSet 2026年EPS共識57.34元套用25~30倍本益比計算,合理價區間約1433.5~1720.2元(中值1576.85),現價1140.00落於此區間下緣以下。FactSet目標價1425、長期公允價值1450、短期戰術目標1340三個數字彼此相對接近,收斂程度優於本次批次的其他個股,顯示機構對雙鴻液冷轉型故事的評價相對一致。7月營收年增116.7%且官方明確將動能歸因於「液冷散熱系統市占率持續攀升」,是本次批次中催化劑敘事與官方數字吻合度最高的一檔。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,010 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS57.97,散熱族群常態倍數15~20x</td><td>870~1,159(中值1,015)</td><td class="amber">合理(接近中值)</td></tr>
-  <tr><td>FactSet共識目標價</td><td>16家法人,目標價1,400(單點)</td><td>1,400(單點)</td><td class="green">便宜 27.9%</td></tr>
-  <tr><td>同業(奇鋐)倍數對照</td><td>奇鋐約33.5x套用雙鴻EPS57.97(規模/業務結構差異大,信度中等)</td><td>單點約1,942(推演)</td><td class="green">便宜 48.0%(規模差異大,不宜直接採信)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1140.00 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS57.34(15位分析師),倍數25~30x</td><td>1433.5~1720.2(中值1576.85)</td><td class="green">便宜 -27.7%</td></tr>
+  <tr><td>FactSet目標價共識(最新調查)</td><td>1425(單點)</td><td>1425(單點)</td><td class="green">便宜 -20.0%</td></tr>
+  <tr><td>短期戰術目標(對照,較保守)</td><td>1340(單點),對應23倍Forward PE</td><td>1340(單點)</td><td class="green">便宜 -14.9%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:精確Q2單季EPS查無,近兩年FCF假設缺乏足夠的最新財報數字校準。三種方法方向大致一致偏便宜或合理,自身本益比法(接近合理中值)信度最高,FactSet共識目標價與同業倍數對照則反映較大的樂觀空間;現階段的估值判斷應待Q2完整財報數字公布後再進一步收斂,7月營收的實績是初步的正面驗證,但不能完全取代財報數字。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:液冷業務對GB300、Vera Rubin等平台世代交替的銜接時程高度敏感,多年期FCF假設信度不足。三種方法方向完全一致,均顯示現價便宜15~28%,是本次散熱概念股批次中估值訊號最一致偏便宜的一檔;三個目標價數字(1340~1450)彼此收斂,交叉驗證基礎相對紮實,不像同批次部分個股存在目標價數字懸殊分歧的問題。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">7月營收後追價熱絡</div><div class="bar"><div style="width:64%;background:var(--green)"></div></div><div class="note">一度漲停重回千元股,現價仍距4月高點1,305有相當距離</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價高於現價逾三成</div><div class="note">1,400,16家法人共識</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">12.61(Q1)→57.97(2026E共識)</div><div class="note">Q2完整財報數字是下一個關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">7月營收公告後穩健走高</div><div class="bar"><div style="width:70%;background:var(--green)"></div></div><div class="note">8月區間944~1140,全年振幅逾56%</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet目標價1425(15位分析師)</div><div class="note">與長期公允價值、短期戰術目標三者相對收斂</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2026E共識57.34</div><div class="note">Q3財報能否確認GB300轉Vera Rubin平台銜接順暢是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>50.3/57.97/62.6(FactSet共識)</td><td>15~20x</td><td>755~1,252(中值1,003.5)</td><td class="amber">約 -1%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有水冷散熱占比挑戰55%的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>57.34(FactSet共識)</td><td>25~30x</td><td>1433.5~1720.2(中值1576.85)</td><td class="green">約 38%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,惟Vera Rubin平台與CSP ASIC液冷需求提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬接近持平,顯示現價已大致反映FactSet共識中值;2027、2028年因分析師覆蓋缺乏明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:雙鴻的便宜訊號主要來自FactSet目標價這個單一樂觀端,自身本益比法顯示現價已接近合理,便宜程度的信心度低於奇鋐、富世達,需要Q2完整財報數字進一步驗證。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為本次散熱概念股批次中最高者,反映現價相對於機構共識仍有明顯安全邊際。2027年EPS共識查無穩定區間,現階段查無具體財測數字拆解Vera Rubin平台銜接的貢獻時程,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 600~1600;left% = (價格-600)/1000×92+4 -->
+<!-- 刻度 650~1900;left% = (價格-650)/1250×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:15.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">750~850</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:39.6%"><div class="lbl">Base(6~12月)</div><div class="price amber">950~1,080</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:64.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">1,150~1,300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.2%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1,400~1,500</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:41.8%"><div class="arrow">▲</div><div class="price">1,010</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">850~950</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">1100~1250</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">1400~1550</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">1700~1850</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.2%"><div class="arrow">▲</div><div class="price">1140.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>750~850</td><td>Q2財報數字不如預期或GB系列加單動能不如預期,重測7月低點</td><td class="red">約 -21%</td></tr>
-  <tr><td class="amber">Base</td><td>950~1,080</td><td>Q2財報驗證毛利率逼近30%與7月營收動能延續;現價落於此區間內</td><td class="green">約 +1%</td></tr>
-  <tr><td class="green">Bull</td><td>1,150~1,300</td><td>水冷散熱占比挑戰55%guidance逐步兌現,重返並接近4月高點</td><td class="green">約 +21%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>1,400~1,500</td><td>FactSet共識目標價1,400達陣,GB系列與Rubin平台放量超預期</td><td class="green">約 +43%</td></tr>
+  <tr><td class="red">Bear</td><td>850~950</td><td>GB300轉Vera Rubin平台銜接出現空窗期,或液冷評價如2025年先例般大幅修正</td><td class="red">約 -21%</td></tr>
+  <tr><td class="amber">Base</td><td>1100~1250</td><td>Q3財報符合成長節奏,液冷市占持續攀升但無驚喜,現價落於此區間內</td><td>約 3%</td></tr>
+  <tr><td class="green">Bull</td><td>1400~1550</td><td>FactSet目標價1425達陣,Vera Rubin平台與CSP ASIC需求開始具體挹注營收</td><td class="green">約 29%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>1700~1850</td><td>水冷占比70%、ASIC占比40%的目標提前達成,全年營收成長優於guidance上緣</td><td class="green">約 56%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -230,36 +210,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">930~970</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">870~925</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">810~865</td><td>40%(精確Q2財報數字未齊,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">1050~1090</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">1000~1045</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">944~995</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">810</b>(接近7月低點)= GB系列加單動能轉差或Q2財報不如預期,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">944</b>(接近8月區間下緣)= GB300轉Vera Rubin平台銜接出現空窗期或液冷評價系統性修正確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破1,080(8月區間高點)+量能確認,且Q2完整財報數字公布並驗證動能<br>
-    進場區:<b class="green">1,085~1,140</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回1,050即出場</div>
+    觸發條件:收盤突破1140(8月區間高點)+量能確認,且8月營收公告確認液冷市占持續攀升<br>
+    進場區:<b class="green">1145~1230</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回1105即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1,150~1,300</div><div class="note">賣出30~50%;Bull區,重返4月高點附近應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1,400~1,500</div><div class="note">Stretched區/FactSet共識目標達陣;續抱條件是水冷散熱占比guidance持續被財報數字驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">1400~1550</div><div class="note">賣出30~50%;Bull區/FactSet目標價1425已達陣,液冷股高檔應分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">1700~1850</div><div class="note">Stretched區;續抱條件是水冷/ASIC營收占比目標提前達成且無平台銜接空窗期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:7月營收37.65億元創高,月增38.5%、年增116.70%,市場解讀為輝達GB系列產品加單所致,股價一度漲停重回千元股;7/30董事會通過Q2財報,法說會釋出毛利率逼近30%的定性成績單,惟精確Q2單季EPS數字查無。</div>
-<div class="concl">① <b>催化劑</b>:GB系列加單驗證NVIDIA Rubin平台推進帶動的水冷散熱需求,7月營收年增速度是三檔散熱股中最快;但股價自4月高點1,305已回檔逾38%,信心修復仍需完整財報數字驗證。</div>
-<div class="concl">② <b>估值</b>:便宜——Forward P/E約17.4x是三檔散熱股中最低,FactSet共識目標價1,400較現價高逾27%;但自身本益比法顯示現價已接近合理中值,便宜程度的信心度低於奇鋐、富世達,精確Q2財報數字是收斂判斷的關鍵。</div>
-<div class="concl">③ <b>結論</b>:分批布局、GB系列加單驗證水冷動能——現價1,010落於Base區間內,上檔Bull +21%/Stretched +43%對下檔Bear -21%,本站目標價自8/5分析的1050大幅上修至1400並轉為偏多;左側倉位應保守分批,收盤跌破810即GB系列加單動能轉差,無條件出場。下一個驗證點是Q2完整財報數字與8月營收動能延續性。</div>
+<div class="concl">① <b>催化劑</b>:7月營收37.65億元(月增38.53%、年增116.7%),公司官方明確將動能歸因於「AI伺服器液冷散熱系統市占率持續攀升」;GB300平台預計至少支撐至Q2,後續由Vera Rubin新平台與兩家CSP客戶ASIC晶片液冷需求銜接,水冷營收占比目標上看70%。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet EPS共識法、FactSet目標價、短期戰術目標三種方法方向完全一致,現價低於中值15~28%,三個目標價數字(1340~1450)彼此收斂,是本次散熱概念股批次中估值訊號最一致、交叉驗證基礎最紮實的一檔。</div>
+<div class="concl">③ <b>結論</b>:偏多、液冷市占持續攀升驗證評價重估——現價1140.00落於Base區間內,上檔Bull +29%/Stretched +56%對下檔Bear -21%,風險報酬明顯偏正向;可正常左側分批布局,收盤跌破944即無條件出場。下一個驗證點是GB300轉Vera Rubin平台的銜接時程能否順暢無空窗期。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方個股日成交資訊);法說會(富果直送,2026/03/12);Q2財報董事會公告與毛利率定性描述(YouTube財經頻道、nStock、MoneyDJ理財網,2026/08);FactSet共識EPS/目標價(Threads財經彙整,16家法人共識,調查日期不明確);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,顯示未被任何主動式ETF持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q2單季EPS、Q2財報後正式更新之FactSet調查查無,未強行湊數。<br>
-主要來源:TPEx官方開放資料、富果直送、nStock、MoneyDJ理財網、Threads財經彙整。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;精確Q2單季EPS數字查無是本次分析最主要的資料缺口,估值判斷應待完整財報數字公布後進一步收斂。<br>
+資料時間:股價/近30天與今年區間 2026/08/28收盤(TPEx官方tradingStock);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08,經直接查詢原始數據確認);目標價與EPS共識(FactSet最新調查,經鉅亨網等財經媒體彙整,2026);GB300/Vera Rubin/CSP ASIC液冷需求展望(股市爆料同學會、財經媒體彙整,2026);主動式ETF持有度(本機active-etf資料庫未涵蓋此代號,查無);處置/注意股狀態(本機twse-disposition,2026/08/27更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Vera Rubin平台銜接具體時程、兩家CSP客戶ASIC液冷需求規模、2027年EPS共識查無,未強行湊數。<br>
+主要來源:TPEx官方開放資料(tradingStock)、公司MOPS公開資訊觀測站(官方月營收原始數據)、鉅亨網、股市爆料同學會、財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
