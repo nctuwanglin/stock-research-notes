@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -29,18 +30,6 @@
   .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -54,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -80,83 +66,70 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>台積電 (2330) <span class="badge purple">事件:7月營收公布(8/10)</span> <span class="badge amber">估值:合理(三法收斂,已price in強勁guidance)</span> <span class="badge green">結論:逢回分批,中長期投資</span><span class="autodispo" data-code="2330"></span></h1>
-<div class="sub">台股(TWSE)・晶圓代工龍頭(2nm/CoWoS先進封裝)|事件驅動版(7月營收)|股價截至 2026/08/14 收盤,製表 2026/08/14|<span class="dispostat" data-code="2330">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>台積電 (2330) <span class="badge green">估值:便宜,FactSet共識目標價高於現價逾一成</span> <span class="badge green">結論:偏多,2奈米放量與HPC平台動能驗證評價</span><span class="autodispo" data-code="2330"></span></h1>
+<div class="sub">台股(TWSE)・晶圓代工龍頭,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="2330">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1900</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2330">現價 <b>2420</b> → 目標價 <b>2800</b><span class="up"> (+15.7%)</span></div>
-  <div class="vbasis">推導依據:2027E EPS約138.6(元大99.7/花旗106.15之2026E均值、及128.46/148.69之2027E均值) × 20x(龍頭質感溢價);與8/7分析目標價2800一致,7月營收beat未改變估值錨點</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">2300</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2330">現價 <b>2420</b> → 目標價 <b>2700</b><span class="up"> (+11.6%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識99.84元(最新調查)套用約27x得目標價2700,與H1實績年化(22.08+27.25=49.33×2=98.66)高度吻合,驗證EPS共識信度;花旗3800/美銀3100等個別樂觀目標信度較低(單一機構、倍數假設更激進),不採為主要錨點,採FactSet目標價2700</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">2,395</div><div class="note">2026/08/14 收盤 -1.6%;7月營收公布後高點2,445(8/13)</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約62.11兆</div><div class="note">發行股數約259.33億股</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">4,675.81億</div><div class="note">YoY+44.69%,連3個月創高</div></div>
-  <div class="card"><div class="label">Forward P/E(2027E)</div><div class="value amber">約17.3x</div><div class="note">以2027E EPS均值138.6計</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">2,310~2,445</div><div class="note">8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,545~2,535</div><div class="note">1月低1,545、6月高2,535(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">2420.00</div><div class="note">2026/08/28收盤;8月區間2320~2435</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">27.25</div><div class="note">創單季新高,毛利率67.7%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">49.33</div><div class="note">Q1 22.08+Q2 27.25</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">1.27兆</div><div class="note">HPC平台季增20%,占營收66%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1585~2510</div><div class="note">2奈米製程Q2貢獻晶圓營收3%</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">99.84</div><div class="note">FactSet最新調查</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7月營收創高,連三月改寫紀錄,Q3財測同步上調</h2>
-<div class="event">
-  <h3>事件:7月合併營收4,675.81億元,年增44.69%,連3個月創歷史新高</h3>
-  <div class="flow">台積電於<b>2026/08/10</b>公告7月自結合併營收4,675.81億元,較去年同期3,231.65億元大增44.69%,較6月4,426.79億元月增5.62%,連續第3個月改寫歷史新高。前七月累計合併營收2兆8,720.64億元,較去年同期成長37%。公司同步重申Q3財測:合併營收預估446~458億美元,季增10.94~13.93%、年增34.76~38.38%。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:7月數字驗證AI需求未鬆動,但市場稍早的樂觀傳聞(上看4,800億)未完全兌現</h3>
-  <div class="flow">7月營收4,675.81億元優於市場原先預估的4,500億元區間,但**低於**財報公布前部分法人喊出的「上看4,800億」樂觀傳聞——這代表AI需求本身依然強勁(YoY+44.69%、連3月創高),但並非無上限加速,傳導路徑上仍以Q3財測(季增10.94~13.93%)最為關鍵,7月數字是對財測guidance的正面驗證而非額外超預期驚喜。股價自8/7收盤2,370起步,8/10公告當日收2,380(+0.4%小幅反應),隨後8/11~13三連漲至2,435,8/14拉回收2,395,顯示利多兌現後出現正常獲利了結,而非利空反應。</div>
-</div>
-
-<h2>事件前後對照表</h2>
-<table>
-  <tr><th>項目</th><th>事件前(8/7,股價2,370)</th><th>事件後(8/14,股價2,395)</th><th>變化</th></tr>
-  <tr><td>7月營收(市場預期)</td><td>市場預估4,500億~4,800億區間</td><td>實際4,675.81億(落在區間中段偏上)</td><td class="green">符合預期偏樂觀端,非驚喜</td></tr>
-  <tr><td>Q3財測</td><td>Q2法說已給446~458億美元guidance</td><td>7月數字未改變此guidance,屬驗證而非上修</td><td class="amber">維持不變</td></tr>
-  <tr><td>外資目標價(區間)</td><td>2,600~3,800(5家外資)</td><td>3,000~3,800(新增里昂3,330、麥格理3,380、瑞銀3,400等數據點,區間中樞略上移)</td><td class="green">中樞略上移</td></tr>
-  <tr><td>股價</td><td>2,370(8/7)</td><td>2,395(8/14),曾觸及2,445(8/13)</td><td class="green">+1.1%,波段高點+3.2%</td></tr>
-</table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">最值得留意的訊號是:7月營收公布後股價僅溫和上漲、隨後拉回,並未出現財報驚喜式的跳空——這代表市場早已透過Q2法說會的財測guidance消化了這波成長動能,7月數字扮演的是「驗證」而非「意外」的角色。本站目標價(2,800)在事件前後維持不變,因為推導依據(2027E EPS×20x)本就已經內含了公司自己給的Q3財測假設,7月實績只是讓這個假設的可信度更高,而非改變假設本身。</div>
-
-<h2>① 催化劑分析 — 為什麼漲(小幅)?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/07/16</span>Q2法說會:EPS 27.25元創歷史新高,毛利率67.7%;2026年資本支出上調至600~640億美元;2nm 4Q25量產、2026年放量;2026年美元營收預計成長逾30%。</li>
-  <li><span class="date">2026/08/10</span><b class="green">7月營收4,675.81億元創高,連3月改寫紀錄</b>:YoY+44.69%,前七月累計年增37%;Q3財測(446~458億美元)維持不變,7月數字屬驗證性質。</li>
-  <li><span class="date">2026/08/11~13</span>股價連三日上漲(2,380→2,395→2,415→2,435),外資目標價區間新增里昂3,330、麥格理3,380、瑞銀3,400等數據點,中樞略上移。</li>
-  <li><span class="date">2026/08/14</span>股價拉回收2,395(-1.6%),屬正常獲利了結,非利空反應。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收雖創高,但**低於部分法人稍早喊出的「上看4,800億」樂觀傳聞**,實際反映的是AI需求「強勁但非無上限加速」,不宜過度線性外推;②資本支出600~640億美元將壓縮自由現金流,任何未確實扣除這筆支出的估值方法都可能高估合理價值;③川普關稅政策細節仍未拍板,目前市場「視為過客」的樂觀共識本身可能低估政策落地後的實質衝擊,這項風險未因7月營收公布而消除。</li>
+  <li><span class="date">2026年Q1</span>EPS22.08元創歷史新高,年增58.3%,打臉市場對美國廠拖累獲利的擔憂。</li>
+  <li><span class="date">2026/07/16</span>Q2法說會:合併營收1.27兆元,EPS27.25元續創單季新高,毛利率67.7%;高效能運算(HPC)平台季增20%,占Q2營收66%;2奈米製程Q2已貢獻晶圓營收3%,3奈米/5奈米/7奈米分占30%/33%/11%。</li>
+  <li><span class="date">法說會後</span>外資齊升目標價:花旗自2875上調至3800(全批次最高),並給出2026/27/28年EPS估值106.15/148.69/198.42元的激進成長路徑;美銀上調至3100,聚焦AI需求、2奈米放量與未來漲價策略三大焦點。</li>
+  <li><span class="date">FactSet最新調查</span>2026E EPS共識上修至99.84元,較6月底的93.01元進一步上修,目標價同步自2387.5上修至2700元;此EPS數字與H1實績年化(49.33×2=98.66)高度吻合,是本站掌握到信度最高的錨點。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①花旗3800與美銀3100的目標價雖同步上調,惟激進的2028年EPS198.42元隱含的成長路徑(對應年化CAGR逾40%)遠高於FactSet共識的穩健假設,單一機構的樂觀情境信度需打折;②目標價落差(FactSet2700 vs 花旗3800)反映市場對AI需求延續性與2奈米漲價幅度仍存在明顯分歧,不宜僅採信最樂觀數字。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收年增44.69%、連3個月創新高,證明AI需求動能未鬆動,Q3財測(季增10.94~13.93%)高機率兌現。<div class="src">— 時報資訊、鉅亨網,2026/08/10</div></div>
-    <div class="quote">花旗估2026~2028年EPS分別達106.15、148.69、198.42元,目標價上看3,800元,反映法人對獲利軌跡的高度信心。<div class="src">— 花旗證券報告</div></div>
-    <div class="quote">法人看好單月挑戰5,000億元,顯示市場對下半年動能仍持續看多。<div class="src">— CMoney即時新聞,2026/08</div></div>
+    <div class="quote">Q2 EPS27.25元創單季新高,毛利率67.7%,HPC平台季增20%占營收66%;2奈米製程放量在即,3奈米以下先進製程合計貢獻逾七成營收。<div class="src">— 公司7/16法說會</div></div>
+    <div class="quote">花旗上調目標價至3800元(全市場最高),預估AI需求、2奈米量產與未來漲價策略將是後續財報焦點。<div class="src">— 花旗環球,2026/07</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">7月實際數字(4,675.81億)低於稍早市場喊出的「上看4,800億」樂觀傳聞,顯示AI需求強勁但並非無上限加速,不宜線性外推至Q4。<div class="src">— 本儀表板觀察,依鉅亨網/壹蘋新聞網數字比對</div></div>
-    <div class="quote">資本支出600~640億美元將壓縮自由現金流,任何未確實扣除這筆支出的估值方法都可能高估合理價值。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">川普關稅政策細節尚未拍板,7月營收利多未觸及此風險,政策落地後的實質衝擊仍是未知數。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">花旗3800目標價隱含的2028年EPS198.42元成長路徑相當激進,單一機構的樂觀情境不宜作為主要估值依據。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet共識2700與花旗/美銀3100~3800的落差顯示市場對AI需求延續性與先進製程漲價幅度仍有分歧,現價2420已反映相當程度的樂觀預期。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>花旗證券(最高)</td><td class="green">3,800</td><td>2026~2028E EPS 106.15/148.69/198.42</td></tr>
-  <tr><td>瑞銀</td><td class="green">3,400</td><td>新增數據點,2026/08</td></tr>
-  <tr><td>麥格理</td><td class="green">3,380</td><td>新增數據點,2026/08</td></tr>
-  <tr><td>里昂</td><td class="green">3,330</td><td>自3,030上修,2026/08</td></tr>
-  <tr><td>摩根大通</td><td class="green">3,100</td><td>資料中心AI營收CAGR上修至69%(較公司官方57~59%更樂觀)</td></tr>
-  <tr><td>高盛</td><td class="green">3,000</td><td>自2,750調升</td></tr>
+  <tr class="hl"><td>FactSet共識(最新調查)</td><td class="green">2700</td><td>2026E EPS共識99.84元,與H1實績年化高度吻合</td></tr>
+  <tr><td>花旗環球(2026/07,法說會後)</td><td class="green">3800</td><td>2026/27/28年EPS估值106.15/148.69/198.42元,全市場最高目標價</td></tr>
+  <tr><td>美銀(2026/07,法說會後)</td><td class="green">3100</td><td>聚焦AI需求、2奈米放量與漲價策略</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">三個目標價方向一致均看多,惟落差達逾40%(2700~3800),反映市場對AI需求延續性與先進製程漲價幅度仍存在分歧。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -165,69 +138,69 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">4,675.81億</div><div class="note">YoY+44.69%,MoM+5.62%,連3月創高</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">2兆8,720.64億</div><div class="note">YoY+37%</div></div>
-  <div class="card"><div class="label">Q3財測(公司guidance)</div><div class="value green">446~458億美元</div><div class="note">QoQ+10.94~13.93%,YoY+34.76~38.38%</div></div>
-  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">600~640億美元</div><div class="note">較原規劃中位數提高15%</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">22檔,約927億</div><div class="note">四檔晶圓代工中最高(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">2026年營收成長guidance</div><div class="value green">>30%(美元)</div><div class="note">公司官方財測</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">49.33</div><div class="note">Q1創新高後Q2再創新高</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">67.7%</div><div class="note">先進製程占比持續提升</div></div>
+  <div class="card"><div class="label">HPC營收占比</div><div class="value green">66%</div><div class="note">Q2季增20%</div></div>
+  <div class="card"><div class="label">2奈米貢獻</div><div class="value">3%</div><div class="note">Q2剛起步,放量空間大</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">22檔,合計37,876張</div><div class="note">本批次持有檔數最高</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">99.84</div><div class="note">FactSet最新調查</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2027E Forward P/E</th><th>7月營收動能</th><th>與台積電的差異</th></tr>
-  <tr class="hl"><td>2330.TW</td><td>台積電</td><td>約17.3x(EPS138.6)</td><td>YoY+44.69%,連3月創高</td><td>先進製程絕對龍頭,唯一具2nm量產規模的純代工廠</td></tr>
-  <tr><td>2303.TW</td><td>聯電(本站另篇分析)</td><td>約21.3x(現價105/EPS4.93)</td><td>7月YoY+18.98%</td><td>成熟製程為主,無先進製程業務</td></tr>
-  <tr><td>5347.TWO</td><td>世界先進(本站另篇分析)</td><td>約27.4x(現價135/EPS4.92)</td><td>7月MoM-21.26%</td><td>特殊製程利基廠,規模遠小於台積電</td></tr>
-  <tr><td>6770.TW</td><td>力積電(本站另篇分析)</td><td>約9.1x(現價78/EPS8.61)</td><td>記憶體代工急單漲價</td><td>記憶體代工為主,獲利穩定度不如台積電</td></tr>
-  <tr><td>SSNLF</td><td>三星電子晶圓代工(參考)</td><td>查無精確Fwd P/E</td><td>2nm製程競爭對手</td><td>國際唯二具2nm量產能力對手,良率與客戶信任度落後</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與台積電的差異</th></tr>
+  <tr class="hl"><td>2330.TW</td><td>台積電</td><td>FactSet EPS99.84×27x得2700</td><td>Q2 EPS27.25創新高,HPC占比66%</td><td>晶圓代工絕對龍頭,主動式ETF持有度全批次最高</td></tr>
+  <tr><td>2454.TW</td><td>聯發科(本站另篇分析)</td><td>FactSet EPS67.67×約78x得5300</td><td>AI ASIC市占目標上修至15~20%</td><td>IC設計廠,評價倍數遠高於台積電,反映更早期的成長期權特性</td></tr>
+  <tr><td>2308.TW</td><td>台達電(本站另篇分析)</td><td>FactSet EPS39.3×約60x得2340</td><td>AI電源占比續拉高,800V放量在即</td><td>電源與散熱系統整合廠,非純半導體暴露</td></tr>
+  <tr><td>3661.TW</td><td>世芯-KY(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>ASIC設計服務商</td><td>與台積電先進製程產能綁定,惟營收規模遠小於台積電</td></tr>
+  <tr><td>2454/2382等</td><td>下游AI伺服器供應鏈(未於本次逐一分析)</td><td>查無本次分析中的最新估值</td><td>台積電先進製程的直接下游需求方</td><td>台積電產能利用率是整條供應鏈動能的先行指標</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——7月營收驗證但未改變估值錨點,三法仍收斂於現價附近。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">7月營收4,675.81億元創高、YoY+44.69%,驗證了Q2法說會的Q3財測假設,但並未提供超越guidance的額外驚喜(甚至略低於部分樂觀傳聞的4,800億)。這代表市場已經透過法說會提前消化了這波成長動能,7月數字的角色是「確認」而非「上修估值錨點」。本站目標價2,800在事件前後維持不變,現價2,395距此仍有約17%空間,但這個空間本就存在於8/7的分析中,不是7月營收創造的新機會。</div>
+  <b>估值判斷:便宜——FactSet共識目標價2700與現價2420仍有逾一成落差,且獲利數字與共識假設高度吻合。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">FactSet最新調查的2026E EPS共識99.84元,與H1實績年化(49.33×2=98.66)幾乎完全吻合,顯示這個共識並非過度樂觀的推測,而是紮實反映公司實際獲利軌跡的估值錨點。套用約27倍本益比(反映晶圓代工龍頭的質感溢價與先進製程稀缺性)得目標價2700,較現價2420高出11.6%。花旗與美銀法說會後同步大幅調升目標價至3100~3800,方向一致但幅度更激進,主要建立在對2027/2028年EPS的樂觀外推(尤其花旗198.42元的2028年EPS假設),信度低於FactSet共識,不作為主要錨點。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2,395 vs 中值</th></tr>
-  <tr><td>外資目標價共識</td><td>6家外資,區間3,000~3,800(中值3,400)</td><td>3,000~3,800(中值3,400)</td><td class="green">便宜 -29.6%</td></tr>
-  <tr><td>2027E P/E×EPS</td><td>共識EPS均值138.6,龍頭代工倍數20~28x</td><td>2,772~3,881(中值3,327)</td><td class="green">便宜 -28.0%</td></tr>
-  <tr><td>簡化DCF(推演)</td><td>2026~28E EPS作FCF代理(元大/花旗均值),r 10~11%,永續成長2~3%;<b class="amber">注意雙向偏誤</b>:未扣600~640億美元資本支出使FCF被高估,今年是台積電資本支出佔比最重的一年,偏誤幅度可能大於過往</td><td>1,995~2,551(中值2,273,推演)</td><td class="amber">合理 +5.4%(但未計入巨額capex偏誤,真實情況可能偏貴)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2420 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS99.84,倍數約27x</td><td>2700(單點,與H1年化高度吻合)</td><td class="green">便宜 11.6%</td></tr>
+  <tr><td>H1實績年化交叉驗證</td><td>H1 EPS49.33×2=98.66,倍數約27x</td><td>約2664(推演,交叉驗證FactSet)</td><td class="green">便宜 10.1%</td></tr>
+  <tr><td>花旗/美銀目標價(法說會後,個別機構)</td><td>2027/28年EPS激進外推,倍數隱含更高</td><td>3100~3800(單點,信度較低)</td><td class="green">便宜 24.9~56.7%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">三種方法在7月營收公布後維持與8/7分析相近的結論:外資目標價與自身本益比法顯示便宜逾28%,但DCF法因未扣今年史上最高資本支出而可能低估真實偏貴程度,計入此偏誤後應理解為「合理」而非「便宜」。7月營收本身沒有改變任何一種方法的輸入假設,這正是「事件已被市場提前消化」的具體證據。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:台積電資本支出規模龐大(先進製程與海外建廠),EPS法未扣除capex會使現金流被高估,DCF結果方向性偏樂觀而非保守,在此不作為獨立錨點,以免誤導。三種方法方向一致均顯示現價便宜,且FactSet共識與H1實績年化的高度吻合(僅差1.2個百分點)是本站對此錨點信度最高的判斷依據;花旗/美銀的更樂觀目標價則反映市場對2027年後成長路徑的分歧看法,可視為上檔的想像空間,但不宜作為主要決策依據。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">利多兌現後獲利了結,無過熱訊號</div><div class="bar"><div style="width:58%;background:var(--amber)"></div></div><div class="note">7月營收公布後三連漲又拉回,屬正常波動</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">6家外資一致看多,目標價中樞上移</div><div class="note">目標價3,000~3,800,距現價+25%~+59%</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7月營收驗證→Q3財測(446~458億美元)</div><div class="note">8月營收與Q3法說前瞻是下一個驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value green">8月區間2320~2435,相對穩健</div><div class="bar"><div style="width:45%;background:var(--green)"></div></div><div class="note">波動度低於本批次的中小型記憶體/散熱股</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">2700~3800,現價仍有明顯落差</div><div class="note">全批次唯一三個目標價全數顯著高於現價的個股</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">49.33(H1)→99.84(FactSet 2026E共識)</div><div class="note">2奈米放量與HPC動能是後續驗證重點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(來源不一)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>99.7(元大) / 106.15(花旗)</td><td>20~28x</td><td>1,994~2,972(中值2,483)</td><td class="green">約 +4%</td></tr>
-  <tr><td>2027(+1年)</td><td>128.46(元大) / 148.69(花旗)</td><td>18~26x</td><td>2,312~3,600(中值2,956)</td><td class="green">約 +11%/年</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">僅花旗估198.42,查無其他來源對照</td><td>16~24x</td><td>3,175~4,762(中值3,968)</td><td class="green">約 +19%/年</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>99.84(FactSet共識)</td><td>約27x</td><td>2664~2700(中值2682)</td><td class="green">約 +11%</td></tr>
+  <tr><td>2027(+1年)</td><td>148.69(花旗估值,推演,信度中等)</td><td>約25~27x(先進製程滲透率提升,倍數略收斂)</td><td>3717~4015(中值3866,推演)</td><td class="green">約 +26%</td></tr>
+  <tr><td>2028(+2年)</td><td>198.42(花旗估值,推演,信度較低)</td><td>約22~25x(成熟期,倍數進一步收斂)</td><td>4365~4961(中值4663,推演)</td><td class="green">約 +25%</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">與8/7分析一致,2028年EPS僅花旗單一來源,可信度應打折;2026、2027年因有兩家獨立來源交叉對照,可信度較高。7月營收驗證了這條路徑的短期端(2026年)無虞,但未提供新資訊改變中長期假設。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為本批次最穩健的正值(+11%),且錨點來自與H1實績高度吻合的FactSet共識,信度優於本批次其他個股;2027/2028年數字建立在花旗單一機構的激進EPS外推,信度中等偏低,僅供長期參考,不作為主要決策依據。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 1600~4200;left% = (價格-1600)/2600×92+4 -->
+<!-- 刻度 1900~4200;left% = (價格-1900)/2300×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,900~2,100</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">2,300~2,600</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:57.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,900~3,200</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:86.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3,700~3,900</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:32.5%"><div class="arrow">▲</div><div class="price">2,395</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">2250~2350</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:37.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">2550~2750</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:60.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">3050~3300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:83%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">3550~3800</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:24.8%"><div class="arrow">▲</div><div class="price">2420.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>1,900~2,100</td><td>川普關稅實質落地衝擊供應鏈或客戶下單行為,2026E EPS低值×20~21x</td><td class="red">約 -16%</td></tr>
-  <tr><td class="amber">Base</td><td>2,300~2,600</td><td>Q3財測(446~458億美元)如期兌現,8月營收與9月法說前無驚喜;現價落於此區間內</td><td>約 +2%</td></tr>
-  <tr><td class="green">Bull</td><td>2,900~3,200</td><td>2nm放量超預期、關稅風險實質降溫,高盛/摩根大通目標價達陣</td><td class="green">約 +29%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>3,700~3,900</td><td>花旗目標價3,800附近達陣,2027、2028年成長曲線提前反映</td><td class="green">約 +60%</td></tr>
+  <tr><td class="red">Bear</td><td>2250~2350</td><td>AI需求增速放緩或2奈米放量進度不如預期,FactSet共識未能延續上修趨勢</td><td class="red">約 -5%</td></tr>
+  <tr><td class="amber">Base</td><td>2550~2750</td><td>FactSet共識維持目前假設,Q3財報符合預期</td><td class="green">約 9%</td></tr>
+  <tr><td class="green">Bull</td><td>3050~3300</td><td>2奈米放量超預期加速,HPC平台占比持續攀升,FactSet共識向花旗/美銀靠攏</td><td class="green">約 31%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>3550~3800</td><td>市場全面採信花旗2027/28年激進EPS路徑,先進製程漲價幅度超預期</td><td class="green">約 52%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -236,35 +209,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">2,280~2,370</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">2,130~2,220</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">1,980~2,070</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">2350~2400</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">2300~2349</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">2250~2299</td><td>30%(接近Bear情境下緣)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,900</b>(明顯低於今年低點區間)= 關稅政策實質落地重創出貨或2nm良率爬坡出現實質裂痕,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">2300</b>(低於8月區間下緣)= AI需求或2奈米放量進度不如預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破2,535(今年高點)+量能確認,且8月營收優於Q3財測隱含節奏<br>
-    進場區:<b class="green">2,540~2,650</b><br>
-    移動停利:跌破20日線或高點回檔12%<br>
-    假突破失效:觸發後3日內跌回2,480即出場</div>
+    觸發條件:收盤突破2510(今年高點)+量能確認,或FactSet共識進一步上修<br>
+    進場區:<b class="green">2520~2650</b><br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回2450即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,900~3,200</div><div class="note">賣出25~40%;Bull下緣,龍頭股高檔仍應紀律分批獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3,700~3,900</div><div class="note">Stretched區/花旗目標價附近;續抱條件是2nm放量與關稅風險雙雙符合樂觀情境</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">3050~3300</div><div class="note">賣出25~40%;Bull區,長期核心持股可考慮部分續抱</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">3550~3800</div><div class="note">Stretched區;續抱條件是2027/28年EPS成長路徑獲得更多機構驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">① <b>事件影響</b>:7月營收4,675.81億元創歷史新高(YoY+44.69%,連3個月改寫紀錄),驗證Q2法說會給出的Q3財測(季增10.94~13.93%)無虞,但實際數字略低於稍早部分法人喊出的「上看4,800億」樂觀傳聞;股價自公告日起三連漲至2,435後於8/14拉回收2,395,屬利多兌現後的正常獲利了結,而非利空反應。</div>
-<div class="concl">② <b>估值</b>:合理——外資目標價與自身本益比法顯示便宜逾28%,但簡化DCF法因未扣今年史上最高的600~640億美元資本支出而可能低估真實偏貴程度;7月營收沒有改變任何一種估值方法的輸入假設,證明這波成長動能早已被法說會guidance提前消化。</div>
-<div class="concl">③ <b>結論</b>:逢回分批、中長期投資——現價2,395落於Base區間內,上檔Bull +29%/Stretched +60%對下檔Bear -16%,本站目標價2,800(距現價+16.9%)與7月營收公布前一致;左側倉位可正常分批,收盤跌破1,900即關稅政策實質落地或2nm爬坡出現裂痕,無條件出場。下一個驗證點是8月營收與Q3法說會前瞻指引。</div>
+<div class="concl">① <b>催化劑</b>:Q2法說會EPS27.25元創新高、毛利率67.7%、HPC平台占比66%,2奈米製程開始放量;法說會後花旗上修目標價至3800(全市場最高)、美銀上修至3100,FactSet共識同步上修至2700(EPS99.84,與H1實績年化高度吻合)。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價2700與現價仍有11.6%落差,且與H1實績年化幾乎完全吻合,是本批次信度最高的估值錨點;花旗/美銀目標價雖更樂觀,惟建立在單一機構對2027/28年的激進外推,信度中等偏低,僅供上檔想像空間參考。</div>
+<div class="concl">③ <b>結論</b>:偏多、2奈米放量與HPC平台動能驗證評價重估——現價2420落於Base區間下緣附近,上檔Bull +31%/Stretched +52%對下檔Bear -5%,風險報酬結構明顯正面,是本批次確定性最高的個股;跌破2300即無條件出場。下一個關鍵驗證點是Q3財報(預計10月中)能否延續2奈米放量與HPC動能。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);發行股數彙整自財經媒體(約259.33億股);7月營收(時報資訊、CMoney、鉅亨網、Yahoo股市、壹蘋新聞網,2026/08/10公告);Q2法說會(鉅亨網、豐雲學堂、vocus,2026/07/16);外資目標價與EPS估值(口袋學堂、經濟日報、Yahoo股市,追蹤至最新花旗3,800/瑞銀3,400/麥格理3,380/里昂3,330);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確Q3財測新台幣換算值(僅財說會揭露美元口徑)查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、時報資訊、CMoney投資網誌、鉅亨網、Yahoo股市、壹蘋新聞網、口袋學堂、經濟日報、豐雲學堂、vocus。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;簡化DCF法已於估值方法交叉檢核表中明確標註資本支出偏誤,「合理」結論應理解為中性而非明確買點的加碼訊號。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);Q1/Q2財報與法說會(公司公告,2026/07/16);目標價與EPS共識(FactSet最新調查、花旗環球、美銀,經Yahoo股市、鉅亨速報彙整,2026/07~08);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027/28年EPS數字為花旗單一機構推演,信度中等偏低,已於內文明確標註。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司法說會公告、FactSet、花旗環球、美銀。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,83 +66,72 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>南亞科 (2408) <span class="badge amber">估值:合理(漲幅已跑在FactSet目標價前面)</span> <span class="badge amber">結論:中性,漲多之後等回檔</span><span class="autodispo" data-code="2408"></span></h1>
-<div class="sub">台股(TWSE)・DRAM原廠,記憶體超級循環直接受惠者|事件後估值版(Q2財報後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2408">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>南亞科 (2408) <span class="badge amber">估值:合理,現價已大致貼近FactSet共識目標價</span> <span class="badge amber">結論:中性,DDR漲價動能強勁但漲幅已提前反映</span><span class="autodispo" data-code="2408"></span></h1>
+<div class="sub">台股(TWSE)・DRAM記憶體製造廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="2408">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">325</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2408">現價 <b>540</b> → 目標價 <b>555</b><span class="up"> (+2.8%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價555(2026E EPS共識58.67,14位分析師);與8/7分析目標價530相近,惟股價自457漲至512(+12%)已縮小折價空間,評等由偏多轉為中性</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">480</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2408">現價 <b>540</b> → 目標價 <b>590</b><span class="up"> (+9.3%)</span></div>
+  <div class="vbasis">推導依據:FactSet最新調查(13位分析師)目標價中位數上修至590元(較先前572.5元再上修3.06%,最高750/最低280);現價540已大致貼近此目標價,上檔空間收斂至一成以內,採目標價590</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">512</div><div class="note">2026/08/14 收盤 -0.39%;8/14盤中創今年新高542</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">14.66</div><div class="note">季增74.32%;H1累計EPS 23.38</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">79.5%</div><div class="note">逼近八成,DRAM均價季增逾60%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約8.7x</div><div class="note">FactSet共識EPS58.67(14位分析師,38.34~75.16)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">322~542</div><div class="note">7~8月區間;8/14盤中創今年新高</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">191~542</div><div class="note">1月低191、8/14盤中創新高542(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">540.00</div><div class="note">2026/08/28收盤;8月區間396.5~541</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">438.68億</div><div class="note">MoM+49.26%,YoY+719.7%,單月改寫紀錄</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">14.66</div><div class="note">季增74.32%</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">1755.04億</div><div class="note">YoY+660.86%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">198.5~541</div><div class="note">全年振幅逾2.7倍</div></div>
+  <div class="card"><div class="label">DDR5本季漲幅</div><div class="value green">約67%</div><div class="note">Q4/後續季再各估漲17%/12%</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — Q2財報獲利季增74%,資本支出大舉上修</h2>
-<div class="event">
-  <h3>事件摘要:Q2 EPS 14.66元季增74.32%,5A新廠資本支出計畫3,466億元,今年資本支出上修至697億</h3>
-  <div class="flow">南亞科Q2合併營收825.49億元,毛利率79.5%逼近八成,稅後純益501.92億元,EPS 14.66元(季增74.32%);上半年累計營收1,316.36億元,歸屬母公司業主淨利762.52億元,EPS 23.38元。管理層表示Q2銷售量與Q1持平,但DRAM平均售價季增超過60%,顯示獲利改善主要來自價格上漲而非出貨量增長。董事會同步核准5A新廠總額不超過3,466億元的資本支出計畫,將於4年內分階段執行,並將2026年度資本支出預算由原先不超過520億元大幅提高至不超過697億元。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:DRAM均價季增逾60% → Q2毛利率逼近八成 → 獲利爆發式成長 → 資本支出大舉上修為未來擴產鋪路</h3>
-  <div class="flow">南亞科Q2獲利改善的核心驅動力是「量平價漲」——銷售量與Q1持平,但均價季增超過60%,顯示這波DRAM超級循環的獲利兌現主要來自報價端而非出貨量擴張。資本支出大舉上修(520億→697億,加上未來4年3,466億的5A新廠計畫)一方面反映管理層對記憶體長期景氣的信心,另一方面也意味著未來幾年的折舊費用將同步墊高,是評估中長期獲利能見度時必須納入的變數。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析,依7月資料)</th><th>事件後(Q2財報後)</th></tr>
-    <tr><td>H1/Q2 EPS</td><td>僅有Q1與7月營收數字</td><td class="green">Q2單季14.66,H1累計23.38(季增74.32%)</td></tr>
-    <tr><td>Q2毛利率</td><td>查無</td><td class="green">79.5%,逼近八成</td></tr>
-    <tr><td>2026年資本支出</td><td>不超過520億</td><td class="amber">上修至不超過697億,另加5A新廠4年3,466億計畫</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>58.67(7/11調查)</td><td class="amber">58.67(未見更新調查,沿用同一數字)</td></tr>
-    <tr><td>股價</td><td>457(8/7)</td><td class="red">512(8/14),漲幅約12%</td></tr>
-    <tr><td>本站目標價/評等</td><td>530/偏多</td><td class="amber">555/中性(漲幅已跑在目標價前面,評等轉為中性)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼是中性而非追價?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/07/10</span>法說會前市場關注記憶體超級循環動能能否延續。</li>
-  <li><span class="date">2026年初~8月</span>股價從年初低點191一路飆升至8/14盤中創新高542,反映DRAM漲價循環持續發酵。</li>
-  <li><span class="date">2026年8月初</span>7月營收438.68億元創連8個月新高(YoY+719.61%),延續前期強勁動能(此前分析已納入)。</li>
-  <li><span class="date">2026年8月</span><b class="green">Q2財報:EPS 14.66元季增74.32%,毛利率79.5%逼近八成</b>,H1累計EPS 23.38元;管理層說明獲利改善主要來自DRAM均價季增逾60%,而非出貨量擴張。</li>
-  <li><span class="date">2026年8月</span>董事會核准5A新廠4年3,466億元資本支出計畫,2026年度資本支出預算自520億上修至697億。</li>
-  <li><span class="date">2026/08/10~14</span>股價持續創高,8/14盤中觸及542後拉回收512(-0.39%)。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2獲利改善主要來自DRAM均價上漲而非出貨量增長,若報價循環轉折,獲利槓桿會反向作用,波動幅度可能同樣劇烈;②資本支出大舉上修(520億→697億)意味著未來折舊費用同步墊高,是評估2027年以後獲利能見度時的重要變數;③股價自8/7分析時的457已上漲至512(+12%),漲幅已一定程度追上FactSet目標價555,安全邊際較先前分析時明顯收窄。</li>
+  <li><span class="date">2026年上半年</span>DDR報價狂飆,南亞科取代韓廠成為DDR4漲價主導者,支撐下半年DDR4價格有20%以上漲幅預期。</li>
+  <li><span class="date">2026年Q2財報</span>EPS14.66元,季增74.32%,獲利動能加速;資本支出突破520億元,支持ASP連月跳漲驅動的EPS預期重估。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收438.68億元(依MOPS官方公告),月增49.26%、年增719.61%,改寫單月歷史紀錄(公司官方註記「受市場需求成長影響」);累計1~7月營收1755.04億元,年增660.86%。</li>
+  <li><span class="date">2026年8月</span>本季DDR估漲67%,下一季和第四季還可能分別再漲17%和12%,支撐後續漲價動能延續。法人目標價從400元一路調升,近期落於350~650元不等的分歧區間(瑞銀495、凱基556、其他法人365~590不等);FactSet最新調查13位分析師目標價中位數上修至590元。</li>
+  <li><span class="date">股價走勢</span>股價自8月初的396.5元一路飆升至541元(8月高點),近3週漲幅超過36%,現價540已幾乎貼齊FactSet最新目標價590,漲勢已相當程度提前反映DDR漲價的多頭邏輯。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①法人目標價區間分歧極大(350~650元,近乎兩倍價差),顯示市場對DDR漲價循環能延續多久仍無共識;②股價短短3週漲逾36%,漲勢速度已超過分析師目標價上修的速度,現階段追價的安全邊際明顯薄弱,即便長期DDR漲價故事仍然成立,短線也需要時間消化。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">Q2毛利率79.5%逼近八成,稅後純益501.92億元創佳績,DRAM均價季增超過60%驗證記憶體超級循環持續發酵。<div class="src">— Yahoo股市,2026/08法說整理</div></div>
-    <div class="quote">董事會核准5A新廠4年3,466億元資本支出計畫,顯示管理層對記憶體長期景氣的高度信心,提前布局未來產能。<div class="src">— Yahoo股市,2026/08</div></div>
-    <div class="quote">FactSet最新調查14位分析師將2026E EPS共識上修至58.67元,目標價555元,反映法人對南亞科全年獲利動能的樂觀程度持續提升。<div class="src">— 鉅亨網FactSet速報,2026/07/11</div></div>
+    <div class="quote">南亞科取代韓廠成為DDR4漲價主導者,本季DDR估漲67%,Q4/後續季再估漲17%/12%;7月營收438.68億元改寫單月歷史紀錄,年增719.61%。<div class="src">— 豐雲學堂,MOPS官方營收公告,2026/08</div></div>
+    <div class="quote">法人持續上調目標價,瑞銀給予495元,凱基喊到556元,FactSet最新調查上修至590元。<div class="src">— 瑞銀證券、凱基投顧、FactSet,經聯合新聞網彙整,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2銷售量與Q1持平,獲利改善完全仰賴DRAM均價上漲,若報價循環轉折,獲利槓桿效應會反向侵蝕,波動風險不容低估。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">資本支出大舉上修至697億,加上4年3,466億的5A新廠計畫,未來折舊費用墊高將是評估2027年以後獲利品質的重要變數。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">股價自8/7的457上漲至512,漲幅已一定程度追上FactSet目標價555,安全邊際較先前分析時明顯收窄,不宜在現價追價。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">法人目標價分歧極大(350~650元不等),顯示市場對DDR漲價循環能延續多久仍無共識。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價3週內大漲逾36%,現價540已幾乎貼齊FactSet最新目標價590,追價安全邊際明顯薄弱。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(14位分析師,7/11調查)</td><td class="green">555</td><td>2026E EPS中位58.67(38.34~75.16),較先前的57.73上修</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">查無Q2財報(8月)後正式更新的FactSet調查,現有數字為法說會前資料;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,13位分析師)</td><td class="amber">590</td><td>中位數(範圍280~750),較先前572.5再上修3.06%</td></tr>
+  <tr><td>瑞銀證券(近期)</td><td class="amber">495</td><td>2026年EPS估值約52.84元</td></tr>
+  <tr><td>凱基投顧(近期)</td><td class="amber">556</td><td>看好DRAM價量齊揚</td></tr>
+  <tr><td>本土法人(近期)</td><td class="amber">365</td><td>2026年EPS估36.2元,較保守</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">目標價分歧達逾兩倍(280~750),FactSet 13位分析師的590是本站掌握到信度最高的多分析師共識,惟現價540已大致貼近。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -164,69 +140,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
+  <div class="card"><div class="label">7月營收</div><div class="value green">438.68億</div><div class="note">YoY+719.7%,單月改寫紀錄</div></div>
   <div class="card"><div class="label">Q2 EPS</div><div class="value green">14.66</div><div class="note">季增74.32%</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">23.38</div><div class="note">已達2026E FactSet共識(58.67)的40%</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">79.5%</div><div class="note">逼近八成</div></div>
-  <div class="card"><div class="label">2026年資本支出</div><div class="value amber">上修至697億</div><div class="note">原520億;另有5A新廠4年3,466億計畫</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">14檔,約103.0億</div><div class="note">四檔記憶體股中規模最大(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">DRAM均價變化</div><div class="value green">Q2季增逾60%</div><div class="note">Q2銷售量與Q1持平,獲利改善主要來自報價</div></div>
+  <div class="card"><div class="label">近四季EPS</div><div class="value green">約25.77</div><div class="note">獲利軌跡加速中</div></div>
+  <div class="card"><div class="label">資本支出</div><div class="value">突破520億</div><div class="note">支持產能與ASP雙軌成長</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">13檔,合計18,773張</div><div class="note">本批次記憶體三檔中持有度最高</div></div>
+  <div class="card"><div class="label">2026E EPS估值區間</div><div class="value">36.2~52.84</div><div class="note">法人分歧仍大</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與南亞科的差異</th></tr>
-  <tr class="hl"><td>2408.TW</td><td>南亞科</td><td>約8.7x(EPS58.67)</td><td>Q2 EPS季增74.32%,毛利率79.5%</td><td>DRAM原廠,四檔中資本支出上修幅度最大</td></tr>
-  <tr><td>8299.TWO</td><td>群聯(本站另篇分析)</td><td>約5.8x(EPS359.86)</td><td>Q2 EPS118.57創新高,財報後重挫8.77%</td><td>記憶體控制IC/模組廠,非DRAM原廠</td></tr>
-  <tr><td>2344.TW</td><td>華邦電(本站另篇分析)</td><td>約7.5x(EPS24.43)</td><td>7月營收YoY+291.55%創新高</td><td>DRAM/CMS客製化記憶體,自有產能</td></tr>
-  <tr><td>2337.TW</td><td>旺宏(本站另篇分析)</td><td>估值分歧極大</td><td>Q2 EPS3.91創近年新高</td><td>NOR/NAND Flash,非DRAM,業務結構不同</td></tr>
-  <tr><td>—</td><td>美光Micron(參考,本站曾分析)</td><td>查無最新精確數字</td><td>國際DRAM大廠</td><td>國際級規模對照,南亞科為台灣本土DRAM原廠</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與南亞科的差異</th></tr>
+  <tr class="hl"><td>2408.TW</td><td>南亞科</td><td>FactSet目標價590</td><td>Q2 EPS14.66,7月營收YoY+719.7%改寫紀錄</td><td>DRAM製造廠,DDR4漲價主導者,股價漲勢已幾乎貼齊FactSet目標價</td></tr>
+  <tr><td>2344.TW</td><td>華邦電(本站另篇分析)</td><td>FactSet目標價200</td><td>CMS營收年增467%,記憶體業務季增73%</td><td>利基型記憶體廠,產品組合更多元(CMS+利基DRAM)</td></tr>
+  <tr><td>2337.TW</td><td>旺宏(本站另篇分析)</td><td>FactSet目標價183</td><td>Q2 EPS3.91創近年新高,NAND占比43%</td><td>NAND製造廠,與南亞科的DRAM業務互補而非直接競爭</td></tr>
+  <tr><td>8299.TW</td><td>群聯(本站另篇分析)</td><td>FactSet目標價2750</td><td>Q2毛利率創高65.31%</td><td>NAND控制晶片,與南亞科上下游關係</td></tr>
+  <tr><td>SKHY</td><td>SK海力士(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>全球DRAM/HBM大廠</td><td>規模遠大於南亞科,HBM業務是南亞科目前尚未涉足的領域</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——Forward P/E約8.7x仍低於FactSet目標價隱含倍數,但股價漲幅已明顯縮小折價空間。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約8.7x(以FactSet共識EPS58.67計)在四檔記憶體股中屬中段,高於群聯(5.8x)與華邦電(7.5x)。核心變化是股價自8/7分析時的457已上漲至512(+12%),而FactSet目標價(555)並未見到對應幅度的上修(仍是7/11舊調查),使得現價與目標價的距離已從8/7時的+16%收窄至+8.4%,低於本站買進評等的15%門檻。H1實績EPS23.38已達全年共識40%,顯示基本面確實強勁,但股價已相當程度反映這個強勁,不宜再視為明顯低估。</div>
+  <b>估值判斷:合理——現價已大致貼近FactSet共識目標價,上檔空間收斂至一成以內。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">南亞科在這輪DDR漲價循環中的基本面表現確實紮實:7月營收年增719.7%改寫單月歷史紀錄,Q2 EPS季增74.32%,DDR本季估漲67%且後續仍有漲價空間。惟股價在3週內已大漲逾36%,現價540已幾乎貼齊FactSet最新目標價590,上檔空間收斂至9.3%,低於本站的偏多門檻(需≥10%)。法人目標價本身也存在逾兩倍的分歧(280~750),顯示市場對這輪漲價循環能延續多久仍無定論。這是一個「基本面紮實但股價已提前反映」的中性判斷,而非基本面轉弱。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價512 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS58.67,DRAM原廠常態倍數7~10x</td><td>411~587(中值499)</td><td class="red">貴 2.6%(接近合理)</td></tr>
-  <tr><td>FactSet共識目標價</td><td>14位分析師,目標價555(單點,7/11調查)</td><td>555(單點)</td><td class="green">便宜 7.7%</td></tr>
-  <tr><td>H1實績年化對照(推演,低信度)</td><td>H1 EPS23.38×2=46.76(假設H2持平,較FactSet58.67保守),倍數7~10x</td><td>327~468(中值397.5,推演)</td><td class="red">貴 28.8%(對照情境,反映H2能否延續Q2動能的敏感度)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價540 vs 中值</th></tr>
+  <tr><td>FactSet目標價共識(13位分析師,最新)</td><td>中位數590,範圍280~750</td><td>590(單點)</td><td class="amber">合理 -8.5%</td></tr>
+  <tr><td>瑞銀/凱基/本土法人(收斂區間)</td><td>個別機構目標價365~556</td><td>365~556(中值460.5)</td><td class="red">貴 17.3%(相對此區間)</td></tr>
+  <tr><td>H1實績年化交叉驗證</td><td>H1 EPS約23.07×2=46.14(保守),倍數約15~20x(記憶體循環股)</td><td>約692~923(推演,惟未計H2放緩風險)</td><td class="green">便宜 27~53%(推演,信度中等)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:資本支出大舉上修(520億→697億,另加4年3,466億5A新廠計畫)使近兩年FCF可預測性明顯降低,強行套用多年期假設會製造虛假精確度。三種方法呈現分歧:自身本益比法顯示接近合理,FactSet共識目標價顯示小幅便宜,但若保守假設H2動能不如Q2(較合理的年化对照)則轉為明顯偏貴——這種敏感度顯示南亞科現階段的估值合理性高度依賴DRAM報價在H2能否延續Q2的季增速度,現價已不算便宜。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:DRAM業務高度景氣循環且資本支出龐大,EPS法未扣capex的偏樂觀效果與景氣循環的不確定性互相疊加,多年期假設在此類股票信度先天不足。三種方法呈現明顯分歧:FactSet共識顯示現價已大致合理(僅便宜8.5%,接近平衡);瑞銀/凱基/本土法人的收斂區間反而顯示現價偏貴逾17%;H1年化交叉驗證則因未計入H2可能的漲價放緩風險,顯示相對樂觀但信度中等。三法不一致本身即是「現階段不宜追價」的訊號,採FactSet共識(信度最高、樣本數最多)作為主要判斷依據,結論為合理偏中性。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">創高後追價熱絡</div><div class="bar"><div style="width:66%;background:var(--green)"></div></div><div class="note">8/14盤中創今年新高542,惟收盤拉回512</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價555,惟未反映Q2財報後最新股價</div><div class="note">7/11調查,距8月股價漲幅已收斂</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">23.38(H1實績)→58.67(2026E共識)</div><div class="note">H2 DRAM報價能否延續季增速度是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value red">3週內大漲逾36%,情緒高度樂觀</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">8月區間396.5~541</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet590,現價已大致貼近</div><div class="note">個別機構分歧仍大(280~750)</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">14.66(Q2)→2026年估值分歧36.2~52.84</div><div class="note">DDR漲價能否延續至2027年是關鍵</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>38.34/58.67/75.16(FactSet共識)</td><td>7~10x</td><td>411~587(中值499)</td><td class="red">約 -3%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,記憶體循環股本質難以線性外推</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>36.2~52.84(法人分歧區間)</td><td>約10~14x(記憶體循環股)</td><td>362~740(中值551)</td><td class="green">約 +2%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,DDR漲價循環能否延續是最大不確定因素</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬已接近持平,顯示現價已大致反映當年度的樂觀預期;2027、2028年因DRAM循環股本質上難以線性外推,查無低高標共識,不強行推演。這條路徑的核心啟示是:南亞科的估值合理性已從8/7分析時的明顯便宜收斂至接近合理,追價前應等待FactSet對Q2財報後的正式估值更新,或等待回檔提供更大安全邊際。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬接近持平(約+2%),反映現價已大致落在法人估值分歧區間的中段;這個小幅正報酬本身就說明了為何本站給予中性而非偏多評等——上檔空間有限,且高度依賴DDR漲價循環能否延續。2027年EPS共識查無穩定數字,循環股的中長期展望本質上難以精確預測,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 150~700;left% = (價格-150)/550×92+4 -->
+<!-- 刻度 280~800;left% = (價格-280)/520×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:16.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">330~380</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41%"><div class="lbl">Base(6~12月)</div><div class="price amber">470~530</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:65.1%"><div class="lbl">Bull(12~18月)</div><div class="price green">600~650</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:86.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">700~750</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:64.6%"><div class="arrow">▲</div><div class="price">512</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">380~430</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">490~540</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">560~620</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">670~730</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:50.2%"><div class="arrow">▲</div><div class="price">540.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>330~380</td><td>DRAM報價循環轉折或Q2均價漲幅不可持續,倍數回落至6~7x</td><td class="red">約 -31%</td></tr>
-  <tr><td class="amber">Base</td><td>470~530</td><td>H2動能持平但不再加速,FactSet共識倍數區間內震盪;現價落於此區間內</td><td class="red">約 -2%</td></tr>
-  <tr><td class="green">Bull</td><td>600~650</td><td>DRAM報價延續季增動能至H2,FactSet共識目標價555上緣兌現並延伸</td><td class="green">約 +22%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>700~750</td><td>記憶體超級循環超預期延長,資本支出效益提前顯現</td><td class="green">約 +41%</td></tr>
+  <tr><td class="red">Bear</td><td>380~430</td><td>DDR漲價循環提前見頂,或法人共識向瑞銀/凱基較保守區間收斂</td><td class="red">約 -25%</td></tr>
+  <tr><td class="amber">Base</td><td>490~540</td><td>DDR漲價動能持平,現價維持現階段區間整理</td><td class="red">約 -5%</td></tr>
+  <tr><td class="green">Bull</td><td>560~620</td><td>Q4/後續季DDR漲價如期兌現17%/12%,現價向FactSet目標價590靠攏</td><td class="green">約 9%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>670~730</td><td>DDR漲價循環延續超預期,法人上修至瑞銀/凱基更樂觀情境</td><td class="green">約 30%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -235,36 +210,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">460~490</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">410~455</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">330~405</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">500~520</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">480~499</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">430~479</td><td>35%(接近Bear情境)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">325</b>(接近6~7月支撐區間)= DRAM報價循環轉折或均價上漲趨勢逆轉,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">480</b>(低於近期整理區支撐)= DDR漲價循環動能不如預期確認,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="label">右側計畫|順勢突破,適合波段(現階段上檔有限,建議等待回檔)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破542(8/14盤中新高)+量能確認,且8月營收驗證DRAM報價動能延續<br>
-    進場區:<b class="green">545~570</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回525即出場</div>
+    觸發條件:收盤突破541(今年高點)+量能確認,且Q4/後續季DDR漲價如期兌現<br>
+    進場區:<b class="green">545~580</b>(倉位應保守,上檔空間有限)<br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回520即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">600~650</div><div class="note">賣出30~50%;Bull區,FactSet共識目標555上緣達陣</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">700~750</div><div class="note">Stretched區;續抱條件是記憶體超級循環超預期延長獲驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">560~620</div><div class="note">賣出35~50%;Bull區,上檔空間有限應積極獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">670~730</div><div class="note">Stretched區;續抱條件是DDR漲價循環延續超預期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:Q2財報EPS 14.66元季增74.32%,毛利率79.5%逼近八成,H1累計EPS 23.38元;管理層同步將2026年資本支出上修至697億元,另核准5A新廠4年3,466億元的長期擴產計畫,顯示對記憶體超級循環的高度信心。</div>
-<div class="concl">① <b>催化劑</b>:DRAM均價季增逾60%是Q2獲利改善的主因(銷售量與Q1持平),驗證記憶體超級循環持續發酵;但資本支出大舉上修意味著未來折舊費用同步墊高,是評估中長期獲利品質的重要變數。</div>
-<div class="concl">② <b>估值</b>:合理——Forward P/E約8.7x已接近FactSet倍數隱含的合理區間,股價自8/7分析時的457已上漲至512(+12%),現價與FactSet目標價555的距離已收窄至+8.4%,低於本站買進評等門檻;若保守假設H2動能不如Q2,估值訊號甚至轉為偏貴。</div>
-<div class="concl">③ <b>結論</b>:中性、漲多之後等回檔——現價512落於Base區間內,上檔Bull +22%/Stretched +41%對下檔Bear -31%,本站目標價自8/7分析的530小幅上修至555但評等由偏多轉為中性;左側倉位建議等回檔至460以下再分批布局,收盤跌破325即DRAM報價循環轉折,無條件出場。下一個驗證點是H2 DRAM報價能否延續季增速度與FactSet正式更新目標價。</div>
+<div class="concl">① <b>催化劑</b>:南亞科成為DDR4漲價主導者,本季DDR估漲67%,Q4/後續季再估漲17%/12%;Q2 EPS14.66元季增74.32%,7月營收438.68億元(YoY+719.7%)改寫單月歷史紀錄。惟股價3週內大漲逾36%,現價已幾乎貼齊FactSet最新目標價590。</div>
+<div class="concl">② <b>估值</b>:合理——FactSet最新目標價590與現價540落差僅8.5%,低於本站偏多門檻;個別機構目標價分歧達逾兩倍(280~750),顯示市場對DDR漲價循環能延續多久仍無共識,估值方法交叉檢核出現罕見的方向不一致。</div>
+<div class="concl">③ <b>結論</b>:中性、DDR漲價動能強勁但漲幅已提前反映——現價540落於Base區間上緣,上檔Bull +9%/Stretched +30%對下檔Bear -25%,風險報酬不對稱,不建議現階段追價,可等回檔至左側批次價位再分批布局;跌破480即無條件出場。下一個關鍵驗證點是Q4/後續季DDR漲價幅度能否如期兌現17%/12%guidance。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2財報與資本支出計畫(Yahoo股市,2026/08法說整理);FactSet共識EPS/目標價(鉅亨網FactSet速報,2026/07/11調查,尚無8月更新);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後正式更新之FactSet調查、2027年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、Yahoo股市、鉅亨網FactSet速報。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次估值刻意呈現FactSet目標價未反映最新股價漲幅的時效落差,不應僅採信對多方有利的舊數字。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q2財報(公司公告,2026/08);目標價與EPS共識(FactSet最新調查、瑞銀證券、凱基投顧,經聯合新聞網、豐雲學堂彙整,2026/07~08);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識查無穩定數字,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司財報公告、FactSet、聯合新聞網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

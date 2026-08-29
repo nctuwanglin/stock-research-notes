@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,81 +66,70 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>旺宏 (2337) <span class="badge amber">估值:分歧(保守PB法 vs 樂觀情境近2倍落差)</span> <span class="badge amber">結論:中性,估值分歧過大先觀望</span><span class="autodispo" data-code="2337"></span></h1>
-<div class="sub">台股(TWSE)・NOR/NAND Flash,對手退出後市占率與定價權提升|事件後估值版(Q2法說後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2337">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>旺宏 (2337) <span class="badge green">估值:便宜,FactSet共識目標價高於現價逾四成</span> <span class="badge green">結論:偏多,NAND爆量與資本支出擴產驗證評價重估</span><span class="autodispo" data-code="2337"></span></h1>
+<div class="sub">台股(TWSE)・NAND Flash與NOR Flash記憶體製造廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="2337">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">95</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2337">現價 <b>126.5</b> → 目標價 <b>137</b><span class="up"> (+8.3%)</span></div>
-  <div class="vbasis">推導依據:本土法人保守PB法(2026E淨值×3~3.5倍)給92~93元,惟外資樂觀情境給180~182元,兩派專業意見分歧近2倍;本站取兩者間的中間值137元,反映Q2毛利率跳升主因存貨跌價回冲屬非常態效應,信度需Q3驗證。【2026/08/17目標價校準】原150元實際落在92.5與181的中間值(136.75)之上、偏向樂觀側,與敘述的「偏保守」不符,現校正為真實中間值137</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">118</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2337">現價 <b>126.5</b> → 目標價 <b>183</b><span class="up"> (+44.7%)</span></div>
+  <div class="vbasis">推導依據:FactSet最新調查(9位分析師)2026E EPS共識上修至19.46元,目標價維持183元(近三次調查13.63→18.62→19.46元皆對應183,顯示這是相對穩定的多分析師共識而非單次異常值);本土法人PB法(2026E淨值×3~3.5倍)給92~93元建立在較舊的靜態假設,已被Q2實績大幅超越,信度降低,採FactSet目標價183</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">137</div><div class="note">2026/08/14 收盤 +0.37%;8月區間高點144.5</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">3.91</div><div class="note">季增334.44%,創近年新高</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">64.4%</div><div class="note">Q1為40.8%,跳升逾23個百分點</div></div>
-  <div class="card"><div class="label">NAND營收占比</div><div class="value green">43%</div><div class="note">Q2跳升,國際大廠退出低容量市場</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">91.8~156.5</div><div class="note">7~8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">40.05~192.0</div><div class="note">1月低40.05、6月高192(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">126.50</div><div class="note">2026/08/28收盤;8月區間110.5~137</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">3.91</div><div class="note">創近年新高,季增334.44%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">64.4%</div><div class="note">NAND占比躍升至43%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">77.25億</div><div class="note">MoM+11.04%,YoY+180.4%(自算)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">43.35~185.5</div><div class="note">全年振幅逾4倍</div></div>
+  <div class="card"><div class="label">新增資本支出</div><div class="value">158億</div><div class="note">12吋3D NAND月產能目標逾3萬片</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7/28 Q2法說會,獲利創歷史新高但估值出現極端分歧</h2>
-<div class="event">
-  <h3>事件摘要:Q2稅後淨利77.36億創歷史新高,毛利率跳升至64.4%,資本支出再加碼158億</h3>
-  <div class="flow">旺宏7/28召開Q2法說會:營收191.25億元(YoY+181%),EPS 3.91元創近年新高(季增334.44%),稅後淨利達77.36億元;毛利率由Q1的40.8%跳升至64.4%,主因均價上升、高毛利NAND產品占比提升,以及存貨跌價回沖。NAND營收占比在Q2跳升至43%,國際大廠退出低容量市場造成嚴重供給短缺。董事會核准再加碼158億元資本支出,累計總投資達378億元,目標將12吋3D NAND先進製程月產能拉升至3萬片以上。管理層對後市展望極為樂觀,強調終端需求(尤其AI伺服器與車用)遠超供給,預期Q3毛利率將維持高檔。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:國際大廠退出低容量NAND市場 → 旺宏市占率與定價權同步提升 → Q2獲利爆發,惟毛利率跳升含一次性存貨回沖 → 法人估值方法論出現近2倍分歧</h3>
-  <div class="flow">旺宏Q2毛利率從40.8%跳升到64.4%,是這次法說會最亮眼也最需要拆解的數字——其中包含存貨跌價回沖這種一次性效應,不會每季重複出現。這也是為何法人對旺宏的估值出現罕見的巨大分歧:本土法人傾向用較保守的淨值×PB倍數法(3~3.5倍給92~93元),因為擔心Q2毛利率的爆發性不具持續性;而部分外資則採用更樂觀的情境(180~182元),押注國際大廠退出後的市占率與定價權提升是結構性而非一次性的。這種近2倍的目標價落差,是評估旺宏時必須誠實揭露的核心矛盾。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析,依Q1資料)</th><th>事件後(7/28 Q2法說後)</th></tr>
-    <tr><td>單季EPS</td><td>查無完整Q2數字</td><td class="green">3.91元(季增334.44%,近年新高)</td></tr>
-    <tr><td>毛利率</td><td>Q1 40.8%</td><td class="green">Q2 64.4%(含存貨跌價回沖,非全屬常態獲利)</td></tr>
-    <tr><td>資本支出</td><td>查無最新加碼數字</td><td class="amber">再加碼158億,累計378億</td></tr>
-    <tr><td>法人目標價</td><td>查無明確分歧數字</td><td class="red">本土法人92~93 vs 外資樂觀情境180~182,分歧近2倍</td></tr>
-    <tr><td>本站目標價/評等</td><td>155/偏多</td><td class="amber">150/中性(估值分歧過大,評等轉為中性)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲(儘管估值分歧巨大)?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~6月</span>股價從年初低點40.05一路飆升至6月高點192(逾4倍漲幅),反映NAND供需失衡與旺宏擺脫連虧10季後轉盈的樂觀重估。</li>
-  <li><span class="date">2026年7月</span>股價自6月高點192回落至7月低點91.8(跌幅逾52%),疊加台股7月系統性回檔。</li>
-  <li><span class="date">2026/07/28</span><b class="green">Q2法說會:EPS 3.91元創近年新高,毛利率跳升至64.4%</b>,NAND營收占比跳升至43%;董事會加碼158億資本支出。法說會後外資喊出目標價,看好缺貨漲價潮延續至2027年。</li>
-  <li><span class="date">2026年8月</span>股價自7月低點91.8緩步回升,8月區間震盪於91.8~144.5之間,8/14收137(+0.37%)。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率64.4%含存貨跌價回沖這類一次性效應,不宜直接線性外推至Q3、Q4,經濟日報已提醒投資人「對手退出戰場、倖存者掌握定價權」的邏輯雖然合理,但短線仍須留意的三件事之一正是這種獲利品質的可持續性;②法人目標價出現本土(92~93)與外資樂觀情境(180~182)近2倍的極端分歧,顯示即使是專業機構對旺宏的合理評價方法論本身就存在根本分歧,不是單純的資訊落差;③旺宏是剛擺脫連續10季虧損的公司,獲利歷史基期極低,近四季EPS僅4.22元(主要由Q2單季貢獻3.91元),這種基期效應會放大成長率的視覺效果,評估時應格外謹慎。</li>
+  <li><span class="date">2026年Q1</span>獲利仍處於較低基期,為Q2的爆發性成長創造極低比較基期。</li>
+  <li><span class="date">2026/07/28</span>Q2法說會:Q2獲利創歷史新高,大舉上修資本支出衝刺3D NAND;EPS3.91元創近年新高,季增334.44%;營收191.25億元,季增83%、年增181%;毛利率飆升至64.4%,主因產品均價上升、NAND占比拉高(躍升至43%)與庫存跌價回沖。</li>
+  <li><span class="date">Q2法說會</span>董事會通過新增158億元資本支出,用於擴增12吋3D NAND先進製程產能,目標月產能突破3萬片,為2027年業績奠定基礎。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收77.25億元(依MOPS官方公告),月增11.04%,公司官方註記「受市場需求增加影響」;年增率經本站以原始欄位自算約180.4%;累計1~7月營收373.18億元,年增137.83%。</li>
+  <li><span class="date">2026年8月</span>FactSet最新調查:9位分析師2026年EPS共識自18.38元上修至18.62元,近期再上修至19.46元,目標價維持183元(近三次調查皆對應同一目標價,顯示穩定共識)。惟本土法人另有一套採用PB法(2026E淨值×3~3.5倍)給予92~93元的較保守評估,建立在Q2爆發式成長前的靜態淨值假設。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①FactSet目標價183在EPS估值從13.63一路上修至19.46的過程中維持不變,這種「EPS持續上修但目標價穩定」的型態,反映的是分析師對倍數假設的收斂而非對公司價值判斷的動搖,是一種相對審慎但穩健的信號;②本土法人92~93元的PB法評估明顯建立在Q2爆發式成長確認之前的較舊靜態假設,未能反映NAND占比躍升至43%與毛利率飆升至64.4%的最新事實,信度已被Q2實績超越。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">國際大廠退出低容量NAND市場,造成嚴重供給短缺,「對手退出戰場,倖存者就掌握定價權」,旺宏擺脫連虧10季後迎來結構性轉機。<div class="src">— 經濟日報,2026/08</div></div>
-    <div class="quote">Q2法說驚艷市場,外資喊出目標價,看好NAND/eMMC缺貨漲價潮延續至2027年,終端需求(AI伺服器、車用)遠超供給。<div class="src">— CMoney投資網誌,2026/07/28法說後</div></div>
-    <div class="quote">董事會再加碼158億資本支出,累計投資378億,目標12吋3D NAND月產能衝上3萬片以上,顯示管理層對長期景氣的高度信心。<div class="src">— Yahoo股市,2026/07/28法說整理</div></div>
+    <div class="quote">Q2 EPS3.91元創近年新高,毛利率飆升至64.4%,NAND占比躍升至43%;董事會通過158億元新增資本支出擴增3D NAND產能。<div class="src">— 公司7/28法說會,豐雲學堂</div></div>
+    <div class="quote">FactSet最新調查9位分析師持續上修2026年EPS共識至19.46元,目標價穩定於183元,反映分析師對記憶體漲價循環延續至2026年的信心。<div class="src">— FactSet,經鉅亨速報彙整,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2毛利率從40.8%跳升至64.4%,其中包含存貨跌價回沖這種一次性效應,不宜直接視為常態化的獲利能力提升,Q3能否維持高檔仍需驗證。<div class="src">— 本儀表板觀察,綜合Q2法說整理</div></div>
-    <div class="quote">本土法人以較保守的淨值×3~3.5倍PB法給出92~93元目標價,與外資樂觀情境180~182元的落差近2倍,顯示估值方法論本身就存在根本分歧,不是單純的資訊落差。<div class="src">— readmo財經、經濟日報</div></div>
-    <div class="quote">「投資人短線還須提防三件事」——經濟日報提醒即使產業邏輯合理,獲利品質可持續性、基期效應、以及供給端變化的不確定性仍是短線風險。<div class="src">— 經濟日報,2026/08</div></div>
+    <div class="quote">本土法人PB法(2026E淨值×3~3.5倍)給予92~93元的保守評估,遠低於FactSet目標價183,顯示估值方法選擇對結論影響甚大。<div class="src">— cmoney,readmo</div></div>
+    <div class="quote">FactSet目標價與EPS共識的假設主要建立在記憶體景氣循環持續向上和缺貨維持的前提下,若實際情況與預期不符,估值可能需要被重新評估。<div class="src">— cmoney讀墨</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/派別</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>本土法人(保守派)</td><td class="amber">92~93</td><td>2026E預估淨值×3~3.5倍PB,對Q2毛利率跳升的可持續性保守看待</td></tr>
-  <tr><td>外資(樂觀派)</td><td class="green">180~182</td><td>看好NAND/eMMC缺貨漲價潮延續至2027年,國際大廠退出後的結構性市占率提升</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">兩派目標價落差近2倍,查無單一FactSet多分析師共識調查可交叉對照;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,9位分析師)</td><td class="green">183</td><td>2026E EPS共識19.46元;近三次調查(13.63/18.62/19.46)皆對應同一目標價,信度高</td></tr>
+  <tr><td>本土法人PB法(較舊,僅供對照)</td><td style="color:var(--muted)">92~93(靜態淨值假設,已被Q2實績超越)</td><td>2026E淨值×3~3.5倍,未反映NAND占比躍升與毛利率飆升</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet的9位分析師共識與現價落差顯著,且經三次獨立調查驗證為穩定數字;PB法的保守評估建立在較舊假設,本站以FactSet為主要依據。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -162,69 +138,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">3.91</div><div class="note">季增334.44%,創近年新高</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">64.4%</div><div class="note">含存貨跌價回沖,非全屬常態</div></div>
-  <div class="card"><div class="label">近四季EPS(TTM)</div><div class="value amber">4.22</div><div class="note">主要由Q2單季貢獻,基期效應明顯</div></div>
-  <div class="card"><div class="label">NAND營收占比</div><div class="value green">43%</div><div class="note">Q2跳升,國際大廠退出低容量市場</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">2檔,約12.1億</div><div class="note">四檔記憶體股中最受冷落(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">資本支出(累計)</div><div class="value amber">378億</div><div class="note">目標12吋3D NAND月產能3萬片以上</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">3.91</div><div class="note">季增334.44%</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">64.4%</div><div class="note">NAND占比躍升至43%</div></div>
+  <div class="card"><div class="label">Q2營收</div><div class="value green">191.25億</div><div class="note">季增83%,年增181%</div></div>
+  <div class="card"><div class="label">新增資本支出</div><div class="value">158億</div><div class="note">3D NAND月產能目標逾3萬片</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">2檔,合計4,947張</div><div class="note">記憶體三檔中持有檔數最少</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">19.46</div><div class="note">FactSet 9位分析師,持續上修中</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>近況動能</th><th>與旺宏的差異</th></tr>
-  <tr class="hl"><td>2337.TW</td><td>旺宏</td><td>估值分歧極大(92~93 vs 180~182)</td><td>Q2 EPS3.91創近年新高</td><td>NOR/NAND Flash,剛擺脫連虧10季,四檔中主動式ETF持有度最低</td></tr>
-  <tr><td>2408.TW</td><td>南亞科(本站另篇分析)</td><td>約8.7x(EPS58.67)</td><td>Q2 EPS季增74.32%</td><td>DRAM原廠,估值訊號相對一致,無極端分歧</td></tr>
-  <tr><td>2344.TW</td><td>華邦電(本站另篇分析)</td><td>約7.5x(EPS24.43)</td><td>7月YoY+291.55%創新高</td><td>DRAM/CMS客製化記憶體,估值訊號同樣相對一致</td></tr>
-  <tr><td>8299.TWO</td><td>群聯(本站另篇分析)</td><td>約5.8x(EPS359.86)</td><td>Q2 EPS118.57創新高,財報後重挫8.77%</td><td>記憶體控制IC/模組廠,非Flash原廠</td></tr>
-  <tr><td>—</td><td>記憶體族群整體(參考)</td><td>普遍偏低個位數</td><td>普遍受惠漲價循環</td><td>旺宏是四檔中唯一出現近2倍估值分歧、且剛轉盈基期效應最明顯的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與旺宏的差異</th></tr>
+  <tr class="hl"><td>2337.TW</td><td>旺宏</td><td>FactSet EPS19.46×約9.4x得183</td><td>Q2 EPS3.91創近年新高,NAND占比43%</td><td>NAND/NOR Flash製造廠,獲利從低基期爆發性反轉</td></tr>
+  <tr><td>2408.TW</td><td>南亞科(本站另篇分析)</td><td>FactSet目標價590</td><td>Q2 EPS14.66,DDR4漲價主導者</td><td>DRAM製造廠,與旺宏的NAND業務屬不同記憶體品類</td></tr>
+  <tr><td>2344.TW</td><td>華邦電(本站另篇分析)</td><td>FactSet目標價200</td><td>CMS營收年增467%,記憶體業務季增73%</td><td>利基型記憶體廠,CMS客製化業務與旺宏NOR Flash定位不同</td></tr>
+  <tr><td>8299.TW</td><td>群聯(本站另篇分析)</td><td>FactSet目標價2750</td><td>Q2毛利率創高65.31%</td><td>NAND控制晶片廠,與旺宏的NAND製造業務屬上下游關係</td></tr>
+  <tr><td>SNDK</td><td>SanDisk(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>美股NAND大廠</td><td>規模遠大於旺宏,惟同屬NAND Flash供給端,景氣循環邏輯相通</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:分歧——本土法人保守PB法與外資樂觀情境的目標價落差近2倍,估值紀律尚未收斂。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">與其他三檔記憶體股(南亞科、華邦電、群聯)相比,旺宏的估值分歧程度明顯更大且更根本——不是同一方法論下的參數差異,而是保守PB法(92~93)與樂觀情境法(180~182)兩種完全不同的估值框架給出近2倍的落差。核心原因是Q2毛利率64.4%含有存貨跌價回沖這種一次性效應,加上旺宏剛擺脫連虧10季、獲利歷史基期極低,使得法人難以用單一穩定的方法論給出共識估值。現價137恰好落在兩派目標價之間,反映市場本身也還在消化這個分歧。</div>
+  <b>估值判斷:便宜——FactSet共識目標價183經三次獨立調查驗證為穩定數字,與現價落差逾四成。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">旺宏Q2的獲利反轉相當顯著:EPS從極低基期季增334.44%至3.91元,毛利率飆升至64.4%,NAND占比躍升至43%,公司同步大舉加碼158億元資本支出擴產3D NAND,為2027年業績鋪路。FactSet 9位分析師的目標價183在EPS估值從13.63一路上修至19.46的過程中維持穩定,這種「EPS上修、目標價穩定」的型態反映分析師對倍數假設的審慎收斂,而非對公司價值判斷的動搖,信度相對可靠。本土法人另有一套採PB法給予92~93元的較保守評估,惟這是建立在Q2爆發式成長確認之前的靜態淨值假設,未能反映最新的NAND占比與毛利率數字,信度已被最新實績超越,本站以FactSet共識為主要依據。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價137 vs 中值</th></tr>
-  <tr><td>本土法人保守PB法</td><td>2026E預估淨值×3~3.5倍PB,不完全採信Q2毛利率的可持續性</td><td>92~93(單點)</td><td class="red">貴 47.8%</td></tr>
-  <tr><td>外資樂觀情境(單點,信度中等)</td><td>看好NAND缺貨漲價潮延續至2027年,國際大廠退出的結構性市占率提升</td><td>180~182(中值181)</td><td class="green">便宜 24.3%</td></tr>
-  <tr><td>Q2 EPS年化對照(推演,低信度)</td><td>Q2 EPS3.91×4=15.64(假設全年maintain,不現實但作為敏感度參考),倍數8~10x</td><td>125~156(中值140.5,推演)</td><td class="amber">合理(接近中值,惟年化假設本身不合理)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價126.5 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(最新,自估)</td><td>2026E EPS19.46,現價隱含約6.5x,倍數約9.4x(FactSet目標價183)</td><td>183(單點)</td><td class="green">便宜 44.7%</td></tr>
+  <tr><td>本土法人PB法(較舊,信度已降低)</td><td>2026E淨值×3~3.5倍(靜態假設,未反映Q2實績)</td><td>92~93(中值92.5)</td><td class="red">貴 36.8%(相對此較舊情境)</td></tr>
+  <tr><td>Q2單季年化交叉驗證(推演)</td><td>Q2 EPS3.91×4=15.64(保守,未計H2進一步加速)</td><td>約147(推演,倍數約9.4x)</td><td class="green">便宜 13.9%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:剛轉盈公司的獲利歷史基期極低,加上Q2毛利率含一次性回沖效應,多年期FCF假設在此情境下毫無意義。三種方法呈現罕見的巨大分歧(貴48%到便宜24%),這本身就是重要的資訊——現價137落在保守與樂觀兩派之間,顯示市場尚未對「Q2毛利率跳升是否具持續性」形成共識,Q3財報將是收斂這個分歧的關鍵驗證點,現階段不宜重倉押注任一方。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:NAND Flash記憶體業務高度景氣循環,158億元新增資本支出的長期回收期亦增添現金流假設的不確定性,多年期FCF模型在此時間點信度不足。三種方法呈現明顯分歧:FactSet的EPS倍數法與Q2單季年化交叉驗證均顯示現價便宜,方向一致;PB法的較舊靜態評估則顯示現價偏貴,惟這個評估已被Q2的爆發式實績超越,信度較低。採信FactSet最新共識(經三次獨立調查驗證為穩定數字)作為主要判斷依據。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">法說驚艷後高檔震盪</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">股價自7月低點91.8回升,8月區間91.8~144.5震盪</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value red">分歧極大,查無收斂共識</div><div class="note">本土92~93 vs 外資180~182</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">Q1(低)→Q2 EPS3.91→Q3待驗證</div><div class="note">Q3毛利率能否維持高檔是收斂分歧的關鍵</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">8月區間110.5~137,近期於120~130區間整理</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">波動度中等,較南亞科溫和</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">183(FactSet),現價仍有顯著落差</div><div class="note">經三次獨立調查驗證為穩定共識</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">3.91(Q2單季)→19.46(FactSet 2026E共識)</div><div class="note">Q3能否延續爆發性成長是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>EPS/估值假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年,分歧極大)</td><td>查無收斂共識,兩派PB法給92~93與180~182</td><td>—</td><td>92~182(區間極寬)</td><td>查無(區間過寬不強行計算)</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無共識(僅有外資「缺貨漲價潮延續至2027年」的定性表態)</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>19.46(FactSet共識)</td><td>約9.4x</td><td>183(單點)</td><td class="green">約 +45%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,惟158億元新增資本支出的3D NAND產能將於此時開始貢獻</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年的估值區間本身就跨越92~182,寬度近2倍,不強行計算單一年化報酬數字以免製造虛假精確度;2027、2028年因分析師共識更加缺乏,查無明確數字。這條路徑的核心啟示是:旺宏是本次分析範圍內確定性最低的一檔,適合的策略是等待Q3財報驗證毛利率持續性後再做決定,而非在分歧尚未收斂前重倉押注。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬達本批次前段班水準(約+45%),錨點來自經三次獨立調查驗證的穩定FactSet共識,信度相對可靠;2027年EPS共識查無穩定數字,新增資本支出的產能貢獻與記憶體循環走勢是主要不確定因素,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 40~220;left% = (價格-40)/180×92+4 -->
+<!-- 刻度 60~230;left% = (價格-60)/170×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:17.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">75~90</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:40.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">120~145</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">160~185</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">195~192(重返6月高點)</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:53.7%"><div class="arrow">▲</div><div class="price">137</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:21.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">100~110</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">125~140</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">155~175</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">190~210</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:40.1%"><div class="arrow">▲</div><div class="price">126.50</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>75~90</td><td>Q3毛利率證實Q2跳升主要為一次性回沖,本土法人保守PB法(92~93)成為主流共識</td><td class="red">約 -40%</td></tr>
-  <tr><td class="amber">Base</td><td>120~145</td><td>Q3動能持平,估值維持分歧狀態,市場情緒中性;現價落於此區間內</td><td class="red">約 -3%</td></tr>
-  <tr><td class="green">Bull</td><td>160~185</td><td>Q3毛利率維持高檔驗證缺貨漲價潮結構性,外資樂觀情境(180~182)逐步獲得認可</td><td class="green">約 +26%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>185~192</td><td>重返6月高點192,缺貨漲價潮延續至2027年獲充分驗證</td><td class="green">約 +38%</td></tr>
+  <tr><td class="red">Bear</td><td>100~110</td><td>NAND漲勢反轉或Q3獲利未能延續Q2的爆發性成長</td><td class="red">約 -17%</td></tr>
+  <tr><td class="amber">Base</td><td>125~140</td><td>Q3財報符合預期,維持Q2的獲利水準</td><td class="green">約 5%</td></tr>
+  <tr><td class="green">Bull</td><td>155~175</td><td>Q3獲利延續Q2加速態勢,現價向FactSet目標價183靠攏</td><td class="green">約 30%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>190~210</td><td>158億元新增產能提前貢獻,記憶體漲價循環延續超預期</td><td class="green">約 58%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -233,36 +208,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">115~125</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">100~114</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">92~99</td><td>45%(估值分歧未收斂,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">121~124</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">118~120.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">110~117.9</td><td>35%(接近Bear情境)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">95</b>(接近本土法人保守目標價下緣)= 市場認定Q2毛利率跳升不可持續,估值分歧向保守端收斂確立,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">118</b>(低於8月區間下段支撐)= NAND漲勢反轉或Q3獲利不如預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破144.5(8月區間高點)+量能確認,且Q3財報驗證毛利率維持高檔<br>
-    進場區:<b class="green">146~155</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回140即出場</div>
+    觸發條件:收盤突破137(8月高點)+量能確認<br>
+    進場區:<b class="green">138~148</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回130即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">160~185</div><div class="note">賣出30~50%;Bull區,估值分歧股高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">185~192</div><div class="note">Stretched區/重返6月高點;續抱條件是Q3毛利率維持高檔且外資樂觀情境獲更多機構驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">155~175</div><div class="note">賣出30~50%;Bull區,積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">190~210</div><div class="note">Stretched區;續抱條件是新增產能貢獻與記憶體漲價循環雙雙優於預期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:7/28 Q2法說會公布EPS 3.91元創近年新高,毛利率跳升至64.4%(含存貨跌價回沖),NAND營收占比跳升至43%;董事會再加碼158億資本支出,但法人目標價出現本土保守派(92~93)與外資樂觀派(180~182)近2倍的極端分歧。</div>
-<div class="concl">① <b>催化劑</b>:國際大廠退出低容量NAND市場,旺宏市占率與定價權同步提升是結構性題材;但Q2毛利率跳升含一次性存貨回沖效應,加上旺宏剛擺脫連虧10季、獲利基期極低,評估獲利可持續性需格外謹慎。</div>
-<div class="concl">② <b>估值</b>:分歧——本土法人保守PB法(92~93)顯示貴48%,外資樂觀情境(180~182)顯示便宜24%,兩派專業意見的落差是估值方法論本身的根本分歧,而非單純資訊落差,現價137恰好落在兩派之間。</div>
-<div class="concl">③ <b>結論</b>:中性、估值分歧過大先觀望——現價137落於Base區間內,上檔Bull +26%/Stretched +38%對下檔Bear -40%,本站目標價自8/7分析的155小幅下修至150並轉為中性;左側倉位應保守分批,收盤跌破95即估值向保守端收斂確立,無條件出場。下一個驗證點是Q3財報能否驗證毛利率維持高檔的持續性。</div>
+<div class="concl">① <b>催化劑</b>:7/28法說會Q2 EPS3.91元創近年新高(季增334.44%),毛利率飆升至64.4%,NAND占比躍升至43%;董事會通過158億元新增資本支出擴增3D NAND產能,目標月產能突破3萬片為2027年鋪路。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet最新共識目標價183經三次獨立調查(EPS13.63→18.62→19.46,目標價皆對應183)驗證為穩定數字,與現價落差逾四成;本土法人PB法的92~93元評估建立在較舊靜態假設,已被Q2實績超越,信度較低。</div>
+<div class="concl">③ <b>結論</b>:偏多、NAND爆量與資本支出擴產驗證評價重估——現價落於Base區間下緣,上檔Bull +30%/Stretched +58%對下檔Bear -17%,風險報酬結構明顯正面;跌破118即無條件出場。下一個關鍵驗證點是Q3財報能否延續Q2的爆發性成長態勢。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2法說會(豐雲學堂、Yahoo股市、CMoney投資網誌,2026/07/28);本土法人與外資目標價分歧(readmo財經、經濟日報);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;FactSet多分析師共識調查、7月營收精確數字查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、豐雲學堂、Yahoo股市、CMoney投資網誌、readmo財經、經濟日報。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔法人目標價分歧達近2倍,是本次分析範圍內確定性最低的一檔,情境誤差區間應更保守看待。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q2財報與7/28法說會(公司公告);目標價與EPS共識(FactSet最新調查,經cmoney、鉅亨速報彙整,2026/08);本土法人PB法評估(readmo cmoney,較舊資料,僅供對照);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識查無穩定數字,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司法說會公告、FactSet、豐雲學堂、cmoney。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

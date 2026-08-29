@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,81 +66,77 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .warncard{background:rgba(245,176,65,.10);border:1px solid var(--amber);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .warncard b{color:var(--amber);}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>富世達 (6805) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾四成)</span> <span class="badge green">結論:分批布局,H2水冷接頭動能可望回升</span><span class="autodispo" data-code="6805"></span></h1>
-<div class="sub">台股(TWSE)・水冷快接頭+滑軌雙引擎,伺服器占比已破五成|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6805">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>富世達 (6805) <span class="badge green">估值:合理偏便宜,FactSet目標價高於現價約一成</span> <span class="badge amber">結論:偏多但追高風險升高,建議左側分批而非追價</span><span class="autodispo" data-code="6805"></span></h1>
+<div class="sub">台股(TWSE)・水冷快接頭與摺疊機轉軸雙引擎廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="6805">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1340</span>(收盤跌破即出場)</span></div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">1950</span>(收盤跌破即出場)</span></div>
   <div class="verdict" data-code="6805">現價 <b>2345</b> → 目標價 <b>2600</b><span class="up"> (+10.9%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價2600(2026E EPS共識66.52,11位分析師);惟此調查早於Q2財報(摺疊機出貨不如預期導致QoQ下滑),核心水冷快接頭業務未受影響,7月營收MoM+12.75%驗證H2動能回升</div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識66.52元(11位分析師,6/2最新調查)目標價2600;法說會後(8/4)日系外資獨立上修至2615並維持買進,方向一致交叉驗證FactSet信度,採目標價2600</div>
+</div>
+
+<div class="warncard">
+  <b>⚠ 追高風險提示</b>:富世達股價近3個交易日(8/26~8/28)自2025元連續大漲至2345元,累計漲幅逾34%,主因除息後短線籌碼回補、低接買盤進場與AI液冷散熱題材延續發酵。這個漲勢速度已明顯快於FactSet目標價的上修節奏(目標價自6月以來大致持平於2600附近),現階段追價的安全邊際已相當薄弱,建議採左側分批布局而非在高檔追價右側突破。
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">1,805</div><div class="note">2026/08/14 收盤 -1.37%;8月區間高點1,915</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">13.60億</div><div class="note">MoM+12.75%,YoY+17.07%</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.77</div><div class="note">Q2毛利率34%創掛牌新高,惟營收/獲利QoQ下滑</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約27.1x</div><div class="note">FactSet共識EPS66.52(11位分析師,57.87~67.63)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">1,205~1,915</div><div class="note">7~8月區間;現價落於區間中上段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1,205~2,275</div><div class="note">7月低1,205、5月高2,275(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">2345.00</div><div class="note">2026/08/28收盤;近3日累計漲逾34%</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">13.60億</div><div class="note">MoM+12.74%,YoY+17.07%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.77</div><div class="note">YoY+157%;Q2單季12.39</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">92.84億</div><div class="note">YoY+53.86%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">1230~2345</div><div class="note">8/20除息參考價1817.5,已完全填權且大幅超越</div></div>
+  <div class="card"><div class="label">AI伺服器營收占比</div><div class="value green">55.7%</div><div class="note">已成公司最大營收來源</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — Q2毛利率創掛牌新高但營收QoQ下滑,7月營收驗證回升</h2>
-<div class="event">
-  <h3>事件摘要:Q2毛利率34%創掛牌新高,惟受摺疊機出貨不如預期影響營收/獲利QoQ下滑;7月營收月增12.75%驗證回升</h3>
-  <div class="flow">富世達Q2財報顯示毛利率達34%,創掛牌以來新高,上半年伺服器占比已突破五成,正式躍升為第一大產品應用;但受摺疊機出貨不如預期影響,Q2營收與獲利呈現季減態勢。累計前六月合併營收79.24億元,YoY+62.64%,上半年EPS為25.77元,法人預期今年全年EPS可望較去年的31元翻倍成長。7月營收13.60億元,月增12.75%、年增17.07%,是Q2營收QoQ下滑後首個驗證H2回升動能的月度數字。法人預期下半年營收、獲利可望逐季上揚,Q3營收就有機會再改寫新高,隨著GPU、ASIC伺服器新品陸續量產,可望帶動水冷接頭出貨進一步走強。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:摺疊機出貨不如預期拖累Q2營收 → 惟核心水冷快接頭業務(伺服器占比破五成)未受影響 → 7月營收月增12.75%驗證H2回升 → GPU/ASIC新品量產是下一波動能</h3>
-  <div class="flow">富世達Q2營收QoQ下滑的原因被明確歸因於「摺疊機出貨不如預期」——這是消費性電子產品線的短期波動,而非核心成長引擎(水冷快接頭+伺服器滑軌)出現問題。事實上Q2毛利率創掛牌新高、伺服器占比首度突破五成成為第一大應用,顯示結構性轉型持續推進。7月營收月增12.75%的環比加速,是驗證「Q2只是短期雜訊、H2動能將逐季回升」這個判斷的第一個具體數字,後續GPU、ASIC伺服器新品量產將是水冷接頭出貨能否延續走強的關鍵。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(H1財報公布前)</th><th>事件後(Q2財報+7月營收後)</th></tr>
-    <tr><td>Q2營收/獲利趨勢</td><td>查無(尚未公布)</td><td class="red">QoQ下滑,主因摺疊機出貨不如預期</td></tr>
-    <tr><td>Q2毛利率</td><td>查無</td><td class="green">34%,創掛牌新高</td></tr>
-    <tr><td>伺服器營收占比</td><td>查無精確數字</td><td class="green">H1突破五成,躍升第一大應用</td></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">13.60億,MoM+12.75%,驗證回升</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>66.52(6/2調查,Q2財報前)</td><td class="amber">66.52(未見Q2財報後更新調查,沿用同一數字)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼股價自5月高點大幅回落後,現在又逐步回升?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多但需留意追高風險?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/03/05</span>法說會:水冷快接頭與伺服器滑軌雙引擎成長動能獲管理層確認。</li>
-  <li><span class="date">2026年初~5月</span>股價從年初低點1,205附近飆升至5月高點2,275,反映水冷快接頭題材的樂觀情緒。</li>
-  <li><span class="date">2026年6~7月</span>股價自5月高點2,275大幅回落至7月低點1,205(跌幅逾47%),Q2財報揭露摺疊機出貨不如預期導致營收/獲利QoQ下滑,市場情緒受挫。</li>
-  <li><span class="date">2026年8月初</span><b class="green">7月營收13.60億元,月增12.75%、年增17.07%</b>,驗證H2動能開始回升,股價自7月低點1,205逐步回升。</li>
-  <li><span class="date">2026/08/10~14</span>股價高檔震盪(1,755→1,790→1,835→1,830→1,805),8月區間高點1,915。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2毛利率34%創掛牌新高,但市場對「營收QoQ下滑」的負面解讀可能掩蓋了「獲利品質同步改善」這個正面訊號,不宜只看營收成長而忽略毛利率結構性提升;②FactSet EPS共識(66.52)是6月初的調查,尚未反映Q2財報實際結果與7月營收動能,現階段引用時應留意時效性;③法人估計全年EPS可望較去年翻倍成長至約62元,略低於FactSet共識66.52,顯示不同來源的估值假設仍有落差,不宜只採信單一數字。</li>
+  <li><span class="date">2026年上半年</span>1~5月累計營收年增約69.52%,Q1伺服器產品營收占比已達56.4%,AI伺服器業務快速崛起。</li>
+  <li><span class="date">2026/08/04</span>Q2法說會:上半年稅後純益17.66億元,年增157%,EPS達25.77元;第二季營收37.4億元,年增42.7%,單季EPS12.39元。AI伺服器相關應用營收占比由去年同期19.2%大幅拉升至55.7%,正式成為公司最大營收來源。法說會確認AI液冷需求持續強勁,水冷快接頭產能已逼近滿載,多項新專案(NVIDIA及ASIC平台)將自第三季起陸續投產。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收13.60億元(依MOPS官方公告),月增12.74%、年增17.07%(公司官方註記「較去年同期客戶需求增加」);累計1~7月營收92.84億元,年增53.86%。</li>
+  <li><span class="date">2026/08/20</span>除息12.5元,參考價1817.5元。</li>
+  <li><span class="date">2026/08/04法說會後</span>日系外資看好2026~2027年成長前景,將目標價由2600元小幅調升至2615元,並維持「買進」評等,預估富世達2026年營收將年增40.9%,2027年再年增41.7%。</li>
+  <li><span class="date">2026/08/26~28</span>股價連續3個交易日自2025元大漲至2345元,累計漲幅逾34%,主因除息後短線籌碼回補、低接買盤進場與AI液冷散熱題材延續發酵;主動式ETF近期共識名單顯示為「增碼」標的。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①FactSet 11位分析師的目標價自6月以來大致持平於2600附近,並未隨這3天的暴漲同步跟進上修,意味著現價的漲勢速度已明顯快於機構評價調整的速度;②近3日的爆發性漲勢帶有一定的短線籌碼回補與情緒性買盤成分,不完全等同於基本面的突發性轉強,追價的安全邊際需要更審慎評估。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">Q2毛利率達34%創掛牌新高,上半年伺服器占比已突破五成,正式躍升第一大產品應用,結構性轉型持續推進。<div class="src">— Yahoo股市,2026/08 Q2財報整理</div></div>
-    <div class="quote">法人預期下半年營收、獲利可望逐季上揚,Q3營收就有機會再改寫新高,GPU、ASIC伺服器新品量產可望帶動水冷接頭出貨進一步走強。<div class="src">— Yahoo股市,2026/08法說整理</div></div>
-    <div class="quote">7月營收13.60億元、月增12.75%,驗證Q2的營收下滑只是摺疊機出貨的短期雜訊,核心水冷快接頭業務動能未受影響。<div class="src">— 本儀表板觀察,綜合公開營收公告</div></div>
+    <div class="quote">上半年EPS25.77元年增157%,AI伺服器占比躍升至55.7%成最大營收來源;水冷快接頭產能逼近滿載,NVIDIA及ASIC平台新專案第三季起陸續投產。<div class="src">— 公司8/4法說會</div></div>
+    <div class="quote">日系外資法說會後上修目標價至2615元並維持買進,預估2026/2027年營收各年增40.9%/41.7%。<div class="src">— 日系外資,經鉅亨網彙整,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2受摺疊機出貨不如預期影響,營收、獲利雙雙呈現季減態勢,顯示公司產品組合中仍有非核心業務波動風險。<div class="src">— Yahoo股市,2026/08 Q2財報整理</div></div>
-    <div class="quote">FactSet EPS共識(66.52)是6月初的調查,尚未反映Q2財報實際結果,現階段的「便宜」判斷仍有時效性疑慮,需待財報後正式調查更新。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">股價自5月高點2,275已回檔逾20%(以現價計),即使7月營收回升也僅部分收復,顯示市場信心修復仍需更多季度數字驗證。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">近3個交易日累計大漲逾34%,漲勢速度明顯快於FactSet目標價的上修節奏,帶有短線籌碼回補與情緒性買盤成分。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">FactSet目標價自6月以來大致持平於2600附近,並未跟進這波暴漲同步上修,現階段追價的安全邊際已相當薄弱。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(11位分析師,6/2調查)</td><td class="green">2,600</td><td>2026E EPS中位66.52(57.87~67.63),Q2財報前資料</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">法人另預估全年EPS較去年31元翻倍成長至約62元,與FactSet共識66.52略有落差;查無Q2財報後正式更新之FactSet調查;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/06最新,11位分析師)</td><td class="green">2600</td><td>2026E EPS共識66.52元(範圍57.87~67.63)</td></tr>
+  <tr><td>日系外資(法說會後,2026/08)</td><td class="green">2615</td><td>維持買進,獨立驗證FactSet信度</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">兩個目標價高度收斂(2600/2615),惟均未反映8/26~28的暴漲,現價2345已較法說會前明顯拉近與目標價的距離。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -162,106 +145,105 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">13.60億</div><div class="note">MoM+12.75%,YoY+17.07%</div></div>
-  <div class="card"><div class="label">H1營收</div><div class="value green">79.24億</div><div class="note">YoY+62.64%</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.77</div><div class="note">法人估全年可望較去年31元翻倍成長</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">34%</div><div class="note">創掛牌新高</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">12檔,約70.4億</div><div class="note">三檔散熱股中規模居中(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">伺服器營收占比</div><div class="value green">H1破五成</div><div class="note">正式躍升第一大產品應用</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">13.60億</div><div class="note">YoY+17.07%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">25.77</div><div class="note">YoY+157%</div></div>
+  <div class="card"><div class="label">AI伺服器營收占比</div><div class="value green">55.7%</div><div class="note">去年同期僅19.2%</div></div>
+  <div class="card"><div class="label">產能狀況</div><div class="value amber">水冷快接頭逼近滿載</div><div class="note">Q3起多項新專案投產</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">11檔,合計4,078張,近期共識增碼</div><div class="note">本批次唯一列入consensus increase名單</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">66.52</div><div class="note">FactSet 11位分析師</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收動能</th><th>與富世達的差異</th></tr>
-  <tr class="hl"><td>6805.TW</td><td>富世達</td><td>約27.1x(EPS66.52)</td><td>YoY+17.07%,Q2QoQ下滑後7月回升</td><td>水冷快接頭+滑軌雙引擎,伺服器占比破五成但仍有摺疊機等消費性業務波動</td></tr>
-  <tr><td>3017.TW</td><td>奇鋐(本站另篇分析)</td><td>約33.5x(EPS93.75)</td><td>YoY+57.39%創新高</td><td>散熱模組龍頭,規模最大,現價已接近共識目標價</td></tr>
-  <tr><td>3324.TWO</td><td>雙鴻(本站另篇分析)</td><td>約17.4x(EPS57.97)</td><td>YoY+116.70%,三檔中成長最快</td><td>AI伺服器水冷散熱,估值倍數最低但精確Q2 EPS查無</td></tr>
-  <tr><td>—</td><td>散熱族群整體(參考)</td><td>普遍中高本益比</td><td>普遍受惠AI伺服器散熱需求</td><td>富世達是三檔中唯一Q2出現營收QoQ下滑的一檔,惟主因是非核心業務</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與富世達的差異</th></tr>
+  <tr class="hl"><td>6805.TW</td><td>富世達</td><td>FactSet EPS66.52×約39x得2600</td><td>H1 EPS25.77(YoY+157%),AI伺服器占比55.7%</td><td>水冷快接頭與摺疊機轉軸雙引擎,近3日漲勢明顯快於機構評價調整速度</td></tr>
+  <tr><td>3324.TWO</td><td>雙鴻(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>液冷散熱系統龍頭</td><td>純液冷散熱系統廠,與富世達的水冷快接頭屬供應鏈上下游關係</td></tr>
+  <tr><td>3017.TW</td><td>奇鋐(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>散熱模組廠</td><td>散熱模組規模遠大於富世達,產品線重疊度較低</td></tr>
+  <tr><td>2308.TW</td><td>台達電(本站另篇分析)</td><td>FactSet EPS39.3×約60x得2340</td><td>AI電源占比續拉高,800V放量在即</td><td>電源與散熱系統整合廠,規模遠大於富世達</td></tr>
+  <tr><td>3653.TW</td><td>健策(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>均熱片核心供應商</td><td>均熱片與水冷快接頭同屬散熱關鍵零組件,惟前次分析已因一次性費用示警轉為觀望</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——FactSet共識目標價較現價高逾四成,但此數字未反映Q2財報後的最新狀況,信度需要打折。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約27.1x(以FactSet共識EPS66.52計)在三檔散熱股中屬中段,低於奇鋐(33.5x)但高於雙鴻(17.4x)。核心矛盾是FactSet目標價2600來自6月初調查,早於Q2財報揭露的營收QoQ下滑;若市場因Q2財報的短期雜訊而過度悲觀定價,則現價可能提供不錯的進場點,但這個判斷仍需要Q2財報後正式更新的分析師調查來驗證。7月營收月增12.75%是初步正面訊號,顯示核心水冷快接頭業務並未真正受挫。</div>
+  <b>估值判斷:合理偏便宜,惟近期漲勢已侵蝕安全邊際。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">富世達的基本面轉型相當紮實:AI伺服器占比從去年同期19.2%躍升至55.7%,H1 EPS年增157%,水冷快接頭產能已逼近滿載,顯示需求端相當強勁。FactSet共識目標價2600與日系外資法說會後獨立上修的2615高度收斂,是本批次收斂度較佳的個股之一。惟現價2345是近3個交易日暴漲逾34%後的結果,而這兩個目標價均未反映這波漲勢、大致仍停留在法說會前後的水準,意味著現階段10.9%的名目上檔空間,實際上比數字本身顯示的更薄弱——如果這波暴漲有相當比例是短線情緒性買盤而非基本面突發轉強,回檔消化的機率不低。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價1,805 vs 中值</th></tr>
-  <tr><td>FactSet共識目標價</td><td>11位分析師,目標價2,600(單點,惟為Q2財報前調查)</td><td>2,600(單點)</td><td class="green">便宜 30.6%</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>EPS66.52,散熱/連接器成長股常態倍數22~28x</td><td>1,463~1,863(中值1,663)</td><td class="amber">合理(接近中值上緣)</td></tr>
-  <tr><td>H1實績年化對照(推演,較保守)</td><td>H1 EPS25.77×2=51.54(假設H2持平,較FactSet66.52保守),倍數22~28x</td><td>1,134~1,443(中值1,288.5,推演)</td><td class="red">貴 40.1%(對照情境,反映H2能否延續成長的敏感度)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價2345 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(6月最新)</td><td>2026E EPS66.52,隱含目標價2600(單點)</td><td>2600(單點)</td><td class="green">便宜 10.9%</td></tr>
+  <tr><td>日系外資目標價(法說會後,獨立驗證)</td><td>2026/27年營收guidance年增40.9%/41.7%</td><td>2615(單點)</td><td class="green">便宜 11.5%</td></tr>
+  <tr><td>H1實績年化交叉驗證</td><td>H1 EPS25.77×2=51.54(保守,未計H2新專案投產貢獻)</td><td>約2011(推演,倍數約39x)</td><td class="red">貴 16.6%(相對此保守情境)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:Q2出現營收QoQ下滑的雜訊事件,近兩年FCF可預測性因摺疊機等非核心業務波動而降低。三種方法呈現明顯分歧:FactSet共識(未反映最新財報)顯示明顯便宜,自身本益比法接近合理,但保守的H1年化對照則顯示偏貴——這種敏感度顯示富世達現階段的估值高度依賴H2能否確實逐季回升,而非單純線性外推H1的成長速度。7月營收的月增12.75%是正面訊號,但仍需要更多月份數據確認趨勢。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司產能已逼近滿載且Q3起有多項新專案投產,capex擴產的時間點與具體效益查無精確揭露,多年期FCF假設信度不足。三種方法呈現分歧:FactSet與日系外資的機構共識均顯示現價便宜約一成,惟這兩個共識均未反映8/26~28的最新漲勢;若改以H1實績簡單年化(未計入H2新專案投產帶來的合理加速預期)推算,現價則顯得偏貴逾16%。這個分歧提醒投資人,現階段的「便宜」判斷高度依賴H2新專案投產能否確實加速獲利,而非無條件成立。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">7月營收後回升,尚未過熱</div><div class="bar"><div style="width:56%;background:var(--amber)"></div></div><div class="note">股價自7月低點1,205回升至1,805,仍距5月高點2,275有相當距離</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">目標價2,600,惟未反映Q2財報最新狀況</div><div class="note">6月初調查,時效性需留意</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">25.77(H1實績)→66.52(2026E共識,惟需驗證)</div><div class="note">Q3營收能否延續回升與GPU/ASIC新品量產是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value red">近3日暴漲逾34%,短線情緒過熱</div><div class="bar"><div style="width:90%;background:var(--red)"></div></div><div class="note">8月區間1470~2345,波動度全批次數一數二</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">2600~2615,惟均未反映近期暴漲</div><div class="note">主動式ETF近期共識列為增碼標的</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">25.77(H1)→66.52(FactSet 2026E共識)</div><div class="note">Q3新專案投產進度是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>57.87/66.52/67.63(FactSet共識,惟為Q2財報前調查)</td><td>22~28x</td><td>1,273~1,894(中值1,583.5)</td><td class="red">約 -12%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有GPU/ASIC伺服器新品量產的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>66.52(FactSet共識)</td><td>約39x</td><td>2600~2615(中值2608)</td><td class="green">約 +11%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">日系外資估營收年增41.7%(查無精確EPS共識,推演性質)</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬因採用較保守的下緣估值而呈現負值,顯示這個判斷高度敏感於EPS假設的選取;2027、2028年因分析師覆蓋未給出明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:富世達的便宜訊號需要Q2財報後正式更新的FactSet調查來驗證,現階段不宜完全依賴一份可能已過時的共識數字做投資決策。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正值但幅度已因近期暴漲而收斂至本批次中段班水準;2027年僅有營收成長率guidance(年增41.7%),查無精確EPS共識,不強行推演具體價位。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 900~2600;left% = (價格-900)/1700×92+4 -->
+<!-- 刻度 1400~3200;left% = (價格-1400)/1800×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:16.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">1,150~1,300</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41%"><div class="lbl">Base(6~12月)</div><div class="price amber">1,650~1,900</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:65.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">2,150~2,300</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">2,500~2,600</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:53%"><div class="arrow">▲</div><div class="price">1,805</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">1800~1950</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">2200~2450</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">2600~2850</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">2950~3200</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:52.4%"><div class="arrow">▲</div><div class="price">2345.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>1,150~1,300</td><td>H2回升動能不如預期或摺疊機以外業務也出現雜訊,重測7月低點</td><td class="red">約 -32%</td></tr>
-  <tr><td class="amber">Base</td><td>1,650~1,900</td><td>Q3動能延續7月回升趨勢但無驚喜;現價落於此區間內</td><td class="green">約 +2%</td></tr>
-  <tr><td class="green">Bull</td><td>2,150~2,300</td><td>GPU/ASIC伺服器新品量產帶動水冷接頭出貨走強,重返5月高點附近</td><td class="green">約 +23%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>2,500~2,600</td><td>FactSet共識目標價2,600完全兌現,H2逐季回升guidance全面驗證</td><td class="green">約 +41%</td></tr>
+  <tr><td class="red">Bear</td><td>1800~1950</td><td>近3日暴漲確認為短線情緒性買盤,回檔消化至除息後基期附近</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>2200~2450</td><td>Q3新專案投產符合guidance,現價維持現階段區間整理</td><td class="green">約 1%</td></tr>
+  <tr><td class="green">Bull</td><td>2600~2850</td><td>Q3新專案投產超預期,現價向FactSet/日系目標價收斂並突破</td><td class="green">約 16%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>2950~3200</td><td>AI液冷需求持續超預期,2027年營收guidance獲更多機構驗證上修目標價</td><td class="green">約 31%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期(近期暴漲後建議優先採用)</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">1,600~1,700</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">1,450~1,590</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">1,340~1,440</td><td>40%(FactSet目標價未反映最新財報,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">2100~2180</td><td>25%(現價暴漲後,首批倉位建議保守)</td></tr>
+      <tr><td>第二批</td><td class="green">2000~2099</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">1950~1999</td><td>40%(接近硬停損支撐,分批確認回檔是否止穩)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1,340</b>(接近8月支撐)= H2回升動能不如預期或核心水冷業務同步轉弱,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">1950</b>(近期爆量急漲前的整理區水準)= 暴漲確認為短線情緒性買盤而非基本面轉強,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="label">右側計畫|順勢突破,適合波段(現階段不建議追價,待回檔確認或突破新高)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破1,915(8月區間高點)+量能確認,且8月營收驗證回升趨勢延續<br>
-    進場區:<b class="green">1,920~2,000</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回1,870即出場</div>
+    觸發條件:收盤突破2345(今年高點)且量能持續放大,或FactSet/日系目標價跟進上修<br>
+    進場區:<b class="green">2350~2500</b>(波動度高,建議小倉位試單)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回2250即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2,150~2,300</div><div class="note">賣出30~50%;Bull區,重返5月高點附近</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2,500~2,600</div><div class="note">Stretched區/FactSet共識目標達陣;續抱條件是Q3財報驗證回升趨勢且獲FactSet正式更新確認</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">2600~2850</div><div class="note">賣出35~50%;Bull區,波動度高應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">2950~3200</div><div class="note">Stretched區;續抱條件是Q3新專案投產與2027年guidance持續獲驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:Q2毛利率34%創掛牌新高、伺服器占比H1突破五成成為第一大應用,惟受摺疊機出貨不如預期影響營收/獲利QoQ下滑;7月營收13.60億元月增12.75%,是驗證H2動能回升的第一個具體數字。</div>
-<div class="concl">① <b>催化劑</b>:水冷快接頭+伺服器滑軌雙引擎持續推進,核心業務未受Q2雜訊影響;但股價自5月高點2,275已回檔逾20%,即使7月營收回升也僅部分收復,市場信心修復仍需更多季度數字驗證。</div>
-<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價2,600較現價高逾三成,但此調查早於Q2財報,信度需打折;若改用較保守的H1年化對照,估值訊號反而轉為偏貴,顯示便宜程度高度依賴H2能否確實逐季回升。</div>
-<div class="concl">③ <b>結論</b>:分批布局、H2水冷接頭動能可望回升——現價1,805落於Base區間內,上檔Bull +23%/Stretched +41%對下檔Bear -32%,惟FactSet目標價的時效性是主要風險;左側倉位應保守分批,收盤跌破1,340即H2回升動能不如預期,無條件出場。下一個驗證點是8月營收與Q3財報能否延續7月的回升趨勢。</div>
+<div class="concl">① <b>催化劑</b>:8/4法說會H1 EPS25.77元(YoY+157%),AI伺服器占比躍升至55.7%成最大營收來源,水冷快接頭產能逼近滿載;日系外資法說會後上修目標價至2615並維持買進;惟近3個交易日股價暴漲逾34%,漲勢速度明顯快於機構評價調整節奏。</div>
+<div class="concl">② <b>估值</b>:合理偏便宜——FactSet共識2600與日系外資2615高度收斂,較現價高出約一成;惟兩者均未反映近期暴漲,若改以H1實績簡單年化評估則現價反而偏貴逾16%,顯示這個「便宜」判斷高度依賴H2新專案投產能否加速獲利。</div>
+<div class="concl">③ <b>結論</b>:偏多但追高風險升高——現價落於Base區間中段,上檔Bull +16%/Stretched +31%對下檔Bear -20%,近期暴漲已使風險報酬結構不如表面數字寬鬆,建議採左側分批布局而非在高檔追價右側突破;跌破1950即無條件出場。下一個關鍵驗證點是Q3新專案(NVIDIA及ASIC平台)投產進度與機構是否跟進上修目標價。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);法說會(富果直送,2026/03/05);Q2財報與7月營收(Yahoo股市,2026/08公告);FactSet共識EPS/目標價(鉅亨網FactSet速報,2026/06/02調查,查無Q2財報後正式更新);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後正式更新之FactSet調查、精確發行股數查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、富果直送、Yahoo股市、鉅亨網FactSet速報。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;FactSet目標價明確標註為Q2財報前的舊調查,估值判斷已刻意呈現這個時效性風險。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q2財報與8/4法說會(公司公告);目標價與EPS共識(FactSet 6/2最新調查、日系外資,經鉅亨速報、鉅亨網彙整,2026/06~08);主動式ETF持有度與近期共識增減碼(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年精確EPS共識查無,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司法說會公告、FactSet、鉅亨網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

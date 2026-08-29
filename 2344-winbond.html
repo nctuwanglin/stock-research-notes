@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,82 +66,70 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>華邦電 (2344) <span class="badge green">估值:便宜(FactSet共識目標價高於現價逾兩成)</span> <span class="badge green">結論:分批布局,7月營收驗證漲價循環延續</span><span class="autodispo" data-code="2344"></span></h1>
-<div class="sub">台股(TWSE)・DRAM/CMS客製化記憶體,自有產能+長約優勢|事件後估值版(7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="2344">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>華邦電 (2344) <span class="badge green">估值:便宜,FactSet共識目標價高於現價一成</span> <span class="badge green">結論:偏多,CMS與記憶體雙引擎驗證評價,惟漲幅已收斂</span><span class="autodispo" data-code="2344"></span></h1>
+<div class="sub">台股(TWSE)・利基型記憶體廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/29|<span class="dispostat" data-code="2344">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">130</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="2344">現價 <b>181.5</b> → 目標價 <b>236</b><span class="up"> (+30.0%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價236(2026E EPS共識24.43,11位分析師);與8/7分析目標價190相比上修,反映7月營收267.73億創歷史新高(YoY+291.55%)驗證記憶體漲價循環延續至Q3</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">165</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2344">現價 <b>181.5</b> → 目標價 <b>200</b><span class="up"> (+10.2%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識22.24元(10位分析師)套用目標價中位數200元(11位分析師,最高320/最低121);積極樂觀評級10位、無中立無悲觀,採目標價200</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">183.5</div><div class="note">2026/08/14 收盤 +3.67%;8月區間高點193</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">267.73億</div><div class="note">創歷史新高,MoM+29.99%,YoY+291.55%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">1,248.70億</div><div class="note">創同期新高,YoY+160.97%</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約7.5x</div><div class="note">FactSet共識EPS24.43(11位分析師,16.08~29.03)</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">117~207.5</div><div class="note">7~8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">82.1~233.5</div><div class="note">1月低82.1、6月高233.5(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">181.50</div><div class="note">2026/08/28收盤;8月區間143~186</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">267.73億</div><div class="note">MoM+29.98%,YoY+291.5%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">7.65</div><div class="note">Q2單季5.40創高</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">1248.70億</div><div class="note">YoY+160.96%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">85.7~222</div><div class="note">全年振幅逾2.6倍</div></div>
+  <div class="card"><div class="label">CMS營收年增</div><div class="value green">467%</div><div class="note">記憶體業務季增73%</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 7月營收創歷史新高,驗證漲價循環延續至Q3</h2>
-<div class="event">
-  <h3>事件摘要:7月營收267.73億創歷史新高,年增291.55%,公司預期Q3記憶體價格持續上漲</h3>
-  <div class="flow">華邦電8/5公告7月營收267.73億元,較6月成長29.99%、較去年同期成長291.55%,創歷史新高;累計前7月營收1,248.70億元,同創同期新高,YoY+160.97%。強勁的7月營收表現主要受惠記憶體價格持續調漲,公司預期記憶體價格將延續漲勢至第三季,下半年營運展望樂觀。這是繼8/6法說會Q2 EPS 5.40元創單季新高之後,首個具體驗證H2旺季動能是否延續的月度數字,結果正面且幅度超出先前預期。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:記憶體超級循環報價持續調漲 → 7月營收爆發式成長 → 驗證Q3展望「樂觀」不是空話 → CMS客製化長約與自有產能優勢同步放大</h3>
-  <div class="flow">華邦電的核心優勢是自有產能與客製化長約(CMS),在記憶體漲價循環中議價能力較純代工模式更強。7月營收年增291.55%的爆發式數字,一方面反映DRAM/NAND報價的全面調漲,另一方面也驗證了公司在8/6法說會上「H2營運看樂觀」的定性表態確實有具體數字支撐,而非單純的管理層信心喊話。這對估值判斷的意義在於:市場先前對「樂觀」guidance的信任度會因為7月營收的實績而提升,有助於法人目標價的進一步上修。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析,依Q2法說資料)</th><th>事件後(7月營收公布後)</th></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="green">267.73億,YoY+291.55%,歷史新高</td></tr>
-    <tr><td>前七月累計營收</td><td>查無完整數字</td><td class="green">1,248.70億,YoY+160.97%,同期新高</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>21.27(法說前後調查)</td><td class="green">24.43(上修,11位分析師)</td></tr>
-    <tr><td>FactSet共識目標價</td><td>200~236(不同時點調查)</td><td class="green">236(最新)</td></tr>
-    <tr><td>本站目標價/評等</td><td>190/偏多</td><td class="green">236/偏多(上修,評等不變)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多但漲幅已收斂?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/08/06</span>Q2法說會:EPS 5.40元創單季新高、CMS客製化記憶體營收年增逾400%,缺口延伸至2028年;惟股價隔日反而拉回4.4%,顯示利多提前反映。</li>
-  <li><span class="date">2026年初~6月</span>股價從年初低點82.1一路飆升至6月高點233.5,反映記憶體超級循環題材的樂觀情緒。</li>
-  <li><span class="date">2026年7月</span>股價自6月高點233.5回落至7月低點117(跌幅逾49%),疊加台股7月系統性回檔。</li>
-  <li><span class="date">2026/08/05</span><b class="green">7月營收267.73億元創歷史新高,YoY+291.55%</b>:前七月累計1,248.70億元創同期新高(YoY+160.97%),驗證漲價循環延續動能。</li>
-  <li><span class="date">2026/08/10~14</span>股價自8/7的163.5緩步回升至183.5(+12.2%),8/14單日上漲3.67%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①7月營收年增291.55%的高基期效應需留意——去年同期基期偏低會放大百分比成長的視覺效果,但月增29.99%仍是實質的環比加速,較不受基期影響;②Q2法說會後股價曾一度反向重挫4.4%,顯示即使基本面數字亮眼,市場對「利多是否已充分反映」仍存疑慮,這次7月營收公布後的溫和反應也顯示市場態度轉趨謹慎;③FactSet EPS共識與目標價在不同時點的調查中出現多次上下修正(21.27~24.43,168~255),顯示分析師社群本身對華邦電獲利路徑的看法尚未完全收斂。</li>
+  <li><span class="date">2026年Q2財報</span>合併營收598.43億元,季增56.4%、年增184.7%,毛利率66.2%(季增13個百分點),EPS5.40元創高;上半年累計EPS7.65元。記憶體業務營收季增72.8%,CMS(客製化記憶體)營收季增78%、年增逾400%,由AI需求驅動,ASP季增約100%。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收267.73億元(依MOPS官方公告),月增29.98%、年增291.55%(公司官方註記「受市場供需影響」);累計1~7月營收1248.70億元,年增160.96%。</li>
+  <li><span class="date">2026年8月</span>外部分析師上調目標價至120.3元(對應16倍本益比),部分研究報告自170元上修至200元。FactSet最新調查:11位分析師目標價中位數200元(範圍121~320),10位分析師2026年EPS共識中位數22.24元(範圍12.82~25.54),11位分析師中10位給予積極樂觀評等、無中立無悲觀。</li>
+  <li><span class="date">股價走勢</span>股價自8月初143元一路攀升至186元(8月高點),累計漲幅逾30%,現價181.5已較FactSet目標價200僅剩一成空間,漲勢已相當程度反映CMS與記憶體雙引擎的多頭邏輯。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①FactSet目標價區間(121~320)價差逾兩倍半,反映分析師對CMS業務的長期成長性與AI需求延續性仍有分歧看法;②2026E EPS共識22.24元隱含現價本益比僅約8.2倍,相對偏低的估值倍數某種程度上已反映市場對記憶體循環股的謹慎定價,而非過度樂觀。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收267.73億元創歷史新高,月增29.99%、年增291.55%,驗證記憶體價格持續調漲的漲價循環未歇,公司預期Q3價格延續上漲。<div class="src">— 鉅亨網、MoneyDJ理財網,2026/08/05</div></div>
-    <div class="quote">Q2法說會EPS 5.40元創單季新高,CMS客製化記憶體營收年增逾400%,缺口延伸至2028年,顯示自有產能與長約優勢正在放大。<div class="src">— 華邦電Q2法說會,2026/08/06</div></div>
-    <div class="quote">外資看好記憶體上升週期延長,認為華邦電具備自有產能與客製化長約優勢,市占率與獲利能力有望持續擴張,市場最高目標價喊到255元。<div class="src">— CMoney投資網誌</div></div>
+    <div class="quote">Q2毛利率66.2%季增13個百分點,EPS5.40元創高;CMS營收季增78%、年增逾400%,由AI需求驅動,ASP季增約100%。<div class="src">— 豐雲學堂,公司8月法說會</div></div>
+    <div class="quote">FactSet最新調查11位分析師中10位給予積極樂觀評等,目標價中位數200元;7月營收267.73億元(YoY+291.55%)延續強勢動能。<div class="src">— FactSet,MOPS官方營收公告,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2法說會後股價隔日反而拉回4.4%,顯示利多提前反映,即使7月營收數字亮眼,市場對「是否已充分定價」仍抱持謹慎態度。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">7月營收年增291.55%的高基期效應需留意,去年同期基期偏低會放大百分比成長的視覺效果,不宜單看年增率而忽略月增速度的實質意義。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">FactSet EPS共識與目標價在不同時點的調查出現多次上下修正,顯示分析師社群對華邦電獲利路徑的看法尚未完全收斂。<div class="src">— 本儀表板觀察,綜合鉅亨網FactSet速報</div></div>
+    <div class="quote">FactSet目標價區間分歧達逾兩倍半(121~320),反映分析師對CMS業務長期成長性與AI需求延續性仍有分歧看法。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價8月以來已大漲逾30%,現價181.5距FactSet目標價200僅剩一成空間,追價安全邊際已相當有限。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr><td>市場最高目標價(個別機構)</td><td class="green">255</td><td>看好記憶體上升週期延長,預估2026年稅後EPS約23.42</td></tr>
-  <tr class="hl"><td>FactSet共識(11位分析師,較新)</td><td class="green">236</td><td>2026E EPS中位24.43(16.08~29.03),自23.4上修</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">FactSet不同時點調查出現21.27~24.43的EPS估值區間震盪,目標價亦在168~255間變動,顯示估值仍在動態調整中;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,11位分析師)</td><td class="green">200</td><td>中位數(範圍121~320);2026E EPS共識22.24元(10位分析師)</td></tr>
+  <tr><td>外部研究報告(近期)</td><td class="green">120.3</td><td>對應約16倍本益比,較保守版本</td></tr>
+  <tr><td>研究報告上修(近期)</td><td class="green">200</td><td>自170元上修,與FactSet中位數吻合</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet 11位分析師中10位積極樂觀、無中立無悲觀,評等一致性高,惟目標價區間本身仍有逾兩倍半的分歧。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -163,69 +138,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">267.73億</div><div class="note">MoM+29.99%,YoY+291.55%,歷史新高</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">1,248.70億</div><div class="note">YoY+160.97%,同期新高</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">5.40</div><div class="note">創單季新高</div></div>
-  <div class="card"><div class="label">CMS客製化記憶體</div><div class="value green">YoY+400%+</div><div class="note">缺口延伸至2028年</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">11檔,約66.6億</div><div class="note">四檔記憶體股中規模居中(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">2026E EPS(FactSet共識)</div><div class="value green">24.43</div><div class="note">11位分析師,16.08~29.03</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">267.73億</div><div class="note">YoY+291.5%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">7.65</div><div class="note">Q2季增大幅加速</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">66.2%</div><div class="note">季增13個百分點</div></div>
+  <div class="card"><div class="label">CMS營收年增</div><div class="value green">467%</div><div class="note">AI需求驅動,ASP季增約100%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">9檔,合計21,110張</div><div class="note">記憶體三檔中持股量最高</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">22.24</div><div class="note">FactSet 10位分析師,範圍12.82~25.54</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與華邦電的差異</th></tr>
-  <tr class="hl"><td>2344.TW</td><td>華邦電</td><td>約7.5x(EPS24.43)</td><td>7月YoY+291.55%創新高</td><td>DRAM/CMS客製化記憶體,自有產能+長約優勢,四檔中估值訊號最一致</td></tr>
-  <tr><td>2408.TW</td><td>南亞科(本站另篇分析)</td><td>約8.7x(EPS58.67)</td><td>Q2 EPS季增74.32%</td><td>DRAM原廠,規模較大但漲幅已跑在目標價前面</td></tr>
-  <tr><td>8299.TWO</td><td>群聯(本站另篇分析)</td><td>約5.8x(EPS359.86)</td><td>Q2 EPS118.57創新高,財報後重挫8.77%</td><td>記憶體控制IC/模組廠,非DRAM原廠</td></tr>
-  <tr><td>2337.TW</td><td>旺宏(本站另篇分析)</td><td>估值分歧極大</td><td>Q2 EPS3.91創近年新高</td><td>NOR/NAND Flash,非DRAM,估值方法論分歧遠大於華邦電</td></tr>
-  <tr><td>—</td><td>記憶體族群整體(參考)</td><td>普遍偏低個位數至十位數</td><td>普遍受惠漲價循環</td><td>華邦電是四檔中7月營收年增最快、且估值訊號最一致偏便宜的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與華邦電的差異</th></tr>
+  <tr class="hl"><td>2344.TW</td><td>華邦電</td><td>FactSet EPS22.24×約9x得200</td><td>Q2 EPS5.40創高,CMS年增467%</td><td>利基型記憶體廠,CMS客製化記憶體是差異化成長引擎</td></tr>
+  <tr><td>2408.TW</td><td>南亞科(本站另篇分析)</td><td>FactSet目標價590</td><td>Q2 EPS14.66,DDR4漲價主導者</td><td>標準型DRAM製造廠,股價漲勢已幾乎貼齊目標價</td></tr>
+  <tr><td>2337.TW</td><td>旺宏(本站另篇分析)</td><td>FactSet目標價183</td><td>Q2 EPS3.91創近年新高,NAND占比43%</td><td>NAND製造廠,與華邦電的CMS業務屬不同記憶體品類</td></tr>
+  <tr><td>8299.TW</td><td>群聯(本站另篇分析)</td><td>FactSet目標價2750</td><td>Q2毛利率創高65.31%</td><td>NAND控制晶片,與華邦電上下游關係較弱</td></tr>
+  <tr><td>USDR</td><td>美光/其他國際記憶體廠(未於本次分析)</td><td>查無本次分析中的最新估值</td><td>全球記憶體大廠</td><td>規模遠大於華邦電,CMS客製化利基市場是華邦電的差異化定位</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:便宜——FactSet共識目標價較現價高逾兩成,7月營收實績驗證H2樂觀guidance並非空話。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約7.5x(以FactSet共識EPS24.43計)在四檔記憶體股中屬中低段,低於南亞科(8.7x)。與其他三檔相比,華邦電的優勢在於7月營收的實績數字(YoY+291.55%)直接驗證了公司guidance,而非仍停留在管理層口頭表態階段;CMS客製化記憶體業務的長約缺口延伸至2028年,提供了較其他三檔更明確的中期能見度。核心風險是記憶體循環股的本質波動,以及Q2法說會後一度出現的「利多提前反映」股價反應,顯示市場情緒仍可能與基本面數字脫節。</div>
+  <b>估值判斷:便宜——FactSet共識目標價200與現價181.5仍有一成落差,現價隱含本益比僅約8.2倍屬偏低水準。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">華邦電這輪由CMS客製化記憶體與傳統記憶體雙引擎驅動的獲利成長相當紮實:Q2毛利率大幅跳升13個百分點至66.2%,CMS營收年增逾400%由AI需求直接驅動。FactSet 2026E EPS共識22.24元套用現價僅隱含約8.2倍本益比,相對偏低的估值倍數顯示市場對這輪成長仍保有一定謹慎,尚未過度樂觀定價。FactSet目標價200較現價高出一成,雖然幅度已較股價8月大漲前收斂不少,但11位分析師中10位積極樂觀、評等一致性高,仍支持偏多判斷。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價183.5 vs 中值</th></tr>
-  <tr><td>2026E P/E×EPS(FactSet共識)</td><td>EPS24.43,記憶體原廠常態倍數7~10x</td><td>171~244(中值207.5)</td><td class="red">貴 11.6%(對照情境,惟低於15%買進門檻的判斷仍以目標價法為主)</td></tr>
-  <tr><td>FactSet共識目標價</td><td>11位分析師,目標價236(單點)</td><td>236(單點)</td><td class="green">便宜 22.2%</td></tr>
-  <tr><td>個別機構樂觀目標價</td><td>目標價255,預估2026年稅後EPS約23.42</td><td>255(單點)</td><td class="green">便宜 28.0%(單一機構,信度中等)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價181.5 vs 中值</th></tr>
+  <tr><td>FactSet目標價共識(11位分析師)</td><td>中位數200,範圍121~320</td><td>200(單點)</td><td class="green">便宜 10.2%</td></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS22.24,現價隱含約8.2x</td><td>約178~245(推演,倍數8~11x)</td><td class="amber">合理 -14.4%~+2.0%</td></tr>
+  <tr><td>H1實績年化交叉驗證</td><td>H1 EPS7.65×2=15.3(保守,未計H2 CMS加速)</td><td>約122~168(推演,倍數8~11x)</td><td class="red">貴 25~49%(相對此保守情境)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:記憶體循環股獲利波動劇烈,近兩年FCF可預測性偏低,強行套用多年期假設會製造虛假精確度。三種方法方向大致一致偏便宜,唯自身本益比法(7~10x常態倍數)顯示現價已接近甚至略高於區間中值,反映市場可能已部分消化短期利多;FactSet共識目標價與個別機構目標價則仍顯示相當空間,這種分歧提醒:華邦電的便宜程度高度依賴7月營收展現的漲價動能能否延續至Q3、Q4。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:記憶體業務高度景氣循環,CMS客製化業務的長期成長曲線亦缺乏穩定歷史數據可供推演,多年期FCF假設信度不足。三種方法呈現一定分歧:FactSet目標價與EPS倍數法均顯示現價合理偏便宜,惟若僅以H1實績簡單年化(未計入H2 CMS/記憶體動能加速的合理預期),現價則顯得偏貴——這個差異反映的是市場對H2動能能否延續Q2的加速態勢(季增72.8%記憶體、季增78% CMS)存在的信心程度。鑑於Q2已明確呈現加速趨勢而非放緩,採信FactSet共識而非簡單年化的保守情境較為合理。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value green">7月營收後穩健回升</div><div class="bar"><div style="width:60%;background:var(--green)"></div></div><div class="note">股價自8/7的163.5回升至183.5(+12.2%),尚未見過熱訊號</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value green">FactSet與個別機構皆看多</div><div class="note">目標價236~255</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">Q2 EPS5.40→2026E EPS24.43</div><div class="note">8月營收能否延續7月動能是下一驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">8月大漲逾30%後於高檔整理</div><div class="bar"><div style="width:75%;background:var(--amber)"></div></div><div class="note">8月區間143~186,現價181.5</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">200,10/11位積極樂觀</div><div class="note">評等一致性高,惟目標價區間仍分歧</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7.65(H1)→22.24(FactSet 2026E共識)</div><div class="note">CMS動能能否延續是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>16.08/24.43/29.03(FactSet共識)</td><td>7~10x</td><td>171~244(中值207.5)</td><td class="green">約 +13%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,CMS長約缺口延伸至2028年提供定性支撐但無對應EPS數字</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>22.24(FactSet共識)</td><td>約8~11x</td><td>178~245(中值211.5)</td><td class="green">約 +17%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,CMS業務能否持續放量是主要成長驅動</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜;2027、2028年因記憶體循環股本質難以線性外推,且CMS長約缺口雖延伸至2028年但無對應EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:華邦電短期(2026年)估值訊號相對可信,CMS客製化業務的長約特性理論上應能提供比傳統DRAM原廠更平滑的獲利路徑,但目前仍缺乏量化數字驗證這個優勢。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正值(約+17%),惟這個數字建立在FactSet EPS共識22.24元能夠兌現的前提上,而分析師群體對此的估值範圍仍有12.82~25.54的分歧;2027年EPS共識查無穩定數字,CMS業務能否延續高成長是最大不確定因素,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 60~280;left% = (價格-60)/220×92+4 -->
+<!-- 刻度 90~350;left% = (價格-90)/260×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:14%"><div class="lbl">Bear(3~6月)</div><div class="price red">100~120</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:38.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">170~200</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">240~260</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">280~300</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:55.7%"><div class="arrow">▲</div><div class="price">183.5</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">140~155</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">175~195</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:62.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">210~235</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">260~290</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:39.2%"><div class="arrow">▲</div><div class="price">181.50</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>100~120</td><td>記憶體漲價循環提前結束或Q3報價不如預期,倍數回落至5~6x附近</td><td class="red">約 -40%</td></tr>
-  <tr><td class="amber">Base</td><td>170~200</td><td>Q3、Q4動能延續但無驚喜,FactSet共識倍數區間內震盪;現價落於此區間內</td><td class="green">約 +1%</td></tr>
-  <tr><td class="green">Bull</td><td>240~260</td><td>記憶體漲價循環延續,FactSet與個別機構目標價236~255兌現</td><td class="green">約 +36%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>280~300</td><td>重返並超越6月高點233.5,CMS長約缺口延伸效益提前顯現</td><td class="green">約 +58%</td></tr>
+  <tr><td class="red">Bear</td><td>140~155</td><td>CMS/記憶體業務Q3動能不如Q2,分析師共識向EPS區間下緣(12.82)收斂</td><td class="red">約 -19%</td></tr>
+  <tr><td class="amber">Base</td><td>175~195</td><td>Q3財報符合預期,現價向FactSet目標價200靠攏</td><td class="green">約 2%</td></tr>
+  <tr><td class="green">Bull</td><td>210~235</td><td>CMS業務延續Q2加速態勢,EPS共識向區間上緣(25.54)靠攏</td><td class="green">約 22%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>260~290</td><td>AI驅動的CMS需求超預期,分析師上修至FactSet區間上緣(320)附近</td><td class="green">約 51%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -234,36 +208,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">165~175</td><td>30%</td></tr>
-      <tr><td>第二批</td><td class="green">145~164</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">130~144</td><td>40%</td></tr>
+      <tr><td>第一批</td><td class="green">173~178</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">166~172</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">155~165</td><td>35%(接近Bear情境)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">130</b>(接近7月低點與6月支撐區間)= 記憶體漲價循環轉折或Q3報價不如預期,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">165</b>(低於8月中旬整理區支撐)= CMS/記憶體動能不如預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破193(8月區間高點)+量能確認,且8月營收驗證漲價循環延續<br>
-    進場區:<b class="green">195~205</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回188即出場</div>
+    觸發條件:收盤突破186(8月高點)+量能確認<br>
+    進場區:<b class="green">188~200</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回180即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">240~260</div><div class="note">賣出30~50%;Bull區,FactSet與個別機構目標價兌現</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">280~300</div><div class="note">Stretched區/重返並超越6月高點;續抱條件是CMS長約缺口效益開始量化顯現</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">210~235</div><div class="note">賣出30~50%;Bull區,積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">260~290</div><div class="note">Stretched區;續抱條件是CMS業務放量進度持續優於預期</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:8/5公告7月營收267.73億元創歷史新高,月增29.99%、年增291.55%,前七月累計1,248.70億元創同期新高;驗證8/6法說會「H2營運看樂觀」guidance並非空話,公司預期記憶體價格將延續漲勢至Q3。</div>
-<div class="concl">① <b>催化劑</b>:記憶體漲價循環+CMS客製化長約優勢驅動7月營收爆發式成長,缺口延伸至2028年提供中期能見度;但Q2法說會後股價曾一度反向重挫4.4%,顯示市場對「利多是否已充分反映」仍存戒心。</div>
-<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價236較現價高逾兩成,個別機構樂觀目標價更看至255;惟自身本益比法(常態倍數7~10x)顯示現價已接近甚至略高於中值,便宜程度高度依賴Q3、Q4漲價動能能否延續。</div>
-<div class="concl">③ <b>結論</b>:分批布局、7月營收驗證漲價循環延續——現價183.5落於Base區間內,上檔Bull +36%/Stretched +58%對下檔Bear -40%,本站目標價自8/7分析的190上修至236;左側倉位可正常分批,收盤跌破130即漲價循環轉折,無條件出場。下一個驗證點是8月營收能否延續7月的YoY+291.55%動能。</div>
+<div class="concl">① <b>催化劑</b>:Q2毛利率大幅跳升13個百分點至66.2%,EPS5.40元創高,CMS客製化記憶體營收年增逾400%由AI需求驅動;7月營收267.73億元(YoY+291.55%)延續強勢動能,FactSet 11位分析師中10位給予積極樂觀評等。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價200與現價仍有一成落差,現價隱含本益比僅約8.2倍屬偏低水準,顯示市場對這輪成長尚未過度樂觀定價;惟股價8月已大漲逾30%,漲幅較先前明顯收斂。</div>
+<div class="concl">③ <b>結論</b>:偏多、CMS與記憶體雙引擎驗證評價但漲幅已收斂——現價落於Base區間,上檔Bull +22%/Stretched +51%對下檔Bear -19%,風險報酬結構仍偏正面但已不如8月初寬鬆;跌破165即無條件出場。下一個關鍵驗證點是Q3財報CMS動能能否延續Q2的加速態勢。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);Q2法說會(2026/08/06公告整理);7月營收(鉅亨網、CMoney、MoneyDJ理財網,2026/08/05公告);FactSet共識EPS/目標價(鉅亨網FactSet速報,追蹤至8月最新24.43/236);個別機構樂觀目標價255(CMoney投資網誌);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;精確發行股數、2027/2028年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網、CMoney投資網誌、MoneyDJ理財網。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;FactSet EPS/目標價於不同時點出現多次修正,已於機構法人觀點表格刻意呈現這種動態調整過程。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q2財報與法說會(公司公告,2026/08);目標價與EPS共識(FactSet最新調查,經豐雲學堂、風傳媒、Yahoo股市彙整,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識查無穩定數字,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司法說會公告、FactSet、豐雲學堂、風傳媒。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
