@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,83 +66,71 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>緯創 (3231) <span class="badge amber">估值:分歧(FactSet共識便宜、國內券商因毛利率示警下修)</span> <span class="badge amber">結論:中性,留意毛利率能否止穩</span><span class="autodispo" data-code="3231"></span></h1>
-<div class="sub">台股(TWSE)・NVIDIA GPU供應鏈,AI伺服器/HPC+GDR增資擴產|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3231">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>緯創 (3231) <span class="badge green">估值:便宜,FactSet共識目標價高於現價近兩成</span> <span class="badge amber">結論:偏多,惟GDR增資稀釋與毛利率偏薄需持續留意</span><span class="autodispo" data-code="3231"></span></h1>
+<div class="sub">台股(TWSE)・AI伺服器ODM代工廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/30|<span class="dispostat" data-code="3231">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">139</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3231">現價 <b>178</b> → 目標價 <b>200</b><span class="up"> (+12.4%)</span></div>
-  <div class="vbasis">推導依據:FactSet共識目標價203~210(2026E EPS約13.7~14.3)與國內券商因毛利率偏薄下修目標價188兩者取中值約200;Q2 EPS季增54%創單季新高,惟毛利率5.66%仍偏薄</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">170</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3231">現價 <b>178</b> → 目標價 <b>210</b><span class="up"> (+18.0%)</span></div>
+  <div class="vbasis">推導依據:FactSet 2026E EPS共識14.42元(16位分析師,最新調查)套用約14.5x得目標價210;股價自GDR增資消息公布後已回落,現價178與目標價落差已重新拉開,採目標價210</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">193.5</div><div class="note">2026/08/14 收盤 -1.78%;盤中一度觸及206改寫新天價,收盤未站穩</div></div>
-  <div class="card"><div class="label">市值</div><div class="value">約6,153億</div><div class="note">股本318.04億,已發行31.80億股</div></div>
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">4.72</div><div class="note">季增54%創單季新高;H1累計EPS 7.78(YoY+91.63%)</div></div>
-  <div class="card"><div class="label">Forward P/E(2026E)</div><div class="value amber">約13.8x</div><div class="note">依FactSet共識EPS約14計算</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">139~206</div><div class="note">7~8月區間;8/14盤中創年內新高206</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">122.5~206.0</div><div class="note">3月低122.5、8/14盤中創新高206(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">178.00</div><div class="note">2026/08/28收盤;8月區間175.5~197</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">3082.19億</div><div class="note">MoM-4.22%,YoY+60.8%</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">7.78</div><div class="note">Q2單季4.72創單季新高</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">20499.65億</div><div class="note">YoY+88.15%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">122.5~197</div><div class="note">全年振幅逾60%</div></div>
+  <div class="card"><div class="label">GDR現增</div><div class="value amber">不超過2.5億股</div><div class="note">8/4法說會同步宣布,稀釋疑慮待觀察</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 8/4 Q2財報與GDR增資計畫</h2>
-<div class="event">
-  <h3>事件摘要:8/4董事會通過Q2財報,EPS季增54%創單季新高,同步宣布GDR增資2.5億股</h3>
-  <div class="flow">緯創8/4召開董事會通過Q2暨上半年財報:<b>Q2營收8,954.43億元創歷史新高(QoQ+5.81%,YoY+62.43%),毛利率5.66%(較Q1的5.21%改善0.45pp),稅後淨利148.27億元(QoQ+53.96%),EPS 4.72元創單季新高</b>;上半年累計營收1.74兆元(YoY+94.01%),EPS 7.78元(YoY+91.63%)。董事長林憲銘同步宣布多項AI相關擴產計畫,包括台美產能擴充、越南子公司增資、投資約39.67億元於陽明交大台南校區設立AI運算中心,並規劃發行GDR(全球存託憑證)現金增資2.5億股募集資金。稍早8/10公告7月營收3,082.19億元,YoY+60.76%,MoM-4.23%。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:Q2獲利創新高驗證AI伺服器動能 → 同步宣布GDR增資 → 市場解讀「賺最多卻現金增資」引發股權稀釋疑慮</h3>
-  <div class="flow">Q2 EPS 4.72元季增54%創單季新高,理應是純多頭訊號,但公司同步宣布GDR增資2.5億股(約占已發行股數31.80億股的7.9%),市場出現「Q2賺最多,卻同時宣布現金增資」的解讀分歧——增資雖為擴產鋪路(符合AI伺服器長期成長邏輯),但短期會稀釋每股獲利,是法說會後股價未能站穩新高的部分原因。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(Q1法說,2026/03/13)</th><th>事件後(8/4財報+GDR增資後)</th></tr>
-    <tr><td>單季EPS</td><td>Q1 3.06元(季增19.17%)</td><td class="green">Q2 4.72元(季增54%,創單季新高)</td></tr>
-    <tr><td>毛利率</td><td>Q1 5.21%(YoY-2.6pp)</td><td class="green">Q2 5.66%(季增0.45pp,惟仍偏薄)</td></tr>
-    <tr><td>FactSet 2026E EPS共識</td><td>約13.47~13.56(調查中)</td><td class="amber">約13.7~14.3(多次調查小幅震盪)</td></tr>
-    <tr><td>股本結構</td><td>未提及增資計畫</td><td class="red">宣布GDR增資2.5億股(約7.9%稀釋)</td></tr>
-    <tr><td>國內券商評價</td><td>查無明確下修紀錄</td><td class="red">一份「非常正面」報告仍將P/E倍數自17x下修至13x,目標價自210下修至188</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲(儘管法說後未能站穩新高)?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多但需留意GDR稀釋?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/03/13</span>法說會:2025年EPS達9.04元(自6.11元大幅成長),AI營收占比衝上70%,宣布豪擲600億元台美擴產。</li>
-  <li><span class="date">2026年初~6月</span>股價從年初低點122.5一路飆升至6月高點201,反映市場對NVIDIA GPU供應鏈+AI伺服器動能的樂觀情緒。</li>
-  <li><span class="date">2026/07</span>股價自6月高點201回落至7月低點139(跌幅逾30%),疊加台股系統性回檔與獲利了結賣壓。</li>
-  <li><span class="date">2026/08/04</span><b class="green">Q2財報:EPS 4.72元季增54%創單季新高</b>,毛利率5.66%較Q1改善;同步宣布GDR增資2.5億股。</li>
-  <li><span class="date">2026/08/10</span><b class="green">7月營收3,082.19億元,YoY+60.76%</b>,前7月累計2.05兆元,YoY+88.16%。</li>
-  <li><span class="date">2026/08/14</span>股價法說後叩關200元改寫新天價,盤中一度觸及206,但分析師示警「收盤站穩有困難」,終場收193.5(-1.78%),未能站穩新高。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①GDR增資2.5億股約稀釋7.9%股本,是Q2獲利創新高卻未能推升股價站穩新高的重要原因,不宜只看EPS成長而忽略股權稀釋;②毛利率5.66%雖較Q1改善,但在Buy&Sell模式下仍屬四檔中最薄,一份「非常正面」的國內券商報告仍因此將P/E倍數自17x下修至13x、目標價自210下修至188,顯示市場對緯創獲利品質的疑慮並未因EPS創高而消散;③FactSet近期多次調查的EPS/目標價數字在13.5~14.3、203~210之間反覆小幅震盪,顯示分析師社群本身對緯創的評價也未完全收斂。</li>
+  <li><span class="date">2026年Q1</span>EPS3.06元,季增19.17%,近四季EPS達9.97元,AI伺服器業務動能已見加速跡象。</li>
+  <li><span class="date">2026/08/04</span>Q2法說會:單季EPS4.72元創單季新高;上半年累計EPS7.78元。惟同一場董事會同步通過申請發行GDR(全球存託憑證)、現金增資不超過2.5億股,市場對「賺最多的一季卻同時宣布增資」的組合反應分歧,股價一度承壓。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收3082.19億元(依MOPS官方公告),月減4.22%(公司官方註記「主係客戶需求增加,較去年同期成長」,惟月減部分反映季節性淡季)、年增60.8%;累計1~7月營收20499.65億元,年增88.15%。</li>
+  <li><span class="date">2026年8月</span>FactSet最新調查16位分析師2026年EPS共識上修至14.42元(範圍11.64~18.14),目標價210元。市場對緯創2026年合理價的三種情境分析:若歸母淨利率維持1.1%,EPS約12.9元;若淨利率回升至1.3%,EPS可達約15元,對應合理價從174元到275元不等。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①GDR現增最高2.5億股,以現有股本估算稀釋幅度約7~8%,是本批次AI伺服器代工廠中唯一在「賺最多的一季」同步宣布增資的個股,市場消化這類訊息通常需要一定時間;②三種淨利率情境的合理價差距達101元(174~275),顯示緯創的估值高度敏感於淨利率能否從目前偏薄的水準回升,而非單純的營收成長速度。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">Q2營收8,954.43億元創歷史新高,年增62.43%,EPS 4.72元季增54%創單季新高,AI伺服器動能持續加速兌現。<div class="src">— CMoney財經筆記,2026/08財報公告</div></div>
-    <div class="quote">董事長宣布投資約39.67億元設立AI運算中心,加上台美產能擴充計畫,顯示公司對AI伺服器長期成長的信心。<div class="src">— Yahoo股市,2026/08/04法說整理</div></div>
-    <div class="quote">7月營收年增60.76%,前7月累計年增88.16%,驗證NVIDIA GPU供應鏈訂單動能延續至下半年。<div class="src">— 鉅亨網,2026/08/10</div></div>
+    <div class="quote">Q2 EPS4.72元創單季新高,上半年EPS7.78元;FactSet 16位分析師持續上修2026年EPS共識至14.42元,目標價210元。<div class="src">— 公司8/4法說會,FactSet,2026/08</div></div>
+    <div class="quote">達人分析指出GDR增資雖引發疑慮,惟若視為支應AI伺服器擴產所需資本,長期而言「有機會再漲100元」。<div class="src">— 今周刊,2026/08/11</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">「Q2賺最多,卻同時宣布現金增資」——GDR增資2.5億股稀釋約7.9%股本,是法說利多未能完全轉化為股價動能的關鍵原因。<div class="src">— Yahoo股市,2026/08/04法說整理</div></div>
-    <div class="quote">一份對緯創前景「非常正面」的報告,仍因毛利率偏薄疑慮將P/E倍數自17x下修至13x、目標價自210下修至188,顯示獲利品質仍是市場疑慮焦點。<div class="src">— 旺得富理財網</div></div>
-    <div class="quote">法說後股價一度叩關200元改寫新天價,但收盤站穩有困難,顯示現階段追價風險偏高。<div class="src">— Yahoo股市技術分析</div></div>
+    <div class="quote">Q2賺最多的一季卻同步宣布現金增資,市場消化這類訊息通常需要時間,GDR最高2.5億股的稀釋幅度約7~8%。<div class="src">— YouTube財經頻道,2026/08</div></div>
+    <div class="quote">毛利率是四檔AI伺服器代工中最薄的一家,估值高度敏感於淨利率能否從目前偏薄的水準回升,三種情境下合理價差距達101元。<div class="src">— 股市爆料同學會,2026/08</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>FactSet共識(13位分析師,較新調查)</td><td class="green">210</td><td>自203上修,2026E EPS約13.7~14.3,高280/低165</td></tr>
-  <tr><td>國內券商(對前景「非常正面」但下修倍數)</td><td class="red">188</td><td>P/E倍數自17x下修至13x,反映毛利率偏薄疑慮</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">FactSet近期多次調查數字在13.5~14.3(EPS)、203~210(目標價)間反覆小幅震盪,顯示分析師社群評價尚未完全收斂;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>FactSet共識(2026/08最新,16位分析師)</td><td class="green">210</td><td>2026E EPS共識14.42元(範圍11.64~18.14)</td></tr>
+  <tr><td>FactSet(較早調查)</td><td style="color:var(--muted)">203(已較舊,EPS13.72~13.71,僅供對照)</td><td>EPS估值持續上修驗證趨勢延續</td></tr>
+  <tr><td>市場情境分析(淨利率1.1%情境)</td><td class="amber">174</td><td>EPS約12.9,對應保守淨利率假設</td></tr>
+  <tr><td>市場情境分析(淨利率1.3%情境)</td><td class="green">275</td><td>EPS約15,對應淨利率回升假設</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">FactSet共識210落於兩種淨利率情境之間,是本站掌握到信度最高的多分析師錨點。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -164,69 +139,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">3,082.19億</div><div class="note">MoM-4.23%,YoY+60.76%</div></div>
-  <div class="card"><div class="label">前七月累計營收</div><div class="value green">2.05兆</div><div class="note">YoY+88.16%</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value amber">5.66%</div><div class="note">季增0.45pp,惟四檔中仍最薄</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">7.78</div><div class="note">YoY+91.63%</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">9檔,約35.5億</div><div class="note">四檔中規模居中(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">GDR增資</div><div class="value red">2.5億股</div><div class="note">約占已發行股數7.9%,擴產鋪路但稀釋EPS</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">3082.19億</div><div class="note">YoY+60.8%,MoM-4.22%(季節性)</div></div>
+  <div class="card"><div class="label">H1 EPS</div><div class="value green">7.78</div><div class="note">Q2單季4.72創新高</div></div>
+  <div class="card"><div class="label">GDR稀釋幅度</div><div class="value amber">約7~8%</div><div class="note">最高2.5億股現增</div></div>
+  <div class="card"><div class="label">毛利率水準</div><div class="value amber">四檔AI伺服器代工中最薄</div><div class="note">估值高度敏感於淨利率回升</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value green">8檔,合計12,186張</div><div class="note">本批次持有股數最高</div></div>
+  <div class="card"><div class="label">2026E EPS共識</div><div class="value green">14.42</div><div class="note">FactSet 16位分析師</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>7月營收/Q2動能</th><th>與緯創的差異</th></tr>
-  <tr class="hl"><td>3231.TW</td><td>緯創</td><td>約13.8x(EPS約14)</td><td>7月YoY+60.76%,Q2 EPS季增54%</td><td>NVIDIA GPU供應鏈,2025年營收規模已超越廣達,毛利率四檔中最薄且剛宣布增資稀釋</td></tr>
-  <tr><td>2317.TW</td><td>鴻海(本站另篇分析)</td><td>約14.5x(EPS17.92)</td><td>7月YoY+54.19%,Q2 EPS年增34%</td><td>GB系列機櫃出貨規模最大,基本面故事更完整</td></tr>
-  <tr><td>2382.TW</td><td>廣達(本站另篇分析)</td><td>約13.8x(EPS23.82)</td><td>7月YoY+131.32%,Q2毛利率季減0.87pp</td><td>CSP ASIC伺服器首選,毛利率高於緯創但正處轉換期雜訊</td></tr>
-  <tr><td>2324.TW</td><td>仁寶(本站另篇分析)</td><td>約14.4x(EPS推演約3.0)</td><td>Q2 EPS季增60%+,AI伺服器占比僅一成</td><td>AI伺服器轉型最晚,傳統NB本業占比仍高</td></tr>
-  <tr><td>6669.TW</td><td>緯穎(參考,純AI曝險)</td><td>約11~12x</td><td>北美CSP客製化伺服器最大供應商</td><td>緯創轉投資公司,純AI曝險彈性最高</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與緯創的差異</th></tr>
+  <tr class="hl"><td>3231.TW</td><td>緯創</td><td>FactSet EPS14.42×約14.5x得210</td><td>Q2 EPS4.72創新高,惟同步宣布GDR增資</td><td>ODM代工廠,毛利率四檔中最薄,估值對淨利率回升的敏感度最高</td></tr>
+  <tr><td>2382.TW</td><td>廣達(本站另篇分析)</td><td>FactSet EPS23.82×約16.5x得394</td><td>Q2 EPS7.43(季增35%,年增70%),GB300已超越GB200</td><td>ODM代工廠,無近期增資稀釋疑慮,估值倍數略高於緯創</td></tr>
+  <tr><td>2317.TW</td><td>鴻海(本站另篇分析)</td><td>FactSet EPS17.92×約18x得320</td><td>Q2 EPS4.27創同期新高,雲網產品占比首破五成</td><td>電子代工集團股,規模遠大於緯創,業務組合更多元</td></tr>
+  <tr><td>2324.TW</td><td>仁寶(本站另篇分析)</td><td>市場估值(20x)得約48</td><td>H1 EPS1.18,Q2伺服器占比約70%</td><td>ODM代工廠,轉型AI伺服器規模仍小於緯創,惟無近期增資疑慮</td></tr>
+  <tr><td>6805.TW</td><td>富世達(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>水冷快接頭與摺疊機轉軸雙引擎</td><td>連接器族群,與緯創的AI伺服器組裝業務屬供應鏈上下游關係</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:分歧——FactSet共識顯示便宜,但國內券商因毛利率偏薄疑慮將倍數大幅下修,兩種專業意見方向相反。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約13.8x(以FactSet共識EPS約14計)與廣達相近,在五家同業中屬中段。核心矛盾在於:Q2 EPS季增54%創單季新高,理應強化多頭論點,但毛利率5.66%仍是四檔中最薄,加上剛宣布的GDR增資將稀釋約7.9%股本,使得一份對公司前景「非常正面」的國內券商報告仍選擇將P/E倍數自17x下修至13x、目標價自210下修至188。這種「基本面數字亮眼,但獲利品質與股權結構疑慮同時存在」的分歧,是緯創現階段估值判斷的核心特徵,不宜僅採信FactSet共識的樂觀端。</div>
+  <b>估值判斷:便宜——FactSet共識目標價210與現價178仍有近兩成落差,惟需持續留意GDR稀釋與毛利率偏薄的結構性風險。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">緯創Q2 EPS4.72元創單季新高,上半年累計EPS7.78元,AI伺服器業務動能相當紮實。FactSet 16位分析師的2026E EPS共識14.42元套用約14.5倍本益比(反映毛利率偏薄的ODM代工股保守估值,低於廣達的16.5倍)得目標價210,較現價高出18%。惟需誠實指出兩點:第一,8/4法說會同步宣布GDR現增最高2.5億股,稀釋幅度約7~8%,是本批次AI伺服器代工廠中唯一面臨這個問題的個股;第二,緯創的毛利率是四檔AI伺服器代工中最薄的一家,市場情境分析顯示合理價高度敏感於淨利率能否從目前的水準回升,三種情境下的價差達101元,顯示這個「便宜」判斷的信心區間相對其他個股更寬。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價193.5 vs 中值</th></tr>
-  <tr><td>FactSet共識目標價</td><td>13位分析師,目標價區間165~280,中位210</td><td>165~280(中值222.5)</td><td class="green">便宜 13.0%</td></tr>
-  <tr><td>國內券商倍數下修法</td><td>P/E自17x下修至13x,反映毛利率偏薄與增資稀釋疑慮</td><td>188(單點)</td><td class="red">貴 2.9%(接近合理)</td></tr>
-  <tr><td>2026E P/E×EPS(自身)</td><td>EPS約14(FactSet中位數區間13.7~14.3),AI伺服器代工常態倍數12~16x</td><td>168~224(中值196)</td><td class="amber">合理(接近中值)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價178 vs 中值</th></tr>
+  <tr><td>FactSet EPS共識×倍數(自估)</td><td>2026E EPS14.42,倍數約14.5x</td><td>210(單點)</td><td class="green">便宜 18.0%</td></tr>
+  <tr><td>市場淨利率情境分析(保守~樂觀)</td><td>淨利率1.1%(EPS12.9)~1.3%(EPS15)</td><td>174~275(中值224.5)</td><td class="green">便宜 26.1%</td></tr>
+  <tr><td>H1實績年化交叉驗證</td><td>H1 EPS7.78×2=15.56(保守,未計GDR稀釋效果)</td><td>約226(推演,倍數約14.5x,未計稀釋)</td><td class="green">便宜 27.4%(未計稀釋前)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:GDR增資與台美越三地擴產計畫使股本與資本支出假設同步生變,近兩年FCF/EPS基期可預測性明顯降低。三種方法中,FactSet共識(便宜13%)與國內券商下修法(貴2.9%)方向明顯相反,自身本益比法則落在兩者中間顯示合理——這正是「基本面亮眼但獲利品質有疑慮」的估值分歧在數字上的具體呈現,現階段不宜僅採信任一方,應待Q3毛利率與GDR增資定價塵埃落定後再做判斷。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:GDR增資的實際發行時程與定價區間查無精確揭露,資本結構即將發生變動,多年期FCF假設在此時間點信度不足。三種方法方向一致均顯示現價便宜,惟需注意H1實績年化交叉驗證與市場淨利率情境分析均未直接計入GDR稀釋約7~8%的效果,若將此因素納入,實際便宜幅度應較上表數字略為保守估計。這正是本站將GDR稀釋列為關鍵風險揭露而非僅是次要註腳的原因。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">法說後追高未能站穩</div><div class="bar"><div style="width:54%;background:var(--amber)"></div></div><div class="note">8/14盤中觸及206改寫新天價,收盤拉回193.5</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">FactSet便宜,國內券商轉保守</div><div class="note">目標價區間188~210,方向分歧</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7.78(H1實績)→約14(2026E共識)</div><div class="note">Q3毛利率能否止穩改善與GDR定價是下一驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">8月區間175.5~197,GDR消息後回落整理</div><div class="bar"><div style="width:45%;background:var(--amber)"></div></div><div class="note">波動度相對本批次溫和</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">210,現價仍有明顯落差</div><div class="note">惟未計入GDR稀釋效果</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7.78(H1)→14.42(FactSet 2026E共識)</div><div class="note">GDR定價與發行時程是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>共識EPS</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>13.7~14.3(FactSet多次調查區間)</td><td>12~16x</td><td>164~229(中值196.5)</td><td class="green">約 +2%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無明確共識</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年)</td><td>14.42(FactSet共識,未計GDR稀釋)</td><td>約14~15x</td><td>202~216(中值209)</td><td class="green">約 +17%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,淨利率能否回升至1.3%以上為主要成長驅動</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬接近持平,顯示現價已大致反映當前分歧的估值訊號;2027、2028年因分析師覆蓋未給出明確EPS數字,查無共識,不強行推演。這條路徑的核心啟示是:緯創短期估值訊號分歧明顯,長期路徑高度依賴毛利率能否從Buy&Sell模式的結構性偏薄中改善,以及GDR增資對每股獲利的稀釋幅度能否被成長速度抵銷。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正值(約+17%),惟這個數字未計入GDR稀釋約7~8%的效果,實際隱含報酬應略為保守估計;2027年EPS共識查無穩定數字,淨利率能否從目前偏薄的水準回升是最大不確定因素,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 100~290;left% = (價格-100)/190×92+4 -->
+<!-- 刻度 130~330;left% = (價格-130)/200×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:14.1%"><div class="lbl">Bear(3~6月)</div><div class="price red">125~145</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">175~200</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:65.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">220~245</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:88.1%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">260~280</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:49.2%"><div class="arrow">▲</div><div class="price">193.5</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.9%"><div class="lbl">Bear(3~6月)</div><div class="price red">160~170</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">185~205</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">220~240</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">255~275</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:26.1%"><div class="arrow">▲</div><div class="price">178.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>125~145</td><td>毛利率持續偏薄、GDR增資定價不佳稀釋預期加深,P/E回落至10x附近</td><td class="red">約 -30%</td></tr>
-  <tr><td class="amber">Base</td><td>175~200</td><td>Q3動能延續但毛利率未明顯改善,分歧估值訊號延續;現價落於此區間內</td><td class="red">約 -3%</td></tr>
-  <tr><td class="green">Bull</td><td>220~245</td><td>Q3毛利率止穩回升、GDR增資順利定價,FactSet樂觀端目標達陣</td><td class="green">約 +20%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>260~280</td><td>AI伺服器+HPC雙引擎全面兌現,FactSet最高目標280兌現</td><td class="green">約 +39%</td></tr>
+  <tr><td class="red">Bear</td><td>160~170</td><td>GDR定價低於預期或淨利率持續偏薄,市場對稀釋效果重新定價</td><td class="red">約 -7%</td></tr>
+  <tr><td class="amber">Base</td><td>185~205</td><td>GDR順利完成發行且稀釋效果符合預期,現價向FactSet目標價210靠攏</td><td class="green">約 10%</td></tr>
+  <tr><td class="green">Bull</td><td>220~240</td><td>淨利率回升至1.3%情境獲得驗證,現價向市場樂觀情境(275)靠攏</td><td class="green">約 29%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>255~275</td><td>AI伺服器業務動能延續超預期,淨利率結構性改善獲市場全面採信</td><td class="green">約 49%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -235,36 +209,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">175~185</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">160~174</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">145~159</td><td>45%(毛利率與增資稀釋疑慮未散,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">174~177</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">171~173.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">170~170.9</td><td>35%(接近硬停損,分批確認回檔止穩)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">139</b>(接近7月低點)= AI伺服器/NVIDIA供應鏈動能轉差或毛利率持續惡化,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">170</b>(低於8月區間下緣)= GDR稀釋效果或淨利率偏薄問題超乎預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破206(8/14盤中新高)+量能確認,且Q3法說會驗證毛利率止穩改善<br>
-    進場區:<b class="green">208~218</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回198即出場</div>
+    觸發條件:收盤突破197(8月高點)+量能確認,且GDR發行進度與稀釋效果符合預期<br>
+    進場區:<b class="green">198~215</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回188即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">220~245</div><div class="note">賣出30~50%;Bull下緣,毛利率疑慮股高檔應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">260~280</div><div class="note">Stretched區/FactSet最高目標;續抱條件是毛利率明確突破6%且GDR增資定價順利</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">220~240</div><div class="note">賣出30~50%;Bull區,積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">255~275</div><div class="note">Stretched區;續抱條件是淨利率結構性改善獲市場全面採信</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:8/4董事會通過Q2財報,EPS 4.72元季增54%創單季新高,惟同步宣布GDR增資2.5億股(約稀釋7.9%股本);市場出現「Q2賺最多卻現金增資」的解讀分歧,是法說後股價未能站穩8/14盤中新高206的重要原因。</div>
-<div class="concl">① <b>催化劑</b>:Q2營收8,954.43億元創歷史新高(YoY+62.43%)、7月營收年增60.76%,驗證NVIDIA GPU供應鏈訂單動能延續;但毛利率5.66%在四檔AI伺服器代工中仍最薄,加上增資稀釋疑慮,一份「非常正面」的國內券商報告仍將目標價自210下修至188。</div>
-<div class="concl">② <b>估值</b>:分歧——FactSet共識目標價210顯示便宜13%,但國內券商因毛利率與增資疑慮下修至188後已接近合理,自身本益比法落於兩者之間;這種「基本面數字亮眼但獲利品質有疑慮」的分歧是核心特徵,不宜僅採信單一樂觀數字。</div>
-<div class="concl">③ <b>結論</b>:中性、留意毛利率能否止穩——現價193.5落於Base區間內,上檔Bull +20%/Stretched +39%對下檔Bear -30%,風險報酬比因估值分歧未收斂而僅屬中性;左側倉位應保守分批,收盤跌破139即AI伺服器動能轉差或毛利率持續惡化,無條件出場。下一個驗證點是Q3毛利率與GDR增資定價結果。</div>
+<div class="concl">① <b>催化劑</b>:8/4法說會Q2 EPS4.72元創單季新高,上半年EPS7.78元;惟同一場董事會同步宣布GDR現增最高2.5億股,稀釋幅度約7~8%,市場消化這個「賺最多的一季卻同時增資」的組合訊息需要時間。</div>
+<div class="concl">② <b>估值</b>:便宜——FactSet共識目標價210與現價仍有18%落差,惟這個數字未計入GDR稀釋效果;市場淨利率情境分析顯示合理價區間174~275,價差逾百元,反映緯創的估值高度敏感於毛利率偏薄的結構性問題能否改善。</div>
+<div class="concl">③ <b>結論</b>:偏多、惟GDR增資稀釋與毛利率偏薄需持續留意——現價落於Base區間下緣,上檔Bull +29%/Stretched +49%對下檔Bear -7%,風險報酬結構仍偏正面但確定性略低於廣達/鴻海;跌破170即無條件出場。下一個關鍵驗證點是GDR定價與發行時程,以及淨利率能否回升。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);股本/發行股數(Goodinfo,2026/08);Q2財報與GDR增資(CMoney財經筆記、Yahoo股市,2026/08/04董事會);7月營收(鉅亨網,2026/08/10公告);FactSet共識EPS/目標價(鉅亨網FactSet速報、豐雲學堂,多次調查追蹤至8月);國內券商下修報告(旺得富理財網);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;GDR確切發行價格與時程、2027/2028年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、CMoney財經筆記、Yahoo股市、鉅亨網、豐雲學堂、旺得富理財網、Goodinfo。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本次估值方法交叉檢核表刻意呈現FactSet與國內券商兩種方向相反的專業意見,不應僅採信對多方有利的數字。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q1財報與8/4法說會(公司公告);目標價與EPS共識(FactSet最新調查、市場淨利率情境分析,經今周刊、股市爆料同學會彙整,2026/08);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;GDR精確定價與發行時程、2027年EPS共識查無,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司法說會公告、FactSet、今周刊、股市爆料同學會。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
