@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,84 +66,71 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>力積電 (6770) <span class="badge amber">估值:合理(近3年首度配息+CEO異動雙重事件)</span> <span class="badge amber">結論:中性,漲停後等回檔驗證新任執行長方向</span><span class="autodispo" data-code="6770"></span></h1>
-<div class="sub">台股(TWSE)・晶圓代工,3D AI(Interposer/HBM代工)受惠記憶體超級循環|事件後估值版(股利政策+執行長異動後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="6770">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>力積電 (6770) <span class="badge green">估值:便宜,摩根大通目標價高於現價逾四成</span> <span class="badge green">結論:偏多,記憶體代工漲價循環驗證評價重估</span><span class="autodispo" data-code="6770"></span></h1>
+<div class="sub">台股(TWSE)・晶圓代工廠(記憶體代工),重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/30|<span class="dispostat" data-code="6770">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">54</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="6770">現價 <b>70</b> → 目標價 <b>88</b><span class="up"> (+25.7%)</span></div>
-  <div class="vbasis">推導依據:外資估EPS8.61 × 約10.2倍(對應目標價88);與8/7分析目標價78相比小幅上修,反映8/11董事會通過近3年首度配息(0.23元)+執行長異動雙重事件,股價8/12強攻漲停</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">62</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="6770">現價 <b>70</b> → 目標價 <b>100</b><span class="up"> (+42.9%)</span></div>
+  <div class="vbasis">推導依據:摩根大通目標價100元,看好記憶體價格上漲、晶圓代工調價、HBM布局及毛利率改善;摩根士丹利給予111元(較新版本,2026年營收約758億、EPS約4.56),兩者方向一致,採較保守的摩根大通目標價100</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">78.4</div><div class="note">2026/08/14 收盤 +4.67%;8/12強攻漲停73.7</div></div>
-  <div class="card"><div class="label">近3年首度配息</div><div class="value green">0.23元</div><div class="note">8/11董事會決議通過2026年度H1股利分派</div></div>
-  <div class="card"><div class="label">外資估EPS</div><div class="value amber">8.61</div><div class="note">記憶體缺貨延續情境下的估值</div></div>
-  <div class="card"><div class="label">Forward P/E(推演)</div><div class="value amber">約9.1x</div><div class="note">依外資估EPS8.61計算,惟精確共識分析師人數查無</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">48.0~81.8</div><div class="note">7~8月區間;現價落於區間上緣</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">39.3~94.5</div><div class="note">1月低39.3、6月高94.5(TWSE官方日成交資訊)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">70.00</div><div class="note">2026/08/28收盤;8月區間54.7~78.4</div></div>
+  <div class="card"><div class="label">7月投片漲價</div><div class="value green">45%</div><div class="note">記憶體代工價格大幅調升</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.76</div><div class="note">毛利率28%創近3年半新高</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">66.69億</div><div class="note">MoM+3.01%,YoY+70.6%(自算)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">54.7~78.4</div><div class="note">全年振幅約43%</div></div>
+  <div class="card"><div class="label">記憶體占Q2營收</div><div class="value green">逾52%</div><div class="note">預期缺口延續至2027年</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 近3年首度配息+執行長異動雙重事件,股價強攻漲停</h2>
-<div class="event">
-  <h3>事件摘要:8/11董事會通過近3年首度配息(0.23元)與執行長異動,8/12股價強攻漲停</h3>
-  <div class="flow">力積電董事會8/11決議通過2026年度上半年股利分派0.23元,是近3年來公司首度配息;同日董事會也通過執行長異動案。這兩項決議合計釋出兩個訊號:配息代表公司財務體質與獲利穩定度已改善至可以開始回饋股東的程度,而執行長異動則為公司治理帶來新的不確定性(新任執行長的策略方向尚待觀察)。消息公布後,力積電股價8/12強攻漲停(收73.7元,+6.7),延續了先前記憶體代工/3D AI(Interposer/HBM代工)題材的樂觀情緒,並於8/14續漲4.67%收78.4元。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:近3年首度配息驗證財務體質改善 → 記憶體超級循環+3D AI代工題材同步發酵 → 股價強攻漲停 → 惟執行長異動的策略不確定性需持續觀察</h3>
-  <div class="flow">力積電先前8/7分析已提及Q1 EPS3.36(主因出售廠房一次性業外收益)、Q2 EPS0.76(毛利率10%→28%,較貼近本業改善的基準)、3D AI(Interposer/HBM代工)成新動能、報價已調漲10~20%。這次的首度配息決議,某種程度上是對這些基本面改善訊號的財務面確認——公司管理層願意在近3年來首度配息,顯示對未來現金流的信心提升。但執行長異動同時發生,為公司治理與策略延續性帶來新的變數,新任執行長是否會延續既有的3D AI代工擴產策略,或調整資本支出優先順序,是需要持續觀察的風險。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析)</th><th>事件後(8/11董事會決議後)</th></tr>
-    <tr><td>股利政策</td><td>無配息紀錄</td><td class="green">近3年首度配息,0.23元(2026年度H1)</td></tr>
-    <tr><td>公司治理</td><td>查無異動預告</td><td class="amber">董事會通過執行長異動案,策略延續性待觀察</td></tr>
-    <tr><td>股價</td><td>65.5(8/7)</td><td class="green">78.4(8/14),漲幅19.7%,8/12曾強攻漲停</td></tr>
-    <tr><td>外資EPS估值/目標價</td><td>8.61/78(大摩清洗後估值)</td><td class="amber">8.61/88(沿用EPS,目標價因股價上漲小幅調整推演)</td></tr>
-    <tr><td>本站目標價/評等</td><td>78/偏多</td><td class="amber">88/中性(漲幅已跑在目標價前面,評等轉為中性)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多?</h2>
 <ul class="timeline">
-  <li><span class="date">2026/Q1</span>EPS3.36元,主因出售廠房一次性業外收益,非本業結構性改善的可靠基準。</li>
-  <li><span class="date">2026/Q2</span>EPS0.76元,毛利率自10%大幅改善至28%,是較貼近本業真實改善的基準;3D AI(Interposer/HBM代工)成為新動能,產能滿載下已全面調漲報價10~20%。</li>
-  <li><span class="date">2026年初~6月</span>股價從年初低點39.3飆升至6月高點94.5,反映記憶體超級循環與3D AI代工題材的樂觀重估。</li>
-  <li><span class="date">2026年6~7月</span>股價自6月高點94.5回落至7月低點48.0(跌幅逾49%),疊加台股系統性回檔。</li>
-  <li><span class="date">2026/08/11</span><b class="green">董事會決議通過近3年首度配息(0.23元)與執行長異動</b>,兩項決議同步公布。</li>
-  <li><span class="date">2026/08/12</span><b class="green">股價強攻漲停</b>,收73.7元(+6.7,+10%),延續記憶體代工題材與首度配息的雙重利多。</li>
-  <li><span class="date">2026/08/13~14</span>股價持續走高(74.9→78.4),8/14單日上漲4.67%。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①外資目標價來源本身分歧極大(先前分析已提及FactSet 100元vs另一彙整55.6~60.5元vs大摩88元,顯示各機構評價方法論差異很大),本次沿用的88元目標價信度應打折看待;②執行長異動雖同步釋出,但新任執行長的策略方向與是否延續既有3D AI代工擴產計畫仍不明朗,是股利利多之外容易被忽略的治理不確定性;③股價自8/7的65.5已上漲至78.4(+19.7%),漲幅已明顯跑在目標價調整速度前面,安全邊際較先前分析時收窄。</li>
+  <li><span class="date">2026/06/29</span>法說會展望:公司對後續營運展望轉趨樂觀。</li>
+  <li><span class="date">2026/07/14</span>Q2法說會:毛利率飆至28%,創近3年半新高;Q2 EPS0.76元,Q2營收172.9億元,上半年累計營收308.6億元。3D AI Foundry營收占比已達5.4%,公司定調未來三年內該業務占比目標達20%,展現多元轉型布局。</li>
+  <li><span class="date">2026年7月</span>將記憶體代工投片價格調漲45%,第三、第四季營運可望季季走高。記憶體業務Q2貢獻超過52%的總營收,預期供給缺口將維持至2027年。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收66.69億元(依MOPS官方公告),月增3.01%(公司官方註記「主係客戶需求上升,銷售量增加,銷售價格調漲」);年增率經本站以原始欄位自算約70.6%;累計1~7月營收375.32億元,年增42.67%。</li>
+  <li><span class="date">2026年8月</span>機構目標價與EPS估值出現分歧:摩根大通給予目標價100元,看好記憶體價格上漲、晶圓代工調價、HBM布局及毛利率改善;摩根士丹利較新版本看多至111元,預估2026年營收約758億元、EPS約4.56元;摩根士丹利較早版本則升評至88元,預估2026年EPS約8.61元(與較新版本的EPS估值出現顯著落差,反映預估基礎可能不同)。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①摩根士丹利兩個版本的EPS估值差距懸殊(4.56 vs 8.61),需留意這可能反映不同會計基礎或預估時點的差異,不宜直接引用較高的EPS數字計算隱含本益比;②3D AI Foundry業務占比雖僅5.4%,惟公司設定三年內達20%的長期目標,是記憶體代工循環故事之外的第二成長曲線,具體進度仍待後續驗證。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">力積電上半年配息0.23元,近3年來首度配息,股價強攻漲停表態,顯示公司財務體質改善至可回饋股東的程度。<div class="src">— 綜合鉅亨網、Yahoo股市,2026/08/12</div></div>
-    <div class="quote">3D AI(Interposer/HBM代工)成新動能,產能滿載已全面調漲報價10~20%,全年營收guidance優於50%。<div class="src">— 先前8/7分析法說整理</div></div>
-    <div class="quote">外資估EPS8.61元,若記憶體缺貨延續、報價走勢穩定,獲利有機會接近或優於此估值,目標價上看88~100元。<div class="src">— readmo財經</div></div>
+    <div class="quote">Q2毛利率飆至28%創近3年半新高,7月將記憶體代工投片價格調漲45%,第三、第四季營運可望季季走高;記憶體業務Q2貢獻逾52%營收,預期缺口延續至2027年。<div class="src">— 公司7/14法說會,MoneyDJ理財網,2026/07</div></div>
+    <div class="quote">摩根大通給予目標價100元,看好記憶體價格上漲、晶圓代工調價、HBM布局及毛利率改善;3D AI Foundry業務占比5.4%,三年內目標達20%。<div class="src">— 摩根大通,經旺得富理財網彙整,2026/07~08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">董事會同步通過執行長異動案,新任執行長的策略方向與是否延續既有擴產計畫仍不明朗,是股利利多之外容易被忽略的公司治理不確定性。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">外資目標價來源分歧極大(FactSet 100元 vs 另一彙整55.6~60.5元 vs 大摩88元),顯示各機構評價方法論差異很大,單一目標價的代表性應打折看待。<div class="src">— 本儀表板觀察,延續先前分析</div></div>
-    <div class="quote">股價自8/7的65.5已上漲至78.4(+19.7%),漲幅已明顯跑在目標價調整速度前面,追高安全邊際較先前分析時收窄。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">摩根士丹利兩個版本的EPS估值差距懸殊(4.56 vs 8.61),反映預估基礎的不確定性,不宜直接引用較高數字計算隱含本益比。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">3D AI Foundry業務占比僅5.4%,距離三年內20%的長期目標仍有相當長的路要走,具體進度需持續驗證。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/情境</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>外資(記憶體缺貨延續情境)</td><td class="amber">88</td><td>EPS估值8.61,樂觀情境對應接近或優於此EPS</td></tr>
-  <tr><td>另一情境估值(較保守)</td><td class="amber">55.6~60.5</td><td>中性情景:公司有賺錢但成長未明顯超預期</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">先前分析亦提及FactSet目標價100元的樂觀端數字;三種情境(樂觀/中性/悲觀)分歧本身即反映記憶體缺貨週期是否延續的高度不確定性;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>摩根大通(2026/08最新)</td><td class="green">100</td><td>看好記憶體價格上漲、晶圓代工調價、HBM布局及毛利率改善</td></tr>
+  <tr><td>摩根士丹利(較新版本)</td><td class="green">111</td><td>2026年營收約758億元,EPS約4.56元</td></tr>
+  <tr><td>摩根士丹利(較早版本,僅供對照)</td><td style="color:var(--muted)">88(EPS估值8.61,與較新版本落差大)</td><td>升評時點較早,EPS估值基礎與新版本不一致</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">摩根大通(100)與摩根士丹利較新版本(111)方向一致且相對收斂,是本站採信的主要依據;較早版本的88元因EPS估值與新版本落差過大,信度較低。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -165,69 +139,68 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.76</div><div class="note">毛利率自10%改善至28%,較貼近本業真實基準</div></div>
-  <div class="card"><div class="label">Q1 EPS</div><div class="value amber">3.36</div><div class="note">主因出售廠房一次性業外收益,非本業結構性改善</div></div>
-  <div class="card"><div class="label">近3年首度配息</div><div class="value green">0.23元</div><div class="note">2026年度H1股利分派</div></div>
-  <div class="card"><div class="label">3D AI代工報價</div><div class="value green">已調漲10~20%</div><div class="note">Interposer/HBM代工產能滿載</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">1檔,約0.84億</div><div class="note">四檔中規模最小、幾乎不受主動式資金關注(2026/08/14資料)</div></div>
-  <div class="card"><div class="label">全年營收guidance</div><div class="value green">優於50%</div><div class="note">先前法說會口徑</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value green">0.76</div><div class="note">毛利率28%創近3年半新高</div></div>
+  <div class="card"><div class="label">7月投片漲價</div><div class="value green">45%</div><div class="note">Q3/Q4可望季季走高</div></div>
+  <div class="card"><div class="label">記憶體占Q2營收</div><div class="value green">逾52%</div><div class="note">缺口預期延續至2027年</div></div>
+  <div class="card"><div class="label">3D AI Foundry占比</div><div class="value amber">5.4%→三年內20%目標</div><div class="note">第二成長曲線,進度待驗證</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">1檔,合計127張</div><div class="note">本批次持有度最低</div></div>
+  <div class="card"><div class="label">2026E EPS估值分歧</div><div class="value amber">4.56~8.61</div><div class="note">摩根士丹利兩版本落差大</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>2026E Forward P/E</th><th>近況動能</th><th>與力積電的差異</th></tr>
-  <tr class="hl"><td>6770.TW</td><td>力積電</td><td>約9.1x(外資估EPS8.61)</td><td>近3年首度配息+CEO異動雙重事件</td><td>晶圓代工,3D AI(Interposer/HBM代工)受惠記憶體超級循環,估值倍數四檔中最低</td></tr>
-  <tr><td>2345.TW</td><td>智邦(本站另篇分析)</td><td>約27.6x(EPS83.21)</td><td>7月YoY+71.69%,歷史次高</td><td>網通交換器,業務性質完全不同</td></tr>
-  <tr><td>3661.TW</td><td>世芯-KY(本站另篇分析)</td><td>約31.2x(EPS135)</td><td>7月YoY+181%創新高</td><td>ASIC設計服務,業務性質完全不同</td></tr>
-  <tr><td>3443.TW</td><td>創意(本站另篇分析)</td><td>估值倍數無法精確計算,惟股價已超越所有已知目標價</td><td>拿下Google次世代晶片專案</td><td>ASIC設計服務,業務性質完全不同</td></tr>
-  <tr><td>—</td><td>晶圓代工/記憶體超級循環受惠股(參考)</td><td>普遍偏低個位數至十位數</td><td>普遍受惠記憶體超級循環</td><td>力積電是四檔中Forward P/E最低、也是唯一有公司治理(執行長異動)特有風險的一檔</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與力積電的差異</th></tr>
+  <tr class="hl"><td>6770.TW</td><td>力積電</td><td>摩根大通目標價100/摩根士丹利111</td><td>Q2毛利率創近3年半新高,7月投片漲價45%</td><td>記憶體代工廠,主動式ETF持有度本批次最低,惟目標價落差最大</td></tr>
+  <tr><td>2408.TW</td><td>南亞科(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>DDR4/DDR5漲價主導者</td><td>自有品牌DRAM製造廠,與力積電的委外代工模式不同</td></tr>
+  <tr><td>2337.TW</td><td>旺宏(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>NAND占比躍升</td><td>自有品牌NAND/NOR Flash廠,與力積電同屬記憶體循環受惠股</td></tr>
+  <tr><td>2344.TW</td><td>華邦電(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>CMS客製化記憶體</td><td>利基型記憶體廠,與力積電的晶圓代工角色互補</td></tr>
+  <tr><td>3037.TW</td><td>欣興(本站另篇分析)</td><td>FactSet EPS16.34×約78x得1280</td><td>ABF載板,Blackwell供應鏈市占約三成</td><td>與力積電業務性質完全不同,僅同屬本批次半導體供應鏈個股</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:合理——Forward P/E在四檔中最低,近3年首度配息驗證財務體質改善,但執行長異動與外資目標價分歧是需要留意的風險。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Forward P/E約9.1x(以外資估EPS8.61計)遠低於智邦、世芯、創意等IC設計/網通股,反映晶圓代工本業的估值倍數本質上較低。近3年首度配息是財務面的正面訊號,3D AI代工報價調漲10~20%驗證記憶體超級循環的實質受惠。核心風險有二:一是外資目標價本身在55.6~100元之間分歧極大,反映機構對記憶體缺貨週期能否延續的看法不一;二是執行長異動帶來的公司治理不確定性,是力積電特有、其他三檔沒有的風險因子。</div>
+  <b>估值判斷:便宜——摩根大通與摩根士丹利較新版本的目標價(100/111)方向一致,現價70明顯偏低。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">力積電受惠記憶體代工缺口與漲價循環,Q2毛利率飆升至28%創近3年半新高,7月投片價格大幅調漲45%,第三、第四季營運可望季季走高。摩根大通給予目標價100元,摩根士丹利較新版本給予111元,兩者方向一致且相對收斂,較現價70高出43~59%。惟需留意摩根士丹利兩個版本的EPS估值差距懸殊(4.56 vs 8.61),顯示這個評價背後的獲利假設仍存在一定不確定性,建議以摩根大通較保守的100元作為主要決策依據,而非直接採信最高的目標價數字。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價78.4 vs 中值</th></tr>
-  <tr><td>外資樂觀情境(單點)</td><td>EPS8.61,記憶體缺貨延續</td><td>88(單點)</td><td class="green">便宜 10.9%</td></tr>
-  <tr><td>中性情境(單點,較保守)</td><td>公司有賺錢但成長未明顯超預期</td><td>55.6~60.5(中值58.05)</td><td class="red">貴 35.1%</td></tr>
-  <tr><td>Q2 EPS年化對照(推演,較保守)</td><td>Q2 EPS0.76×4=3.04(假設全年維持Q2水準,較外資樂觀情境保守),倍數8~11x</td><td>24.3~33.4(中值28.9,推演)</td><td class="red">貴 171.3%(對照情境,凸顯EPS假設敏感度極高)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價70 vs 中值</th></tr>
+  <tr><td>摩根大通目標價(較保守,採信)</td><td>記憶體價格上漲、晶圓代工調價、HBM布局</td><td>100(單點)</td><td class="green">便宜 42.9%</td></tr>
+  <tr><td>摩根士丹利目標價(較新版本)</td><td>2026年營收約758億,EPS約4.56</td><td>111(單點)</td><td class="green">便宜 58.6%</td></tr>
+  <tr><td>Q2單季年化交叉驗證(推演,保守)</td><td>Q2 EPS0.76×4=3.04(未計H2漲價效益),倍數約22x(參照摩根大通隱含倍數)</td><td>約67(推演,信度中等)</td><td class="amber">合理 -4.5%</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:記憶體晶圓代工的獲利波動劇烈(Q1含一次性業外收益、Q2較貼近本業但仍受景氣循環影響),近三年FCF假設信度過低。三種方法呈現極端分歧:外資樂觀情境顯示便宜,中性情境顯示貴逾3成,而保守的Q2年化對照更顯示貴逾1.7倍——這種敏感度顯示力積電目前的估值合理性高度依賴記憶體缺貨循環能否延續至外資樂觀情境的EPS8.61水準,若僅是Q2單季的本業表現線性外推,現價將明顯偏貴。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:記憶體代工景氣循環性質強烈,擴產資本支出龐大,多年期FCF假設信度不足。三種方法呈現一定分歧:摩根大通與摩根士丹利兩個外資目標價均顯示現價明顯便宜,惟若僅以Q2單季簡單年化(未計入7月投片漲價45%對H2的加速效果),現價則已大致合理。這個分歧提醒投資人,「便宜」的判斷高度依賴7月漲價效益能否在Q3/Q4完整反映在財報數字上,而非無條件成立。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value red">雙重利多後漲停,過熱警訊</div><div class="bar"><div style="width:76%;background:var(--red)"></div></div><div class="note">8/12強攻漲停,8/14續漲4.67%,短線動能強勁</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value amber">外資目標價分歧極大</div><div class="note">55.6~100元,反映記憶體循環看法不一</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">Q2 EPS0.76(本業基準)→外資樂觀估EPS8.61</div><div class="note">Q3財報能否驗證記憶體缺貨延續與新任執行長策略方向是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">8月區間54.7~78.4,波動度中等</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">全年振幅約43%,相對本批次溫和</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">100~111,現價仍有明顯落差</div><div class="note">兩家外資方向一致</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">0.76(Q2單季)→EPS估值分歧4.56~8.61</div><div class="note">Q3財報驗證7月漲價效益是關鍵</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年,外資樂觀情境)</td><td>8.61(單點,記憶體缺貨延續假設)</td><td>8~11x</td><td>68.9~94.7(中值81.8)</td><td class="green">約 +4%</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有3D AI代工報價調漲的定性guidance</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年,摩根士丹利較新版本)</td><td>4.56</td><td>約22~24x</td><td>100~109(中值104.5)</td><td class="green">約 +49%</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,記憶體缺口延續至2027年與3D AI Foundry業務進度為主要成長驅動</td><td>—</td><td>查無</td><td>查無</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬顯示溫和便宜,惟這高度依賴記憶體缺貨延續、EPS達到外資樂觀估值8.61的假設;若僅實現中性或保守情境,現價將明顯偏貴。2027、2028年因新任執行長策略方向與3D AI代工擴產計畫的長期路徑不明,查無共識,不強行推演。這條路徑的核心啟示是:力積電是四檔中估值敏感度最高的一檔,買入決策應緊盯記憶體缺貨循環的實際延續情況,而非僅憑外資樂觀情境的單一數字。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬達本批次前段班水準(約+49%),惟建立在摩根士丹利較新版本的EPS假設上,兩個版本間的落差提醒這個數字仍有一定不確定性;2027年EPS共識查無穩定數字,不強行推演。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 25~120;left% = (價格-25)/95×92+4 -->
+<!-- 刻度 40~130;left% = (價格-40)/90×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:19.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">45~54</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:44.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">65~75</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:67.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">85~95</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">105~115</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:55.6%"><div class="arrow">▲</div><div class="price">78.4</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">58~64</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">75~82</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">92~100</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">108~116</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:34.7%"><div class="arrow">▲</div><div class="price">70.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>45~54</td><td>記憶體缺貨循環轉折或新任執行長調整擴產策略,重測7月低點附近</td><td class="red">約 -37%</td></tr>
-  <tr><td class="amber">Base</td><td>65~75</td><td>Q3動能延續但無驚喜,中性情境估值區間內震盪;現價落於此區間上緣附近</td><td class="red">約 -11%</td></tr>
-  <tr><td class="green">Bull</td><td>85~95</td><td>記憶體缺貨延續,外資樂觀情境EPS8.61兌現,重返6月高點附近</td><td class="green">約 +15%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>105~115</td><td>3D AI代工報價持續調漲,新任執行長策略獲市場認可,估值倍數擴張</td><td class="green">約 +40%</td></tr>
+  <tr><td class="red">Bear</td><td>58~64</td><td>記憶體代工漲價效益不如預期,或行業整體景氣轉弱</td><td class="red">約 -13%</td></tr>
+  <tr><td class="amber">Base</td><td>75~82</td><td>Q3財報驗證7月漲價45%效益,現價向摩根大通目標價靠攏</td><td class="green">約 12%</td></tr>
+  <tr><td class="green">Bull</td><td>92~100</td><td>記憶體缺口延續至2027年獲更多機構驗證,現價達成摩根大通目標價</td><td class="green">約 37%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>108~116</td><td>3D AI Foundry業務占比加速提升,摩根士丹利111目標價獲全面驗證</td><td class="green">約 60%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
@@ -236,36 +209,35 @@
     <div class="label">左側計畫|逆勢分批,適合中長期</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">65~70</td><td>25%</td></tr>
-      <tr><td>第二批</td><td class="green">58~64</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">54~57</td><td>45%(估值敏感度高,倉位應保守)</td></tr>
+      <tr><td>第一批</td><td class="green">66~68</td><td>35%</td></tr>
+      <tr><td>第二批</td><td class="green">63~65.9</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">62~62.9</td><td>30%</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">54</b>(接近8月低點)= 記憶體缺貨循環轉折或執行長異動後策略方向不利,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">62</b>(低於8月區間下段支撐)= 記憶體代工漲價效益不如預期確認,無條件出場</div>
   </div>
   <div class="card">
     <div class="label">右側計畫|順勢突破,適合波段</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破81.8(8月區間高點)+量能確認,且Q3財報驗證記憶體缺貨延續<br>
-    進場區:<b class="green">82~88</b><br>
-    移動停利:跌破20日線或高點回檔15%<br>
-    假突破失效:觸發後3日內跌回79即出場</div>
+    觸發條件:收盤突破78.4(8月高點)+量能確認,且Q3財報驗證7月漲價效益<br>
+    進場區:<b class="green">79~86</b><br>
+    移動停利:跌破10日線或高點回檔12%<br>
+    假突破失效:觸發後2日內跌回75即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">85~95</div><div class="note">賣出30~50%;Bull區,外資樂觀情境兌現後應積極獲利了結</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">105~115</div><div class="note">Stretched區;續抱條件是新任執行長策略方向明確且記憶體缺貨延續獲驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">92~100</div><div class="note">賣出30~50%;Bull區,積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">108~116</div><div class="note">Stretched區;續抱條件是3D AI Foundry業務占比持續加速提升</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:8/11董事會決議通過近3年首度配息(0.23元)與執行長異動雙重事件,8/12股價強攻漲停,延續記憶體代工題材的樂觀情緒;首度配息驗證財務體質改善,但執行長異動的策略延續性仍待觀察。</div>
-<div class="concl">① <b>催化劑</b>:3D AI(Interposer/HBM代工)受惠記憶體超級循環,產能滿載下報價已調漲10~20%,近3年首度配息是財務面的正面確認;但外資目標價本身在55.6~100元之間分歧極大,反映機構對缺貨週期延續性的看法不一。</div>
-<div class="concl">② <b>估值</b>:合理——Forward P/E約9.1x是四檔中最低,外資樂觀情境顯示便宜約11%,但中性情境與保守的Q2年化對照卻分別顯示貴35%與貴逾1.7倍,估值合理性高度依賴記憶體缺貨循環能否延續至樂觀情境的EPS8.61水準。</div>
-<div class="concl">③ <b>結論</b>:中性、漲停後等回檔驗證新任執行長方向——現價78.4落於Base區間上緣,上檔Bull +15%/Stretched +40%對下檔Bear -37%,股價自8/7的65.5已上漲19.7%,安全邊際已收窄;左側倉位應保守分批等回檔,收盤跌破54即記憶體循環轉折或執行長異動後策略不利,無條件出場。下一個驗證點是Q3財報能否驗證記憶體缺貨延續與新任執行長的策略方向。</div>
+<div class="concl">① <b>催化劑</b>:Q2毛利率飆至28%創近3年半新高,7月將記憶體代工投片價格調漲45%,第三、第四季營運可望季季走高;記憶體業務Q2貢獻逾52%營收,3D AI Foundry業務占比5.4%為第二成長曲線,三年內目標達20%。</div>
+<div class="concl">② <b>估值</b>:便宜——摩根大通(100)與摩根士丹利較新版本(111)兩個外資目標價方向一致,較現價高出43~59%;惟摩根士丹利兩個版本的EPS估值差距懸殊(4.56 vs 8.61),提醒這個評價仍有一定不確定性,若以Q2單季簡單年化保守估算,現價則已大致合理。</div>
+<div class="concl">③ <b>結論</b>:偏多、記憶體代工漲價循環驗證評價重估——現價落於Base區間下緣,上檔Bull +37%/Stretched +60%對下檔Bear -13%,風險報酬結構偏正面;跌破62即無條件出場。下一個關鍵驗證點是Q3財報能否驗證7月投片漲價45%的效益完整反映。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);董事會決議(綜合鉅亨網、Yahoo股市,2026/08/11~12公告);外資EPS估值與情境分析(readmo財經);先前Q1/Q2財報與3D AI代工報價(先前8/7分析法說整理);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;新任執行長姓名與具體策略方向、精確分析師人數、2027/2028年EPS共識查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、鉅亨網、Yahoo股市、readmo財經。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔外資目標價分歧極大(55.6~100元),且是本次分析範圍內唯一有公司治理(執行長異動)特有風險的一檔,情境誤差區間應更保守看待。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q2財報與6/29、7/14法說會(公司公告);目標價與EPS估值(摩根大通、摩根士丹利,經旺得富理財網、MoneyDJ理財網彙整,2026/06~08);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;2027年EPS共識查無,未強行推演。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司法說會公告、摩根大通、摩根士丹利、旺得富理財網。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>

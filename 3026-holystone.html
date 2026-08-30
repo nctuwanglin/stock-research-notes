@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -29,18 +30,6 @@
   .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -54,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -80,77 +66,69 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>禾伸堂 (3026) <span class="badge purple">事件:Q2財報+7月營收</span> <span class="badge red">估值:明顯偏貴,查無外部目標價驗證</span> <span class="badge red">結論:觀望,波動最劇烈且估值錨點最不穩定</span><span class="autodispo" data-code="3026"></span></h1>
-<div class="sub">台股(TWSE)・被動元件(MLCC/系統模組/主動元件)・被動元件族群中波動最劇烈個股|事件後估值版(Q2財報+7月營收後)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="3026">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
+<h1>禾伸堂 (3026) <span class="badge green">估值:便宜,凱基目標價高於現價約二成八</span> <span class="badge green">結論:偏多,獲利年增179%驗證評價重估惟目標價已逾兩月未更新</span><span class="autodispo" data-code="3026"></span></h1>
+<div class="sub">台股(TWSE)・被動元件廠,重分析更新(現況估值版)|股價截至 2026/08/28 收盤,製表 2026/08/30|<span class="dispostat" data-code="3026">未列入處置股/注意股名單(對照處置股儀表板 2026/08/27 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">588</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="3026">現價 <b>742</b> → 目標價 <b>350</b><span class="down"> (-52.8%)</span></div>
-  <div class="vbasis">推導依據:H1 EPS6.73,假設H2動能延續(7月營收YoY+37.05%創40個月新高)全年EPS推演約14~15元,套用循環股保守倍數20~28x得合理區間約280~420(中值350);現價647遠高於此區間,且查無任何公開券商目標價覆蓋可資交叉驗證,是三檔分析標的中估值錨點最不穩定者</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">600</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3026">現價 <b>742</b> → 目標價 <b>950</b><span class="up"> (+28.0%)</span></div>
+  <div class="vbasis">推導依據:凱基證券(2026/06/29)給予2026年EPS13.15元、2027年EPS38.08元估值,目標價950元,評等「增加持股」;此為本站掌握到的唯一具名機構目標價,發布時點距今約兩個月,信度中等,採目標價950</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">647.0</div><div class="note">2026/08/14 收盤;8月區間459.5~691</div></div>
-  <div class="card"><div class="label">7月營收</div><div class="value green">15.01億</div><div class="note">MoM+8.89%,YoY+37.05%,創40個月新高,連續5個月成長</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">6.73</div><div class="note">Q1 2.86/Q2約3.87(H1-Q1推算)</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">26.2%</div><div class="note">QoQ+1.9個百分點,YoY+6.4個百分點</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">102~1,005</div><div class="note">2月低、7月高;全年振幅近10倍,三檔中波動最劇烈</div></div>
-  <div class="card"><div class="label">公開券商目標價覆蓋</div><div class="value red">查無</div><div class="note">三檔分析標的中唯一查無任何公開券商目標價</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">742.00</div><div class="note">2026/08/28收盤;8月區間459.5~742</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">15.01億</div><div class="note">MoM+8.88%,YoY+37.0%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">2.86</div><div class="note">季增56.41%,年增70.24%</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">92.17億</div><div class="note">YoY+18.62%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">459.5~742</div><div class="note">全年振幅約61.5%</div></div>
+  <div class="card"><div class="label">Q2獲利</div><div class="value green">年增179%</div><div class="note">公司8/5發布</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — 獲利與營收雙雙優於預期,惟股價全年振幅近10倍且查無外部估值驗證</h2>
-<div class="event">
-  <h3>事件摘要:H1 EPS6.73元(Q1 2.86、Q2約3.87),7月營收15.01億元創40個月新高</h3>
-  <div class="flow">禾伸堂上半年累計營業收入約77.16億元,營業毛利19.50億元,毛利率25.3%,H1基本每股盈餘6.73元。其中Q2單季營收約40.97億元,毛利10.73億元,毛利率26.2%(季增1.9個百分點、年增6.4個百分點);Q1 EPS為2.86元(季增56.41%、年增70%)。7月營收進一步加速至15.01億元,月增8.89%、年增37.05%,創40個月新高,且是連續第5個月成長;今年1~7月累計營收92.17億元,年增18.63%。公司主要從事被動元件、系統模組與主動元件業務,同受惠於AI伺服器與車用MLCC需求熱潮。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:獲利/營收數據優於預期 → 惟股價全年振幅近10倍(102~1,005)、7月曾遭處置且與國巨等同步跌停 → 查無任何公開券商目標價覆蓋 → 三項條件疊加使估值判斷的外部驗證基礎最為薄弱</h3>
-  <div class="flow">禾伸堂的基本面數據本身相當扎實:H1 EPS6.73元、7月營收創40個月新高,獲利與營收動能都優於預期。然而這次分析最需要提醒的是,禾伸堂是本次三檔被動元件分析標的中,唯一查無任何公開券商目標價覆蓋的個股——國巨有高盛、花旗等外資目標價可供交叉驗證,華新科至少有社群估算與技術分析區間可參考(儘管品質不一),禾伸堂則完全查無。同時,禾伸堂全年股價振幅達102~1,005(近10倍),且在7月籌碼面危機期間曾與國巨、華新科等同步經歷處置與跌停,顯示這是一檔波動性極端、機構分析覆蓋稀薄的個股,其現價647是否合理,高度仰賴自估方法而非外部驗證,不確定性是三者中最高的。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(Q1財報後)</th><th>事件後(Q2財報+7月營收後)</th></tr>
-    <tr><td>單季EPS</td><td>Q1 2.86(季增56.41%)</td><td class="green">Q2約3.87,H1累計6.73</td></tr>
-    <tr><td>月營收</td><td>5月12.91億,YoY+21.34%</td><td class="green">7月15.01億,YoY+37.05%,創40個月新高</td></tr>
-    <tr><td>毛利率</td><td>Q1 24.24%</td><td class="green">Q2 26.2%,QoQ提升</td></tr>
-    <tr><td>股價</td><td>查無精確值(Q1財報前)</td><td class="red">647(8/14),8月區間459.5~691</td></tr>
-    <tr><td>公開券商目標價</td><td>查無</td><td class="red">查無(事件後仍未見任何新增覆蓋)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲?</h2>
+<h2>① 催化劑分析 — 為什麼是偏多但需留意目標價時效?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~7月初</span>股價從2月低點102一路飆升至7月高點1,005(漲幅近10倍),為被動元件族群中漲幅最誇張的個股之一,反映AI伺服器/被動元件缺貨題材的極端樂觀情緒。</li>
-  <li><span class="date">2026年7月中下旬</span>與國巨、華新科等同族群同步遭遇籌碼面危機(質押疑雲、違約交割賣壓),股價自7月高點1,005急殺至7月低點427.5(重挫逾57%),期間曾與信昌電、國巨等同列處置股名單(2026/07,惟本站查詢2026/08/14最新資料已不在處置/注意股名單)。</li>
-  <li><span class="date">2026年8月上旬</span>H1財報與Q2實績確認:EPS6.73元(H1),7月營收15.01億元創40個月新高。</li>
-  <li><span class="date">2026/08/11~13</span><b class="green">被動元件族群齊揚</b>:禾伸堂盤中一度大漲7.14%觸629元,8/13收691(8月區間高點),8/14拉回647。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①禾伸堂是三檔分析標的中唯一查無任何公開券商目標價覆蓋的個股,估值判斷完全仰賴自估方法,外部驗證基礎最薄弱;②全年股價振幅達102~1,005(近10倍),是三者中波動最劇烈者,曾在7月與國巨、華新科等同步遭遇處置/跌停,顯示這是一檔籌碼面極度敏感的個股;③自估合理區間(約280~420)與現價647落差達54~131%,即便假設H2動能持續加速,這個落差也遠大於同族群的國巨與華新科,是本次分析中估值風險最高的一檔。</li>
+  <li><span class="date">2026年Q1</span>EPS2.86元,季增56.41%(另一數據源為56.28%)、年增70.24%,近四季EPS達7.76元,顯示獲利動能已在加速。</li>
+  <li><span class="date">2026/06/29</span>凱基證券發布報告,給予2026年EPS13.15元、2027年EPS38.08元的估值,將目標價調高至950元,評等維持「增加持股」。這是本站掌握到的唯一具名機構目標價。</li>
+  <li><span class="date">2026/08/05</span>公司發布Q2財報,獲利年增179%,延續Q1的加速趨勢。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收15.01億元(依MOPS官方公告),月增8.88%、年增37.0%;累計1~7月營收92.17億元,年增18.62%。</li>
+  <li><span class="date">2026年8月下旬</span>股價自8月中旬的低檔(459.5~628區間)強勢反彈,8/27、8/28兩日分別大漲9.9%與10.1%(675→742),逼近今年高點742元。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①凱基950元的目標價發布於6/29,距今已近兩個月,期間公司已公布Q2財報(獲利年增179%),這個目標價尚未反映Q2最新的實際結果,可能已經過時,惟本站查無更新的機構數字可供交叉驗證;②股價近兩個交易日暴漲近21%,若這是對Q2財報加速確認的合理反應,則基本面支撐尚屬紮實,惟短線漲幅已相當可觀,追價風險需要留意。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">禾伸堂7月營收創40個月新高,連續5個月成長,同受惠於被動元件(MLCC)缺貨潮與AI伺服器需求熱潮,與國巨、華新科等同族群齊步上漲。<div class="src">— 鉅亨網,2026/08</div></div>
-    <div class="quote">H1毛利率25.3%、Q2毛利率26.2%持續改善,獲利品質健康,基本面數據本身相當扎實。<div class="src">— 財報彙整,2026/08</div></div>
+    <div class="quote">Q1 EPS2.86元年增70.24%,近四季EPS達7.76元;凱基證券6/29給予目標價950元,評等增加持股,2027年EPS估值上看38.08元。<div class="src">— 凱基證券,經CMoney投資網誌彙整,2026/06</div></div>
+    <div class="quote">Q2財報獲利年增179%,7月營收15.01億元(YoY+37.0%)延續動能;股價近兩個交易日大漲近21%,逼近今年高點。<div class="src">— 公司8/5財報公告、MOPS官方營收公告,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">禾伸堂是三檔分析標的中唯一查無任何公開券商目標價覆蓋的個股,現價647是否合理完全仰賴自估方法,外部驗證基礎明顯薄弱於國巨與華新科。<div class="src">— 本儀表板觀察</div></div>
-    <div class="quote">全年股價振幅達102~1,005(近10倍),7月曾與國巨等同步遭遇處置與跌停,顯示這是一檔籌碼面極度敏感、波動性極端的個股,現階段648元的價位已遠超自估合理區間。<div class="src">— 本儀表板觀察,依TWSE官方股價資料</div></div>
+    <div class="quote">凱基950元的目標價發布於6/29,距今已近兩個月,尚未反映Q2最新財報結果,可能已經過時,惟查無更新數字可供交叉驗證。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">股價近兩個交易日暴漲近21%,短線漲幅已相當可觀,追價安全邊際需要審慎評估。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
-  <tr><td colspan="3" style="color:var(--muted)">查無任何公開券商目標價覆蓋,是三檔分析標的中唯一完全缺乏機構法人目標價參考的個股;技術分析曾給出500~550元區間但屬6月的舊資料,已明顯過時(現價647已站上此區間逾17%)。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr class="hl"><td>凱基證券(2026/06/29,增加持股)</td><td class="green">950</td><td>2026年EPS13.15元、2027年EPS38.08元</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">本站僅掌握到單一組具名機構目標價,發布時點距今近兩個月,尚未反映Q2財報結果,信度中等,建議持續留意後續是否有更新數字。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
@@ -159,103 +137,104 @@
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value green">15.01億</div><div class="note">YoY+37.05%,創40個月新高</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value green">6.73</div><div class="note">Q1 2.86/Q2約3.87</div></div>
-  <div class="card"><div class="label">Q2毛利率</div><div class="value green">26.2%</div><div class="note">QoQ+1.9個百分點</div></div>
-  <div class="card"><div class="label">股本/發行股數</div><div class="value">16.59億/約1.66億股</div><div class="note">市值約1,073億(以現價647計,推演)</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔,約24.3億</div><div class="note">合計3,758張(2026/08/14資料);介於國巨(16檔)與華新科(0檔)之間</div></div>
-  <div class="card"><div class="label">公開券商目標價覆蓋</div><div class="value red">查無</div><div class="note">三檔中唯一完全缺乏機構覆蓋</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value green">15.01億</div><div class="note">YoY+37.0%</div></div>
+  <div class="card"><div class="label">Q1 EPS</div><div class="value green">2.86</div><div class="note">季增56.41%,年增70.24%</div></div>
+  <div class="card"><div class="label">Q2獲利年增</div><div class="value green">179%</div><div class="note">延續Q1加速趨勢</div></div>
+  <div class="card"><div class="label">凱基2027E EPS</div><div class="value green">38.08</div><div class="note">相較2026E的13.15大幅跳升</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value amber">5檔,合計3,744張</div><div class="note">本批次持有度中等偏低</div></div>
+  <div class="card"><div class="label">近期股價動能</div><div class="value red">近2日大漲近21%</div><div class="note">逼近今年高點,追價風險需留意</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>2026動能</th><th>與禾伸堂的差異</th></tr>
-  <tr class="hl"><td>3026.TW</td><td>禾伸堂</td><td>自估約20~28x(全年EPS推演14~15);查無公開券商目標價</td><td>7月營收YoY+37.05%創40個月新高</td><td>被動元件族群中波動最劇烈(全年振幅近10倍),查無任何機構覆蓋,估值錨點最不穩定</td></tr>
-  <tr><td>2327.TW</td><td>國巨(本站另篇分析)</td><td>約31.5x;外資目標價1,280~1,450(高盛/花旗)</td><td>7月營收YoY+51.5%連五月創高</td><td>絕對龍頭,外資覆蓋完整,估值判斷有較可信的外部錨點</td></tr>
-  <tr><td>2492.TW</td><td>華新科(本站另篇分析)</td><td>自估約20~28x;查無可靠券商共識</td><td>7月營收YoY+42%創近8年新高</td><td>同樣缺乏高品質外部覆蓋,惟波動幅度略低於禾伸堂</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與禾伸堂的差異</th></tr>
+  <tr class="hl"><td>3026.TW</td><td>禾伸堂</td><td>凱基EPS13.15,目標價950(6月底,較舊)</td><td>Q1 EPS2.86(YoY+70.24%),Q2獲利年增179%</td><td>被動元件廠,是本批次唯一目標價明顯落後於最新財報進度的個股</td></tr>
+  <tr><td>2327.TW</td><td>國巨(本站另篇分析)</td><td>崩跌後校準區間585~695</td><td>Q2 EPS4.59創新高(YoY+88.4%)</td><td>被動元件大廠,規模遠大於禾伸堂,惟近期經歷技術性崩跌</td></tr>
+  <tr><td>2492.TW</td><td>華新科(本站另篇分析)</td><td>技術面估算310~335(缺乏基本面機構目標價)</td><td>Q2 EPS3.24(本業業外各半)</td><td>被動元件廠(MLCC),與禾伸堂同屬本批次機構覆蓋度不足的個股</td></tr>
+  <tr><td>2308.TW</td><td>台達電(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>AI電源系統</td><td>禾伸堂的被動元件產品線是台達電等電源系統廠的上游供應鏈</td></tr>
+  <tr><td>3665.TW</td><td>貿聯-KY(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>連接器線束</td><td>與禾伸堂業務性質不同,惟同屬被動元件/連接器族群受惠AI伺服器需求</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:明顯偏貴——即使採用較樂觀的成長假設,現價仍遠超自估合理區間,且完全查無外部驗證。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以H1 EPS6.73為基礎,假設H2在7月營收年增37.05%的動能支持下持續加速(全年EPS推演約14~15元),套用循環股保守本益比倍數20~28x,合理價格區間約280~420元(中值350),現價647較此區間中值高出約85%。這個落差幅度明顯大於同族群的國巨(現價貴約31%)與華新科(現價大致合理),核心原因是禾伸堂完全查無公開券商目標價覆蓋,缺乏外部機構的專業判斷可資交叉驗證,估值完全仰賴本站自估方法,不確定性是三者中最高的。加上全年股價振幅近10倍、曾與國巨同步遭遇處置與跌停,現階段的高波動性本身就是需要高度警惕的風險訊號。</div>
+  <b>估值判斷:便宜——凱基目標價950與現價742相比仍有近三成落差,惟這個數字尚未反映Q2財報的最新進度。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">禾伸堂的獲利動能持續加速,Q1 EPS年增70.24%,Q2獲利年增179%,7月營收年增37.0%。凱基證券6/29給予的目標價950元,建立在2026年EPS13.15元、2027年EPS38.08元的估值假設上,與現價742相比仍有近三成落差。惟這個目標價發布時點距今已近兩個月,且尚未反映公司8/5發布的Q2財報結果(獲利年增179%),嚴格來說已有一定程度過時的風險。本站在此次研究中查無更新的機構數字可供交叉驗證,是本批次資訊時效性最需要留意的個股之一;股價近兩個交易日暴漲近21%,某種程度可能已提前反映了市場對Q2財報加速的正面解讀。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價647.0 vs 中值</th></tr>
-  <tr><td>H1年化×倍數(保守情境)</td><td>H1 EPS6.73×2=13.46(假設H2與H1持平),循環股保守倍數20~28x</td><td>269.2~376.9(中值323.1)</td><td class="red">貴 100.3%</td></tr>
-  <tr><td>H1+H2成長假設×倍數(推演,較貼近7月營收訊號)</td><td>全年EPS推演14~15(反映7月營收YoY+37.05%的加速動能),倍數20~28x</td><td>280~420(中值350)</td><td class="red">貴 84.9%</td></tr>
-  <tr><td>技術分析區間(舊資料,已明顯過時)</td><td>6月技術分析給出500~550元區間,現價已大幅超越</td><td>500~550(中值525,低信度且已過時)</td><td class="red">貴 23.2%(即便採此已過時的較高區間,現價仍偏貴)</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價742 vs 中值</th></tr>
+  <tr><td>凱基證券目標價(6/29,較舊)</td><td>2026E EPS13.15,隱含約72x</td><td>950(單點,信度中等因時效性)</td><td class="green">便宜 28.0%</td></tr>
+  <tr><td>Q1單季年化交叉驗證(保守,推演)</td><td>Q1 EPS2.86×4=11.44(未計Q2加速179%的完整效果),倍數約72x</td><td>約824(推演)</td><td class="green">便宜 11.1%</td></tr>
+  <tr><td>近四季EPS交叉驗證</td><td>近四季EPS7.76,倍數約72x(參照凱基隱含倍數)</td><td>約559(推演,信度中等)</td><td class="red">貴 32.7%(相對此保守情境)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:被動元件族群近期波動性極端(全年振幅近10倍),加上完全查無外部券商共識可供校準假設,多年期FCF假設在此時點缺乏任何可靠基礎。三種方法(保守、成長假設、甚至已過時的較高技術分析區間)一致顯示現價明顯偏貴,且偏貴幅度在三種方法中都是本次分析範圍內最大者之一。這是三檔被動元件標的中估值訊號最一致偏空的一檔,核心原因不是基本面(獲利與營收數據其實相當扎實),而是股價漲幅已遠遠超前於任何合理的獲利假設,且缺乏機構覆蓋提供第二意見制衡。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:被動元件業務景氣循環性質強烈,多年期FCF假設信度不足。三種方法呈現一定分歧:凱基目標價與Q1單季年化交叉驗證均顯示現價便宜,惟若採用更保守的近四季EPS(未完全反映Q2的179%加速效果),現價則顯得偏貴逾三成。這個分歧提醒投資人,「便宜」的判斷高度依賴Q2的加速趨勢能否延續至H2,而非無條件成立;近兩日股價暴漲近21%,也讓短線的安全邊際較財報公布前更為薄弱。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value red">全年振幅近10倍,追高情緒最濃厚的一檔</div><div class="bar"><div style="width:80%;background:var(--red)"></div></div><div class="note">2~7月漲幅近10倍後又於7月重挫逾57%,8月再度反彈,波動循環劇烈;已列入交易所「注意股累計」名單(官方投機過熱指標,對照處置股儀表板2026/08/13資料)</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value red">查無任何公開券商目標價覆蓋</div><div class="note">三檔分析標的中唯一完全缺乏機構覆蓋者</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value">6.73(H1)→14~15(2026E推演)</div><div class="note">H2能否延續7月營收加速動能是關鍵驗證點,惟查無機構財測可資對照</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value red">近2日大漲近21%,逼近今年高點</div><div class="bar"><div style="width:85%;background:var(--red)"></div></div><div class="note">8月區間459.5~742</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value amber">950(凱基,6月底,較舊)</div><div class="note">尚未反映Q2財報最新結果</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.86(Q1)→13.15(凱基2026E,較舊)</div><div class="note">Q3財報是否延續加速是關鍵驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
-  <tr><th>年度</th><th>EPS假設(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td>13.46(H1年化,保守) / 14.5(成長假設,推演)</td><td>20~28x</td><td>269.2~406(區間反映假設落差)</td><td class="red">約 -48%(以中值估算)</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標共識,亦無機構財測可資對照</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,凱基估值,較舊)</td><td>13.15</td><td>約72x</td><td>約947(單點)</td><td class="green">約 +28%</td></tr>
+  <tr><td>2027(+1年,凱基估值,較舊)</td><td>38.08</td><td>約72x(推演,倍數假設是否延續存疑)</td><td>約2742(推演,信度低)</td><td class="green">約 +92%(推演,信度低)</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬無論保守或成長假設情境皆呈現大幅負值,顯示現價已遠遠超前反映任何合理的獲利假設;2027年因完全查無機構財測共識,不強行推演。這條路徑的核心啟示是:禾伸堂現價幾乎完全建立在被動元件缺貨題材的樂觀想像空間,而非可驗證的獲利基礎或外部機構背書,是三檔分析標的中風險最高的一檔。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬為正值(約+28%),惟建立在近兩個月前的凱基估值假設上;2027年的推演報酬雖然數字亮眼,惟EPS假設(38.08)本身距今已有時間差,且套用相同72倍本益比是否合理存疑,信度明顯偏低,僅供長期參考,不應作為短中期決策依據。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 200~900;left% = (價格-200)/700×92+4 -->
+<!-- 刻度 400~1050;left% = (價格-400)/650×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:22.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">340~400</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41.3%"><div class="lbl">Base(6~12月)</div><div class="price amber">480~550</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:63.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">620~680</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.4%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">780~850</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:63%"><div class="arrow">▲</div><div class="price">647.0</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">550~600</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">680~750</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.5%"><div class="lbl">Bull(12~18月)</div><div class="price green">820~880</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">950~1010</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:52.4%"><div class="arrow">▲</div><div class="price">742.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>340~400</td><td>市場重新評估缺乏機構覆蓋的風險,股價回歸自估保守區間附近,或新一輪籌碼面利空重演</td><td class="red">約 -43%</td></tr>
-  <tr><td class="amber">Base</td><td>480~550</td><td>Q3維持營收成長但無驚喜,估值向自估成長假設區間靠攏但仍消化目前的樂觀溢價</td><td class="red">約 -20%</td></tr>
-  <tr><td class="green">Bull</td><td>620~680</td><td>Q3財報驗證7月營收加速動能延續,且開始有券商發布首次覆蓋報告;現價落於此區間內</td><td>約 0%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>780~850</td><td>缺貨潮題材完全兌現且族群估值全面重估,重返7月高點1,005附近的部分空間</td><td class="green">約 +26%</td></tr>
+  <tr><td class="red">Bear</td><td>550~600</td><td>近兩日暴漲被證實為短線過度反應,Q3財報未能延續Q2的179%加速趨勢</td><td class="red">約 -22%</td></tr>
+  <tr><td class="amber">Base</td><td>680~750</td><td>Q3財報符合預期,現價維持現階段區間整理</td><td class="green">約 -4%</td></tr>
+  <tr><td class="green">Bull</td><td>820~880</td><td>Q3財報延續加速趨勢,現價向凱基目標價950靠攏</td><td class="green">約 15%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>950~1010</td><td>凱基目標價950獲得完整驗證,並有更多機構開始跟進覆蓋</td><td class="green">約 32%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段大舉進場)</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期(近期暴漲後建議優先採用)</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">480~520</td><td>20%</td></tr>
-      <tr><td>第二批</td><td class="green">420~479</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">340~419</td><td>50%(估值錨點不穩定,倉位應高度保守)</td></tr>
+      <tr><td>第一批</td><td class="green">660~685</td><td>25%(近期暴漲後,首批倉位建議保守)</td></tr>
+      <tr><td>第二批</td><td class="green">630~659</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">600~629</td><td>40%(接近硬停損,分批確認回檔止穩)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">588</b>(8月10日收盤支撐)= 8月反彈行情反轉或籌碼面信任再度動搖,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">600</b>(低於8月中旬整理區支撐)= 近兩日暴漲確認為短線過度反應,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段(不建議,估值風險極高)</div>
+    <div class="label">右側計畫|順勢突破,適合波段(現階段不建議追價,待回檔或財報驗證)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破691(8月區間高點)+量能確認,且開始有券商發布首次覆蓋報告<br>
-    進場區:<b class="green">695~730</b>(缺乏機構覆蓋驗證,建議極小倉位或不參與)<br>
-    移動停利:跌破10日線或高點回檔12%<br>
-    假突破失效:觸發後2日內跌回650即出場</div>
+    觸發條件:收盤突破742(今年高點)且Q3財報驗證加速趨勢延續,量能持續放大<br>
+    進場區:<b class="green">745~800</b>(倉位應保守,近期漲幅已大)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回700即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(已持股者,建議積極執行)</div><div class="value amber">現價區間(620~680)</div><div class="note">賣出40~60%;估值明顯偏貴且查無外部驗證,應積極獲利了結而非等待更高減碼點</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">780~850</div><div class="note">Stretched區;續抱條件是開始有正式券商覆蓋報告且Q3財報驗證動能延續</div></div>
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">820~880</div><div class="note">賣出35~50%;Bull區,波動度高應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">950~1010</div><div class="note">Stretched區;續抱條件是Q3財報持續驗證加速趨勢且有更多機構跟進覆蓋</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:H1 EPS6.73元(Q1 2.86、Q2約3.87),7月營收15.01億元(YoY+37.05%)創40個月新高,連續5個月成長,獲利與營收動能雙雙優於預期;惟股價全年振幅近10倍(102~1,005),且是三檔分析標的中唯一查無任何公開券商目標價覆蓋的個股。</div>
-<div class="concl">① <b>催化劑</b>:被動元件缺貨潮與AI伺服器需求熱潮是核心多頭敘事,與國巨、華新科同族群齊步上漲;但7月曾與同族群一同遭遇處置與跌停,顯示這是一檔籌碼面極度敏感的個股,警訊是完全缺乏機構覆蓋制衡市場情緒。</div>
-<div class="concl">② <b>估值</b>:明顯偏貴——保守H1年化法顯示現價貴逾100%,即便採較樂觀的成長假設法仍貴約85%,甚至對照已過時的6月技術分析區間現價都仍偏貴逾23%;三種方法一致指向現價已遠遠超前反映任何合理的獲利假設。</div>
-<div class="concl">③ <b>結論</b>:觀望、波動最劇烈且估值錨點最不穩定——現價647落於Bull區間內但已逼近上緣,上檔Stretched僅+26%對下檔Bear -43%,風險報酬明顯不利;已持股者應積極分批獲利了結,新資金不建議追高,收盤跌破588即無條件出場。缺乏機構覆蓋是這檔股票相較同族群最大的資訊落差,後續是否有券商開始覆蓋是重要觀察訊號。</div>
+<div class="concl">① <b>催化劑</b>:Q1 EPS2.86元年增70.24%,Q2獲利年增179%延續加速趨勢,7月營收15.01億元(YoY+37.0%);惟股價近兩個交易日暴漲近21%,逼近今年高點742元,追價風險需要留意。</div>
+<div class="concl">② <b>估值</b>:便宜——凱基證券(6/29)目標價950與現價相比仍有近三成落差,惟這個數字發布已近兩個月,尚未反映Q2最新財報結果,若採用更保守的近四季EPS交叉驗證,現價反而偏貴逾三成,凸顯這個「便宜」判斷的信度存在時效性風險。</div>
+<div class="concl">③ <b>結論</b>:偏多、獲利年增179%驗證評價重估惟目標價已逾兩月未更新——現價落於Base區間上緣,上檔Bull +15%/Stretched +32%對下檔Bear -22%,建議採左側分批而非追價,優先等待近期暴漲後的回檔確認;跌破600即無條件出場。下一個關鍵驗證點是Q3財報能否延續Q2的179%獲利加速趨勢,以及是否有更新的機構目標價可供交叉驗證。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TWSE官方STOCK_DAY);H1/Q1財報(財報狗,2026/08);7月營收(鉅亨網,2026/08公告,Disp BBS);籌碼面危機與處置狀態(今周刊、旺得富理財網,2026/07);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新);處置/注意股狀態(本機twse-disposition,2026/08/14更新,現已不在名單)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;任何公開券商目標價、精確發行股數之官方最新數字查無,未強行湊數。<br>
-主要來源:TWSE官方開放資料(STOCK_DAY)、財報狗、鉅亨網、今周刊、旺得富理財網、Disp BBS。<br>
+資料時間:股價 2026/08/28收盤(TWSE官方STOCK_DAY);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q1財報與8/5 Q2獲利公告(公司公告);目標價與EPS共識(凱基證券,2026/06/29,經CMoney投資網誌彙整,尚未反映Q2財報最新結果);主動式ETF持有度(本機active-etf資料庫,2026/08);處置/注意股狀態(本機twse-disposition,2026/08/27更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;更新後的機構目標價與2027年EPS穩定共識查無,已於內文明確標註時效性風險。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司公告、凱基證券、CMoney投資網誌。<br>
 「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
