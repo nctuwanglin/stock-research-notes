@@ -14,6 +14,7 @@
   body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
   h1{font-size:26px;margin-bottom:4px;}
   h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
   .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
   .grid{display:grid;gap:12px;}
   .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
@@ -26,20 +27,9 @@
   .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
   .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
   .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
   .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
   .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
-  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
-    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
-  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
-  .verdictbox .vtag{font-size:12px;color:var(--muted);}
-  .verdictbox .vrate{font-size:19px;font-weight:800;}
-  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
-  .verdictbox .vrate.red{color:var(--red);}
-  .verdict{font-size:15px;margin-bottom:8px;}
-  .verdict b{font-size:18px;font-weight:800;}
-  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
-  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
-  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
   th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
   td{padding:10px;border-top:1px solid var(--border);}
@@ -53,10 +43,7 @@
   @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
   .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
   .quote .src{color:var(--muted);font-size:11px;}
-  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
-  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
-  .event .flow{font-size:13.5px;line-height:1.9;}
-  .event .flow b{color:var(--amber);}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
   .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
     background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
@@ -79,188 +66,177 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
 </style>
 </head>
 <body>
 
 <a href="index.html" class="backhome">← 返回首頁</a>
 
-<h1>鈦昇 (8027) <span class="badge red">估值:明顯偏貴(Q2虧損擴大,唯一目標價早被超越)</span> <span class="badge amber">結論:觀望,轉盈時程持續落後股價預期</span><span class="autodispo" data-code="8027"></span></h1>
-<div class="sub">台股(TPEx)・半導體設備,美國Arizona子公司+北美客戶擴展|事件後估值版(Q2財報+7月營收後更新)|股價截至 2026/08/14 收盤,製表 2026/08/15|<span class="dispostat" data-code="8027">未列入處置股/注意股名單(對照處置股儀表板 2026/09/01 資料)</span></div>
+<h1>鈦昇 (8027) <span class="badge red">估值:偏貴,虧損延續且查無可信目標價</span> <span class="badge red">結論:觀望,獨家供應商題材扎實但財務數字尚未跟上</span><span class="autodispo" data-code="8027"></span></h1>
+<div class="sub">台股(TPEx)・TGV玻璃基板先進封裝設備廠,重分析更新(現況估值版)|股價截至 2026/09/02 收盤,製表 2026/09/02|<span class="dispostat" data-code="8027">未列入處置股/注意股名單(對照處置股儀表板 2026/09/02 資料)</span></div>
 
 <div class="verdictbox">
-  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">158.5</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="8027">現價 <b>185</b> → 目標價 <b>130</b><span class="down"> (-29.7%)</span></div>
-  <div class="vbasis">推導依據:唯一公開券商目標價133(先前分析引用,查無更新調查),已遠低於現價;Q2 EPS-0.24較Q1的-0.22進一步惡化,虧損股禁用P/E估值,轉盈時程持續落後市場預期</div>
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">158</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="8027">現價 <b>182</b> → 目標價 <b>150</b><span class="down"> (-17.6%)</span></div>
+  <div class="vbasis">推導依據:虧損股禁用P/E;唯一公開券商目標價133已明顯過時(早於Q2財報與獨家供應商消息);改採P/S交叉檢核,現價隱含P/S約9.7倍(以1~7月累計營收簡單年化估算),對照公司仍處虧損、7月營收月減23.27%的現況,採目標價150(反映獨家供應商題材帶來的溫和上修,惟仍低於現價)</div>
 </div>
 
 <div class="grid cards6">
-  <div class="card"><div class="label">現價</div><div class="value">186.5</div><div class="note">2026/08/14 收盤 -1.84%;8月區間高點199.5</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value red">-0.46</div><div class="note">Q1 -0.22,Q2 -0.24(季度環比未見改善)</div></div>
+  <div class="card"><div class="label">現價</div><div class="value">182.00</div><div class="note">2026/09/02收盤;8月區間166~192</div></div>
   <div class="card"><div class="label">7月營收</div><div class="value amber">1.89億</div><div class="note">MoM-23.27%,YoY+62.56%</div></div>
-  <div class="card"><div class="label">H1營業損失</div><div class="value red">-8.77億</div><div class="note">H1營收100.94億,H1毛利僅3.00億</div></div>
-  <div class="card"><div class="label">近30天區間</div><div class="value">142~261</div><div class="note">7~8月區間;現價落於區間中段</div></div>
-  <div class="card"><div class="label">今年(2026)區間</div><div class="value">85.8~297</div><div class="note">3月低85.8、6月高297(TPEx官方日成交資訊)</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value red">-0.24</div><div class="note">較Q1的-0.22進一步惡化</div></div>
+  <div class="card"><div class="label">1~7月累計營收</div><div class="value green">11.99億</div><div class="note">YoY+48.74%</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">89.1~293</div><div class="note">全年振幅逾3.2倍</div></div>
+  <div class="card"><div class="label">供應商地位</div><div class="value green">美系客戶獨家/主要供應商</div><div class="note">TGV雷射設備,訂單能見度至2027</div></div>
 </div>
 
-<h2>⓪ 事件影響分析 — Q2財報虧損較Q1擴大,7月營收月減逾兩成</h2>
-<div class="event">
-  <h3>事件摘要:8/5公布Q2財報,H1稅後淨損4.94億,Q2 EPS-0.24較Q1的-0.22進一步惡化;7月營收月減23.27%</h3>
-  <div class="flow">鈦昇8/5公布2026年Q2合併財報:上半年營業收入100.94億元,營業毛利僅3.00億元,營業利益虧損8.77億元,稅前淨損5.70億元,稅後淨損4.94億元,基本每股盈餘虧損0.46元;拆解單季數字,Q1 EPS虧損0.22元,Q2 EPS虧損0.24元,虧損幅度較Q1略微擴大而非改善。稍早公告7月營收1.89億元,較去年同期1.17億元增加72.89百萬元,年增62.56%,但較6月月減23.27%,公司說明原因是客戶擴產設備需求較去年同期上升,惟月度環比明顯下滑。先前8/7分析已指出,鈦昇訂單能見度已看到2026年上半年、美國Arizona子公司與北美客戶擴展是長期成長故事,但Q1當時仍處虧損、唯一公開券商目標價133已被股價(當時172)超越;本次Q2財報顯示虧損不僅未收斂反而略微擴大,7月營收更出現明顯月減,轉盈時程持續落後市場先前的樂觀預期。</div>
-</div>
-<div class="event">
-  <h3>傳導路徑:北美客戶擴產設備需求+9家新客戶guidance → 訂單能見度延伸至2026年 → 惟Q2虧損未收斂反而略微擴大 → 股價漲幅與獲利改善脫節的落差持續擴大</h3>
-  <div class="flow">鈦昇的長期投資故事是半導體設備廠受惠北美客戶擴產,搭配美國Arizona子公司與規劃中的9家新北美客戶,訂單能見度已延伸至2026年。這個故事本身具備一定的產業邏輯,但財務數字的兌現速度明顯落後於股價反映的樂觀速度——先前8/7分析時公司仍處虧損(Q1 EPS-0.22),股價已達172元、遠超唯一券商目標價133元;本次Q2財報顯示虧損非但未收斂,單季EPS(-0.24)反而較Q1(-0.22)略微惡化,而股價卻進一步上漲至186.5元。7月營收月減23.27%的環比下滑,更增添了短期營運節奏是否如預期般穩定成長的疑慮。</div>
-</div>
-<div class="event">
-  <h3>事件前後對照表</h3>
-  <table style="margin-top:0">
-    <tr><th></th><th>事件前(8/7分析,依Q1資料)</th><th>事件後(Q2財報+7月營收後)</th></tr>
-    <tr><td>單季EPS</td><td>Q1 -0.22元(仍虧損)</td><td class="red">Q2 -0.24元(虧損略微擴大),H1累計-0.46元</td></tr>
-    <tr><td>H1營業利益</td><td>查無完整H1數字</td><td class="red">虧損8.77億元</td></tr>
-    <tr><td>7月營收</td><td>查無(尚未公布)</td><td class="amber">1.89億,YoY+62.56%但MoM-23.27%</td></tr>
-    <tr><td>唯一券商目標價</td><td>133(已被股價172超越)</td><td class="red">133(查無更新調查,已被現價186.5超越更多)</td></tr>
-    <tr><td>股價</td><td>172(8/7)</td><td class="red">186.5(8/14),漲幅8.4%,與獲利改善脫節的落差持續擴大</td></tr>
-    <tr><td>本站目標價/評等</td><td>130/觀望</td><td class="red">130/觀望(維持,虧損擴大進一步強化謹慎立場)</td></tr>
-  </table>
-</div>
-
-<h2>① 催化劑分析 — 為什麼漲(儘管財報顯示虧損擴大)?</h2>
+<h2>① 催化劑分析 — 為什麼是觀望?</h2>
 <ul class="timeline">
-  <li><span class="date">2026年初~6月</span>股價從3月低點85.8飆升至6月高點297,反映半導體設備廠受惠北美客戶擴產的樂觀重估。</li>
-  <li><span class="date">2026年6~7月</span>股價自6月高點297回落至7月低點142(跌幅逾52%),疊加台股系統性回檔。</li>
-  <li><span class="date">2026/08/05</span><b class="red">Q2財報公布:H1 EPS虧損0.46元</b>,Q2單季虧損0.24元較Q1的0.22元略微惡化,H1營業利益虧損8.77億元。</li>
-  <li><span class="date">2026年8月</span><b class="amber">7月營收1.89億元,YoY+62.56%但MoM-23.27%</b>,月度環比明顯下滑。</li>
-  <li><span class="date">2026/08/10~14</span>股價高檔震盪(182→192→190→186.5),8月區間高點199.5。</li>
-  <li><span class="date">警訊</span>市場容易忽略的資訊:①Q2 EPS(-0.24)較Q1(-0.22)略微惡化,顯示轉盈時程不僅沒有加速,反而可能比預期更慢;②唯一公開的券商目標價(133)自先前分析以來查無更新調查,而股價已從172進一步上漲至186.5,與這個唯一已知目標價的落差持續擴大(現價高出133達40.2%);③7月營收月減23.27%顯示短期營運節奏波動較大,不宜僅憑年增率的表面數字判斷成長動能穩定。</li>
+  <li><span class="date">2026年上半年</span>公司持續虧損,Q1 EPS-0.22元,Q2 EPS-0.24元,季度虧損幅度不減反增。</li>
+  <li><span class="date">2026年上半年(業務面)</span>公司完成美系客戶驗證並進入交貨階段,訂單能見度已延伸至2027年;市場報導指出鈦昇有機會成為TGV雷射設備的全球唯一或主要供應商,是台灣少數同時具備玻璃基板鑽孔、雷射解鍵合、電漿清洗完整解決方案的設備廠。</li>
+  <li><span class="date">2026年8月上旬</span>公告7月合併營收1.89億元(依MOPS官方公告口徑),月減23.27%、年增62.56%;累計1~7月營收11.99億元,年增48.74%。</li>
+  <li><span class="date">2026年8月</span>股價自年初約100元一路攀升至8月高點近293元,一度成為資金追捧先進封裝題材的核心標的;惟目前股價已自高點明顯回落至182元。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①7月營收較6月大幅月減23.27%,顯示出貨節奏仍有相當程度的波動性,「訂單能見度延伸至2027年」不代表營收會平穩成長,投資人需留意這種設備股常見的認列不均勻特性;②市場流傳「2026~2027年連兩年營收成長逾50%、毛利率突破40%、2027年EPS挑戰5元以上」的樂觀推演,惟這類數字目前僅見於單一財經媒體的分析文章,並非具名券商的正式研究報告,信度明顯偏低,不宜直接採信作為估值依據;③公司仍處於虧損階段且季度虧損金額尚未見收斂跡象(EPS由-0.22惡化至-0.24),與市場對「即將轉盈」的樂觀敘事之間存在落差,轉盈的實際時點仍待更多季度數字驗證。</li>
 </ul>
 
 <div class="twocol">
   <div>
     <h2>市場主流敘事(多方)</h2>
-    <div class="quote">7月營收年增62.56%,因客戶擴產設備需求較去年同期上升;訂單能見度已看到2026年,美國Arizona子公司與規劃中的9家北美新客戶是長期成長引擎。<div class="src">— 財報狗、CMoney投資網誌</div></div>
-    <div class="quote">外資持續買超,顯示專業投資人對其長期投資價值的信心,成功打入北美半導體設備市場是重要的結構性轉機。<div class="src">— ifa.ai個股分析</div></div>
-    <div class="quote">先前法說會提及訂單能見度延伸至2026年上半年,北美市場可望成為公司成長的重要引擎。<div class="src">— 先前8/7分析法說整理</div></div>
+    <div class="quote">鈦昇完成美系客戶驗證進入交貨階段,訂單能見度延伸至2027年,有機會成為TGV雷射設備的全球唯一或主要供應商。<div class="src">— Yahoo股市,豐雲學堂,2026/08</div></div>
+    <div class="quote">先進封裝「由圓轉方」大變革下,鈦昇擁有TGV關鍵技術,搶占CoPoS(玻璃基板扇出型封裝)領先地位,是市場資金追捧先進封裝設備題材的核心標的之一。<div class="src">— 理財周刊,2026/08</div></div>
   </div>
   <div>
     <h2>空方觀點</h2>
-    <div class="quote">Q2 EPS(-0.24)較Q1(-0.22)略微惡化,顯示轉盈時程不僅沒有加速兌現,反而可能比市場預期更慢,虧損股不宜用P/E估值。<div class="src">— 本儀表板觀察,綜合8/5財報公告</div></div>
-    <div class="quote">唯一公開券商目標價(133)查無更新調查,現價186.5已比這個目標價高出40.2%,是本次分析範圍內估值落差最大的一檔。<div class="src">— 本儀表板觀察,延續8/7分析</div></div>
-    <div class="quote">7月營收月減23.27%,顯示短期營運節奏波動較大,年增62.56%的表面數字可能掩蓋環比動能減弱的訊號。<div class="src">— 本儀表板觀察</div></div>
+    <div class="quote">公司仍處虧損階段,Q2 EPS-0.24元較Q1的-0.22元進一步惡化,轉盈時點仍不明確;7月營收月減23.27%,顯示出貨節奏波動仍大。<div class="src">— 財報狗、公司MOPS官方營收公告,2026/08</div></div>
+    <div class="quote">「2027年EPS挑戰5元以上」的樂觀推演僅見於單一財經媒體分析,並非具名券商正式研究報告,信度偏低,不宜直接採信。<div class="src">— 本儀表板觀察</div></div>
   </div>
 </div>
 
 <h2>機構法人觀點</h2>
 <table>
-  <tr><th>機構</th><th>目標價</th><th>依據</th></tr>
-  <tr class="hl"><td>唯一公開券商(先前引用,已過時)</td><td class="red">133</td><td>查無Q2財報後正式更新調查,現價186.5已超越此目標價逾40%</td></tr>
-  <tr><td colspan="3" style="color:var(--muted)">虧損股禁用P/E估值,查無其他機構目標價或FactSet多分析師共識調查可供交叉對照;三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+  <tr><td>唯一公開券商目標價(已過時,不採用)</td><td style="color:var(--muted)">133(發布時點早於Q2財報與獨家供應商消息,已過時)</td><td>查無Q2財報後正式更新調查</td></tr>
+  <tr><td>財經媒體樂觀推演(信度低,僅供參考)</td><td style="color:var(--muted)">2027年EPS上看5+(單一來源,非具名券商報告)</td><td>建立在營收連兩年成長逾50%、毛利率突破40%的假設上,尚未獲驗證</td></tr>
+  <tr class="hl"><td>本站P/S交叉檢核(自估)</td><td class="red">150</td><td>現價隱含P/S約9.7倍,對照仍虧損現況,採較保守目標價</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">本檔查無任何具名機構於Q2財報後正式更新的目標價,是本站近期分析中資料透明度最不足的個股之一,務請投資人自行持續追蹤最新券商報告。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
 </table>
 
 <h2>三大法人籌碼流向(近 10 個交易日)</h2>
-<div class="instflow" data-code="8027"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-359</span></td><td>3/10</td><td><span class="green">+569</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-42</span></td><td>2/10</td><td>+0</td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-403</span></td><td>3/10</td><td><span class="green">+569</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>09/01</td><td><span class="green">+569</span></td><td>+0</td><td>+0</td><td><span class="green">+569</span></td></tr><tr><td>08/31</td><td><span class="red">-350</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-351</span></td></tr><tr><td>08/28</td><td><span class="red">-159</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-160</span></td></tr><tr><td>08/27</td><td><span class="red">-78</span></td><td>+0</td><td>+0</td><td><span class="red">-78</span></td></tr><tr><td>08/26</td><td><span class="red">-247</span></td><td>+0</td><td><span class="red">-3</span></td><td><span class="red">-250</span></td></tr><tr><td>08/25</td><td><span class="green">+64</span></td><td>+0</td><td>+0</td><td><span class="green">+63</span></td></tr><tr><td>08/24</td><td><span class="green">+69</span></td><td>+0</td><td><span class="red">-39</span></td><td><span class="green">+30</span></td></tr><tr><td>08/21</td><td><span class="red">-169</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-170</span></td></tr><tr><td>08/20</td><td><span class="red">-40</span></td><td>+0</td><td><span class="green">+2</span></td><td><span class="red">-39</span></td></tr><tr><td>08/19</td><td><span class="red">-18</span></td><td>+0</td><td><span class="green">+1</span></td><td><span class="red">-17</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/19~09/01(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<div class="instflow" data-code="8027"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-477</span></td><td>3/10</td><td><span class="red">-136</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-46</span></td><td>1/10</td><td><span class="red">-3</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-525</span></td><td>3/10</td><td><span class="red">-139</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>09/02</td><td><span class="red">-136</span></td><td>+0</td><td><span class="red">-3</span></td><td><span class="red">-139</span></td></tr><tr><td>09/01</td><td><span class="green">+569</span></td><td>+0</td><td>+0</td><td><span class="green">+569</span></td></tr><tr><td>08/31</td><td><span class="red">-350</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-351</span></td></tr><tr><td>08/28</td><td><span class="red">-159</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-160</span></td></tr><tr><td>08/27</td><td><span class="red">-78</span></td><td>+0</td><td>+0</td><td><span class="red">-78</span></td></tr><tr><td>08/26</td><td><span class="red">-247</span></td><td>+0</td><td><span class="red">-3</span></td><td><span class="red">-250</span></td></tr><tr><td>08/25</td><td><span class="green">+64</span></td><td>+0</td><td>+0</td><td><span class="green">+63</span></td></tr><tr><td>08/24</td><td><span class="green">+69</span></td><td>+0</td><td><span class="red">-39</span></td><td><span class="green">+30</span></td></tr><tr><td>08/21</td><td><span class="red">-169</span></td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-170</span></td></tr><tr><td>08/20</td><td><span class="red">-40</span></td><td>+0</td><td><span class="green">+2</span></td><td><span class="red">-39</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/20~09/02(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
 <!--/instflow-->
 
 <h2>② 基本面與同業估值 — 現在貴不貴?</h2>
 <div class="grid cards6">
-  <div class="card"><div class="label">7月營收</div><div class="value amber">1.89億</div><div class="note">MoM-23.27%,YoY+62.56%</div></div>
-  <div class="card"><div class="label">H1營收</div><div class="value amber">100.94億</div><div class="note">H1毛利僅3.00億,毛利率約3%</div></div>
-  <div class="card"><div class="label">H1 EPS</div><div class="value red">-0.46</div><div class="note">Q1 -0.22,Q2 -0.24</div></div>
-  <div class="card"><div class="label">H1營業利益</div><div class="value red">-8.77億</div><div class="note">仍處本業虧損</div></div>
-  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/08/14資料,反映主動式資金對其投資價值的低度關注</div></div>
-  <div class="card"><div class="label">北美客戶擴展guidance</div><div class="value amber">規劃9家新客戶</div><div class="note">訂單能見度延伸至2026年,惟財務兌現仍待驗證</div></div>
+  <div class="card"><div class="label">7月營收</div><div class="value amber">1.89億</div><div class="note">YoY+62.56%,MoM-23.27%</div></div>
+  <div class="card"><div class="label">Q2 EPS</div><div class="value red">-0.24</div><div class="note">虧損擴大</div></div>
+  <div class="card"><div class="label">股本</div><div class="value">約10.98億元</div><div class="note">已發行普通股約1.0975億股</div></div>
+  <div class="card"><div class="label">現價隱含P/B</div><div class="value amber">約7.0倍</div><div class="note">每股淨值約26.07元</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">與華新科同為本站資料庫近期查無持有紀錄的個股</div></div>
+  <div class="card"><div class="label">現價隱含P/S</div><div class="value amber">約9.7倍</div><div class="note">以1~7月累計營收簡單年化估算,信度中等</div></div>
 </div>
 
 <h2>五家最接近的競爭對手</h2>
 <table>
-  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>近況動能</th><th>與鈦昇的差異</th></tr>
-  <tr class="hl"><td>8027.TWO</td><td>鈦昇</td><td>虧損股,禁用P/E,以唯一券商目標價(已過時)為參考</td><td>Q2虧損較Q1擴大,7月營收MoM-23.27%</td><td>半導體設備廠,轉盈時程持續落後股價反映的樂觀速度</td></tr>
-  <tr><td>—</td><td>半導體設備族群整體(參考)</td><td>普遍已轉盈的同業享有正常P/E估值</td><td>普遍受惠半導體資本支出擴張週期</td><td>鈦昇是本次分析範圍內罕見仍處本業虧損的一檔,與其他已轉盈或本業穩健的個股在估值方法論上有根本差異</td></tr>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與鈦昇的差異</th></tr>
+  <tr class="hl"><td>8027.TW</td><td>鈦昇</td><td>虧損股禁用P/E,P/S交叉檢核約150</td><td>Q2持續虧損,惟訂單能見度延伸至2027年</td><td>TGV玻璃基板先進封裝設備廠,是本批次唯一仍處虧損階段的個股</td></tr>
+  <tr><td>3037.TW</td><td>欣興(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>ABF載板龍頭廠</td><td>與鈦昇同屬先進封裝供應鏈,惟業務性質(設備 vs 載板製造)不同</td></tr>
+  <tr><td>3189.TW</td><td>景碩(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>ABF載板廠</td><td>ABF載板廠,已具穩定獲利能力,與鈦昇的虧損階段不同</td></tr>
+  <tr><td>8046.TW</td><td>南電(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>ABF載板廠</td><td>已具穩定獲利能力,與鈦昇處於不同的財務發展階段</td></tr>
+  <tr><td>3661.TW</td><td>世芯-KY(未於本次分析,前次已分析)</td><td>查無本次分析中的最新估值</td><td>ASIC設計服務商</td><td>與鈦昇業務性質不同,惟同屬先進封裝/半導體設備供應鏈題材股</td></tr>
 </table>
 <div class="card" style="margin-top:10px">
-  <b>估值判斷:明顯偏貴——虧損擴大而非收斂,唯一已知目標價與現價的落差持續擴大。</b>
-  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">鈦昇是本次分析範圍內唯一仍處本業虧損的一檔,Q2 EPS(-0.24)較Q1(-0.22)不進反退,與市場先前期待的「轉盈時程加速」形成落差。唯一公開的券商目標價(133元)自先前分析以來查無更新調查,而股價已從172元進一步上漲至186.5元,兩者落差已擴大至40.2%。北美客戶擴展與Arizona子公司的長期故事本身仍具產業邏輯,但財務數字的兌現速度明顯落後於股價反映的樂觀程度,現階段不宜用成長股邏輯定價一家仍在虧損、且虧損未見收斂的公司。</div>
+  <b>估值判斷:偏貴——公司仍處虧損階段,查無可信的最新機構目標價,現價隱含P/S倍數已反映相當程度的樂觀預期。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">鈦昇的獨家供應商題材確實扎實:完成美系客戶驗證進入交貨階段,訂單能見度延伸至2027年,是台灣少數具備TGV玻璃基板完整解決方案的設備廠。惟公司財務數字尚未跟上這個樂觀敘事——Q2 EPS虧損較Q1擴大,7月營收更出現月減23.27%的波動。市場流傳的「2027年EPS挑戰5元以上」推演僅見於單一財經媒體分析,並非具名券商的正式研究報告,信度明顯不足。現價182元隱含P/S約9.7倍,對照公司仍處虧損、營收認列波動大的現況,本站認為這個評價已相當程度反映了樂觀預期,而非提供足夠的安全邊際。</div>
 </div>
 
 <h2>估值方法交叉檢核</h2>
 <table>
-  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價186.5 vs 中值</th></tr>
-  <tr><td>唯一券商目標價(已過時)</td><td>目標價133(單點,查無Q2財報後更新)</td><td>133(單點)</td><td class="red">貴 40.2%</td></tr>
-  <tr><td>P/B×ROE(推演,虧損股適用性有限)</td><td>ROE為負,本方法在持續虧損情境下難以提供有意義的合理價區間</td><td>查無(ROE為負,方法不適用)</td><td>查無</td></tr>
-  <tr><td>同業(已轉盈設備廠)倍數對照(推演,低信度)</td><td>假設鈦昇比照同業轉盈後給予15~20x本益比,惟鈦昇尚未轉盈,無法計算</td><td>查無(EPS為負,P/E法無法計算)</td><td>查無</td></tr>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價182 vs 中值</th></tr>
+  <tr><td>P/E法(不適用)</td><td>公司仍處虧損,EPS為負值</td><td>不適用</td><td style="color:var(--muted)">虧損股禁用P/E</td></tr>
+  <tr><td>P/S交叉檢核(自估,信度中等)</td><td>1~7月累計營收簡單年化約20.6億,套用約7~8倍P/S(反映先進封裝設備股的成長溢價,惟公司仍虧損故不採更高倍數)</td><td>約130~165(中值約147.5)</td><td class="red">貴 24.4%(相對此區間中值)</td></tr>
+  <tr><td>P/B交叉檢核(自估,信度較低)</td><td>每股淨值26.07元,套用約6~7倍P/B(參照同業成長股溢價)</td><td>約156~183(中值169.5)</td><td class="amber">合理 -7.4%(相對此區間中值,信度較低僅供參考)</td></tr>
 </table>
-<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司仍處本業虧損,近三年FCF假設缺乏任何正值基礎可供校準。三種方法中,僅有唯一券商目標價可提供單點參考,其餘方法因公司持續虧損而無法有意義地執行——這種「多數標準估值方法皆不適用」的狀況本身就是重要的風險訊號,顯示現價186.5元幾乎完全建立在對未來轉盈時程與規模的樂觀想像,而非任何已確認的獲利基礎。</div>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司仍處虧損階段且現金流轉正時點查無明確揭露,多年期FCF假設完全不具備基礎。P/E法因公司虧損直接排除,是本次分析所有股票中唯一遇到此限制的個股。P/S與P/B兩種交叉檢核方法呈現一定分歧,反映的正是這檔股票估值的核心矛盾:若相信獨家供應商題材能快速轉化為營收與獲利,現階段的P/S倍數尚可接受;若採用較保守的淨值倍數觀點,現價則已偏貴。鑑於公司近兩季虧損不減反增的實際數字,本站傾向採信較保守的P/S法結論。</div>
 
 <h2>③ 風險報酬 — 還有多少空間?</h2>
 <div class="senti">
-  <div class="card"><div class="label">散戶情緒</div><div class="value amber">財報虧損擴大後高檔震盪</div><div class="bar"><div style="width:52%;background:var(--amber)"></div></div><div class="note">8月區間142~261,現價落於區間中段</div></div>
-  <div class="card"><div class="label">分析師共識</div><div class="value red">唯一目標價已被現價大幅超越</div><div class="note">133 vs 現價186.5,落差40.2%</div></div>
-  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">-0.46(H1實績)→轉盈時程不明</div><div class="note">Q3能否顯示虧損收斂是關鍵驗證點</div></div>
+  <div class="card"><div class="label">股價動能</div><div class="value amber">自8月高點293明顯回落,近月區間整理</div><div class="bar"><div style="width:55%;background:var(--amber)"></div></div><div class="note">8月區間166~192</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無可信最新目標價</div><div class="note">唯一公開數字(133)已明顯過時</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value red">-0.22(Q1)→-0.24(Q2),虧損擴大</div><div class="note">轉盈時點是本檔最關鍵的驗證點</div></div>
 </div>
 
 <h2>三年估值路徑</h2>
 <table>
   <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
-  <tr><td>2026(今年)</td><td style="color:var(--muted)">仍處虧損(H1 -0.46),全年EPS查無正值共識</td><td>—</td><td>查無(虧損股P/E法不適用)</td><td>查無</td></tr>
-  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無低高標,僅有訂單能見度延伸guidance,無對應EPS數字</td><td>—</td><td>查無</td><td>查無</td></tr>
-  <tr><td>2028(+2年)</td><td style="color:var(--muted)">查無共識</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2026(今年)</td><td style="color:var(--muted)">虧損延續,查無正值EPS共識,P/E法不適用</td><td>—</td><td>查無</td><td>查無</td></tr>
+  <tr><td>2027(+1年,市場樂觀推演,信度低)</td><td>市場流傳EPS上看5元以上(單一低信度來源)</td><td>約30~40x(推演,反映高成長設備股溢價假設)</td><td>約150~200(推演,信度低)</td><td class="amber">約 -3%~+10%(推演,不確定性極高)</td></tr>
 </table>
-<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">三年估值路徑表因公司持續虧損而完全無法計算,這本身就是最重要的風險訊號——現階段沒有任何一年的EPS數字支撐標準估值框架的計算,買入決策完全仰賴對未來轉盈時程與規模的信心,而Q2財報顯示這個信心的兌現速度正在落後,不宜輕忽這個落差。</div>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年因公司仍處虧損無法計算隱含報酬;2027年的推演建立在單一低信度來源的EPS假設上,本站刻意不對這個數字賦予過高權重,僅列出供參考,不作為投資決策的主要依據。這正是本檔評等定為觀望的核心理由——上檔故事聽起來誘人,但支撐這個故事的財務數字尚未到位。</div>
 
 <h2>四種股價情境</h2>
-<!-- 刻度 80~320;left% = (價格-80)/240×92+4 -->
+<!-- 刻度 100~300;left% = (價格-100)/200×92+4 -->
 <div class="ladder">
   <div class="scale"></div>
-  <div class="mark" style="left:18.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">115~135</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
-  <div class="mark" style="left:41.7%"><div class="lbl">Base(6~12月)</div><div class="price amber">160~185</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
-  <div class="mark" style="left:64.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">210~235</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
-  <div class="mark" style="left:87.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">260~280</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
-  <div class="mark below" style="left:45.9%"><div class="arrow">▲</div><div class="price">186.5</div><div class="lbl">現價</div></div>
+  <div class="mark" style="left:20.7%"><div class="lbl">Bear(3~6月)</div><div class="price red">130~150</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:41.4%"><div class="lbl">Base(6~12月)</div><div class="price amber">170~195</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:63.6%"><div class="lbl">Bull(12~18月)</div><div class="price green">220~245</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.6%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">260~285</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.8%"><div class="arrow">▲</div><div class="price">182.00</div><div class="lbl">現價</div></div>
 </div>
 <table>
   <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
-  <tr><td class="red">Bear</td><td>115~135</td><td>轉盈時程持續遞延或虧損進一步擴大,股價回歸唯一券商目標價133附近</td><td class="red">約 -33%</td></tr>
-  <tr><td class="amber">Base</td><td>160~185</td><td>Q3虧損動能持平但無明確收斂訊號;現價落於此區間上緣附近</td><td class="red">約 -7%</td></tr>
-  <tr><td class="green">Bull</td><td>210~235</td><td>Q3財報顯示虧損明確收斂,北美客戶擴展guidance開始量化顯現</td><td class="green">約 +19%</td></tr>
-  <tr><td style="color:var(--purple)">Stretched</td><td>260~280</td><td>轉盈時程超預期加速,9家新客戶guidance全面兌現,重返並接近6月高點</td><td class="green">約 +45%</td></tr>
+  <tr><td class="red">Bear</td><td>130~150</td><td>虧損持續擴大或客戶認證進度不如預期,市場重新質疑獨家供應商題材的兌現速度</td><td class="red">約 -23%</td></tr>
+  <tr><td class="amber">Base</td><td>170~195</td><td>Q3財報虧損幅度持平或小幅收斂,現價維持現階段區間整理</td><td class="green">約 0%</td></tr>
+  <tr><td class="green">Bull</td><td>220~245</td><td>Q3/Q4財報明確轉盈跡象浮現,訂單能見度延伸至2027年開始獲得財務數字驗證</td><td class="green">約 28%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>260~285</td><td>公司確立TGV雷射設備全球唯一/主要供應商地位,2027年EPS樂觀推演開始獲市場採信</td><td class="green">約 50%</td></tr>
 </table>
 
 <h2>交易計畫(左側/右側雙軌)</h2>
 <div class="twocol">
   <div class="card">
-    <div class="label">左側計畫|逆勢分批,適合中長期(不建議現階段進場,僅供已持股者參考)</div>
+    <div class="label">左側計畫|逆勢分批,適合中長期(公司仍虧損,建議極度保守)</div>
     <table style="margin-top:8px">
       <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
-      <tr><td>第一批</td><td class="green">165~175</td><td>20%</td></tr>
-      <tr><td>第二批</td><td class="green">145~164</td><td>30%</td></tr>
-      <tr><td>第三批</td><td class="green">158.5~180(觀察轉盈訊號後再決定)</td><td>50%(虧損未收斂,倉位應高度保守或不參與)</td></tr>
+      <tr><td>第一批</td><td class="green">168~175</td><td>20%(轉盈時點未明,首批倉位應極度保守)</td></tr>
+      <tr><td>第二批</td><td class="green">160~167</td><td>35%(需Q3財報出現虧損收斂跡象才考慮加碼)</td></tr>
+      <tr><td>第三批</td><td class="green">150~159</td><td>45%(接近Bear情境,反映最壞情況已大致price in)</td></tr>
     </table>
-    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">158.5</b>(接近8月低點)= 虧損進一步擴大或訂單能見度轉差,無條件出場</div>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">158</b>(低於8月區間下緣)= 虧損持續擴大或客戶認證進度不如預期確認,無條件出場</div>
   </div>
   <div class="card">
-    <div class="label">右側計畫|順勢突破,適合波段(不建議,虧損股追高風險極高)</div>
+    <div class="label">右側計畫|順勢突破,適合波段(現階段極不建議追價)</div>
     <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
-    觸發條件:收盤突破199.5(8月區間高點)+量能確認,且Q3財報明確顯示虧損收斂訊號<br>
-    進場區:<b class="green">200~215</b>(虧損股波動風險極高,建議極小倉位或不參與)<br>
-    移動停利:跌破10日線或高點回檔10%(較一般個股更嚴格)<br>
-    假突破失效:觸發後2日內跌回194即出場</div>
+    觸發條件:Q3/Q4財報公布轉盈或虧損明確收斂,且收盤突破192(8月高點)+量能確認<br>
+    進場區:<b class="green">195~215</b>(僅在基本面驗證後才考慮)<br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回178即出場</div>
   </div>
 </div>
 <div class="grid plangrid" style="margin-top:12px">
-  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">210~235</div><div class="note">賣出40~60%;Bull區,虧損股高檔應積極獲利了結而非續抱</div></div>
-  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">260~280</div><div class="note">Stretched區;續抱條件是轉盈時程明確確認且獲利品質獲驗證</div></div>
+  <div class="card"><div class="label">第一次減碼(現有持股適用)</div><div class="value amber">220~245</div><div class="note">賣出35~50%;Bull區,轉盈確認後仍應分批獲利了結,不宜押注全面轉盈</div></div>
+  <div class="card"><div class="label">第二次減碼(現有持股適用)</div><div class="value amber">260~285</div><div class="note">Stretched區;續抱條件是獨家供應商地位與2027年財測獲更多具名機構驗證</div></div>
 </div>
 
 <h2>三句話總結</h2>
-<div class="concl">⓪ <b>事件影響</b>:8/5 Q2財報公布H1稅後淨損4.94億元(H1 EPS-0.46),Q2單季虧損0.24元較Q1的0.22元略微惡化;7月營收1.89億元雖YoY+62.56%,惟MoM-23.27%顯示環比動能明顯下滑。</div>
-<div class="concl">① <b>催化劑</b>:北美客戶擴產設備需求與美國Arizona子公司是長期成長故事,惟財務數字的兌現速度明顯落後於股價反映的樂觀速度,Q2虧損不進反退是本次財報最需要留意的訊號。</div>
-<div class="concl">② <b>估值</b>:明顯偏貴——公司仍處本業虧損,多數標準估值方法(P/E、P/B×ROE、同業倍數對照)皆因缺乏正值EPS基礎而無法有意義執行;唯一公開的券商目標價(133)自先前分析以來查無更新,與現價186.5的落差已擴大至40.2%。</div>
-<div class="concl">③ <b>結論</b>:觀望、轉盈時程持續落後股價預期——現價186.5落於Base區間上緣,上檔Bull +19%/Stretched +45%對下檔Bear -33%,虧損擴大而非收斂使風險報酬比明顯不利;左側倉位應高度保守或不參與,收盤跌破158.5即虧損進一步擴大,無條件出場。下一個驗證點是Q3財報能否明確顯示虧損收斂訊號。</div>
+<div class="concl">① <b>催化劑</b>:公司完成美系客戶驗證進入交貨階段,訂單能見度延伸至2027年,有機會成為TGV雷射設備全球唯一/主要供應商;惟Q2 EPS虧損自-0.22元擴大至-0.24元,7月營收月減23.27%,財務數字尚未跟上樂觀敘事。</div>
+<div class="concl">② <b>估值</b>:偏貴——公司仍處虧損無法用P/E驗證,唯一公開券商目標價(133)已明顯過時;本站以P/S法交叉檢核,現價182元隱含約9.7倍P/S已相當程度反映樂觀預期,查無可信的最新機構目標價可供交叉驗證。</div>
+<div class="concl">③ <b>結論</b>:觀望、獨家供應商題材扎實但財務數字尚未跟上——現價落於Base區間,上檔Bull +28%/Stretched +50%對下檔Bear -23%,轉盈時點是本檔最關鍵的驗證點,現階段不建議追價;跌破158即無條件出場。下一個關鍵驗證點是Q3財報虧損能否收斂,以及是否有具名券商發布Q2財報後的正式目標價更新。</div>
 
 <footer>
-資料時間:股價/近30天與今年區間 2026/08/14收盤(TPEx官方個股日成交資訊);Q2財報(財報狗、Disp BBS,2026/08/05公告);7月營收(公開資訊觀測站營收公告整理);北美客戶擴展與Arizona子公司(ifa.ai個股分析、CMoney投資網誌);主動式ETF持有度(本機active-etf資料庫,2026/08/14更新,顯示未被任何主動式ETF持有);處置/注意股狀態(本機twse-disposition,2026/08/14更新)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;Q2財報後正式更新之券商目標價、精確發行股數查無,未強行湊數。<br>
-主要來源:TPEx官方開放資料、財報狗、Disp BBS、ifa.ai個股分析、CMoney投資網誌。<br>
-「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測;本檔是本次分析範圍內唯一仍處本業虧損的一檔,多數標準估值方法皆不適用,情境誤差區間應格外保守看待。<br>
+資料時間:股價 2026/09/02收盤(TPEx官方tradingStock);7月營收(公司MOPS公開資訊觀測站官方公告,2026/08);Q1/Q2財報(公司公告);目標價(唯一公開券商數字已過時,查無Q2財報後正式更新;財經媒體樂觀推演信度低,經Yahoo股市、理財周刊、豐雲學堂彙整,2026/08);股本/淨值/P/S等財務比率(財報狗、Yahoo股市,2026/08~09);主動式ETF持有度(本機active-etf資料庫,2026/08~09,查無持有紀錄);處置/注意股狀態(本機twse-disposition,2026/09/02更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;可信的最新機構目標價、精確市值數字(不同來源存在差異)與2027年EPS穩定共識查無,已於內文明確標註,未強行推演或杜撰數字。<br>
+主要來源:TPEx官方開放資料(tradingStock)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司財報公告、財報狗、Yahoo股市、豐雲學堂。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
 <b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
 </footer>
 </body>
