@@ -1,478 +1,478 @@
 {
- "updated": "2026-09-03",
+ "updated": "2026-09-04",
  "errors": [],
  "prices": {
   "1519": {
-   "close": 722.0,
-   "date": "20260903",
+   "close": 746.0,
+   "date": "20260904",
    "analysis_price": 710.0,
    "analysis_date": "2026-08-17"
   },
   "1503": {
-   "close": 201.0,
-   "date": "20260903",
+   "close": 207.5,
+   "date": "20260904",
    "analysis_price": 198.5,
    "analysis_date": "2026-08-17"
   },
   "1513": {
-   "close": 162.5,
-   "date": "20260903",
+   "close": 165.5,
+   "date": "20260904",
    "analysis_price": 170.0,
    "analysis_date": "2026-08-17"
   },
   "1514": {
-   "close": 100.5,
-   "date": "20260903",
+   "close": 102.0,
+   "date": "20260904",
    "analysis_price": 101.0,
    "analysis_date": "2026-08-17"
   },
   "2881": {
-   "close": 147.0,
-   "date": "20260903",
+   "close": 150.5,
+   "date": "20260904",
    "analysis_price": 129.5,
    "analysis_date": "2026-08-17"
   },
   "2882": {
-   "close": 112.5,
-   "date": "20260903",
+   "close": 115.0,
+   "date": "20260904",
    "analysis_price": 101.5,
    "analysis_date": "2026-08-17"
   },
   "2885": {
-   "close": 68.5,
-   "date": "20260903",
+   "close": 69.8,
+   "date": "20260904",
    "analysis_price": 69.7,
    "analysis_date": "2026-08-17"
   },
   "2891": {
-   "close": 67.5,
-   "date": "20260903",
+   "close": 68.4,
+   "date": "20260904",
    "analysis_price": 65.8,
    "analysis_date": "2026-08-17"
   },
   "2887": {
-   "close": 41.45,
-   "date": "20260903",
+   "close": 41.5,
+   "date": "20260904",
    "analysis_price": 37.75,
    "analysis_date": "2026-08-17"
   },
   "2890": {
-   "close": 42.6,
-   "date": "20260903",
+   "close": 42.85,
+   "date": "20260904",
    "analysis_price": 40.55,
    "analysis_date": "2026-08-17"
   },
   "2883": {
-   "close": 35.9,
-   "date": "20260903",
+   "close": 36.7,
+   "date": "20260904",
    "analysis_price": 31.65,
    "analysis_date": "2026-08-17"
   },
   "MU": {
-   "close": 956.0800170898438,
-   "date": "20260902",
+   "close": 958.1599731445312,
+   "date": "20260903",
    "analysis_price": 971.66,
    "analysis_date": "2026-08-17"
   },
   "SNDK": {
-   "close": 1553.4000244140625,
-   "date": "20260902",
+   "close": 1554.989990234375,
+   "date": "20260903",
    "analysis_price": 1641.11,
    "analysis_date": "2026-08-17"
   },
   "2337": {
-   "close": 117.0,
-   "date": "20260903",
+   "close": 121.5,
+   "date": "20260904",
    "analysis_price": 126.5,
    "analysis_date": "2026-08-28"
   },
   "2408": {
-   "close": 477.5,
-   "date": "20260903",
+   "close": 496.0,
+   "date": "20260904",
    "analysis_price": 540.0,
    "analysis_date": "2026-08-28"
   },
   "2344": {
-   "close": 169.0,
-   "date": "20260903",
+   "close": 174.0,
+   "date": "20260904",
    "analysis_price": 181.5,
    "analysis_date": "2026-08-28"
   },
   "6239": {
-   "close": 275.0,
-   "date": "20260903",
+   "close": 276.5,
+   "date": "20260904",
    "analysis_price": 287.0,
    "analysis_date": "2026-08-28"
   },
   "3324": {
-   "close": 1350.0,
-   "date": "20260903",
+   "close": 1485.0,
+   "date": "20260904",
    "analysis_price": 1140.0,
    "analysis_date": "2026-08-28"
   },
   "8027": {
-   "close": 177.0,
-   "date": "20260903",
+   "close": 181.5,
+   "date": "20260904",
    "analysis_price": 182.0,
    "analysis_date": "2026-09-02"
   },
   "8150": {
-   "close": 89.1,
-   "date": "20260903",
+   "close": 90.1,
+   "date": "20260904",
    "analysis_price": 90.5,
    "analysis_date": "2026-08-28"
   },
   "2303": {
-   "close": 125.0,
-   "date": "20260903",
+   "close": 130.0,
+   "date": "20260904",
    "analysis_price": 121.0,
    "analysis_date": "2026-08-17"
   },
   "2610": {
-   "close": 20.55,
-   "date": "20260903",
+   "close": 20.45,
+   "date": "20260904",
    "analysis_price": 20.45,
    "analysis_date": "2026-09-02"
   },
   "2454": {
-   "close": 4340.0,
-   "date": "20260903",
+   "close": 4415.0,
+   "date": "20260904",
    "analysis_price": 3985.0,
    "analysis_date": "2026-08-28"
   },
   "2330": {
-   "close": 2390.0,
-   "date": "20260903",
+   "close": 2410.0,
+   "date": "20260904",
    "analysis_price": 2420.0,
    "analysis_date": "2026-08-28"
   },
   "2308": {
-   "close": 1760.0,
-   "date": "20260903",
+   "close": 1825.0,
+   "date": "20260904",
    "analysis_price": 1830.0,
    "analysis_date": "2026-08-28"
   },
   "2317": {
-   "close": 247.5,
-   "date": "20260903",
+   "close": 256.0,
+   "date": "20260904",
    "analysis_price": 253.0,
    "analysis_date": "2026-08-28"
   },
   "3037": {
-   "close": 923.0,
-   "date": "20260903",
+   "close": 902.0,
+   "date": "20260904",
    "analysis_price": 999.0,
    "analysis_date": "2026-08-31"
   },
   "8299": {
-   "close": 2000.0,
-   "date": "20260903",
+   "close": 2015.0,
+   "date": "20260904",
    "analysis_price": 2150.0,
    "analysis_date": "2026-08-28"
   },
   "3008": {
-   "close": 7150.0,
-   "date": "20260903",
+   "close": 7400.0,
+   "date": "20260904",
    "analysis_price": 7065.0,
    "analysis_date": "2026-08-28"
   },
   "2327": {
-   "close": 511.0,
-   "date": "20260903",
+   "close": 562.0,
+   "date": "20260904",
    "analysis_price": 597.0,
    "analysis_date": "2026-08-28"
   },
   "3661": {
-   "close": 4050.0,
-   "date": "20260903",
+   "close": 4220.0,
+   "date": "20260904",
    "analysis_price": 4065.0,
    "analysis_date": "2026-08-28"
   },
   "3443": {
-   "close": 5800.0,
-   "date": "20260903",
+   "close": 5810.0,
+   "date": "20260904",
    "analysis_price": 6015.0,
    "analysis_date": "2026-08-28"
   },
   "3081": {
-   "close": 3120.0,
-   "date": "20260903",
+   "close": 3170.0,
+   "date": "20260904",
    "analysis_price": 3305.0,
    "analysis_date": "2026-08-28"
   },
   "6442": {
-   "close": 1770.0,
-   "date": "20260903",
+   "close": 1755.0,
+   "date": "20260904",
    "analysis_price": 1615.0,
    "analysis_date": "2026-08-28"
   },
   "3665": {
-   "close": 2100.0,
-   "date": "20260903",
+   "close": 2145.0,
+   "date": "20260904",
    "analysis_price": 2260.0,
    "analysis_date": "2026-08-28"
   },
   "3711": {
-   "close": 589.0,
-   "date": "20260903",
+   "close": 588.0,
+   "date": "20260904",
    "analysis_price": 621.0,
    "analysis_date": "2026-08-28"
   },
   "2345": {
-   "close": 2090.0,
-   "date": "20260903",
+   "close": 2100.0,
+   "date": "20260904",
    "analysis_price": 2125.0,
    "analysis_date": "2026-08-28"
   },
   "5347": {
-   "close": 147.0,
-   "date": "20260903",
+   "close": 150.0,
+   "date": "20260904",
    "analysis_price": 160.5,
    "analysis_date": "2026-08-17"
   },
   "6770": {
-   "close": 67.8,
-   "date": "20260903",
+   "close": 68.5,
+   "date": "20260904",
    "analysis_price": 70.0,
    "analysis_date": "2026-08-28"
   },
   "2313": {
-   "close": 236.0,
-   "date": "20260903",
+   "close": 249.5,
+   "date": "20260904",
    "analysis_price": 215.5,
    "analysis_date": "2026-08-14"
   },
   "3491": {
-   "close": 1405.0,
-   "date": "20260903",
+   "close": 1505.0,
+   "date": "20260904",
    "analysis_price": 1375.0,
    "analysis_date": "2026-08-14"
   },
   "6285": {
-   "close": 233.5,
-   "date": "20260903",
+   "close": 243.5,
+   "date": "20260904",
    "analysis_price": 245.0,
    "analysis_date": "2026-08-14"
   },
   "2354": {
-   "close": 63.7,
-   "date": "20260903",
+   "close": 65.6,
+   "date": "20260904",
    "analysis_price": 63.9,
    "analysis_date": "2026-08-28"
   },
   "2449": {
-   "close": 261.0,
-   "date": "20260903",
+   "close": 262.0,
+   "date": "20260904",
    "analysis_price": 270.0,
    "analysis_date": "2026-08-28"
   },
   "2382": {
-   "close": 335.0,
-   "date": "20260903",
+   "close": 345.0,
+   "date": "20260904",
    "analysis_price": 332.5,
    "analysis_date": "2026-08-28"
   },
   "3231": {
-   "close": 188.5,
-   "date": "20260903",
+   "close": 198.0,
+   "date": "20260904",
    "analysis_price": 178.0,
    "analysis_date": "2026-08-28"
   },
   "2324": {
-   "close": 38.75,
-   "date": "20260903",
+   "close": 41.6,
+   "date": "20260904",
    "analysis_price": 39.7,
    "analysis_date": "2026-08-28"
   },
   "3017": {
-   "close": 3300.0,
-   "date": "20260903",
+   "close": 3570.0,
+   "date": "20260904",
    "analysis_price": 3360.0,
    "analysis_date": "2026-08-28"
   },
   "3653": {
-   "close": 5615.0,
-   "date": "20260903",
+   "close": 5875.0,
+   "date": "20260904",
    "analysis_price": 5785.0,
    "analysis_date": "2026-08-28"
   },
   "6805": {
-   "close": 2095.0,
-   "date": "20260903",
+   "close": 2200.0,
+   "date": "20260904",
    "analysis_price": 2345.0,
    "analysis_date": "2026-08-28"
   },
   "8046": {
-   "close": 1080.0,
-   "date": "20260903",
+   "close": 1055.0,
+   "date": "20260904",
    "analysis_price": 1190.0,
    "analysis_date": "2026-08-31"
   },
   "3189": {
-   "close": 775.0,
-   "date": "20260903",
+   "close": 819.0,
+   "date": "20260904",
    "analysis_price": 810.0,
    "analysis_date": "2026-08-31"
   },
   "4958": {
-   "close": 464.0,
-   "date": "20260903",
+   "close": 463.0,
+   "date": "20260904",
    "analysis_price": 478.0,
    "analysis_date": "2026-08-31"
   },
   "3481": {
-   "close": 48.1,
-   "date": "20260903",
+   "close": 48.5,
+   "date": "20260904",
    "analysis_price": 50.1,
    "analysis_date": "2026-08-14"
   },
   "2409": {
-   "close": 26.55,
-   "date": "20260903",
+   "close": 26.8,
+   "date": "20260904",
    "analysis_price": 25.8,
    "analysis_date": "2026-08-14"
   },
   "2492": {
-   "close": 271.5,
-   "date": "20260903",
+   "close": 298.5,
+   "date": "20260904",
    "analysis_price": 313.5,
    "analysis_date": "2026-08-28"
   },
   "3026": {
-   "close": 638.0,
-   "date": "20260903",
+   "close": 701.0,
+   "date": "20260904",
    "analysis_price": 742.0,
    "analysis_date": "2026-08-28"
   },
   "2618": {
-   "close": 42.8,
-   "date": "20260903",
+   "close": 42.5,
+   "date": "20260904",
    "analysis_price": 39.9,
    "analysis_date": "2026-08-14"
   },
   "2646": {
-   "close": 20.7,
-   "date": "20260903",
+   "close": 20.65,
+   "date": "20260904",
    "analysis_price": 20.4,
    "analysis_date": "2026-08-14"
   },
   "6757": {
    "close": 55.9,
-   "date": "20260903",
+   "date": "20260904",
    "analysis_price": 54.8,
    "analysis_date": "2026-08-14"
   },
   "6488": {
-   "close": 927.0,
-   "date": "20260903",
+   "close": 981.0,
+   "date": "20260904",
    "analysis_price": 1010.0,
    "analysis_date": "2026-08-14"
   },
   "6182": {
-   "close": 104.5,
-   "date": "20260903",
+   "close": 111.0,
+   "date": "20260904",
    "analysis_price": 111.5,
    "analysis_date": "2026-08-14"
   },
   "3532": {
-   "close": 381.0,
-   "date": "20260903",
+   "close": 399.0,
+   "date": "20260904",
    "analysis_price": 356.0,
    "analysis_date": "2026-08-14"
   },
   "5483": {
-   "close": 176.0,
-   "date": "20260903",
+   "close": 183.5,
+   "date": "20260904",
    "analysis_price": 188.0,
    "analysis_date": "2026-08-14"
   },
   "2481": {
    "close": 156.0,
-   "date": "20260903",
+   "date": "20260904",
    "analysis_price": 138.0,
    "analysis_date": "2026-08-14"
   },
   "5425": {
-   "close": 91.2,
-   "date": "20260903",
+   "close": 92.9,
+   "date": "20260904",
    "analysis_price": 85.5,
    "analysis_date": "2026-08-14"
   },
   "3675": {
-   "close": 277.0,
-   "date": "20260903",
+   "close": 282.0,
+   "date": "20260904",
    "analysis_price": 267.5,
    "analysis_date": "2026-08-14"
   },
   "8033": {
-   "close": 173.0,
-   "date": "20260903",
+   "close": 176.0,
+   "date": "20260904",
    "analysis_price": 201.5,
    "analysis_date": "2026-08-14"
   },
   "2634": {
-   "close": 64.4,
-   "date": "20260903",
+   "close": 65.0,
+   "date": "20260904",
    "analysis_price": 70.6,
    "analysis_date": "2026-08-14"
   },
   "6781": {
-   "close": 1060.0,
-   "date": "20260903",
+   "close": 1115.0,
+   "date": "20260904",
    "analysis_price": 1130.0,
    "analysis_date": "2026-08-28"
   },
   "3211": {
-   "close": 375.0,
-   "date": "20260903",
+   "close": 386.0,
+   "date": "20260904",
    "analysis_price": 400.0,
    "analysis_date": "2026-08-28"
   },
   "4931": {
-   "close": 239.5,
-   "date": "20260903",
+   "close": 251.0,
+   "date": "20260904",
    "analysis_price": 272.5,
    "analysis_date": "2026-08-28"
   },
   "2301": {
-   "close": 299.0,
-   "date": "20260903",
+   "close": 308.0,
+   "date": "20260904",
    "analysis_price": 267.0,
    "analysis_date": "2026-08-21"
   },
   "2404": {
-   "close": 1035.0,
-   "date": "20260903",
+   "close": 1070.0,
+   "date": "20260904",
    "analysis_price": 1125.0,
    "analysis_date": "2026-08-14"
   },
   "6139": {
-   "close": 712.0,
-   "date": "20260903",
+   "close": 736.0,
+   "date": "20260904",
    "analysis_price": 798.0,
    "analysis_date": "2026-08-14"
   },
   "5536": {
-   "close": 817.0,
-   "date": "20260903",
+   "close": 853.0,
+   "date": "20260904",
    "analysis_price": 925.0,
    "analysis_date": "2026-08-14"
   },
   "6691": {
-   "close": 603.0,
-   "date": "20260903",
+   "close": 619.0,
+   "date": "20260904",
    "analysis_price": 728.0,
    "analysis_date": "2026-08-14"
   },
   "6196": {
-   "close": 500.0,
-   "date": "20260903",
+   "close": 516.0,
+   "date": "20260904",
    "analysis_price": 510.0,
    "analysis_date": "2026-08-14"
   },
   "SKHY": {
-   "close": 164.97999572753906,
-   "date": "20260902",
+   "close": 163.67999267578125,
+   "date": "20260903",
    "analysis_price": 166.33,
    "analysis_date": "2026-08-17"
   }
