@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>德律 (3030) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>德律 (3030) <span class="badge amber">估值:合理,現價貼近高信度區間中值</span> <span class="badge amber">結論:中性,PCBA轉型半導體/AI伺服器檢測動能扎實但近期回檔缺乏確認催化劑</span><span class="autodispo" data-code="3030"></span></h1>
+<div class="sub">台股(TWSE)・自動化電路板測試設備廠,轉型半導體與AI伺服器檢測解決方案|現況估值版|股價截至 2026/09/08 收盤,製表 2026/09/08|<span class="dispostat" data-code="3030">未列入處置股/注意股名單(對照處置股儀表板 2026/09/08 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">245</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="3030">現價 <b>270</b> → 目標價 <b>290</b><span class="up"> (+7.4%)</span></div>
+  <div class="vbasis">推導依據:查無具名機構於Q2財報後的正式FactSet目標價調查(僅有技術面文章提及430~450元阻力區,信度低不採用);改採Trailing P/E交叉檢核(高信度,以已實現的近四季EPS13.19元為基礎)套用18~24倍得約237.4~316.6元(中值277.0),採目標價290(對應約22x,反映H1 EPS年增58%的加速動能,惟8月營收MoM-3.49%與近一週股價急跌9.2%尚無明確解釋,故不採區間上緣)</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價(9/8收盤)</div><div class="value red">270.00</div><div class="note">較9/1的297.5一週跌9.2%,9/8爆量182萬張</div></div>
+  <div class="card"><div class="label">8月營收</div><div class="value green">9.97億</div><div class="note">MoM-3.49%,YoY+31.88%</div></div>
+  <div class="card"><div class="label">累計1~8月營收</div><div class="value green">74.19億</div><div class="note">YoY+27.42%</div></div>
+  <div class="card"><div class="label">H1 2026 EPS</div><div class="value green">7.36</div><div class="note">YoY+58%;Q1 3.50,Q2 3.86(QoQ+10%,YoY+75%)</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">169.5~419.5</div><div class="note">全年振幅逾147%,5月噴出後大幅修正</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">58.7%</div><div class="note">公司目標H2維持約60%高水準</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼今年股價暴衝又暴跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2025年全年</span>營收84.67億元,年增33.22%,EPS首度衝上兩位數達10.49元,創歷史新高。</li>
+  <li><span class="date">2026年初~5月</span>股價從1月低點169.5一路噴出至5月高點419.5,累計漲幅逾147%,主因AI伺服器與半導體檢測題材帶動本益比大幅擴張,期間多次出現漲停/跌停的劇烈波動。</li>
+  <li><span class="date">2026/06/26</span>股東常會暨法說會:財務長表示前5月藍海市場(高毛利)產品應用占比達84%,Q1雖受美元匯率不利影響,毛利率仍年增2個百分點,目標H2毛利率維持60%高水準;董事長表示AI檢測訂單為2026年成長主引擎,受惠全球AI基礎建設擴大、晶圓廠與封測廠資本支出回溫。</li>
+  <li><span class="date">2026年8月</span>Q2財報:營收29.47億元,季增20.69%、年增23.92%,毛利率58.7%;EPS3.86元,季增10%、年增75%,H1累計EPS7.36元,年增58%。股價8月在281.5~307.5區間整理,相對5月高點已明顯降溫。</li>
+  <li><span class="date">2026年9月上旬</span>公告8月合併營收9.97億元,月減3.49%、年增31.88%,累計1~8月營收74.19億元,年增27.42%;同期股價自9/1的297.5一路下探至9/8的270.0,一週累計下跌9.2%,9/8單日成交爆量182萬張(明顯高於近期均量),本次搜尋未查得任何個股專屬的具體利空說明。</li>
+  <li><span class="date">市場容易忽略的資訊</span>①德律的基本面數字(H1 EPS年增58%、8月營收年增31.88%)並未出現轉弱訊號,近一週的急跌缺乏對應的具體利空消息,財經媒體多篇分析文章將此類「基本面沒變、股價跌很兇」的現象歸因於AI/半導體檢測族群整體本益比從「想像力溢價」向「當期獲利」回歸的市場性重定價,而非德律自身出現問題;②8月營收MoM-3.49%是連續多月成長後首次出現月減,雖YoY仍強勁,仍需留意是否為H2動能開始降溫的早期訊號,不宜完全忽視;③公司提示新台幣匯率4月後由貶轉升帶來匯兌損失風險,已採取降低美元部位、即收即賣等避險措施,惟仍是影響獲利認列的外部變數。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">德律正處於由傳統量測設備廠轉型為高階半導體與AI伺服器檢測解決方案關鍵供應商的黃金收割期,AI檢測訂單成2026年成長主引擎。<div class="src">— 口袋學堂、公司法說會,2026</div></div>
+    <div class="quote">德律基本面數據尚稱穩健,營收、EPS或AI、車用訂單能見度並未明顯惡化,近期股價急跌較可能是市場對高成長期待的重新定價,而非公司體質轉差。<div class="src">— CMoney投資網誌,2026</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">若接單放緩、毛利率承壓、同業也一起下修,就不是單純本益比壓縮,市場可能是在重估成長本身——8月營收MoM由正轉負是需要持續觀察的訊號。<div class="src">— CMoney投資網誌,本儀表板延伸解讀</div></div>
+    <div class="quote">德律trailing本益比僅約20.5倍,遠低於精測、弘塑等半導體純測試設備股的44~72倍,折價部分反映德律仍以PCBA組裝板測試為主體、毛利率(58.7%)低於同業純半導體測試股的業務組合差異,並非全數屬於錯殺。<div class="src">— 本儀表板觀察</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><td colspan="3" style="color:var(--muted)">本次搜尋查無任何具名機構於Q2財報後正式發布的FactSet目標價調查;僅查得技術面文章提及430~450元阻力區與350/400關鍵價位,屬純技術推演而非基本面研究報告,信度低,本站不採用作為目標價依據。三大法人近10日買賣超以下方自動更新籌碼區塊為準。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="3030"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="red">-1,894</span></td><td>3/10</td><td><span class="red">-367</span></td></tr><tr><td>投信</td><td><span class="red">-7</span></td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-88</span></td><td>4/10</td><td><span class="red">-49</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="red">-1,989</span></td><td>4/10</td><td><span class="red">-416</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>09/08</td><td><span class="red">-367</span></td><td>+0</td><td><span class="red">-49</span></td><td><span class="red">-416</span></td></tr><tr><td>09/07</td><td>+0</td><td><span class="red">-1</span></td><td><span class="red">-21</span></td><td><span class="red">-22</span></td></tr><tr><td>09/04</td><td><span class="red">-1,471</span></td><td><span class="red">-2</span></td><td><span class="red">-89</span></td><td><span class="red">-1,562</span></td></tr><tr><td>09/03</td><td><span class="red">-11</span></td><td><span class="red">-1</span></td><td><span class="green">+52</span></td><td><span class="green">+40</span></td></tr><tr><td>09/02</td><td><span class="red">-312</span></td><td><span class="red">-1</span></td><td><span class="red">-46</span></td><td><span class="red">-360</span></td></tr><tr><td>09/01</td><td><span class="green">+185</span></td><td>+0</td><td><span class="green">+40</span></td><td><span class="green">+226</span></td></tr><tr><td>08/31</td><td><span class="red">-77</span></td><td>+0</td><td><span class="red">-22</span></td><td><span class="red">-99</span></td></tr><tr><td>08/28</td><td><span class="red">-45</span></td><td>+0</td><td><span class="red">-38</span></td><td><span class="red">-83</span></td></tr><tr><td>08/27</td><td><span class="green">+98</span></td><td><span class="red">-1</span></td><td><span class="green">+46</span></td><td><span class="green">+143</span></td></tr><tr><td>08/26</td><td><span class="green">+106</span></td><td><span class="red">-1</span></td><td><span class="green">+39</span></td><td><span class="green">+144</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 08/26~09/08(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div>
+<!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">8月營收</div><div class="value green">9.97億</div><div class="note">YoY+31.88%,MoM-3.49%</div></div>
+  <div class="card"><div class="label">H1 2026 EPS</div><div class="value green">7.36</div><div class="note">YoY+58%</div></div>
+  <div class="card"><div class="label">近四季EPS(trailing)</div><div class="value green">約13.19</div><div class="note">推算自FY2025(10.49)-H1'25(約4.66)+H1'26(7.36)</div></div>
+  <div class="card"><div class="label">Q2毛利率</div><div class="value green">58.7%</div><div class="note">公司目標H2維持約60%</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">2026/09/08資料</div></div>
+  <div class="card"><div class="label">現價隱含Trailing P/E</div><div class="value amber">約20.5倍</div><div class="note">270÷13.19,遠低於半導體純測試股同業</div></div>
+</div>
+
+<h2>五家最接近的競爭對手</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與德律的差異</th></tr>
+  <tr class="hl"><td>3030.TW</td><td>德律</td><td>Trailing P/E約20.5x(自估237~317)</td><td>H1 EPS年增58%,8月營收YoY+31.88%</td><td>PCBA組裝板測試設備轉型半導體/AI伺服器檢測,毛利率58.7%低於純半導體測試股</td></tr>
+  <tr><td>6510.TWO</td><td>精測</td><td>2026E EPS69.79(推演)×P/E約52x</td><td>Q2 EPS15.02(QoQ+44%,YoY+129%)</td><td>半導體探針卡龍頭,純半導體測試聚焦,成長速度與估值倍數均遠高於德律</td></tr>
+  <tr><td>3131.TWO</td><td>弘塑</td><td>2026E EPS49.2(推演)×P/E約53.6x</td><td>H1 EPS27.27(YoY+73%)</td><td>半導體濕製程設備廠,同屬半導體資本支出受惠股,估值倍數同樣遠高於德律</td></tr>
+  <tr><td>2360.TW</td><td>致茂</td><td>Trailing P/E約46倍(參考)</td><td>電子測試與量測儀器綜合廠</td><td>業務範疇更廣的測試儀器大廠,規模遠大於德律</td></tr>
+  <tr><td>5443.TWO</td><td>均豪</td><td>查無本次分析中的最新估值</td><td>半導體設備廠</td><td>與德律同屬設備供應鏈,惟業務聚焦不同</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——Trailing P/E法顯示現價貼近高信度區間中值,相對半導體純測試股同業則呈現顯著折價,惟折價部分屬業務組合差異而非全數錯殺。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">德律的基本面持續改善:H1 EPS年增58%,8月營收年增31.88%,毛利率58.7%且公司目標H2維持60%高水準,轉型半導體與AI伺服器檢測的故事仍在驗證中。以已實現的近四季EPS13.19元(推算值)套用18~24倍本益比,合理價區間約237.4~316.6元(中值277.0),現價270.00大致落於此區間中段,顯示目前估值合理、非明顯便宜也非明顯昂貴。與精測、弘塑等半導體純測試設備股相比,德律trailing本益比僅約20.5倍,遠低於同業的44~72倍,這個折價一部分反映德律仍以PCBA組裝板測試為主體業務(毛利率58.7%低於同業更聚焦半導體的更高毛利結構),另一部分則可能隨AI伺服器/半導體檢測營收占比持續提升而收斂,是值得留意的中期re-rating機會,惟現階段查無具體催化劑可支撐立即偏多結論。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價270 vs 中值</th></tr>
+  <tr><td>Trailing P/E×倍數(高信度,已實現數字)</td><td>近四季EPS13.19(推算自FY25+H1'26-H1'25),倍數18~24x</td><td>237.4~316.6(中值277.0)</td><td class="amber">合理 -2.5%</td></tr>
+  <tr><td>Forward P/E×2026E EPS(推演,中低信度)</td><td>全年EPS推演14.94~16.58(H2成長30%~58%兩種情境),倍數18~24x</td><td>269~398(中值333.5)</td><td class="green">便宜 -19.0%(信度中低,僅供對照)</td></tr>
+  <tr><td>同業P/E相對比較(僅供對照,不做主要依據)</td><td>精測/弘塑等半導體純測試股2026E P/E約52~54倍</td><td>—</td><td class="green">德律trailing僅20.5倍,顯著折價(部分屬業務組合差異)</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">簡化DCF法在此不適用並略去:公司正處於業務轉型期(PCBA測試→半導體/AI伺服器檢測),長期成長率與最終業務組合查無穩定共識,多年期FCF假設信度不足。三種方法中,Trailing P/E法(高信度)顯示現價大致合理,是本站採用的主要錨點;Forward P/E法因2026年EPS本身是推演數字(公司未發布正式財測,亦查無機構共識),信度中低僅供對照,顯示的「便宜」不應直接採信;同業相對比較顯示德律估值明顯低於半導體純測試股同業,惟部分反映業務組合差異(PCBA測試毛利率結構性低於純半導體測試),非單純錯殺。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">股價動能</div><div class="value red">近一週急跌9.2%,9/8爆量無明確利空對應</div><div class="bar"><div style="width:70%;background:var(--red)"></div></div><div class="note">8月區間281.5~307.5,9/8跌破至270</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無正式機構目標價</div><div class="note">僅有低信度技術面430~450元說法,不採用</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">7.36(H1)→13.19(trailing)/14.94~16.58(2026E推演)</div><div class="note">Q3財報與9月營收是否止穩是關鍵驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年,推演)</td><td>14.94~16.58(H2成長30%~58%兩種情境,無正式財測/共識)</td><td>18~24x</td><td>269~398(中值333.5)</td><td class="green">約 23%(推演,信度中低)</td></tr>
+  <tr><td>2027(+1年)</td><td style="color:var(--muted)">查無穩定共識,AI伺服器與先進封裝測試需求提供中期成長能見度</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年隱含報酬看似可觀(約+23%),惟建立在本站自行推演的全年EPS假設上(公司未發布正式財測,查無機構共識調查),信度中低,不應等同於高信度的Trailing P/E法(合理,-2.5%)看待;2027年查無穩定共識,不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 150~450;left% = (價格-150)/300×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:31.5%"><div class="lbl">Bear(3~6月)</div><div class="price red">220~245</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:43.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">260~300</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:65.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">330~370</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:85.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">400~430</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:40.8%"><div class="arrow">▲</div><div class="price">270.00</div><div class="lbl">現價(9/8收盤)</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>220~245</td><td>8月營收MoM轉負確認為H2動能降溫的開端,或AI伺服器投資週期出現實質放緩</td><td class="red">約 -14%</td></tr>
+  <tr><td class="amber">Base</td><td>260~300</td><td>Q3財報符合H1確立的成長軌跡,現價落於此區間內</td><td class="green">約 4%</td></tr>
+  <tr><td class="green">Bull</td><td>330~370</td><td>H2毛利率維持60%目標達成,AI伺服器/半導體檢測營收占比持續提升,市場重新給予接近同業的估值溢價</td><td class="green">約 30%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>400~430</td><td>AI檢測訂單全面超預期,重返並小幅超越今年5月高點419.5</td><td class="green">約 54%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">260~270</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">250~259</td><td>35%</td></tr>
+      <tr><td>第三批</td><td class="green">245~249</td><td>35%(接近硬停損,分批確認回檔止穩)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">245</b>(低於今年4、7月整理區支撐)= 8月營收轉負確認為實質動能降溫而非單一月波動,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站回297.5(8月高點)以上+量能確認,顯示本波修正已止穩<br>
+    進場區:<b class="green">298~320</b><br>
+    移動停利:跌破10日線或高點回檔15%<br>
+    假突破失效:觸發後2日內跌回285即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">330~370</div><div class="note">賣出30~50%;Bull區,波動度高應積極分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">400~430</div><div class="note">Stretched區;續抱條件是AI檢測訂單與毛利率目標同步獲驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:H1 EPS7.36元(YoY+58%),8月營收9.97億元(YoY+31.88%)延續強勁,公司目標H2毛利率維持60%高水準,AI伺服器/半導體檢測訂單為2026年成長主引擎;惟近一週股價急跌9.2%且9/8爆量,本次搜尋未查得對應的具體利空消息。</div>
+<div class="concl">② <b>估值</b>:合理——Trailing P/E法(高信度,中值277.0)顯示現價貼近合理區間中段;相對精測、弘塑等半導體純測試股同業(2026E P/E約52~54倍),德律trailing僅約20.5倍呈現顯著折價,部分屬PCBA測試業務組合毛利率結構性較低所致,非全數錯殺,惟仍留有中期re-rating空間。</div>
+<div class="concl">③ <b>結論</b>:中性、轉型動能扎實但近期回檔缺乏明確催化劑——現價270落於Base區間內,上檔Bull +30%/Stretched +54%對下檔Bear -14%,查無正式機構目標價可供交叉驗證,建議左側分批布局並密切觀察9月營收與Q3財報,跌破245即無條件出場。下一個關鍵驗證點是9月營收MoM能否止跌回升,以及Q3財報毛利率能否守住60%目標。</div>
+
+<footer>
+資料時間:股價 2026/09/08收盤(TWSE官方STOCK_DAY);8月營收(公司MOPS公開資訊觀測站官方公告,2026/09);Q1/Q2財報與6/26股東常會暨法說會(公司公告、時報資訊、CMoney投資網誌、口袋學堂,2026/06~08);同業比較數據(TWSE/TPEx官方STOCK_DAY,2026/09/08收盤,精測/弘塑EPS與財測經CMoney/statementdog彙整);主動式ETF持有度(本機active-etf資料庫,2026/09/08,查無持有);處置/注意股狀態(本機twse-disposition,2026/09/08更新,查無列入)。三大法人買賣超籌碼區塊由每日盤後腳本自動更新;正式機構FactSet目標價、2026年公司官方財測、2027年EPS共識查無,已於內文明確標註,未強行推演或杜撰數字。<br>
+主要來源:TWSE官方開放資料(STOCK_DAY)、公司MOPS公開資訊觀測站(官方月營收原始數據)、公司股東常會暨法說會、時報資訊、CMoney投資網誌、statementdog財報狗。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
