@@ -80,7 +80,7 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
-/* ==== shared-overrides v2 ==== */
+/* ==== shared-overrides v3 ==== */
   /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
   .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
     font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
@@ -107,6 +107,23 @@
     .ladder .mark .price{margin-top:0;}
     .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
       padding:7px 8px;border-bottom:none;}
+  }
+  /* 鍵盤操作可見焦點 */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  /* 列印:深色底改白底、避免卡片與表格被切斷 */
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
   }
 </style>
 </head>
@@ -199,7 +216,7 @@
   <div class="card"><div class="label">客戶結構</div><div class="value amber">半導體約60%</div><div class="note">資料中心+生技為次要成長引擎</div></div>
 </div>
 
-<h2>五家最接近的競爭對手</h2>
+<h2>同業與相關公司比較</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與聖暉的差異</th></tr>
   <tr class="hl"><td>5536.TWO</td><td>聖暉</td><td>自估660~880(保守推演);市場流傳750/975(分歧)</td><td>Q2 EPS創同期新高,惟7月營收MoM-18.61%明顯回落</td><td>客戶較同業分散,惟7月動能明顯轉弱,是族群唯一減速者</td></tr>

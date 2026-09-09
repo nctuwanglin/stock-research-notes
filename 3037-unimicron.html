@@ -80,7 +80,7 @@
   .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   .warncard{background:rgba(231,76,60,.10);border:1px solid var(--red);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .warncard b{color:#ff8a80;}
-/* ==== shared-overrides v2 ==== */
+/* ==== shared-overrides v3 ==== */
   /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
   .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
     font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
@@ -107,6 +107,23 @@
     .ladder .mark .price{margin-top:0;}
     .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
       padding:7px 8px;border-bottom:none;}
+  }
+  /* 鍵盤操作可見焦點 */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  /* 列印:深色底改白底、避免卡片與表格被切斷 */
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
   }
 </style>
 </head>
@@ -189,7 +206,7 @@
   <div class="card"><div class="label">案件階段</div><div class="value red">檢調調查初期</div><div class="note">起訴、審判等後續程序時程查無</div></div>
 </div>
 
-<h2>五家最接近的競爭對手(事件關聯度)</h2>
+<h2>同業與相關公司比較(事件關聯度)</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值方法</th><th>與此事件的關聯</th><th>與欣興的差異</th></tr>
   <tr class="hl"><td>3037.TW</td><td>欣興</td><td>瑞銀目標價1300(較保守,採信)</td><td>事件核心,檢調調查中,爭議產品占營收36%</td><td>ABF載板龍頭廠,唯一直接涉案個股,面臨法律與商譽雙重不確定性</td></tr>

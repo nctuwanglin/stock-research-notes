@@ -78,7 +78,7 @@
   .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
   .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
   .verdictbox .vstop{color:#ff8a80;font-weight:700;}
-/* ==== shared-overrides v2 ==== */
+/* ==== shared-overrides v3 ==== */
   /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
   .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
     font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
@@ -105,6 +105,23 @@
     .ladder .mark .price{margin-top:0;}
     .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
       padding:7px 8px;border-bottom:none;}
+  }
+  /* 鍵盤操作可見焦點 */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  /* 列印:深色底改白底、避免卡片與表格被切斷 */
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
   }
 </style>
 </head>
@@ -187,7 +204,7 @@
   <div class="card"><div class="label">業務拓展</div><div class="value">BMS技術延伸至VPP</div><div class="note">韌體授權+雲端監控,朝高毛利整合方案轉型</div></div>
 </div>
 
-<h2>五家最接近的競爭對手</h2>
+<h2>同業與相關公司比較</h2>
 <table>
   <tr><th>代號</th><th>公司</th><th>估值方法</th><th>2026動能</th><th>與新盛力的差異</th></tr>
   <tr class="hl"><td>4931.TWO</td><td>新盛力</td><td>自估234~273(中值253.5)</td><td>Q2 EPS2.21(QoQ+49%,YoY+502%),H1已超越2025全年</td><td>BMS核心技術,規模最小但成長速度本次批次最快</td></tr>
