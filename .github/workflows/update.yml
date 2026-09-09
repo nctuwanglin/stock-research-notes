@@ -37,6 +37,12 @@ jobs:
         continue-on-error: true
         run: python scripts/update_chips.py
 
+      # 一致性驗證:擋住「同一個數字散落多處卻互相矛盾」的錯誤進到線上。
+      # 目前全站 ERROR 已歸零,故用 --strict 讓 CI 在有 ERROR 時轉紅。
+      # WARN(四情境點等距、停損已觸發等)不阻擋,只在 log 中呈現。
+      - name: Validate dashboard consistency
+        run: python scripts/validate_dashboards.py --strict
+
       - name: Check for changes
         id: diff
         run: |
