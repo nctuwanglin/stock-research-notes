@@ -135,8 +135,10 @@ def check_file(fname, html, meta, close):
 
     # R4 停損 vs 最新收盤
     if stop is not None and close is not None and stop >= close:
-        E('R4-停損高於現價', f'硬停損 {stop:g} ≥ 最新收盤 {close:g},計畫已失效卻仍列出買進階梯'
-                          + (f'(評等仍為 {rating})' if rating == 'buy' else ''))
+        # 這是市場狀態而非撰寫錯誤,且 update_freshness.py 已自動在頁面注入「停損已觸發」提示,
+        # 故列為 WARN——它代表「該頁需要重新分析」,不該讓每日 CI 因股價下跌而轉紅。
+        W('R4-停損已觸發', f'硬停損 {stop:g} ≥ 最新收盤 {close:g},該頁需重新分析'
+                        + (f';評等仍為 {rating}' if rating == 'buy' else ''))
 
     # R5 評等門檻(對應目標價校準規則:偏多≥+10%、觀望≤-10%)
     if js_target and js_price:

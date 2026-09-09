@@ -79,6 +79,29 @@
   .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
   .backhome:hover{color:var(--blue);}
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+/* ==== shared-overrides v1 ==== */
+  /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
+  .stopalert{margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  /* 窄螢幕:表格改為可局部橫捲,避免整頁水平溢出 */
+  @media(max-width:760px){
+    body{padding:14px;}
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card .value{font-size:17px;}
+    h1{font-size:21px;}
+    /* 四情境圖:絕對定位的 nowrap 標籤在窄螢幕必然互相遮疊,改為縱向清單 */
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
 </style>
 </head>
 <body>
