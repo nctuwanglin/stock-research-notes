@@ -177,6 +177,23 @@ def check_file(fname, html, meta, close):
                     lvl('R7-情境圖座標',
                         f"{mk['label']}({mk['text']}) 位置 {mk['left']}% 應為 {exp:.1f}%(差 {mk['left']-exp:+.1f}pp)")
 
+    # R10 三年估值路徑的報酬欄:全站統一用「累積報酬」(中值/分析基準價 − 1)。
+    #     原本表頭寫「年化」但 73/84 列填的其實是累積,且多數列的持有期間根本沒定義。
+    if js_price:
+        sec = re.search(r'<h2>三年估值路徑</h2>\s*<table>(.*?)</table>', html, re.S)
+        if sec:
+            for row in re.findall(r'<tr>(.*?)</tr>', sec.group(1), re.S)[1:]:
+                tds = re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)
+                if len(tds) < 5: continue
+                rng, ret = re.sub(r'<[^>]*>', '', tds[3]), re.sub(r'<[^>]*>', '', tds[4])
+                rm = re.search(r'中值\s*約?\s*([\d,\.]+)', rng)
+                pm = re.search(r'([-+]?\d+(?:\.\d+)?)\s*%', ret)
+                if not (rm and pm): continue
+                cum = (num(rm.group(1)) / js_price - 1) * 100
+                if abs(float(pm.group(1)) - cum) > 2:
+                    E('R10-路徑表報酬', f'該列寫 {pm.group(1)}%,但中值 {rm.group(1)} 對基準價 '
+                                    f'{js_price:g} 的累積報酬為 {cum:+.0f}%')
+
     # R9 標籤平衡:自動填充腳本的取代式多為非貪婪,注入內容若含 </div> 會讓收尾標籤變孤兒,
     #    而且每跑一次多一個,靜默累積。這條規則專門盯這種「重跑才會壞」的問題。
     for tag in ('div', 'table', 'tr', 'span', 'style'):
