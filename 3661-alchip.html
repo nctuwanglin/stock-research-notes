@@ -80,17 +80,22 @@
   .verdictbox .vstop{color:#ff8a80;font-weight:700;}
   .warncard{background:rgba(245,176,65,.10);border:1px solid var(--amber);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
   .warncard b{color:var(--amber);}
-/* ==== shared-overrides v1 ==== */
+/* ==== shared-overrides v2 ==== */
   /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
   .stopalert{margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
     font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
-  /* 窄螢幕:表格改為可局部橫捲,避免整頁水平溢出 */
-  @media(max-width:760px){
-    body{padding:14px;}
+  /* 平板以下:多欄表格改為可局部橫捲,避免撐破整頁 */
+  @media(max-width:900px){
     table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-    .card .value{font-size:17px;}
-    h1{font-size:21px;}
-    /* 四情境圖:絕對定位的 nowrap 標籤在窄螢幕必然互相遮疊,改為縱向清單 */
+    /* 卡片內的長數字串(如 YoY+30.83%)屬不可斷詞,會把 flex 項目撐寬 */
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  /* 手機:縮邊距、四情境圖改縱向清單(絕對定位的 nowrap 標籤在窄螢幕必然互相遮疊) */
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
     .ladder{height:auto;padding:8px 10px;}
     .ladder .scale{display:none;}
     .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
