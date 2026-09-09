@@ -82,7 +82,7 @@
   .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
 /* ==== shared-overrides v2 ==== */
   /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
-  .stopalert{margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
     font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
   /* 平板以下:多欄表格改為可局部橫捲,避免撐破整頁 */
   @media(max-width:900px){
@@ -119,7 +119,7 @@
 
 <div class="verdictbox">
   <div class="vtop"><span class="vtag">本站評等</span><span class="vrate red">觀望</span><span class="vtag">失效價 <span class="vstop">895</span>(收盤跌破即出場)</span></div>
-  <div class="verdict" data-code="5536">現價 <b>862</b> → 目標價 <b>820</b><span class="down"> (-4.9%)</span><div class="stopalert">⚠ 停損已觸發:收盤 862 已跌破失效價 895,左側分批計畫暫停適用,待重新分析後更新</div></div></div>
+  <div class="verdict" data-code="5536">現價 <b>862</b> → 目標價 <b>820</b><span class="down"> (-4.9%)</span><span class="stopalert">⚠ 停損已觸發:收盤 862 已跌破失效價 895,左側分批計畫暫停適用,待重新分析後更新</span></div>
   <div class="vbasis">推導依據:H1 EPS23.73創同期新高,惟7月營收月減18.61%、年增僅3.41%明顯減速,顯示H2動能能否延續H1步調存疑;採較保守的全年推演(約44)×15~20x得約660~880(中值770),另市場流傳目標價750/975兩則對2026E EPS假設分歧(57.26 vs 45.48),不宜平均採信,綜合採目標價820</div>
 </div>
 

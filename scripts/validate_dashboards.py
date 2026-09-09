@@ -177,6 +177,13 @@ def check_file(fname, html, meta, close):
                     lvl('R7-情境圖座標',
                         f"{mk['label']}({mk['text']}) 位置 {mk['left']}% 應為 {exp:.1f}%(差 {mk['left']-exp:+.1f}pp)")
 
+    # R9 標籤平衡:自動填充腳本的取代式多為非貪婪,注入內容若含 </div> 會讓收尾標籤變孤兒,
+    #    而且每跑一次多一個,靜默累積。這條規則專門盯這種「重跑才會壞」的問題。
+    for tag in ('div', 'table', 'tr', 'span', 'style'):
+        o, c2 = html.count(f'<{tag}'), html.count(f'</{tag}>')
+        if o != c2:
+            E('R9-標籤不平衡', f'<{tag}> {o} 個 vs </{tag}> {c2} 個(相差 {o-c2:+d})')
+
     # R8 佔位符不得殘留
     for ph in ('目標價載入中', '籌碼資料更新中', '現價更新中'):
         if ph in html:

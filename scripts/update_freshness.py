@@ -400,8 +400,10 @@ def build_verdict_html(meta, close):
     # 這是會隨股價變動的即時狀態,所以由腳本每日重算,不寫死在 HTML 裡。
     stop = meta.get("stop")
     if stop is not None and close is not None and close <= stop:
-        html += (f'<div class="stopalert">⚠ 停損已觸發:收盤 {prefix}{close:g} 已跌破失效價 '
-                 f'{prefix}{stop:g},左側分批計畫暫停適用,待重新分析後更新</div>')
+        # 用 span 而非 div:fill_dashboard_verdict 的取代式是 `(<div class="verdict"...>).*?(</div>)`,
+        # 非貪婪會停在第一個 </div>。內容裡若含 </div> 會讓原本的收尾標籤變成孤兒,每跑一次多一個。
+        html += (f'<span class="stopalert">⚠ 停損已觸發:收盤 {prefix}{close:g} 已跌破失效價 '
+                 f'{prefix}{stop:g},左側分批計畫暫停適用,待重新分析後更新</span>')
     return html
 
 
