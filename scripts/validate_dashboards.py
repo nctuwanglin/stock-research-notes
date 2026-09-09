@@ -125,7 +125,9 @@ def check_file(fname, html, meta, close):
             allb = len(below) == len(d['batches'])
             msg = '、'.join(f'{b[0]} {b[1]:g}~{b[2]:g}' for b in below)
             if allb:
-                E('R3-批次全低於停損', f'全部 {len(below)} 批都在硬停損 {stop:g} 之下,整份左側計畫無法執行:{msg}')
+                # 若該頁已明確標註「左側計畫暫停適用」,代表是已知且已對讀者揭露的狀態,降為 WARN
+                lvl = W if '左側計畫暫停適用' in html else E
+                lvl('R3-批次全低於停損', f'全部 {len(below)} 批都在硬停損 {stop:g} 之下,整份左側計畫無法執行:{msg}')
             else:
                 E('R3-批次低於停損', f'批次下限低於硬停損 {stop:g}(該區間永遠不會成交):{msg}')
     for i in range(len(d['batches']) - 1):
