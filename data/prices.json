@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-18",
+ "updated": "2026-09-20",
  "errors": [],
  "prices": {
   "1519": {
@@ -69,14 +69,14 @@
    "analysis_date": "2026-09-13"
   },
   "MU": {
-   "close": 977.5,
-   "date": "20260917",
+   "close": 1015.7999877929688,
+   "date": "20260918",
    "analysis_price": 971.66,
    "analysis_date": "2026-08-17"
   },
   "SNDK": {
-   "close": 1614.3900146484375,
-   "date": "20260917",
+   "close": 1791.8199462890625,
+   "date": "20260918",
    "analysis_price": 1641.11,
    "analysis_date": "2026-08-17"
   },
@@ -125,8 +125,8 @@
   "2303": {
    "close": 156.0,
    "date": "20260918",
-   "analysis_price": 143.0,
-   "analysis_date": "2026-09-07"
+   "analysis_price": 156.0,
+   "analysis_date": "2026-09-18"
   },
   "2610": {
    "close": 20.15,
@@ -471,8 +471,8 @@
    "analysis_date": "2026-09-14"
   },
   "SKHY": {
-   "close": 182.99000549316406,
-   "date": "20260917",
+   "close": 187.5,
+   "date": "20260918",
    "analysis_price": 166.33,
    "analysis_date": "2026-08-17"
   },
