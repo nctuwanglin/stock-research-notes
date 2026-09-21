@@ -272,8 +272,9 @@ def load_dispo():
     m = re.search(r'注意累計[^：:]*[：:]\s*<span[^>]*>([^<]+)</span>', html)
     if m:
         attn = set(re.findall(r'(\d{4,6})', m.group(1)))
-    md = re.search(r'自動更新\s*([\d/]+)', html)
-    return dispo, attn, (md.group(1) if md else "")
+    md = re.search(r'(\d{4})[./](\d{1,2})[./](\d{1,2})(?:(?!\d{4}[./]).){0,150}?自動更新', html, re.S)
+    dispo_date = f"{md.group(1)}/{int(md.group(2)):02d}/{int(md.group(3)):02d}" if md else ""
+    return dispo, attn, dispo_date
 
 
 def build_dispo_note(code, dispo, attn, dispo_date):
