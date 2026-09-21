@@ -218,22 +218,22 @@
       "approx": true
     },
     {
-      "date": "2026-09-22",
+      "date": "2026-09-30",
       "code": "MU",
-      "event": "FQ4財報:財測營收$50B±1B、non-GAAP EPS $31±1能否兌現,是驗證近一週漲勢(建立在口頭表態上)能否轉為實際數字支撐的關鍵時點",
+      "event": "Q4 FY2026財報(盤後):財測營收$50.8B、non-GAAP EPS $31.35能否兌現,是驗證超級循環持續性與股價自52週高點$1255拉回後能否重新走高的關鍵時點",
       "approx": false
     },
     {
-      "date": "2026-11-04",
+      "date": "2026-11-05",
       "code": "SNDK",
-      "event": "FQ1 FY2027財報:guidance中值$10.55B營收能否兌現,驗證投資人日設定的FY28~30長期財測是否具備近期執行力",
-      "approx": true
+      "event": "Q1 FY2027財報:guidance營收$10.3~10.8B、EPS $44~46能否兌現,驗證JPMorgan/Bernstein評等調升與S&P 100納入後的正面重估是否有基本面支撐",
+      "approx": false
     },
     {
-      "date": "2026-10-29",
+      "date": "2026-10-27",
       "code": "SKHY",
-      "event": "Q3財報:DRAM出貨guidance(QoQ+10%)能否兌現,驗證Q2 HBM4認列遞延是短期時點問題還是需求疑慮前兆",
-      "approx": true
+      "event": "Q3 2026財報(盤後):DRAM出貨guidance(QoQ+10%)能否兌現,驗證HBM4實質出貨後Vera Rubin約70%訂單份額與54%市佔數字能否延續",
+      "approx": false
     },
     {
       "date": "2026-10-10",

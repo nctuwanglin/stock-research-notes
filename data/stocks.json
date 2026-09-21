@@ -158,29 +158,29 @@
     "name": "美光 Micron",
     "market": "us",
     "file": "MU-micron.html",
-    "analysis_date": "2026-08-17",
-    "analysis_price": 971.66,
+    "analysis_date": "2026-09-18",
+    "analysis_price": 1015.8,
     "tags": [
       "記憶體"
     ],
     "target": 1300,
     "stop": 750,
-    "basis": "FY27E EPS共識$155.56×8x得約$1244;Forward P/E(6.76x)反推隱含遠期EPS約$143.7,方向一致但較保守;綜合自估與Citi下修目標價$1150,採目標價1300",
+    "basis": "FY27E EPS共識約$155×8.5x(記憶體循環中性偏保守倍數)得約$1318;Forward P/E(5.79x,GuruFocus)反推隱含遠期EPS約$175.4,較共識更樂觀;44~49位分析師均值目標價約$1513(S&P Global,2026/09);採相對保守的$1300,主因9/30財報(guidance營收$50.8B/EPS$31.35)尚未驗證,留安全邊際",
     "rating": "buy"
   },
   "SNDK": {
     "name": "SanDisk",
     "market": "us",
     "file": "SNDK-sandisk.html",
-    "analysis_date": "2026-08-17",
-    "analysis_price": 1641.11,
+    "analysis_date": "2026-09-18",
+    "analysis_price": 1791.82,
     "tags": [
       "記憶體"
     ],
-    "target": 1750,
-    "stop": 1150,
-    "basis": "事件後(Q4財報創高+投資人日長期財測)上修評等;Forward P/E(7.64x)反推隱含遠期EPS約$214.8×7~9x得約$1504~1933;Wells Fargo$1550/RBC$1600(投資人日後上修,惟評等仍中性),採目標價1750|【評等校準 2026/08/17】偏多→中性:上檔僅+6.6%,未達偏多門檻(≥+10%);內文估值結論本即為「大致合理」而非「便宜」",
-    "rating": "hold"
+    "target": 2125,
+    "stop": 1400,
+    "basis": "24位分析師均值目標價約$2125(S&P Global,2026/09);Forward P/E(7.55x)反推隱含遠期EPS約$237.3,套用循環保守倍數7~9x得約$1661~$2136(中值$1898);JPMorgan(8/16首予Overweight,$2250)、Bernstein(自$1700上修至$3000,Outperform)為評等層級的實質調升,回應前次分析Wells Fargo/RBC僅上修目標價、評等仍中性的保留意見;9/21納入S&P 100帶來被動資金,評等由中性上修為偏多;CXMT NAND供給威脅仍是長期最大變數",
+    "rating": "buy"
   },
   "2337": {
     "name": "旺宏",
@@ -1115,14 +1115,14 @@
     "name": "SK海力士 SK Hynix",
     "market": "us",
     "file": "SKHY-skhynix.html",
-    "analysis_date": "2026-08-17",
-    "analysis_price": 166.33,
+    "analysis_date": "2026-09-18",
+    "analysis_price": 187.5,
     "tags": [
       "記憶體"
     ],
-    "target": 225,
-    "stop": 140,
-    "basis": "Forward P/E(3.98x)反推隱含遠期EPS約$41.8×5~7x得約$209~293,與13位分析師均值目標價$245.21高度吻合;對均值略打折反映ADR上市未滿6週且Q2營收曾不如預期的執行風險,採目標價225",
+    "target": 250,
+    "stop": 160,
+    "basis": "14位分析師均值目標價$247.31(S&P Global,2026/09);Forward P/E(5.1x,FactSet 2026E)反推隱含FY26E EPS約$36.76,套用HBM龍頭保守倍數5~7x得約$184~$257(中值$220);HBM4已於6月底開始量產出貨予Nvidia,取得Vera Rubin平台約70%訂單份額、2026年市佔約54%,直接驗證前次分析對認列遞延性質的保留;BofA上修目標價至$268進一步佐證,採目標價250,較均值略保守反映ADR仍相對年輕",
     "rating": "buy"
   },
   "3030": {
