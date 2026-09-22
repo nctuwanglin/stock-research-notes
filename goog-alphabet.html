@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alphabet/Google (GOOG) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin-bottom:18px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdictbox .verdict{font-size:15px;margin:4px 0;}
+  .verdictbox .verdict .up{color:var(--red);} .verdictbox .verdict .down{color:var(--green);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  @media(max-width:900px){
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>Alphabet/Google (GOOG) <span class="badge amber">估值:合理</span> <span class="badge amber">結論:中性,觀望</span></h1>
+<div class="sub">美股(NASDAQ)・搜尋廣告+雲端運算+AI|現況估值版|股價截至 2026/09/21 收盤,製表 2026/09/22(美東時間)</div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">$300</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="GOOG">現價 <b>$350.87</b> → 目標價 <b>$377</b><span class="up"> (+7.4%)</span></div>
+  <div class="vbasis">推導依據:FY2027E共識EPS約$14.91(Yahoo/Refinitiv,53位分析師)×24~28x(參考MSFT約25.1x/META約19.7x/AMZN約25x同業區間)得約$358~$418;EV/Sales法(現價隱含約8.4x,對照MSFT10.6x/META6.6x均值約8.6x)反推約$316~$397;兩項高信度法交集約$358~$397,取中值約$377。FY2026核心本益比法(本站推算,Q1/Q2實際核心EPS+Q3/Q4分析師估)與簡化DCF均顯示現價偏貴逾10~40%,但前者屬本站自行推演、後者僅作背景參考,均未採為目標價主錨。街口共識目標價$428(62位分析師,S&P Global,2026/09)高於本站兩高信度法交集上緣,研判係計入更樂觀的2027~2028年EPS路徑與雲端全面再評價,本站採相對保守立場,待10月下旬Q3財報驗證雲端82%成長能否延續再考慮上修。</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$350.87</div><div class="note">2026/09/21收盤,單日+1.88%</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約$4.29兆</div><div class="note">A+B+C三類股本合計約122.3億股</div></div>
+  <div class="card"><div class="label">近 30 天</div><div class="value">$327.74~$359.44</div><div class="note">9/18單日+3%帶動反彈,現價貼近區間上緣</div></div>
+  <div class="card"><div class="label">今年區間</div><div class="value">$236.69~$404.47</div><div class="note">現價距52週高點(5/18)約-13.2%;YTD約+15~16%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約23.5x</div><div class="note">以FY2027E核心EPS $14.91計算;若用FY2026E GAAP共識EPS $20.62(含Anthropic/SpaceX評價增值)僅約17x,已失真</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">$428</div><div class="note">62位分析師均值(S&P Global),Strong Buy,較現價+22.0%</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/22</span><b>Q2財報</b>:營收$119.8B(+24% YoY)優於預期;Google Cloud營收$24.8B(+82% YoY,較Q1的63%再加速),雲端營業利益$8.8B(去年同期僅$2.8B);GAAP EPS達$9.11,主因含Anthropic+SpaceX股權評價增值$99.0B(貢獻約$6.26/股),核心調整後EPS僅$2.85,略低於LSEG共識$2.89;全年資本支出guidance由$180~190B上修至$195~205B。</li>
+  <li><span class="date">2026/04/29</span><b>Q1財報</b>:營收$109.9B(+22% YoY);雲端營收首度突破$20B(+63% YoY),雲端在手訂單(backlog)季增近倍至約$462B;GAAP EPS $5.11(含Waymo評價增值$36.9B),核心EPS $2.76優於共識$2.63。</li>
+  <li><span class="date">2026/09初</span><b>Gemini 3.8 Flash發布</b>:4個月內第4款Flash模型,同時推出鎖定政府與企業客戶的網路安全模型,顯示模型迭代速度加快。</li>
+  <li><span class="date">2026/09初</span><b>反壟斷判決利多</b>:聯邦法官駁回司法部要求Google出售AdX廣告交易平台的訴求,改採行為矯正措施而非結構性拆分,移除長期壓抑股價的重大法律風險之一。</li>
+  <li><span class="date">警訊</span>本業自由現金流在Q2已轉負(-$5.9B),資本支出全年上看$195~205B,能否轉化為對應營收成長仍待驗證;Gemini團隊工程副總裁Noam Shazeer已轉往OpenAI、DeepMind副總裁John Jumper轉往Anthropic,關鍵AI人才流失是較少被討論的風險。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Gemini月活躍用戶已近9.5億(年增近3倍),與ChatGPT的市佔率差距由去年同期11個百分點收斂至僅3個百分點(27.7% vs 不到50%);分析師指出AI並未侵蝕搜尋,反而透過AI Overview提高廣告轉換率。<div class="src">— finance.yahoo.com / invezz.com,2026/09</div></div>
+    <div class="quote">散戶與部分媒體常喊目標價:<b>$450</b>(24/7 Wall St.,預期Q3財報後可能觸及)</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">全年資本支出上修至$195~205B,但Q2自由現金流已轉負為-$5.9B,許多投資人仍不確定巨額AI基礎設施支出能否轉化為足夠的投資報酬率(ROI),股價曾因此創下十餘年來最長月線連跌紀錄。<div class="src">— CNBC / The Motley Fool,2026/07~09</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構</th><th>目標價/評等</th><th>依據</th></tr>
+  <tr><td>S&P Global 共識(62位分析師)</td><td>均值 $428.41,Strong Buy(45 Strong Buy/13 Buy/5 Hold/0 Sell)</td><td>2026/09彙整,較現價+22.0%</td></tr>
+  <tr><td>Yahoo/Refinitiv 共識(53位分析師)</td><td>FY2027E EPS $14.91</td><td>核心EPS共識,作為本站目標價主要錨點之一</td></tr>
+  <tr><td>Wolfe Research</td><td>2027年度「Top Pick」,FY2027E EPS上修至$15.89</td><td>看好雲端成長動能延續,單一分析師估計,列為偏樂觀情境使用</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">內部人交易:查無近期具體申報數字;美股無台股式三大法人買賣超制度,本段落以分析師評等/目標價變化為主要籌碼觀察指標。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+24%</div><div class="note">Q2 2026 YoY,連續12季雙位數成長</div></div>
+  <div class="card"><div class="label">雲端成長</div><div class="value green">+82%</div><div class="note">Q2 2026 YoY,較Q1的63%再加速</div></div>
+  <div class="card"><div class="label">核心EPS成長</div><div class="value green">約+18%</div><div class="note">Q1核心$2.76→Q2核心$2.85,排除一次性股權評價增值後估算</div></div>
+  <div class="card"><div class="label">淨現金部位</div><div class="value">約$121.7B</div><div class="note">現金及有價證券$242.5B - 長期負債約$98.2B+$1.3B信用額度,2026/06/30</div></div>
+  <div class="card"><div class="label">自由現金流</div><div class="value red">-$5.9B</div><div class="note">Q2 2026首度轉負,資本支出達$44.9B(去年同期$22.4B)</div></div>
+  <div class="card"><div class="label">雲端在手訂單</div><div class="value">約$514B</div><div class="note">Q2季增自$460B;逾半數預期24個月內轉為營收</div></div>
+</div>
+
+<h2>同業與相關公司比較</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E</th><th>成長動能</th><th>與Alphabet的差異</th></tr>
+  <tr class="hl"><td>GOOG</td><td>Alphabet/Google</td><td>約23.5x(FY27E)</td><td>營收+24%;雲端+82%</td><td>搜尋現金牛+成長最快的雲端業務組合,唯搜尋業務仍背負反壟斷監管風險</td></tr>
+  <tr><td>MSFT</td><td>Microsoft</td><td>約25.1x</td><td>Azure雲端+39%(CC 38%)</td><td>雲端規模最大、企業軟體黏著度最高,成長率與GOOG雲端相近但基期更大</td></tr>
+  <tr><td>AMZN</td><td>Amazon</td><td>約22~29x(取中值約25x)</td><td>AWS雲端+37%;總營收成長中段班</td><td>零售低毛利拖累整體估值倍數,AWS雲端成長動能與GOOG雲端相近</td></tr>
+  <tr><td>META</td><td>Meta Platforms</td><td>約19.7x</td><td>廣告營收+28%;EPS年減13%(受法務/資遣/資本支出費用拖累)</td><td>純數位廣告曝險最高、無雲端業務分散,同業估值倍數最低</td></tr>
+  <tr><td>AAPL</td><td>Apple</td><td>約32.1x</td><td>硬體為主,AI貨幣化進度落後</td><td>商業模式與GOOG差異最大,僅作大型科技估值天花板參考</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 $350.87 vs 中值</th></tr>
+  <tr><td>FY2026E 核心本益比(本站推算)</td><td>核心EPS $11.97(Q1實際$2.76+Q2實際$2.85+Q3估$3.02+Q4估$3.34,排除一次性股權評價增值)×24~28x同業區間</td><td>$287~$335(推演)</td><td class="red">貴 +12.7%</td></tr>
+  <tr><td>FY2027E 本益比×共識EPS</td><td>共識EPS $14.91(Yahoo,53位分析師)×24~28x(MSFT/META/AMZN區間)</td><td>$358~$418</td><td class="green">便宜 -9.5%</td></tr>
+  <tr><td>簡化DCF</td><td>以FY2027E EPS $14.91為FCF起點,顯性期成長12%/10%/8%,r=9~11%,永續成長g=2~3%;<b>本法未扣資本支出使FCF被高估(偏樂觀方向)</b>,但永續成長僅2~3%又壓低雲端長期成長價值(偏保守方向),目前資本支出爆量期以前者主導淨效果</td><td>$202~$297(推演)</td><td class="red">貴 +40.3%</td></tr>
+  <tr><td>EV/Sales 同業對照</td><td>現價隱含EV/Sales約8.4x;對照MSFT10.6x/META6.6x均值約8.6x,取7.5~9.5x區間套用FY2026E營收$498.55B</td><td>$316~$397</td><td class="amber">合理 -1.6%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四法分歧明顯:立足「已實現」的FY2026核心獲利與簡化DCF看,現價偏貴逾10~40%;但立足「共識預期」的FY2027 EPS與同業EV/Sales看,現價大致合理甚至略便宜。換言之,現價幾乎已完全押注雲端82%成長率能延續到2027年並兌現為獲利——這正是Q3財報(10月下旬)最關鍵的驗證點。DCF雖已用偏樂觀(未扣資本支出)的現金流假設,結果仍低於現價,「貴」的訊號因此更值得留意而非被稀釋。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理(偏向依賴2027年成長兌現)。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">以FY2027共識EPS與同業EV/Sales兩項高信度方法交集($358~$397)衡量,現價$350.87大致落在區間下緣,尚未過度透支;但以FY2026實際核心獲利能力衡量已偏貴逾12%。特殊情況:GAAP EPS因Anthropic(+$99.0B)與Waymo(+$36.9B)兩筆巨額未實現股權評價增值而嚴重失真,若誤用GAAP共識EPS $20.62計算,會得出僅17x的假象式「便宜」本益比,必須改用核心/非GAAP EPS衡量。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value">偏多,略分歧</div><div class="bar"><div style="width:67%;background:var(--green)"></div></div><div class="note">r/wallstreetbets看多分數76(強多);r/stocks中性58分,尚非一面倒過熱</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">Strong Buy</div><div class="note">62位分析師,45 Strong Buy/13 Buy/5 Hold/0 Sell(S&P Global,2026/09)</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">核心EPS $11.97→$14.91</div><div class="note">FY2026(本站推算)→FY2027(共識,53位分析師)</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>核心EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026E</td><td>約$11.97(本站推算,查無官方低高區間)</td><td>24~28x</td><td>$287~$335</td><td class="red">-11.4%(單年)</td></tr>
+  <tr><td>2027E</td><td>低$11.51(Zacks)/中$14.91(Yahoo共識)/高$15.89(Wolfe)</td><td>24~28x</td><td>$276~$445</td><td class="amber">+5.1%/年</td></tr>
+  <tr><td>2028E</td><td>低約$12.1/中約$17.2/高約$19.1(均為推演,延伸2027EPS假設5~20%成長)</td><td>24~28x</td><td>$290~$534(推演)</td><td class="green">+8.3%/年</td></tr>
+</table>
+
+<h2>四種股價情境</h2>
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:18.3%"><div class="lbl">Bear(3~6月)</div><div class="price red">$215~$240</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:45.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">$358~$397</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:61.2%"><div class="lbl">Bull(12~18月)</div><div class="price green">$445~$477</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:82.5%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">$549~$604</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.0%"><div class="arrow">▲</div><div class="price">$350.87</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬</th></tr>
+  <tr><td class="red">Bear</td><td>$215~$240</td><td>Q3財報不如預期或監管再度升溫,FY2026核心EPS $11.97×壓縮至18~20x(低於META的19.7x下緣)</td><td class="red">約-32%~-39%</td></tr>
+  <tr><td class="amber">Base</td><td>$358~$397</td><td>FY2027共識EPS $14.91×24~28x,與EV/Sales法交集區間一致</td><td>約+2%~+13%</td></tr>
+  <tr><td class="green">Bull</td><td>$445~$477</td><td>FY2027 EPS上修至Wolfe的$15.89×28~30x,反壟斷疑慮完全解除、雲端動能全面反映的溢價倍數</td><td class="green">約+27%~+36%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$549~$604(推演)</td><td>2028E EPS延伸估算約$18.3(假設較2027年再成長15~20%)×30~33x,AI基礎設施領導地位全面重新評價</td><td class="green">約+57%~+72%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$335~340</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$315~320</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">$300~305</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$300</b> = 現價所隱含的雲端82%成長與TPU資本支出報酬邏輯被市場推翻(接近FY2026核心本益比法下緣$287與EV/Sales法下緣$316之間),無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站上52週高點$404.47且成交量放大,或Q3財報(約10/27~28)後站穩前高不破<br>
+    進場區:<b class="green">$405~415</b><br>
+    移動停利:跌破20日均線或自高點回落8%<br>
+    假突破失效:觸發後5個交易日內跌破$400即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$390</div><div class="note">賣出 25~50%;接近Base情境上緣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$445</div><div class="note">接近Bull情境下緣</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:最近上漲的真正原因是Gemini 3.8 Flash等模型連發、AdX反壟斷訴訟改採行為矯正而非拆分的有利判決,以及雲端82%成長帶動的動能重燃;但較少被討論的是,Q1+Q2合計逾$135B的GAAP獲利主要來自Anthropic與SpaceX的未實現股權評價增值,而非本業現金流——本業自由現金流在Q2已轉為負值。</div>
+<div class="concl">② <b>估值</b>:如果你相信雲端82%成長與Gemini份額提升能延續到2027年,那麼以共識EPS與同業EV/Sales衡量,現價相較同業大致合理;但若只用2026年已實現的核心獲利或簡化DCF衡量,現價偏貴逾10~40%,顯示估值幾乎已完全押注在尚未兌現的雲端加速成長上。</div>
+<div class="concl">③ <b>結論</b>:這是一筆建議中性觀望、等Q3財報驗證或回檔至左側批次再進場的部位,原因是本站目標價$377僅較現價高7.4%,未達偏多門檻(+10%),且10月下旬Q3財報是雲端82%成長能否延續、資本支出能否轉化為對應報酬的關鍵驗證點。</div>
+
+<footer>
+資料時間:股價與市值 2026/09/21收盤;Q2財報數字 2026/07/22;Q1財報數字 2026/04/29;分析師共識與目標價 2026/09;製表 2026/09/22。<br>
+主要來源:
+<a href="https://stockanalysis.com/stocks/GOOG/" target="_blank" rel="noopener">stockanalysis.com GOOG現價/市值/52週區間</a>、
+<a href="https://stockanalysis.com/stocks/googl/forecast/" target="_blank" rel="noopener">stockanalysis.com GOOGL分析師共識目標價</a>、
+<a href="https://finance.yahoo.com/quote/GOOGL/analysis/" target="_blank" rel="noopener">Yahoo Finance GOOGL EPS/營收估計趨勢</a>、
+<a href="https://www.cnbc.com/2026/07/22/google-earnings-q2-goog-live-updates.html" target="_blank" rel="noopener">CNBC Q2 2026財報報導</a>、
+<a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm" target="_blank" rel="noopener">Alphabet Q2 2026財報新聞稿(SEC)</a>、
+<a href="https://finance.yahoo.com/technology/ai/articles/anthropic-spacex-just-handed-google-232430471.html" target="_blank" rel="noopener">Anthropic/SpaceX評價增值$99B報導</a>、
+<a href="https://www.bloomberg.com/news/articles/2026-07-22/google-says-cloud-services-backlog-expands-to-514-billion" target="_blank" rel="noopener">Bloomberg雲端在手訂單$514B報導</a>、
+<a href="https://www.cnbc.com/2026/09/02/google-starts-september-with-ai-momentum-after-long-losing-streak.html" target="_blank" rel="noopener">CNBC Gemini 3.8 Flash與反壟斷判決報導</a>、
+<a href="https://www.fool.com/investing/2026/09/10/alphabet-stock-down-september-month-buy-dip/" target="_blank" rel="noopener">The Motley Fool 股價/情緒報導</a>、
+<a href="https://www.financecharts.com/stocks/META/value/pe-ratio" target="_blank" rel="noopener">financecharts.com META/AAPL本益比</a>、
+<a href="https://multiples.vc/public-comps/microsoft-valuation-multiples" target="_blank" rel="noopener">multiples.vc 同業EV/Sales倍數</a>。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Platforms (META) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .event{background:linear-gradient(135deg,#2a1e45,#1b1830);border:1px solid var(--purple);border-radius:12px;padding:16px;margin-bottom:8px;}
+  .event h3{color:var(--purple);font-size:15px;margin-bottom:8px;}
+  .event .flow{font-size:13.5px;line-height:1.9;}
+  .event .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+/* ==== shared-overrides v3 ==== */
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  @media(max-width:900px){
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>Meta Platforms (META) <span class="badge amber">估值:合理(以2027年獲利力計具吸引力,2026財年計略偏貴)</span> <span class="badge amber">結論:中性</span></h1>
+<div class="sub">美股(NASDAQ: META)・社群媒體/數位廣告/AI代理人|事件後估值版(Muse AI代理人發布+Wells Fargo乘數上修,Meta Connect前夕)|股價截至 2026/09/21 收盤,製表 2026/09/22(美東時間)</div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">$640</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="META">現價 <b>$741.25</b> → 目標價 <b>$780</b><span class="up"> (+5.2%)</span></div>
+  <div class="vbasis">推導依據:目標價$780落在兩個高信度區間內——2026E共識EPS $31.20套用18~26x得$561.6~$811.2,2027E共識EPS $34.96套用20~28x(Wells Fargo已用25x)得$699.2~$979.0,同時貼近62位分析師均值$757.36與中位數$750(2026/09,Strong Buy)。簡化DCF($419~$622,推演,以EPS近似FCF、未扣2026年$130~145B資本支出高峰,結果本應偏樂觀)與EV/Sales同業對照(推演,$618~$798)兩項低信度方法方向不一,分別指向明顯偏貴與大致合理,不足以單獨支撐更高目標價。9/8 Muse發布與9/21 Wells Fargo乘數上修(20x→25x)驅動單日+11.43%,但TTM EPS實際年減3.75%(受Q2 $2.40B法律費用與Q3即將認列的$10B兒少安全和解金侵蝕),顯示這波漲勢主要是乘數重估而非獲利上修,故採中性而非偏多;10/28 Q3財報與9/23~24 Meta Connect後續動能是下一驗證點。</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$741.25</div><div class="note">2026/09/21收盤 +11.43%(單日,13個月最大漲幅);近30天+34.8%(8/21 $549.90)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約$1.89兆</div><div class="note">2026/09/21</div></div>
+  <div class="card"><div class="label">TTM EPS</div><div class="value red">$26.54</div><div class="note">TTM P/E約27.93x;EPS年減3.75%(受法律費用侵蝕)</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">23.05x</div><div class="note">NTM;事件前(9/18前)約19x;2026E EPS$31.20→23.75x,2027E$34.96→21.2x</div></div>
+  <div class="card"><div class="label">52週區間</div><div class="value">$520.26~$785.73</div><div class="note">現價距52週高點約-5.7%</div></div>
+  <div class="card"><div class="label">下次財報</div><div class="value amber">2026/10/28</div><div class="note">Q3 2026,將認列$10B兒少安全和解金法律費用</div></div>
+</div>
+
+<h2>⓪ 事件影響分析:Muse AI代理人發布 + Wells Fargo乘數上修(Meta Connect前夕)</h2>
+<div class="event">
+  <h3>事件摘要</h3>
+  <div class="flow">2026/09/08|Meta Superintelligence Labs(Alexandr Wang領軍)發布個人AI代理人「Muse」,免費版+Power(每月$20)/Maximum(每月$100)兩付費層級,美國限定,涵蓋iOS/Android/網頁/WhatsApp;上線6天下載逾90萬次,登頂App Store免費榜|股價當日反應:+6%。<br>2026/09/21|Wells Fargo維持Overweight評等,將目標價自$640上修至$796,理由是Muse Spark 1.3整合後每日AI助理用戶數+60%,並將估值乘數自2027E EPS的20x拉高至25x,發布時點緊接在Meta Connect(9/23~24)前夕|股價當日反應:+11.43%至$741.25收盤,創約13個月最大單日漲幅。</div>
+</div>
+<div class="event">
+  <h3>影響傳導路徑</h3>
+  <div class="flow">Muse上線並取得早期使用率成長 → <b>分析師調升目標本益比乘數</b>(Wells Fargo 2027E P/E自20x→25x)而非上修獲利預估(Wells Fargo同時因$10B Q3法律費用下修2026年營業利益預估12%) → 股價透過<b>乘數重估</b>而非EPS上修完成單日+11.43%的重新定價 → 量化幅度:Muse本身對訂閱/代理商務營收的具體貢獻,Meta官方與街上分析師均尚未量化,市場尚未量化。</div>
+</div>
+<table>
+  <tr><th>指標</th><th>事件前(9/18收盤前後)</th><th>事件後(9/21收盤)</th><th>變化</th></tr>
+  <tr><td>股價</td><td>$665.23(9/18收盤)</td><td>$741.25</td><td class="green">+11.4%(累計,含9/8 Muse發布當日+6%)</td></tr>
+  <tr><td>Wells Fargo目標價</td><td>$640</td><td>$796</td><td class="green">+24.4%</td></tr>
+  <tr><td>Forward P/E(NTM)</td><td>約19x</td><td>23.05x</td><td class="red">乘數擴張,非獲利上修</td></tr>
+</table>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/29</span><b class="amber">Q2 2026財報營收優於預期,但獲利大幅遜於預期</b>:營收$60.80B(超共識$60.17B,YoY+28%,廣告營收+27%);GAAP稀釋EPS $6.18,遠遜共識$7.22,主因Q2認列$2.40B法律費用與$1.18B資遣費(對應約8,000人裁員);營業利益$18.8B(年減8%,若排除一次性費用則年增9%);自由現金流驟降至僅$784M。財報公布後股價下跌。</li>
+  <li><span class="date">2026/08/26</span><b class="amber">與加州等多州就兒少社群媒體成癮訴訟達成和解</b>:總金額最高$18B(約$16.7B已初步達成,分10年支付),涉及COPPA相關兒少隱私與成癮設計爭議;公司宣布將於Q3認列$10B法律費用準備金。</li>
+  <li><span class="date">2026/09/02</span>分析師觀點:和解「掃清了新一代AI產品的發展障礙」,降低訴訟不確定性對Muse等新產品發布時程的干擾。</li>
+  <li><span class="date">2026/09/08</span><b class="green">發布個人AI代理人Muse</b>:出自Meta Superintelligence Labs,可開瀏覽器、填表單、寄信、訂購與付款,關閉App後仍可背景執行;免費+Power($20/月)+Maximum($100/月)兩付費層級,美國限定,涵蓋iOS/Android/網頁(muse.ai)/WhatsApp,AI眼鏡版本「即將推出」。上線6天下載逾90萬次,登頂美國App Store與Google Play免費榜。股價當日+6%。</li>
+  <li><span class="date">2026/09/21</span><b class="green">Wells Fargo將目標價自$640上修至$796</b>(維持Overweight):引用Muse Spark 1.3整合後每日AI助理用戶數+60%,估值乘數自2027E EPS的20x拉高至25x;同時因$10B Q3法律費用,將2026年營業利益預估下修12%。發布時點緊接Meta Connect(9/23~24)前夕。股價單日+11.43%收$741.25,創約13個月最大單日漲幅。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①本次乘數重估發生在<b>TTM EPS實際年減3.75%</b>、且2026年共識EPS年增僅+5.1%的背景下,與27.65%的TTM營收成長明顯背離,顯示短期獲利成長被一次性法律費用嚴重稀釋,股價漲幅主要來自「市場願意多付的本益比」而非「兌現的獲利」;②2026年資本支出guide已上修至$130~145B(2025年僅$72B),TTM資本支出已達$89.3B,自由現金流Q2僅$784M,AI基礎建設投資的實際投資報酬率尚待驗證;③散戶社群討論量(StockTwits/Reddit提及數)近期同步下滑,與華爾街分析師的樂觀形成「機構熱、散戶冷」的分歧,需留意這是健康的分歧還是散戶提前看穿乘數重估的脆弱性;④Meta Connect(9/23~24)本身是尚未發生的事件,目前股價已提前計入大量利多預期,若會中Muse使用率或AI模型進展不如預期,乘數重估存在同等幅度反向修正的風險。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">Muse上線6天下載即突破90萬次,登頂美國App Store與Google Play免費榜,顯示Meta在「代理式AI」(agentic AI)消費端採用率上罕見地取得早期領先,搭配Meta Connect將進一步驗證AI模型進展。<div class="src">— 9to5Mac、TechCrunch報導彙整,2026/09/08~17</div></div>
+    <div class="quote">散戶社群常喊目標價集中在<b>$800~$900</b>區間,略高於機構均值$757.36與Wells Fargo最新目標價$796,顯示部分散戶對Muse商業化速度的樂觀程度甚至超過機構。</div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">本次股價重估幾乎全部來自本益比乘數擴張(Wells Fargo將2027E乘數自20x拉高至25x),而非獲利預估上修——該行同時因$10B法律費用將2026年營業利益預估下修12%,顯示「故事」跑在「數字」前面。<div class="src">— 本儀表板觀察,綜合Wells Fargo/Investing.com報導,2026/09/21</div></div>
+    <div class="quote">有報導指出Amazon正採取行動限制Muse在其平台上的部分整合,顯示大型平台之間對「代理式AI」的競爭與封鎖風險才剛開始浮現。<div class="src">— StockTwits新聞彙整,2026/09</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>62位分析師共識(StockAnalysis,2026/09)</td><td class="green">均值$757.36、中位數$750(區間$580~$1,000)</td><td>Strong Buy,隱含現價上檔約+2.2%(均值)</td></tr>
+  <tr><td>Wells Fargo</td><td class="green">$796(自$640上修,2026/09/21)</td><td>Overweight;2027E EPS套用25x(自20x拉高),同時因$10B法律費用下修2026年營業利益預估12%</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">2026E共識EPS $31.20(YoY+5.1%,反映Q3 $10B法律費用侵蝕);2027E共識EPS $34.96(YoY+12.1%,獲利成長動能回升);2028E共識未公開揭露(訂閱制/Pro內容鎖定)。內部人交易:查無近期精確申報數字。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長(TTM)</div><div class="value green">+27.65%</div><div class="note">TTM營收$228.25B</div></div>
+  <div class="card"><div class="label">EPS成長(TTM)</div><div class="value red">-3.75%</div><div class="note">受Q2 $2.40B法律費用侵蝕;2026E共識僅+5.1%</div></div>
+  <div class="card"><div class="label">毛利率/營業利益率</div><div class="value green">81.75% / 38.08%</div><div class="note">TTM;FY2025營業利益率41.44%,略高於TTM(反映法律費用侵蝕)</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value">$90.26B</div><div class="note">現金+短期投資;總負債$112.32B,淨負債約$22.06B(TTM,較FY2025淨負債$3.49B明顯擴大)</div></div>
+  <div class="card"><div class="label">股本稀釋</div><div class="value amber">+0.71%(YoY)</div><div class="note">流通股數2,548M(TTM)vs 2,530M(FY2025),小幅稀釋而非庫藏股淨減少</div></div>
+  <div class="card"><div class="label">2026年資本支出guide</div><div class="value red">$130~145B</div><div class="note">較FY2025的$72B大幅躍升;TTM資本支出已達$89.3B</div></div>
+</div>
+
+<h2>同業與相關公司比較</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E</th><th>成長動能</th><th>與Meta的差異</th></tr>
+  <tr class="hl"><td>META</td><td>Meta Platforms</td><td>23.05x(NTM)</td><td>TTM營收+27.7%,TTM EPS-3.75%(法律費用干擾)</td><td>核心廣告龍頭正加碼押注agentic AI(Muse)與AI基礎建設,五者中資本支出強度最高</td></tr>
+  <tr><td>GOOGL</td><td>Alphabet</td><td>16.86x~26.52x(資料源不一,以區間呈現)</td><td>TTM營收+20.1%,淨利率54.8%</td><td>搜尋+雲端+YouTube多元營收結構,獲利品質優於Meta,但廣告成長動能略低於Meta</td></tr>
+  <tr><td>AMZN</td><td>Amazon</td><td>28.08x</td><td>TTM營收+15.8%,淨利率17.4%</td><td>Amazon Ads規模較小但成長快,AWS雲端資本支出邏輯可與Meta AI基建對照,核心仍是電商</td></tr>
+  <tr><td>RDDT</td><td>Reddit</td><td>26.30x</td><td>TTM營收+66.6%,市值僅$30.5B</td><td>社群內容/廣告模式與Meta相近,但規模小兩個數量級,屬高成長小型對照組</td></tr>
+  <tr><td>SNAP</td><td>Snap</td><td>7.94x(仍虧損,P/E僅供參考)</td><td>TTM營收+12.6%,淨利為負</td><td>同為社群廣告但成長明顯放緩且未轉盈,市場給予深度折價,凸顯Meta規模與獲利能力的護城河</td></tr>
+  <tr><td>PINS</td><td>Pinterest</td><td>8.90x</td><td>TTM營收+16.6%,淨利率僅5.5%</td><td>電商導向社群廣告,獲利品質薄弱,估值遠低於Meta,反映市場對其成長天花板的疑慮</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價$741.25 vs 中值</th></tr>
+  <tr><td>2026E P/E×共識EPS</td><td>共識EPS $31.20(YoY+5.1%,反映Q3 $10B法律費用侵蝕),套用18~26x(現況NTM 23.05x基礎上,反映事件後樂觀但尚未驗證)</td><td>$561.6~$811.2(中值約$686)</td><td class="red">貴 +8.1%</td></tr>
+  <tr><td>2027E P/E×共識EPS</td><td>共識EPS $34.96(YoY+12.1%,獲利成長動能回升,法律費用干擾淡出),套用20~28x(Wells Fargo已採25x)</td><td>$699.2~$979.0(中值約$839.1)</td><td class="green">便宜 -11.7%</td></tr>
+  <tr><td>簡化DCF(r9~11%/g2~3%)</td><td>以2026~2028E共識/推演EPS近似FCF,3年顯性期+永續成長;<b>未扣除2026年$130~145B資本支出高峰,現金流被顯著高估,結果本應偏樂觀</b>;同時永續成長僅2~3%對Muse長期變現潛力可能低估,惟本次capex規模創歷史新高,樂觀偏誤預期主導淨效果</td><td>$419~$622(推演)</td><td class="red">貴 +42.4%</td></tr>
+  <tr><td>EV/Sales同業對照</td><td>Meta現況EV/Sales約8.38x(EV≈$1,912B/TTM營收$228.25B),對照Alphabet P/S約9.73x(惟Alphabet淨利率54.8%遠高於Meta 29.8%,不完全可比,僅供方向參考)</td><td>$618~$798(推演)</td><td class="amber">合理 +4.7%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法分歧明顯,關鍵在時間視角:以2026現行財年獲利力衡量,現價偏貴+8.1%,反映市場已為Muse/Connect故事線提前買單,而2026年EPS實際僅共識年增5.1%(TTM更年減3.75%),獲利尚未跟上乘數重估的速度;但以2027年獲利力衡量(與Wells Fargo同一方法),現價反而便宜-11.7%,顯示只要2027年營收與獲利成長如期兌現,目前價位仍留有空間。簡化DCF即便用了偏樂觀的假設(未扣資本支出),結果仍顯示現價貴逾40%,是四法中最悲觀的訊號,強化「近期偏貴」而非反向支持;EV/Sales同業對照(推演)則落在合理區間。本站以2027E P/E法為主要錨點(對應12個月目標價的時間視角),但因2026年獲利品質偏弱與DCF的悲觀訊號,採中性評等,目標價收斂在2027E區間下段、貼近分析師共識均值,而非區間中高段。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理,略偏中性(以2026現行財年計偏貴+8.1%;以2027年獲利力計則具吸引力-11.7%)。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">Meta的Forward P/E(NTM 23.05x)高於Alphabet(16.86x~26.52x視資料源)但低於Amazon(28.08x)與Reddit(26.30x),在五者比較中並非最貴亦非最便宜。真正需要留意的特殊情況是PEG異常:TTM EPS實際年減3.75%,與27.65%的TTM營收成長明顯背離——表面本益比不算誇張,但短期獲利成長被Q2 $2.40B與即將於Q3認列的$10B法律費用嚴重稀釋,須等法律費用完全反映後(約2027年)才能看到乾淨的獲利成長率。此外2026年資本支出guide($130~145B)較2025年($72B)近乎翻倍,自由現金流Q2僅$784M,AI基礎建設的投資報酬率仍待多個季度驗證,這是本輪乘數重估最大的不確定性來源。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">機構熱、散戶冷(分歧)</div><div class="bar"><div style="width:50%;background:var(--amber)"></div></div><div class="note">StockTwits情緒偏空、日均提及數較3個月前降26%;Reddit情緒中性53/100、日均提及數降28%;與華爾街的Strong Buy形成明顯分歧</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">Strong Buy,均值$757.36</div><div class="note">62位分析師;Wells Fargo $796(自$640上修,2026/09/21);中位數$750,區間$580~$1,000</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">$26.54(TTM,年減3.75%)→$31.20(2026E)→$34.96(2027E)</div><div class="note">10/28 Q3財報(含$10B法律費用認列)為下一個驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含報酬(累積)</th></tr>
+  <tr><td>2026(現行年度,查無精確低高區間,中值$31.20)</td><td>查無精確區間;共識中值$31.20</td><td>18~26x</td><td>$561.6~$811.2(中值約$686)</td><td class="red">約 -7.5%</td></tr>
+  <tr><td>2027(+1年)</td><td>查無精確區間;共識中值$34.96</td><td>20~28x</td><td>$699.2~$979.0(中值約$839.1)</td><td class="green">約 +13.2%</td></tr>
+  <tr><td>2028(+2年,推演)</td><td style="color:var(--muted)">查無共識(訂閱制鎖定);以2027年成長率放緩至+16%推估約$40.6(推演)</td><td>18~24x</td><td>$730.8~$974.4(中值約$852.6,推演)</td><td class="green">約 +15.0%</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026、2027為StockAnalysis多分析師共識,信度較高;2028因分析師覆蓋未完整揭露(部分鎖定訂閱內容),以2027成長率放緩估算,標註「推演」並降低權重使用。累積報酬 =(價位區間中值/現價$741.25)-1。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 500~1100;left% = (價格-500)/600×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:17.8%"><div class="lbl">Bear(3~6月)</div><div class="price red">$560~$620</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:40.8%"><div class="lbl">Base(6~12月)</div><div class="price amber">$700~$780</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:65.3%"><div class="lbl">Bull(12~18月)</div><div class="price green">$850~$950</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:88.3%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">$1,000~$1,100</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:41.0%"><div class="arrow">▲</div><div class="price">$741.25</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>$560~$620</td><td>10/28 Q3財報獲利遜於預期或Meta Connect(9/23~24)未能延續Muse熱度,乘數回吐至2026E P/E 18~20x,重回9/18事件前價位甚至更低</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>$700~$780</td><td>Q3財報符合guide(含$10B法律費用如期認列),Muse維持穩定但非爆發式成長,2026E P/E維持18~26x區間,現價落於此區間內</td><td>約 -0.5%</td></tr>
+  <tr><td class="green">Bull</td><td>$850~$950</td><td>Muse付費轉換率與DAU持續攀升,2027年營收/獲利成長重新加速,2027E共識EPS $34.96套用24~27x,貼近分析師高端目標價區域</td><td class="green">約 +21.5%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$1,000~$1,100</td><td>代理式AI(agentic commerce)成為Meta新的營收支柱,疊加廣告核心業務維持高個位數~兩位數成長,估值倍數維持或進一步擴張,貼近分析師目標價高端$1,000</td><td class="green">約 +41.6%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$700~$715</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$670~$690</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">$640~$660</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$640</b>(跌破9/18事件前收盤價$665.23下方支撐)= Muse/AI代理人與Meta Connect驅動的乘數重估故事確認失敗,市場重新以未計入AI溢價的基期評價,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤突破52週高點$785.73+成交量放大確認,且Meta Connect(9/23~24)後續消息面正向<br>
+    進場區:<b class="green">$788~$805</b><br>
+    移動停利:跌破20日均線或高點回檔10%<br>
+    假突破失效:觸發後5個交易日內跌回$770以下即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$850~$900</div><div class="note">賣出25~40%;Bull區下緣,2027E獲利力已大致反映,可分批獲利了結</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$1,000~$1,100</div><div class="note">Stretched區;續抱條件是Muse付費轉換與代理式商務實際貢獻營收、獲多個季度財報驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">⓪ <b>事件影響</b>:9/8發布個人AI代理人Muse(上線6天下載逾90萬、登頂App Store免費榜),9/21 Wells Fargo將目標價自$640上修至$796(2027E乘數20x→25x),股價單日+11.43%至$741.25,創13個月最大單日漲幅,惟同一份報告同步因$10B Q3法律費用下修2026年營業利益預估12%,顯示這波是乘數重估而非獲利上修,尚待9/23~24 Meta Connect與10/28 Q3財報驗證。</div>
+<div class="concl">① <b>催化劑</b>:Q2財報營收優於預期(+28%)但GAAP EPS遠遜共識(受$2.40B法律費用與$1.18B資遣費拖累),8/26與多州就兒少社群媒體成癮達成最高$18B和解(Q3將認列$10B準備金),9/8 Muse發布疊加9/21分析師乘數上修帶動股價急拉,但TTM EPS實際年減3.75%與27.65%的營收成長明顯背離,是市場容易忽略的獲利品質警訊。</div>
+<div class="concl">② <b>估值</b>:合理,略偏中性——以2026現行財年P/E衡量現價偏貴+8.1%,反映市場已為Muse/Connect故事線提前買單;但以2027年獲利力衡量(與Wells Fargo同一方法)現價便宜-11.7%,顯示只要明年獲利成長如期兌現、法律費用干擾淡出,目前價位仍有空間;簡化DCF即便用偏樂觀假設仍測出現價貴逾40%,是四法中最悲觀的訊號。</div>
+<div class="concl">③ <b>結論</b>:中性——現價$741.25落於Base區間內,目標價$780對應上檔僅+5.2%,未達+10%偏多門檻,主因2026年獲利品質偏弱($10B法律費用+資本支出高峰壓縮自由現金流)與Meta Connect事件本身仍是尚未發生的雙向風險;可左側分批布局待回檔至$640~$715或等待突破52週高點$785.73右側進場,收盤跌破$640(9/18事件前基期支撐)即代表AI代理人乘數重估故事確認失敗,無條件出場。</div>
+
+<footer>
+資料時間:股價/市值/52週區間/TTM財務指標(<a href="https://stockanalysis.com/stocks/meta/" target="_blank" rel="noopener">stockanalysis.com</a>,2026/09/21收盤,美東時間);分析師共識與EPS估值(<a href="https://stockanalysis.com/stocks/meta/forecast/" target="_blank" rel="noopener">stockanalysis.com/forecast</a>,2026/09);毛利率/營業利益率/EPS成長/資本支出(<a href="https://stockanalysis.com/stocks/meta/financials/" target="_blank" rel="noopener">stockanalysis.com/financials</a>,TTM);現金/負債/流通股數(<a href="https://stockanalysis.com/stocks/meta/financials/balance-sheet/" target="_blank" rel="noopener">stockanalysis.com/balance-sheet</a>,TTM);近30天股價(<a href="https://stockanalysis.com/stocks/meta/history/" target="_blank" rel="noopener">stockanalysis.com/history</a>);Q2 2026財報(<a href="https://www.cnbc.com/2026/07/29/meta-q2-earnings-report-2026.html" target="_blank" rel="noopener">CNBC</a>,2026/07/29);$18B兒少安全和解案(<a href="https://www.cnbc.com/2026/08/26/meta-social-media-trial-settlement.html" target="_blank" rel="noopener">CNBC</a>,2026/08/26;<a href="https://www.cnbc.com/2026/09/02/meta-18-billion-settlement-ai-products.html" target="_blank" rel="noopener">CNBC後續分析</a>,2026/09/02);Muse發布(<a href="https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/" target="_blank" rel="noopener">Meta官方新聞稿</a>、<a href="https://techcrunch.com/2026/09/08/meta-debuts-its-muse-ai-agent-will-consumers-trust-it/" target="_blank" rel="noopener">TechCrunch</a>,2026/09/08;<a href="https://9to5mac.com/2026/09/17/meta-ai-launches-muse-personal-agent-including-a-new-mobile-app-for-iphone/" target="_blank" rel="noopener">9to5Mac</a>,2026/09/17);Wells Fargo目標價上修(<a href="https://www.investing.com/news/analyst-ratings/wells-fargo-raises-meta-stock-price-target-to-796-on-ai-progress-93CH-4908756" target="_blank" rel="noopener">Investing.com</a>、<a href="https://247wallst.com/investing/2026/09/21/meta-spikes-7-as-wells-fargo-lifts-price-target-to-796-ahead-of-connect-alphabet-nudges-higher-microsoft-holds-flat/" target="_blank" rel="noopener">24/7 Wall St.</a>,2026/09/21);2026年資本支出guide(<a href="https://www.datacenterdynamics.com/en/news/meta-estimates-2026-capex-to-be-between-115-135bn/" target="_blank" rel="noopener">DataCenterDynamics</a>、<a href="https://fortune.com/2026/04/29/meta-zuckerberg-145-billion-ai-spending-roi/" target="_blank" rel="noopener">Fortune</a>,2026年);散戶情緒(<a href="https://altindex.com/ticker/meta/reddit-mentions" target="_blank" rel="noopener">AltIndex Reddit</a>、<a href="https://altindex.com/ticker/meta/stocktwits-mentions" target="_blank" rel="noopener">AltIndex StockTwits</a>,2026/09;<a href="https://stocktwits.com/news-articles/markets/equity/meta-heads-into-connect-with-fresh-wells-fargo-bull-case-as-muse-gains-traction-analyst-says-company-now-has-a-story-to-tell/cZMRimZRB4x" target="_blank" rel="noopener">StockTwits</a>,2026/09/21);同業比較數據(GOOGL/AMZN/RDDT/SNAP/PINS,均取自stockanalysis.com各股統計頁,2026/09)。「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+主要來源:stockanalysis.com、CNBC、Meta官方新聞稿(about.fb.com)、TechCrunch、9to5Mac、Investing.com、24/7 Wall St.、DataCenterDynamics、Fortune、AltIndex、StockTwits。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

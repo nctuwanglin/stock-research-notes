@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亞馬遜 Amazon (AMZN) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14px;margin:14px 0 8px;color:var(--text);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .flow{font-size:13.5px;line-height:1.9;background:var(--card2);border-radius:8px;padding:10px 12px;margin-bottom:8px;}
+  .flow b{color:var(--amber);}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+/* ==== shared-overrides v3 ==== */
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  @media(max-width:900px){
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>亞馬遜 Amazon (AMZN) <span class="badge amber">估值:多空分歧,高信度分析師共識隱含便宜但雲端同業P/E與DCF顯示偏貴</span> <span class="badge green">結論:偏多</span></h1>
+<div class="sub">美股(NASDAQ: AMZN)・電商零售+雲端運算(AWS)+數位廣告|現況估值版(首次分析)|股價截至 2026/09/21 收盤,製表 2026/09/22(美東時間)</div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate green">偏多</span><span class="vtag">失效價 <span class="vstop">$215</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="AMZN">現價 <b>$258.45</b> → 目標價 <b>$328</b><span class="up"> (+26.9%)</span></div>
+  <div class="vbasis">推導依據:目標價$328採自60位分析師共識均值$328.22(S&P Global,2026/09;另一機構彙整口徑為15檔Strong Buy/44檔Buy/2檔Hold、零賣出評等,買進比重97%),屬本次交叉檢核中信度最高、樣本數最大且最貼近當下的方法,現價對此區間隱含約-21.9%的折價。惟同業P/E對照與簡化DCF兩項推演方法方向分歧:以MSFT/GOOGL兩大雲端同業均值22.5x本益比對照,現價較中值貴約7.4%;簡化DCF(以共識EPS作FCF代理,未扣資本支出,對亞馬遜偏樂觀效果格外顯著,因2026年資本支出達營收約27%)算出中值僅$174,較現價低48.6%。本站以分析師共識為主要錨點,但將目標價定在區間低端$328(而非中位數更高值),並把失效價設在$215、對應AWS成長顯著放緩或資本支出/自由現金流惡化超預期時的技術性支撐,以反映結構性估值方法透露的疑慮。2026/10/29(約,尚未經官方正式公告)Q3財報為下一驗證點。</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$258.45</div><div class="note">2026/09/21收盤(美東)+1.87%;近30天約$253~$284(8/3創高$284.02後拉回,9/20~21連2日反彈)</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約$2.79兆</div><div class="note">以09/18市值$2.736兆(2.736e12/253.71股價反推股數約107.8億股)等比例調整至09/21收盤價估算</div></div>
+  <div class="card"><div class="label">52週區間</div><div class="value">$196.00~$287.20</div><div class="note">現價距52週高點約-10.0%,距52週低點約+31.9%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約24.2x</div><div class="note">2026E共識EPS約$10.70(區間$8.82~$14.19,來源分歧大);不同資料源Forward P/E介於20.1x~28.8x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">均值$328.22</div><div class="note">60位分析師(S&P Global,2026/09);距現價+26.9%(高信度錨點,本站採$328,詳見上方)</div></div>
+  <div class="card"><div class="label">下次財報</div><div class="value amber">2026/10/29(約)</div><div class="note">Q3 2026,市場預估EPS約$1.955、營收約$202.14B;日期尚未經官方正式公告</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼近期股價能持續反彈?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/30</span><b class="green">Q2 2026財報全面超預期</b>:總營收$200.6B(YoY+20%,首度單季突破$200B),營業利益$27.5B(YoY+43%,去年同期$19.2B);AWS營收$42.2B(YoY+37%,18季來最快,遠優於分析師共識+31%,年化營收run rate達$169B);廣告服務營收$19.8B(YoY+26%);北美區域營收$116.2B(+16%)、國際區域$42.2B(+15%)。</li>
+  <li><span class="date">2026/07/30法說會</span>CEO Andy Jassy揭露AI與自研晶片業務年化營收run rate均已超過$25B;強調資料中心投資約需2年才能開始貢獻營收,惟一旦啟用可貨幣化逾30年,且多數AI產能已簽訂5年以上長約。</li>
+  <li><span class="date">2026/07~08</span><b class="amber">2026全年資本支出財測由$200B上修至$220B</b>,Jassy歸因於記憶體晶片價格上漲;同時過去12個月自由現金流轉負至約-$7.6B(去年同期為+$18.2B);長期負債攀升至$119.1B(去年同期$65.6B,+81%),法說會上被問及融資策略時僅表示「目前沒有可分享的資訊」。</li>
+  <li><span class="date">2026/08/03</span>股價收盤創年內高點$284.02。</li>
+  <li><span class="date">2026/08中旬</span>股價自高點拉回,8/13報$267.28;市場情緒轉向聚焦資本支出強度與自由現金流轉負的疑慮。</li>
+  <li><span class="date">2026/09中旬</span>Amazon與Generac簽署最高達$8B的備援發電機採購協議,協助AWS資料中心在電網併網延遲與供電短缺下加速上線,屬緩解資料中心建置瓶頸的正面訊號。</li>
+  <li><span class="date">2026/09/18~21</span>股價自9月中約$253~$254連續回升,9/20+1.0%、9/21+1.87%收$258.45,惟仍較8/3高點低約9%。</li>
+  <li><span class="date">2026/10/29(約,未經官方正式公告)</span>Q3 2026財報預計公布,市場預估EPS約$1.955、營收約$202.14B,將是驗證AWS加速成長能否延續、資本支出/FCF疑慮能否緩解的關鍵時點。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①自由現金流已連續惡化(TTM由+$18.2B轉為-$7.6B),且資本支出強度(2026年guide $220B約當營收27%)為四大科技巨頭中最高,遠超MSFT($190B)、GOOGL($175~185B);②長期負債年增81%至$119.1B,而管理層對後續融資策略尚未提供具體說明;③不同資料源對2026年共識EPS分歧極大(區間$8.82~$14.19),意味「Forward P/E」本身在不同資料源間可以相差近10倍本益比,估值討論須格外留意分母的不確定性。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">AWS加速至18季來最快成長(+37% YoY),遠超分析師共識+31%,顯示AI基礎建設需求仍在加速而非見頂;部分觀點認為自由現金流轉負反而是歷史上的買進訊號,類似過去幾輪重資本投入週期後迎來的獲利兌現期。<div class="src">— TIKR部落格彙整多頭觀點,2026/09</div></div>
+    <div class="quote">散戶/機構常喊目標價集中在<b>約$328~$334</b>區間,與60位分析師共識均值$328.22、另一機構口徑$333.89相近,顯示多空看法在目標價層面落差不大,分歧主要在於資本支出能否如期轉化為獲利。</div>
+  </div>
+  <div>
+    <h2>空方/謹慎觀點</h2>
+    <div class="quote">2026年資本支出guide由$200B上修至$220B,幾乎將自由現金流「歸零」(TTM轉負至-$7.6B);疊加長期負債年增81%至$119.1B,而管理層對後續融資策略尚無具體說明,顯示資本市場承受的風險正在上升,一旦AI/雲端資本支出的投資回報不如預期,對資產負債表的壓力將更明顯。<div class="src">— GeekWire、Yahoo Finance彙整,2026/07~08</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>60位分析師共識(S&P Global,2026/09)</td><td class="green">均值$328.22</td><td>整體評等Strong Buy;現價對此均值隱含折價約21.9%</td></tr>
+  <tr><td>另一機構彙整口徑(2026/09)</td><td class="green">均值$333.89</td><td>40位分析師過去3個月內發布的12個月目標價均值</td></tr>
+  <tr><td>評等分布(彙整口徑)</td><td>—</td><td>15檔Strong Buy/44檔Buy/2檔Hold/0檔Sell,合計61位,買進比重約97%,零賣出評等</td></tr>
+  <tr><td>街上最低目標價(個別分析師)</td><td class="amber">約$203</td><td>個別分析師出現遠低於共識的目標價,惟本次研究未能查證其發布時間與是否已過時,與整體97%買進氛圍不一致,列為分歧樣本</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">近30天精確升降評等統計、內部人交易(Form 4申報)與機構持股變動:本次研究未取得可查證的近期精確數字,查無。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+20% YoY</div><div class="note">Q2 2026 $200.6B(去年同期$167.7B),首度單季破$200B</div></div>
+  <div class="card"><div class="label">營業利益成長</div><div class="value green">+43% YoY</div><div class="note">Q2 2026 $27.5B(去年$19.2B);營業利益率13.7%(去年11.45%,+約226bps)</div></div>
+  <div class="card"><div class="label">毛利率</div><div class="value amber">查無精確合併數字</div><div class="note">公司未單獨揭露單一合併毛利率指標,以營業利益率變化替代參考</div></div>
+  <div class="card"><div class="label">現金與負債</div><div class="value red">長期負債$119.1B</div><div class="note">去年同期$65.6B(+81%);精確現金部位本次未查得</div></div>
+  <div class="card"><div class="label">自由現金流</div><div class="value red">TTM -$7.6B</div><div class="note">去年同期TTM +$18.2B;主因2026年資本支出上修至$220B</div></div>
+  <div class="card"><div class="label">管理層財測</div><div class="value amber">資本支出$220B</div><div class="note">2026全年(由$200B上修),因記憶體晶片價格上漲;尚未查得具體營收/EPS財測區間</div></div>
+</div>
+
+<h2>同業與相關公司比較</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>Fwd P/E</th><th>近期動能</th><th>與亞馬遜的差異</th></tr>
+  <tr class="hl"><td>AMZN</td><td>亞馬遜</td><td>約24.2x</td><td>AWS+37% YoY(18季來最快),廣告+26%,營業利益+43%</td><td>電商規模最大、雲端成長僅次Google,惟資本支出強度居四大巨頭之首,已致FCF轉負</td></tr>
+  <tr><td>MSFT</td><td>微軟</td><td>約25x</td><td>Azure雲端+27% YoY,銷售在手訂單$678B(+84% YoY)</td><td>純軟體/企業雲端龍頭,無電商業務,營收能見度最高(有在手訂單背書)</td></tr>
+  <tr><td>GOOGL</td><td>Alphabet(Google)</td><td>約20x</td><td>Google Cloud+82% YoY,成長速度四者最快</td><td>四大巨頭中估值最低、雲端成長最快,惟核心搜尋廣告業務面臨AI搜尋典範轉移風險</td></tr>
+  <tr><td>META</td><td>Meta</td><td>約20.6x</td><td>廣告營收guidance $58~61B(+25.2% YoY)</td><td>純數位廣告,無雲端出租收入來源,AI資本支出占營收比重為同業之最</td></tr>
+  <tr><td>WMT</td><td>沃爾瑪</td><td>約35.6x</td><td>EV/Sales約1.37x</td><td>傳統零售龍頭轉型電商物流,估值倍數反映民生必需消費的防禦性溢價而非成長性,與AMZN成長性質不同</td></tr>
+  <tr><td>BABA</td><td>阿里巴巴</td><td>約15~20x</td><td>中國最大電商+雲端業者</td><td>亞馬遜商業模式的中國對照組,估值大幅折價反映地緣政治與中國內需成長放緩疑慮</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 $258.45 vs 中值</th></tr>
+  <tr><td>60位分析師目標價共識(高信度)</td><td>均值$328.22/另一口徑均值$333.89(S&P Global及機構彙整,2026/09)</td><td>$328~$334(中值$331)</td><td class="green">便宜 -21.9%</td></tr>
+  <tr><td>2026E P/E×共識EPS,套用雲端雙雄(MSFT/GOOGL)均值本益比(推演)</td><td>共識EPS $10.70(區間$8.82~$14.19,分歧大);MSFT約25x/GOOGL約20x,均值22.5x</td><td>$214~$268(中值$241,推演)</td><td class="red">貴 +7.4%</td></tr>
+  <tr><td>2026E P/E×共識EPS,套用零售/廣告雙雄(WMT/META)均值本益比(推演)</td><td>共識EPS $10.70;WMT約35.6x/META約20.6x,均值28.1x</td><td>$220~$381(中值$300,推演)</td><td class="green">便宜 -13.9%</td></tr>
+  <tr><td>簡化DCF,r9~11%/g2~3%(推演,低信度)</td><td>以2026~2028E共識/推演EPS($10.70/$10.81/$14.00)作FCF代理,未扣資本支出(偏樂觀方向,對亞馬遜格外顯著,因2026年資本支出達營收約27%,為四大巨頭最高);永續成長僅2~3%(遠低於AWS近期+37%成長率,偏保守方向);兩方向相抵後,研判仍由「未扣capex的樂觀偏誤」主導,故此估值極可能仍高估真實自由現金流</td><td>$161~$187(中值$174,推演)</td><td class="red">貴 +48.6%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">四種方法明顯分歧且互相矛盾:信度最高的分析師共識與零售/廣告同業P/E對照均顯示現價偏便宜(-14%~-22%);但雲端同業P/E對照與簡化DCF則顯示現價偏貴(+7%~+49%)。特別留意簡化DCF已採用對亞馬遜偏樂觀的假設(未扣除史上最大規模的資本支出)卻仍算出遠低於現價的結果,這代表即使給予樂觀的現金流估算,現價仍隱含市場對AWS加速成長與資本支出效益兌現的高度期待,一旦Q3財報未能延續AWS加速趨勢,回檔風險不低。本站以樣本數最大、最貼近當下的分析師共識作為目標價主要錨點。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:多空分歧。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">如果你相信AWS加速成長(Q2 +37% YoY,18季來最快)且資本支出終將如Jassy所述於2年建置週期後轉化為長期獲利的多頭邏輯,那麼相較同業現階段並不算貴——分析師共識目標價隱含現價便宜21.9%,零售/廣告類同業P/E對照同樣顯示便宜13.9%。特殊情況說明:亞馬遜2026年資本支出達$220B(約當營收27%),為四大科技巨頭中強度最高,已導致自由現金流轉負(TTM -$7.6B,去年同期+$18.2B);即使用對其偏樂觀(未扣資本支出)的簡化DCF估算,結果仍較現價低48.6%,顯示現價已大量計入AWS加速成長與資本支出效益兌現的樂觀情境。這是典型「成長股在資本支出高峰期,結構性方法與市場情緒/共識方法方向相反」的估值錯位,而非單純便宜或昂貴可以概括。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value amber">中性</div><div class="bar"><div style="width:50%;background:var(--amber)"></div></div><div class="note">Stocktwits情緒中性、訊息量正常(2026/09/21);多空分歧健康,非一面倒過熱</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value">Strong Buy,60位分析師</div><div class="note">均值$328.22;另一口徑15SB/44B/2H/0S,買進比重97%;近30天精確升降評等統計查無</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">$10.70(26E)→$10.81(27E)→$14.00(28E)</div><div class="note">27E幾近持平反映資本支出高峰期折舊侵蝕;28E區間極寬($6.39~$24.56),信度偏低</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(區間)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年度,共識)</td><td>$10.70(區間$8.82~$14.19,分歧大)</td><td>22~26x</td><td>$235~$278(中值$256.5)</td><td class="red">約 -0.75%(不年化)</td></tr>
+  <tr><td>2027(+1年,共識)</td><td>$10.81(區間$8.56~$15.79,幾近持平反映資本支出高峰期折舊侵蝕)</td><td>24~28x</td><td>$259~$303(中值$281)</td><td class="green">約 +4.3%/年</td></tr>
+  <tr><td>2028(+2年,共識/低信度)</td><td>$14.00(區間極寬$6.39~$24.56,分歧極大)</td><td>22~26x</td><td>$308~$364(中值$336)</td><td class="green">約 +9.1%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2027、2028共識EPS區間均極寬,反映分析師對「資本支出何時開始明顯轉化為獲利」存在高度分歧,2028年數字信度偏低,僅供長期視角參考。三年路徑呈現「先持平、後加速」的形狀,與②模組「現階段估值高度取決於資本支出效益能否如期兌現」的結論方向一致。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 190~410;left% = (價格-190)/220×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:17.6%"><div class="lbl">Bear(3~6月)</div><div class="price red">$215~$230</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:38.5%"><div class="lbl">Base(6~12月)</div><div class="price amber">$260~$285</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.4%"><div class="lbl">Bull(12~18月)</div><div class="price green">$305~$335</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:82.8%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">$365~$392</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:32.6%"><div class="arrow">▲</div><div class="price">$258.45</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>$215~$230</td><td>AWS成長率自+37%顯著放緩且資本支出/FCF疑慮持續發酵,本益比壓縮至19~21x×2026E EPS $10.70</td><td class="red">約 -13.9%</td></tr>
+  <tr><td class="amber">Base</td><td>$260~$285</td><td>AWS維持30%+成長,資本支出未進一步失控,本益比持穩於24~27x×2026E EPS $10.70</td><td>約 +5.4%</td></tr>
+  <tr><td class="green">Bull</td><td>$305~$335</td><td>對應60位分析師共識目標價區間(均值$328.22),AWS加速成長獲確認且資本支出效益初步顯現,2027E EPS $10.81×約28~31x</td><td class="green">約 +23.8%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$365~$392</td><td>2028E EPS $14.00(共識高值情境,低信度)×約26~28x,AI資本支出開始顯著轉化為獲利成長,資本支出強度緩和</td><td class="green">約 +46.5%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$245~$250</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$228~$238</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">$215~$222</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$215</b> = AWS成長顯著放緩或資本支出/自由現金流惡化超預期,代表資本支出高峰期能否轉化為獲利的多頭邏輯遭到否定,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站上52週高點$287.20且帶量,同時Q3財報(約10/29)持續驗證AWS加速成長趨勢<br>
+    進場區:<b class="green">$286~$295</b><br>
+    移動停利:跌破10日均線或高點回檔8%<br>
+    假突破失效:觸發後5個交易日內跌破$275即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$305~$335</div><div class="note">賣出25~50%;Bull區/分析師共識目標價區間已達陣</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$365~$392</div><div class="note">Stretched區;續抱條件是資本支出效益持續優於預期、AWS加速成長延續</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:最近股價回穩反彈的真正原因是Q2財報全面超預期(AWS+37% YoY、營業利益+43% YoY)以及Generac備援電力採購協議等基建瓶頸緩解訊號;但很少人討論的是,2026年資本支出上修至$220B已使自由現金流轉負、長期負債年增81%,而管理層對後續融資策略尚未提供具體說明。</div>
+<div class="concl">② <b>估值</b>:如果你相信AWS加速成長且資本支出終將如期轉化為獲利的多頭邏輯,亞馬遜相較分析師共識與零售/廣告同業並不算貴(隱含便宜14~22%);但雲端同業P/E對照與簡化DCF(即使已採用對其偏樂觀的假設)均顯示現價已計入相當樂觀的成長與資本支出效益兌現預期。</div>
+<div class="concl">③ <b>結論</b>:這是一筆建議偏多、可分批布局的中長期投資,原因是目標價$328較現價高26.9%、遠超偏多門檻+10%,且AWS動能與分析師評等方向一致;惟資本支出強度與自由現金流是否如期改善是核心觀察風險,故採左側分批而非重倉單筆進場,跌破$215無條件出場。</div>
+
+<footer>
+資料時間:股價/近30天走勢(<a href="https://www.ad-hoc-news.de/boerse/news/corporate-news/amazon-com-stock-heads-into-the-open-after-a-1-0-percent-gain/70142551" target="_blank" rel="noopener">ad-hoc-news.de</a>,2026/09/21收盤;<a href="https://www.vantagemarkets.com/market-analysis/amzn-stock-amazon-share-price-monthly-outlook/" target="_blank" rel="noopener">VantageMarkets 8月月度分析</a>);市值/52週區間(<a href="https://stockanalysis.com/stocks/amzn/" target="_blank" rel="noopener">stockanalysis.com</a>、<a href="https://www.tikr.com/blog/amazon-has-fallen-21-from-its-highs-is-amzn-finally-cheap-enough-to-buy-in-2026" target="_blank" rel="noopener">TIKR部落格</a>,2026/09);分析師共識目標價/EPS(<a href="https://stockanalysis.com/stocks/amzn/forecast/" target="_blank" rel="noopener">stockanalysis.com/forecast</a>、<a href="https://www.gurufocus.com/term/forward-pe-ratio/AMZN" target="_blank" rel="noopener">GuruFocus Forward P/E</a>,60位分析師,2026/09);Q2 2026財報官方數字(<a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener">SEC EDGAR官方新聞稿</a>、<a href="https://finance.yahoo.com/markets/stocks/articles/amazon-q2-2026-earnings-aws-204411872.html" target="_blank" rel="noopener">Yahoo Finance</a>、<a href="https://www.cnbc.com/2026/07/30/aws-earnings-q2-2026.html" target="_blank" rel="noopener">CNBC</a>);自由現金流轉負與資本支出上修(<a href="https://www.geekwire.com/2026/aws-is-booming-but-amazons-free-cash-flow-turns-negative-on-record-ai-spending/" target="_blank" rel="noopener">GeekWire</a>、<a href="https://finance.yahoo.com/markets/stocks/articles/amazon-raised-2026-capex-20-223016275.html" target="_blank" rel="noopener">Yahoo Finance</a>、<a href="https://www.tikr.com/blog/amazon-free-cash-flow-just-went-negative-history-suggests-thats-the-buy-signal" target="_blank" rel="noopener">TIKR部落格(多頭觀點)</a>);四大巨頭資本支出比較(<a href="https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion" target="_blank" rel="noopener">Tom's Hardware</a>);MSFT Forward P/E與在手訂單(<a href="https://www.fool.com/investing/2026/09/03/satya-nadellas-microsoft-now-has-a-678-billion-sal/" target="_blank" rel="noopener">The Motley Fool</a>);GOOGL/META雲端與廣告成長(<a href="https://marketwise.com/investing/alphabet-meta-q1-2026-earnings-analysis/" target="_blank" rel="noopener">MarketWise</a>、<a href="https://stockanalysis.com/stocks/meta/statistics/" target="_blank" rel="noopener">stockanalysis.com</a>);WMT/BABA Forward P/E(<a href="https://www.gurufocus.com/term/forward-pe-ratio/WMT" target="_blank" rel="noopener">GuruFocus WMT</a>、<a href="https://www.gurufocus.com/term/forward-pe-ratio/BABA" target="_blank" rel="noopener">GuruFocus BABA</a>);散戶情緒(<a href="https://altindex.com/ticker/amzn/sentiment" target="_blank" rel="noopener">AltIndex</a>);下次財報日期推估(<a href="https://www.tipranks.com/stocks/amzn/earnings" target="_blank" rel="noopener">TipRanks</a>,尚未經Amazon官方正式公告)。<br>
+主要來源:stockanalysis.com、SEC EDGAR、Yahoo Finance、CNBC、GeekWire、TIKR、GuruFocus、The Motley Fool、MarketWise、AltIndex、TipRanks、VantageMarkets、ad-hoc-news.de。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>

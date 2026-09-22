@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特斯拉 Tesla (TSLA) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.rate{border:1px solid currentColor;}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+/* ==== shared-overrides v3 ==== */
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  @media(max-width:900px){
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
+  }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>特斯拉 Tesla (TSLA) <span class="badge amber">估值:合理(高信度法貼近現價,惟基本面法顯示明顯溢價)</span> <span class="badge amber">結論:中性,現價未達偏多門檻,靜待10月Q3財報與9/30 NHTSA審查</span></h1>
+<div class="sub">美股(NASDAQ)・電動車+自駕技術(FSD/Robotaxi)+人形機器人(Optimus)+能源儲存綜合科技車廠|現況估值版(首次分析)|股價截至 2026/09/21 收盤,製表 2026/09/22(美東時間)</div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">$295</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="TSLA">現價 <b>$375.3</b> → 目標價 <b>$396.94</b><span class="up"> (+5.8%)</span></div>
+  <div class="vbasis">推導依據:目標價採43位分析師共識均值$396.94(stockanalysis.com/S&P Global,2026/09),落於「2026E Forward P/E×共識EPS」法以近52週實際成交本益比區間(167~280x)反推得出的$297~$498之內,兩項高信度方法互相吻合;惟聚焦當期可驗證現金流的P/S同業標準化法(給予遠高於傳統車廠與Rivian的溢價倍數)僅得約$150~260、簡化DCF(未扣資本支出,屬樂觀假設)僅得約$31~47,均遠低於現價,顯示194倍Forward P/E幾乎全部建立在2027年後才可能兌現的機器人計程車/Optimus/FSD授權敘事上。上檔僅+5.8%,未達偏多門檻(+10%),故評等中性而非偏多。</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價</div><div class="value">$375.30</div><div class="note">2026/09/21收盤(美東);單日+3.03%,Nvidia電池儲能合作利多帶動</div></div>
+  <div class="card"><div class="label">市值</div><div class="value">約$1.48兆</div><div class="note">流通股數約39.5億股(stockanalysis.com,2026/09)</div></div>
+  <div class="card"><div class="label">近30天</div><div class="value amber">約+3.8%</div><div class="note">08/20~09/20區間(tradingkey.com),波動大,精確30天基準日視資料源略有差異</div></div>
+  <div class="card"><div class="label">52週區間</div><div class="value">$297.38~$498.83</div><div class="note">現價距高點約-24.8%,距低點約+26.2%</div></div>
+  <div class="card"><div class="label">Forward P/E</div><div class="value amber">約194x</div><div class="note">對應2026E共識EPS $1.78(43位分析師,2026/09);近52週實際成交本益比區間167~280x</div></div>
+  <div class="card"><div class="label">共識目標價</div><div class="value">$396.94</div><div class="note">43位分析師均值,距現價+5.77%;惟高看$600、低看$125,分歧達4.8倍</div></div>
+</div>
+
+<h2>① 催化劑分析 — 為什麼漲/跌?</h2>
+<ul class="timeline">
+  <li><span class="date">2026/07/22</span><b>Q2 2026財報:營收創新高但獲利大幅遜於預期</b>:營收$28.24B(YoY+26%)優於共識$27.58B,交車480,126輛(YoY+25%)遠超預期約40.6萬輛,能源儲存部署13.5GWh同樣超預期;惟調整後EPS僅$0.33遠低於預期$0.55,汽車毛利率(不含法規積分)自19.2%降至16.3%,營業利益年減57%至$3.98億、營業利益率僅1.4%,資本支出年增142%至$5.79B。股價當日重挫14.5%。</li>
+  <li><span class="date">2026/08中~09初</span><b class="green">股價自財報後低點反彈</b>:機器人計程車(Robotaxi)與Optimus人形機器人進度加速的敘事重新主導市場,多家券商陸續上修目標價。</li>
+  <li><span class="date">2026/09初</span><b class="green">Cybercab機器人計程車開始載客</b>,內華達州運輸管理局核准Clark County最多5,000輛全自駕車於核發許可後首12個月內營運;惟Musk公開承認機器人計程車實質營收貢獻要到2027年才會顯著。</li>
+  <li><span class="date">2026/09/18~21</span><b class="green">Nvidia將特斯拉電池儲能系統納入其AI工廠合作供應鏈</b>,帶動9/21單日股價+3.03%收$375.30。</li>
+  <li><span class="date">2026/09/24(即將發生)</span>特斯拉將於內華達Sparks廠區舉辦Semi電動卡車發表活動。</li>
+  <li><span class="date">2026/09/30(即將發生,監理風險)</span><b class="amber">NHTSA要求特斯拉就Cybercab無方向盤/踏板設計是否符合安全標準的21項問題提出回覆</b>,期限9/30,是機器人計程車監理風險的近期驗證點。</li>
+  <li><span class="date">2026/10/01(即將發生)</span>第二代Roadster(據稱採SpaceX相關技術)確定10/1發表。</li>
+  <li><span class="date">警訊</span>市場容易忽略的資訊:①核心汽車業務毛利率持續下滑(19.2%→16.3%)、營業利益年減57%、營業利益率僅1.4%,獲利品質實際上正在惡化,與股價因「機器人計程車/Optimus敘事」反彈形成明顯背離;②散戶情緒(StockTwits/Reddit)近期已轉為「極度看空」,與機構分析師整體仍偏多形成罕見的多空角色互換,顯示這波反彈主要由敘事與機構資金推動,而非散戶追捧;③NHTSA對Cybercab的監理問詢尚未解決,9/30期限若答覆不理想,可能直接衝擊機器人計程車擴張時程。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">管理層認為機器人計程車、Optimus人形機器人、FSD授權與能源儲存業務,將重新定義公司價值,遠超傳統汽車製造商的評價框架;2026年HBM式的「產能全數售罄」敘事雖非特斯拉用語,但公司同樣強調AI基礎建設投入(2026年資本支出財測逾$25B且未來2~3年持續成長)將支撐長期營收結構轉型。<div class="src">— 公司對外表態/法說會彙整,2026年8~9月</div></div>
+    <div class="quote">散戶與部分社群常喊目標價:$1,000以上(反映機器人計程車與Optimus全面規模化兌現的樂觀情境)。<div class="src">— 社群討論彙整</div></div>
+  </div>
+  <div>
+    <h2>空方觀點</h2>
+    <div class="quote">核心汽車業務毛利率(不含法規積分)已從19.2%降至16.3%,營業利益年減57%,獲利品質惡化的速度看似快於機器人計程車故事兌現的速度,Musk本人也承認機器人計程車實質營收貢獻要到2027年才會顯著。<div class="src">— Q2 2026財報數據,本儀表板整理</div></div>
+    <div class="quote">TSLA目前Forward P/E約194倍,遠高於BYD(約14.4倍)、Ford(約8.2倍)、GM(約6.9倍)等同業,市場定價幾乎完全建立在尚未兌現的機器人計程車/Optimus敘事上,一旦故事驗證延遲,估值修正風險不小。<div class="src">— stockanalysis.com/macrotrends彙整,2026/09</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>機構/調查</th><th>目標價</th><th>依據</th></tr>
+  <tr class="hl"><td>43位分析師共識(stockanalysis.com/S&P Global,2026/09)</td><td class="green">均值$396.94(+5.77%)</td><td>整體評等Buy;惟高看$600(機器人計程車全面兌現)、低看$125(視為傳統車廠並大幅下修EPS),分歧達4.8倍</td></tr>
+  <tr><td>另一調查口徑(彙整媒體報導,2026/09)</td><td class="amber">中位數約$421,20位買進vs 8位賣出</td><td>機構多方仍占多數,惟賣出/中性比例不低,反映故事兌現時程認知分歧</td></tr>
+  <tr><td>Nvidia(合作方,非評等機構)</td><td>未提供目標價</td><td>將特斯拉電池儲能系統納入AI工廠供應鏈合作計畫,屬營收面利多而非傳統評等調升</td></tr>
+  <tr><td colspan="3" style="color:var(--muted)">內部人交易:未查得Musk近期大量公開市場拋售紀錄(secform4.com,2026/09);2025年11月股東已通過Musk上限約12%股權、市值門檻達$8.5兆分期兌現的1兆美元薪酬方案,屬長期激勵結構而非近期催化劑,不納入本次目標價推導。</td></tr>
+</table>
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">營收成長</div><div class="value green">+26% YoY</div><div class="note">Q2 2026,營收$28.24B創新高</div></div>
+  <div class="card"><div class="label">交車成長</div><div class="value green">+25% YoY</div><div class="note">Q2 2026,480,126輛,遠超市場預期約40.6萬輛</div></div>
+  <div class="card"><div class="label">汽車毛利率</div><div class="value red">16.3%</div><div class="note">不含法規積分;較上季19.2%下滑,獲利品質承壓</div></div>
+  <div class="card"><div class="label">現金部位</div><div class="value green">$43.52B</div><div class="note">較去年同期+18%;總負債(含租賃)約$9.34B,財務體質穩健</div></div>
+  <div class="card"><div class="label">營業利益率</div><div class="value red">1.4%</div><div class="note">Q2 2026,營業利益年減57%至$3.98億</div></div>
+  <div class="card"><div class="label">資本支出</div><div class="value amber">2026年財測>$25B</div><div class="note">Q2單季年增142%;管理層預期未來2~3年持續增加</div></div>
+</div>
+
+<h2>同業與相關公司比較</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>估值倍數</th><th>近期動能</th><th>與特斯拉的差異</th></tr>
+  <tr class="hl"><td>TSLA</td><td>特斯拉</td><td>Fwd P/E約194x,P/S約14.3x</td><td>交車+25% YoY,惟毛利率與營業利益率同步承壓</td><td>唯一同時具備量產EV+FSD軟體+機器人計程車+人形機器人+能源儲存的公司,估值溢價主要來自後三者的長期想像空間而非現行財報數字</td></tr>
+  <tr><td>RIVN</td><td>Rivian</td><td>P/S約3.3x,尚未獲利</td><td>2026年財測交車6.5~7萬輛,規模遠小於特斯拉</td><td>純北美高端電動皮卡/休旅品牌,無自駕營運車隊與人形機器人業務</td></tr>
+  <tr><td>LCID</td><td>Lucid</td><td>P/S偏高(精確市值查無一致來源),尚未獲利</td><td>交車規模小,現金燒錢壓力持續</td><td>產品聚焦豪華純電轎車,無機器人計程車/Optimus等額外敘事支撐估值</td></tr>
+  <tr><td>1211.HK</td><td>比亞迪 BYD</td><td>Fwd P/E約14.4x,P/S約0.8x</td><td>全球銷量持續擴張,已穩定獲利</td><td>垂直整合電池至整車,中國市場主導者並快速拓展海外,估值遠低於特斯拉但無同等自駕/機器人敘事支撐</td></tr>
+  <tr><td>F</td><td>Ford</td><td>本益比約8.2x</td><td>傳統車廠轉型電動化,獲利穩定但成長有限</td><td>估值反映傳統車廠獲利模式,無故事溢價</td></tr>
+  <tr><td>GM</td><td>通用汽車</td><td>本益比約6.9x</td><td>傳統車廠,電動化步伐相對保守</td><td>五家同業中估值基準最保守,凸顯特斯拉溢價幅度之大</td></tr>
+</table>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價 $375.30 vs 中值</th></tr>
+  <tr><td>分析師目標價共識(高信度,43位分析師,2026/09)</td><td>均值$396.94;惟高看$600(機器人計程車全面兌現)、低看$125(視為傳統車廠並大幅下修EPS),分歧達4.8倍反映信心兩極,採均值為代表</td><td>單點約$396.94</td><td class="green">便宜 -5.4%</td></tr>
+  <tr><td>2026E Forward P/E×共識EPS(高信度,市場實際多頭區間)</td><td>共識EPS $1.78(43位分析師,2026/09);套用近52週實際成交Forward P/E區間167~280x(對應52週股價區間,反映市場對故事溢價的真實定價彈性,非外部假設)</td><td>$297~$498(中值$397.5)</td><td class="green">便宜 -5.6%</td></tr>
+  <tr><td>P/S同業標準化法(低信度,本站推演)</td><td>給予TSLA遠高於傳統車廠(Ford/GM P/S<1x、BYD 0.8x)、也高於Rivian(3.3x)的溢價倍數5.7~9.9x,反映FSD軟體/機器人計程車optionality,但遠低於現行實際14.3x</td><td>$150~$260(推演)</td><td class="red">貴 +83.0%</td></tr>
+  <tr><td>簡化DCF(低信度,僅供對照)</td><td>以2026E~2028E共識EPS($1.78/$2.34/$3.07)近似FCF(未扣資本支出,屬樂觀假設),折現率9~11%、永續成長2~3%</td><td>$31~$47(推演)</td><td class="red">貴 +862%</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">高信度的兩種方法(分析師共識、近52週市場實際本益比區間)彼此吻合,均將現價定錨在略低於中值的「合理偏便宜」區間邊緣;但聚焦當期可驗證現金流的兩種方法(P/S同業標準化、簡化DCF)方向一致指向現價遠高於基本面支撐,顯示現價幾乎全部建立在2027年後才可能兌現的機器人計程車/Optimus/FSD授權敘事上。簡化DCF未扣除特斯拉持續成長的資本支出(2026年財測逾$25B且未來2~3年續增),結果本應偏樂觀,即使如此仍遠低於現價,使「貴」的結論更加穩固而非減弱。</div>
+
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:分歧——高信度方法顯示現價大致合理甚至略低於中值,基本面法顯示明顯溢價。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">目標價依規則須落在高信度方法區間內,本站採$396.94(43位分析師共識均值),同時落於「2026E P/E×共識EPS」市場實際區間$297~$498之內,兩法互相吻合。然而P/S同業標準化與簡化DCF兩種聚焦當期可驗證現金流的方法,分別得出$150~260與$31~47的區間,較現價低約31~92%,顯示現價幾乎全部建立在機器人計程車/Optimus/FSD授權等2027年後才能驗證的敘事上。特殊情況:TSLA同時符合「成長股估值天花板」特徵——194倍的Forward P/E遠高於同業(BYD 14.4x、Ford 8.2x、GM 6.9x)與自身獲利成長率所能支撐的合理區間,是市場對長期故事給予的溢價而非短期基本面所能解釋,一旦NHTSA監理審查(9/30)或Q3財報(10月)不如預期,溢價收斂風險不小。</div>
+</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶情緒</div><div class="value red">極度看空</div><div class="bar"><div style="width:20%;background:var(--red)"></div></div><div class="note">StockTwits情緒指標由「看空」轉「極度看空」,Reddit社群情緒分數約28/100(近30天偏空);與機構偏多形成罕見背離,顯示反彈非散戶推動,屬健康的多空分歧訊號</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value green">Buy</div><div class="note">43位分析師均值目標價$396.94(+5.77%);另一調查口徑約20位買進vs 8位賣出,目標價區間極寬($125~$600)</div></div>
+  <div class="card"><div class="label">獲利預估</div><div class="value">$1.78(2026E)→$2.34(2027E)→$3.07(2028E)</div><div class="note">2027E/2028E EPS區間同樣極寬(2027E:$1.40~$5.50;2028E:$1.95~$6.21),反映機器人計程車/Optimus兌現程度認知差異巨大</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>共識EPS(低/中/高)</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含年化報酬</th></tr>
+  <tr><td>2026(今年度,共識)</td><td>單點共識$1.78(查無精確低高區間)</td><td>180~220x(現行市場實際給予)</td><td>$320~$392(中值$356)</td><td class="red">約 -5.2%</td></tr>
+  <tr><td>2027E(+1年,推演)</td><td>低$1.40/中$2.34/高$5.50</td><td>130~180x(推演,隨機器人計程車故事逐步驗證,倍數溫和收斂)</td><td>$304~$421(中值$362.5,取中位數EPS估算)</td><td class="amber">約 -3.4%/年</td></tr>
+  <tr><td>2028E(+2年,推演)</td><td>低$1.95/中$3.07/高$6.21</td><td>110~160x(推演,持續收斂)</td><td>$338~$491(中值$414.5,取中位數EPS估算)</td><td class="green">約 +5.1%/年</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">2026年EPS為單點共識,無精確低高區間;2027E/2028E的EPS區間反映分析師對機器人計程車/Optimus/FSD授權兌現時程與規模認知的巨大分歧(2027E最低$1.40、最高$5.50,相差近4倍),倍數假設隨時間逐步收斂(推演),僅供長期視角參考,不作為目標價錨點。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 200~650;left% = (價格-200)/450×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:24.4%"><div class="lbl">Bear(3~6月)</div><div class="price red">$280~$320</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:43.9%"><div class="lbl">Base(6~12月)</div><div class="price amber">$370~$420</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:58.7%"><div class="lbl">Bull(12~18月)</div><div class="price green">$445~$490</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:83.7%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">$560~$620</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:39.8%"><div class="arrow">▲</div><div class="price">$375.30</div><div class="lbl">現價</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>$280~$320</td><td>Q3財報(10月)獲利品質持續惡化或NHTSA審查結果不利,2026E EPS下修至約$1.50,Forward P/E壓縮至190~210x區間下緣,重新測試52週低點附近</td><td class="red">約 -20%</td></tr>
+  <tr><td class="amber">Base</td><td>$370~$420</td><td>維持現行敘事與獲利水準,Forward P/E持穩180~220x,對應分析師共識目標價區間,現價已落於此區間內</td><td class="amber">約 +5%</td></tr>
+  <tr><td class="green">Bull</td><td>$445~$490</td><td>Q3/Q4機器人計程車擴張與FSD進展優於預期,2027E EPS上修,Forward P/E維持200x以上,貼近52週高點$498.83</td><td class="green">約 +25%</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>$560~$620</td><td>機器人計程車全面規模化、Optimus量產兌現,市場給予類AI機器人平台溢價,貼近分析師最高目標價$600</td><td class="green">約 +57%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">$340~$355</td><td>30%</td></tr>
+      <tr><td>第二批</td><td class="green">$320~$339</td><td>30%</td></tr>
+      <tr><td>第三批</td><td class="green">$295~$319</td><td>40%</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">$295</b>(52週低點$297.38下方)= 市場不再給予機器人計程車/Optimus/FSD任何期權價值,故事溢價完全瓦解,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站上$410(接近分析師共識均值上緣)且成交量放大,同時Q3財報(10月)確認交車與毛利率同步改善<br>
+    進場區:<b class="green">$410~$425</b><br>
+    移動停利:跌破20日均線或高點回檔15%<br>
+    假突破失效:觸發後3個交易日內跌回$390即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">$445~$490</div><div class="note">賣出25~40%;接近分析師高看族群目標價區間,機器人計程車擴張兌現度應重新評估</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">$560~$620</div><div class="note">貼近分析師最高目標價$600;續抱條件是監理審查與交車數據雙雙優於預期</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:近一個月股價反彈主要受Nvidia電池儲能合作、機器人計程車(Cybercab載客、內華達5,000輛路權核准)與Optimus進度加速的敘事帶動,9/21單日+3.03%收$375.30;但Q2財報顯示核心汽車業務毛利率由19.2%降至16.3%、營業利益年減57%,獲利品質實際上正在惡化,且散戶情緒已轉為「極度看空」,與反彈行情形成罕見背離。</div>
+<div class="concl">② <b>估值</b>:分歧——高信度的分析師共識目標價($396.94)與市場實際本益比區間($297~$498)顯示現價大致合理甚至略低於中值,但聚焦當期可驗證現金流的P/S同業標準化法($150~260)與簡化DCF法($31~47,已屬樂觀假設)均顯示現價遠高於基本面支撐,194倍Forward P/E幾乎全部建立在2027年後才可能兌現的機器人計程車/Optimus敘事上。</div>
+<div class="concl">③ <b>結論</b>:中性、建議觀望或僅左側小量分批——現價$375.30對應目標價$396.94僅+5.8%,未達偏多門檻(+10%),且Q3財報(10月)與NHTSA的Cybercab監理審查(9/30期限)都是尚未驗證的關鍵變數;可等待$340以下分批布局,或待右側站穩$410再順勢介入,收盤跌破$295(52週低點下方)則視為故事溢價瓦解,無條件出場。</div>
+
+<footer>
+資料時間:股價/市值/52週區間/Forward P/E/EPS(<a href="https://stockanalysis.com/stocks/tsla/" target="_blank" rel="noopener">stockanalysis.com</a>,2026/09/21收盤,美東時間);分析師共識目標價與EPS估計(<a href="https://stockanalysis.com/stocks/tsla/forecast/" target="_blank" rel="noopener">stockanalysis.com/forecast</a>,2026/09);Q2 2026財報數據(<a href="https://www.investing.com/news/transcripts/earnings-call-transcript-tesla-q2-2026-revenue-beats-eps-misses-as-stock-falls-93CH-4807216" target="_blank" rel="noopener">Investing.com財報電話會議紀要</a>、<a href="https://www.teslarati.com/tesla-tsla-q2-2026-earnings-results/" target="_blank" rel="noopener">Teslarati</a>);現金/負債等資產負債表數字(<a href="https://www.sec.gov/Archives/edgar/data/0001318605/000162828026049270/tsla-20260630.htm" target="_blank" rel="noopener">SEC 10-Q,2026/06/30</a>);9月近期新聞與Nvidia合作(<a href="https://www.tradingkey.com/news/market-movers/262178435-market-movers-tsla-20260921" target="_blank" rel="noopener">tradingkey.com</a>);Ford/GM本益比(<a href="https://www.macrotrends.net/stocks/charts/F/ford-motor/pe-ratio" target="_blank" rel="noopener">macrotrends.net(Ford)</a>、<a href="https://www.macrotrends.net/stocks/charts/GM/general-motors/pe-ratio" target="_blank" rel="noopener">macrotrends.net(GM)</a>);散戶情緒(<a href="https://stocktwits.com/news-articles/markets/equity/tsla-below-fair-value-analyst-retail-bearish-cybercab-scrutiny-spacex-merger-buzz/cZtuL7ERBdH" target="_blank" rel="noopener">StockTwits</a>、<a href="https://www.edgen.tech/news/stock/tesla-stock-falls-11-as-reddit-investor-sentiment-turns-bearish" target="_blank" rel="noopener">edgen.tech(Reddit情緒/NHTSA期限)</a>);內部人交易(<a href="https://www.secform4.com/insider-trading/1494730.htm" target="_blank" rel="noopener">secform4.com</a>);Musk薪酬方案背景(<a href="https://finance.yahoo.com/news/shareholders-just-approved-1-trillion-210741661.html" target="_blank" rel="noopener">Yahoo Finance</a>)。Lucid精確市值與部分同業細節查無一致來源,已標註「查無」。<br>
+主要來源:<a href="https://stockanalysis.com/stocks/tsla/" target="_blank" rel="noopener">stockanalysis.com</a>、<a href="https://www.investing.com/news/transcripts/earnings-call-transcript-tesla-q2-2026-revenue-beats-eps-misses-as-stock-falls-93CH-4807216" target="_blank" rel="noopener">Investing.com</a>、<a href="https://www.sec.gov/Archives/edgar/data/0001318605/000162828026049270/tsla-20260630.htm" target="_blank" rel="noopener">SEC EDGAR</a>、<a href="https://stocktwits.com" target="_blank" rel="noopener">StockTwits</a>、Tesla Investor Relations。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
