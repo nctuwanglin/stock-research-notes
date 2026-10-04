@@ -274,6 +274,19 @@ def load_dispo():
         attn = set(re.findall(r'(\d{4,6})', m.group(1)))
     md = re.search(r'(\d{4})[./](\d{1,2})[./](\d{1,2})(?:(?!\d{4}[./]).){0,150}?自動更新', html, re.S)
     dispo_date = f"{md.group(1)}/{int(md.group(2)):02d}/{int(md.group(3)):02d}" if md else ""
+    if not dispo_date:
+        # 處置股儀表板改版後首頁不再印「自動更新」日期,改讀同目錄 dispo.json 的 date
+        try:
+            jpath = os.path.join(os.path.dirname(DISPO_LOCAL), "dispo.json")
+            if os.path.exists(jpath):
+                jd = json.load(open(jpath, encoding="utf-8")).get("date", "")
+            else:
+                jd = json.loads(fetch(DISPO_URL.rsplit("/", 1)[0] + "/dispo.json")).get("date", "")
+            mj = re.match(r"(\d{4})-(\d{2})-(\d{2})", jd or "")
+            if mj:
+                dispo_date = "/".join(mj.groups())
+        except Exception as e:
+            print(f"WARN dispo.json date fallback failed: {e}", file=sys.stderr)
     return dispo, attn, dispo_date
 
 
