@@ -509,6 +509,12 @@ def build_chips_html(stocks):
               f'data-n="{hidden_n}">＋{hidden_n} 更多</span>' if hidden_n else "")
     rows.append(f'<div class="chips" id="chips-tag" data-dim="tag">'
                 f'<span class="clabel">產業別</span>{"".join(cs)}{toggle}</div>')
+    # 排序:依 .verdict 的距目標價 %(每日以最新收盤重算)由前端排序,不帶計數
+    cs = [chip("all", "最新分析", None, True),
+          chip("sort:up-desc", "上檔空間 高→低", None),
+          chip("sort:up-asc", "上檔空間 低→高", None)]
+    rows.append(f'<div class="chips" id="chips-sort" data-dim="sort">'
+                f'<span class="clabel">排序</span>{"".join(cs)}</div>')
 
     js = ("(function(){var t=document.querySelector('.chipmore');if(!t)return;"
           "t.onclick=function(){var g=document.getElementById(t.dataset.more);"
