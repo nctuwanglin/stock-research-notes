@@ -26,24 +26,6 @@
       "approx": true
     },
     {
-      "date": "2026-09-30",
-      "code": "MU",
-      "event": "Q4 FY2026財報(盤後):財測營收$50.8B、non-GAAP EPS $31.35能否兌現,是驗證超級循環持續性與股價自52週高點$1255拉回後能否重新走高的關鍵時點",
-      "approx": false
-    },
-    {
-      "date": "2026-11-05",
-      "code": "SNDK",
-      "event": "Q1 FY2027財報:guidance營收$10.3~10.8B、EPS $44~46能否兌現,驗證JPMorgan/Bernstein評等調升與S&P 100納入後的正面重估是否有基本面支撐",
-      "approx": false
-    },
-    {
-      "date": "2026-10-27",
-      "code": "SKHY",
-      "event": "Q3 2026財報(盤後):DRAM出貨guidance(QoQ+10%)能否兌現,驗證HBM4實質出貨後Vera Rubin約70%訂單份額與54%市佔數字能否延續",
-      "approx": false
-    },
-    {
       "date": "2026-11-10",
       "code": "6805",
       "event": "Q3財報公告(驗證新專案投產進度)",
@@ -65,48 +47,6 @@
       "date": "2026-11-11",
       "code": "5536",
       "event": "Q3財報:驗證Q2毛利率季減4.74個百分點是否止穩回升,以及德州專案(2H26起)認列進度",
-      "approx": true
-    },
-    {
-      "date": "2026-11-25",
-      "code": "NVDA",
-      "event": "Q3 FY2027財報公布(盤後),驗證guide營收$108B是否兌現(已排除中國運算營收)",
-      "approx": true
-    },
-    {
-      "date": "2026-10-29",
-      "code": "AAPL",
-      "event": "FY2026 Q4(9月季度)財報公布,驗證iPhone 18/摺疊機開賣後實際財務貢獻",
-      "approx": true
-    },
-    {
-      "date": "2026-10-27",
-      "code": "GOOG",
-      "event": "Q3 2026財報(驗證雲端82%成長能否延續、資本支出ROI)",
-      "approx": true
-    },
-    {
-      "date": "2026-10-28",
-      "code": "META",
-      "event": "Meta Q3 2026財報(將認列$10B兒少安全和解金法律費用,驗證Muse事件後乘數重估能否轉化為實際獲利)",
-      "approx": false
-    },
-    {
-      "date": "2026-10-29",
-      "code": "AMZN",
-      "event": "Q3 2026財報(盤後):驗證AWS加速成長(Q2 +37% YoY)能否延續、資本支出$220B財測與自由現金流轉負(TTM -$7.6B)能否改善",
-      "approx": true
-    },
-    {
-      "date": "2026-10-28",
-      "code": "MSFT",
-      "event": "FY27 Q1財報(盤後):驗證Azure固定匯率成長guide約+45%與AI資本支出(年化逾$1750億美元)報酬兌現速度",
-      "approx": true
-    },
-    {
-      "date": "2026-10-21",
-      "code": "TSLA",
-      "event": "Q3 2026財報(盤後,官方日期尚未正式公布,市場預估10月下旬):驗證汽車毛利率能否止穩回升、機器人計程車與Optimus進度",
       "approx": true
     },
     {
@@ -876,6 +816,78 @@
       "code": "2891",
       "event": "Q3財報/法說:驗證累計EPS與調整後EPS、每股淨值走勢(2025年Q3法說為11/18,本日期為推估)",
       "approx": true
+    },
+    {
+      "date": "2026-10-29",
+      "code": "SNDK",
+      "event": "SNDK Q1 FY27財報(美股盤後,電話會議太平洋時間13:30)",
+      "approx": false
+    },
+    {
+      "date": "2026-12-16",
+      "code": "MU",
+      "event": "Micron Q1 FY27財報(公司尚未確認日期,依往例推估;另公司稱將自12/9起加大買回)",
+      "approx": true
+    },
+    {
+      "date": "2026-10-27",
+      "code": "SKHY",
+      "event": "SK海力士Q3 2026財報(預計日,公司公告查無):營業利益共識約78.06兆韓元(QoQ+29%),驗證匯率與獎金提列影響及HBM份額(Q2 50%,三星升至33%)",
+      "approx": true
+    },
+    {
+      "date": "2026-11-25",
+      "code": "NVDA",
+      "event": "NVDA Q3 FY27財報(財測營收約$108B;公司尚未公告日期,依往例推估)",
+      "approx": true
+    },
+    {
+      "date": "2026-10-28",
+      "code": "META",
+      "event": "Meta Q3 2026財報(盤後;財測營收$61~64B,將認列約$10B法律費用;另留意紐墨西哥10月內裁定;公司尚未公告日期)",
+      "approx": true
+    },
+    {
+      "date": "2026-10-28",
+      "code": "GOOG",
+      "event": "Q3 2026財報(盤後,美東16:30電話會議):驗證雲端成長與TPU外售、資本支出$195~205B與自由現金流",
+      "approx": false
+    },
+    {
+      "date": "2026-10-29",
+      "code": "AMZN",
+      "event": "Q3 2026財報(盤後,美東17:00電話會議):驗證AWS成長能否由Q2的+37%加速至約40%、營收是否超越財測上緣$202B(共識$202.08B)、資本支出約$220B與TTM FCF -$7.6B是否改善(日期取自第三方行事曆,未見公司公告)",
+      "approx": true
+    },
+    {
+      "date": "2026-10-28",
+      "code": "MSFT",
+      "event": "MSFT FY2027 Q1財報(盤後,公司已公告):驗證Azure約+45%財測、單季資本支出逾$500億與Copilot變現",
+      "approx": false
+    },
+    {
+      "date": "2026-11-02",
+      "code": "AAPL",
+      "event": "FY2026 Q4(9月季度)財報(Apple已公告,太平洋時間13:30公布、14:00法說會,Ternus首次):驗證毛利率是否落在47~48%指引、營收$111.7~$113.7B及iPhone 18 Pro貢獻",
+      "approx": false
+    },
+    {
+      "date": "2026-10-16",
+      "code": "AAPL",
+      "event": "iPhone Duo(摺疊機)開放預購;10/23開賣",
+      "approx": true
+    },
+    {
+      "date": "2026-10-21",
+      "code": "TSLA",
+      "event": "Q3 2026財報(美股盤後,Tesla IR公告):驗證汽車毛利率(Q2 16.3%)、資本支出(>$25B)與儲能",
+      "approx": false
+    },
+    {
+      "date": "2026-10-15",
+      "code": "TSLA",
+      "event": "Roadster發表會(自10/1延期)",
+      "approx": false
     }
   ]
 }
