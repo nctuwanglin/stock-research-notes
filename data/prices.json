@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-08",
+ "updated": "2026-10-09",
  "errors": [],
  "prices": {
   "1519": {
@@ -69,14 +69,14 @@
    "analysis_date": "2026-10-02"
   },
   "MU": {
-   "close": 1088.0,
-   "date": "20261007",
+   "close": 1035.8399658203125,
+   "date": "20261008",
    "analysis_price": 1088.0,
    "analysis_date": "2026-10-07"
   },
   "SNDK": {
-   "close": 1692.4200439453125,
-   "date": "20261007",
+   "close": 1609.4599609375,
+   "date": "20261008",
    "analysis_price": 1692.42,
    "analysis_date": "2026-10-07"
   },
@@ -471,8 +471,8 @@
    "analysis_date": "2026-10-02"
   },
   "SKHY": {
-   "close": 178.25,
-   "date": "20261007",
+   "close": 170.5,
+   "date": "20261008",
    "analysis_price": 178.25,
    "analysis_date": "2026-10-07"
   },
@@ -483,44 +483,44 @@
    "analysis_date": "2026-09-30"
   },
   "NVDA": {
-   "close": 237.47000122070312,
-   "date": "20261007",
+   "close": 230.47999572753906,
+   "date": "20261008",
    "analysis_price": 237.47,
    "analysis_date": "2026-10-07"
   },
   "AAPL": {
-   "close": 336.6700134277344,
-   "date": "20261007",
+   "close": 340.4200134277344,
+   "date": "20261008",
    "analysis_price": 336.67,
    "analysis_date": "2026-10-07"
   },
   "GOOG": {
-   "close": 347.3699951171875,
-   "date": "20261007",
+   "close": 344.8599853515625,
+   "date": "20261008",
    "analysis_price": 347.37,
    "analysis_date": "2026-10-07"
   },
   "META": {
-   "close": 721.3099975585938,
-   "date": "20261007",
+   "close": 720.8900146484375,
+   "date": "20261008",
    "analysis_price": 721.31,
    "analysis_date": "2026-10-07"
   },
   "AMZN": {
-   "close": 259.9200134277344,
-   "date": "20261007",
+   "close": 254.05999755859375,
+   "date": "20261008",
    "analysis_price": 259.92,
    "analysis_date": "2026-10-07"
   },
   "MSFT": {
-   "close": 529.760009765625,
-   "date": "20261007",
+   "close": 522.6099853515625,
+   "date": "20261008",
    "analysis_price": 529.76,
    "analysis_date": "2026-10-07"
   },
   "TSLA": {
-   "close": 377.80999755859375,
-   "date": "20261007",
+   "close": 375.0,
+   "date": "20261008",
    "analysis_price": 377.81,
    "analysis_date": "2026-10-07"
   }
