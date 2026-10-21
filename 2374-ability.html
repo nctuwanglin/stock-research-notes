@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佳能企業 (2374) 股票分析儀表板</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#1a2130; --card2:#212a3d; --border:#2c3850;
+    --text:#e8ecf4; --muted:#8b96ab; --green:#2ecc71; --red:#e74c3c;
+    --amber:#f5b041; --blue:#4da3ff; --purple:#a78bfa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"PingFang TC","Microsoft JhengHei",sans-serif;}
+  body{background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:0 auto;}
+  h1{font-size:26px;margin-bottom:4px;}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--blue);border-left:4px solid var(--blue);padding-left:10px;}
+  h3{font-size:14.5px;margin:6px 0 6px;color:var(--text);}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .grid{display:grid;gap:12px;}
+  .cards6{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .card .label{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card .value{font-size:20px;font-weight:700;}
+  .card .note{font-size:11px;color:var(--muted);margin-top:4px;}
+  .green{color:var(--green);} .red{color:var(--red);} .amber{color:var(--amber);}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .badge.green{background:rgba(46,204,113,.15);color:var(--green);}
+  .badge.red{background:rgba(231,76,60,.15);color:var(--red);}
+  .badge.amber{background:rgba(245,176,65,.15);color:var(--amber);}
+  .badge.purple{background:rgba(167,139,250,.15);color:var(--purple);}
+  .badge.dispo{background:rgba(231,76,60,.25);color:#ff8a80;border:1px solid var(--red);}
+  .badge.attn{background:rgba(245,176,65,.25);color:var(--amber);border:1px solid var(--amber);}
+  table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:12px;overflow:hidden;}
+  th{background:var(--card2);color:var(--muted);font-weight:600;padding:10px;text-align:left;}
+  td{padding:10px;border-top:1px solid var(--border);}
+  tr.hl td{background:rgba(77,163,255,.12);font-weight:700;}
+  .timeline{list-style:none;}
+  .timeline li{position:relative;padding:0 0 16px 24px;border-left:2px solid var(--border);margin-left:8px;font-size:13.5px;}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);}
+  .timeline li:last-child{border-left:2px solid transparent;}
+  .timeline .date{color:var(--amber);font-weight:700;margin-right:8px;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:700px){.twocol{grid-template-columns:1fr;}}
+  .quote{background:var(--card2);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:8px;}
+  .quote .src{color:var(--muted);font-size:11px;}
+  .flow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8;margin-bottom:10px;}
+  .ladder{position:relative;height:200px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin:10px 0 16px;}
+  .scale{position:absolute;top:122px;left:4%;right:4%;height:8px;border-radius:4px;
+    background:linear-gradient(90deg,var(--red) 0%,var(--amber) 38%,var(--green) 64%,var(--purple) 100%);}
+  .mark{position:absolute;top:26px;transform:translateX(-50%);text-align:center;font-size:11.5px;}
+  .mark .lbl{white-space:nowrap;color:var(--muted);}
+  .mark .price{font-weight:700;font-size:14px;white-space:nowrap;margin-top:2px;}
+  .mark .stem{width:2px;height:52px;background:rgba(255,255,255,.25);margin:4px auto 0;}
+  .mark .dot{width:14px;height:14px;border-radius:50%;margin:-4px auto 0;border:2px solid #fff;}
+  .mark.below{top:138px;}
+  .mark.below .arrow{color:#fff;font-size:13px;line-height:1;}
+  .mark.below .price{margin-top:0;}
+  .plangrid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
+  .concl{background:linear-gradient(135deg,#1e2a45,#182036);border:1px solid var(--border);border-radius:12px;padding:16px;font-size:14px;line-height:1.8;margin-bottom:10px;}
+  .concl b{color:var(--amber);}
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);color:var(--muted);font-size:11.5px;line-height:1.7;}
+  .senti{display:flex;gap:12px;flex-wrap:wrap;}
+  .senti .card{flex:1;min-width:220px;}
+  .bar{height:10px;border-radius:5px;background:var(--border);overflow:hidden;margin-top:8px;}
+  .bar>div{height:100%;}
+  .backhome{display:inline-block;color:var(--muted);font-size:13px;text-decoration:none;margin-bottom:8px;}
+  .backhome:hover{color:var(--blue);}
+  .instflow{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:13px;color:var(--muted);}
+  .verdictbox{background:linear-gradient(135deg,#14304a,#161f31);border:1px solid var(--blue);
+    border-radius:14px;padding:16px 18px;margin:0 0 20px;}
+  .verdictbox .vtop{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .verdictbox .vtag{font-size:12px;color:var(--muted);}
+  .verdictbox .vrate{font-size:19px;font-weight:800;}
+  .verdictbox .vrate.green{color:var(--green);} .verdictbox .vrate.amber{color:var(--amber);}
+  .verdictbox .vrate.red{color:var(--red);}
+  .verdict{font-size:15px;margin-bottom:8px;}
+  .verdict b{font-size:18px;font-weight:800;}
+  .verdict .up{color:var(--green);} .verdict .down{color:var(--red);} .verdict .flat{color:var(--muted);}
+  .verdictbox .vbasis{font-size:12px;color:var(--muted);line-height:1.7;}
+  .verdictbox .vstop{color:#ff8a80;font-weight:700;}
+/* ==== shared-overrides v3 ==== */
+  /* 停損已觸發提示(由 update_freshness.py 每日重算後注入 .verdict 內) */
+  .stopalert{display:block;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:12.5px;
+    font-weight:700;color:#ff8a80;background:rgba(231,76,60,.12);border:1px solid var(--red);}
+  /* 平板以下:多欄表格改為可局部橫捲,避免撐破整頁 */
+  @media(max-width:900px){
+    table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    /* 卡片內的長數字串(如 YoY+30.83%)屬不可斷詞,會把 flex 項目撐寬 */
+    .card .value,.card .note,.card .label{overflow-wrap:anywhere;}
+    .senti{flex-wrap:wrap;}
+    .senti .card{min-width:0;flex:1 1 240px;}
+  }
+  /* 手機:縮邊距、四情境圖改縱向清單(絕對定位的 nowrap 標籤在窄螢幕必然互相遮疊) */
+  @media(max-width:760px){
+    body{padding:12px;}
+    h1{font-size:20px;} .card .value{font-size:17px;}
+    .ladder{height:auto;padding:8px 10px;}
+    .ladder .scale{display:none;}
+    .ladder .mark{position:static;transform:none;top:auto;left:auto!important;
+      display:flex;gap:10px;align-items:baseline;text-align:left;
+      padding:7px 0;border-bottom:1px solid var(--border);}
+    .ladder .mark:last-child{border-bottom:none;}
+    .ladder .mark .stem,.ladder .mark .dot,.ladder .mark .arrow{display:none;}
+    .ladder .mark .lbl{white-space:normal;min-width:104px;}
+    .ladder .mark .price{margin-top:0;}
+    .ladder .mark.below{background:rgba(77,163,255,.12);border-radius:6px;
+      padding:7px 8px;border-bottom:none;}
+  }
+  /* 鍵盤操作可見焦點 */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px;}
+  /* 列印:深色底改白底、避免卡片與表格被切斷 */
+  @media print{
+    body{background:#fff;color:#111;max-width:none;padding:8mm;}
+    h2{color:#111;border-left-color:#888;}
+    .card,.flow,.concl,.verdictbox,.quote,.instflow{background:#fff!important;border-color:#bbb!important;
+      break-inside:avoid;page-break-inside:avoid;}
+    .concl b,.card .value{color:#111!important;}
+    table{break-inside:avoid;page-break-inside:avoid;font-size:11px;}
+    th{background:#eee!important;color:#111!important;}
+    .backhome,.ladder .stem,.ladder .dot{display:none;}
+    .ladder{height:auto;border:none;}
+    .ladder .mark{position:static;transform:none;left:auto!important;display:flex;gap:8px;padding:3px 0;}
+    .ladder .scale{display:none;}
+    footer{color:#444;}
+  }
+</style>
+</head>
+<body>
+<a href="index.html" class="backhome">← 返回首頁</a>
+
+<h1>佳能企業 (2374) <span class="badge amber">估值:合理,Trailing P/E 19.7倍貼近高信度區間(16~22倍)中段</span> <span class="badge amber">結論:觀望,營收仍成長但毛利率年減4個百分點、現價已在Base區間內</span><span class="autodispo" data-code="2374"></span></h1>
+<div class="sub">台股(TWSE上市)・數位相機/360度與複合式相機代工(ODM)與光學模組,轉型邊緣AI影像、機器人視覺與無人機模組|新分析(10/21收盤版,納入9月營收、Q2財報與H1財務)|股價截至 2026/10/21 收盤,製表 2026/10/22|<span class="dispostat" data-code="2374">未列入處置股/注意股名單(對照處置股儀表板 2026/10/20 資料)</span></div>
+
+<div class="verdictbox">
+  <div class="vtop"><span class="vtag">本站評等</span><span class="vrate amber">中性</span><span class="vtag">失效價 <span class="vstop">56</span>(收盤跌破即出場)</span></div>
+  <div class="verdict" data-code="2374">現價 <b>66.5</b> → 目標價 <b>67</b><span class="up"> (+0.8%)</span></div>
+  <div class="vbasis">推導依據:錨點為Trailing P/E(高信度,已實現數字):近四季EPS 3.37元(Q3'25 0.90 + Q4'25 0.92 + 2026上半年1.55,其中Q3'25為前三季1.52減上半年0.62回推、Q4'25為全年2.44減前三季1.52回推)× 16~22倍 = 53.9~74.1元(中值64.0)。倍數取16~22而非同業的22~32倍,原因是佳能毛利率僅約24%(H1 24.18%),大立光Q3毛利率42.21%、玉晶光與亞光亦屬較高階光學,佳能主體為相機代工,本站給予相對同業折價。現價66.5為19.7倍trailing,高於中值3.9%。目標價67對應約19.9倍trailing、約19.6倍2026E中值3.41元,取區間中段偏上而非上緣,原因是:①營收成長動能確實存在(2026前9月累計94.81億元、YoY+44.31%,已超過公司「百億」目標的95%),Q2稅後純益YoY+137%;但②毛利率H1僅24.18%、年減4.41個百分點,Q3毛利率查無,獲利成長主要靠營收規模與費用槓桿;③9月營收YoY降到+14.52%、MoM-7.35%,且10月基期高(2025年10月11.6億元,近9年新高),YoY可能再收斂。Forward P/E(2026E 3.24~3.57,自行推演)得51.8~78.5、中值65.2,僅作書擋不採平均;查無具名券商目標價可交叉驗證。上檔+0.8%,屬中性帶。</div>
+</div>
+
+<div class="grid cards6">
+  <div class="card"><div class="label">現價(10/21收盤)</div><div class="value">66.50</div><div class="note">10/21 +2.60(+4.1%),成交4,344張約為前13日均量2.8倍;市值約224.8億(股本33.80億)</div></div>
+  <div class="card"><div class="label">9月營收</div><div class="value amber">12.16億</div><div class="note">MoM-7.35%、YoY+14.52%;累計94.81億 YoY+44.31%(TWSE 10/17)</div></div>
+  <div class="card"><div class="label">2026上半年EPS</div><div class="value green">1.55</div><div class="note">稅後歸屬母公司5.11億;Q2單季EPS 0.82(YoY約+100%)</div></div>
+  <div class="card"><div class="label">H1毛利率 / 營益率</div><div class="value amber">24.18% / 9.8%</div><div class="note">毛利率年減4.41pp;營益5.69億÷營收57.92億</div></div>
+  <div class="card"><div class="label">今年(2026)區間</div><div class="value">59.0~97.6</div><div class="note">盤中低7/30、高1/29;距高點-31.9%;1/2首日收盤79.2(年初前一日收盤查無)</div></div>
+  <div class="card"><div class="label">近30日區間</div><div class="value">62.5~67.9</div><div class="note">9/21~10/21盤中;9/21收67.3→10/21收66.5(-1.2%)</div></div>
+</div>
+
+<h2>① 催化劑分析 — 營收創高,為何股價仍在66上下盤整?</h2>
+<ul class="timeline">
+  <li><span class="date">2025年全年</span>營收99.08億元、毛利率25.19%(年減3.71pp)、稅後純益7.88億元(年增44.23%)、EPS 2.44元(來源為搜尋摘要,單一來源);2025前三季營收65.69億元(與TWSE去年累計值6,569,844仟元相符)、EPS 1.52元;2025年10月營收11.6億元創近9年新高(媒體標題)。</li>
+  <li><span class="date">2026/01~03</span>1月營收10.7億元,YoY+109.5%;1~2月17.37億元、YoY+71%。公司定調2026年以邊緣AI、機器人視覺、無人機三大領域拚營收突破百億、獲利挑戰新高;同期辦理私募/現增每股66元與3億元無擔保可轉債(原轉換價86.8元,是否調整查無)。股價1/29盤中衝至97.6(當日成交約6.5萬張)後回落。</li>
+  <li><span class="date">2026/07/24</span>Q2營收31.36億元(QoQ+18.08%、YoY+34.3%),6月營收10.49億元;公司/法人說下半年營收優於上半年、2027年優於2026年;2024~2025年開發的新產品預計2026年Q3~Q4陸續投產,下半年預計再進1~2家新客戶(含日本品牌客戶與大型代工客戶);台灣廠SMT升級,月產能預計2026年底由1.5萬台增至2.0萬台;寮步廠供非美地區、越南廠供美國地區。</li>
+  <li><span class="date">2026/08/19</span>2025年現金股利每股2元(12年新高)除息,9/16發放;以現價66.5計殖利率約3.0%。</li>
+  <li><span class="date">2026/H1財報</span>營收57.92億元(YoY+51.37%)、毛利率24.18%、營業利益5.69億元、業外淨收益0.56億元、稅前6.25億元、歸屬母公司稅後5.11億元(YoY+151%)、EPS 1.55元。Q2單季稅後2.75億元(QoQ+16.43%)、EPS 0.82元、毛利率24.07%(QoQ-0.25pp、YoY-4.06pp)。公司強調AI影像滲透率、高階產品比重與策略合作(轉投資佳捷智能,結合鑫蘊林科的AI視覺並以NVIDIA Metropolis建構推論架構)為下半年動能。</li>
+  <li><span class="date">2026/10/08~10/09</span>9月營收12.16億元(MoM-7.35%、YoY+14.52%);推得7月約11.60億、8月13.13億(皆為TWSE累計值回推),Q3營收約36.89億元,QoQ+17.6%、YoY約+34.7%(2025 Q3 27.4億)。</li>
+  <li><span class="date">2026/10/13~10/21</span>大盤10/13~10/19大幅回檔(10/19加權收46,822.08點、-0.61%,取自站內3008/3030頁引述證交所資料)。佳能10/13收63.7(-2.1)、10/15收63.5(-2.4)、10/19收63.2(30日低點區);10/21單日反彈+2.6至66.5,量放大至4,344張,個股專屬原因查無。</li>
+  <li><span class="date">警訊</span>①毛利率:2024年約28.9%(2025年25.19%+3.71pp)→2025年25.19%→2026 H1 24.18%,營收成長主要是以較低毛利、費用槓桿換來的規模;Q3毛利率在11月前查無。②YoY動能遞減:1月+109%、H1+51%、Q2+34%、9月+14.5%,而2025年10月基期11.6億元偏高,10月YoY很可能降到個位數到低雙位數(視10月營收12~13億元而定,此為自行推估)。③新業務占比:2025年11月法說稱機器人視覺+無人機占2026年營收5~10%、2027年挑戰20%(研究與法說說法,未實現);2026年主體仍是影像應用(含DSC/360度/複合式相機,公司預估約70%)與光學模組(約10%),本站查無H1實際占比。④客戶集中度與美國關稅:董座稱美國關稅與匯率不確定性已收斂,但客戶名單與集中度查無。</li>
+</ul>
+
+<div class="twocol">
+  <div>
+    <h2>市場主流敘事(多方)</h2>
+    <div class="quote">2026年以邊緣AI、機器人視覺、無人機三大領域拚營收突破百億元、獲利挑戰新高;1月營收YoY+109.5%為10年同期新高,公司稱美台關稅不確定性消退後客戶專案出貨轉為穩定。<div class="src">— 公司說明,經工商時報/TechNews/聯合報引述,2026/02/04</div></div>
+    <div class="quote">下半年營收優於上半年、2027年優於2026年;2024~2025年開發的新品預計Q3~Q4投產,下半年再進1~2家新客戶;機器人視覺與無人機占比目標2026年5~10%、2027年20%。<div class="src">— 工商時報 2026/07/24;價值型投資/鉅亨號 2025/11/11</div></div>
+    <div class="quote">散戶常喊目標價:<b>查無</b>(未找到具名討論串或公開目標價)</div>
+  </div>
+  <div>
+    <h2>空方/謹慎觀點</h2>
+    <div class="quote">H1毛利率24.18%、年減4.41pp,而同業大立光Q3毛利率42.21%(本站3008頁);佳能獲利槓桿來自規模而非產品結構,毛利率沒有隨營收放大而改善。<div class="src">— 本儀表板觀察(TWSE H1財報;站內3008頁)</div></div>
+    <div class="quote">9月營收YoY降至+14.52%、MoM-7.35%,Q4又面臨10月11.6億元的高基期;「全年超過百億」已在Q3達成(前9月94.81億),後續是否維持成長才是估值關鍵。<div class="src">— 本儀表板推算(TWSE t187ap05_L;聯合報)</div></div>
+  </div>
+</div>
+
+<h2>機構法人觀點</h2>
+<table>
+  <tr><th>來源</th><th>日期</th><th>評等/目標價</th><th>EPS預估</th><th>本站採信度</th></tr>
+  <tr><td>具名券商正式報告</td><td>—</td><td>查無(搜尋3次均未找到外資/投顧對2374的目標價)</td><td>查無</td><td>—</td></tr>
+  <tr><td>法人預期(工商時報引述)</td><td>2026/07/24</td><td>無目標價</td><td>僅稱Q2 EPS優於去年同期;全年營收明顯成長</td><td class="amber">質化,無數字,僅作方向參考</td></tr>
+  <tr><td>價值型投資研究(鉅亨號,蔡慶龍)</td><td>2025/11/11</td><td>查無目標價</td><td>查無</td><td class="amber">僅提供機器人視覺+無人機占比目標(2026年5~10%、2027年20%),已過時一季以上</td></tr>
+  <tr><td colspan="5" style="color:var(--muted)">分析師追蹤人數、共識評等、近30天目標價調整:查無。內部人申報:查無。三大法人買賣超由下方每日盤後腳本自動帶入。</td></tr>
+</table>
+
+<h2>三大法人籌碼流向(近 10 個交易日)</h2>
+<div class="instflow" data-code="2374"><table><tr><th>法人</th><th>近 10 日累計</th><th>買超天數</th><th>最近一日</th></tr><tr><td>外資及陸資</td><td><span class="green">+534</span></td><td>6/10</td><td><span class="green">+628</span></td></tr><tr><td>投信</td><td>+0</td><td>0/10</td><td>+0</td></tr><tr><td>自營商</td><td><span class="red">-52</span></td><td>1/10</td><td><span class="green">+9</span></td></tr><tr class="hl"><td>三大法人合計</td><td><span class="green">+483</span></td><td>6/10</td><td><span class="green">+637</span></td></tr></table><table style="margin-top:10px"><tr><th>日期</th><th>外資及陸資</th><th>投信</th><th>自營商</th><th>合計</th></tr><tr><td>10/21</td><td><span class="green">+628</span></td><td>+0</td><td><span class="green">+9</span></td><td><span class="green">+637</span></td></tr><tr><td>10/20</td><td><span class="green">+488</span></td><td>+0</td><td><span class="red">-6</span></td><td><span class="green">+482</span></td></tr><tr><td>10/19</td><td><span class="red">-282</span></td><td>+0</td><td><span class="red">-13</span></td><td><span class="red">-295</span></td></tr><tr><td>10/16</td><td><span class="green">+482</span></td><td>+0</td><td><span class="red">-5</span></td><td><span class="green">+478</span></td></tr><tr><td>10/15</td><td><span class="red">-921</span></td><td>+0</td><td><span class="red">-7</span></td><td><span class="red">-928</span></td></tr><tr><td>10/14</td><td><span class="green">+309</span></td><td>+0</td><td><span class="red">-11</span></td><td><span class="green">+297</span></td></tr><tr><td>10/13</td><td><span class="red">-742</span></td><td>+0</td><td><span class="red">-12</span></td><td><span class="red">-754</span></td></tr><tr><td>10/12</td><td><span class="green">+283</span></td><td>+0</td><td><span class="red">-7</span></td><td><span class="green">+276</span></td></tr><tr><td>10/08</td><td><span class="red">-104</span></td><td>+0</td><td>+0</td><td><span class="red">-103</span></td></tr><tr><td>10/07</td><td><span class="green">+393</span></td><td>+0</td><td>+0</td><td><span class="green">+393</span></td></tr></table><div class="note" style="font-size:11.5px;margin-top:8px;color:var(--muted);line-height:1.7">資料期間 10/07~10/21(共 10 個交易日)|單位:張|外資及陸資已含外資自營商,自營商為自行買賣+避險合計|來源:TWSE T86 / TPEx 三大法人買賣明細,每日盤後自動更新。<br>僅呈現<b>買賣超流量</b>:交易所每日只公布外資及陸資持股比率,投信與自營商持股比率未公布,故三者一律以流量口徑呈現以便直接比較。</div></div><!--/instflow-->
+
+<h2>② 基本面與同業估值 — 現在貴不貴?</h2>
+<div class="grid cards6">
+  <div class="card"><div class="label">近四季EPS(至Q2)</div><div class="value green">3.37</div><div class="note">0.90+0.92+1.55(皆為回推值);TWSE官方P/E 19.72倍(10/20收63.9)隱含約3.24</div></div>
+  <div class="card"><div class="label">現價隱含Trailing P/E</div><div class="value amber">約19.7倍</div><div class="note">66.5÷3.37;以TWSE隱含EPS 3.24計約20.5倍</div></div>
+  <div class="card"><div class="label">2026E EPS(自行推演)</div><div class="value">3.24~3.57</div><div class="note">H1 1.55 + Q3 0.87~0.98 + Q4 0.82~1.04(淨利率8~9%);forward約19.5倍</div></div>
+  <div class="card"><div class="label">營收成長 / 淨利率</div><div class="value green">+44.3% / 8.8%</div><div class="note">前9月營收YoY;H1稅後5.11億÷營收57.92億;Q4'26預估營收34.5~39億(自行推估,月營收11.5~13億)</div></div>
+  <div class="card"><div class="label">P/B / P/S(近12月)</div><div class="value">2.52倍 / 1.75倍</div><div class="note">每股淨值26.41元(6/30);近12月營收約128.2億(99.08−65.69+94.81);EV/Sales查無</div></div>
+  <div class="card"><div class="label">主動式ETF持有度</div><div class="value red">未被任何主動式ETF持有</div><div class="note">本機active-etf資料庫 2026/10/21更新</div></div>
+</div>
+<div class="grid cards6" style="margin-top:12px">
+  <div class="card"><div class="label">資產負債(6/30)</div><div class="value">負債比37.9%</div><div class="note">總資產148.4億、總負債56.2億、權益92.2億;流動比1.59;現金明細查無</div></div>
+  <div class="card"><div class="label">殖利率</div><div class="value">約3.0%</div><div class="note">2025年現金股利2元÷66.5;TWSE 3.11%(以63.9計)</div></div>
+  <div class="card"><div class="label">股本稀釋</div><div class="value amber">約+4.6%</div><div class="note">2025加權股數約3.23億(7.88÷2.44)→現3.38億股;含現增66元;3億元CB原轉換價86.8元(現價下價外)</div></div>
+  <div class="card"><div class="label">公司財測</div><div class="value amber">質化</div><div class="note">2026營收拚破百億、H2優於H1;無數字EPS或毛利率財測</div></div>
+</div>
+
+<h2>同業比較(Trailing P/E,TWSE/TPEx 2026/10/20~10/21;佳能收盤為2026/10/21)</h2>
+<table>
+  <tr><th>代號</th><th>公司</th><th>收盤</th><th>Trailing P/E</th><th>成長 / 毛利率</th><th>與佳能的定位差異</th></tr>
+  <tr class="hl"><td>2374.TW</td><td>佳能</td><td>66.5(10/21)</td><td>19.72x(10/20)</td><td>前9月營收+44.3%;H1毛利率24.18%</td><td>相機/360度/複合式相機代工為主,光學模組約10%,AI影像、機器人視覺為新品線</td></tr>
+  <tr><td>3008.TW</td><td>大立光</td><td>5,975(10/20)</td><td>31.78x</td><td>Q3毛利率42.21%(本站3008頁)</td><td>高階手機鏡頭龍頭,毛利率高、產品結構與佳能的相機ODM完全不同</td></tr>
+  <tr><td>3406.TW</td><td>玉晶光</td><td>1,040(10/20)</td><td>28.14x</td><td>查無</td><td>手機/車載鏡頭,規模與毛利率高於佳能,間接競爭光學模組</td></tr>
+  <tr><td>3019.TW</td><td>亞光</td><td>132.0(10/20)</td><td>22.26x</td><td>查無</td><td>數位相機/光學元件與機器人視覺題材,與佳能最接近(同為相機鏡頭模組概念)</td></tr>
+  <tr><td>3059.TW</td><td>華晶科</td><td>38.10(10/20)</td><td>30.24x</td><td>查無</td><td>影像處理/相機模組,規模小、EPS基數低使本益比偏高</td></tr>
+  <tr><td>3362.TWO</td><td>先進光</td><td>查無</td><td>虧損(N/A,10/21)</td><td>查無</td><td>光學模組,目前無獲利,P/E不適用</td></tr>
+</table>
+<div class="card" style="margin-top:10px">
+  <b>估值判斷:合理——Trailing P/E 19.7倍落在高信度區間(16~22倍)中段;相對同業P/E折價約三成,反映毛利率差距而非錯殺。</b>
+  <div class="note" style="font-size:13px;color:var(--text);margin-top:6px">佳能20.5x(10/21收盤÷TWSE隱含EPS 3.24)vs 四家有獲利同業中位29.2x(亞光22.26、玉晶光28.14、華晶科30.24、大立光31.78)= 折價約29.7%(1−20.5/29.2;與同業日期相差一天)。折價主因是佳能H1毛利率24.18%,遠低於大立光42.21%,且主體是代工業務,議價力與倍數較低,本站給16~22倍區間而不套用同業28~32倍。以近四季EPS 3.37元套用16~22倍,合理價53.9~74.1元(中值64.0),現價66.5高於中值3.9%。特殊情況:2026E EPS 3.24~3.57較2025年2.44成長33~46%,forward約19.5倍、PEG約0.5;但成長來自規模,毛利率仍在下滑,且Q3、Q4的YoY成長正在收斂,PEG不宜單獨解讀為低估。</div>
+</div>
+
+<h2>估值方法交叉檢核</h2>
+<table>
+  <tr><th>方法</th><th>關鍵假設</th><th>合理價區間</th><th>現價66.5 vs 中值</th></tr>
+  <tr class="hl"><td>Trailing P/E(高信度,錨點)</td><td>近四季EPS 3.37(至Q2核閱財報)× 16~22x</td><td>53.9~74.1(中值64.0)</td><td class="amber">合理 +3.9%</td></tr>
+  <tr><td>Forward P/E(中低信度,自行推演)</td><td>2026E 3.24~3.57 × 16~22x</td><td>51.8~78.5(中值65.2)</td><td class="amber">略高 +2.0%(僅供對照)</td></tr>
+  <tr><td>同業P/E相對比較(書擋)</td><td>四家有獲利同業中位29.2x;佳能毛利率24%對同業較高階,給折價</td><td>—</td><td class="green">佳能約20.5x,折價約30%,業務組合不同不直接套用</td></tr>
+  <tr><td>P/B(書擋)</td><td>每股淨值26.41元(6/30)×2.0~3.0x</td><td>52.8~79.2(中值66.0)</td><td class="amber">貼近中值 +0.8%(P/B區間為本站假設,對照亞光2.48x、華晶科1.15x、玉晶光4.33x)</td></tr>
+  <tr><td>P/S(近12月營收,書擋)</td><td>市值224.8億÷近12月營收約128.2億</td><td>1.75x</td><td style="color:var(--muted)">無同業P/S可比,EV/Sales(淨現金)查無,不採用</td></tr>
+</table>
+<div class="note" style="font-size:12.5px;color:var(--text);margin:8px 2px 0">交集/分歧意涵:錨點採Trailing P/E(已實現數字、區間53.9~74.1),目標價67落在此區間內。Forward P/E中值65.2與P/B中值66.0都和目標價相近,但2026E中有約四成(Q3/Q4合計)是本站推演,僅作對照,不做跨方法平均。簡化DCF略去:毛利率趨勢與新業務(機器人視覺、無人機)占比查無穩定共識。</div>
+
+<h2>③ 風險報酬 — 還有多少空間?</h2>
+<div class="senti">
+  <div class="card"><div class="label">散戶/市場情緒</div><div class="value amber">查無個股討論;價量偏中性</div><div class="bar"><div style="width:50%;background:var(--amber)"></div></div><div class="note">PTT/股市爆料同學會的個股討論未找到可引用內容;10/21量放大2.8倍反彈+4.1%,但仍在62.5~67.9的30日區間內</div></div>
+  <div class="card"><div class="label">分析師共識</div><div class="value red">查無具名券商目標價</div><div class="note">追蹤人數查無;近30天目標價調整查無;無共識EPS可對照</div></div>
+  <div class="card"><div class="label">獲利預估路徑</div><div class="value">2.44(2025)→3.24~3.57(2026E)</div><div class="note">2027E共識查無;約11/10的10月營收與11月中旬Q3財報/法說(毛利率)為下一驗證點</div></div>
+</div>
+
+<h2>三年估值路徑</h2>
+<table>
+  <tr><th>年度</th><th>EPS假設</th><th>合理倍數</th><th>對應價位區間</th><th>現價買入隱含報酬(累積)</th></tr>
+  <tr><td>2026E(自行推演)</td><td>3.24~3.57(H1實際1.55 + Q3 0.87~0.98 + Q4 0.82~1.04)</td><td>16~22x</td><td>51.8~78.5(中值 65.2)</td><td class="amber">約 -2.0%(信度中低)</td></tr>
+  <tr><td>2027E</td><td style="color:var(--muted)">查無機構共識;公司稱2027年營收優於2026年,機器人視覺+無人機目標占20%(未量化EPS)。本站僅在Stretched情境以假設值4.1元(2026E上緣+15%)示意,非預測</td><td>—</td><td>查無</td><td>查無</td></tr>
+</table>
+<div class="note" style="font-size:11.5px;color:var(--muted);margin:6px 2px 0">累積報酬=區間中值/分析基準價66.5−1。2026E已有約45%為實際H1數字,Q3以營收36.89億元(已知)× 淨利率8~9%推估、Q4營收以月營收11.5~13億元假設推估;2027年不強行推演。</div>
+
+<h2>四種股價情境</h2>
+<!-- 刻度 40~110;left% = (價格-40)/70×92+4 -->
+<div class="ladder">
+  <div class="scale"></div>
+  <div class="mark" style="left:15.2%"><div class="lbl">Bear(3~6月)</div><div class="price red">45~52</div><div class="stem"></div><div class="dot" style="background:var(--red)"></div></div>
+  <div class="mark" style="left:36.2%"><div class="lbl">Base(6~12月)</div><div class="price amber">58~71</div><div class="stem"></div><div class="dot" style="background:var(--amber)"></div></div>
+  <div class="mark" style="left:59.9%"><div class="lbl">Bull(12~18月)</div><div class="price green">79~86</div><div class="stem"></div><div class="dot" style="background:var(--green)"></div></div>
+  <div class="mark" style="left:80.2%"><div class="lbl">Stretched(24月)</div><div class="price" style="color:var(--purple)">98</div><div class="stem"></div><div class="dot" style="background:var(--purple)"></div></div>
+  <div class="mark below" style="left:38.8%"><div class="arrow">▲</div><div class="price">66.50</div><div class="lbl">現價(10/21收盤)</div></div>
+</div>
+<table>
+  <tr><th>情境</th><th>價位</th><th>推導依據(P/E × EPS)</th><th>潛在報酬(中值)</th></tr>
+  <tr><td class="red">Bear</td><td>45~52</td><td>2026E下緣3.24 × 14~16x:Q3毛利率續下探、10月營收YoY轉為個位數,市場把佳能當成低毛利代工而非AI影像轉型股,倍數回到區間下緣以下;股價跌破7/30低點59.0</td><td class="red">約 -27.1%(中值48.5)</td></tr>
+  <tr><td class="amber">Base</td><td>58~71</td><td>2026E 3.24~3.57 × 18~20x:營收維持H2優於H1、毛利率守在24%上下、新品陸續投產,倍數維持現行水準;現價落在區間內</td><td class="red">約 -3.0%(中值64.5)</td></tr>
+  <tr><td class="green">Bull</td><td>79~86</td><td>2026E上緣3.57 × 22~24x:Q3/Q4毛利率回升至26%以上、機器人視覺與無人機放量,倍數往亞光22.3x至玉晶光28.1x的低端靠攏</td><td class="green">約 +24.1%(中值82.5)</td></tr>
+  <tr><td style="color:var(--purple)">Stretched</td><td>98</td><td>2027E假設值4.1元(2026E上緣3.57+15%,非共識)× 24x:機器人視覺+無人機占比達公司目標20%、毛利率明顯結構性改善;接近1/29盤中高點97.6</td><td class="green">約 +47.4%</td></tr>
+</table>
+
+<h2>交易計畫(左側/右側雙軌)</h2>
+<div class="twocol">
+  <div class="card">
+    <div class="label">左側計畫|逆勢分批,適合中長期</div>
+    <table style="margin-top:8px">
+      <tr><th>批次</th><th>價位</th><th>倉位</th></tr>
+      <tr><td>第一批</td><td class="green">62~65</td><td>30%(約18.4~19.3x近四季EPS;10/13~10/20回檔區63.0~65.3)</td></tr>
+      <tr><td>第二批</td><td class="green">59~61.5</td><td>35%(7/30盤中低點59.0附近,約17.5~18.2x)</td></tr>
+      <tr><td>第三批</td><td class="green">57~58.5</td><td>35%(接近硬停損,需見Q3財報毛利率止穩)</td></tr>
+    </table>
+    <div class="note" style="margin-top:8px">硬停損:收盤跌破 <b class="red">56</b>(約16.6x近四季EPS,接近高信度區間下緣53.9,且低於7/30低點59.0約5%)= 市場在營收與EPS仍成長下,連16.6倍都不給,轉型重估邏輯失效,無條件出場</div>
+  </div>
+  <div class="card">
+    <div class="label">右側計畫|順勢突破,適合波段</div>
+    <div class="note" style="font-size:13px;color:var(--text);line-height:2;margin-top:8px">
+    觸發條件:收盤站上68(高於30日高點67.9)+量能維持放大,且約11/10公布的10月營收守住12億元以上<br>
+    進場區:<b class="green">68~72</b>(不高於高信度區間上緣74.1)<br>
+    移動停利:跌破10日線或高點回檔10%<br>
+    假突破失效:觸發後2日內跌回65即出場</div>
+  </div>
+</div>
+<div class="grid plangrid" style="margin-top:12px">
+  <div class="card"><div class="label">第一次減碼(兩軌共用)</div><div class="value amber">79~86</div><div class="note">賣出30~50%;Bull區,已高於高信度區間上緣74.1</div></div>
+  <div class="card"><div class="label">第二次減碼(兩軌共用)</div><div class="value amber">98</div><div class="note">Stretched區;續抱條件是毛利率回升與機器人視覺/無人機占比同步獲驗證</div></div>
+</div>
+
+<h2>三句話總結</h2>
+<div class="concl">① <b>催化劑</b>:最近股價在62.5~67.9盤整、10/21量放大反彈至66.5的背景,是前9月營收94.81億元(YoY+44.31%)、H1 EPS 1.55元的高成長,對上大盤10/13~10/19回檔;但很少人討論的是H1毛利率24.18%年減4.41個百分點,9月營收YoY已降至+14.52%,而且2025年10月基期高達11.6億元。</div>
+<div class="concl">② <b>估值</b>:如果你相信邊緣AI影像、機器人視覺與無人機能讓佳能由相機代工轉型,那麼相較同業屬於便宜(約20.5x vs 同業中位29.2x);但佳能毛利率遠低於同業,以高信度的Trailing P/E區間53.9~74.1(中值64.0)衡量,現價66.5屬合理。</div>
+<div class="concl">③ <b>結論</b>:這是一筆建議觀望、等回檔的中長期標的——目標價67僅+0.8%,現價已在Base區間58~71內;回檔至62~65再分批,收盤跌破56即出場,約11/10的10月營收與11月中旬Q3財報(毛利率能否止穩)是下一個驗證點。</div>
+
+<footer>
+資料時間:股價 2026/10/21 收盤(TWSE STOCK_DAY,含2026年1~10月日K計算區間與30日高低);本益比/P/B/殖利率 2026/10/20(TWSE BWIBBU_ALL);同業收盤與本益比 2026/10/20(TWSE),先進光 2026/10/21(TPEx);9月營收與累計(TWSE t187ap05_L,2026/10/17出表);H1損益與6/30資產負債(TWSE t187ap06_L_ci、t187ap07_L_ci,2026/10/21出表);Q2財報與毛利率(uAnalyze);7月24日法說/展望與股利(工商時報 2026/07/24);2026年三大領域與百億目標(聯合報/TechNews 2026/02/04);2025年全年數字、10月營收與2025年Q3(搜尋摘要,單一來源,未逐一核對原文);2025年產品占比與機器人無人機目標(民報、鉅亨號 2025/11);主動式ETF持有度(本機active-etf資料庫 active.json,2026/10/21更新,查無持有);處置/注意股狀態(TWSE OpenAPI 2026/10/22查核,查無列入)。三大法人籌碼區塊由每日盤後腳本自動更新。2025年Q3/Q4單季EPS、近四季EPS為由公開累計值回推;2026E/Q3/Q4數字與P/B區間為本站假設。Q3/Q4單季毛利率、客戶名單與集中度、產品占比(H1實際)、現金明細、EV/Sales、具名券商目標價、分析師追蹤人數、2027年EPS共識、內部人申報、Q3法說會正式日期、同業成長率、10/21上漲原因、10/21加權指數收盤查無。<br>
+主要來源:
+<a href="https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&amp;date=20261001&amp;stockNo=2374" style="color:var(--blue)">TWSE STOCK_DAY</a>、
+<a href="https://openapi.twse.com.tw/v1/exchangeReport/BWIBBU_ALL" style="color:var(--blue)">TWSE BWIBBU</a>、
+<a href="https://openapi.twse.com.tw/v1/opendata/t187ap05_L" style="color:var(--blue)">TWSE 月營收</a>、
+<a href="https://openapi.twse.com.tw/v1/opendata/t187ap06_L_ci" style="color:var(--blue)">TWSE 綜合損益表</a>、
+<a href="https://openapi.twse.com.tw/v1/opendata/t187ap07_L_ci" style="color:var(--blue)">TWSE 資產負債表</a>、
+<a href="https://openapi.twse.com.tw/v1/announcement/punish" style="color:var(--blue)">TWSE 處置股</a>、
+<a href="https://www.tpex.org.tw/openapi/v1/tpex_mainboard_peratio_analysis" style="color:var(--blue)">TPEx 本益比</a>、
+<a href="https://uanalyze.com.tw/articles/4491053015" style="color:var(--blue)">uAnalyze 佳能H1財報</a>、
+<a href="https://www.ctee.com.tw/news/20260724700237-430502" style="color:var(--blue)">工商時報 Q2營收/展望</a>、
+<a href="https://winvest.tw/News/Detail/95551" style="color:var(--blue)">Win投資 9月營收</a>、
+<a href="https://udn.com/news/story/7252/9309125" style="color:var(--blue)">聯合報 三大領域</a>、
+<a href="https://finance.technews.tw/2026/02/04/ability-fr-2601/" style="color:var(--blue)">TechNews 1月營收</a>、
+<a href="https://www.peoplenews.tw/?p=2350" style="color:var(--blue)">民報 法說</a>、
+<a href="https://hao.cnyes.com/post/206471" style="color:var(--blue)">鉅亨號 產業研究</a>。<br>
+「查無」欄位代表公開來源未取得精確數字,不做推測。四情境價位與交易計畫為分析框架推導,非精確預測。<br>
+<b>本分析僅供研究參考,非投資建議。投資有風險,決策請自行判斷。</b>
+</footer>
+</body>
+</html>
