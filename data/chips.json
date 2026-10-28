@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27",
+ "updated": "2026-10-28",
  "window": 10,
  "codes": [
   "1503",
@@ -5720,6 +5720,476 @@
     "trust": 1,
     "dealer": -17,
     "total": -478
+   }
+  },
+  "20261028": {
+   "1519": {
+    "foreign": 73,
+    "trust": 0,
+    "dealer": 9,
+    "total": 82
+   },
+   "1503": {
+    "foreign": -268,
+    "trust": 6,
+    "dealer": -65,
+    "total": -327
+   },
+   "1513": {
+    "foreign": -378,
+    "trust": 6,
+    "dealer": -7,
+    "total": -379
+   },
+   "1514": {
+    "foreign": -5,
+    "trust": 2,
+    "dealer": 0,
+    "total": -3
+   },
+   "2881": {
+    "foreign": 1533,
+    "trust": 191,
+    "dealer": 67,
+    "total": 1791
+   },
+   "2882": {
+    "foreign": 5447,
+    "trust": 203,
+    "dealer": 143,
+    "total": 5792
+   },
+   "2885": {
+    "foreign": 7051,
+    "trust": 1743,
+    "dealer": 394,
+    "total": 9188
+   },
+   "2891": {
+    "foreign": -412,
+    "trust": 577,
+    "dealer": 200,
+    "total": 365
+   },
+   "2887": {
+    "foreign": -166,
+    "trust": -174,
+    "dealer": 227,
+    "total": -113
+   },
+   "2890": {
+    "foreign": 2111,
+    "trust": 345,
+    "dealer": -128,
+    "total": 2327
+   },
+   "2883": {
+    "foreign": 9688,
+    "trust": 741,
+    "dealer": -5,
+    "total": 10425
+   },
+   "2337": {
+    "foreign": -29994,
+    "trust": 41,
+    "dealer": 44,
+    "total": -29909
+   },
+   "2408": {
+    "foreign": 5429,
+    "trust": 448,
+    "dealer": 652,
+    "total": 6529
+   },
+   "2344": {
+    "foreign": 25348,
+    "trust": 179,
+    "dealer": 1209,
+    "total": 26736
+   },
+   "6239": {
+    "foreign": 4377,
+    "trust": 532,
+    "dealer": 206,
+    "total": 5115
+   },
+   "8150": {
+    "foreign": -1693,
+    "trust": 21,
+    "dealer": 319,
+    "total": -1354
+   },
+   "2303": {
+    "foreign": 12887,
+    "trust": -1172,
+    "dealer": 551,
+    "total": 12265
+   },
+   "2610": {
+    "foreign": -9482,
+    "trust": -122,
+    "dealer": 20,
+    "total": -9584
+   },
+   "2454": {
+    "foreign": -1037,
+    "trust": 552,
+    "dealer": 276,
+    "total": -209
+   },
+   "2330": {
+    "foreign": -3175,
+    "trust": 844,
+    "dealer": 262,
+    "total": -2069
+   },
+   "2308": {
+    "foreign": 1,
+    "trust": -728,
+    "dealer": -109,
+    "total": -835
+   },
+   "2317": {
+    "foreign": 11300,
+    "trust": 217,
+    "dealer": 566,
+    "total": 12083
+   },
+   "3037": {
+    "foreign": -1914,
+    "trust": 515,
+    "dealer": 29,
+    "total": -1370
+   },
+   "3008": {
+    "foreign": 226,
+    "trust": 75,
+    "dealer": 15,
+    "total": 316
+   },
+   "2327": {
+    "foreign": 7069,
+    "trust": 27,
+    "dealer": 336,
+    "total": 7432
+   },
+   "3661": {
+    "foreign": 511,
+    "trust": 3,
+    "dealer": 126,
+    "total": 639
+   },
+   "3443": {
+    "foreign": -190,
+    "trust": 141,
+    "dealer": 2,
+    "total": -47
+   },
+   "6442": {
+    "foreign": -180,
+    "trust": -3,
+    "dealer": -4,
+    "total": -187
+   },
+   "3665": {
+    "foreign": 1040,
+    "trust": -1110,
+    "dealer": 40,
+    "total": -29
+   },
+   "3711": {
+    "foreign": 109,
+    "trust": 5189,
+    "dealer": 409,
+    "total": 5707
+   },
+   "2345": {
+    "foreign": 801,
+    "trust": -11,
+    "dealer": 22,
+    "total": 812
+   },
+   "6770": {
+    "foreign": 17434,
+    "trust": 369,
+    "dealer": 691,
+    "total": 18494
+   },
+   "2313": {
+    "foreign": 1307,
+    "trust": -8,
+    "dealer": 240,
+    "total": 1538
+   },
+   "6285": {
+    "foreign": 1520,
+    "trust": -4,
+    "dealer": 182,
+    "total": 1698
+   },
+   "2354": {
+    "foreign": -309,
+    "trust": 9,
+    "dealer": 2,
+    "total": -299
+   },
+   "2449": {
+    "foreign": 1562,
+    "trust": 272,
+    "dealer": -345,
+    "total": 1489
+   },
+   "2382": {
+    "foreign": 1405,
+    "trust": 3,
+    "dealer": 11,
+    "total": 1419
+   },
+   "3231": {
+    "foreign": 9419,
+    "trust": 439,
+    "dealer": 975,
+    "total": 10833
+   },
+   "2324": {
+    "foreign": 12494,
+    "trust": 111,
+    "dealer": 416,
+    "total": 13022
+   },
+   "3017": {
+    "foreign": -160,
+    "trust": 237,
+    "dealer": 43,
+    "total": 119
+   },
+   "3653": {
+    "foreign": -376,
+    "trust": 112,
+    "dealer": -7,
+    "total": -270
+   },
+   "6805": {
+    "foreign": -110,
+    "trust": 198,
+    "dealer": 16,
+    "total": 104
+   },
+   "8046": {
+    "foreign": -1201,
+    "trust": 278,
+    "dealer": 20,
+    "total": -903
+   },
+   "3189": {
+    "foreign": -1989,
+    "trust": 30,
+    "dealer": 39,
+    "total": -1920
+   },
+   "4958": {
+    "foreign": -55,
+    "trust": 297,
+    "dealer": 440,
+    "total": 682
+   },
+   "3481": {
+    "foreign": 21909,
+    "trust": 194,
+    "dealer": 3884,
+    "total": 25986
+   },
+   "2409": {
+    "foreign": 68585,
+    "trust": 182,
+    "dealer": 9163,
+    "total": 77930
+   },
+   "2492": {
+    "foreign": -1078,
+    "trust": 2242,
+    "dealer": 434,
+    "total": 1598
+   },
+   "3026": {
+    "foreign": 968,
+    "trust": 0,
+    "dealer": -4,
+    "total": 964
+   },
+   "2618": {
+    "foreign": -591,
+    "trust": -72,
+    "dealer": -73,
+    "total": -735
+   },
+   "2646": {
+    "foreign": -939,
+    "trust": 2,
+    "dealer": -56,
+    "total": -993
+   },
+   "6757": {
+    "foreign": 138,
+    "trust": 0,
+    "dealer": -7,
+    "total": 131
+   },
+   "3532": {
+    "foreign": -995,
+    "trust": 3,
+    "dealer": 39,
+    "total": -953
+   },
+   "2481": {
+    "foreign": 1043,
+    "trust": -158,
+    "dealer": -21,
+    "total": 864
+   },
+   "8033": {
+    "foreign": -109,
+    "trust": 0,
+    "dealer": -18,
+    "total": -127
+   },
+   "2634": {
+    "foreign": -1229,
+    "trust": 0,
+    "dealer": -44,
+    "total": -1274
+   },
+   "6781": {
+    "foreign": 64,
+    "trust": 0,
+    "dealer": 7,
+    "total": 70
+   },
+   "2301": {
+    "foreign": 3107,
+    "trust": 116,
+    "dealer": 125,
+    "total": 3348
+   },
+   "2404": {
+    "foreign": 30,
+    "trust": 3,
+    "dealer": 7,
+    "total": 40
+   },
+   "6139": {
+    "foreign": 40,
+    "trust": -3,
+    "dealer": 5,
+    "total": 42
+   },
+   "6691": {
+    "foreign": -20,
+    "trust": -42,
+    "dealer": 1,
+    "total": -60
+   },
+   "6196": {
+    "foreign": 1,
+    "trust": 4,
+    "dealer": -5,
+    "total": 1
+   },
+   "3030": {
+    "foreign": 300,
+    "trust": 1,
+    "dealer": 85,
+    "total": 386
+   },
+   "2374": {
+    "foreign": -889,
+    "trust": 0,
+    "dealer": -3,
+    "total": -892
+   },
+   "3324": {
+    "foreign": 324,
+    "trust": 10,
+    "dealer": 35,
+    "total": 368
+   },
+   "8027": {
+    "foreign": 207,
+    "trust": 0,
+    "dealer": 0,
+    "total": 208
+   },
+   "8299": {
+    "foreign": 1083,
+    "trust": 171,
+    "dealer": 121,
+    "total": 1375
+   },
+   "3081": {
+    "foreign": -140,
+    "trust": -257,
+    "dealer": 17,
+    "total": -380
+   },
+   "5347": {
+    "foreign": 3336,
+    "trust": 71,
+    "dealer": 139,
+    "total": 3546
+   },
+   "3491": {
+    "foreign": 51,
+    "trust": 74,
+    "dealer": -4,
+    "total": 121
+   },
+   "6488": {
+    "foreign": -9,
+    "trust": -267,
+    "dealer": 106,
+    "total": -169
+   },
+   "6182": {
+    "foreign": 774,
+    "trust": 0,
+    "dealer": 7,
+    "total": 782
+   },
+   "5483": {
+    "foreign": 568,
+    "trust": -352,
+    "dealer": -25,
+    "total": 191
+   },
+   "5425": {
+    "foreign": 473,
+    "trust": 0,
+    "dealer": 36,
+    "total": 510
+   },
+   "3675": {
+    "foreign": 30,
+    "trust": 0,
+    "dealer": -2,
+    "total": 28
+   },
+   "3211": {
+    "foreign": 290,
+    "trust": 0,
+    "dealer": 5,
+    "total": 295
+   },
+   "4931": {
+    "foreign": 126,
+    "trust": 0,
+    "dealer": 22,
+    "total": 148
+   },
+   "5536": {
+    "foreign": 90,
+    "trust": 0,
+    "dealer": -17,
+    "total": 73
    }
   }
  }
