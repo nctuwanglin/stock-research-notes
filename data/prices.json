@@ -77,8 +77,8 @@
   "SNDK": {
    "close": 1330.050048828125,
    "date": "20261029",
-   "analysis_price": 1692.42,
-   "analysis_date": "2026-10-07"
+   "analysis_price": 1150.89,
+   "analysis_date": "2026-10-30"
   },
   "2337": {
    "close": 95.4,
@@ -137,8 +137,8 @@
   "2454": {
    "close": 3915.0,
    "date": "20261030",
-   "analysis_price": 4045,
-   "analysis_date": "2026-10-29"
+   "analysis_price": 3915,
+   "analysis_date": "2026-10-30"
   },
   "2330": {
    "close": 2370.0,
@@ -329,8 +329,8 @@
   "2409": {
    "close": 30.65,
    "date": "20261030",
-   "analysis_price": 40.45,
-   "analysis_date": "2026-10-02"
+   "analysis_price": 30.65,
+   "analysis_date": "2026-10-30"
   },
   "2492": {
    "close": 381.0,
@@ -473,8 +473,8 @@
   "SKHY": {
    "close": 162.08999633789062,
    "date": "20261029",
-   "analysis_price": 178.25,
-   "analysis_date": "2026-10-07"
+   "analysis_price": 149.21,
+   "analysis_date": "2026-10-30"
   },
   "3030": {
    "close": 252.0,
@@ -497,8 +497,8 @@
   "GOOG": {
    "close": 282.32000732421875,
    "date": "20261029",
-   "analysis_price": 347.37,
-   "analysis_date": "2026-10-07"
+   "analysis_price": 278.22,
+   "analysis_date": "2026-10-30"
   },
   "META": {
    "close": 624.52001953125,
