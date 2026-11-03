@@ -422,10 +422,10 @@
       "approx": true
     },
     {
-      "date": "2026-11-02",
+      "date": "2027-01-28",
       "code": "AAPL",
-      "event": "AAPL FY26 Q4財報(Apple已公告,美東盤後,Ternus首次):驗證營收約$113.4B/EPS約$1.99共識、毛利率47~48%指引、12月季度指引(Goldman估毛利46.8%)與iPhone Duo供貨/內螢幕問題",
-      "approx": false
+      "event": "AAPL FY27 Q1財報(日期依往例推估,公司未公告):驗證毛利率能否守住45~46%指引(記憶體成本續升)、營收+7~10%指引、Services +8~9%與iPhone Duo首季出貨/供貨",
+      "approx": true
     },
     {
       "date": "2027-01-28",
