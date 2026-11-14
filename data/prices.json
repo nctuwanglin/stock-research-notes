@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13",
+ "updated": "2026-11-14",
  "errors": [],
  "prices": {
   "1519": {
@@ -69,14 +69,14 @@
    "analysis_date": "2026-10-30"
   },
   "MU": {
-   "close": 798.4400024414062,
-   "date": "20261112",
+   "close": 778.3099975585938,
+   "date": "20261113",
    "analysis_price": 884.74,
    "analysis_date": "2026-10-30"
   },
   "SNDK": {
-   "close": 937.4600219726562,
-   "date": "20261112",
+   "close": 885.010009765625,
+   "date": "20261113",
    "analysis_price": 1150.89,
    "analysis_date": "2026-10-30"
   },
@@ -471,8 +471,8 @@
    "analysis_date": "2026-10-30"
   },
   "SKHY": {
-   "close": 137.7100067138672,
-   "date": "20261112",
+   "close": 131.7899932861328,
+   "date": "20261113",
    "analysis_price": 149.21,
    "analysis_date": "2026-10-30"
   },
@@ -483,44 +483,44 @@
    "analysis_date": "2026-10-30"
   },
   "NVDA": {
-   "close": 166.19000244140625,
-   "date": "20261112",
+   "close": 162.85000610351562,
+   "date": "20261113",
    "analysis_price": 204.64,
    "analysis_date": "2026-10-30"
   },
   "AAPL": {
-   "close": 354.8800048828125,
-   "date": "20261112",
+   "close": 356.2699890136719,
+   "date": "20261113",
    "analysis_price": 338.32,
    "analysis_date": "2026-11-02"
   },
   "GOOG": {
-   "close": 295.3500061035156,
-   "date": "20261112",
+   "close": 292.5199890136719,
+   "date": "20261113",
    "analysis_price": 278.22,
    "analysis_date": "2026-10-30"
   },
   "META": {
-   "close": 623.6099853515625,
-   "date": "20261112",
+   "close": 641.6900024414062,
+   "date": "20261113",
    "analysis_price": 614.99,
    "analysis_date": "2026-10-30"
   },
   "AMZN": {
-   "close": 267.44000244140625,
-   "date": "20261112",
+   "close": 266.6600036621094,
+   "date": "20261113",
    "analysis_price": 240.35,
    "analysis_date": "2026-10-30"
   },
   "MSFT": {
-   "close": 523.0,
-   "date": "20261112",
+   "close": 523.8800048828125,
+   "date": "20261113",
    "analysis_price": 521.91,
    "analysis_date": "2026-10-30"
   },
   "TSLA": {
-   "close": 397.45001220703125,
-   "date": "20261112",
+   "close": 390.2200012207031,
+   "date": "20261113",
    "analysis_price": 399.81,
    "analysis_date": "2026-10-30"
   },
