@@ -394,6 +394,33 @@ def build_fresh_html(meta, close, price_date, today):
 RATING_LABEL = {"buy": ("偏多", "green"), "hold": ("中性", "amber"), "avoid": ("觀望", "red")}
 
 
+# 評等門檻(與 validate_dashboards.py R5、stock-analyzer skill 同一套):
+# 偏多需上檔 >= +10%;中性帶 -10% ~ +15%(上緣含質化放寬);觀望需 <= -10%。
+RATING_BAND = {"buy": (10.0, None), "hold": (-10.0, 15.0), "avoid": (None, -10.0)}
+RATING_BAND_TXT = {"buy": "≥+10%", "hold": "-10%~+15%", "avoid": "≤-10%"}
+
+
+def review_state(meta, close):
+    """評等是否「待重評」:回傳 (state, 以最新收盤計的上檔%)。
+
+    state: "stop"  = 收盤已跌破頁面自己的失效價(左側計畫依定義不適用)
+           "drift" = 股價漂移後,以最新收盤重算的上檔空間已落在評等門檻之外
+           ""      = 評等與現價仍相符(或缺資料無法判斷)
+    評等本身不自動翻面(那是研究結論,只有重跑才改);這裡只負責把「已過期」標出來,
+    讓首頁可篩選、徽章可降色,不必等人工逐檔比對。
+    """
+    tgt, stop, rating = meta.get("target"), meta.get("stop"), meta.get("rating")
+    if close is None or tgt is None:
+        return "", None
+    up = (tgt / close - 1) * 100
+    if stop is not None and close <= stop:
+        return "stop", up
+    lo, hi = RATING_BAND.get(rating, (None, None))
+    if (lo is not None and up < lo) or (hi is not None and up > hi):
+        return "drift", up
+    return "", up
+
+
 def build_verdict_html(meta, close):
     """
     結論卡的動態列:用「最新收盤」而非分析價重算距目標價空間,避免數字隨股價漂移而過期。
@@ -418,6 +445,13 @@ def build_verdict_html(meta, close):
         # 非貪婪會停在第一個 </div>。內容裡若含 </div> 會讓原本的收尾標籤變成孤兒,每跑一次多一個。
         html += (f'<span class="stopalert">⚠ 停損已觸發:收盤 {prefix}{close:g} 已跌破失效價 '
                  f'{prefix}{stop:g},左側分批計畫暫停適用,待重新分析後更新</span>')
+    elif review_state(meta, close)[0] == "drift":
+        # 沿用 .stopalert 的版型(個股頁已有該樣式),以行內色改為琥珀,不必改 88 份個股頁的 CSS。
+        lab = RATING_LABEL.get(meta.get("rating"), ("", ""))[0]
+        html += (f'<span class="stopalert" style="color:var(--amber);border-color:var(--amber);'
+                 f'background:rgba(245,176,65,.12)">⚠ 評等待重評:以最新收盤計上檔 {up:+.1f}%,'
+                 f'已超出「{lab}」門檻({RATING_BAND_TXT.get(meta.get("rating"), "")});'
+                 f'評等為 {meta.get("analysis_date", "")} 分析時的判斷</span>')
     return html
 
 
@@ -456,7 +490,7 @@ def build_dispo_badge(code, dispo, attn, market):
     return ""
 
 
-def build_chips_html(stocks):
+def build_chips_html(stocks, prices=None):
     """依 stocks.json 自動產生篩選 chips(市場→結論→產業別)。
 
     產業別過去寫死在 index.html,每次新增產業都要手動同步,實務上必然漏掉;
@@ -509,6 +543,20 @@ def build_chips_html(stocks):
               f'data-n="{hidden_n}">＋{hidden_n} 更多</span>' if hidden_n else "")
     rows.append(f'<div class="chips" id="chips-tag" data-dim="tag">'
                 f'<span class="clabel">產業別</span>{"".join(cs)}{toggle}</div>')
+    # 狀態:評等是否仍與最新收盤相符(見 review_state);卡片的 data-review 由 main() 每日重寫
+    n_stop = n_drift = 0
+    for code, v in stocks.items():
+        if not isinstance(v, dict):
+            continue
+        st = review_state(v, ((prices or {}).get(code) or {}).get("close"))[0]
+        n_stop += st == "stop"
+        n_drift += st == "drift"
+    cs = [chip("all", "全部", total, True),
+          chip("review:need", "評等待重評", n_stop + n_drift),
+          chip("review:stop", "停損已觸發", n_stop),
+          chip("review:ok", "評等相符", total - n_stop - n_drift)]
+    rows.append(f'<div class="chips" id="chips-review" data-dim="review">'
+                f'<span class="clabel">狀態</span>{"".join(cs)}</div>')
     # 排序:依 .verdict 的距目標價 %(每日以最新收盤重算)由前端排序,不帶計數
     cs = [chip("all", "最新分析", None, True),
           chip("sort:up-desc", "上檔空間 高→低", None),
@@ -545,6 +593,33 @@ def _cal_datetag(d, today, approx):
     if delta <= 7:
         return f'<span class="soon">{ds}</span>'
     return f'<span style="color:var(--muted)">{ds}</span>'
+
+
+def routine_fill_events(cal_events, stocks, today):
+    """替「沒有任何未來事件」的台股補一筆常態驗證點(下一次月營收法定期限,每月 10 日)。
+
+    只在產生月曆時動態補上、不寫回 calendar.json:一旦重分析登記了真正的驗證點,
+    這筆自動補登就自然消失,不會留下需要人工清理的殘骸。美股沒有月營收制度,不補。
+    """
+    has_future = set()
+    for e in cal_events:
+        try:
+            if datetime.strptime(e["date"], "%Y-%m-%d").date() >= today:
+                has_future.add(e.get("code"))
+        except (ValueError, KeyError):
+            continue
+    if today.day <= 10:
+        due = date(today.year, today.month, 10)
+    else:
+        due = date(today.year + 1, 1, 10) if today.month == 12 else date(today.year, today.month + 1, 10)
+    rev_month = 12 if due.month == 1 else due.month - 1
+    out = []
+    for code, meta in stocks.items():
+        if meta.get("market") == "us" or code in has_future:
+            continue
+        out.append({"date": due.isoformat(), "code": code, "approx": True,
+                    "event": f"{rev_month}月營收公告(法定期限;自動補登,該股目前無個股專屬驗證點)"})
+    return out
 
 
 def build_calendar_html(cal_events, stocks, dispo, today):
@@ -793,15 +868,23 @@ def main():
         merged = list(dict.fromkeys(meta["tags"] + tag_sup.get(code, [])))
         s = re.sub(rf'(data-code="{re.escape(code)}" data-tags=")[^"]*(")',
                    lambda m: m.group(1) + " ".join(merged) + m.group(2), s, count=1)
+        # data-review:評等是否待重評(stop/drift/空),供首頁篩選與徽章降色;每日依最新收盤重寫
+        rv = review_state(meta, close)[0]
+        def _set_review(m, rv=rv):
+            tag = re.sub(r' data-review="[^"]*"', "", m.group(0))
+            return tag[:-1] + f' data-review="{rv}">'
+        s = re.sub(rf'<a class="item"[^>]*data-code="{re.escape(code)}"[^>]*>', _set_review, s, count=1)
         # data-concl 由 rating 驅動,避免篩選條件與結論卡評等各說各話
         s = re.sub(rf'(data-code="{re.escape(code)}" data-tags="[^"]*" data-concl=")[^"]*(")',
                    lambda m: m.group(1) + meta["rating"] + m.group(2), s, count=1)
 
-    cal_html = build_calendar_html(cal.get("events", []), stocks, dispo, today)
+    cal_events = cal.get("events", [])
+    auto_events = routine_fill_events(cal_events, stocks, today)
+    cal_html = build_calendar_html(cal_events + auto_events, stocks, dispo, today)
     s = re.sub(r'<!--CALENDAR_START-->.*?<!--CALENDAR_END-->',
                "<!--CALENDAR_START-->\n" + cal_html + "\n<!--CALENDAR_END-->", s, flags=re.S)
 
-    chips_html = build_chips_html(stocks)
+    chips_html = build_chips_html(stocks, prices)
     s = re.sub(r'<!--CHIPS_START-->.*?<!--CHIPS_END-->',
                "<!--CHIPS_START-->\n" + chips_html + "\n<!--CHIPS_END-->", s, flags=re.S)
 
@@ -820,6 +903,7 @@ def main():
           f"{sum(1 for c in stocks if c in dispo)} | attn hits {sum(1 for c in stocks if c in attn)}"
           f" | 個股頁徽章 {dash_filled} 份(名單日期 {dispo_date or '查無'})"
           f" | 結論卡 {vd_filled}/{len(stocks)} 份"
+          + f" | 日曆自動補登 {len(auto_events)} 檔"
           + (f" | 結論卡缺佔位 {vd_missing}" if vd_missing else "")
           + (f" | 個股頁未處理 {dash_missing}" if dash_missing else "")
           + (f" | ERRORS {errors}" if errors else ""))
